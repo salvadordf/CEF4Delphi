@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFBitmapBitBuffer: Class TCEFBitmapBitBuffer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFBitmapBitBuffer"></span><h1 class="cio">Class TCEFBitmapBitBuffer</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFBitmapBitBuffer.html">uCEFBitmapBitBuffer</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFBitmapBitBuffer = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Class that stores a copy of the raw bitmap buffer sent by CEF in the TChromiumCore.OnPaint event. </p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TCEFBitmapBitBuffer</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#FBuffer">FBuffer</a></strong>: pointer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#FImageWidth">FImageWidth</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#FImageHeight">FImageHeight</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#FBufferWidth">FBufferWidth</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#FBufferHeight">FBufferHeight</a></strong>: integer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetBufferScanlineSize">GetBufferScanlineSize</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetScanlineSize">GetScanlineSize</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetBufferLength">GetBufferLength</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetEmpty">GetEmpty</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetScanline-integer-">GetScanline</a></strong>(y : integer) : PByte;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#CreateBuffer">CreateBuffer</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#DestroyBuffer">DestroyBuffer</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#Create-integer-integer-">Create</a></strong>(aWidth, aHeight : integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#UpdateSize-integer-integer-">UpdateSize</a></strong>(aWidth, aHeight : integer);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#Width">Width</a></strong>                  : integer   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#FImageWidth">FImageWidth</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#Height">Height</a></strong>                 : integer   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#FImageHeight">FImageHeight</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#BufferLength">BufferLength</a></strong>           : integer   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetBufferLength">GetBufferLength</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#Empty">Empty</a></strong>                  : boolean   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetEmpty">GetEmpty</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#Scanline">Scanline</a></strong>[y: integer]: PByte     read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetScanline-integer-">GetScanline</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#ScanlineSize">ScanlineSize</a></strong>           : integer   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetScanlineSize">GetScanlineSize</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#BufferScanlineSize">BufferScanlineSize</a></strong>     : integer   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetBufferScanlineSize">GetBufferScanlineSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#BufferBits">BufferBits</a></strong>             : pointer   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#FBuffer">FBuffer</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FBuffer"></span><code><strong>FBuffer</strong>: pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FImageWidth"></span><code><strong>FImageWidth</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FImageHeight"></span><code><strong>FImageHeight</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FBufferWidth"></span><code><strong>FBufferWidth</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FBufferHeight"></span><code><strong>FBufferHeight</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBufferScanlineSize"></span><code>function <strong>GetBufferScanlineSize</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetScanlineSize"></span><code>function <strong>GetScanlineSize</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBufferLength"></span><code>function <strong>GetBufferLength</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetEmpty"></span><code>function <strong>GetEmpty</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetScanline-integer-"></span><code>function <strong>GetScanline</strong>(y : integer) : PByte;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CreateBuffer"></span><code>procedure <strong>CreateBuffer</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroyBuffer"></span><code>procedure <strong>DestroyBuffer</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-integer-integer-"></span><code>constructor <strong>Create</strong>(aWidth, aHeight : integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UpdateSize-integer-integer-"></span><code>procedure <strong>UpdateSize</strong>(aWidth, aHeight : integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Updates the image size. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Width"></span><code>property <strong>Width</strong>                  : integer   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#FImageWidth">FImageWidth</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Image width. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Height"></span><code>property <strong>Height</strong>                 : integer   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#FImageHeight">FImageHeight</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Image height. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BufferLength"></span><code>property <strong>BufferLength</strong>           : integer   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetBufferLength">GetBufferLength</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Buffer length. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Empty"></span><code>property <strong>Empty</strong>                  : boolean   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetEmpty">GetEmpty</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true if the buffer is empty. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Scanline"></span><code>property <strong>Scanline</strong>[y: integer]: PByte     read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetScanline-integer-">GetScanline</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a pointer to the first byte in of the Y scnaline. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ScanlineSize"></span><code>property <strong>ScanlineSize</strong>           : integer   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetScanlineSize">GetScanlineSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the scanline size. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BufferScanlineSize"></span><code>property <strong>BufferScanlineSize</strong>     : integer   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#GetBufferScanlineSize">GetBufferScanlineSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the real buffer scanline size. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BufferBits"></span><code>property <strong>BufferBits</strong>             : pointer   read <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html#FBuffer">FBuffer</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a pointer to the buffer that stores the image. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

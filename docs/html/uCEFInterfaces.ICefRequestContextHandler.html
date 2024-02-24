@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefRequestContextHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefRequestContextHandler"></span><h1 class="cio">Interface ICefRequestContextHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefRequestContextHandler = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this interface to provide handler implementations. The handler instance will not be released until all objects related to the context have been destroyed. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_context_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_context_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_request_context_handler_capi.h (cef_request_context_handler_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefRequestContextHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefRequestContextHandler.html#OnRequestContextInitialized-ICefRequestContext-">OnRequestContextInitialized</a></strong>(const request_context: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefRequestContextHandler.html#GetResourceRequestHandler-ICefBrowser-ICefFrame-ICefRequest-boolean-boolean-ustring-boolean-ICefResourceRequestHandler-">GetResourceRequestHandler</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; is_navigation, is_download: boolean; const request_initiator: <a href="uCEFTypes.html#ustring">ustring</a>; var disable_default_handling: boolean; var aResourceRequestHandler : <a href="uCEFInterfaces.ICefResourceRequestHandler.html">ICefResourceRequestHandler</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefRequestContextHandler.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnRequestContextInitialized-ICefRequestContext-"></span><code>procedure <strong>OnRequestContextInitialized</strong>(const request_context: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the browser process UI thread immediately after the request context has been initialized. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{76EB1FA7-78DF-4FD5-ABB3-1CDD3E73A140}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetResourceRequestHandler-ICefBrowser-ICefFrame-ICefRequest-boolean-boolean-ustring-boolean-ICefResourceRequestHandler-"></span><code>procedure <strong>GetResourceRequestHandler</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; is_navigation, is_download: boolean; const request_initiator: <a href="uCEFTypes.html#ustring">ustring</a>; var disable_default_handling: boolean; var aResourceRequestHandler : <a href="uCEFInterfaces.ICefResourceRequestHandler.html">ICefResourceRequestHandler</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the browser process IO thread before a resource request is initiated. The |browser| and |frame| values represent the source of the request, and may be NULL for requests originating from service workers or ICefUrlRequest. |request| represents the request contents and cannot be modified in this callback. |is_navigation| will be true (1) if the resource request is a navigation. |is_download| will be true (1) if the resource request is a download. |request_initiator| is the origin (scheme + domain) of the page that initiated the request. Set |disable_default_handling| to true (1) to disable default handling of the request, in which case it will need to be handled via ICefResourceRequestHandler.GetResourceHandler or it will be canceled. To allow the resource load to proceed with default handling return NULL. To specify a handler for the resource return a ICefResourceRequestHandler object. This function will not be called if the client associated with |browser| returns a non-NULL value from ICefRequestHandler.GetResourceRequestHandler for the same request (identified by ICefRequest.GetIdentifier). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

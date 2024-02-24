@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefX509CertPrincipal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefX509CertPrincipal"></span><h1 class="cio">Interface ICefX509CertPrincipal</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefX509CertPrincipal = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface representing the issuer or subject field of an X.509 certificate. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_x509_certificate_capi.h (cef_x509cert_principal_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefX509CertPrincipal</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefX509CertPrincipal.html#GetDisplayName">GetDisplayName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefX509CertPrincipal.html#GetCommonName">GetCommonName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefX509CertPrincipal.html#GetLocalityName">GetLocalityName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefX509CertPrincipal.html#GetStateOrProvinceName">GetStateOrProvinceName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefX509CertPrincipal.html#GetCountryName">GetCountryName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefX509CertPrincipal.html#GetOrganizationNames-TStrings-">GetOrganizationNames</a></strong>(const names: TStrings);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefX509CertPrincipal.html#GetOrganizationUnitNames-TStrings-">GetOrganizationUnitNames</a></strong>(const names: TStrings);</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDisplayName"></span><code>function <strong>GetDisplayName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a name that can be used to represent the issuer. It tries in this order: Common Name (CN), Organization Name (O) and Organizational Unit Name (OU) and returns the first non-NULL one found. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{CD3621ED-7D68-4A1F-95B5-190C7001B65F}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetCommonName"></span><code>function <strong>GetCommonName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the common name. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetLocalityName"></span><code>function <strong>GetLocalityName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the locality name. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetStateOrProvinceName"></span><code>function <strong>GetStateOrProvinceName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the state or province name. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetCountryName"></span><code>function <strong>GetCountryName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the country name. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetOrganizationNames-TStrings-"></span><code>procedure <strong>GetOrganizationNames</strong>(const names: TStrings);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve the list of organization names. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetOrganizationUnitNames-TStrings-"></span><code>procedure <strong>GetOrganizationUnitNames</strong>(const names: TStrings);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve the list of organization unit names. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

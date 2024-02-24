@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefContextMenuParams</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefContextMenuParams"></span><h1 class="cio">Record TCefContextMenuParams</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefContextMenuParams = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Provides information about the context menu state. The functions of this structure can only be accessed on browser process the UI thread. </p>
+<p>
+
+
+<p>Implemented by ICefContextMenuParams.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_context_menu_handler_capi.h (cef_context_menu_params_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_xcoord">get_xcoord</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_ycoord">get_ycoord</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_type_flags">get_type_flags</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#TCefContextMenuTypeFlags">TCefContextMenuTypeFlags</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_link_url">get_link_url</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_unfiltered_link_url">get_unfiltered_link_url</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_source_url">get_source_url</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#has_image_contents">has_image_contents</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_title_text">get_title_text</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_page_url">get_page_url</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_frame_url">get_frame_url</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_frame_charset">get_frame_charset</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_media_type">get_media_type</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#TCefContextMenuMediaType">TCefContextMenuMediaType</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_media_state_flags">get_media_state_flags</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#TCefContextMenuMediaStateFlags">TCefContextMenuMediaStateFlags</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_selection_text">get_selection_text</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_misspelled_word">get_misspelled_word</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_dictionary_suggestions">get_dictionary_suggestions</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>; suggestions: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#is_editable">is_editable</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#is_spell_check_enabled">is_spell_check_enabled</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#get_edit_state_flags">get_edit_state_flags</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#TCefContextMenuEditStateFlags">TCefContextMenuEditStateFlags</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuParams.html#is_custom_menu">is_custom_menu</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): Integer; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_xcoord"></span><code><strong>get_xcoord</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_ycoord"></span><code><strong>get_ycoord</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_type_flags"></span><code><strong>get_type_flags</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#TCefContextMenuTypeFlags">TCefContextMenuTypeFlags</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_link_url"></span><code><strong>get_link_url</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_unfiltered_link_url"></span><code><strong>get_unfiltered_link_url</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_source_url"></span><code><strong>get_source_url</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_image_contents"></span><code><strong>has_image_contents</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_title_text"></span><code><strong>get_title_text</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_page_url"></span><code><strong>get_page_url</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_frame_url"></span><code><strong>get_frame_url</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_frame_charset"></span><code><strong>get_frame_charset</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_media_type"></span><code><strong>get_media_type</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#TCefContextMenuMediaType">TCefContextMenuMediaType</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_media_state_flags"></span><code><strong>get_media_state_flags</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#TCefContextMenuMediaStateFlags">TCefContextMenuMediaStateFlags</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_selection_text"></span><code><strong>get_selection_text</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_misspelled_word"></span><code><strong>get_misspelled_word</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_dictionary_suggestions"></span><code><strong>get_dictionary_suggestions</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>; suggestions: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_editable"></span><code><strong>is_editable</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_spell_check_enabled"></span><code><strong>is_spell_check_enabled</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_edit_state_flags"></span><code><strong>get_edit_state_flags</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): <a href="uCEFTypes.html#TCefContextMenuEditStateFlags">TCefContextMenuEditStateFlags</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_custom_menu"></span><code><strong>is_custom_menu</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

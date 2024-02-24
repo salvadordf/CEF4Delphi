@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefPostData</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefPostData"></span><h1 class="cio">Interface ICefPostData</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefPostData = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface used to represent post data for a web request. The functions of this interface may be called on any thread. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_request_capi.h (cef_post_data_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefPostData</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPostData.html#IsReadOnly">IsReadOnly</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPostData.html#HasExcludedElements">HasExcludedElements</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPostData.html#GetElementCount">GetElementCount</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPostData.html#GetElements-NativeUInt-TCefPostDataElementArray-">GetElements</a></strong>(elementsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var elements: <a href="uCEFInterfaces.html#TCefPostDataElementArray">TCefPostDataElementArray</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPostData.html#RemoveElement-ICefPostDataElement-">RemoveElement</a></strong>(const element: <a href="uCEFInterfaces.ICefPostDataElement.html">ICefPostDataElement</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPostData.html#AddElement-ICefPostDataElement-">AddElement</a></strong>(const element: <a href="uCEFInterfaces.ICefPostDataElement.html">ICefPostDataElement</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPostData.html#RemoveElements">RemoveElements</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsReadOnly"></span><code>function <strong>IsReadOnly</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this object is read-only. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{1E677630-9339-4732-BB99-D6FE4DE4AEC0}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasExcludedElements"></span><code>function <strong>HasExcludedElements</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the underlying POST data includes elements that are not represented by this ICefPostData object (for example, multi-part file upload data). Modifying ICefPostData objects with excluded elements may result in the request failing. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetElementCount"></span><code>function <strong>GetElementCount</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the number of existing post data elements. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetElements-NativeUInt-TCefPostDataElementArray-"></span><code>procedure <strong>GetElements</strong>(elementsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var elements: <a href="uCEFInterfaces.html#TCefPostDataElementArray">TCefPostDataElementArray</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve the post data elements. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveElement-ICefPostDataElement-"></span><code>function <strong>RemoveElement</strong>(const element: <a href="uCEFInterfaces.ICefPostDataElement.html">ICefPostDataElement</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Remove the specified post data element. Returns true (1) if the removal succeeds. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddElement-ICefPostDataElement-"></span><code>function <strong>AddElement</strong>(const element: <a href="uCEFInterfaces.ICefPostDataElement.html">ICefPostDataElement</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add the specified post data element. Returns true (1) if the add succeeds. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveElements"></span><code>procedure <strong>RemoveElements</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Remove all existing post data elements. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefRequestHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefRequestHandler"></span><h1 class="cio">Record TCefRequestHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefRequestHandler = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this structure to handle events related to browser requests. The functions of this structure will be called on the thread indicated. </p>
+<p>
+
+
+<p>Implemented by ICefRequestHandler.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_request_handler_capi.h (cef_request_handler_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#on_before_browse">on_before_browse</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; user_gesture, isRedirect: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#on_open_urlfrom_tab">on_open_urlfrom_tab</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; const target_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; target_disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>; user_gesture: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#get_resource_request_handler">get_resource_request_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; is_navigation, is_download: Integer; const request_initiator: <a href="uCEFTypes.html#PCefString">PCefString</a>; disable_default_handling: PInteger): <a href="uCEFTypes.html#PCefResourceRequestHandler">PCefResourceRequestHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#get_auth_credentials">get_auth_credentials</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const origin_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; isProxy: Integer; const host: <a href="uCEFTypes.html#PCefString">PCefString</a>; port: Integer; const realm, scheme: <a href="uCEFTypes.html#PCefString">PCefString</a>; callback: <a href="uCEFTypes.html#PCefAuthCallback">PCefAuthCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#on_certificate_error">on_certificate_error</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; cert_error: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorcode</a>; const request_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; ssl_info: <a href="uCEFTypes.html#PCefSslInfo">PCefSslInfo</a>; callback: <a href="uCEFTypes.html#PCefCallback">PCefCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#on_select_client_certificate">on_select_client_certificate</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; isProxy: integer; const host: <a href="uCEFTypes.html#PCefString">PCefString</a>; port: integer; certificatesCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const certificates: <a href="uCEFTypes.html#PPCefX509Certificate">PPCefX509Certificate</a>; callback: <a href="uCEFTypes.html#PCefSelectClientCertificateCallback">PCefSelectClientCertificateCallback</a>): integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#on_render_view_ready">on_render_view_ready</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#on_render_process_terminated">on_render_process_terminated</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#on_document_available_in_main_frame">on_document_available_in_main_frame</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_before_browse"></span><code><strong>on_before_browse</strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; user_gesture, isRedirect: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_open_urlfrom_tab"></span><code><strong>on_open_urlfrom_tab</strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; const target_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; target_disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>; user_gesture: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_resource_request_handler"></span><code><strong>get_resource_request_handler</strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; is_navigation, is_download: Integer; const request_initiator: <a href="uCEFTypes.html#PCefString">PCefString</a>; disable_default_handling: PInteger): <a href="uCEFTypes.html#PCefResourceRequestHandler">PCefResourceRequestHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_auth_credentials"></span><code><strong>get_auth_credentials</strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const origin_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; isProxy: Integer; const host: <a href="uCEFTypes.html#PCefString">PCefString</a>; port: Integer; const realm, scheme: <a href="uCEFTypes.html#PCefString">PCefString</a>; callback: <a href="uCEFTypes.html#PCefAuthCallback">PCefAuthCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_certificate_error"></span><code><strong>on_certificate_error</strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; cert_error: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorcode</a>; const request_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; ssl_info: <a href="uCEFTypes.html#PCefSslInfo">PCefSslInfo</a>; callback: <a href="uCEFTypes.html#PCefCallback">PCefCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_select_client_certificate"></span><code><strong>on_select_client_certificate</strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; isProxy: integer; const host: <a href="uCEFTypes.html#PCefString">PCefString</a>; port: integer; certificatesCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const certificates: <a href="uCEFTypes.html#PPCefX509Certificate">PPCefX509Certificate</a>; callback: <a href="uCEFTypes.html#PCefSelectClientCertificateCallback">PCefSelectClientCertificateCallback</a>): integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_render_view_ready"></span><code><strong>on_render_view_ready</strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_render_process_terminated"></span><code><strong>on_render_process_terminated</strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_document_available_in_main_frame"></span><code><strong>on_document_available_in_main_frame</strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefDownloadItem</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefDownloadItem"></span><h1 class="cio">Record TCefDownloadItem</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefDownloadItem = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure used to represent a download item. </p>
+<p>
+
+
+<p>Implemented by ICefDownloadItem.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_download_item_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_download_item_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_download_item_capi.h (cef_download_item_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#is_valid">is_valid</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#is_in_progress">is_in_progress</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#is_complete">is_complete</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#is_canceled">is_canceled</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#is_interrupted">is_interrupted</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_interrupt_reason">get_interrupt_reason</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#TCefDownloadInterruptReason">TCefDownloadInterruptReason</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_current_speed">get_current_speed</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Int64; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_percent_complete">get_percent_complete</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_total_bytes">get_total_bytes</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Int64; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_received_bytes">get_received_bytes</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Int64; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_start_time">get_start_time</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_end_time">get_end_time</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_full_path">get_full_path</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_id">get_id</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Cardinal; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_url">get_url</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_original_url">get_original_url</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_suggested_file_name">get_suggested_file_name</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_content_disposition">get_content_disposition</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDownloadItem.html#get_mime_type">get_mime_type</a></strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_valid"></span><code><strong>is_valid</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_in_progress"></span><code><strong>is_in_progress</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_complete"></span><code><strong>is_complete</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_canceled"></span><code><strong>is_canceled</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_interrupted"></span><code><strong>is_interrupted</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_interrupt_reason"></span><code><strong>get_interrupt_reason</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#TCefDownloadInterruptReason">TCefDownloadInterruptReason</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_current_speed"></span><code><strong>get_current_speed</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Int64; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_percent_complete"></span><code><strong>get_percent_complete</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_total_bytes"></span><code><strong>get_total_bytes</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Int64; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_received_bytes"></span><code><strong>get_received_bytes</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Int64; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_start_time"></span><code><strong>get_start_time</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_end_time"></span><code><strong>get_end_time</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_full_path"></span><code><strong>get_full_path</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_id"></span><code><strong>get_id</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): Cardinal; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_url"></span><code><strong>get_url</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_original_url"></span><code><strong>get_original_url</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_suggested_file_name"></span><code><strong>get_suggested_file_name</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_content_disposition"></span><code><strong>get_content_disposition</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_mime_type"></span><code><strong>get_mime_type</strong>: function(self: <a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

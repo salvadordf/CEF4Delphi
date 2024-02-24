@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefTaskRunner</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefTaskRunner"></span><h1 class="cio">Interface ICefTaskRunner</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefTaskRunner = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface that asynchronously executes tasks on the associated thread. It is safe to call the functions of this interface on any thread.
+
+<p>CEF maintains multiple internal threads that are used for handling different types of tasks in different processes. The TCefThreadId definitions in cef_types.h list the common CEF threads. Task runners are also available for other CEF threads as appropriate (for example, V8 WebWorker threads). </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_task_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_task_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_task_capi.h (cef_task_runner_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefTaskRunner</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefTaskRunner.html#IsSame-ICefTaskRunner-">IsSame</a></strong>(const that: <a href="uCEFInterfaces.ICefTaskRunner.html">ICefTaskRunner</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefTaskRunner.html#BelongsToCurrentThread">BelongsToCurrentThread</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefTaskRunner.html#BelongsToThread-TCefThreadId-">BelongsToThread</a></strong>(threadId: <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefTaskRunner.html#PostTask-ICefTask-">PostTask</a></strong>(const task: <a href="uCEFInterfaces.ICefTask.html">ICefTask</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefTaskRunner.html#PostDelayedTask-ICefTask-Int64-">PostDelayedTask</a></strong>(const task: <a href="uCEFInterfaces.ICefTask.html">ICefTask</a>; delayMs: Int64): Boolean;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsSame-ICefTaskRunner-"></span><code>function <strong>IsSame</strong>(const that: <a href="uCEFInterfaces.ICefTaskRunner.html">ICefTaskRunner</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this object is pointing to the same task runner as |that| object. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{6A500FA3-77B7-4418-8EA8-6337EED1337B}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BelongsToCurrentThread"></span><code>function <strong>BelongsToCurrentThread</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this task runner belongs to the current thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BelongsToThread-TCefThreadId-"></span><code>function <strong>BelongsToThread</strong>(threadId: <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this task runner is for the specified CEF thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PostTask-ICefTask-"></span><code>function <strong>PostTask</strong>(const task: <a href="uCEFInterfaces.ICefTask.html">ICefTask</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Post a task for execution on the thread associated with this task runner. Execution will occur asynchronously. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PostDelayedTask-ICefTask-Int64-"></span><code>function <strong>PostDelayedTask</strong>(const task: <a href="uCEFInterfaces.ICefTask.html">ICefTask</a>; delayMs: Int64): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Post a task for delayed execution on the thread associated with this task runner. Execution will occur asynchronously. Delayed tasks are not supported on V8 WebWorker threads and will be executed without the specified delay. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

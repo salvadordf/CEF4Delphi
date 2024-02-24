@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefBrowserProcessHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefBrowserProcessHandler"></span><h1 class="cio">Interface ICefBrowserProcessHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefBrowserProcessHandler = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface used to implement browser process callbacks. The functions of this interface will be called on the browser process main thread unless otherwise indicated. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefBrowserProcessHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserProcessHandler.html#OnRegisterCustomPreferences-TCefPreferencesType-PCefPreferenceRegistrar-">OnRegisterCustomPreferences</a></strong>(type_: <a href="uCEFTypes.html#TCefPreferencesType">TCefPreferencesType</a>; registrar: <a href="uCEFTypes.html#PCefPreferenceRegistrar">PCefPreferenceRegistrar</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserProcessHandler.html#OnContextInitialized">OnContextInitialized</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserProcessHandler.html#OnBeforeChildProcessLaunch-ICefCommandLine-">OnBeforeChildProcessLaunch</a></strong>(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserProcessHandler.html#OnAlreadyRunningAppRelaunch-ICefCommandLine-ustring-boolean-">OnAlreadyRunningAppRelaunch</a></strong>(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>; const current_directory: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserProcessHandler.html#OnScheduleMessagePumpWork-Int64-">OnScheduleMessagePumpWork</a></strong>(const delayMs: Int64);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserProcessHandler.html#GetDefaultClient-ICefClient-">GetDefaultClient</a></strong>(var aClient : <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserProcessHandler.html#GetDefaultRequestContextHandler-ICefRequestContextHandler-">GetDefaultRequestContextHandler</a></strong>(var aRequestContextHandler : <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserProcessHandler.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnRegisterCustomPreferences-TCefPreferencesType-PCefPreferenceRegistrar-"></span><code>procedure <strong>OnRegisterCustomPreferences</strong>(type_: <a href="uCEFTypes.html#TCefPreferencesType">TCefPreferencesType</a>; registrar: <a href="uCEFTypes.html#PCefPreferenceRegistrar">PCefPreferenceRegistrar</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Provides an opportunity to register custom preferences prior to global and request context initialization.
+
+<p>If |type| is CEF_PREFERENCES_TYPE_GLOBAL the registered preferences can be accessed via ICefPreferenceManager.GetGlobalPreferences after OnContextInitialized is called. Global preferences are registered a single time at application startup. See related TCefSettings.cache_path and TCefSettings.persist_user_preferences configuration.
+
+<p>If |type| is CEF_PREFERENCES_TYPE_REQUEST_CONTEXT the preferences can be accessed via the ICefRequestContext after ICefRequestContextHandler.OnRequestContextInitialized is called. Request context preferences are registered each time a new ICefRequestContext is created. It is intended but not required that all request contexts have the same registered preferences. See related TCefRequestContextSettings.cache_path and TCefRequestContextSettings.persist_user_preferences configuration.
+
+<p>Do not keep a reference to the |registrar| object. This function is called on the browser process UI thread.
+
+<p></p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{27291B7A-C0AE-4EE0-9115-15C810E22F6C}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnContextInitialized"></span><code>procedure <strong>OnContextInitialized</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the browser process UI thread immediately after the CEF context has been initialized. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnBeforeChildProcessLaunch-ICefCommandLine-"></span><code>procedure <strong>OnBeforeChildProcessLaunch</strong>(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called before a child process is launched. Will be called on the browser process UI thread when launching a render process and on the browser process IO thread when launching a GPU process. Provides an opportunity to modify the child process command line. Do not keep a reference to |command_line| outside of this function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnAlreadyRunningAppRelaunch-ICefCommandLine-ustring-boolean-"></span><code>procedure <strong>OnAlreadyRunningAppRelaunch</strong>(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>; const current_directory: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Implement this function to provide app-specific behavior when an already running app is relaunched with the same TCefSettings.root_cache_path value. For example, activate an existing app window or create a new app window. |command_line| will be read-only. Do not keep a reference to |command_line| outside of this function. Return true (1) if the relaunch is handled or false (0) for default relaunch behavior. Default behavior will create a new default styled Chrome window.
+
+<p>To avoid cache corruption only a single app instance is allowed to run for a given TCefSettings.root_cache_path value. On relaunch the app checks a process singleton lock and then forwards the new launch arguments to the already running app process before exiting early. Client apps should therefore check the cef_initialize() return value for early exit before proceeding.
+
+<p>This function will be called on the browser process UI thread.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnScheduleMessagePumpWork-Int64-"></span><code>procedure <strong>OnScheduleMessagePumpWork</strong>(const delayMs: Int64);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called from any thread when work has been scheduled for the browser process main (UI) thread. This callback is used in combination with TCefSettings.external_message_pump and GlobalCEFApp.DoMessageLoopWork in cases where the CEF message loop must be integrated into an existing application message loop (see additional comments and warnings on GlobalCEFApp.DoMessageLoopWork). This callback should schedule a GlobalCEFApp.DoMessageLoopWork call to happen on the main (UI) thread. |delay_ms| is the requested delay in milliseconds. If |delay_ms| is &lt;= 0 then the call should happen reasonably soon. If |delay_ms| is &gt; 0 then the call should be scheduled to happen after the specified delay and any currently pending scheduled call should be cancelled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDefaultClient-ICefClient-"></span><code>procedure <strong>GetDefaultClient</strong>(var aClient : <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return the default client for use with a newly created browser window (TCefBrowser object). If null is returned the TCefBrowser will be unmanaged (no callbacks will be executed for that TCefBrowser) and application shutdown will be blocked until the browser window is closed manually. This function is currently only used with the Chrome runtime when creating new browser windows via Chrome UI. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDefaultRequestContextHandler-ICefRequestContextHandler-"></span><code>procedure <strong>GetDefaultRequestContextHandler</strong>(var aRequestContextHandler : <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return the default handler for use with a new user or incognito profile (TCefRequestContext object). If null is returned the TCefRequestContext will be unmanaged (no callbacks will be executed for that TCefRequestContext). This function is currently only used with the Chrome runtime when creating new browser windows via Chrome UI. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

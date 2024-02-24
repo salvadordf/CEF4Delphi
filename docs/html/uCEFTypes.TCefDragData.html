@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefDragData</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefDragData"></span><h1 class="cio">Record TCefDragData</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefDragData = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure used to represent drag data. The functions of this structure may be called on any thread. </p>
+<p>
+
+
+<p>Implemented by ICefDragData.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_drag_data_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_drag_data_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_drag_data_capi.h (cef_drag_data_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#clone">clone</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#is_read_only">is_read_only</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#is_link">is_link</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#is_fragment">is_fragment</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#is_file">is_file</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#get_link_url">get_link_url</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#get_link_title">get_link_title</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#get_link_metadata">get_link_metadata</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#get_fragment_text">get_fragment_text</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#get_fragment_html">get_fragment_html</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#get_fragment_base_url">get_fragment_base_url</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#get_file_name">get_file_name</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#get_file_contents">get_file_contents</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; writer: <a href="uCEFTypes.html#PCefStreamWriter">PCefStreamWriter</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#get_file_names">get_file_names</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; names: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#get_file_paths">get_file_paths</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; paths: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#set_link_url">set_link_url</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const url: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#set_link_title">set_link_title</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const title: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#set_link_metadata">set_link_metadata</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const data: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#set_fragment_text">set_fragment_text</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#set_fragment_html">set_fragment_html</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const html: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#set_fragment_base_url">set_fragment_base_url</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const base_url: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#reset_file_contents">reset_file_contents</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#add_file">add_file</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const path, display_name: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#clear_filenames">clear_filenames</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#get_image">get_image</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefImage">PCefImage</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#get_image_hotspot">get_image_hotspot</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDragData.html#has_image">has_image</a></strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): Integer; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="clone"></span><code><strong>clone</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_read_only"></span><code><strong>is_read_only</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_link"></span><code><strong>is_link</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_fragment"></span><code><strong>is_fragment</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_file"></span><code><strong>is_file</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_link_url"></span><code><strong>get_link_url</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_link_title"></span><code><strong>get_link_title</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_link_metadata"></span><code><strong>get_link_metadata</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_fragment_text"></span><code><strong>get_fragment_text</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_fragment_html"></span><code><strong>get_fragment_html</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_fragment_base_url"></span><code><strong>get_fragment_base_url</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_file_name"></span><code><strong>get_file_name</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_file_contents"></span><code><strong>get_file_contents</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; writer: <a href="uCEFTypes.html#PCefStreamWriter">PCefStreamWriter</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_file_names"></span><code><strong>get_file_names</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; names: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_file_paths"></span><code><strong>get_file_paths</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; paths: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_link_url"></span><code><strong>set_link_url</strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const url: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_link_title"></span><code><strong>set_link_title</strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const title: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_link_metadata"></span><code><strong>set_link_metadata</strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const data: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_fragment_text"></span><code><strong>set_fragment_text</strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_fragment_html"></span><code><strong>set_fragment_html</strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const html: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_fragment_base_url"></span><code><strong>set_fragment_base_url</strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const base_url: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="reset_file_contents"></span><code><strong>reset_file_contents</strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="add_file"></span><code><strong>add_file</strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; const path, display_name: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="clear_filenames"></span><code><strong>clear_filenames</strong>: procedure(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_image"></span><code><strong>get_image</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefImage">PCefImage</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_image_hotspot"></span><code><strong>get_image_hotspot</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_image"></span><code><strong>has_image</strong>: function(self: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

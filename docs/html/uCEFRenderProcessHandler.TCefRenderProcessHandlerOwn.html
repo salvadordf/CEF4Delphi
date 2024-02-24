@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFRenderProcessHandler: Class TCefRenderProcessHandlerOwn</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefRenderProcessHandlerOwn"></span><h1 class="cio">Class TCefRenderProcessHandlerOwn</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFRenderProcessHandler.html">uCEFRenderProcessHandler</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefRenderProcessHandlerOwn = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a>, <a class="normal" href="uCEFInterfaces.ICefRenderProcessHandler.html">ICefRenderProcessHandler</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="thisitem">TCefRenderProcessHandlerOwn</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderProcessHandler.TCefRenderProcessHandlerOwn.html#OnWebKitInitialized">OnWebKitInitialized</a></strong>; virtual; abstract;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderProcessHandler.TCefRenderProcessHandlerOwn.html#OnBrowserCreated-ICefBrowser-ICefDictionaryValue-">OnBrowserCreated</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>); virtual; abstract;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderProcessHandler.TCefRenderProcessHandlerOwn.html#OnBrowserDestroyed-ICefBrowser-">OnBrowserDestroyed</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); virtual; abstract;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRenderProcessHandler.TCefRenderProcessHandlerOwn.html#GetLoadHandler">GetLoadHandler</a></strong>: <a href="uCEFInterfaces.ICefLoadHandler.html">ICefLoadHandler</a>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderProcessHandler.TCefRenderProcessHandlerOwn.html#OnContextCreated-ICefBrowser-ICefFrame-ICefv8Context-">OnContextCreated</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>); virtual; abstract;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderProcessHandler.TCefRenderProcessHandlerOwn.html#OnContextReleased-ICefBrowser-ICefFrame-ICefv8Context-">OnContextReleased</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>); virtual; abstract;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderProcessHandler.TCefRenderProcessHandlerOwn.html#OnUncaughtException-ICefBrowser-ICefFrame-ICefv8Context-ICefV8Exception-ICefV8StackTrace-">OnUncaughtException</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>; const V8Exception: <a href="uCEFInterfaces.ICefV8Exception.html">ICefV8Exception</a>; const stackTrace: <a href="uCEFInterfaces.ICefV8StackTrace.html">ICefV8StackTrace</a>); virtual; abstract;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderProcessHandler.TCefRenderProcessHandlerOwn.html#OnFocusedNodeChanged-ICefBrowser-ICefFrame-ICefDomNode-">OnFocusedNodeChanged</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const node: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>); virtual; abstract;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRenderProcessHandler.TCefRenderProcessHandlerOwn.html#OnProcessMessageReceived-ICefBrowser-ICefFrame-TCefProcessId-ICefProcessMessage-">OnProcessMessageReceived</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; sourceProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const aMessage: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>): Boolean; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderProcessHandler.TCefRenderProcessHandlerOwn.html#RemoveReferences">RemoveReferences</a></strong>; virtual; abstract;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFRenderProcessHandler.TCefRenderProcessHandlerOwn.html#Create">Create</a></strong>; virtual;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnWebKitInitialized"></span><code>procedure <strong>OnWebKitInitialized</strong>; virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderProcessHandler.html#OnWebKitInitialized">ICefRenderProcessHandler.OnWebKitInitialized</a>.</p><p>
+ Called after WebKit has been initialized. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnBrowserCreated-ICefBrowser-ICefDictionaryValue-"></span><code>procedure <strong>OnBrowserCreated</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>); virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderProcessHandler.html#OnBrowserCreated-ICefBrowser-ICefDictionaryValue-">ICefRenderProcessHandler.OnBrowserCreated</a>.</p><p>
+ Called after a browser has been created. When browsing cross-origin a new browser will be created before the old browser with the same identifier is destroyed. |extra_info| is an optional read-only value originating from cef_browser_host_create_browser(), cef_browser_host_create_browser_sync(), ICefLifeSpanHandler.OnBeforePopup or cef_browser_view_create(). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnBrowserDestroyed-ICefBrowser-"></span><code>procedure <strong>OnBrowserDestroyed</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderProcessHandler.html#OnBrowserDestroyed-ICefBrowser-">ICefRenderProcessHandler.OnBrowserDestroyed</a>.</p><p>
+ Called before a browser is destroyed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetLoadHandler"></span><code>function <strong>GetLoadHandler</strong>: <a href="uCEFInterfaces.ICefLoadHandler.html">ICefLoadHandler</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderProcessHandler.html#GetLoadHandler">ICefRenderProcessHandler.GetLoadHandler</a>.</p><p>
+ Return the handler for browser load status events. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnContextCreated-ICefBrowser-ICefFrame-ICefv8Context-"></span><code>procedure <strong>OnContextCreated</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>); virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderProcessHandler.html#OnContextCreated-ICefBrowser-ICefFrame-ICefv8Context-">ICefRenderProcessHandler.OnContextCreated</a>.</p><p>
+ Called immediately after the V8 context for a frame has been created. To retrieve the JavaScript 'window' object use the ICefv8context.GetGlobal function. V8 handles can only be accessed from the thread on which they are created. A task runner for posting tasks on the associated thread can be retrieved via the ICefv8context.GetTaskRunner() function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnContextReleased-ICefBrowser-ICefFrame-ICefv8Context-"></span><code>procedure <strong>OnContextReleased</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>); virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderProcessHandler.html#OnContextReleased-ICefBrowser-ICefFrame-ICefv8Context-">ICefRenderProcessHandler.OnContextReleased</a>.</p><p>
+ Called immediately before the V8 context for a frame is released. No references to the context should be kept after this function is called. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnUncaughtException-ICefBrowser-ICefFrame-ICefv8Context-ICefV8Exception-ICefV8StackTrace-"></span><code>procedure <strong>OnUncaughtException</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>; const V8Exception: <a href="uCEFInterfaces.ICefV8Exception.html">ICefV8Exception</a>; const stackTrace: <a href="uCEFInterfaces.ICefV8StackTrace.html">ICefV8StackTrace</a>); virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderProcessHandler.html#OnUncaughtException-ICefBrowser-ICefFrame-ICefv8Context-ICefV8Exception-ICefV8StackTrace-">ICefRenderProcessHandler.OnUncaughtException</a>.</p><p>
+ Called for global uncaught exceptions in a frame. Execution of this callback is disabled by default. To enable set TCefSettings.uncaught_exception_stack_size &gt; 0. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnFocusedNodeChanged-ICefBrowser-ICefFrame-ICefDomNode-"></span><code>procedure <strong>OnFocusedNodeChanged</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const node: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>); virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderProcessHandler.html#OnFocusedNodeChanged-ICefBrowser-ICefFrame-ICefDomNode-">ICefRenderProcessHandler.OnFocusedNodeChanged</a>.</p><p>
+ Called when a new node in the the browser gets focus. The |node| value may be NULL if no specific node has gained focus. The node object passed to this function represents a snapshot of the DOM at the time this function is executed. DOM objects are only valid for the scope of this function. Do not keep references to or attempt to access any DOM objects outside the scope of this function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnProcessMessageReceived-ICefBrowser-ICefFrame-TCefProcessId-ICefProcessMessage-"></span><code>function <strong>OnProcessMessageReceived</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; sourceProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const aMessage: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>): Boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderProcessHandler.html#OnProcessMessageReceived-ICefBrowser-ICefFrame-TCefProcessId-ICefProcessMessage-">ICefRenderProcessHandler.OnProcessMessageReceived</a>.</p><p>
+ Called when a new message is received from a different process. Return true (1) if the message was handled or false (0) otherwise. It is safe to keep a reference to |message| outside of this callback. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>; virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderProcessHandler.html#RemoveReferences">ICefRenderProcessHandler.RemoveReferences</a>.</p><p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

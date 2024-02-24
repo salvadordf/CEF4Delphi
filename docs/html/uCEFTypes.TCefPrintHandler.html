@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefPrintHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefPrintHandler"></span><h1 class="cio">Record TCefPrintHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefPrintHandler = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this structure to handle printing on Linux. Each browser will have only one print job in progress at a time. The functions of this structure will be called on the browser process UI thread. </p>
+<p>
+
+
+<p>Implemented by ICefPrintHandler.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_print_handler_capi.h (cef_print_handler_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintHandler.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintHandler.html#on_print_start">on_print_start</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintHandler.html#on_print_settings">on_print_settings</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; settings: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; get_defaults: Integer); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintHandler.html#on_print_dialog">on_print_dialog</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; has_selection: Integer; callback: <a href="uCEFTypes.html#PCefPrintDialogCallback">PCefPrintDialogCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintHandler.html#on_print_job">on_print_job</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const document_name, pdf_file_path: <a href="uCEFTypes.html#PCefString">PCefString</a>; callback: <a href="uCEFTypes.html#PCefPrintJobCallback">PCefPrintJobCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintHandler.html#on_print_reset">on_print_reset</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintHandler.html#get_pdf_paper_size">get_pdf_paper_size</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; device_units_per_inch: Integer): <a href="uCEFTypes.TCefSize.html">TCefSize</a>; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_print_start"></span><code><strong>on_print_start</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_print_settings"></span><code><strong>on_print_settings</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; settings: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; get_defaults: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_print_dialog"></span><code><strong>on_print_dialog</strong>: function(self: <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; has_selection: Integer; callback: <a href="uCEFTypes.html#PCefPrintDialogCallback">PCefPrintDialogCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_print_job"></span><code><strong>on_print_job</strong>: function(self: <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const document_name, pdf_file_path: <a href="uCEFTypes.html#PCefString">PCefString</a>; callback: <a href="uCEFTypes.html#PCefPrintJobCallback">PCefPrintJobCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_print_reset"></span><code><strong>on_print_reset</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_pdf_paper_size"></span><code><strong>get_pdf_paper_size</strong>: function(self: <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; device_units_per_inch: Integer): <a href="uCEFTypes.TCefSize.html">TCefSize</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

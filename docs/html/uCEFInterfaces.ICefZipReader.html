@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefZipReader</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefZipReader"></span><h1 class="cio">Interface ICefZipReader</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefZipReader = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface that supports the reading of zip archives via the zlib unzip API. The functions of this interface should only be called on the thread that creates the object. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_zip_reader_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_zip_reader_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_zip_reader_capi.h (cef_zip_reader_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefZipReader</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefZipReader.html#MoveToFirstFile">MoveToFirstFile</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefZipReader.html#MoveToNextFile">MoveToNextFile</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefZipReader.html#MoveToFile-ustring-Boolean-">MoveToFile</a></strong>(const fileName: <a href="uCEFTypes.html#ustring">ustring</a>; caseSensitive: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefZipReader.html#Close">Close</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefZipReader.html#GetFileName">GetFileName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefZipReader.html#GetFileSize">GetFileSize</a></strong>: Int64;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefZipReader.html#GetFileLastModified">GetFileLastModified</a></strong>: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefZipReader.html#OpenFile-ustring-">OpenFile</a></strong>(const password: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefZipReader.html#CloseFile">CloseFile</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefZipReader.html#ReadFile-Pointer-NativeUInt-">ReadFile</a></strong>(buffer: Pointer; bufferSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefZipReader.html#Tell">Tell</a></strong>: Int64;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefZipReader.html#Eof">Eof</a></strong>: Boolean;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MoveToFirstFile"></span><code>function <strong>MoveToFirstFile</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Moves the cursor to the first file in the archive. Returns true (1) if the cursor position was set successfully. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{3B6C591F-9877-42B3-8892-AA7B27DA34A8}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MoveToNextFile"></span><code>function <strong>MoveToNextFile</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Moves the cursor to the next file in the archive. Returns true (1) if the cursor position was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MoveToFile-ustring-Boolean-"></span><code>function <strong>MoveToFile</strong>(const fileName: <a href="uCEFTypes.html#ustring">ustring</a>; caseSensitive: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Moves the cursor to the specified file in the archive. If |caseSensitive| is true (1) then the search will be case sensitive. Returns true (1) if the cursor position was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Close"></span><code>function <strong>Close</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Closes the archive. This should be called directly to ensure that cleanup occurs on the correct thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFileName"></span><code>function <strong>GetFileName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the name of the file. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFileSize"></span><code>function <strong>GetFileSize</strong>: Int64;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the uncompressed size of the file. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFileLastModified"></span><code>function <strong>GetFileLastModified</strong>: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the last modified timestamp for the file. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OpenFile-ustring-"></span><code>function <strong>OpenFile</strong>(const password: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Opens the file for reading of uncompressed data. A read password may optionally be specified. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CloseFile"></span><code>function <strong>CloseFile</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Closes the file. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ReadFile-Pointer-NativeUInt-"></span><code>function <strong>ReadFile</strong>(buffer: Pointer; bufferSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Read uncompressed file contents into the specified buffer. Returns &lt; 0 if an error occurred, 0 if at the end of file, or the number of bytes read. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Tell"></span><code>function <strong>Tell</strong>: Int64;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current offset in the uncompressed file contents. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Eof"></span><code>function <strong>Eof</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if at end of the file contents. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

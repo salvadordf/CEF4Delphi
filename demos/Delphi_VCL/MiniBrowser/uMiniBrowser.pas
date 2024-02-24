@@ -133,10 +133,8 @@ type
     procedure Chromium1FullScreenModeChange(Sender: TObject; const browser: ICefBrowser; fullscreen: Boolean);
     procedure Chromium1PreKeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut, Result: Boolean);
     procedure Chromium1KeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out Result: Boolean);
-    procedure Chromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
     procedure Chromium1PdfPrintFinished(Sender: TObject; aResultOK: Boolean);
     procedure Chromium1ResourceResponse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: Boolean);
-    procedure Chromium1ResolvedHostAvailable(Sender: TObject; result: Integer; const resolvedIps: TStrings);
     procedure Chromium1PrefsAvailable(Sender: TObject; aResultOK: Boolean);
     procedure Chromium1BeforeDownload(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
     procedure Chromium1DownloadUpdated(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback);
@@ -146,20 +144,22 @@ type
     procedure Chromium1RenderCompMsg(Sender: TObject; var aMessage : TMessage; var aHandled: Boolean);
     procedure Chromium1LoadingProgressChange(Sender: TObject; const browser: ICefBrowser; const progress: Double);
     procedure Chromium1LoadEnd(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
-    procedure Chromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
-    procedure Chromium1CertificateError(Sender: TObject; const browser: ICefBrowser; certError: Integer; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback; out Result: Boolean);
     procedure Chromium1NavigationVisitorResultAvailable(Sender: TObject; const entry: ICefNavigationEntry; current: Boolean; index, total: Integer; var aResult: Boolean);
     procedure Chromium1DownloadImageFinished(Sender: TObject; const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
     procedure Chromium1CookiesFlushed(Sender: TObject);
     procedure Chromium1ZoomPctAvailable(Sender: TObject; const aZoomPct: Double);
     procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: Integer; success: Boolean; const result: ICefValue);
-    procedure Chromium1FileDialog(Sender: TObject; const browser: ICefBrowser; mode: Cardinal; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback; var Result: Boolean);
     procedure Chromium1SelectClientCertificate(Sender: TObject; const browser: ICefBrowser; isProxy: Boolean; const host: ustring; port: Integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback; var aResult: Boolean);
     procedure Chromium1CursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
     procedure Chromium1CanDownload(Sender: TObject; const browser: ICefBrowser; const url, request_method: ustring; var aResult: Boolean);
     procedure Chromium1MediaAccessChange(Sender: TObject; const browser: ICefBrowser; has_video_access, has_audio_access: Boolean);
     procedure Chromium1RequestMediaAccessPermission(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: Cardinal; const callback: ICefMediaAccessCallback; var aResult: Boolean);
-    procedure Chromium1ConsoleMessage(Sender: TObject; const browser: ICefBrowser; level: Cardinal; const message_, source: ustring; line: Integer; out Result: Boolean);
+    procedure Chromium1CertificateError(Sender: TObject; const browser: ICefBrowser; certError: TCefErrorCode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback; out Result: Boolean);
+    procedure Chromium1ConsoleMessage(Sender: TObject; const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer; out Result: Boolean);
+    procedure Chromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags; out Result: Boolean);
+    procedure Chromium1FileDialog(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback; var Result: Boolean);
+    procedure Chromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
+    procedure Chromium1ResolvedHostAvailable(Sender: TObject; result: TCefErrorCode; const resolvedIps: TStrings);
 
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -505,7 +505,7 @@ begin
 end;
 
 procedure TMiniBrowserFrm.Chromium1CertificateError(Sender: TObject;
-  const browser: ICefBrowser; certError: Integer;
+  const browser: ICefBrowser; certError: TCefErrorCode;
   const requestUrl: ustring; const sslInfo: ICefSslInfo;
   const callback: ICefCallback; out Result: Boolean);
 begin
@@ -514,7 +514,8 @@ begin
   Result := False;
 end;
 
-procedure TMiniBrowserFrm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
+procedure TMiniBrowserFrm.Chromium1Close(Sender: TObject;
+  const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 begin
   if (browser <> nil) and
      (Chromium1.BrowserId = browser.Identifier) and
@@ -526,8 +527,8 @@ begin
 end;
 
 procedure TMiniBrowserFrm.Chromium1ConsoleMessage(Sender: TObject;
-  const browser: ICefBrowser; level: Cardinal; const message_,
-  source: ustring; line: Integer; out Result: Boolean);
+  const browser: ICefBrowser; level: TCefLogSeverity;
+  const message_, source: ustring; line: Integer; out Result: Boolean);
 begin
   if (message_ = 'GlobalCEFApp_OnUncaughtException') then
     begin
@@ -539,7 +540,7 @@ end;
 procedure TMiniBrowserFrm.Chromium1ContextMenuCommand(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; commandId: Integer;
-  eventFlags: Cardinal; out Result: Boolean);
+  eventFlags: TCefEventFlags; out Result: Boolean);
 var
   TempParam : WParam;
   TempInfo : TCefWindowInfo;
@@ -695,14 +696,10 @@ begin
           end;
 end;
 
-procedure TMiniBrowserFrm.Chromium1FileDialog(      Sender                 : TObject;
-                                              const browser                : ICefBrowser;
-                                                    mode                   : Cardinal;
-                                              const title                  : ustring;
-                                              const defaultFilePath        : ustring;
-                                              const acceptFilters          : TStrings;
-                                              const callback               : ICefFileDialogCallback;
-                                              var   Result                 : Boolean);
+procedure TMiniBrowserFrm.Chromium1FileDialog(Sender: TObject;
+  const browser: ICefBrowser; mode: TCefFileDialogMode;
+  const title, defaultFilePath: ustring; const acceptFilters: TStrings;
+  const callback: ICefFileDialogCallback; var Result: Boolean);
 begin
   Result := True;
 
@@ -983,7 +980,7 @@ begin
 end;
 
 procedure TMiniBrowserFrm.Chromium1LoadError(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer;
+  const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode;
   const errorText, failedUrl: ustring);
 var
   TempString : string;
@@ -1152,7 +1149,7 @@ begin
 end;
 
 procedure TMiniBrowserFrm.Chromium1ResolvedHostAvailable(Sender: TObject;
-  result: Integer; const resolvedIps: TStrings);
+  result: TCefErrorCode; const resolvedIps: TStrings);
 begin
   if (result = ERR_NONE) then
     showmessage('Resolved IPs : ' + resolvedIps.CommaText)
@@ -1797,26 +1794,14 @@ end;
 
 procedure TMiniBrowserFrm.CopyFramesIDsMsg(var aMessage : TMessage);
 var
-  i          : NativeUInt;
-  TempCount  : NativeUInt;
-  TempArray  : TCefFrameIdentifierArray;
-  TempString : string;
+  TempSL : TStringList;
 begin
-  TempCount := Chromium1.FrameCount;
+  TempSL := TStringList.Create;
 
-  if Chromium1.GetFrameIdentifiers(TempCount, TempArray) then
-    begin
-      TempString := '';
-      i          := 0;
+  if Chromium1.GetFrameIdentifiers(TStrings(TempSL)) then
+    clipboard.AsText := TempSL.Text;
 
-      while (i < TempCount) do
-        begin
-          TempString := TempString + inttostr(TempArray[i]) + CRLF;
-          inc(i);
-        end;
-
-      clipboard.AsText := TempString;
-    end;
+  TempSL.Free;
 end;
 
 procedure TMiniBrowserFrm.CopyFramesNamesMsg(var aMessage : TMessage);

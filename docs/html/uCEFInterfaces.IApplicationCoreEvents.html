@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface IApplicationCoreEvents</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="IApplicationCoreEvents"></span><h1 class="cio">Interface IApplicationCoreEvents</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type IApplicationCoreEvents = interface(IInterface)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Custom interface used to handle all the TCefApplicationCore events. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{55E99E25-A05D-46D5-B3A4-C8C2E71C1F4D}']</dt>
+  <dd></dd>
+</dl>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="thisitem">IApplicationCoreEvents</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnBeforeCommandLineProcessing-ustring-ICefCommandLine-">doOnBeforeCommandLineProcessing</a></strong>(const processType: <a href="uCEFTypes.html#ustring">ustring</a>; const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnRegisterCustomSchemes-TCefSchemeRegistrarRef-">doOnRegisterCustomSchemes</a></strong>(const registrar: <a href="uCEFSchemeRegistrar.TCefSchemeRegistrarRef.html">TCefSchemeRegistrarRef</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnRegisterCustomPreferences-TCefPreferencesType-PCefPreferenceRegistrar-">doOnRegisterCustomPreferences</a></strong>(type_: <a href="uCEFTypes.html#TCefPreferencesType">TCefPreferencesType</a>; registrar: <a href="uCEFTypes.html#PCefPreferenceRegistrar">PCefPreferenceRegistrar</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnContextInitialized">doOnContextInitialized</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnBeforeChildProcessLaunch-ICefCommandLine-">doOnBeforeChildProcessLaunch</a></strong>(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnAlreadyRunningAppRelaunch-ICefCommandLine-ustring-boolean-">doOnAlreadyRunningAppRelaunch</a></strong>(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>; const current_directory: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnScheduleMessagePumpWork-Int64-">doOnScheduleMessagePumpWork</a></strong>(const delayMs: Int64);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doGetDefaultClient-ICefClient-">doGetDefaultClient</a></strong>(var aClient : <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doGetDefaultRequestContextHandler-ICefRequestContextHandler-">doGetDefaultRequestContextHandler</a></strong>(var aRequestContextHandler : <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doGetLocalizedString-Integer-ustring-">doGetLocalizedString</a></strong>(stringid: Integer; var stringVal: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doGetDataResource-Integer-Pointer-NativeUInt-">doGetDataResource</a></strong>(resourceId: Integer; var data: Pointer; var dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doGetDataResourceForScale-Integer-TCefScaleFactor-Pointer-NativeUInt-">doGetDataResourceForScale</a></strong>(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>; var data: Pointer; var dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnWebKitInitialized">doOnWebKitInitialized</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnBrowserCreated-ICefBrowser-ICefDictionaryValue-">doOnBrowserCreated</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnBrowserDestroyed-ICefBrowser-">doOnBrowserDestroyed</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnContextCreated-ICefBrowser-ICefFrame-ICefv8Context-">doOnContextCreated</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnContextReleased-ICefBrowser-ICefFrame-ICefv8Context-">doOnContextReleased</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnUncaughtException-ICefBrowser-ICefFrame-ICefv8Context-ICefV8Exception-ICefV8StackTrace-">doOnUncaughtException</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>; const V8Exception: <a href="uCEFInterfaces.ICefV8Exception.html">ICefV8Exception</a>; const stackTrace: <a href="uCEFInterfaces.ICefV8StackTrace.html">ICefV8StackTrace</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnFocusedNodeChanged-ICefBrowser-ICefFrame-ICefDomNode-">doOnFocusedNodeChanged</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const node: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnProcessMessageReceived-ICefBrowser-ICefFrame-TCefProcessId-ICefProcessMessage-boolean-">doOnProcessMessageReceived</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; sourceProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const aMessage: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; var aHandled : boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnLoadingStateChange-ICefBrowser-Boolean-Boolean-Boolean-">doOnLoadingStateChange</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; isLoading, canGoBack, canGoForward: Boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnLoadStart-ICefBrowser-ICefFrame-TCefTransitionType-">doOnLoadStart</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; transitionType: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnLoadEnd-ICefBrowser-ICefFrame-Integer-">doOnLoadEnd</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; httpStatusCode: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IApplicationCoreEvents.html#doOnLoadError-ICefBrowser-ICefFrame-TCefErrorCode-ustring-ustring-">doOnLoadError</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; errorCode: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorCode</a>; const errorText, failedUrl: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnBeforeCommandLineProcessing-ustring-ICefCommandLine-"></span><code>procedure <strong>doOnBeforeCommandLineProcessing</strong>(const processType: <a href="uCEFTypes.html#ustring">ustring</a>; const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefApp</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnRegisterCustomSchemes-TCefSchemeRegistrarRef-"></span><code>procedure <strong>doOnRegisterCustomSchemes</strong>(const registrar: <a href="uCEFSchemeRegistrar.TCefSchemeRegistrarRef.html">TCefSchemeRegistrarRef</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnRegisterCustomPreferences-TCefPreferencesType-PCefPreferenceRegistrar-"></span><code>procedure <strong>doOnRegisterCustomPreferences</strong>(type_: <a href="uCEFTypes.html#TCefPreferencesType">TCefPreferencesType</a>; registrar: <a href="uCEFTypes.html#PCefPreferenceRegistrar">PCefPreferenceRegistrar</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefBrowserProcessHandler</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnContextInitialized"></span><code>procedure <strong>doOnContextInitialized</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnBeforeChildProcessLaunch-ICefCommandLine-"></span><code>procedure <strong>doOnBeforeChildProcessLaunch</strong>(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnAlreadyRunningAppRelaunch-ICefCommandLine-ustring-boolean-"></span><code>procedure <strong>doOnAlreadyRunningAppRelaunch</strong>(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>; const current_directory: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnScheduleMessagePumpWork-Int64-"></span><code>procedure <strong>doOnScheduleMessagePumpWork</strong>(const delayMs: Int64);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doGetDefaultClient-ICefClient-"></span><code>procedure <strong>doGetDefaultClient</strong>(var aClient : <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doGetDefaultRequestContextHandler-ICefRequestContextHandler-"></span><code>procedure <strong>doGetDefaultRequestContextHandler</strong>(var aRequestContextHandler : <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doGetLocalizedString-Integer-ustring-"></span><code>function <strong>doGetLocalizedString</strong>(stringid: Integer; var stringVal: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefResourceBundleHandler</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doGetDataResource-Integer-Pointer-NativeUInt-"></span><code>function <strong>doGetDataResource</strong>(resourceId: Integer; var data: Pointer; var dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doGetDataResourceForScale-Integer-TCefScaleFactor-Pointer-NativeUInt-"></span><code>function <strong>doGetDataResourceForScale</strong>(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>; var data: Pointer; var dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnWebKitInitialized"></span><code>procedure <strong>doOnWebKitInitialized</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefRenderProcessHandler</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnBrowserCreated-ICefBrowser-ICefDictionaryValue-"></span><code>procedure <strong>doOnBrowserCreated</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnBrowserDestroyed-ICefBrowser-"></span><code>procedure <strong>doOnBrowserDestroyed</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnContextCreated-ICefBrowser-ICefFrame-ICefv8Context-"></span><code>procedure <strong>doOnContextCreated</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnContextReleased-ICefBrowser-ICefFrame-ICefv8Context-"></span><code>procedure <strong>doOnContextReleased</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnUncaughtException-ICefBrowser-ICefFrame-ICefv8Context-ICefV8Exception-ICefV8StackTrace-"></span><code>procedure <strong>doOnUncaughtException</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>; const V8Exception: <a href="uCEFInterfaces.ICefV8Exception.html">ICefV8Exception</a>; const stackTrace: <a href="uCEFInterfaces.ICefV8StackTrace.html">ICefV8StackTrace</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnFocusedNodeChanged-ICefBrowser-ICefFrame-ICefDomNode-"></span><code>procedure <strong>doOnFocusedNodeChanged</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const node: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnProcessMessageReceived-ICefBrowser-ICefFrame-TCefProcessId-ICefProcessMessage-boolean-"></span><code>procedure <strong>doOnProcessMessageReceived</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; sourceProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const aMessage: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; var aHandled : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnLoadingStateChange-ICefBrowser-Boolean-Boolean-Boolean-"></span><code>procedure <strong>doOnLoadingStateChange</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; isLoading, canGoBack, canGoForward: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefLoadHandler</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnLoadStart-ICefBrowser-ICefFrame-TCefTransitionType-"></span><code>procedure <strong>doOnLoadStart</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; transitionType: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnLoadEnd-ICefBrowser-ICefFrame-Integer-"></span><code>procedure <strong>doOnLoadEnd</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; httpStatusCode: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnLoadError-ICefBrowser-ICefFrame-TCefErrorCode-ustring-ustring-"></span><code>procedure <strong>doOnLoadError</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; errorCode: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorCode</a>; const errorText, failedUrl: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

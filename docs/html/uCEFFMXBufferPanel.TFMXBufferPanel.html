@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFFMXBufferPanel: Class TFMXBufferPanel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TFMXBufferPanel"></span><h1 class="cio">Class TFMXBufferPanel</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFFMXBufferPanel.html">uCEFFMXBufferPanel</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TFMXBufferPanel = class(TControl)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ TBufferPanel is used by FMX applications with browsers in OSR mode to draw the browser contents. See the FMXExternalPumpBrowser demo for more details. </p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TControl</li>
+<li class="thisitem">TFMXBufferPanel</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FMutex">FMutex</a></strong>: THandle;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FBuffer">FBuffer</a></strong>: TBitmap;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FScanlineSize">FScanlineSize</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FColor">FColor</a></strong>: TAlphaColor;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FHighSpeedDrawing">FHighSpeedDrawing</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FOnDialogKey">FOnDialogKey</a></strong>: TDialogKeyEvent;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FForcedDeviceScaleFactor">FForcedDeviceScaleFactor</a></strong>: single;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#CreateSyncObj">CreateSyncObj</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#DestroySyncObj">DestroySyncObj</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#DestroyBuffer">DestroyBuffer</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#GetScreenScale">GetScreenScale</a></strong>: single; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#GetBufferWidth">GetBufferWidth</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#GetBufferHeight">GetBufferHeight</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#GetParentForm">GetParentForm</a></strong>: TCustomForm;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#GetParentFormHandle">GetParentFormHandle</a></strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#GetRealScreenScale-single-">GetRealScreenScale</a></strong>(var aResultScale : single) : boolean; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#CopyBuffer">CopyBuffer</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#SaveBufferToFile-string-">SaveBufferToFile</a></strong>(const aFilename : string) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#Paint">Paint</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#DialogKey-Word-TShiftState-">DialogKey</a></strong>(var Key: Word; Shift: TShiftState); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#Create-TComponent-">Create</a></strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#AfterConstruction">AfterConstruction</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#SaveToFile-string-">SaveToFile</a></strong>(const aFilename : string) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#InvalidatePanel">InvalidatePanel</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#BeginBufferDraw">BeginBufferDraw</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#EndBufferDraw">EndBufferDraw</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#BufferDraw-TBitmap-TRectF-TRectF-">BufferDraw</a></strong>(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRectF);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#UpdateBufferDimensions-integer-integer-">UpdateBufferDimensions</a></strong>(aWidth, aHeight : integer) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#BufferIsResized-boolean-">BufferIsResized</a></strong>(aUseMutex : boolean = True) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#ScreenToClient-TPoint-">ScreenToClient</a></strong>(aPoint : TPoint) : TPoint; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#ScreenToClient-TPointF-">ScreenToClient</a></strong>(aPoint : TPointF) : TPointF; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#ClientToScreen-TPoint-">ClientToScreen</a></strong>(aPoint : TPoint) : TPoint; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#ClientToScreen-TPointF-">ClientToScreen</a></strong>(aPoint : TPointF) : TPointF; overload;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#Buffer">Buffer</a></strong>                    : TBitmap                   read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FBuffer">FBuffer</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#ScanlineSize">ScanlineSize</a></strong>              : integer                   read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FScanlineSize">FScanlineSize</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#BufferWidth">BufferWidth</a></strong>               : integer                   read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#GetBufferWidth">GetBufferWidth</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#BufferHeight">BufferHeight</a></strong>              : integer                   read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#GetBufferHeight">GetBufferHeight</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#ScreenScale">ScreenScale</a></strong>               : single                    read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#GetScreenScale">GetScreenScale</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#ForcedDeviceScaleFactor">ForcedDeviceScaleFactor</a></strong>   : single                    read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FForcedDeviceScaleFactor">FForcedDeviceScaleFactor</a>   write <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FForcedDeviceScaleFactor">FForcedDeviceScaleFactor</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#Align">Align</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#Anchors">Anchors</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#Visible">Visible</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#Enabled">Enabled</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#TabOrder">TabOrder</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#Color">Color</a></strong>            : TAlphaColor        read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FColor">FColor</a>            write <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FColor">FColor</a>            default claWhite;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#HighSpeedDrawing">HighSpeedDrawing</a></strong> : boolean            read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FHighSpeedDrawing">FHighSpeedDrawing</a> write <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FHighSpeedDrawing">FHighSpeedDrawing</a> default True;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#Hint">Hint</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#ShowHint">ShowHint</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#OnEnter">OnEnter</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#OnExit">OnExit</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#OnResize">OnResize</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#OnClick">OnClick</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#OnMouseDown">OnMouseDown</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#OnMouseMove">OnMouseMove</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#OnMouseUp">OnMouseUp</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#OnMouseEnter">OnMouseEnter</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#OnMouseLeave">OnMouseLeave</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#OnMouseWheel">OnMouseWheel</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#OnKeyUp">OnKeyUp</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#OnKeyDown">OnKeyDown</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#OnDialogKey">OnDialogKey</a></strong>    : TDialogKeyEvent    read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FOnDialogKey">FOnDialogKey</a>      write <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FOnDialogKey">FOnDialogKey</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMutex"></span><code><strong>FMutex</strong>: THandle;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FBuffer"></span><code><strong>FBuffer</strong>: TBitmap;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FScanlineSize"></span><code><strong>FScanlineSize</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FColor"></span><code><strong>FColor</strong>: TAlphaColor;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FHighSpeedDrawing"></span><code><strong>FHighSpeedDrawing</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnDialogKey"></span><code><strong>FOnDialogKey</strong>: TDialogKeyEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FForcedDeviceScaleFactor"></span><code><strong>FForcedDeviceScaleFactor</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CreateSyncObj"></span><code>procedure <strong>CreateSyncObj</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroySyncObj"></span><code>procedure <strong>DestroySyncObj</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroyBuffer"></span><code>procedure <strong>DestroyBuffer</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetScreenScale"></span><code>function <strong>GetScreenScale</strong>: single; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBufferWidth"></span><code>function <strong>GetBufferWidth</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBufferHeight"></span><code>function <strong>GetBufferHeight</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetParentForm"></span><code>function <strong>GetParentForm</strong>: TCustomForm;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetParentFormHandle"></span><code>function <strong>GetParentFormHandle</strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetRealScreenScale-single-"></span><code>function <strong>GetRealScreenScale</strong>(var aResultScale : single) : boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CopyBuffer"></span><code>function <strong>CopyBuffer</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SaveBufferToFile-string-"></span><code>function <strong>SaveBufferToFile</strong>(const aFilename : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Paint"></span><code>procedure <strong>Paint</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DialogKey-Word-TShiftState-"></span><code>procedure <strong>DialogKey</strong>(var Key: Word; Shift: TShiftState); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-TComponent-"></span><code>constructor <strong>Create</strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AfterConstruction"></span><code>procedure <strong>AfterConstruction</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SaveToFile-string-"></span><code>function <strong>SaveToFile</strong>(const aFilename : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Save the visible web contents as a bitmap file. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="InvalidatePanel"></span><code>procedure <strong>InvalidatePanel</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Invalidate this panel. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BeginBufferDraw"></span><code>function <strong>BeginBufferDraw</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Acquires the synchronization object before drawing into the background bitmap. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="EndBufferDraw"></span><code>procedure <strong>EndBufferDraw</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Releases the synchronization object after drawing into the background bitmap. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BufferDraw-TBitmap-TRectF-TRectF-"></span><code>procedure <strong>BufferDraw</strong>(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRectF);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Draws a part of aBitmap into the background bitmap buffer at the specified rectangle. </p>
+<p>
+ 
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>aBitmap</dt>
+<dd>Bitmap that will be drawn into the background bitmap.</dd>
+<dt>aSrcRect</dt>
+<dd>Rectangle that defines the area of aBitmap that will be drawn into the background bitmap.</dd>
+<dt>aDstRect</dt>
+<dd>Rectangle that defines the area of the background bitmap where aBitmap will be drawn.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UpdateBufferDimensions-integer-integer-"></span><code>function <strong>UpdateBufferDimensions</strong>(aWidth, aHeight : integer) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Update the background bitmap size. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BufferIsResized-boolean-"></span><code>function <strong>BufferIsResized</strong>(aUseMutex : boolean = True) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Check if the background image buffers have the same dimensions as this panel. Returns true if they have the same size. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ScreenToClient-TPoint-"></span><code>function <strong>ScreenToClient</strong>(aPoint : TPoint) : TPoint; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert a point from the screen coordinate system to the client coordinate system. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ScreenToClient-TPointF-"></span><code>function <strong>ScreenToClient</strong>(aPoint : TPointF) : TPointF; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert a point from the screen coordinate system to the client coordinate system. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ClientToScreen-TPoint-"></span><code>function <strong>ClientToScreen</strong>(aPoint : TPoint) : TPoint; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert a point from the client coordinate system to the screen coordinate system. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ClientToScreen-TPointF-"></span><code>function <strong>ClientToScreen</strong>(aPoint : TPointF) : TPointF; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert a point from the client coordinate system to the screen coordinate system. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Buffer"></span><code>property <strong>Buffer</strong>                    : TBitmap                   read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FBuffer">FBuffer</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Background bitmap. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ScanlineSize"></span><code>property <strong>ScanlineSize</strong>              : integer                   read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FScanlineSize">FScanlineSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the scanline size. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BufferWidth"></span><code>property <strong>BufferWidth</strong>               : integer                   read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#GetBufferWidth">GetBufferWidth</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Image width. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BufferHeight"></span><code>property <strong>BufferHeight</strong>              : integer                   read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#GetBufferHeight">GetBufferHeight</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Image height. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ScreenScale"></span><code>property <strong>ScreenScale</strong>               : single                    read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#GetScreenScale">GetScreenScale</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the screen scale. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ForcedDeviceScaleFactor"></span><code>property <strong>ForcedDeviceScaleFactor</strong>   : single                    read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FForcedDeviceScaleFactor">FForcedDeviceScaleFactor</a>   write <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FForcedDeviceScaleFactor">FForcedDeviceScaleFactor</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Screen scale value used instead of the real one. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Align"></span><code>property <strong>Align</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Anchors"></span><code>property <strong>Anchors</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Visible"></span><code>property <strong>Visible</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Enabled"></span><code>property <strong>Enabled</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="TabOrder"></span><code>property <strong>TabOrder</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Color"></span><code>property <strong>Color</strong>            : TAlphaColor        read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FColor">FColor</a>            write <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FColor">FColor</a>            default claWhite;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Color used to clear the panel canvas in the Paint method. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="HighSpeedDrawing"></span><code>property <strong>HighSpeedDrawing</strong> : boolean            read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FHighSpeedDrawing">FHighSpeedDrawing</a> write <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FHighSpeedDrawing">FHighSpeedDrawing</a> default True;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set HighSpeedDrawing to True to draw the buffer to the canvas using a high speed interpolation mode. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Hint"></span><code>property <strong>Hint</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="ShowHint"></span><code>property <strong>ShowHint</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnEnter"></span><code>property <strong>OnEnter</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnExit"></span><code>property <strong>OnExit</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnResize"></span><code>property <strong>OnResize</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnClick"></span><code>property <strong>OnClick</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnMouseDown"></span><code>property <strong>OnMouseDown</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnMouseMove"></span><code>property <strong>OnMouseMove</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnMouseUp"></span><code>property <strong>OnMouseUp</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnMouseEnter"></span><code>property <strong>OnMouseEnter</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnMouseLeave"></span><code>property <strong>OnMouseLeave</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnMouseWheel"></span><code>property <strong>OnMouseWheel</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnKeyUp"></span><code>property <strong>OnKeyUp</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnKeyDown"></span><code>property <strong>OnKeyDown</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnDialogKey"></span><code>property <strong>OnDialogKey</strong>    : TDialogKeyEvent    read <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FOnDialogKey">FOnDialogKey</a>      write <a href="uCEFFMXBufferPanel.TFMXBufferPanel.html#FOnDialogKey">FOnDialogKey</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Event triggered before the DialogKey. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

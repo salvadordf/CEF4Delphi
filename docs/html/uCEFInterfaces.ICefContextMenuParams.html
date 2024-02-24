@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefContextMenuParams</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefContextMenuParams"></span><h1 class="cio">Interface ICefContextMenuParams</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefContextMenuParams = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Provides information about the context menu state. The functions of this interface can only be accessed on browser process the UI thread. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_context_menu_handler_capi.h (cef_context_menu_params_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefContextMenuParams</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetXCoord">GetXCoord</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetYCoord">GetYCoord</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetTypeFlags">GetTypeFlags</a></strong>: <a href="uCEFTypes.html#TCefContextMenuTypeFlags">TCefContextMenuTypeFlags</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetLinkUrl">GetLinkUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetUnfilteredLinkUrl">GetUnfilteredLinkUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetSourceUrl">GetSourceUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#HasImageContents">HasImageContents</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetTitleText">GetTitleText</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetPageUrl">GetPageUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetFrameUrl">GetFrameUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetFrameCharset">GetFrameCharset</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetMediaType">GetMediaType</a></strong>: <a href="uCEFTypes.html#TCefContextMenuMediaType">TCefContextMenuMediaType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetMediaStateFlags">GetMediaStateFlags</a></strong>: <a href="uCEFTypes.html#TCefContextMenuMediaStateFlags">TCefContextMenuMediaStateFlags</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetSelectionText">GetSelectionText</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetMisspelledWord">GetMisspelledWord</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetDictionarySuggestions-TStringList-">GetDictionarySuggestions</a></strong>(const suggestions: TStringList): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#IsEditable">IsEditable</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#IsSpellCheckEnabled">IsSpellCheckEnabled</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#GetEditStateFlags">GetEditStateFlags</a></strong>: <a href="uCEFTypes.html#TCefContextMenuEditStateFlags">TCefContextMenuEditStateFlags</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#IsCustomMenu">IsCustomMenu</a></strong>: Boolean;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#XCoord">XCoord</a></strong>            : Integer                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetXCoord">GetXCoord</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#YCoord">YCoord</a></strong>            : Integer                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetYCoord">GetYCoord</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#TypeFlags">TypeFlags</a></strong>         : <a href="uCEFTypes.html#TCefContextMenuTypeFlags">TCefContextMenuTypeFlags</a>       read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetTypeFlags">GetTypeFlags</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#LinkUrl">LinkUrl</a></strong>           : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetLinkUrl">GetLinkUrl</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#UnfilteredLinkUrl">UnfilteredLinkUrl</a></strong> : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetUnfilteredLinkUrl">GetUnfilteredLinkUrl</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#SourceUrl">SourceUrl</a></strong>         : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetSourceUrl">GetSourceUrl</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#TitleText">TitleText</a></strong>         : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetTitleText">GetTitleText</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#PageUrl">PageUrl</a></strong>           : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetPageUrl">GetPageUrl</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#FrameUrl">FrameUrl</a></strong>          : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetFrameUrl">GetFrameUrl</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#FrameCharset">FrameCharset</a></strong>      : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetFrameCharset">GetFrameCharset</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#MediaType">MediaType</a></strong>         : <a href="uCEFTypes.html#TCefContextMenuMediaType">TCefContextMenuMediaType</a>       read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetMediaType">GetMediaType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#MediaStateFlags">MediaStateFlags</a></strong>   : <a href="uCEFTypes.html#TCefContextMenuMediaStateFlags">TCefContextMenuMediaStateFlags</a> read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetMediaStateFlags">GetMediaStateFlags</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#SelectionText">SelectionText</a></strong>     : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetSelectionText">GetSelectionText</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#MisspelledWord">MisspelledWord</a></strong>    : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetMisspelledWord">GetMisspelledWord</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefContextMenuParams.html#EditStateFlags">EditStateFlags</a></strong>    : <a href="uCEFTypes.html#TCefContextMenuEditStateFlags">TCefContextMenuEditStateFlags</a>  read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetEditStateFlags">GetEditStateFlags</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetXCoord"></span><code>function <strong>GetXCoord</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the X coordinate of the mouse where the context menu was invoked. Coords are relative to the associated RenderView's origin. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{E31BFA9E-D4E2-49B7-A05D-20018C8794EB}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetYCoord"></span><code>function <strong>GetYCoord</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the Y coordinate of the mouse where the context menu was invoked. Coords are relative to the associated RenderView's origin. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetTypeFlags"></span><code>function <strong>GetTypeFlags</strong>: <a href="uCEFTypes.html#TCefContextMenuTypeFlags">TCefContextMenuTypeFlags</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns flags representing the type of node that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetLinkUrl"></span><code>function <strong>GetLinkUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the URL of the link, if any, that encloses the node that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetUnfilteredLinkUrl"></span><code>function <strong>GetUnfilteredLinkUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the link URL, if any, to be used ONLY for &quot;copy link address&quot;. We don't validate this field in the frontend process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSourceUrl"></span><code>function <strong>GetSourceUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the source URL, if any, for the element that the context menu was invoked on. Example of elements with source URLs are img, audio, and video. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasImageContents"></span><code>function <strong>HasImageContents</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the context menu was invoked on an image which has non-NULL contents. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetTitleText"></span><code>function <strong>GetTitleText</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the title text or the alt text if the context menu was invoked on an image. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetPageUrl"></span><code>function <strong>GetPageUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the URL of the top level page that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFrameUrl"></span><code>function <strong>GetFrameUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the URL of the subframe that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFrameCharset"></span><code>function <strong>GetFrameCharset</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the character encoding of the subframe that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetMediaType"></span><code>function <strong>GetMediaType</strong>: <a href="uCEFTypes.html#TCefContextMenuMediaType">TCefContextMenuMediaType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the type of context node that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetMediaStateFlags"></span><code>function <strong>GetMediaStateFlags</strong>: <a href="uCEFTypes.html#TCefContextMenuMediaStateFlags">TCefContextMenuMediaStateFlags</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns flags representing the actions supported by the media element, if any, that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSelectionText"></span><code>function <strong>GetSelectionText</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the text of the selection, if any, that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetMisspelledWord"></span><code>function <strong>GetMisspelledWord</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the text of the misspelled word, if any, that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDictionarySuggestions-TStringList-"></span><code>function <strong>GetDictionarySuggestions</strong>(const suggestions: TStringList): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if suggestions exist, false (0) otherwise. Fills in |suggestions| from the spell check service for the misspelled word if there is one. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsEditable"></span><code>function <strong>IsEditable</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the context menu was invoked on an editable node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsSpellCheckEnabled"></span><code>function <strong>IsSpellCheckEnabled</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the context menu was invoked on an editable node where spell-check is enabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetEditStateFlags"></span><code>function <strong>GetEditStateFlags</strong>: <a href="uCEFTypes.html#TCefContextMenuEditStateFlags">TCefContextMenuEditStateFlags</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns flags representing the actions supported by the editable node, if any, that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsCustomMenu"></span><code>function <strong>IsCustomMenu</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the context menu contains items specified by the renderer process. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="XCoord"></span><code>property <strong>XCoord</strong>            : Integer                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetXCoord">GetXCoord</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the X coordinate of the mouse where the context menu was invoked. Coords are relative to the associated RenderView's origin. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="YCoord"></span><code>property <strong>YCoord</strong>            : Integer                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetYCoord">GetYCoord</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the Y coordinate of the mouse where the context menu was invoked. Coords are relative to the associated RenderView's origin. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TypeFlags"></span><code>property <strong>TypeFlags</strong>         : <a href="uCEFTypes.html#TCefContextMenuTypeFlags">TCefContextMenuTypeFlags</a>       read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetTypeFlags">GetTypeFlags</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns flags representing the type of node that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="LinkUrl"></span><code>property <strong>LinkUrl</strong>           : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetLinkUrl">GetLinkUrl</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the URL of the link, if any, that encloses the node that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnfilteredLinkUrl"></span><code>property <strong>UnfilteredLinkUrl</strong> : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetUnfilteredLinkUrl">GetUnfilteredLinkUrl</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the link URL, if any, to be used ONLY for &quot;copy link address&quot;. We don't validate this field in the frontend process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SourceUrl"></span><code>property <strong>SourceUrl</strong>         : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetSourceUrl">GetSourceUrl</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the source URL, if any, for the element that the context menu was invoked on. Example of elements with source URLs are img, audio, and video. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TitleText"></span><code>property <strong>TitleText</strong>         : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetTitleText">GetTitleText</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the title text or the alt text if the context menu was invoked on an image. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PageUrl"></span><code>property <strong>PageUrl</strong>           : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetPageUrl">GetPageUrl</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the URL of the top level page that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FrameUrl"></span><code>property <strong>FrameUrl</strong>          : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetFrameUrl">GetFrameUrl</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the URL of the subframe that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FrameCharset"></span><code>property <strong>FrameCharset</strong>      : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetFrameCharset">GetFrameCharset</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the character encoding of the subframe that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MediaType"></span><code>property <strong>MediaType</strong>         : <a href="uCEFTypes.html#TCefContextMenuMediaType">TCefContextMenuMediaType</a>       read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetMediaType">GetMediaType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the type of context node that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MediaStateFlags"></span><code>property <strong>MediaStateFlags</strong>   : <a href="uCEFTypes.html#TCefContextMenuMediaStateFlags">TCefContextMenuMediaStateFlags</a> read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetMediaStateFlags">GetMediaStateFlags</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns flags representing the actions supported by the media element, if any, that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SelectionText"></span><code>property <strong>SelectionText</strong>     : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetSelectionText">GetSelectionText</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the text of the selection, if any, that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MisspelledWord"></span><code>property <strong>MisspelledWord</strong>    : <a href="uCEFTypes.html#ustring">ustring</a>                        read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetMisspelledWord">GetMisspelledWord</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the text of the misspelled word, if any, that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="EditStateFlags"></span><code>property <strong>EditStateFlags</strong>    : <a href="uCEFTypes.html#TCefContextMenuEditStateFlags">TCefContextMenuEditStateFlags</a>  read <a href="uCEFInterfaces.ICefContextMenuParams.html#GetEditStateFlags">GetEditStateFlags</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns flags representing the actions supported by the editable node, if any, that the context menu was invoked on. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

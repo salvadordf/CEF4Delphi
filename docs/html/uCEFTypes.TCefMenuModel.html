@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefMenuModel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefMenuModel"></span><h1 class="cio">Record TCefMenuModel</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefMenuModel = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Supports creation and modification of menus. See TCefMenuId (cef_menu_id_t) for the command ids that have default implementations. All user-defined command ids should be between MENU_ID_USER_FIRST and MENU_ID_USER_LAST. The functions of this structure can only be accessed on the browser process the UI thread. </p>
+<p>
+
+
+<p>Implemented by ICefMenuModel.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_menu_model_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_menu_model_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_menu_model_capi.h (cef_menu_model_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#is_sub_menu">is_sub_menu</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#clear">clear</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_count">get_count</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#add_separator">add_separator</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#add_item">add_item</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#add_check_item">add_check_item</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#add_radio_item">add_radio_item</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>; group_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#add_sub_menu">add_sub_menu</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#insert_separator_at">insert_separator_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#insert_item_at">insert_item_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#insert_check_item_at">insert_check_item_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#insert_radio_item_at">insert_radio_item_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>; group_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#insert_sub_menu_at">insert_sub_menu_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#remove">remove</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#remove_at">remove_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_index_of">get_index_of</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_command_id_at">get_command_id_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_command_id_at">set_command_id_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_label">get_label</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_label_at">get_label_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_label">set_label</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_label_at">set_label_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_type">get_type</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): <a href="uCEFTypes.html#TCefMenuItemType">TCefMenuItemType</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_type_at">get_type_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#TCefMenuItemType">TCefMenuItemType</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_group_id">get_group_id</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_group_id_at">get_group_id_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_group_id">set_group_id</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id, group_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_group_id_at">set_group_id_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; group_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_sub_menu">get_sub_menu</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_sub_menu_at">get_sub_menu_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#is_visible">is_visible</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#is_visible_at">is_visible_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_visible">set_visible</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id, visible: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_visible_at">set_visible_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; visible: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#is_enabled">is_enabled</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#is_enabled_at">is_enabled_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_enabled">set_enabled</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id, enabled: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_enabled_at">set_enabled_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; enabled: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#is_checked">is_checked</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#is_checked_at">is_checked_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_checked">set_checked</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id, checked: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_checked_at">set_checked_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; checked: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#has_accelerator">has_accelerator</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#has_accelerator_at">has_accelerator_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_accelerator">set_accelerator</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_accelerator_at">set_accelerator_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; key_code, shift_pressed, ctrl_pressed, alt_pressed: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#remove_accelerator">remove_accelerator</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#remove_accelerator_at">remove_accelerator_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_accelerator">get_accelerator</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; key_code, shift_pressed, ctrl_pressed, alt_pressed: PInteger): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_accelerator_at">get_accelerator_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; key_code, shift_pressed, ctrl_pressed, alt_pressed: PInteger): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_color">set_color</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; color_type: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_color_at">set_color_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: Integer; color_type: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_color">get_color</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; color_type: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; color: <a href="uCEFTypes.html#PCefColor">PCefColor</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#get_color_at">get_color_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: Integer; color_type: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; color: <a href="uCEFTypes.html#PCefColor">PCefColor</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_font_list">set_font_list</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; const font_list: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMenuModel.html#set_font_list_at">set_font_list_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: Integer; const font_list: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_sub_menu"></span><code><strong>is_sub_menu</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="clear"></span><code><strong>clear</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_count"></span><code><strong>get_count</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="add_separator"></span><code><strong>add_separator</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="add_item"></span><code><strong>add_item</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="add_check_item"></span><code><strong>add_check_item</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="add_radio_item"></span><code><strong>add_radio_item</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>; group_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="add_sub_menu"></span><code><strong>add_sub_menu</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="insert_separator_at"></span><code><strong>insert_separator_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="insert_item_at"></span><code><strong>insert_item_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="insert_check_item_at"></span><code><strong>insert_check_item_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="insert_radio_item_at"></span><code><strong>insert_radio_item_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>; group_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="insert_sub_menu_at"></span><code><strong>insert_sub_menu_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="remove"></span><code><strong>remove</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="remove_at"></span><code><strong>remove_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_index_of"></span><code><strong>get_index_of</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_command_id_at"></span><code><strong>get_command_id_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_command_id_at"></span><code><strong>set_command_id_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_label"></span><code><strong>get_label</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_label_at"></span><code><strong>get_label_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_label"></span><code><strong>set_label</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_label_at"></span><code><strong>set_label_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_type"></span><code><strong>get_type</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): <a href="uCEFTypes.html#TCefMenuItemType">TCefMenuItemType</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_type_at"></span><code><strong>get_type_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#TCefMenuItemType">TCefMenuItemType</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_group_id"></span><code><strong>get_group_id</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_group_id_at"></span><code><strong>get_group_id_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_group_id"></span><code><strong>set_group_id</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id, group_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_group_id_at"></span><code><strong>set_group_id_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; group_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_sub_menu"></span><code><strong>get_sub_menu</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_sub_menu_at"></span><code><strong>get_sub_menu_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_visible"></span><code><strong>is_visible</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_visible_at"></span><code><strong>is_visible_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_visible"></span><code><strong>set_visible</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id, visible: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_visible_at"></span><code><strong>set_visible_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; visible: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_enabled"></span><code><strong>is_enabled</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_enabled_at"></span><code><strong>is_enabled_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_enabled"></span><code><strong>set_enabled</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id, enabled: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_enabled_at"></span><code><strong>set_enabled_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; enabled: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_checked"></span><code><strong>is_checked</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_checked_at"></span><code><strong>is_checked_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_checked"></span><code><strong>set_checked</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id, checked: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_checked_at"></span><code><strong>set_checked_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; checked: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_accelerator"></span><code><strong>has_accelerator</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_accelerator_at"></span><code><strong>has_accelerator_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_accelerator"></span><code><strong>set_accelerator</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_accelerator_at"></span><code><strong>set_accelerator_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; key_code, shift_pressed, ctrl_pressed, alt_pressed: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="remove_accelerator"></span><code><strong>remove_accelerator</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="remove_accelerator_at"></span><code><strong>remove_accelerator_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_accelerator"></span><code><strong>get_accelerator</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; key_code, shift_pressed, ctrl_pressed, alt_pressed: PInteger): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_accelerator_at"></span><code><strong>get_accelerator_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; key_code, shift_pressed, ctrl_pressed, alt_pressed: PInteger): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_color"></span><code><strong>set_color</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; color_type: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_color_at"></span><code><strong>set_color_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: Integer; color_type: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_color"></span><code><strong>get_color</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; color_type: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; color: <a href="uCEFTypes.html#PCefColor">PCefColor</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_color_at"></span><code><strong>get_color_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: Integer; color_type: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; color: <a href="uCEFTypes.html#PCefColor">PCefColor</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_font_list"></span><code><strong>set_font_list</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; command_id: Integer; const font_list: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_font_list_at"></span><code><strong>set_font_list_at</strong>: function(self: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; index: Integer; const font_list: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

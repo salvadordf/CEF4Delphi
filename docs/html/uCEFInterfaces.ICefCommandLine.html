@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefCommandLine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefCommandLine"></span><h1 class="cio">Interface ICefCommandLine</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefCommandLine = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface used to create and/or parse command line arguments. Arguments with &quot;&ndash;&quot;, &quot;-&quot; and, on Windows, &quot;/&quot; prefixes are considered switches. Switches will always precede any arguments without switch prefixes. Switches can optionally have a value specified using the &quot;=&quot; delimiter (e.g. &quot;-switch=value&quot;). An argument of &quot;&ndash;&quot; will terminate switch parsing with all subsequent tokens, regardless of prefix, being interpreted as non-switch arguments. Switch names should be lowercase ASCII and will be converted to such if necessary. Switch values will retain the original case and UTF8 encoding. This interface can be used before cef_initialize() is called. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_command_line_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_command_line_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_command_line_capi.h (cef_command_line_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefCommandLine</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandLine.html#IsValid">IsValid</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandLine.html#IsReadOnly">IsReadOnly</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandLine.html#Copy">Copy</a></strong>: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefCommandLine.html#InitFromArgv-Integer-PPAnsiChar-">InitFromArgv</a></strong>(argc: Integer; const argv: PPAnsiChar);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefCommandLine.html#InitFromString-ustring-">InitFromString</a></strong>(const commandLine: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefCommandLine.html#Reset">Reset</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandLine.html#GetCommandLineString">GetCommandLineString</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefCommandLine.html#GetArgv-TStrings-">GetArgv</a></strong>(var args: TStrings);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandLine.html#GetProgram">GetProgram</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefCommandLine.html#SetProgram-ustring-">SetProgram</a></strong>(const prog: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandLine.html#HasSwitches">HasSwitches</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandLine.html#HasSwitch-ustring-">HasSwitch</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandLine.html#GetSwitchValue-ustring-">GetSwitchValue</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandLine.html#GetSwitches-TStrings-">GetSwitches</a></strong>(var switches: TStrings): boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandLine.html#GetSwitches-TStringList-TStringList-">GetSwitches</a></strong>(var SwitchKeys, SwitchValues: TStringList): boolean; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefCommandLine.html#AppendSwitch-ustring-">AppendSwitch</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefCommandLine.html#AppendSwitchWithValue-ustring-ustring-">AppendSwitchWithValue</a></strong>(const name, value: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandLine.html#HasArguments">HasArguments</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefCommandLine.html#GetArguments-TStrings-">GetArguments</a></strong>(var arguments: TStrings);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefCommandLine.html#AppendArgument-ustring-">AppendArgument</a></strong>(const argument: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefCommandLine.html#PrependWrapper-ustring-">PrependWrapper</a></strong>(const wrapper: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefCommandLine.html#CommandLineString">CommandLineString</a></strong>  : <a href="uCEFTypes.html#ustring">ustring</a>   read <a href="uCEFInterfaces.ICefCommandLine.html#GetCommandLineString">GetCommandLineString</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsValid"></span><code>function <strong>IsValid</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this object is valid. Do not call any other functions if this function returns false (0). </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{6B43D21B-0F2C-4B94-B4E6-4AF0D7669D8E}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsReadOnly"></span><code>function <strong>IsReadOnly</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the values of this object are read-only. Some APIs may expose read-only objects. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Copy"></span><code>function <strong>Copy</strong>: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a writable copy of this object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="InitFromArgv-Integer-PPAnsiChar-"></span><code>procedure <strong>InitFromArgv</strong>(argc: Integer; const argv: PPAnsiChar);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Initialize the command line with the specified |argc| and |argv| values. The first argument must be the name of the program. This function is only supported on non-Windows platforms. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="InitFromString-ustring-"></span><code>procedure <strong>InitFromString</strong>(const commandLine: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Initialize the command line with the string returned by calling GetCommandLineW(). This function is only supported on Windows. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Reset"></span><code>procedure <strong>Reset</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Reset the command-line switches and arguments but leave the program component unchanged. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetCommandLineString"></span><code>function <strong>GetCommandLineString</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Constructs and returns the represented command line string. Use this function cautiously because quoting behavior is unclear. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetArgv-TStrings-"></span><code>procedure <strong>GetArgv</strong>(var args: TStrings);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve the original command line string as a vector of strings. The argv array: `{ program, [(&ndash;|-|/)switch[=value]]*, [&ndash;], [argument]* }` </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetProgram"></span><code>function <strong>GetProgram</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the program part of the command line string (the first item). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetProgram-ustring-"></span><code>procedure <strong>SetProgram</strong>(const prog: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the program part of the command line string (the first item). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasSwitches"></span><code>function <strong>HasSwitches</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the command line has switches. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasSwitch-ustring-"></span><code>function <strong>HasSwitch</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the command line contains the given switch. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSwitchValue-ustring-"></span><code>function <strong>GetSwitchValue</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the value associated with the given switch. If the switch has no value or isn't present this function returns the NULL string. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSwitches-TStrings-"></span><code>function <strong>GetSwitches</strong>(var switches: TStrings): boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the map of switch names and values. If a switch has no value an NULL string is returned. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSwitches-TStringList-TStringList-"></span><code>function <strong>GetSwitches</strong>(var SwitchKeys, SwitchValues: TStringList): boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the map of switch names and values. If a switch has no value an NULL string is returned. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AppendSwitch-ustring-"></span><code>procedure <strong>AppendSwitch</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add a switch to the end of the command line. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AppendSwitchWithValue-ustring-ustring-"></span><code>procedure <strong>AppendSwitchWithValue</strong>(const name, value: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add a switch with the specified value to the end of the command line. If the switch has no value pass an NULL value string. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasArguments"></span><code>function <strong>HasArguments</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ True if there are remaining command line arguments. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetArguments-TStrings-"></span><code>procedure <strong>GetArguments</strong>(var arguments: TStrings);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the remaining command line arguments. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AppendArgument-ustring-"></span><code>procedure <strong>AppendArgument</strong>(const argument: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add an argument to the end of the command line. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PrependWrapper-ustring-"></span><code>procedure <strong>PrependWrapper</strong>(const wrapper: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Insert a command before the current command. Common for debuggers, like &quot;valgrind&quot; or &quot;gdb &ndash;args&quot;. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CommandLineString"></span><code>property <strong>CommandLineString</strong>  : <a href="uCEFTypes.html#ustring">ustring</a>   read <a href="uCEFInterfaces.ICefCommandLine.html#GetCommandLineString">GetCommandLineString</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Constructs and returns the represented command line string. Use this function cautiously because quoting behavior is unclear. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

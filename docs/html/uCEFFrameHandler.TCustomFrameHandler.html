@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFFrameHandler: Class TCustomFrameHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCustomFrameHandler"></span><h1 class="cio">Class TCustomFrameHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFFrameHandler.html">uCEFFrameHandler</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCustomFrameHandler = class(<a class="normal" href="uCEFFrameHandler.TCefFrameHandlerOwn.html">TCefFrameHandlerOwn</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="ancestor"><a class="normal" href="uCEFFrameHandler.TCefFrameHandlerOwn.html">TCefFrameHandlerOwn</a></li>
+<li class="thisitem">TCustomFrameHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFFrameHandler.TCustomFrameHandler.html#FEvents">FEvents</a></strong>: Pointer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrameHandler.TCustomFrameHandler.html#OnFrameCreated-ICefBrowser-ICefFrame-">OnFrameCreated</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrameHandler.TCustomFrameHandler.html#OnFrameAttached-ICefBrowser-ICefFrame-boolean-">OnFrameAttached</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; reattached: boolean); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrameHandler.TCustomFrameHandler.html#OnFrameDetached-ICefBrowser-ICefFrame-">OnFrameDetached</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrameHandler.TCustomFrameHandler.html#OnMainFrameChanged-ICefBrowser-ICefFrame-ICefFrame-">OnMainFrameChanged</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const old_frame, new_frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrameHandler.TCustomFrameHandler.html#RemoveReferences">RemoveReferences</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFFrameHandler.TCustomFrameHandler.html#Create-IChromiumEvents-">Create</a></strong>(const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFFrameHandler.TCustomFrameHandler.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FEvents"></span><code><strong>FEvents</strong>: Pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnFrameCreated-ICefBrowser-ICefFrame-"></span><code>procedure <strong>OnFrameCreated</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrameHandler.html#OnFrameCreated-ICefBrowser-ICefFrame-">ICefFrameHandler.OnFrameCreated</a>.</p><p>
+ Called when a new frame is created. This will be the first notification that references |frame|. Any commands that require transport to the associated renderer process (LoadRequest, SendProcessMessage, GetSource, etc.) will be queued until OnFrameAttached is called for |frame|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnFrameAttached-ICefBrowser-ICefFrame-boolean-"></span><code>procedure <strong>OnFrameAttached</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; reattached: boolean); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrameHandler.html#OnFrameAttached-ICefBrowser-ICefFrame-boolean-">ICefFrameHandler.OnFrameAttached</a>.</p><p>
+ Called when a frame can begin routing commands to/from the associated renderer process. |reattached| will be true (1) if the frame was re- attached after exiting the BackForwardCache. Any commands that were queued have now been dispatched. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnFrameDetached-ICefBrowser-ICefFrame-"></span><code>procedure <strong>OnFrameDetached</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrameHandler.html#OnFrameDetached-ICefBrowser-ICefFrame-">ICefFrameHandler.OnFrameDetached</a>.</p><p>
+ Called when a frame loses its connection to the renderer process and will be destroyed. Any pending or future commands will be discarded and ICefFrame.IsValid() will now return false (0) for |frame|. If called after ICefLifeSpanHandler.OnBeforeClose() during browser destruction then ICefBrowser.IsValid() will return false (0) for |browser|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnMainFrameChanged-ICefBrowser-ICefFrame-ICefFrame-"></span><code>procedure <strong>OnMainFrameChanged</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const old_frame, new_frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrameHandler.html#OnMainFrameChanged-ICefBrowser-ICefFrame-ICefFrame-">ICefFrameHandler.OnMainFrameChanged</a>.</p><p>
+ Called when the main frame changes due to (a) initial browser creation, (b) final browser destruction, (c) cross-origin navigation or (d) re- navigation after renderer process termination (due to crashes, etc). |old_frame| will be NULL and |new_frame| will be non-NULL when a main frame is assigned to |browser| for the first time. |old_frame| will be non-NULL and |new_frame| will be NULL and when a main frame is removed from |browser| for the last time. Both |old_frame| and |new_frame| will be non-NULL for cross-origin navigations or re-navigation after renderer process termination. This function will be called after on_frame_created() for |new_frame| and/or after OnFrameDetached() for |old_frame|. If called after ICefLifeSpanHandler.OnBeforeClose() during browser destruction then ICefBrowser.IsValid() will return false (0) for |browser|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrameHandler.html#RemoveReferences">ICefFrameHandler.RemoveReferences</a>.</p><p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-IChromiumEvents-"></span><code>constructor <strong>Create</strong>(const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

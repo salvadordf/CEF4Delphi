@@ -347,35 +347,23 @@ end;
 
 procedure DOMVisitor_GetFrameIDs(const browser: ICefBrowser; const frame : ICefFrame);
 var
-  i          : NativeUInt;
-  TempCount  : NativeUInt;
-  TempArray  : TCefFrameIdentifierArray;
-  TempString : ustring;
   TempMsg    : ICefProcessMessage;
+  TempSL     : TStringList;
 begin
-  TempCount := browser.FrameCount;
+  TempSL := TStringList.Create;
 
-  if browser.GetFrameIdentifiers(TempCount, TempArray) then
-    begin
-      TempString := '';
-      i          := 0;
+  if browser.GetFrameIdentifiers(TStrings(TempSL)) then
+    try
+      TempMsg := TCefProcessMessageRef.New(FRAMEIDS_MSGNAME);
+      TempMsg.ArgumentList.SetString(0, TempSL.Text);
 
-      while (i < TempCount) do
-        begin
-          TempString := TempString + inttostr(TempArray[i]) + CRLF;
-          inc(i);
-        end;
-
-      try
-        TempMsg := TCefProcessMessageRef.New(FRAMEIDS_MSGNAME);
-        TempMsg.ArgumentList.SetString(0, TempString);
-
-        if (frame <> nil) and frame.IsValid then
-          frame.SendProcessMessage(PID_BROWSER, TempMsg);
-      finally
-        TempMsg := nil;
-      end;
+      if (frame <> nil) and frame.IsValid then
+        frame.SendProcessMessage(PID_BROWSER, TempMsg);
+    finally
+      TempMsg := nil;
     end;
+
+  TempSL.Free;
 end;
 
 procedure GlobalCEFApp_OnFocusedNodeChanged(const browser : ICefBrowser;
@@ -822,27 +810,17 @@ end;
 
 procedure TDOMVisitorFrm.CopyFrameIDs1(var aMessage : TMessage);
 var
-  i          : NativeUInt;
-  TempCount  : NativeUInt;
-  TempArray  : TCefFrameIdentifierArray;
-  TempString : string;
+  TempSL : TStringList;
 begin
-  TempCount := Chromium1.FrameCount;
+  TempSL := TStringList.Create;
 
-  if Chromium1.GetFrameIdentifiers(TempCount, TempArray) then
+  if Chromium1.GetFrameIdentifiers(TStrings(TempSL)) then
     begin
-      TempString := '';
-      i          := 0;
-
-      while (i < TempCount) do
-        begin
-          TempString := TempString + inttostr(TempArray[i]) + CRLF;
-          inc(i);
-        end;
-
-      clipboard.AsText := TempString;
-      ShowStatusText('Frame IDs copied to the clipboard in the browser process (' + inttostr(TempCount) + ')');
+      clipboard.AsText := TempSL.Text;
+      ShowStatusText('Frame IDs copied to the clipboard in the browser process (' + inttostr(TempSL.Count) + ')');
     end;
+
+  TempSL.Free;
 end;
 
 procedure TDOMVisitorFrm.CopyFrameIDs2(var aMessage : TMessage);

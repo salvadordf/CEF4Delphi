@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefResourceHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefResourceHandler"></span><h1 class="cio">Record TCefResourceHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefResourceHandler = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure used to implement a custom request handler structure. The functions of this structure will be called on the IO thread unless otherwise indicated. </p>
+<p>
+
+
+<p>Implemented by ICefResourceHandler.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_resource_handler_capi.h (cef_resource_handler_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefResourceHandler.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefResourceHandler.html#open">open</a></strong>: function(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>; request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; handle_request: PInteger; callback: <a href="uCEFTypes.html#PCefCallback">PCefCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefResourceHandler.html#process_request">process_request</a></strong>: function(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>; request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; callback: <a href="uCEFTypes.html#PCefCallback">PCefCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefResourceHandler.html#get_response_headers">get_response_headers</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>; response: <a href="uCEFTypes.html#PCefResponse">PCefResponse</a>; response_length: PInt64; redirectUrl: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefResourceHandler.html#skip">skip</a></strong>: function(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>; bytes_to_skip: int64; bytes_skipped: PInt64; callback: <a href="uCEFTypes.html#PCefResourceSkipCallback">PCefResourceSkipCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefResourceHandler.html#read">read</a></strong>: function(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>; data_out: Pointer; bytes_to_read: Integer; bytes_read: PInteger; callback: <a href="uCEFTypes.html#PCefResourceReadCallback">PCefResourceReadCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefResourceHandler.html#read_response">read_response</a></strong>: function(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>; data_out: Pointer; bytes_to_read: Integer; bytes_read: PInteger; callback: <a href="uCEFTypes.html#PCefCallback">PCefCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefResourceHandler.html#cancel">cancel</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="open"></span><code><strong>open</strong>: function(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>; request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; handle_request: PInteger; callback: <a href="uCEFTypes.html#PCefCallback">PCefCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="process_request"></span><code><strong>process_request</strong>: function(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>; request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; callback: <a href="uCEFTypes.html#PCefCallback">PCefCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_response_headers"></span><code><strong>get_response_headers</strong>: procedure(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>; response: <a href="uCEFTypes.html#PCefResponse">PCefResponse</a>; response_length: PInt64; redirectUrl: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+deprecated</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="skip"></span><code><strong>skip</strong>: function(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>; bytes_to_skip: int64; bytes_skipped: PInt64; callback: <a href="uCEFTypes.html#PCefResourceSkipCallback">PCefResourceSkipCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="read"></span><code><strong>read</strong>: function(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>; data_out: Pointer; bytes_to_read: Integer; bytes_read: PInteger; callback: <a href="uCEFTypes.html#PCefResourceReadCallback">PCefResourceReadCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="read_response"></span><code><strong>read_response</strong>: function(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>; data_out: Pointer; bytes_to_read: Integer; bytes_read: PInteger; callback: <a href="uCEFTypes.html#PCefCallback">PCefCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="cancel"></span><code><strong>cancel</strong>: procedure(self: <a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+deprecated</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

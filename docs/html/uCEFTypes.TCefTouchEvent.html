@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefTouchEvent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefTouchEvent"></span><h1 class="cio">Record TCefTouchEvent</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefTouchEvent = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure representing touch event information. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_touch_event_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTouchEvent.html#id">id</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTouchEvent.html#x">x</a></strong>: single;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTouchEvent.html#y">y</a></strong>: single;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTouchEvent.html#radius_x">radius_x</a></strong>: single;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTouchEvent.html#radius_y">radius_y</a></strong>: single;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTouchEvent.html#rotation_angle">rotation_angle</a></strong>: single;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTouchEvent.html#pressure">pressure</a></strong>: single;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTouchEvent.html#type_">type_</a></strong>: <a href="uCEFTypes.html#TCefTouchEeventType">TCefTouchEeventType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTouchEvent.html#modifiers">modifiers</a></strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTouchEvent.html#pointer_type">pointer_type</a></strong>: <a href="uCEFTypes.html#TCefPointerType">TCefPointerType</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="id"></span><code><strong>id</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Id of a touch point. Must be unique per touch, can be any number except -1. Note that a maximum of 16 concurrent touches will be tracked; touches beyond that will be ignored. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="x"></span><code><strong>x</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ X coordinate relative to the left side of the view. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="y"></span><code><strong>y</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Y coordinate relative to the top side of the view. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="radius_x"></span><code><strong>radius_x</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ X radius in pixels. Set to 0 if not applicable. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="radius_y"></span><code><strong>radius_y</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Y radius in pixels. Set to 0 if not applicable. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="rotation_angle"></span><code><strong>rotation_angle</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Rotation angle in radians. Set to 0 if not applicable. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="pressure"></span><code><strong>pressure</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The normalized pressure of the pointer input in the range of [0,1]. Set to 0 if not applicable. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="type_"></span><code><strong>type_</strong>: <a href="uCEFTypes.html#TCefTouchEeventType">TCefTouchEeventType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The state of the touch point. Touches begin with one CEF_TET_PRESSED event followed by zero or more CEF_TET_MOVED events and finally one CEF_TET_RELEASED or CEF_TET_CANCELLED event. Events not respecting this order will be ignored. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="modifiers"></span><code><strong>modifiers</strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Bit flags describing any pressed modifier keys. See TCefEventFlags for values. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="pointer_type"></span><code><strong>pointer_type</strong>: <a href="uCEFTypes.html#TCefPointerType">TCefPointerType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The device type that caused the event. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

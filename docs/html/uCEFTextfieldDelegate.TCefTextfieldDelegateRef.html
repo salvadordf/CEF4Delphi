@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTextfieldDelegate: Class TCefTextfieldDelegateRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefTextfieldDelegateRef"></span><h1 class="cio">Class TCefTextfieldDelegateRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTextfieldDelegate.html">uCEFTextfieldDelegate</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefTextfieldDelegateRef = class(<a class="normal" href="uCEFViewDelegate.TCefViewDelegateRef.html">TCefViewDelegateRef</a>, <a class="normal" href="uCEFInterfaces.ICefTextfieldDelegate.html">ICefTextfieldDelegate</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="ancestor"><a class="normal" href="uCEFViewDelegate.TCefViewDelegateRef.html">TCefViewDelegateRef</a></li>
+<li class="thisitem">TCefTextfieldDelegateRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldDelegate.TCefTextfieldDelegateRef.html#OnKeyEvent-ICefTextfield-TCefKeyEvent-boolean-">OnKeyEvent</a></strong>(const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>; const event: <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldDelegate.TCefTextfieldDelegateRef.html#OnAfterUserAction-ICefTextfield-">OnAfterUserAction</a></strong>(const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFTextfieldDelegate.TCefTextfieldDelegateRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefTextfieldDelegate.html">ICefTextfieldDelegate</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnKeyEvent-ICefTextfield-TCefKeyEvent-boolean-"></span><code>procedure <strong>OnKeyEvent</strong>(const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>; const event: <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>; var aResult : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefTextfieldDelegate.html#OnKeyEvent-ICefTextfield-TCefKeyEvent-boolean-">ICefTextfieldDelegate.OnKeyEvent</a>.</p><p>
+ Called when |textfield| receives a keyboard event. |event| contains information about the keyboard event. Return true (1) if the keyboard event was handled or false (0) otherwise for default handling. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnAfterUserAction-ICefTextfield-"></span><code>procedure <strong>OnAfterUserAction</strong>(const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefTextfieldDelegate.html#OnAfterUserAction-ICefTextfield-">ICefTextfieldDelegate.OnAfterUserAction</a>.</p><p>
+ Called after performing a user action that may change |textfield|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefTextfieldDelegate.html">ICefTextfieldDelegate</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a ICefTextfieldDelegate instance using a PCefTextfieldDelegate data pointer. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

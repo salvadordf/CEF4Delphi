@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFPostDataElement: Class TCefPostDataElementRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefPostDataElementRef"></span><h1 class="cio">Class TCefPostDataElementRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFPostDataElement.html">uCEFPostDataElement</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefPostDataElementRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefPostDataElement.html">ICefPostDataElement</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="thisitem">TCefPostDataElementRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPostDataElement.TCefPostDataElementRef.html#IsReadOnly">IsReadOnly</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPostDataElement.TCefPostDataElementRef.html#SetToEmpty">SetToEmpty</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPostDataElement.TCefPostDataElementRef.html#SetToFile-ustring-">SetToFile</a></strong>(const fileName: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPostDataElement.TCefPostDataElementRef.html#SetToBytes-NativeUInt-Pointer-">SetToBytes</a></strong>(size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const bytes: Pointer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPostDataElement.TCefPostDataElementRef.html#GetType">GetType</a></strong>: <a href="uCEFTypes.html#TCefPostDataElementType">TCefPostDataElementType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPostDataElement.TCefPostDataElementRef.html#GetFile">GetFile</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPostDataElement.TCefPostDataElementRef.html#GetBytesCount">GetBytesCount</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPostDataElement.TCefPostDataElementRef.html#GetBytes-NativeUInt-Pointer-">GetBytes</a></strong>(size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; bytes: Pointer): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFPostDataElement.TCefPostDataElementRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefPostDataElement.html">ICefPostDataElement</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFPostDataElement.TCefPostDataElementRef.html#New">New</a></strong>: <a href="uCEFInterfaces.ICefPostDataElement.html">ICefPostDataElement</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsReadOnly"></span><code>function <strong>IsReadOnly</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPostDataElement.html#IsReadOnly">ICefPostDataElement.IsReadOnly</a>.</p><p>
+ Returns true (1) if this object is read-only. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetToEmpty"></span><code>procedure <strong>SetToEmpty</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPostDataElement.html#SetToEmpty">ICefPostDataElement.SetToEmpty</a>.</p><p>
+ Remove all contents from the post data element. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetToFile-ustring-"></span><code>procedure <strong>SetToFile</strong>(const fileName: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPostDataElement.html#SetToFile-ustring-">ICefPostDataElement.SetToFile</a>.</p><p>
+ The post data element will represent a file. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetToBytes-NativeUInt-Pointer-"></span><code>procedure <strong>SetToBytes</strong>(size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const bytes: Pointer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPostDataElement.html#SetToBytes-NativeUInt-Pointer-">ICefPostDataElement.SetToBytes</a>.</p><p>
+ The post data element will represent bytes. The bytes passed in will be copied. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetType"></span><code>function <strong>GetType</strong>: <a href="uCEFTypes.html#TCefPostDataElementType">TCefPostDataElementType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPostDataElement.html#GetType">ICefPostDataElement.GetType</a>.</p><p>
+ Return the type of this post data element. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetFile"></span><code>function <strong>GetFile</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPostDataElement.html#GetFile">ICefPostDataElement.GetFile</a>.</p><p>
+ Return the file name. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBytesCount"></span><code>function <strong>GetBytesCount</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPostDataElement.html#GetBytesCount">ICefPostDataElement.GetBytesCount</a>.</p><p>
+ Return the number of bytes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBytes-NativeUInt-Pointer-"></span><code>function <strong>GetBytes</strong>(size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; bytes: Pointer): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPostDataElement.html#GetBytes-NativeUInt-Pointer-">ICefPostDataElement.GetBytes</a>.</p><p>
+ Read up to |size| bytes into |bytes| and return the number of bytes actually read. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefPostDataElement.html">ICefPostDataElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="New"></span><code>class function <strong>New</strong>: <a href="uCEFInterfaces.ICefPostDataElement.html">ICefPostDataElement</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

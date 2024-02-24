@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFListValue: Class TCefListValueRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefListValueRef"></span><h1 class="cio">Class TCefListValueRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFListValue.html">uCEFListValue</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefListValueRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="thisitem">TCefListValueRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#IsValid">IsValid</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#IsOwned">IsOwned</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#IsReadOnly">IsReadOnly</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#IsSame-ICefListValue-">IsSame</a></strong>(const that: <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#IsEqual-ICefListValue-">IsEqual</a></strong>(const that: <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#Copy">Copy</a></strong>: <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#SetSize-NativeUInt-">SetSize</a></strong>(size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#GetSize">GetSize</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#Clear">Clear</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#Remove-NativeUInt-">Remove</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#GetType-NativeUInt-">GetType</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#TCefValueType">TCefValueType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#GetValue-NativeUInt-">GetValue</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#GetBool-NativeUInt-">GetBool</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#GetInt-NativeUInt-">GetInt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#GetDouble-NativeUInt-">GetDouble</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#GetString-NativeUInt-">GetString</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#GetBinary-NativeUInt-">GetBinary</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#GetDictionary-NativeUInt-">GetDictionary</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#GetList-NativeUInt-">GetList</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#SetValue-NativeUInt-ICefValue-">SetValue</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#SetNull-NativeUInt-">SetNull</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#SetBool-NativeUInt-Boolean-">SetBool</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#SetInt-NativeUInt-Integer-">SetInt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: Integer): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#SetDouble-NativeUInt-Double-">SetDouble</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: Double): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#SetString-NativeUInt-ustring-">SetString</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const value: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#SetBinary-NativeUInt-ICefBinaryValue-">SetBinary</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const value: <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#SetDictionary-NativeUInt-ICefDictionaryValue-">SetDictionary</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const value: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFListValue.TCefListValueRef.html#SetList-NativeUInt-ICefListValue-">SetList</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const value: <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFListValue.TCefListValueRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFListValue.TCefListValueRef.html#New">New</a></strong>: <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsValid"></span><code>function <strong>IsValid</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#IsValid">ICefListValue.IsValid</a>.</p><p>
+ Returns true (1) if this object is valid. This object may become invalid if the underlying data is owned by another object (e.g. list or dictionary) and that other object is then modified or destroyed. Do not call any other functions if this function returns false (0). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsOwned"></span><code>function <strong>IsOwned</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#IsOwned">ICefListValue.IsOwned</a>.</p><p>
+ Returns true (1) if this object is currently owned by another object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsReadOnly"></span><code>function <strong>IsReadOnly</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#IsReadOnly">ICefListValue.IsReadOnly</a>.</p><p>
+ Returns true (1) if the values of this object are read-only. Some APIs may expose read-only objects. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsSame-ICefListValue-"></span><code>function <strong>IsSame</strong>(const that: <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#IsSame-ICefListValue-">ICefListValue.IsSame</a>.</p><p>
+ Returns true (1) if this object and |that| object have the same underlying data. If true (1) modifications to this object will also affect |that| object and vice-versa. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsEqual-ICefListValue-"></span><code>function <strong>IsEqual</strong>(const that: <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#IsEqual-ICefListValue-">ICefListValue.IsEqual</a>.</p><p>
+ Returns true (1) if this object and |that| object have an equivalent underlying value but are not necessarily the same object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Copy"></span><code>function <strong>Copy</strong>: <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#Copy">ICefListValue.Copy</a>.</p><p>
+ Returns a writable copy of this object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetSize-NativeUInt-"></span><code>function <strong>SetSize</strong>(size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#SetSize-NativeUInt-">ICefListValue.SetSize</a>.</p><p>
+ Sets the number of values. If the number of values is expanded all new value slots will default to type null. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetSize"></span><code>function <strong>GetSize</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#GetSize">ICefListValue.GetSize</a>.</p><p>
+ Returns the number of values. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Clear"></span><code>function <strong>Clear</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#Clear">ICefListValue.Clear</a>.</p><p>
+ Removes all values. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Remove-NativeUInt-"></span><code>function <strong>Remove</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#Remove-NativeUInt-">ICefListValue.Remove</a>.</p><p>
+ Removes the value at the specified index. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetType-NativeUInt-"></span><code>function <strong>GetType</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#TCefValueType">TCefValueType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#GetType-NativeUInt-">ICefListValue.GetType</a>.</p><p>
+ Returns the value type at the specified index. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetValue-NativeUInt-"></span><code>function <strong>GetValue</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#GetValue-NativeUInt-">ICefListValue.GetValue</a>.</p><p>
+ Returns the value at the specified index. For simple types the returned value will copy existing data and modifications to the value will not modify this object. For complex types (binary, dictionary and list) the returned value will reference existing data and modifications to the value will modify this object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBool-NativeUInt-"></span><code>function <strong>GetBool</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#GetBool-NativeUInt-">ICefListValue.GetBool</a>.</p><p>
+ Returns the value at the specified index as type bool. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetInt-NativeUInt-"></span><code>function <strong>GetInt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#GetInt-NativeUInt-">ICefListValue.GetInt</a>.</p><p>
+ Returns the value at the specified index as type int. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetDouble-NativeUInt-"></span><code>function <strong>GetDouble</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#GetDouble-NativeUInt-">ICefListValue.GetDouble</a>.</p><p>
+ Returns the value at the specified index as type double. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetString-NativeUInt-"></span><code>function <strong>GetString</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#GetString-NativeUInt-">ICefListValue.GetString</a>.</p><p>
+ Returns the value at the specified index as type string. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBinary-NativeUInt-"></span><code>function <strong>GetBinary</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#GetBinary-NativeUInt-">ICefListValue.GetBinary</a>.</p><p>
+ Returns the value at the specified index as type binary. The returned value will reference existing data. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetDictionary-NativeUInt-"></span><code>function <strong>GetDictionary</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#GetDictionary-NativeUInt-">ICefListValue.GetDictionary</a>.</p><p>
+ Returns the value at the specified index as type dictionary. The returned value will reference existing data and modifications to the value will modify this object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetList-NativeUInt-"></span><code>function <strong>GetList</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#GetList-NativeUInt-">ICefListValue.GetList</a>.</p><p>
+ Returns the value at the specified index as type list. The returned value will reference existing data and modifications to the value will modify this object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetValue-NativeUInt-ICefValue-"></span><code>function <strong>SetValue</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#SetValue-NativeUInt-ICefValue-">ICefListValue.SetValue</a>.</p><p>
+ Sets the value at the specified index. Returns true (1) if the value was set successfully. If |value| represents simple data then the underlying data will be copied and modifications to |value| will not modify this object. If |value| represents complex data (binary, dictionary or list) then the underlying data will be referenced and modifications to |value| will modify this object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetNull-NativeUInt-"></span><code>function <strong>SetNull</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#SetNull-NativeUInt-">ICefListValue.SetNull</a>.</p><p>
+ Sets the value at the specified index as type null. Returns true (1) if the value was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetBool-NativeUInt-Boolean-"></span><code>function <strong>SetBool</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#SetBool-NativeUInt-Boolean-">ICefListValue.SetBool</a>.</p><p>
+ Sets the value at the specified index as type bool. Returns true (1) if the value was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetInt-NativeUInt-Integer-"></span><code>function <strong>SetInt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#SetInt-NativeUInt-Integer-">ICefListValue.SetInt</a>.</p><p>
+ Sets the value at the specified index as type int. Returns true (1) if the value was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetDouble-NativeUInt-Double-"></span><code>function <strong>SetDouble</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: Double): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#SetDouble-NativeUInt-Double-">ICefListValue.SetDouble</a>.</p><p>
+ Sets the value at the specified index as type double. Returns true (1) if the value was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetString-NativeUInt-ustring-"></span><code>function <strong>SetString</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const value: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#SetString-NativeUInt-ustring-">ICefListValue.SetString</a>.</p><p>
+ Sets the value at the specified index as type string. Returns true (1) if the value was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetBinary-NativeUInt-ICefBinaryValue-"></span><code>function <strong>SetBinary</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const value: <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#SetBinary-NativeUInt-ICefBinaryValue-">ICefListValue.SetBinary</a>.</p><p>
+ Sets the value at the specified index as type binary. Returns true (1) if the value was set successfully. If |value| is currently owned by another object then the value will be copied and the |value| reference will not change. Otherwise, ownership will be transferred to this object and the |value| reference will be invalidated. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetDictionary-NativeUInt-ICefDictionaryValue-"></span><code>function <strong>SetDictionary</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const value: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#SetDictionary-NativeUInt-ICefDictionaryValue-">ICefListValue.SetDictionary</a>.</p><p>
+ Sets the value at the specified index as type dict. Returns true (1) if the value was set successfully. If |value| is currently owned by another object then the value will be copied and the |value| reference will not change. Otherwise, ownership will be transferred to this object and the |value| reference will be invalidated. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetList-NativeUInt-ICefListValue-"></span><code>function <strong>SetList</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const value: <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefListValue.html#SetList-NativeUInt-ICefListValue-">ICefListValue.SetList</a>.</p><p>
+ Sets the value at the specified index as type list. Returns true (1) if the value was set successfully. If |value| is currently owned by another object then the value will be copied and the |value| reference will not change. Otherwise, ownership will be transferred to this object and the |value| reference will be invalidated. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="New"></span><code>class function <strong>New</strong>: <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

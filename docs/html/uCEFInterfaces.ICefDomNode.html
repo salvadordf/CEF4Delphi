@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefDomNode</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefDomNode"></span><h1 class="cio">Interface ICefDomNode</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefDomNode = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface used to represent a DOM node. The functions of this interface should only be called on the render process main thread. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dom_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dom_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_dom_capi.h (cef_domnode_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefDomNode</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetType">GetType</a></strong>: <a href="uCEFTypes.html#TCefDomNodeType">TCefDomNodeType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#IsText">IsText</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#IsElement">IsElement</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#IsEditable">IsEditable</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#IsFormControlElement">IsFormControlElement</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetFormControlElementType">GetFormControlElementType</a></strong>: <a href="uCEFTypes.html#TCefDomFormControlType">TCefDomFormControlType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#IsSame-ICefDomNode-">IsSame</a></strong>(const that: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetName">GetName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetValue">GetValue</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#SetValue-ustring-">SetValue</a></strong>(const value: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetAsMarkup">GetAsMarkup</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetDocument">GetDocument</a></strong>: <a href="uCEFInterfaces.ICefDomDocument.html">ICefDomDocument</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetParent">GetParent</a></strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetPreviousSibling">GetPreviousSibling</a></strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetNextSibling">GetNextSibling</a></strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#HasChildren">HasChildren</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetFirstChild">GetFirstChild</a></strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetLastChild">GetLastChild</a></strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetElementTagName">GetElementTagName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#HasElementAttributes">HasElementAttributes</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#HasElementAttribute-ustring-">HasElementAttribute</a></strong>(const attrName: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetElementAttribute-ustring-">GetElementAttribute</a></strong>(const attrName: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefDomNode.html#GetElementAttributes-ICefStringMap-">GetElementAttributes</a></strong>(const attrMap: <a href="uCEFInterfaces.ICefStringMap.html">ICefStringMap</a>); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefDomNode.html#GetElementAttributes-TStrings-">GetElementAttributes</a></strong>(var attrList: TStrings); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#SetElementAttribute-ustring-ustring-">SetElementAttribute</a></strong>(const attrName, value: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetElementInnerText">GetElementInnerText</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomNode.html#GetElementBounds">GetElementBounds</a></strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomNode.html#NodeType">NodeType</a></strong>         : <a href="uCEFTypes.html#TCefDomNodeType">TCefDomNodeType</a> read <a href="uCEFInterfaces.ICefDomNode.html#GetType">GetType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomNode.html#Name">Name</a></strong>             : <a href="uCEFTypes.html#ustring">ustring</a>         read <a href="uCEFInterfaces.ICefDomNode.html#GetName">GetName</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomNode.html#AsMarkup">AsMarkup</a></strong>         : <a href="uCEFTypes.html#ustring">ustring</a>         read <a href="uCEFInterfaces.ICefDomNode.html#GetAsMarkup">GetAsMarkup</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomNode.html#Document">Document</a></strong>         : <a href="uCEFInterfaces.ICefDomDocument.html">ICefDomDocument</a> read <a href="uCEFInterfaces.ICefDomNode.html#GetDocument">GetDocument</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomNode.html#Parent">Parent</a></strong>           : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>     read <a href="uCEFInterfaces.ICefDomNode.html#GetParent">GetParent</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomNode.html#PreviousSibling">PreviousSibling</a></strong>  : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>     read <a href="uCEFInterfaces.ICefDomNode.html#GetPreviousSibling">GetPreviousSibling</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomNode.html#NextSibling">NextSibling</a></strong>      : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>     read <a href="uCEFInterfaces.ICefDomNode.html#GetNextSibling">GetNextSibling</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomNode.html#FirstChild">FirstChild</a></strong>       : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>     read <a href="uCEFInterfaces.ICefDomNode.html#GetFirstChild">GetFirstChild</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomNode.html#LastChild">LastChild</a></strong>        : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>     read <a href="uCEFInterfaces.ICefDomNode.html#GetLastChild">GetLastChild</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomNode.html#ElementTagName">ElementTagName</a></strong>   : <a href="uCEFTypes.html#ustring">ustring</a>         read <a href="uCEFInterfaces.ICefDomNode.html#GetElementTagName">GetElementTagName</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomNode.html#ElementInnerText">ElementInnerText</a></strong> : <a href="uCEFTypes.html#ustring">ustring</a>         read <a href="uCEFInterfaces.ICefDomNode.html#GetElementInnerText">GetElementInnerText</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomNode.html#ElementBounds">ElementBounds</a></strong>    : <a href="uCEFTypes.TCefRect.html">TCefRect</a>        read <a href="uCEFInterfaces.ICefDomNode.html#GetElementBounds">GetElementBounds</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetType"></span><code>function <strong>GetType</strong>: <a href="uCEFTypes.html#TCefDomNodeType">TCefDomNodeType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the type for this node. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{96C03C9E-9C98-491A-8DAD-1947332232D6}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsText"></span><code>function <strong>IsText</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this is a text node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsElement"></span><code>function <strong>IsElement</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this is an element node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsEditable"></span><code>function <strong>IsEditable</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this is an editable node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsFormControlElement"></span><code>function <strong>IsFormControlElement</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this is a form control element node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFormControlElementType"></span><code>function <strong>GetFormControlElementType</strong>: <a href="uCEFTypes.html#TCefDomFormControlType">TCefDomFormControlType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the type of this form control element node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsSame-ICefDomNode-"></span><code>function <strong>IsSame</strong>(const that: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this object is pointing to the same handle as |that| object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetName"></span><code>function <strong>GetName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the name of this node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetValue"></span><code>function <strong>GetValue</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the value of this node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetValue-ustring-"></span><code>function <strong>SetValue</strong>(const value: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the value of this node. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetAsMarkup"></span><code>function <strong>GetAsMarkup</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the contents of this node as markup. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDocument"></span><code>function <strong>GetDocument</strong>: <a href="uCEFInterfaces.ICefDomDocument.html">ICefDomDocument</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the document associated with this node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetParent"></span><code>function <strong>GetParent</strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the parent node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetPreviousSibling"></span><code>function <strong>GetPreviousSibling</strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the previous sibling node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetNextSibling"></span><code>function <strong>GetNextSibling</strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the next sibling node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasChildren"></span><code>function <strong>HasChildren</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this node has child nodes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFirstChild"></span><code>function <strong>GetFirstChild</strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return the first child node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetLastChild"></span><code>function <strong>GetLastChild</strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the last child node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetElementTagName"></span><code>function <strong>GetElementTagName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the tag name of this element. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasElementAttributes"></span><code>function <strong>HasElementAttributes</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this element has attributes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasElementAttribute-ustring-"></span><code>function <strong>HasElementAttribute</strong>(const attrName: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this element has an attribute named |attrName|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetElementAttribute-ustring-"></span><code>function <strong>GetElementAttribute</strong>(const attrName: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the element attribute named |attrName|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetElementAttributes-ICefStringMap-"></span><code>procedure <strong>GetElementAttributes</strong>(const attrMap: <a href="uCEFInterfaces.ICefStringMap.html">ICefStringMap</a>); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a ICefStringMap of all element attributes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetElementAttributes-TStrings-"></span><code>procedure <strong>GetElementAttributes</strong>(var attrList: TStrings); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a TStrings of all element attributes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetElementAttribute-ustring-ustring-"></span><code>function <strong>SetElementAttribute</strong>(const attrName, value: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the value for the element attribute named |attrName|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetElementInnerText"></span><code>function <strong>GetElementInnerText</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the inner text of the element. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetElementBounds"></span><code>function <strong>GetElementBounds</strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the bounds of the element in device pixels. Use &quot;window.devicePixelRatio&quot; to convert to/from CSS pixels. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NodeType"></span><code>property <strong>NodeType</strong>         : <a href="uCEFTypes.html#TCefDomNodeType">TCefDomNodeType</a> read <a href="uCEFInterfaces.ICefDomNode.html#GetType">GetType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the type for this node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Name"></span><code>property <strong>Name</strong>             : <a href="uCEFTypes.html#ustring">ustring</a>         read <a href="uCEFInterfaces.ICefDomNode.html#GetName">GetName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the name of this node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsMarkup"></span><code>property <strong>AsMarkup</strong>         : <a href="uCEFTypes.html#ustring">ustring</a>         read <a href="uCEFInterfaces.ICefDomNode.html#GetAsMarkup">GetAsMarkup</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the contents of this node as markup. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Document"></span><code>property <strong>Document</strong>         : <a href="uCEFInterfaces.ICefDomDocument.html">ICefDomDocument</a> read <a href="uCEFInterfaces.ICefDomNode.html#GetDocument">GetDocument</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the document associated with this node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Parent"></span><code>property <strong>Parent</strong>           : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>     read <a href="uCEFInterfaces.ICefDomNode.html#GetParent">GetParent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the parent node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PreviousSibling"></span><code>property <strong>PreviousSibling</strong>  : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>     read <a href="uCEFInterfaces.ICefDomNode.html#GetPreviousSibling">GetPreviousSibling</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the previous sibling node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NextSibling"></span><code>property <strong>NextSibling</strong>      : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>     read <a href="uCEFInterfaces.ICefDomNode.html#GetNextSibling">GetNextSibling</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the next sibling node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FirstChild"></span><code>property <strong>FirstChild</strong>       : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>     read <a href="uCEFInterfaces.ICefDomNode.html#GetFirstChild">GetFirstChild</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return the first child node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="LastChild"></span><code>property <strong>LastChild</strong>        : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>     read <a href="uCEFInterfaces.ICefDomNode.html#GetLastChild">GetLastChild</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the last child node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ElementTagName"></span><code>property <strong>ElementTagName</strong>   : <a href="uCEFTypes.html#ustring">ustring</a>         read <a href="uCEFInterfaces.ICefDomNode.html#GetElementTagName">GetElementTagName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the tag name of this element. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ElementInnerText"></span><code>property <strong>ElementInnerText</strong> : <a href="uCEFTypes.html#ustring">ustring</a>         read <a href="uCEFInterfaces.ICefDomNode.html#GetElementInnerText">GetElementInnerText</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the inner text of the element. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ElementBounds"></span><code>property <strong>ElementBounds</strong>    : <a href="uCEFTypes.TCefRect.html">TCefRect</a>        read <a href="uCEFInterfaces.ICefDomNode.html#GetElementBounds">GetElementBounds</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the bounds of the element in device pixels. Use &quot;window.devicePixelRatio&quot; to convert to/from CSS pixels. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

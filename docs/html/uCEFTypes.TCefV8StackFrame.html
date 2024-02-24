@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefV8StackFrame</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefV8StackFrame"></span><h1 class="cio">Record TCefV8StackFrame</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefV8StackFrame = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure representing a V8 stack frame handle. V8 handles can only be accessed from the thread on which they are created. Valid threads for creating a V8 handle include the render process main thread (TID_RENDERER) and WebWorker threads. A task runner for posting tasks on the associated thread can be retrieved via the ICefv8context.GetTaskRunner() function. </p>
+<p>
+
+
+<p>Implemented by ICefV8StackFrame.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_v8_capi.h (cef_v8stack_frame_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefV8StackFrame.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefV8StackFrame.html#is_valid">is_valid</a></strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefV8StackFrame.html#get_script_name">get_script_name</a></strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefV8StackFrame.html#get_script_name_or_source_url">get_script_name_or_source_url</a></strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefV8StackFrame.html#get_function_name">get_function_name</a></strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefV8StackFrame.html#get_line_number">get_line_number</a></strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefV8StackFrame.html#get_column">get_column</a></strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefV8StackFrame.html#is_eval">is_eval</a></strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefV8StackFrame.html#is_constructor">is_constructor</a></strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): Integer; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_valid"></span><code><strong>is_valid</strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_script_name"></span><code><strong>get_script_name</strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_script_name_or_source_url"></span><code><strong>get_script_name_or_source_url</strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_function_name"></span><code><strong>get_function_name</strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_line_number"></span><code><strong>get_line_number</strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_column"></span><code><strong>get_column</strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_eval"></span><code><strong>is_eval</strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_constructor"></span><code><strong>is_constructor</strong>: function(self: <a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

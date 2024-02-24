@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefCookieManager</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefCookieManager"></span><h1 class="cio">Interface ICefCookieManager</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefCookieManager = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface used for managing cookies. The functions of this interface may be called on any thread unless otherwise indicated. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_cookie_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_cookie_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_cookie_capi.h (cef_cookie_manager_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefCookieManager</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCookieManager.html#VisitAllCookies-ICefCookieVisitor-">VisitAllCookies</a></strong>(const visitor: <a href="uCEFInterfaces.ICefCookieVisitor.html">ICefCookieVisitor</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCookieManager.html#VisitAllCookiesProc-TCefCookieVisitorProc-">VisitAllCookiesProc</a></strong>(const visitor: TCefCookieVisitorProc): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCookieManager.html#VisitUrlCookies-ustring-Boolean-ICefCookieVisitor-">VisitUrlCookies</a></strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>; includeHttpOnly: Boolean; const visitor: <a href="uCEFInterfaces.ICefCookieVisitor.html">ICefCookieVisitor</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCookieManager.html#VisitUrlCookiesProc-ustring-Boolean-TCefCookieVisitorProc-">VisitUrlCookiesProc</a></strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>; includeHttpOnly: Boolean; const visitor: TCefCookieVisitorProc): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCookieManager.html#SetCookie-ustring-ustring-ustring-ustring-ustring-Boolean-Boolean-Boolean-TDateTime-TDateTime-TDateTime-TCefCookieSameSite-TCefCookiePriority-ICefSetCookieCallback-">SetCookie</a></strong>(const url, name, value, domain, path: <a href="uCEFTypes.html#ustring">ustring</a>; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; same_site : <a href="uCEFTypes.html#TCefCookieSameSite">TCefCookieSameSite</a>; priority : <a href="uCEFTypes.html#TCefCookiePriority">TCefCookiePriority</a>; const callback: <a href="uCEFInterfaces.ICefSetCookieCallback.html">ICefSetCookieCallback</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCookieManager.html#SetCookieProc-ustring-ustring-ustring-ustring-ustring-Boolean-Boolean-Boolean-TDateTime-TDateTime-TDateTime-TCefCookieSameSite-TCefCookiePriority-TCefSetCookieCallbackProc-">SetCookieProc</a></strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>; const name, value, domain, path: <a href="uCEFTypes.html#ustring">ustring</a>; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; same_site : <a href="uCEFTypes.html#TCefCookieSameSite">TCefCookieSameSite</a>; priority : <a href="uCEFTypes.html#TCefCookiePriority">TCefCookiePriority</a>; const callback: TCefSetCookieCallbackProc): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCookieManager.html#DeleteCookies-ustring-ustring-ICefDeleteCookiesCallback-">DeleteCookies</a></strong>(const url, cookieName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefDeleteCookiesCallback.html">ICefDeleteCookiesCallback</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCookieManager.html#DeleteCookiesProc-ustring-ustring-TCefDeleteCookiesCallbackProc-">DeleteCookiesProc</a></strong>(const url, cookieName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: TCefDeleteCookiesCallbackProc): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCookieManager.html#FlushStore-ICefCompletionCallback-">FlushStore</a></strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCookieManager.html#FlushStoreProc-TCefCompletionCallbackProc-">FlushStoreProc</a></strong>(const proc: <a href="uCEFInterfaces.html#TCefCompletionCallbackProc">TCefCompletionCallbackProc</a>): Boolean;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="VisitAllCookies-ICefCookieVisitor-"></span><code>function <strong>VisitAllCookies</strong>(const visitor: <a href="uCEFInterfaces.ICefCookieVisitor.html">ICefCookieVisitor</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Visit all cookies on the UI thread. The returned cookies are ordered by longest path, then by earliest creation date. Returns false (0) if cookies cannot be accessed. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{CC1749E6-9AD3-4283-8430-AF6CBF3E8785}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="VisitAllCookiesProc-TCefCookieVisitorProc-"></span><code>function <strong>VisitAllCookiesProc</strong>(const visitor: TCefCookieVisitorProc): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="VisitUrlCookies-ustring-Boolean-ICefCookieVisitor-"></span><code>function <strong>VisitUrlCookies</strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>; includeHttpOnly: Boolean; const visitor: <a href="uCEFInterfaces.ICefCookieVisitor.html">ICefCookieVisitor</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Visit a subset of cookies on the UI thread. The results are filtered by the given url scheme, host, domain and path. If |includeHttpOnly| is true (1) HTTP-only cookies will also be included in the results. The returned cookies are ordered by longest path, then by earliest creation date. Returns false (0) if cookies cannot be accessed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="VisitUrlCookiesProc-ustring-Boolean-TCefCookieVisitorProc-"></span><code>function <strong>VisitUrlCookiesProc</strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>; includeHttpOnly: Boolean; const visitor: TCefCookieVisitorProc): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetCookie-ustring-ustring-ustring-ustring-ustring-Boolean-Boolean-Boolean-TDateTime-TDateTime-TDateTime-TCefCookieSameSite-TCefCookiePriority-ICefSetCookieCallback-"></span><code>function <strong>SetCookie</strong>(const url, name, value, domain, path: <a href="uCEFTypes.html#ustring">ustring</a>; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; same_site : <a href="uCEFTypes.html#TCefCookieSameSite">TCefCookieSameSite</a>; priority : <a href="uCEFTypes.html#TCefCookiePriority">TCefCookiePriority</a>; const callback: <a href="uCEFInterfaces.ICefSetCookieCallback.html">ICefSetCookieCallback</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets a cookie given a valid URL and explicit user-provided cookie attributes. This function expects each attribute to be well-formed. It will check for disallowed characters (e.g. the ';' character is disallowed within the cookie value attribute) and fail without setting the cookie if such characters are found. If |callback| is non-NULL it will be executed asnychronously on the UI thread after the cookie has been set. Returns false (0) if an invalid URL is specified or if cookies cannot be accessed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetCookieProc-ustring-ustring-ustring-ustring-ustring-Boolean-Boolean-Boolean-TDateTime-TDateTime-TDateTime-TCefCookieSameSite-TCefCookiePriority-TCefSetCookieCallbackProc-"></span><code>function <strong>SetCookieProc</strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>; const name, value, domain, path: <a href="uCEFTypes.html#ustring">ustring</a>; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; same_site : <a href="uCEFTypes.html#TCefCookieSameSite">TCefCookieSameSite</a>; priority : <a href="uCEFTypes.html#TCefCookiePriority">TCefCookiePriority</a>; const callback: TCefSetCookieCallbackProc): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DeleteCookies-ustring-ustring-ICefDeleteCookiesCallback-"></span><code>function <strong>DeleteCookies</strong>(const url, cookieName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefDeleteCookiesCallback.html">ICefDeleteCookiesCallback</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Delete all cookies that match the specified parameters. If both |url| and |cookie_name| values are specified all host and domain cookies matching both will be deleted. If only |url| is specified all host cookies (but not domain cookies) irrespective of path will be deleted. If |url| is NULL all cookies for all hosts and domains will be deleted. If |callback| is non- NULL it will be executed asnychronously on the UI thread after the cookies have been deleted. Returns false (0) if a non-NULL invalid URL is specified or if cookies cannot be accessed. Cookies can alternately be deleted using the Visit*Cookies() functions. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DeleteCookiesProc-ustring-ustring-TCefDeleteCookiesCallbackProc-"></span><code>function <strong>DeleteCookiesProc</strong>(const url, cookieName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: TCefDeleteCookiesCallbackProc): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FlushStore-ICefCompletionCallback-"></span><code>function <strong>FlushStore</strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Flush the backing store (if any) to disk. If |callback| is non-NULL it will be executed asnychronously on the UI thread after the flush is complete. Returns false (0) if cookies cannot be accessed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FlushStoreProc-TCefCompletionCallbackProc-"></span><code>function <strong>FlushStoreProc</strong>(const proc: <a href="uCEFInterfaces.html#TCefCompletionCallbackProc">TCefCompletionCallbackProc</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

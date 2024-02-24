@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefMediaRouter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefMediaRouter"></span><h1 class="cio">Interface ICefMediaRouter</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefMediaRouter = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Supports discovery of and communication with media devices on the local network via the Cast and DIAL protocols. The functions of this interface may be called on any browser process thread unless otherwise indicated. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_media_router_capi.h (cef_media_router_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefMediaRouter</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMediaRouter.html#AddObserver-ICefMediaObserver-">AddObserver</a></strong>(const observer: <a href="uCEFInterfaces.ICefMediaObserver.html">ICefMediaObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMediaRouter.html#GetSource-ustring-">GetSource</a></strong>(const urn: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefMediaSource.html">ICefMediaSource</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefMediaRouter.html#NotifyCurrentSinks">NotifyCurrentSinks</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefMediaRouter.html#CreateRoute-ICefMediaSource-ICefMediaSink-ICefMediaRouteCreateCallback-">CreateRoute</a></strong>(const source: <a href="uCEFInterfaces.ICefMediaSource.html">ICefMediaSource</a>; const sink: <a href="uCEFInterfaces.ICefMediaSink.html">ICefMediaSink</a>; const callback: <a href="uCEFInterfaces.ICefMediaRouteCreateCallback.html">ICefMediaRouteCreateCallback</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefMediaRouter.html#NotifyCurrentRoutes">NotifyCurrentRoutes</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddObserver-ICefMediaObserver-"></span><code>function <strong>AddObserver</strong>(const observer: <a href="uCEFInterfaces.ICefMediaObserver.html">ICefMediaObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add an observer for MediaRouter events. The observer will remain registered until the returned Registration object is destroyed. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{F18C3880-CB8D-48F9-9D74-DCFF4B9E88DF}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSource-ustring-"></span><code>function <strong>GetSource</strong>(const urn: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefMediaSource.html">ICefMediaSource</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a MediaSource object for the specified media source URN. Supported URN schemes include &quot;cast:&quot; and &quot;dial:&quot;, and will be already known by the client application (e.g. &quot;cast:&lt;appId&gt;?clientId=&lt;clientId&gt;&quot;). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NotifyCurrentSinks"></span><code>procedure <strong>NotifyCurrentSinks</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Trigger an asynchronous call to ICefMediaObserver.OnSinks on all registered observers. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateRoute-ICefMediaSource-ICefMediaSink-ICefMediaRouteCreateCallback-"></span><code>procedure <strong>CreateRoute</strong>(const source: <a href="uCEFInterfaces.ICefMediaSource.html">ICefMediaSource</a>; const sink: <a href="uCEFInterfaces.ICefMediaSink.html">ICefMediaSink</a>; const callback: <a href="uCEFInterfaces.ICefMediaRouteCreateCallback.html">ICefMediaRouteCreateCallback</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new route between |source| and |sink|. Source and sink must be valid, compatible (as reported by ICefMediaSink.IsCompatibleWith), and a route between them must not already exist. |callback| will be executed on success or failure. If route creation succeeds it will also trigger an asynchronous call to ICefMediaObserver.OnRoutes on all registered observers. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NotifyCurrentRoutes"></span><code>procedure <strong>NotifyCurrentRoutes</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Trigger an asynchronous call to ICefMediaObserver.OnRoutes on all registered observers. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

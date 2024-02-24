@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefPrintSettings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefPrintSettings"></span><h1 class="cio">Interface ICefPrintSettings</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefPrintSettings = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface representing print settings. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_settings_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_settings_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_print_settings_capi.h (cef_print_settings_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefPrintSettings</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPrintSettings.html#IsValid">IsValid</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPrintSettings.html#IsReadOnly">IsReadOnly</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintSettings.html#SetOrientation-Boolean-">SetOrientation</a></strong>(landscape: Boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPrintSettings.html#IsLandscape">IsLandscape</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintSettings.html#SetPrinterPrintableArea-PCefSize-PCefRect-Boolean-">SetPrinterPrintableArea</a></strong>(const physicalSizeDeviceUnits: <a href="uCEFTypes.html#PCefSize">PCefSize</a>; const printableAreaDeviceUnits: <a href="uCEFTypes.html#PCefRect">PCefRect</a>; landscapeNeedsFlip: Boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintSettings.html#SetDeviceName-ustring-">SetDeviceName</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPrintSettings.html#GetDeviceName">GetDeviceName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintSettings.html#SetDpi-Integer-">SetDpi</a></strong>(dpi: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPrintSettings.html#GetDpi">GetDpi</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintSettings.html#SetPageRanges-TCefRangeArray-">SetPageRanges</a></strong>(const ranges: <a href="uCEFTypes.html#TCefRangeArray">TCefRangeArray</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPrintSettings.html#GetPageRangesCount">GetPageRangesCount</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintSettings.html#GetPageRanges-TCefRangeArray-">GetPageRanges</a></strong>(out ranges: <a href="uCEFTypes.html#TCefRangeArray">TCefRangeArray</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintSettings.html#SetSelectionOnly-Boolean-">SetSelectionOnly</a></strong>(selectionOnly: Boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPrintSettings.html#IsSelectionOnly">IsSelectionOnly</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintSettings.html#SetCollate-Boolean-">SetCollate</a></strong>(collate: Boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPrintSettings.html#WillCollate">WillCollate</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintSettings.html#SetColorModel-TCefColorModel-">SetColorModel</a></strong>(model: <a href="uCEFTypes.html#TCefColorModel">TCefColorModel</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPrintSettings.html#GetColorModel">GetColorModel</a></strong>: <a href="uCEFTypes.html#TCefColorModel">TCefColorModel</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintSettings.html#SetCopies-Integer-">SetCopies</a></strong>(copies: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPrintSettings.html#GetCopies">GetCopies</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintSettings.html#SetDuplexMode-TCefDuplexMode-">SetDuplexMode</a></strong>(mode: <a href="uCEFTypes.html#TCefDuplexMode">TCefDuplexMode</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPrintSettings.html#GetDuplexMode">GetDuplexMode</a></strong>: <a href="uCEFTypes.html#TCefDuplexMode">TCefDuplexMode</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefPrintSettings.html#Landscape">Landscape</a></strong>      : Boolean         read <a href="uCEFInterfaces.ICefPrintSettings.html#IsLandscape">IsLandscape</a>      write <a href="uCEFInterfaces.ICefPrintSettings.html#SetOrientation-Boolean-">SetOrientation</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefPrintSettings.html#DeviceName">DeviceName</a></strong>     : <a href="uCEFTypes.html#ustring">ustring</a>         read <a href="uCEFInterfaces.ICefPrintSettings.html#GetDeviceName">GetDeviceName</a>    write <a href="uCEFInterfaces.ICefPrintSettings.html#SetDeviceName-ustring-">SetDeviceName</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefPrintSettings.html#Dpi">Dpi</a></strong>            : Integer         read <a href="uCEFInterfaces.ICefPrintSettings.html#GetDpi">GetDpi</a>           write <a href="uCEFInterfaces.ICefPrintSettings.html#SetDpi-Integer-">SetDpi</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefPrintSettings.html#SelectionOnly">SelectionOnly</a></strong>  : Boolean         read <a href="uCEFInterfaces.ICefPrintSettings.html#IsSelectionOnly">IsSelectionOnly</a>  write <a href="uCEFInterfaces.ICefPrintSettings.html#SetSelectionOnly-Boolean-">SetSelectionOnly</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefPrintSettings.html#Collate">Collate</a></strong>        : Boolean         read <a href="uCEFInterfaces.ICefPrintSettings.html#WillCollate">WillCollate</a>      write <a href="uCEFInterfaces.ICefPrintSettings.html#SetCollate-Boolean-">SetCollate</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefPrintSettings.html#ColorModel">ColorModel</a></strong>     : <a href="uCEFTypes.html#TCefColorModel">TCefColorModel</a>  read <a href="uCEFInterfaces.ICefPrintSettings.html#GetColorModel">GetColorModel</a>    write <a href="uCEFInterfaces.ICefPrintSettings.html#SetColorModel-TCefColorModel-">SetColorModel</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefPrintSettings.html#Copies">Copies</a></strong>         : Integer         read <a href="uCEFInterfaces.ICefPrintSettings.html#GetCopies">GetCopies</a>        write <a href="uCEFInterfaces.ICefPrintSettings.html#SetCopies-Integer-">SetCopies</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefPrintSettings.html#DuplexMode">DuplexMode</a></strong>     : <a href="uCEFTypes.html#TCefDuplexMode">TCefDuplexMode</a>  read <a href="uCEFInterfaces.ICefPrintSettings.html#GetDuplexMode">GetDuplexMode</a>    write <a href="uCEFInterfaces.ICefPrintSettings.html#SetDuplexMode-TCefDuplexMode-">SetDuplexMode</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsValid"></span><code>function <strong>IsValid</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this object is valid. Do not call any other functions if this function returns false (0). </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{ACBD2395-E9C1-49E5-B7F3-344DAA4A0F12}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsReadOnly"></span><code>function <strong>IsReadOnly</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the values of this object are read-only. Some APIs may expose read-only objects. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetOrientation-Boolean-"></span><code>procedure <strong>SetOrientation</strong>(landscape: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the page orientation. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsLandscape"></span><code>function <strong>IsLandscape</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the orientation is landscape. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetPrinterPrintableArea-PCefSize-PCefRect-Boolean-"></span><code>procedure <strong>SetPrinterPrintableArea</strong>(const physicalSizeDeviceUnits: <a href="uCEFTypes.html#PCefSize">PCefSize</a>; const printableAreaDeviceUnits: <a href="uCEFTypes.html#PCefRect">PCefRect</a>; landscapeNeedsFlip: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the printer printable area in device units. Some platforms already provide flipped area. Set |landscape_needs_flip| to false (0) on those platforms to avoid double flipping. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetDeviceName-ustring-"></span><code>procedure <strong>SetDeviceName</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the device name. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDeviceName"></span><code>function <strong>GetDeviceName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the device name. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetDpi-Integer-"></span><code>procedure <strong>SetDpi</strong>(dpi: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the DPI (dots per inch). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDpi"></span><code>function <strong>GetDpi</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the DPI (dots per inch). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetPageRanges-TCefRangeArray-"></span><code>procedure <strong>SetPageRanges</strong>(const ranges: <a href="uCEFTypes.html#TCefRangeArray">TCefRangeArray</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the page ranges. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetPageRangesCount"></span><code>function <strong>GetPageRangesCount</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the number of page ranges that currently exist. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetPageRanges-TCefRangeArray-"></span><code>procedure <strong>GetPageRanges</strong>(out ranges: <a href="uCEFTypes.html#TCefRangeArray">TCefRangeArray</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve the page ranges. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetSelectionOnly-Boolean-"></span><code>procedure <strong>SetSelectionOnly</strong>(selectionOnly: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set whether only the selection will be printed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsSelectionOnly"></span><code>function <strong>IsSelectionOnly</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if only the selection will be printed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetCollate-Boolean-"></span><code>procedure <strong>SetCollate</strong>(collate: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set whether pages will be collated. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="WillCollate"></span><code>function <strong>WillCollate</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if pages will be collated. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetColorModel-TCefColorModel-"></span><code>procedure <strong>SetColorModel</strong>(model: <a href="uCEFTypes.html#TCefColorModel">TCefColorModel</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the color model. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetColorModel"></span><code>function <strong>GetColorModel</strong>: <a href="uCEFTypes.html#TCefColorModel">TCefColorModel</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the color model. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetCopies-Integer-"></span><code>procedure <strong>SetCopies</strong>(copies: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the number of copies. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetCopies"></span><code>function <strong>GetCopies</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the number of copies. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetDuplexMode-TCefDuplexMode-"></span><code>procedure <strong>SetDuplexMode</strong>(mode: <a href="uCEFTypes.html#TCefDuplexMode">TCefDuplexMode</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the duplex mode. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDuplexMode"></span><code>function <strong>GetDuplexMode</strong>: <a href="uCEFTypes.html#TCefDuplexMode">TCefDuplexMode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the duplex mode. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Landscape"></span><code>property <strong>Landscape</strong>      : Boolean         read <a href="uCEFInterfaces.ICefPrintSettings.html#IsLandscape">IsLandscape</a>      write <a href="uCEFInterfaces.ICefPrintSettings.html#SetOrientation-Boolean-">SetOrientation</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the orientation is landscape. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DeviceName"></span><code>property <strong>DeviceName</strong>     : <a href="uCEFTypes.html#ustring">ustring</a>         read <a href="uCEFInterfaces.ICefPrintSettings.html#GetDeviceName">GetDeviceName</a>    write <a href="uCEFInterfaces.ICefPrintSettings.html#SetDeviceName-ustring-">SetDeviceName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the device name. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Dpi"></span><code>property <strong>Dpi</strong>            : Integer         read <a href="uCEFInterfaces.ICefPrintSettings.html#GetDpi">GetDpi</a>           write <a href="uCEFInterfaces.ICefPrintSettings.html#SetDpi-Integer-">SetDpi</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the DPI (dots per inch). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SelectionOnly"></span><code>property <strong>SelectionOnly</strong>  : Boolean         read <a href="uCEFInterfaces.ICefPrintSettings.html#IsSelectionOnly">IsSelectionOnly</a>  write <a href="uCEFInterfaces.ICefPrintSettings.html#SetSelectionOnly-Boolean-">SetSelectionOnly</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if only the selection will be printed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Collate"></span><code>property <strong>Collate</strong>        : Boolean         read <a href="uCEFInterfaces.ICefPrintSettings.html#WillCollate">WillCollate</a>      write <a href="uCEFInterfaces.ICefPrintSettings.html#SetCollate-Boolean-">SetCollate</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if pages will be collated. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ColorModel"></span><code>property <strong>ColorModel</strong>     : <a href="uCEFTypes.html#TCefColorModel">TCefColorModel</a>  read <a href="uCEFInterfaces.ICefPrintSettings.html#GetColorModel">GetColorModel</a>    write <a href="uCEFInterfaces.ICefPrintSettings.html#SetColorModel-TCefColorModel-">SetColorModel</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the color model. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Copies"></span><code>property <strong>Copies</strong>         : Integer         read <a href="uCEFInterfaces.ICefPrintSettings.html#GetCopies">GetCopies</a>        write <a href="uCEFInterfaces.ICefPrintSettings.html#SetCopies-Integer-">SetCopies</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the number of copies. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DuplexMode"></span><code>property <strong>DuplexMode</strong>     : <a href="uCEFTypes.html#TCefDuplexMode">TCefDuplexMode</a>  read <a href="uCEFInterfaces.ICefPrintSettings.html#GetDuplexMode">GetDuplexMode</a>    write <a href="uCEFInterfaces.ICefPrintSettings.html#SetDuplexMode-TCefDuplexMode-">SetDuplexMode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the duplex mode. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

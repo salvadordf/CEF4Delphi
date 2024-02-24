@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefLoadHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefLoadHandler"></span><h1 class="cio">Interface ICefLoadHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefLoadHandler = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this interface to handle events related to browser load status. The functions of this interface will be called on the browser process UI thread or render process main thread (TID_RENDERER). </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_load_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_load_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_load_handler_capi.h (cef_load_handler_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefLoadHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefLoadHandler.html#OnLoadingStateChange-ICefBrowser-Boolean-Boolean-Boolean-">OnLoadingStateChange</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; isLoading, canGoBack, canGoForward: Boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefLoadHandler.html#OnLoadStart-ICefBrowser-ICefFrame-TCefTransitionType-">OnLoadStart</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; transitionType: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefLoadHandler.html#OnLoadEnd-ICefBrowser-ICefFrame-Integer-">OnLoadEnd</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; httpStatusCode: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefLoadHandler.html#OnLoadError-ICefBrowser-ICefFrame-Integer-ustring-ustring-">OnLoadError</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; errorCode: Integer; const errorText, failedUrl: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefLoadHandler.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnLoadingStateChange-ICefBrowser-Boolean-Boolean-Boolean-"></span><code>procedure <strong>OnLoadingStateChange</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; isLoading, canGoBack, canGoForward: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when the loading state has changed. This callback will be executed twice &ndash; once when loading is initiated either programmatically or by user action, and once when loading is terminated due to completion, cancellation of failure. It will be called before any calls to OnLoadStart and after all calls to OnLoadError and/or OnLoadEnd. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{2C63FB82-345D-4A5B-9858-5AE7A85C9F49}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnLoadStart-ICefBrowser-ICefFrame-TCefTransitionType-"></span><code>procedure <strong>OnLoadStart</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; transitionType: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called after a navigation has been committed and before the browser begins loading contents in the frame. The |frame| value will never be NULL &ndash; call the IsMain() function to check if this frame is the main frame. |transition_type| provides information about the source of the navigation and an accurate value is only available in the browser process. Multiple frames may be loading at the same time. Sub-frames may start or continue loading after the main frame load has ended. This function will not be called for same page navigations (fragments, history state, etc.) or for navigations that fail or are canceled before commit. For notification of overall browser load status use OnLoadingStateChange instead. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnLoadEnd-ICefBrowser-ICefFrame-Integer-"></span><code>procedure <strong>OnLoadEnd</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; httpStatusCode: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when the browser is done loading a frame. The |frame| value will never be NULL &ndash; call the IsMain() function to check if this frame is the main frame. Multiple frames may be loading at the same time. Sub-frames may start or continue loading after the main frame load has ended. This function will not be called for same page navigations (fragments, history state, etc.) or for navigations that fail or are canceled before commit. For notification of overall browser load status use OnLoadingStateChange instead. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnLoadError-ICefBrowser-ICefFrame-Integer-ustring-ustring-"></span><code>procedure <strong>OnLoadError</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; errorCode: Integer; const errorText, failedUrl: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when a navigation fails or is canceled. This function may be called by itself if before commit or in combination with OnLoadStart/OnLoadEnd if after commit. |errorCode| is the error code number, |errorText| is the error text and |failedUrl| is the URL that failed to load. See net\base\net_error_list.h for complete descriptions of the error codes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

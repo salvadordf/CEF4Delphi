@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFViewComponent: Class TCEFViewComponent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFViewComponent"></span><h1 class="cio">Class TCEFViewComponent</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFViewComponent.html">uCEFViewComponent</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFViewComponent = class(TComponent, <a class="normal" href="uCEFInterfaces.ICefViewDelegateEvents.html">ICefViewDelegateEvents</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor">TPersistent</li>
+<li class="ancestor">TComponent</li>
+<li class="thisitem">TCEFViewComponent</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetPreferredSize">FOnGetPreferredSize</a></strong>: TOnGetPreferredSizeEvent;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetMinimumSize">FOnGetMinimumSize</a></strong>: TOnGetMinimumSizeEvent;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetMaximumSize">FOnGetMaximumSize</a></strong>: TOnGetMaximumSizeEvent;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetHeightForWidth">FOnGetHeightForWidth</a></strong>: TOnGetHeightForWidthEvent;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFViewComponent.TCEFViewComponent.html#FOnParentViewChanged">FOnParentViewChanged</a></strong>: TOnParentViewChangedEvent;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFViewComponent.TCEFViewComponent.html#FOnChildViewChanged">FOnChildViewChanged</a></strong>: TOnChildViewChangedEvent;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFViewComponent.TCEFViewComponent.html#FOnWindowChanged">FOnWindowChanged</a></strong>: TOnWindowChangedEvent;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFViewComponent.TCEFViewComponent.html#FOnLayoutChanged">FOnLayoutChanged</a></strong>: TOnLayoutChangedEvent;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFViewComponent.TCEFViewComponent.html#FOnFocus">FOnFocus</a></strong>: TOnFocusEvent;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFViewComponent.TCEFViewComponent.html#FOnBlur">FOnBlur</a></strong>: TOnBlurEvent;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFViewComponent.TCEFViewComponent.html#FComponentID">FComponentID</a></strong>: integer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#CreateView">CreateView</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#DestroyView">DestroyView</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Initialize">Initialize</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetInitialized">GetInitialized</a></strong>: boolean; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetAsView">GetAsView</a></strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetTypeString">GetTypeString</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetAsBrowserView">GetAsBrowserView</a></strong>: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetAsButton">GetAsButton</a></strong>: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetAsPanel">GetAsPanel</a></strong>: <a href="uCEFInterfaces.ICefPanel.html">ICefPanel</a>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetAsScrollView">GetAsScrollView</a></strong>: <a href="uCEFInterfaces.ICefScrollView.html">ICefScrollView</a>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetAsTextfield">GetAsTextfield</a></strong>: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetIsValid">GetIsValid</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetIsAttached">GetIsAttached</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetDelegate">GetDelegate</a></strong>: <a href="uCEFInterfaces.ICefViewDelegate.html">ICefViewDelegate</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetWindow">GetWindow</a></strong>: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetID">GetID</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetGroupID">GetGroupID</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetParentView">GetParentView</a></strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetBounds">GetBounds</a></strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetBoundsInScreen">GetBoundsInScreen</a></strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetSize">GetSize</a></strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetPosition">GetPosition</a></strong>: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetPreferredSize">GetPreferredSize</a></strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetMinimumSize">GetMinimumSize</a></strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetMaximumSize">GetMaximumSize</a></strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetIsVisible">GetIsVisible</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetIsDrawn">GetIsDrawn</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetIsEnabled">GetIsEnabled</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetIsFocusable">GetIsFocusable</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetIsAccessibilityFocusable">GetIsAccessibilityFocusable</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetBackgroundColor">GetBackgroundColor</a></strong>: <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetViewForID-Integer-">GetViewForID</a></strong>(id_: Integer): <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetHeightForWidth-Integer-">GetHeightForWidth</a></strong>(width: Integer): Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetInsets">GetInsets</a></strong>: <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetComponentID">GetComponentID</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#SetID-Integer-">SetID</a></strong>(id_: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#SetGroupID-Integer-">SetGroupID</a></strong>(group_id: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#SetBounds-TCefRect-">SetBounds</a></strong>(const bounds_: <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#SetSize-TCefSize-">SetSize</a></strong>(const size_: <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#SetPosition-TCefPoint-">SetPosition</a></strong>(const position_: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#SetVisible-boolean-">SetVisible</a></strong>(visible_: boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#SetEnabled-boolean-">SetEnabled</a></strong>(enabled_: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#SetFocusable-boolean-">SetFocusable</a></strong>(focusable_: boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#SetBackgroundColor-TCefColor-">SetBackgroundColor</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#SetInsets-TCefInsets-">SetInsets</a></strong>(const insets: <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doOnGetPreferredSize-ICefView-TCefSize-">doOnGetPreferredSize</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doOnGetMinimumSize-ICefView-TCefSize-">doOnGetMinimumSize</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doOnGetMaximumSize-ICefView-TCefSize-">doOnGetMaximumSize</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doOnGetHeightForWidth-ICefView-Integer-Integer-">doOnGetHeightForWidth</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; width: Integer; var aResult: Integer); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doOnParentViewChanged-ICefView-boolean-ICefView-">doOnParentViewChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const parent: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doOnChildViewChanged-ICefView-boolean-ICefView-">doOnChildViewChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const child: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doOnWindowChanged-ICefView-boolean-">doOnWindowChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doOnLayoutChanged-ICefView-TCefRect-">doOnLayoutChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; new_bounds: <a href="uCEFTypes.TCefRect.html">TCefRect</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doOnFocus-ICefView-">doOnFocus</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doOnBlur-ICefView-">doOnBlur</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doCreateCustomView">doCreateCustomView</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Create-TComponent-">Create</a></strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#AfterConstruction">AfterConstruction</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#BeforeDestruction">BeforeDestruction</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#ToStringEx-boolean-">ToStringEx</a></strong>(include_children: boolean): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#IsSame-ICefView-">IsSame</a></strong>(const that: <a href="uCEFInterfaces.ICefView.html">ICefView</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#SizeToPreferredSize">SizeToPreferredSize</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#InvalidateLayout">InvalidateLayout</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#RequestFocus">RequestFocus</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#ConvertPointToScreen-TCefPoint-">ConvertPointToScreen</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#ConvertPointFromScreen-TCefPoint-">ConvertPointFromScreen</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#ConvertPointToWindow-TCefPoint-">ConvertPointToWindow</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#ConvertPointFromWindow-TCefPoint-">ConvertPointFromWindow</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#ConvertPointToView-ICefView-TCefPoint-">ConvertPointToView</a></strong>(const view : <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#ConvertPointFromView-ICefView-TCefPoint-">ConvertPointFromView</a></strong>(const view : <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Initialized">Initialized</a></strong>                    : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetInitialized">GetInitialized</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#AsView">AsView</a></strong>                         : <a href="uCEFInterfaces.ICefView.html">ICefView</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetAsView">GetAsView</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#AsBrowserView">AsBrowserView</a></strong>                  : <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>            read <a href="uCEFViewComponent.TCEFViewComponent.html#GetAsBrowserView">GetAsBrowserView</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#AsButton">AsButton</a></strong>                       : <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>                 read <a href="uCEFViewComponent.TCEFViewComponent.html#GetAsButton">GetAsButton</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#AsPanel">AsPanel</a></strong>                        : <a href="uCEFInterfaces.ICefPanel.html">ICefPanel</a>                  read <a href="uCEFViewComponent.TCEFViewComponent.html#GetAsPanel">GetAsPanel</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#AsScrollView">AsScrollView</a></strong>                   : <a href="uCEFInterfaces.ICefScrollView.html">ICefScrollView</a>             read <a href="uCEFViewComponent.TCEFViewComponent.html#GetAsScrollView">GetAsScrollView</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#AsTextfield">AsTextfield</a></strong>                    : <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>              read <a href="uCEFViewComponent.TCEFViewComponent.html#GetAsTextfield">GetAsTextfield</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#ViewForID">ViewForID</a></strong>[id_: Integer]: <a href="uCEFInterfaces.ICefView.html">ICefView</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetViewForID-Integer-">GetViewForID</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Valid">Valid</a></strong>                          : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsValid">GetIsValid</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Attached">Attached</a></strong>                       : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsAttached">GetIsAttached</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Delegate">Delegate</a></strong>                       : <a href="uCEFInterfaces.ICefViewDelegate.html">ICefViewDelegate</a>           read <a href="uCEFViewComponent.TCEFViewComponent.html#GetDelegate">GetDelegate</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Window">Window</a></strong>                         : <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>                 read <a href="uCEFViewComponent.TCEFViewComponent.html#GetWindow">GetWindow</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#ParentView">ParentView</a></strong>                     : <a href="uCEFInterfaces.ICefView.html">ICefView</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetParentView">GetParentView</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#BoundsInScreen">BoundsInScreen</a></strong>                 : <a href="uCEFTypes.TCefRect.html">TCefRect</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetBoundsInScreen">GetBoundsInScreen</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#PreferredSize">PreferredSize</a></strong>                  : <a href="uCEFTypes.TCefSize.html">TCefSize</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetPreferredSize">GetPreferredSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#MinimumSize">MinimumSize</a></strong>                    : <a href="uCEFTypes.TCefSize.html">TCefSize</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetMinimumSize">GetMinimumSize</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#MaximumSize">MaximumSize</a></strong>                    : <a href="uCEFTypes.TCefSize.html">TCefSize</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetMaximumSize">GetMaximumSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Visible">Visible</a></strong>                        : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsVisible">GetIsVisible</a>                   write <a href="uCEFViewComponent.TCEFViewComponent.html#SetVisible-boolean-">SetVisible</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Drawn">Drawn</a></strong>                          : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsDrawn">GetIsDrawn</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Enabled">Enabled</a></strong>                        : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsEnabled">GetIsEnabled</a>                   write <a href="uCEFViewComponent.TCEFViewComponent.html#SetEnabled-boolean-">SetEnabled</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Focusable">Focusable</a></strong>                      : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsFocusable">GetIsFocusable</a>                 write <a href="uCEFViewComponent.TCEFViewComponent.html#SetFocusable-boolean-">SetFocusable</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#AccessibilityFocusable">AccessibilityFocusable</a></strong>         : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsAccessibilityFocusable">GetIsAccessibilityFocusable</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#BackgroundColor">BackgroundColor</a></strong>                : <a href="uCEFTypes.html#TCefColor">TCefColor</a>                  read <a href="uCEFViewComponent.TCEFViewComponent.html#GetBackgroundColor">GetBackgroundColor</a>             write <a href="uCEFViewComponent.TCEFViewComponent.html#SetBackgroundColor-TCefColor-">SetBackgroundColor</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#ID">ID</a></strong>                             : integer                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetID">GetID</a>                          write <a href="uCEFViewComponent.TCEFViewComponent.html#SetID-Integer-">SetID</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GroupID">GroupID</a></strong>                        : integer                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetGroupID">GetGroupID</a>                     write <a href="uCEFViewComponent.TCEFViewComponent.html#SetGroupID-Integer-">SetGroupID</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Bounds">Bounds</a></strong>                         : <a href="uCEFTypes.TCefRect.html">TCefRect</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetBounds">GetBounds</a>                      write <a href="uCEFViewComponent.TCEFViewComponent.html#SetBounds-TCefRect-">SetBounds</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Size">Size</a></strong>                           : <a href="uCEFTypes.TCefSize.html">TCefSize</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetSize">GetSize</a>                        write <a href="uCEFViewComponent.TCEFViewComponent.html#SetSize-TCefSize-">SetSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Position">Position</a></strong>                       : <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>                  read <a href="uCEFViewComponent.TCEFViewComponent.html#GetPosition">GetPosition</a>                    write <a href="uCEFViewComponent.TCEFViewComponent.html#SetPosition-TCefPoint-">SetPosition</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Insets">Insets</a></strong>                         : <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>                 read <a href="uCEFViewComponent.TCEFViewComponent.html#GetInsets">GetInsets</a>                      write <a href="uCEFViewComponent.TCEFViewComponent.html#SetInsets-TCefInsets-">SetInsets</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#TypeString">TypeString</a></strong>                     : <a href="uCEFTypes.html#ustring">ustring</a>                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetTypeString">GetTypeString</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#HeightForWidth">HeightForWidth</a></strong>[width: Integer]: Integer                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetHeightForWidth-Integer-">GetHeightForWidth</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#OnGetPreferredSize">OnGetPreferredSize</a></strong>             : TOnGetPreferredSizeEvent   read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetPreferredSize">FOnGetPreferredSize</a>            write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetPreferredSize">FOnGetPreferredSize</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#OnGetMinimumSize">OnGetMinimumSize</a></strong>               : TOnGetMinimumSizeEvent     read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetMinimumSize">FOnGetMinimumSize</a>              write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetMinimumSize">FOnGetMinimumSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#OnGetMaximumSize">OnGetMaximumSize</a></strong>               : TOnGetMaximumSizeEvent     read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetMaximumSize">FOnGetMaximumSize</a>              write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetMaximumSize">FOnGetMaximumSize</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#OnGetHeightForWidth">OnGetHeightForWidth</a></strong>            : TOnGetHeightForWidthEvent  read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetHeightForWidth">FOnGetHeightForWidth</a>           write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetHeightForWidth">FOnGetHeightForWidth</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#OnParentViewChanged">OnParentViewChanged</a></strong>            : TOnParentViewChangedEvent  read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnParentViewChanged">FOnParentViewChanged</a>           write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnParentViewChanged">FOnParentViewChanged</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#OnChildViewChanged">OnChildViewChanged</a></strong>             : TOnChildViewChangedEvent   read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnChildViewChanged">FOnChildViewChanged</a>            write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnChildViewChanged">FOnChildViewChanged</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#OnWindowChanged">OnWindowChanged</a></strong>                : TOnWindowChangedEvent      read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnWindowChanged">FOnWindowChanged</a>               write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnWindowChanged">FOnWindowChanged</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#OnLayoutChanged">OnLayoutChanged</a></strong>                : TOnLayoutChangedEvent      read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnLayoutChanged">FOnLayoutChanged</a>               write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnLayoutChanged">FOnLayoutChanged</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#OnFocus">OnFocus</a></strong>                        : TOnFocusEvent              read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnFocus">FOnFocus</a>                       write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnFocus">FOnFocus</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#OnBlur">OnBlur</a></strong>                         : TOnBlurEvent               read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnBlur">FOnBlur</a>                        write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnBlur">FOnBlur</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnGetPreferredSize"></span><code><strong>FOnGetPreferredSize</strong>: TOnGetPreferredSizeEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefViewDelegateEvents</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnGetMinimumSize"></span><code><strong>FOnGetMinimumSize</strong>: TOnGetMinimumSizeEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnGetMaximumSize"></span><code><strong>FOnGetMaximumSize</strong>: TOnGetMaximumSizeEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnGetHeightForWidth"></span><code><strong>FOnGetHeightForWidth</strong>: TOnGetHeightForWidthEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnParentViewChanged"></span><code><strong>FOnParentViewChanged</strong>: TOnParentViewChangedEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnChildViewChanged"></span><code><strong>FOnChildViewChanged</strong>: TOnChildViewChangedEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnWindowChanged"></span><code><strong>FOnWindowChanged</strong>: TOnWindowChangedEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnLayoutChanged"></span><code><strong>FOnLayoutChanged</strong>: TOnLayoutChangedEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnFocus"></span><code><strong>FOnFocus</strong>: TOnFocusEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnBlur"></span><code><strong>FOnBlur</strong>: TOnBlurEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FComponentID"></span><code><strong>FComponentID</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CreateView"></span><code>procedure <strong>CreateView</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroyView"></span><code>procedure <strong>DestroyView</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Initialize"></span><code>procedure <strong>Initialize</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetInitialized"></span><code>function <strong>GetInitialized</strong>: boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsView"></span><code>function <strong>GetAsView</strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetTypeString"></span><code>function <strong>GetTypeString</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsBrowserView"></span><code>function <strong>GetAsBrowserView</strong>: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsButton"></span><code>function <strong>GetAsButton</strong>: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsPanel"></span><code>function <strong>GetAsPanel</strong>: <a href="uCEFInterfaces.ICefPanel.html">ICefPanel</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsScrollView"></span><code>function <strong>GetAsScrollView</strong>: <a href="uCEFInterfaces.ICefScrollView.html">ICefScrollView</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsTextfield"></span><code>function <strong>GetAsTextfield</strong>: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetIsValid"></span><code>function <strong>GetIsValid</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetIsAttached"></span><code>function <strong>GetIsAttached</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetDelegate"></span><code>function <strong>GetDelegate</strong>: <a href="uCEFInterfaces.ICefViewDelegate.html">ICefViewDelegate</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetWindow"></span><code>function <strong>GetWindow</strong>: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetID"></span><code>function <strong>GetID</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetGroupID"></span><code>function <strong>GetGroupID</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetParentView"></span><code>function <strong>GetParentView</strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBounds"></span><code>function <strong>GetBounds</strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBoundsInScreen"></span><code>function <strong>GetBoundsInScreen</strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetSize"></span><code>function <strong>GetSize</strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetPosition"></span><code>function <strong>GetPosition</strong>: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetPreferredSize"></span><code>function <strong>GetPreferredSize</strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetMinimumSize"></span><code>function <strong>GetMinimumSize</strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetMaximumSize"></span><code>function <strong>GetMaximumSize</strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetIsVisible"></span><code>function <strong>GetIsVisible</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetIsDrawn"></span><code>function <strong>GetIsDrawn</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetIsEnabled"></span><code>function <strong>GetIsEnabled</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetIsFocusable"></span><code>function <strong>GetIsFocusable</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetIsAccessibilityFocusable"></span><code>function <strong>GetIsAccessibilityFocusable</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBackgroundColor"></span><code>function <strong>GetBackgroundColor</strong>: <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetViewForID-Integer-"></span><code>function <strong>GetViewForID</strong>(id_: Integer): <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetHeightForWidth-Integer-"></span><code>function <strong>GetHeightForWidth</strong>(width: Integer): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetInsets"></span><code>function <strong>GetInsets</strong>: <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetComponentID"></span><code>function <strong>GetComponentID</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetID-Integer-"></span><code>procedure <strong>SetID</strong>(id_: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetGroupID-Integer-"></span><code>procedure <strong>SetGroupID</strong>(group_id: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetBounds-TCefRect-"></span><code>procedure <strong>SetBounds</strong>(const bounds_: <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetSize-TCefSize-"></span><code>procedure <strong>SetSize</strong>(const size_: <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetPosition-TCefPoint-"></span><code>procedure <strong>SetPosition</strong>(const position_: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetVisible-boolean-"></span><code>procedure <strong>SetVisible</strong>(visible_: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetEnabled-boolean-"></span><code>procedure <strong>SetEnabled</strong>(enabled_: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetFocusable-boolean-"></span><code>procedure <strong>SetFocusable</strong>(focusable_: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetBackgroundColor-TCefColor-"></span><code>procedure <strong>SetBackgroundColor</strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetInsets-TCefInsets-"></span><code>procedure <strong>SetInsets</strong>(const insets: <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnGetPreferredSize-ICefView-TCefSize-"></span><code>procedure <strong>doOnGetPreferredSize</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefViewDelegateEvents</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnGetMinimumSize-ICefView-TCefSize-"></span><code>procedure <strong>doOnGetMinimumSize</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnGetMaximumSize-ICefView-TCefSize-"></span><code>procedure <strong>doOnGetMaximumSize</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnGetHeightForWidth-ICefView-Integer-Integer-"></span><code>procedure <strong>doOnGetHeightForWidth</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; width: Integer; var aResult: Integer); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnParentViewChanged-ICefView-boolean-ICefView-"></span><code>procedure <strong>doOnParentViewChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const parent: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnChildViewChanged-ICefView-boolean-ICefView-"></span><code>procedure <strong>doOnChildViewChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const child: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnWindowChanged-ICefView-boolean-"></span><code>procedure <strong>doOnWindowChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnLayoutChanged-ICefView-TCefRect-"></span><code>procedure <strong>doOnLayoutChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; new_bounds: <a href="uCEFTypes.TCefRect.html">TCefRect</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnFocus-ICefView-"></span><code>procedure <strong>doOnFocus</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnBlur-ICefView-"></span><code>procedure <strong>doOnBlur</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doCreateCustomView"></span><code>procedure <strong>doCreateCustomView</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefViewDelegateEvents.html#doCreateCustomView">ICefViewDelegateEvents.doCreateCustomView</a>.</p><p>
+Custom</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-TComponent-"></span><code>constructor <strong>Create</strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AfterConstruction"></span><code>procedure <strong>AfterConstruction</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BeforeDestruction"></span><code>procedure <strong>BeforeDestruction</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ToStringEx-boolean-"></span><code>function <strong>ToStringEx</strong>(include_children: boolean): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a string representation of this View which includes the type and various type-specific identifying attributes. If |include_children| is true (1) any child Views will also be included. Used primarily for testing purposes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsSame-ICefView-"></span><code>function <strong>IsSame</strong>(const that: <a href="uCEFInterfaces.ICefView.html">ICefView</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this View is the same as |that| View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SizeToPreferredSize"></span><code>procedure <strong>SizeToPreferredSize</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Size this View to its preferred size. Size is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="InvalidateLayout"></span><code>procedure <strong>InvalidateLayout</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Indicate that this View and all parent Views require a re-layout. This ensures the next call to layout() will propagate to this View even if the bounds of parent Views do not change. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RequestFocus"></span><code>procedure <strong>RequestFocus</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Request keyboard focus. If this View is focusable it will become the focused View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ConvertPointToScreen-TCefPoint-"></span><code>function <strong>ConvertPointToScreen</strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert |point| from this View's coordinate system to DIP screen coordinates. This View must belong to a Window when calling this function. Returns true (1) if the conversion is successful or false (0) otherwise. Use ICefDisplay.ConvertPointToPixels() after calling this function if further conversion to display-specific pixel coordinates is desired. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ConvertPointFromScreen-TCefPoint-"></span><code>function <strong>ConvertPointFromScreen</strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert |point| to this View's coordinate system from DIP screen coordinates. This View must belong to a Window when calling this function. Returns true (1) if the conversion is successful or false (0) otherwise. Use ICefDisplay.ConvertPointFromPixels() before calling this function if conversion from display-specific pixel coordinates is necessary. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ConvertPointToWindow-TCefPoint-"></span><code>function <strong>ConvertPointToWindow</strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert |point| from this View's coordinate system to that of the Window. This View must belong to a Window when calling this function. Returns true (1) if the conversion is successful or false (0) otherwise. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ConvertPointFromWindow-TCefPoint-"></span><code>function <strong>ConvertPointFromWindow</strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert |point| to this View's coordinate system from that of the Window. This View must belong to a Window when calling this function. Returns true (1) if the conversion is successful or false (0) otherwise. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ConvertPointToView-ICefView-TCefPoint-"></span><code>function <strong>ConvertPointToView</strong>(const view : <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert |point| from this View's coordinate system to that of |view|. |view| needs to be in the same Window but not necessarily the same view hierarchy. Returns true (1) if the conversion is successful or false (0) otherwise. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ConvertPointFromView-ICefView-TCefPoint-"></span><code>function <strong>ConvertPointFromView</strong>(const view : <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert |point| to this View's coordinate system from that |view|. |view| needs to be in the same Window but not necessarily the same view hierarchy. Returns true (1) if the conversion is successful or false (0) otherwise. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Initialized"></span><code>property <strong>Initialized</strong>                    : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetInitialized">GetInitialized</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true when the control is fully initialized. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsView"></span><code>property <strong>AsView</strong>                         : <a href="uCEFInterfaces.ICefView.html">ICefView</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetAsView">GetAsView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this control as a View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsBrowserView"></span><code>property <strong>AsBrowserView</strong>                  : <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>            read <a href="uCEFViewComponent.TCEFViewComponent.html#GetAsBrowserView">GetAsBrowserView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this View as a BrowserView or NULL if this is not a BrowserView. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsButton"></span><code>property <strong>AsButton</strong>                       : <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>                 read <a href="uCEFViewComponent.TCEFViewComponent.html#GetAsButton">GetAsButton</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this View as a Button or NULL if this is not a Button. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsPanel"></span><code>property <strong>AsPanel</strong>                        : <a href="uCEFInterfaces.ICefPanel.html">ICefPanel</a>                  read <a href="uCEFViewComponent.TCEFViewComponent.html#GetAsPanel">GetAsPanel</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this View as a Panel or NULL if this is not a Panel. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsScrollView"></span><code>property <strong>AsScrollView</strong>                   : <a href="uCEFInterfaces.ICefScrollView.html">ICefScrollView</a>             read <a href="uCEFViewComponent.TCEFViewComponent.html#GetAsScrollView">GetAsScrollView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this View as a ScrollView or NULL if this is not a ScrollView. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsTextfield"></span><code>property <strong>AsTextfield</strong>                    : <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>              read <a href="uCEFViewComponent.TCEFViewComponent.html#GetAsTextfield">GetAsTextfield</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this View as a Textfield or NULL if this is not a Textfield. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ViewForID"></span><code>property <strong>ViewForID</strong>[id_: Integer]: <a href="uCEFInterfaces.ICefView.html">ICefView</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetViewForID-Integer-">GetViewForID</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Recursively descends the view tree starting at this View, and returns the first child that it encounters with the given ID. Returns NULL if no matching child view is found. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Valid"></span><code>property <strong>Valid</strong>                          : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsValid">GetIsValid</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this View is valid. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Attached"></span><code>property <strong>Attached</strong>                       : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsAttached">GetIsAttached</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this View is currently attached to another View. A View can only be attached to one View at a time. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Delegate"></span><code>property <strong>Delegate</strong>                       : <a href="uCEFInterfaces.ICefViewDelegate.html">ICefViewDelegate</a>           read <a href="uCEFViewComponent.TCEFViewComponent.html#GetDelegate">GetDelegate</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the delegate associated with this View, if any. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Window"></span><code>property <strong>Window</strong>                         : <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>                 read <a href="uCEFViewComponent.TCEFViewComponent.html#GetWindow">GetWindow</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the top-level Window hosting this View, if any. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ParentView"></span><code>property <strong>ParentView</strong>                     : <a href="uCEFInterfaces.ICefView.html">ICefView</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetParentView">GetParentView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the View that contains this View, if any. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BoundsInScreen"></span><code>property <strong>BoundsInScreen</strong>                 : <a href="uCEFTypes.TCefRect.html">TCefRect</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetBoundsInScreen">GetBoundsInScreen</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the bounds (size and position) of this View in DIP screen coordinates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PreferredSize"></span><code>property <strong>PreferredSize</strong>                  : <a href="uCEFTypes.TCefSize.html">TCefSize</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetPreferredSize">GetPreferredSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the size this View would like to be if enough space is available. Size is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MinimumSize"></span><code>property <strong>MinimumSize</strong>                    : <a href="uCEFTypes.TCefSize.html">TCefSize</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetMinimumSize">GetMinimumSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the minimum size for this View. Size is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MaximumSize"></span><code>property <strong>MaximumSize</strong>                    : <a href="uCEFTypes.TCefSize.html">TCefSize</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetMaximumSize">GetMaximumSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the maximum size for this View. Size is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Visible"></span><code>property <strong>Visible</strong>                        : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsVisible">GetIsVisible</a>                   write <a href="uCEFViewComponent.TCEFViewComponent.html#SetVisible-boolean-">SetVisible</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns whether this View is visible. A view may be visible but still not drawn in a Window if any parent views are hidden. If this View is a Window then a return value of true (1) indicates that this Window is currently visible to the user on-screen. If this View is not a Window then call is_drawn() to determine whether this View and all parent views are visible and will be drawn. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Drawn"></span><code>property <strong>Drawn</strong>                          : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsDrawn">GetIsDrawn</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns whether this View is visible and drawn in a Window. A view is drawn if it and all parent views are visible. If this View is a Window then calling this function is equivalent to calling is_visible(). Otherwise, to determine if the containing Window is visible to the user on-screen call is_visible() on the Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Enabled"></span><code>property <strong>Enabled</strong>                        : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsEnabled">GetIsEnabled</a>                   write <a href="uCEFViewComponent.TCEFViewComponent.html#SetEnabled-boolean-">SetEnabled</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get or set whether this View is enabled. A disabled View does not receive keyboard or mouse inputs. If |enabled| differs from the current value the View will be repainted. Also, clears focus if the focused View is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Focusable"></span><code>property <strong>Focusable</strong>                      : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsFocusable">GetIsFocusable</a>                 write <a href="uCEFViewComponent.TCEFViewComponent.html#SetFocusable-boolean-">SetFocusable</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Gets and sets whether this View is capable of taking focus. It will clear focus if the focused View is set to be non-focusable. This is false (0) by default so that a View used as a container does not get the focus. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AccessibilityFocusable"></span><code>property <strong>AccessibilityFocusable</strong>         : boolean                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetIsAccessibilityFocusable">GetIsAccessibilityFocusable</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return whether this View is focusable when the user requires full keyboard access, even though it may not be normally focusable. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BackgroundColor"></span><code>property <strong>BackgroundColor</strong>                : <a href="uCEFTypes.html#TCefColor">TCefColor</a>                  read <a href="uCEFViewComponent.TCEFViewComponent.html#GetBackgroundColor">GetBackgroundColor</a>             write <a href="uCEFViewComponent.TCEFViewComponent.html#SetBackgroundColor-TCefColor-">SetBackgroundColor</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the background color for this View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ID"></span><code>property <strong>ID</strong>                             : integer                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetID">GetID</a>                          write <a href="uCEFViewComponent.TCEFViewComponent.html#SetID-Integer-">SetID</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Gets or sets the ID for this View. ID should be unique within the subtree that you intend to search for it. 0 is the default ID for views. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GroupID"></span><code>property <strong>GroupID</strong>                        : integer                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetGroupID">GetGroupID</a>                     write <a href="uCEFViewComponent.TCEFViewComponent.html#SetGroupID-Integer-">SetGroupID</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the group id of this View, or -1 if not set. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Bounds"></span><code>property <strong>Bounds</strong>                         : <a href="uCEFTypes.TCefRect.html">TCefRect</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetBounds">GetBounds</a>                      write <a href="uCEFViewComponent.TCEFViewComponent.html#SetBounds-TCefRect-">SetBounds</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the bounds (size and position) of this View in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Size"></span><code>property <strong>Size</strong>                           : <a href="uCEFTypes.TCefSize.html">TCefSize</a>                   read <a href="uCEFViewComponent.TCEFViewComponent.html#GetSize">GetSize</a>                        write <a href="uCEFViewComponent.TCEFViewComponent.html#SetSize-TCefSize-">SetSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the size of this View in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Position"></span><code>property <strong>Position</strong>                       : <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>                  read <a href="uCEFViewComponent.TCEFViewComponent.html#GetPosition">GetPosition</a>                    write <a href="uCEFViewComponent.TCEFViewComponent.html#SetPosition-TCefPoint-">SetPosition</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the position of this View. Position is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Insets"></span><code>property <strong>Insets</strong>                         : <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>                 read <a href="uCEFViewComponent.TCEFViewComponent.html#GetInsets">GetInsets</a>                      write <a href="uCEFViewComponent.TCEFViewComponent.html#SetInsets-TCefInsets-">SetInsets</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the insets for this View in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TypeString"></span><code>property <strong>TypeString</strong>                     : <a href="uCEFTypes.html#ustring">ustring</a>                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetTypeString">GetTypeString</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the type of this View as a string. Used primarily for testing purposes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HeightForWidth"></span><code>property <strong>HeightForWidth</strong>[width: Integer]: Integer                    read <a href="uCEFViewComponent.TCEFViewComponent.html#GetHeightForWidth-Integer-">GetHeightForWidth</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the height necessary to display this View with the provided width. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnGetPreferredSize"></span><code>property <strong>OnGetPreferredSize</strong>             : TOnGetPreferredSizeEvent   read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetPreferredSize">FOnGetPreferredSize</a>            write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetPreferredSize">FOnGetPreferredSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return the preferred size for |view|. The Layout will use this information to determine the display size. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnGetMinimumSize"></span><code>property <strong>OnGetMinimumSize</strong>               : TOnGetMinimumSizeEvent     read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetMinimumSize">FOnGetMinimumSize</a>              write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetMinimumSize">FOnGetMinimumSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return the minimum size for |view|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnGetMaximumSize"></span><code>property <strong>OnGetMaximumSize</strong>               : TOnGetMaximumSizeEvent     read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetMaximumSize">FOnGetMaximumSize</a>              write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetMaximumSize">FOnGetMaximumSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return the maximum size for |view|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnGetHeightForWidth"></span><code>property <strong>OnGetHeightForWidth</strong>            : TOnGetHeightForWidthEvent  read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetHeightForWidth">FOnGetHeightForWidth</a>           write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnGetHeightForWidth">FOnGetHeightForWidth</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return the height necessary to display |view| with the provided |width|. If not specified the result of get_preferred_size().height will be used by default. Override if |view|'s preferred height depends upon the width (for example, with Labels). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnParentViewChanged"></span><code>property <strong>OnParentViewChanged</strong>            : TOnParentViewChangedEvent  read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnParentViewChanged">FOnParentViewChanged</a>           write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnParentViewChanged">FOnParentViewChanged</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when the parent of |view| has changed. If |view| is being added to |parent| then |added| will be true (1). If |view| is being removed from |parent| then |added| will be false (0). If |view| is being reparented the remove notification will be sent before the add notification. Do not modify the view hierarchy in this callback. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnChildViewChanged"></span><code>property <strong>OnChildViewChanged</strong>             : TOnChildViewChangedEvent   read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnChildViewChanged">FOnChildViewChanged</a>            write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnChildViewChanged">FOnChildViewChanged</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when a child of |view| has changed. If |child| is being added to |view| then |added| will be true (1). If |child| is being removed from |view| then |added| will be false (0). If |child| is being reparented the remove notification will be sent to the old parent before the add notification is sent to the new parent. Do not modify the view hierarchy in this callback. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnWindowChanged"></span><code>property <strong>OnWindowChanged</strong>                : TOnWindowChangedEvent      read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnWindowChanged">FOnWindowChanged</a>               write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnWindowChanged">FOnWindowChanged</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when |view| is added or removed from the ICefWindow. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnLayoutChanged"></span><code>property <strong>OnLayoutChanged</strong>                : TOnLayoutChangedEvent      read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnLayoutChanged">FOnLayoutChanged</a>               write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnLayoutChanged">FOnLayoutChanged</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when the layout of |view| has changed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnFocus"></span><code>property <strong>OnFocus</strong>                        : TOnFocusEvent              read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnFocus">FOnFocus</a>                       write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnFocus">FOnFocus</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when |view| gains focus. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnBlur"></span><code>property <strong>OnBlur</strong>                         : TOnBlurEvent               read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnBlur">FOnBlur</a>                        write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnBlur">FOnBlur</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when |view| loses focus. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

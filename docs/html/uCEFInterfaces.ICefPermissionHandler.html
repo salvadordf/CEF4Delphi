@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefPermissionHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefPermissionHandler"></span><h1 class="cio">Interface ICefPermissionHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefPermissionHandler = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this interface to handle events related to permission requests. The functions of this interface will be called on the browser process UI thread. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_permission_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_permission_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_permission_handler_capi.h (cef_permission_handler_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefPermissionHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPermissionHandler.html#OnRequestMediaAccessPermission-ICefBrowser-ICefFrame-ustring-cardinal-ICefMediaAccessCallback-">OnRequestMediaAccessPermission</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const requesting_origin: <a href="uCEFTypes.html#ustring">ustring</a>; requested_permissions: cardinal; const callback: <a href="uCEFInterfaces.ICefMediaAccessCallback.html">ICefMediaAccessCallback</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefPermissionHandler.html#OnShowPermissionPrompt-ICefBrowser-uint64-ustring-cardinal-ICefPermissionPromptCallback-">OnShowPermissionPrompt</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; prompt_id: uint64; const requesting_origin: <a href="uCEFTypes.html#ustring">ustring</a>; requested_permissions: cardinal; const callback: <a href="uCEFInterfaces.ICefPermissionPromptCallback.html">ICefPermissionPromptCallback</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPermissionHandler.html#OnDismissPermissionPrompt-ICefBrowser-uint64-TCefPermissionRequestResult-">OnDismissPermissionPrompt</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; prompt_id: uint64; result: <a href="uCEFTypes.html#TCefPermissionRequestResult">TCefPermissionRequestResult</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPermissionHandler.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnRequestMediaAccessPermission-ICefBrowser-ICefFrame-ustring-cardinal-ICefMediaAccessCallback-"></span><code>function <strong>OnRequestMediaAccessPermission</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const requesting_origin: <a href="uCEFTypes.html#ustring">ustring</a>; requested_permissions: cardinal; const callback: <a href="uCEFInterfaces.ICefMediaAccessCallback.html">ICefMediaAccessCallback</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when a page requests permission to access media. |requesting_origin| is the URL origin requesting permission. |requested_permissions| is a combination of values from TCefMediaAccessPermissionTypes that represent the requested permissions. Return true (1) and call ICefMediaAccessCallback functions either in this function or at a later time to continue or cancel the request. Return false (0) to proceed with default handling. With the Chrome runtime, default handling will display the permission request UI. With the Alloy runtime, default handling will deny the request. This function will not be called if the &quot;&ndash;enable-media-stream&quot; command-line switch is used to grant all permissions. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{DC079268-FB08-44DA-B216-35C5C339B341}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnShowPermissionPrompt-ICefBrowser-uint64-ustring-cardinal-ICefPermissionPromptCallback-"></span><code>function <strong>OnShowPermissionPrompt</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; prompt_id: uint64; const requesting_origin: <a href="uCEFTypes.html#ustring">ustring</a>; requested_permissions: cardinal; const callback: <a href="uCEFInterfaces.ICefPermissionPromptCallback.html">ICefPermissionPromptCallback</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when a page should show a permission prompt. |prompt_id| uniquely identifies the prompt. |requesting_origin| is the URL origin requesting permission. |requested_permissions| is a combination of values from TCefPermissionRequestTypes that represent the requested permissions. Return true (1) and call ICefPermissionPromptCallback.Continue either in this function or at a later time to continue or cancel the request. Return false (0) to proceed with default handling. With the Chrome runtime, default handling will display the permission prompt UI. With the Alloy runtime, default handling is CEF_PERMISSION_RESULT_IGNORE. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnDismissPermissionPrompt-ICefBrowser-uint64-TCefPermissionRequestResult-"></span><code>procedure <strong>OnDismissPermissionPrompt</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; prompt_id: uint64; result: <a href="uCEFTypes.html#TCefPermissionRequestResult">TCefPermissionRequestResult</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when a permission prompt handled via OnShowPermissionPrompt is dismissed. |prompt_id| will match the value that was passed to OnShowPermissionPrompt. |result| will be the value passed to ICefPermissionPromptCallback.Continue or CEF_PERMISSION_RESULT_IGNORE if the dialog was dismissed for other reasons such as navigation, browser closure, etc. This function will not be called if OnShowPermissionPrompt returned false (0) for |prompt_id|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

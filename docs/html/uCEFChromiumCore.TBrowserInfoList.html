@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFChromiumCore: Class TBrowserInfoList</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TBrowserInfoList"></span><h1 class="cio">Class TBrowserInfoList</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFChromiumCore.html">uCEFChromiumCore</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TBrowserInfoList = class(TList)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor">TList</li>
+<li class="thisitem">TBrowserInfoList</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#SetBrowserIsClosing-integer-boolean-">SetBrowserIsClosing</a></strong>(aID : integer; aValue : boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#GetBrowserIsClosing-integer-">GetBrowserIsClosing</a></strong>(aID : integer) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#GetBrowserIsValid-integer-">GetBrowserIsValid</a></strong>(aID : integer) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#GetBrowser-integer-">GetBrowser</a></strong>(aID : integer) : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#GetFirstBrowser">GetFirstBrowser</a></strong>: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#GetFirstID">GetFirstID</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#AddBrowser-ICefBrowser-">AddBrowser</a></strong>(const aBrowser : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#RemoveBrowser-ICefBrowser-">RemoveBrowser</a></strong>(const aBrowser : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#SearchBrowser-integer-">SearchBrowser</a></strong>(aID : integer) : integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#FreeAndClearAllItems">FreeAndClearAllItems</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#CloseAllBrowsers">CloseAllBrowsers</a></strong>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#BrowserIsClosing">BrowserIsClosing</a></strong>[aID: integer]: boolean       read <a href="uCEFChromiumCore.TBrowserInfoList.html#GetBrowserIsClosing-integer-">GetBrowserIsClosing</a>  write <a href="uCEFChromiumCore.TBrowserInfoList.html#SetBrowserIsClosing-integer-boolean-">SetBrowserIsClosing</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#BrowserIsValid">BrowserIsValid</a></strong>[aID: integer]: boolean       read <a href="uCEFChromiumCore.TBrowserInfoList.html#GetBrowserIsValid-integer-">GetBrowserIsValid</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#Browser">Browser</a></strong>[aID: integer]: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>   read <a href="uCEFChromiumCore.TBrowserInfoList.html#GetBrowser-integer-">GetBrowser</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#FirstBrowser">FirstBrowser</a></strong>                    : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>   read <a href="uCEFChromiumCore.TBrowserInfoList.html#GetFirstBrowser">GetFirstBrowser</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TBrowserInfoList.html#FirstID">FirstID</a></strong>                         : integer       read <a href="uCEFChromiumCore.TBrowserInfoList.html#GetFirstID">GetFirstID</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetBrowserIsClosing-integer-boolean-"></span><code>procedure <strong>SetBrowserIsClosing</strong>(aID : integer; aValue : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBrowserIsClosing-integer-"></span><code>function <strong>GetBrowserIsClosing</strong>(aID : integer) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBrowserIsValid-integer-"></span><code>function <strong>GetBrowserIsValid</strong>(aID : integer) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBrowser-integer-"></span><code>function <strong>GetBrowser</strong>(aID : integer) : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetFirstBrowser"></span><code>function <strong>GetFirstBrowser</strong>: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetFirstID"></span><code>function <strong>GetFirstID</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddBrowser-ICefBrowser-"></span><code>function <strong>AddBrowser</strong>(const aBrowser : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveBrowser-ICefBrowser-"></span><code>function <strong>RemoveBrowser</strong>(const aBrowser : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SearchBrowser-integer-"></span><code>function <strong>SearchBrowser</strong>(aID : integer) : integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FreeAndClearAllItems"></span><code>procedure <strong>FreeAndClearAllItems</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CloseAllBrowsers"></span><code>procedure <strong>CloseAllBrowsers</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BrowserIsClosing"></span><code>property <strong>BrowserIsClosing</strong>[aID: integer]: boolean       read <a href="uCEFChromiumCore.TBrowserInfoList.html#GetBrowserIsClosing-integer-">GetBrowserIsClosing</a>  write <a href="uCEFChromiumCore.TBrowserInfoList.html#SetBrowserIsClosing-integer-boolean-">SetBrowserIsClosing</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BrowserIsValid"></span><code>property <strong>BrowserIsValid</strong>[aID: integer]: boolean       read <a href="uCEFChromiumCore.TBrowserInfoList.html#GetBrowserIsValid-integer-">GetBrowserIsValid</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Browser"></span><code>property <strong>Browser</strong>[aID: integer]: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>   read <a href="uCEFChromiumCore.TBrowserInfoList.html#GetBrowser-integer-">GetBrowser</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FirstBrowser"></span><code>property <strong>FirstBrowser</strong>                    : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>   read <a href="uCEFChromiumCore.TBrowserInfoList.html#GetFirstBrowser">GetFirstBrowser</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FirstID"></span><code>property <strong>FirstID</strong>                         : integer       read <a href="uCEFChromiumCore.TBrowserInfoList.html#GetFirstID">GetFirstID</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

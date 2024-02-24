@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFPrintHandler: Class TCustomPrintHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCustomPrintHandler"></span><h1 class="cio">Class TCustomPrintHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFPrintHandler.html">uCEFPrintHandler</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCustomPrintHandler = class(<a class="normal" href="uCEFPrintHandler.TCefPrintHandlerOwn.html">TCefPrintHandlerOwn</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="ancestor"><a class="normal" href="uCEFPrintHandler.TCefPrintHandlerOwn.html">TCefPrintHandlerOwn</a></li>
+<li class="thisitem">TCustomPrintHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPrintHandler.TCustomPrintHandler.html#FEvents">FEvents</a></strong>: Pointer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPrintHandler.TCustomPrintHandler.html#OnPrintStart-ICefBrowser-">OnPrintStart</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPrintHandler.TCustomPrintHandler.html#OnPrintSettings-ICefBrowser-ICefPrintSettings-boolean-">OnPrintSettings</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const settings: <a href="uCEFInterfaces.ICefPrintSettings.html">ICefPrintSettings</a>; getDefaults: boolean); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPrintHandler.TCustomPrintHandler.html#OnPrintDialog-ICefBrowser-boolean-ICefPrintDialogCallback-boolean-">OnPrintDialog</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; hasSelection: boolean; const callback: <a href="uCEFInterfaces.ICefPrintDialogCallback.html">ICefPrintDialogCallback</a>; var aResult: boolean); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPrintHandler.TCustomPrintHandler.html#OnPrintJob-ICefBrowser-ustring-ustring-ICefPrintJobCallback-boolean-">OnPrintJob</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const documentName, PDFFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefPrintJobCallback.html">ICefPrintJobCallback</a>; var aResult: boolean); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPrintHandler.TCustomPrintHandler.html#OnPrintReset-ICefBrowser-">OnPrintReset</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPrintHandler.TCustomPrintHandler.html#GetPDFPaperSize-ICefBrowser-Integer-TCefSize-">GetPDFPaperSize</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; deviceUnitsPerInch: Integer; var aResult: <a href="uCEFTypes.TCefSize.html">TCefSize</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPrintHandler.TCustomPrintHandler.html#RemoveReferences">RemoveReferences</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFPrintHandler.TCustomPrintHandler.html#Create-IChromiumEvents-">Create</a></strong>(const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFPrintHandler.TCustomPrintHandler.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FEvents"></span><code><strong>FEvents</strong>: Pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnPrintStart-ICefBrowser-"></span><code>procedure <strong>OnPrintStart</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPrintHandler.html#OnPrintStart-ICefBrowser-">ICefPrintHandler.OnPrintStart</a>.</p><p>
+ Called when printing has started for the specified |browser|. This function will be called before the other OnPrint*() functions and irrespective of how printing was initiated (e.g. ICefBrowserHost.print(), JavaScript window.print() or PDF extension print button). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnPrintSettings-ICefBrowser-ICefPrintSettings-boolean-"></span><code>procedure <strong>OnPrintSettings</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const settings: <a href="uCEFInterfaces.ICefPrintSettings.html">ICefPrintSettings</a>; getDefaults: boolean); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPrintHandler.html#OnPrintSettings-ICefBrowser-ICefPrintSettings-boolean-">ICefPrintHandler.OnPrintSettings</a>.</p><p>
+ Synchronize |settings| with client state. If |get_defaults| is true (1) then populate |settings| with the default print settings. Do not keep a reference to |settings| outside of this callback. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnPrintDialog-ICefBrowser-boolean-ICefPrintDialogCallback-boolean-"></span><code>procedure <strong>OnPrintDialog</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; hasSelection: boolean; const callback: <a href="uCEFInterfaces.ICefPrintDialogCallback.html">ICefPrintDialogCallback</a>; var aResult: boolean); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPrintHandler.html#OnPrintDialog-ICefBrowser-boolean-ICefPrintDialogCallback-boolean-">ICefPrintHandler.OnPrintDialog</a>.</p><p>
+ Show the print dialog. Execute |callback| once the dialog is dismissed. Return true (1) if the dialog will be displayed or false (0) to cancel the printing immediately. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnPrintJob-ICefBrowser-ustring-ustring-ICefPrintJobCallback-boolean-"></span><code>procedure <strong>OnPrintJob</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const documentName, PDFFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefPrintJobCallback.html">ICefPrintJobCallback</a>; var aResult: boolean); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPrintHandler.html#OnPrintJob-ICefBrowser-ustring-ustring-ICefPrintJobCallback-boolean-">ICefPrintHandler.OnPrintJob</a>.</p><p>
+ Send the print job to the printer. Execute |callback| once the job is completed. Return true (1) if the job will proceed or false (0) to cancel the job immediately. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnPrintReset-ICefBrowser-"></span><code>procedure <strong>OnPrintReset</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPrintHandler.html#OnPrintReset-ICefBrowser-">ICefPrintHandler.OnPrintReset</a>.</p><p>
+ Reset client state related to printing. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetPDFPaperSize-ICefBrowser-Integer-TCefSize-"></span><code>procedure <strong>GetPDFPaperSize</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; deviceUnitsPerInch: Integer; var aResult: <a href="uCEFTypes.TCefSize.html">TCefSize</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPrintHandler.html#GetPDFPaperSize-ICefBrowser-integer-TCefSize-">ICefPrintHandler.GetPDFPaperSize</a>.</p><p>
+ Return the PDF paper size in device units. Used in combination with ICefBrowserHost.PrintToPdf(). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPrintHandler.html#RemoveReferences">ICefPrintHandler.RemoveReferences</a>.</p><p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-IChromiumEvents-"></span><code>constructor <strong>Create</strong>(const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

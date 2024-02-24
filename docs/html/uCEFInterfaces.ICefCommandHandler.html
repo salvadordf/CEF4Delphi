@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefCommandHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefCommandHandler"></span><h1 class="cio">Interface ICefCommandHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefCommandHandler = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this interface to handle events related to commands. The functions of this interface will be called on the UI thread. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_command_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_command_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_command_handler_capi.h (cef_command_handler_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefCommandHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandHandler.html#OnChromeCommand-ICefBrowser-integer-TCefWindowOpenDisposition-">OnChromeCommand</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; command_id: integer; disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandHandler.html#OnIsChromeAppMenuItemVisible-ICefBrowser-integer-">OnIsChromeAppMenuItemVisible</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; command_id: integer): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandHandler.html#OnIsChromeAppMenuItemEnabled-ICefBrowser-integer-">OnIsChromeAppMenuItemEnabled</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; command_id: integer): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandHandler.html#OnIsChromePageActionIconVisible-TCefChromePageActionIconType-">OnIsChromePageActionIconVisible</a></strong>(icon_type: <a href="uCEFTypes.html#TCefChromePageActionIconType">TCefChromePageActionIconType</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefCommandHandler.html#OnIsChromeToolbarButtonVisible-TCefChromeToolbarButtonType-">OnIsChromeToolbarButtonVisible</a></strong>(button_type: <a href="uCEFTypes.html#TCefChromeToolbarButtonType">TCefChromeToolbarButtonType</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefCommandHandler.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnChromeCommand-ICefBrowser-integer-TCefWindowOpenDisposition-"></span><code>function <strong>OnChromeCommand</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; command_id: integer; disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called to execute a Chrome command triggered via menu selection or keyboard shortcut. Values for |command_id| can be found in the cef_command_ids.h file. |disposition| provides information about the intended command target. Return true (1) if the command was handled or false (0) for the default implementation. For context menu commands this will be called after ICefContextMenuHandler.OnContextMenuCommand. Only used with the Chrome runtime. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{7C931B93-53DC-4607-AABB-2CB4AEF7FB96}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnIsChromeAppMenuItemVisible-ICefBrowser-integer-"></span><code>function <strong>OnIsChromeAppMenuItemVisible</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; command_id: integer): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called to check if a Chrome app menu item should be visible. Values for |command_id| can be found in the cef_command_ids.h file. Only called for menu items that would be visible by default. Only used with the Chrome runtime. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnIsChromeAppMenuItemEnabled-ICefBrowser-integer-"></span><code>function <strong>OnIsChromeAppMenuItemEnabled</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; command_id: integer): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called to check if a Chrome app menu item should be enabled. Values for |command_id| can be found in the cef_command_ids.h file. Only called for menu items that would be enabled by default. Only used with the Chrome runtime. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnIsChromePageActionIconVisible-TCefChromePageActionIconType-"></span><code>function <strong>OnIsChromePageActionIconVisible</strong>(icon_type: <a href="uCEFTypes.html#TCefChromePageActionIconType">TCefChromePageActionIconType</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called during browser creation to check if a Chrome page action icon should be visible. Only called for icons that would be visible by default. Only used with the Chrome runtime. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnIsChromeToolbarButtonVisible-TCefChromeToolbarButtonType-"></span><code>function <strong>OnIsChromeToolbarButtonVisible</strong>(button_type: <a href="uCEFTypes.html#TCefChromeToolbarButtonType">TCefChromeToolbarButtonType</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called during browser creation to check if a Chrome toolbar button should be visible. Only called for buttons that would be visible by default. Only used with the Chrome runtime. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

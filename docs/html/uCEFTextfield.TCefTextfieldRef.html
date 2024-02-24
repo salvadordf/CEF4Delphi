@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTextfield: Class TCefTextfieldRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefTextfieldRef"></span><h1 class="cio">Class TCefTextfieldRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTextfield.html">uCEFTextfield</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefTextfieldRef = class(<a class="normal" href="uCEFView.TCefViewRef.html">TCefViewRef</a>, <a class="normal" href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ A Textfield supports editing of text. This control is custom rendered with no platform-specific code. Methods must be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_textfield_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_textfield_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_textfield_capi.h (cef_textfield_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="ancestor"><a class="normal" href="uCEFView.TCefViewRef.html">TCefViewRef</a></li>
+<li class="thisitem">TCefTextfieldRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#SetPasswordInput-boolean-">SetPasswordInput</a></strong>(password_input: boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#IsPasswordInput">IsPasswordInput</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#SetReadOnly-boolean-">SetReadOnly</a></strong>(read_only: boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#IsReadOnly">IsReadOnly</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#GetText">GetText</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#SetText-ustring-">SetText</a></strong>(const text_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#AppendText-ustring-">AppendText</a></strong>(const text_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#InsertOrReplaceText-ustring-">InsertOrReplaceText</a></strong>(const text_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#HasSelection">HasSelection</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#GetSelectedText">GetSelectedText</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#SelectAll-boolean-">SelectAll</a></strong>(reversed: boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#ClearSelection">ClearSelection</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#GetSelectedRange">GetSelectedRange</a></strong>: <a href="uCEFTypes.TCefRange.html">TCefRange</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#SelectRange-TCefRange-">SelectRange</a></strong>(const range: <a href="uCEFTypes.TCefRange.html">TCefRange</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#GetCursorPosition">GetCursorPosition</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#SetTextColor-TCefColor-">SetTextColor</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#GetTextColor">GetTextColor</a></strong>: <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#SetSelectionTextColor-TCefColor-">SetSelectionTextColor</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#GetSelectionTextColor">GetSelectionTextColor</a></strong>: <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#SetSelectionBackgroundColor-TCefColor-">SetSelectionBackgroundColor</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#GetSelectionBackgroundColor">GetSelectionBackgroundColor</a></strong>: <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#SetFontList-ustring-">SetFontList</a></strong>(const font_list: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#ApplyTextColor-TCefColor-TCefRange-">ApplyTextColor</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>; const range: <a href="uCEFTypes.TCefRange.html">TCefRange</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#ApplyTextStyle-TCefTextStyle-boolean-TCefRange-">ApplyTextStyle</a></strong>(style: <a href="uCEFTypes.html#TCefTextStyle">TCefTextStyle</a>; add: boolean; const range: <a href="uCEFTypes.TCefRange.html">TCefRange</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#IsCommandEnabled-TCefTextFieldCommands-">IsCommandEnabled</a></strong>(command_id: <a href="uCEFTypes.html#TCefTextFieldCommands">TCefTextFieldCommands</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#ExecuteCommand-TCefTextFieldCommands-">ExecuteCommand</a></strong>(command_id: <a href="uCEFTypes.html#TCefTextFieldCommands">TCefTextFieldCommands</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#ClearEditHistory">ClearEditHistory</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#SetPlaceholderText-ustring-">SetPlaceholderText</a></strong>(const text_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#GetPlaceholderText">GetPlaceholderText</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#SetPlaceholderTextColor-TCefColor-">SetPlaceholderTextColor</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfield.TCefTextfieldRef.html#SetAccessibleName-ustring-">SetAccessibleName</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFTextfield.TCefTextfieldRef.html#CreateTextField-ICefTextfieldDelegate-">CreateTextField</a></strong>(const delegate: <a href="uCEFInterfaces.ICefTextfieldDelegate.html">ICefTextfieldDelegate</a>): <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetPasswordInput-boolean-"></span><code>procedure <strong>SetPasswordInput</strong>(password_input: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets whether the text will be displayed as asterisks. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsPasswordInput"></span><code>function <strong>IsPasswordInput</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the text will be displayed as asterisks. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetReadOnly-boolean-"></span><code>procedure <strong>SetReadOnly</strong>(read_only: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets whether the text will read-only. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsReadOnly"></span><code>function <strong>IsReadOnly</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the text is read-only. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetText"></span><code>function <strong>GetText</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the currently displayed text. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetText-ustring-"></span><code>procedure <strong>SetText</strong>(const text_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the contents to |text|. The cursor will be moved to end of the text if the current position is outside of the text range. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="AppendText-ustring-"></span><code>procedure <strong>AppendText</strong>(const text_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Appends |text| to the previously-existing text. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="InsertOrReplaceText-ustring-"></span><code>procedure <strong>InsertOrReplaceText</strong>(const text_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Inserts |text| at the current cursor position replacing any selected text. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HasSelection"></span><code>function <strong>HasSelection</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if there is any selected text. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetSelectedText"></span><code>function <strong>GetSelectedText</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the currently selected text. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SelectAll-boolean-"></span><code>procedure <strong>SelectAll</strong>(reversed: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Selects all text. If |reversed| is true (1) the range will end at the logical beginning of the text; this generally shows the leading portion of text that overflows its display area. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ClearSelection"></span><code>procedure <strong>ClearSelection</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Clears the text selection and sets the caret to the end. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetSelectedRange"></span><code>function <strong>GetSelectedRange</strong>: <a href="uCEFTypes.TCefRange.html">TCefRange</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the selected logical text range. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SelectRange-TCefRange-"></span><code>procedure <strong>SelectRange</strong>(const range: <a href="uCEFTypes.TCefRange.html">TCefRange</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Selects the specified logical text range. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetCursorPosition"></span><code>function <strong>GetCursorPosition</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current cursor position. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetTextColor-TCefColor-"></span><code>procedure <strong>SetTextColor</strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the text color. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetTextColor"></span><code>function <strong>GetTextColor</strong>: <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the text color. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetSelectionTextColor-TCefColor-"></span><code>procedure <strong>SetSelectionTextColor</strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the selection text color. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetSelectionTextColor"></span><code>function <strong>GetSelectionTextColor</strong>: <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the selection text color. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetSelectionBackgroundColor-TCefColor-"></span><code>procedure <strong>SetSelectionBackgroundColor</strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the selection background color. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetSelectionBackgroundColor"></span><code>function <strong>GetSelectionBackgroundColor</strong>: <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the selection background color. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetFontList-ustring-"></span><code>procedure <strong>SetFontList</strong>(const font_list: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the font list. The format is &quot;&lt;FONT_FAMILY_LIST&gt;,[STYLES] &lt;SIZE&gt;&quot;, where: - FONT_FAMILY_LIST is a comma-separated list of font family names, - STYLES is an optional space-separated list of style names (case-sensitive &quot;Bold&quot; and &quot;Italic&quot; are supported), and - SIZE is an integer font size in pixels with the suffix &quot;px&quot;.
+
+<p>Here are examples of valid font description strings: - &quot;Arial, Helvetica, Bold Italic 14px&quot; - &quot;Arial, 14px&quot; </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ApplyTextColor-TCefColor-TCefRange-"></span><code>procedure <strong>ApplyTextColor</strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>; const range: <a href="uCEFTypes.TCefRange.html">TCefRange</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Applies |color| to the specified |range| without changing the default color. If |range| is NULL the color will be set on the complete text contents. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ApplyTextStyle-TCefTextStyle-boolean-TCefRange-"></span><code>procedure <strong>ApplyTextStyle</strong>(style: <a href="uCEFTypes.html#TCefTextStyle">TCefTextStyle</a>; add: boolean; const range: <a href="uCEFTypes.TCefRange.html">TCefRange</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Applies |style| to the specified |range| without changing the default style. If |add| is true (1) the style will be added, otherwise the style will be removed. If |range| is NULL the style will be set on the complete text contents. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsCommandEnabled-TCefTextFieldCommands-"></span><code>function <strong>IsCommandEnabled</strong>(command_id: <a href="uCEFTypes.html#TCefTextFieldCommands">TCefTextFieldCommands</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the action associated with the specified command id is enabled. See additional comments on execute_command(). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ExecuteCommand-TCefTextFieldCommands-"></span><code>procedure <strong>ExecuteCommand</strong>(command_id: <a href="uCEFTypes.html#TCefTextFieldCommands">TCefTextFieldCommands</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Performs the action associated with the specified command id. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ClearEditHistory"></span><code>procedure <strong>ClearEditHistory</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Clears Edit history. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetPlaceholderText-ustring-"></span><code>procedure <strong>SetPlaceholderText</strong>(const text_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the placeholder text that will be displayed when the Textfield is NULL. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetPlaceholderText"></span><code>function <strong>GetPlaceholderText</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the placeholder text that will be displayed when the Textfield is NULL. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetPlaceholderTextColor-TCefColor-"></span><code>procedure <strong>SetPlaceholderTextColor</strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the placeholder text color. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetAccessibleName-ustring-"></span><code>procedure <strong>SetAccessibleName</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the accessible name that will be exposed to assistive technology (AT). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a ICefTextfield instance using a PCefTextfield data pointer. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateTextField-ICefTextfieldDelegate-"></span><code>class function <strong>CreateTextField</strong>(const delegate: <a href="uCEFInterfaces.ICefTextfieldDelegate.html">ICefTextfieldDelegate</a>): <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new Textfield. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

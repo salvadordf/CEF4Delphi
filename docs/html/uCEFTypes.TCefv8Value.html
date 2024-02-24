@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefv8Value</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefv8Value"></span><h1 class="cio">Record TCefv8Value</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefv8Value = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure representing a V8 value handle. V8 handles can only be accessed from the thread on which they are created. Valid threads for creating a V8 handle include the render process main thread (TID_RENDERER) and WebWorker threads. A task runner for posting tasks on the associated thread can be retrieved via the ICefv8context.GetTaskRunner() function. </p>
+<p>
+
+
+<p>Implemented by ICefv8Value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_v8_capi.h (cef_v8value_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_valid">is_valid</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_undefined">is_undefined</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_null">is_null</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_bool">is_bool</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_int">is_int</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_uint">is_uint</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_double">is_double</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_date">is_date</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_string">is_string</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_object">is_object</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_array">is_array</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_array_buffer">is_array_buffer</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_function">is_function</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_promise">is_promise</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_same">is_same</a></strong>: function(self, that: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_bool_value">get_bool_value</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_int_value">get_int_value</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_uint_value">get_uint_value</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Cardinal; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_double_value">get_double_value</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Double; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_date_value">get_date_value</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_string_value">get_string_value</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#is_user_created">is_user_created</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#has_exception">has_exception</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_exception">get_exception</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#PCefV8Exception">PCefV8Exception</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#clear_exception">clear_exception</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#will_rethrow_exceptions">will_rethrow_exceptions</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#set_rethrow_exceptions">set_rethrow_exceptions</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; rethrow: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#has_value_bykey">has_value_bykey</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#has_value_byindex">has_value_byindex</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; index: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#delete_value_bykey">delete_value_bykey</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#delete_value_byindex">delete_value_byindex</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; index: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_value_bykey">get_value_bykey</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_value_byindex">get_value_byindex</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; index: Integer): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#set_value_bykey">set_value_bykey</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>; value: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; attribute: <a href="uCEFTypes.html#TCefV8PropertyAttributes">TCefV8PropertyAttributes</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#set_value_byindex">set_value_byindex</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; index: Integer; value: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#set_value_byaccessor">set_value_byaccessor</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>; settings: Integer; attribute: <a href="uCEFTypes.html#TCefV8PropertyAttributes">TCefV8PropertyAttributes</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_keys">get_keys</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; keys: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#set_user_data">set_user_data</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; user_data: <a href="uCEFTypes.html#PCefBaseRefCounted">PCefBaseRefCounted</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_user_data">get_user_data</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#PCefBaseRefCounted">PCefBaseRefCounted</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_externally_allocated_memory">get_externally_allocated_memory</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#adjust_externally_allocated_memory">adjust_externally_allocated_memory</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; change_in_bytes: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_array_length">get_array_length</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_array_buffer_release_callback">get_array_buffer_release_callback</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#PCefv8ArrayBufferReleaseCallback">PCefv8ArrayBufferReleaseCallback</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#neuter_array_buffer">neuter_array_buffer</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_array_buffer_byte_length">get_array_buffer_byte_length</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_array_buffer_data">get_array_buffer_data</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Pointer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_function_name">get_function_name</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#get_function_handler">get_function_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#PCefv8Handler">PCefv8Handler</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#execute_function">execute_function</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; obj: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; argumentsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const arguments: <a href="uCEFTypes.html#PPCefV8Value">PPCefV8Value</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#execute_function_with_context">execute_function_with_context</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; context: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; obj: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; argumentsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const arguments: <a href="uCEFTypes.html#PPCefV8Value">PPCefV8Value</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#resolve_promise">resolve_promise</a></strong>: function(self, arg: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefv8Value.html#reject_promise">reject_promise</a></strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; const errorMsg: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_valid"></span><code><strong>is_valid</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_undefined"></span><code><strong>is_undefined</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_null"></span><code><strong>is_null</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_bool"></span><code><strong>is_bool</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_int"></span><code><strong>is_int</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_uint"></span><code><strong>is_uint</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_double"></span><code><strong>is_double</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_date"></span><code><strong>is_date</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_string"></span><code><strong>is_string</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_object"></span><code><strong>is_object</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_array"></span><code><strong>is_array</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_array_buffer"></span><code><strong>is_array_buffer</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_function"></span><code><strong>is_function</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_promise"></span><code><strong>is_promise</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_same"></span><code><strong>is_same</strong>: function(self, that: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_bool_value"></span><code><strong>get_bool_value</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_int_value"></span><code><strong>get_int_value</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_uint_value"></span><code><strong>get_uint_value</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Cardinal; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_double_value"></span><code><strong>get_double_value</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Double; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_date_value"></span><code><strong>get_date_value</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_string_value"></span><code><strong>get_string_value</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_user_created"></span><code><strong>is_user_created</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_exception"></span><code><strong>has_exception</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_exception"></span><code><strong>get_exception</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#PCefV8Exception">PCefV8Exception</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="clear_exception"></span><code><strong>clear_exception</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="will_rethrow_exceptions"></span><code><strong>will_rethrow_exceptions</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_rethrow_exceptions"></span><code><strong>set_rethrow_exceptions</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; rethrow: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_value_bykey"></span><code><strong>has_value_bykey</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_value_byindex"></span><code><strong>has_value_byindex</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; index: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="delete_value_bykey"></span><code><strong>delete_value_bykey</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="delete_value_byindex"></span><code><strong>delete_value_byindex</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; index: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_value_bykey"></span><code><strong>get_value_bykey</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_value_byindex"></span><code><strong>get_value_byindex</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; index: Integer): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_value_bykey"></span><code><strong>set_value_bykey</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>; value: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; attribute: <a href="uCEFTypes.html#TCefV8PropertyAttributes">TCefV8PropertyAttributes</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_value_byindex"></span><code><strong>set_value_byindex</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; index: Integer; value: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_value_byaccessor"></span><code><strong>set_value_byaccessor</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>; settings: Integer; attribute: <a href="uCEFTypes.html#TCefV8PropertyAttributes">TCefV8PropertyAttributes</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_keys"></span><code><strong>get_keys</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; keys: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_user_data"></span><code><strong>set_user_data</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; user_data: <a href="uCEFTypes.html#PCefBaseRefCounted">PCefBaseRefCounted</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_user_data"></span><code><strong>get_user_data</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#PCefBaseRefCounted">PCefBaseRefCounted</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_externally_allocated_memory"></span><code><strong>get_externally_allocated_memory</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="adjust_externally_allocated_memory"></span><code><strong>adjust_externally_allocated_memory</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; change_in_bytes: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_array_length"></span><code><strong>get_array_length</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_array_buffer_release_callback"></span><code><strong>get_array_buffer_release_callback</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#PCefv8ArrayBufferReleaseCallback">PCefv8ArrayBufferReleaseCallback</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="neuter_array_buffer"></span><code><strong>neuter_array_buffer</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_array_buffer_byte_length"></span><code><strong>get_array_buffer_byte_length</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_array_buffer_data"></span><code><strong>get_array_buffer_data</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Pointer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_function_name"></span><code><strong>get_function_name</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_function_handler"></span><code><strong>get_function_handler</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): <a href="uCEFTypes.html#PCefv8Handler">PCefv8Handler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="execute_function"></span><code><strong>execute_function</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; obj: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; argumentsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const arguments: <a href="uCEFTypes.html#PPCefV8Value">PPCefV8Value</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="execute_function_with_context"></span><code><strong>execute_function_with_context</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; context: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; obj: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; argumentsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const arguments: <a href="uCEFTypes.html#PPCefV8Value">PPCefV8Value</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="resolve_promise"></span><code><strong>resolve_promise</strong>: function(self, arg: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="reject_promise"></span><code><strong>reject_promise</strong>: function(self: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; const errorMsg: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

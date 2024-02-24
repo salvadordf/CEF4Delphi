@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFv8Value: Class TCefv8ValueRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefv8ValueRef"></span><h1 class="cio">Class TCefv8ValueRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFv8Value.html">uCEFv8Value</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefv8ValueRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="thisitem">TCefv8ValueRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsValid">IsValid</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsUndefined">IsUndefined</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsNull">IsNull</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsBool">IsBool</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsInt">IsInt</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsUInt">IsUInt</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsDouble">IsDouble</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsDate">IsDate</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsString">IsString</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsObject">IsObject</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsArray">IsArray</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsArrayBuffer">IsArrayBuffer</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsFunction">IsFunction</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsPromise">IsPromise</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsSame-ICefv8Value-">IsSame</a></strong>(const that: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetBoolValue">GetBoolValue</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetIntValue">GetIntValue</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetUIntValue">GetUIntValue</a></strong>: Cardinal;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetDoubleValue">GetDoubleValue</a></strong>: Double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetDateValue">GetDateValue</a></strong>: TDateTime;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetStringValue">GetStringValue</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#IsUserCreated">IsUserCreated</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#HasException">HasException</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetException">GetException</a></strong>: <a href="uCEFInterfaces.ICefV8Exception.html">ICefV8Exception</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#ClearException">ClearException</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#WillRethrowExceptions">WillRethrowExceptions</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#SetRethrowExceptions-Boolean-">SetRethrowExceptions</a></strong>(rethrow: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#HasValueByKey-ustring-">HasValueByKey</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#HasValueByIndex-Integer-">HasValueByIndex</a></strong>(index: Integer): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#DeleteValueByKey-ustring-">DeleteValueByKey</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#DeleteValueByIndex-Integer-">DeleteValueByIndex</a></strong>(index: Integer): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetValueByKey-ustring-">GetValueByKey</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetValueByIndex-Integer-">GetValueByIndex</a></strong>(index: Integer): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#SetValueByKey-ustring-ICefv8Value-TCefV8PropertyAttributes-">SetValueByKey</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; attribute: <a href="uCEFTypes.html#TCefV8PropertyAttributes">TCefV8PropertyAttributes</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#SetValueByIndex-Integer-ICefv8Value-">SetValueByIndex</a></strong>(index: Integer; const value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#SetValueByAccessor-ustring-TCefV8AccessControls-TCefV8PropertyAttributes-">SetValueByAccessor</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; settings: <a href="uCEFTypes.html#TCefV8AccessControls">TCefV8AccessControls</a>; attribute: <a href="uCEFTypes.html#TCefV8PropertyAttributes">TCefV8PropertyAttributes</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetKeys-TStrings-">GetKeys</a></strong>(const keys: TStrings): Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#SetUserData-ICefv8Value-">SetUserData</a></strong>(const data: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetUserData">GetUserData</a></strong>: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetExternallyAllocatedMemory">GetExternallyAllocatedMemory</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#AdjustExternallyAllocatedMemory-Integer-">AdjustExternallyAllocatedMemory</a></strong>(changeInBytes: Integer): Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetArrayLength">GetArrayLength</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetArrayBufferReleaseCallback">GetArrayBufferReleaseCallback</a></strong>: <a href="uCEFInterfaces.ICefv8ArrayBufferReleaseCallback.html">ICefv8ArrayBufferReleaseCallback</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NeuterArrayBuffer">NeuterArrayBuffer</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetArrayBufferByteLength">GetArrayBufferByteLength</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetArrayBufferData">GetArrayBufferData</a></strong>: Pointer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetFunctionName">GetFunctionName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#GetFunctionHandler">GetFunctionHandler</a></strong>: <a href="uCEFInterfaces.ICefv8Handler.html">ICefv8Handler</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#ExecuteFunction-ICefv8Value-TCefv8ValueArray-">ExecuteFunction</a></strong>(const obj: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; const arguments: <a href="uCEFInterfaces.html#TCefv8ValueArray">TCefv8ValueArray</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#ExecuteFunctionWithContext-ICefv8Context-ICefv8Value-TCefv8ValueArray-">ExecuteFunctionWithContext</a></strong>(const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>; const obj: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; const arguments: <a href="uCEFInterfaces.html#TCefv8ValueArray">TCefv8ValueArray</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#ResolvePromise-ICefv8Value-">ResolvePromise</a></strong>(const arg: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#RejectPromise-ustring-">RejectPromise</a></strong>(const errorMsg: <a href="uCEFTypes.html#ustring">ustring</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewUndefined">NewUndefined</a></strong>: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewNull">NewNull</a></strong>: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewBool-Boolean-">NewBool</a></strong>(value: Boolean): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewInt-Integer-">NewInt</a></strong>(value: Integer): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewUInt-Cardinal-">NewUInt</a></strong>(value: Cardinal): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewDouble-Double-">NewDouble</a></strong>(value: Double): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewDate-TDateTime-">NewDate</a></strong>(value: TDateTime): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewString-ustring-">NewString</a></strong>(const str: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewObject-ICefV8Accessor-ICefV8Interceptor-">NewObject</a></strong>(const Accessor: <a href="uCEFInterfaces.ICefV8Accessor.html">ICefV8Accessor</a>; const Interceptor: <a href="uCEFInterfaces.ICefV8Interceptor.html">ICefV8Interceptor</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewObjectProc-TCefV8AccessorGetterProc-TCefV8AccessorSetterProc-TCefV8InterceptorGetterByNameProc-TCefV8InterceptorSetterByNameProc-TCefV8InterceptorGetterByIndexProc-TCefV8InterceptorSetterByIndexProc-">NewObjectProc</a></strong>(const getter : TCefV8AccessorGetterProc; const setter : TCefV8AccessorSetterProc; const getterbyname : TCefV8InterceptorGetterByNameProc; const setterbyname : TCefV8InterceptorSetterByNameProc; const getterbyindex : TCefV8InterceptorGetterByIndexProc; const setterbyindex : TCefV8InterceptorSetterByIndexProc): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewArray-Integer-">NewArray</a></strong>(len: Integer): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewArrayBuffer-Pointer-NativeUInt-ICefv8ArrayBufferReleaseCallback-">NewArrayBuffer</a></strong>(buffer: Pointer; length: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const callback : <a href="uCEFInterfaces.ICefv8ArrayBufferReleaseCallback.html">ICefv8ArrayBufferReleaseCallback</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewFunction-ustring-ICefv8Handler-">NewFunction</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const handler: <a href="uCEFInterfaces.ICefv8Handler.html">ICefv8Handler</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewPromise">NewPromise</a></strong>: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsValid"></span><code>function <strong>IsValid</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsValid">ICefv8Value.IsValid</a>.</p><p>
+ Returns true (1) if the underlying handle is valid and it can be accessed on the current thread. Do not call any other functions if this function returns false (0). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsUndefined"></span><code>function <strong>IsUndefined</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsUndefined">ICefv8Value.IsUndefined</a>.</p><p>
+ True if the value type is undefined. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsNull"></span><code>function <strong>IsNull</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsNull">ICefv8Value.IsNull</a>.</p><p>
+ True if the value type is null. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsBool"></span><code>function <strong>IsBool</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsBool">ICefv8Value.IsBool</a>.</p><p>
+ True if the value type is bool. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsInt"></span><code>function <strong>IsInt</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsInt">ICefv8Value.IsInt</a>.</p><p>
+ True if the value type is int. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsUInt"></span><code>function <strong>IsUInt</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsUInt">ICefv8Value.IsUInt</a>.</p><p>
+ True if the value type is unsigned int. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsDouble"></span><code>function <strong>IsDouble</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsDouble">ICefv8Value.IsDouble</a>.</p><p>
+ True if the value type is double. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsDate"></span><code>function <strong>IsDate</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsDate">ICefv8Value.IsDate</a>.</p><p>
+ True if the value type is Date. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsString"></span><code>function <strong>IsString</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsString">ICefv8Value.IsString</a>.</p><p>
+ True if the value type is string. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsObject"></span><code>function <strong>IsObject</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsObject">ICefv8Value.IsObject</a>.</p><p>
+ True if the value type is object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsArray"></span><code>function <strong>IsArray</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsArray">ICefv8Value.IsArray</a>.</p><p>
+ True if the value type is array. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsArrayBuffer"></span><code>function <strong>IsArrayBuffer</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsArrayBuffer">ICefv8Value.IsArrayBuffer</a>.</p><p>
+ True if the value type is an ArrayBuffer. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsFunction"></span><code>function <strong>IsFunction</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsFunction">ICefv8Value.IsFunction</a>.</p><p>
+ True if the value type is function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsPromise"></span><code>function <strong>IsPromise</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsPromise">ICefv8Value.IsPromise</a>.</p><p>
+ True if the value type is a Promise. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsSame-ICefv8Value-"></span><code>function <strong>IsSame</strong>(const that: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsSame-ICefv8Value-">ICefv8Value.IsSame</a>.</p><p>
+ Returns true (1) if this object is pointing to the same handle as |that| object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBoolValue"></span><code>function <strong>GetBoolValue</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetBoolValue">ICefv8Value.GetBoolValue</a>.</p><p>
+ Return a bool value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetIntValue"></span><code>function <strong>GetIntValue</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetIntValue">ICefv8Value.GetIntValue</a>.</p><p>
+ Return an int value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetUIntValue"></span><code>function <strong>GetUIntValue</strong>: Cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetUIntValue">ICefv8Value.GetUIntValue</a>.</p><p>
+ Return an unsigned int value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetDoubleValue"></span><code>function <strong>GetDoubleValue</strong>: Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetDoubleValue">ICefv8Value.GetDoubleValue</a>.</p><p>
+ Return a double value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetDateValue"></span><code>function <strong>GetDateValue</strong>: TDateTime;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetDateValue">ICefv8Value.GetDateValue</a>.</p><p>
+ Return a Date value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetStringValue"></span><code>function <strong>GetStringValue</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetStringValue">ICefv8Value.GetStringValue</a>.</p><p>
+ Return a string value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsUserCreated"></span><code>function <strong>IsUserCreated</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#IsUserCreated">ICefv8Value.IsUserCreated</a>.</p><p>
+ Returns true (1) if this is a user created object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HasException"></span><code>function <strong>HasException</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#HasException">ICefv8Value.HasException</a>.</p><p>
+ Returns true (1) if the last function call resulted in an exception. This attribute exists only in the scope of the current CEF value object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetException"></span><code>function <strong>GetException</strong>: <a href="uCEFInterfaces.ICefV8Exception.html">ICefV8Exception</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetException">ICefv8Value.GetException</a>.</p><p>
+ Returns the exception resulting from the last function call. This attribute exists only in the scope of the current CEF value object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ClearException"></span><code>function <strong>ClearException</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#ClearException">ICefv8Value.ClearException</a>.</p><p>
+ Clears the last exception and returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WillRethrowExceptions"></span><code>function <strong>WillRethrowExceptions</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#WillRethrowExceptions">ICefv8Value.WillRethrowExceptions</a>.</p><p>
+ Returns true (1) if this object will re-throw future exceptions. This attribute exists only in the scope of the current CEF value object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetRethrowExceptions-Boolean-"></span><code>function <strong>SetRethrowExceptions</strong>(rethrow: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#SetRethrowExceptions-Boolean-">ICefv8Value.SetRethrowExceptions</a>.</p><p>
+ Set whether this object will re-throw future exceptions. By default exceptions are not re-thrown. If a exception is re-thrown the current context should not be accessed again until after the exception has been caught and not re-thrown. Returns true (1) on success. This attribute exists only in the scope of the current CEF value object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HasValueByKey-ustring-"></span><code>function <strong>HasValueByKey</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#HasValueByKey-ustring-">ICefv8Value.HasValueByKey</a>.</p><p>
+ Returns true (1) if the object has a value with the specified identifier. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HasValueByIndex-Integer-"></span><code>function <strong>HasValueByIndex</strong>(index: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#HasValueByIndex-Integer-">ICefv8Value.HasValueByIndex</a>.</p><p>
+ Returns true (1) if the object has a value with the specified identifier. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DeleteValueByKey-ustring-"></span><code>function <strong>DeleteValueByKey</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#DeleteValueByKey-ustring-">ICefv8Value.DeleteValueByKey</a>.</p><p>
+ Deletes the value with the specified identifier and returns true (1) on success. Returns false (0) if this function is called incorrectly or an exception is thrown. For read-only and don't-delete values this function will return true (1) even though deletion failed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DeleteValueByIndex-Integer-"></span><code>function <strong>DeleteValueByIndex</strong>(index: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#DeleteValueByIndex-Integer-">ICefv8Value.DeleteValueByIndex</a>.</p><p>
+ Deletes the value with the specified identifier and returns true (1) on success. Returns false (0) if this function is called incorrectly, deletion fails or an exception is thrown. For read-only and don't-delete values this function will return true (1) even though deletion failed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetValueByKey-ustring-"></span><code>function <strong>GetValueByKey</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetValueByKey-ustring-">ICefv8Value.GetValueByKey</a>.</p><p>
+ Returns the value with the specified identifier on success. Returns NULL if this function is called incorrectly or an exception is thrown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetValueByIndex-Integer-"></span><code>function <strong>GetValueByIndex</strong>(index: Integer): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetValueByIndex-Integer-">ICefv8Value.GetValueByIndex</a>.</p><p>
+ Returns the value with the specified identifier on success. Returns NULL if this function is called incorrectly or an exception is thrown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetValueByKey-ustring-ICefv8Value-TCefV8PropertyAttributes-"></span><code>function <strong>SetValueByKey</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; attribute: <a href="uCEFTypes.html#TCefV8PropertyAttributes">TCefV8PropertyAttributes</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#SetValueByKey-ustring-ICefv8Value-TCefV8PropertyAttributes-">ICefv8Value.SetValueByKey</a>.</p><p>
+ Associates a value with the specified identifier and returns true (1) on success. Returns false (0) if this function is called incorrectly or an exception is thrown. For read-only values this function will return true (1) even though assignment failed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetValueByIndex-Integer-ICefv8Value-"></span><code>function <strong>SetValueByIndex</strong>(index: Integer; const value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#SetValueByIndex-Integer-ICefv8Value-">ICefv8Value.SetValueByIndex</a>.</p><p>
+ Associates a value with the specified identifier and returns true (1) on success. Returns false (0) if this function is called incorrectly or an exception is thrown. For read-only values this function will return true (1) even though assignment failed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetValueByAccessor-ustring-TCefV8AccessControls-TCefV8PropertyAttributes-"></span><code>function <strong>SetValueByAccessor</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; settings: <a href="uCEFTypes.html#TCefV8AccessControls">TCefV8AccessControls</a>; attribute: <a href="uCEFTypes.html#TCefV8PropertyAttributes">TCefV8PropertyAttributes</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#SetValueByAccessor-ustring-TCefV8AccessControls-TCefV8PropertyAttributes-">ICefv8Value.SetValueByAccessor</a>.</p><p>
+ Registers an identifier and returns true (1) on success. Access to the identifier will be forwarded to the ICefV8Accessor instance passed to cef_v8value_create_object(). Returns false (0) if this function is called incorrectly or an exception is thrown. For read-only values this function will return true (1) even though assignment failed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetKeys-TStrings-"></span><code>function <strong>GetKeys</strong>(const keys: TStrings): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetKeys-TStrings-">ICefv8Value.GetKeys</a>.</p><p>
+ Read the keys for the object's values into the specified vector. Integer- based keys will also be returned as strings. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetUserData-ICefv8Value-"></span><code>function <strong>SetUserData</strong>(const data: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#SetUserData-ICefv8Value-">ICefv8Value.SetUserData</a>.</p><p>
+ Sets the user data for this object and returns true (1) on success. Returns false (0) if this function is called incorrectly. This function can only be called on user created objects. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetUserData"></span><code>function <strong>GetUserData</strong>: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetUserData">ICefv8Value.GetUserData</a>.</p><p>
+ Returns the user data, if any, assigned to this object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetExternallyAllocatedMemory"></span><code>function <strong>GetExternallyAllocatedMemory</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetExternallyAllocatedMemory">ICefv8Value.GetExternallyAllocatedMemory</a>.</p><p>
+ Returns the amount of externally allocated memory registered for the object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="AdjustExternallyAllocatedMemory-Integer-"></span><code>function <strong>AdjustExternallyAllocatedMemory</strong>(changeInBytes: Integer): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#AdjustExternallyAllocatedMemory-Integer-">ICefv8Value.AdjustExternallyAllocatedMemory</a>.</p><p>
+ Adjusts the amount of registered external memory for the object. Used to give V8 an indication of the amount of externally allocated memory that is kept alive by JavaScript objects. V8 uses this information to decide when to perform global garbage collection. Each ICefv8Value tracks the amount of external memory associated with it and automatically decreases the global total by the appropriate amount on its destruction. |change_in_bytes| specifies the number of bytes to adjust by. This function returns the number of bytes associated with the object after the adjustment. This function can only be called on user created objects. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetArrayLength"></span><code>function <strong>GetArrayLength</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetArrayLength">ICefv8Value.GetArrayLength</a>.</p><p>
+ Returns the number of elements in the array. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetArrayBufferReleaseCallback"></span><code>function <strong>GetArrayBufferReleaseCallback</strong>: <a href="uCEFInterfaces.ICefv8ArrayBufferReleaseCallback.html">ICefv8ArrayBufferReleaseCallback</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetArrayBufferReleaseCallback">ICefv8Value.GetArrayBufferReleaseCallback</a>.</p><p>
+ Returns the ReleaseCallback object associated with the ArrayBuffer or NULL if the ArrayBuffer was not created with CreateArrayBuffer. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="NeuterArrayBuffer"></span><code>function <strong>NeuterArrayBuffer</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#NeuterArrayBuffer">ICefv8Value.NeuterArrayBuffer</a>.</p><p>
+ Prevent the ArrayBuffer from using it's memory block by setting the length to zero. This operation cannot be undone. If the ArrayBuffer was created with CreateArrayBuffer then ICefv8ArrayBufferReleaseCallback.ReleaseBuffer will be called to release the underlying buffer. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetArrayBufferByteLength"></span><code>function <strong>GetArrayBufferByteLength</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetArrayBufferByteLength">ICefv8Value.GetArrayBufferByteLength</a>.</p><p>
+ Returns the length (in bytes) of the ArrayBuffer. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetArrayBufferData"></span><code>function <strong>GetArrayBufferData</strong>: Pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetArrayBufferData">ICefv8Value.GetArrayBufferData</a>.</p><p>
+ Returns a pointer to the beginning of the memory block for this ArrayBuffer backing store. The returned pointer is valid as long as the ICefv8value is alive. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetFunctionName"></span><code>function <strong>GetFunctionName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetFunctionName">ICefv8Value.GetFunctionName</a>.</p><p>
+ Returns the function name. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetFunctionHandler"></span><code>function <strong>GetFunctionHandler</strong>: <a href="uCEFInterfaces.ICefv8Handler.html">ICefv8Handler</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#GetFunctionHandler">ICefv8Value.GetFunctionHandler</a>.</p><p>
+ Returns the function handler or NULL if not a CEF-created function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ExecuteFunction-ICefv8Value-TCefv8ValueArray-"></span><code>function <strong>ExecuteFunction</strong>(const obj: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; const arguments: <a href="uCEFInterfaces.html#TCefv8ValueArray">TCefv8ValueArray</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#ExecuteFunction-ICefv8Value-TCefv8ValueArray-">ICefv8Value.ExecuteFunction</a>.</p><p>
+ Execute the function using the current V8 context. This function should only be called from within the scope of a ICefv8Handler or ICefV8Accessor callback, or in combination with calling enter() and exit() on a stored ICefv8Context reference. |object| is the receiver ('this' object) of the function. If |object| is NULL the current context's global object will be used. |arguments| is the list of arguments that will be passed to the function. Returns the function return value on success. Returns NULL if this function is called incorrectly or an exception is thrown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ExecuteFunctionWithContext-ICefv8Context-ICefv8Value-TCefv8ValueArray-"></span><code>function <strong>ExecuteFunctionWithContext</strong>(const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>; const obj: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; const arguments: <a href="uCEFInterfaces.html#TCefv8ValueArray">TCefv8ValueArray</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#ExecuteFunctionWithContext-ICefv8Context-ICefv8Value-TCefv8ValueArray-">ICefv8Value.ExecuteFunctionWithContext</a>.</p><p>
+ Execute the function using the specified V8 context. |object| is the receiver ('this' object) of the function. If |object| is NULL the specified context's global object will be used. |arguments| is the list of arguments that will be passed to the function. Returns the function return value on success. Returns NULL if this function is called incorrectly or an exception is thrown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ResolvePromise-ICefv8Value-"></span><code>function <strong>ResolvePromise</strong>(const arg: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#ResolvePromise-ICefv8Value-">ICefv8Value.ResolvePromise</a>.</p><p>
+ Resolve the Promise using the current V8 context. This function should only be called from within the scope of a ICefv8Handler or ICefV8Accessor callback, or in combination with calling enter() and exit() on a stored ICefv8Context reference. |arg| is the argument passed to the resolved promise. Returns true (1) on success. Returns false (0) if this function is called incorrectly or an exception is thrown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RejectPromise-ustring-"></span><code>function <strong>RejectPromise</strong>(const errorMsg: <a href="uCEFTypes.html#ustring">ustring</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefv8Value.html#RejectPromise-ustring-">ICefv8Value.RejectPromise</a>.</p><p>
+ Reject the Promise using the current V8 context. This function should only be called from within the scope of a ICefv8Handler or ICefV8Accessor callback, or in combination with calling enter() and exit() on a stored ICefv8Context reference. Returns true (1) on success. Returns false (0) if this function is called incorrectly or an exception is thrown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a ICefv8Value instance using a PCefv8Value data pointer. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewUndefined"></span><code>class function <strong>NewUndefined</strong>: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type undefined. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewNull"></span><code>class function <strong>NewNull</strong>: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type null. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewBool-Boolean-"></span><code>class function <strong>NewBool</strong>(value: Boolean): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type bool. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewInt-Integer-"></span><code>class function <strong>NewInt</strong>(value: Integer): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type int. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewUInt-Cardinal-"></span><code>class function <strong>NewUInt</strong>(value: Cardinal): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type unsigned int. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewDouble-Double-"></span><code>class function <strong>NewDouble</strong>(value: Double): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type double. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewDate-TDateTime-"></span><code>class function <strong>NewDate</strong>(value: TDateTime): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type Date. This function should only be called from within the scope of a ICefRenderProcessHandler, ICefv8Handler or ICefv8Accessor callback, or in combination with calling enter() and exit() on a stored ICefv8Context reference. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewString-ustring-"></span><code>class function <strong>NewString</strong>(const str: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type string. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewObject-ICefV8Accessor-ICefV8Interceptor-"></span><code>class function <strong>NewObject</strong>(const Accessor: <a href="uCEFInterfaces.ICefV8Accessor.html">ICefV8Accessor</a>; const Interceptor: <a href="uCEFInterfaces.ICefV8Interceptor.html">ICefV8Interceptor</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type object with optional accessor and/or interceptor. This function should only be called from within the scope of a ICefRenderProcessHandler, ICefv8Handler or ICefv8Accessor callback, or in combination with calling enter() and exit() on a stored ICefv8Context reference. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewObjectProc-TCefV8AccessorGetterProc-TCefV8AccessorSetterProc-TCefV8InterceptorGetterByNameProc-TCefV8InterceptorSetterByNameProc-TCefV8InterceptorGetterByIndexProc-TCefV8InterceptorSetterByIndexProc-"></span><code>class function <strong>NewObjectProc</strong>(const getter : TCefV8AccessorGetterProc; const setter : TCefV8AccessorSetterProc; const getterbyname : TCefV8InterceptorGetterByNameProc; const setterbyname : TCefV8InterceptorSetterByNameProc; const getterbyindex : TCefV8InterceptorGetterByIndexProc; const setterbyindex : TCefV8InterceptorSetterByIndexProc): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type object with optional accessor and/or interceptor. This function should only be called from within the scope of a ICefRenderProcessHandler, ICefv8Handler or ICefv8Accessor callback, or in combination with calling enter() and exit() on a stored ICefv8Context reference. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewArray-Integer-"></span><code>class function <strong>NewArray</strong>(len: Integer): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type array with the specified |length|. If |length| is negative the returned array will have length 0. This function should only be called from within the scope of a ICefRenderProcessHandler, ICefv8Handler or ICefv8Accessor callback, or in combination with calling enter() and exit() on a stored ICefv8Context reference. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewArrayBuffer-Pointer-NativeUInt-ICefv8ArrayBufferReleaseCallback-"></span><code>class function <strong>NewArrayBuffer</strong>(buffer: Pointer; length: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const callback : <a href="uCEFInterfaces.ICefv8ArrayBufferReleaseCallback.html">ICefv8ArrayBufferReleaseCallback</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type ArrayBuffer which wraps the provided |buffer| of size |length| bytes. The ArrayBuffer is externalized, meaning that it does not own |buffer|. The caller is responsible for freeing |buffer| when requested via a call to ICefv8ArrayBufferReleaseCallback.ReleaseBuffer. This function should only be called from within the scope of a ICefRenderProcessHandler, ICefv8Handler or ICefv8Accessor callback, or in combination with calling enter() and exit() on a stored ICefv8Context reference. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewFunction-ustring-ICefv8Handler-"></span><code>class function <strong>NewFunction</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const handler: <a href="uCEFInterfaces.ICefv8Handler.html">ICefv8Handler</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type function. This function should only be called from within the scope of a ICefRenderProcessHandler, ICefv8Handler or ICefv8Accessor callback, or in combination with calling enter() and exit() on a stored ICefv8Context reference. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewPromise"></span><code>class function <strong>NewPromise</strong>: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ICefv8Value object of type Promise. This function should only be called from within the scope of a ICefRenderProcessHandler, ICefv8Handler or ICefv8Accessor callback, or in combination with calling enter() and exit() on a stored ICefv8Context reference. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

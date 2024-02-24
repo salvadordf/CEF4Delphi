@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFButtonComponent: Class TCEFButtonComponent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFButtonComponent"></span><h1 class="cio">Class TCEFButtonComponent</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFButtonComponent.html">uCEFButtonComponent</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFButtonComponent = class(<a class="normal" href="uCEFViewComponent.TCEFViewComponent.html">TCEFViewComponent</a>, <a class="normal" href="uCEFInterfaces.ICefButtonDelegateEvents.html">ICefButtonDelegateEvents</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor">TPersistent</li>
+<li class="ancestor">TComponent</li>
+<li class="ancestor"><a class="normal" href="uCEFViewComponent.TCEFViewComponent.html">TCEFViewComponent</a></li>
+<li class="thisitem">TCEFButtonComponent</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#FButton">FButton</a></strong>: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#FOnButtonPressed">FOnButtonPressed</a></strong>: TOnButtonPressedEvent;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#FOnButtonStateChanged">FOnButtonStateChanged</a></strong>: TOnButtonStateChangedEvent;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#DestroyView">DestroyView</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#Initialize">Initialize</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#GetInitialized">GetInitialized</a></strong>: boolean; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#GetAsView">GetAsView</a></strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#GetState">GetState</a></strong>: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#GetAsButton">GetAsButton</a></strong>: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#GetAsLabelButton">GetAsLabelButton</a></strong>: <a href="uCEFInterfaces.ICefLabelButton.html">ICefLabelButton</a>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#SetState-TCefButtonState-">SetState</a></strong>(state_: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#doOnButtonPressed-ICefButton-">doOnButtonPressed</a></strong>(const button: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#doOnButtonStateChanged-ICefButton-">doOnButtonStateChanged</a></strong>(const button: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#SetInkDropEnabled-boolean-">SetInkDropEnabled</a></strong>(enabled_: boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#SetTooltipText-ustring-">SetTooltipText</a></strong>(const tooltip_text: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#SetAccessibleName-ustring-">SetAccessibleName</a></strong>(const name_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#AsLabelButton">AsLabelButton</a></strong>          : <a href="uCEFInterfaces.ICefLabelButton.html">ICefLabelButton</a>             read <a href="uCEFButtonComponent.TCEFButtonComponent.html#GetAsLabelButton">GetAsLabelButton</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#State">State</a></strong>                  : <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>             read <a href="uCEFButtonComponent.TCEFButtonComponent.html#GetState">GetState</a>                  write <a href="uCEFButtonComponent.TCEFButtonComponent.html#SetState-TCefButtonState-">SetState</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#OnButtonPressed">OnButtonPressed</a></strong>        : TOnButtonPressedEvent       read <a href="uCEFButtonComponent.TCEFButtonComponent.html#FOnButtonPressed">FOnButtonPressed</a>          write <a href="uCEFButtonComponent.TCEFButtonComponent.html#FOnButtonPressed">FOnButtonPressed</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFButtonComponent.TCEFButtonComponent.html#OnButtonStateChanged">OnButtonStateChanged</a></strong>   : TOnButtonStateChangedEvent  read <a href="uCEFButtonComponent.TCEFButtonComponent.html#FOnButtonStateChanged">FOnButtonStateChanged</a>     write <a href="uCEFButtonComponent.TCEFButtonComponent.html#FOnButtonStateChanged">FOnButtonStateChanged</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FButton"></span><code><strong>FButton</strong>: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnButtonPressed"></span><code><strong>FOnButtonPressed</strong>: TOnButtonPressedEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefButtonDelegateEvents</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnButtonStateChanged"></span><code><strong>FOnButtonStateChanged</strong>: TOnButtonStateChangedEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroyView"></span><code>procedure <strong>DestroyView</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Initialize"></span><code>procedure <strong>Initialize</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetInitialized"></span><code>function <strong>GetInitialized</strong>: boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsView"></span><code>function <strong>GetAsView</strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetState"></span><code>function <strong>GetState</strong>: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsButton"></span><code>function <strong>GetAsButton</strong>: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsLabelButton"></span><code>function <strong>GetAsLabelButton</strong>: <a href="uCEFInterfaces.ICefLabelButton.html">ICefLabelButton</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetState-TCefButtonState-"></span><code>procedure <strong>SetState</strong>(state_: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnButtonPressed-ICefButton-"></span><code>procedure <strong>doOnButtonPressed</strong>(const button: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefButtonDelegateEvents</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnButtonStateChanged-ICefButton-"></span><code>procedure <strong>doOnButtonStateChanged</strong>(const button: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetInkDropEnabled-boolean-"></span><code>procedure <strong>SetInkDropEnabled</strong>(enabled_: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the Button will use an ink drop effect for displaying state changes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetTooltipText-ustring-"></span><code>procedure <strong>SetTooltipText</strong>(const tooltip_text: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the tooltip text that will be displayed when the user hovers the mouse cursor over the Button. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetAccessibleName-ustring-"></span><code>procedure <strong>SetAccessibleName</strong>(const name_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the accessible name that will be exposed to assistive technology (AT). </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsLabelButton"></span><code>property <strong>AsLabelButton</strong>          : <a href="uCEFInterfaces.ICefLabelButton.html">ICefLabelButton</a>             read <a href="uCEFButtonComponent.TCEFButtonComponent.html#GetAsLabelButton">GetAsLabelButton</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this Button as a LabelButton or NULL if this is not a LabelButton. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="State"></span><code>property <strong>State</strong>                  : <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>             read <a href="uCEFButtonComponent.TCEFButtonComponent.html#GetState">GetState</a>                  write <a href="uCEFButtonComponent.TCEFButtonComponent.html#SetState-TCefButtonState-">SetState</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current display state of the Button. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnButtonPressed"></span><code>property <strong>OnButtonPressed</strong>        : TOnButtonPressedEvent       read <a href="uCEFButtonComponent.TCEFButtonComponent.html#FOnButtonPressed">FOnButtonPressed</a>          write <a href="uCEFButtonComponent.TCEFButtonComponent.html#FOnButtonPressed">FOnButtonPressed</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when |button| is pressed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnButtonStateChanged"></span><code>property <strong>OnButtonStateChanged</strong>   : TOnButtonStateChangedEvent  read <a href="uCEFButtonComponent.TCEFButtonComponent.html#FOnButtonStateChanged">FOnButtonStateChanged</a>     write <a href="uCEFButtonComponent.TCEFButtonComponent.html#FOnButtonStateChanged">FOnButtonStateChanged</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when the state of |button| changes. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

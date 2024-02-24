@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefServer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefServer"></span><h1 class="cio">Interface ICefServer</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefServer = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface representing a server that supports HTTP and WebSocket requests. Server capacity is limited and is intended to handle only a small number of simultaneous connections (e.g. for communicating between applications on localhost). The functions of this interface are safe to call from any thread in the brower process unless otherwise indicated. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_server_capi.h (cef_server_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefServer</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefServer.html#GetTaskRunner">GetTaskRunner</a></strong>: <a href="uCEFInterfaces.ICefTaskRunner.html">ICefTaskRunner</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefServer.html#Shutdown">Shutdown</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefServer.html#IsRunning">IsRunning</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefServer.html#GetAddress">GetAddress</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefServer.html#HasConnection">HasConnection</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefServer.html#IsValidConnection-Integer-">IsValidConnection</a></strong>(connection_id: Integer) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefServer.html#SendHttp200response-Integer-ustring-Pointer-NativeUInt-">SendHttp200response</a></strong>(connection_id: Integer; const content_type: <a href="uCEFTypes.html#ustring">ustring</a>; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefServer.html#SendHttp404response-Integer-">SendHttp404response</a></strong>(connection_id: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefServer.html#SendHttp500response-Integer-ustring-">SendHttp500response</a></strong>(connection_id: Integer; const error_message: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefServer.html#SendHttpResponse-Integer-Integer-ustring-int64-ICefStringMultimap-">SendHttpResponse</a></strong>(connection_id, response_code: Integer; const content_type: <a href="uCEFTypes.html#ustring">ustring</a>; content_length: int64; const extra_headers: <a href="uCEFInterfaces.ICefStringMultimap.html">ICefStringMultimap</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefServer.html#SendRawData-Integer-Pointer-NativeUInt-">SendRawData</a></strong>(connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefServer.html#CloseConnection-Integer-">CloseConnection</a></strong>(connection_id: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefServer.html#SendWebSocketMessage-Integer-Pointer-NativeUInt-">SendWebSocketMessage</a></strong>(connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetTaskRunner"></span><code>function <strong>GetTaskRunner</strong>: <a href="uCEFInterfaces.ICefTaskRunner.html">ICefTaskRunner</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the task runner for the dedicated server thread. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{41D41764-A74B-4552-B166-C77E70549047}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Shutdown"></span><code>procedure <strong>Shutdown</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Stop the server and shut down the dedicated server thread. See ICefServerHandler.OnServerCreated documentation for a description of server lifespan. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsRunning"></span><code>function <strong>IsRunning</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the server is currently running and accepting incoming connections. See ICefServerHandler.OnServerCreated documentation for a description of server lifespan. This function must be called on the dedicated server thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetAddress"></span><code>function <strong>GetAddress</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the server address including the port number. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasConnection"></span><code>function <strong>HasConnection</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the server currently has a connection. This function must be called on the dedicated server thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsValidConnection-Integer-"></span><code>function <strong>IsValidConnection</strong>(connection_id: Integer) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if |connection_id| represents a valid connection. This function must be called on the dedicated server thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendHttp200response-Integer-ustring-Pointer-NativeUInt-"></span><code>procedure <strong>SendHttp200response</strong>(connection_id: Integer; const content_type: <a href="uCEFTypes.html#ustring">ustring</a>; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send an HTTP 200 &quot;OK&quot; response to the connection identified by |connection_id|. |content_type| is the response content type (e.g. &quot;text/html&quot;), |data| is the response content, and |data_size| is the size of |data| in bytes. The contents of |data| will be copied. The connection will be closed automatically after the response is sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendHttp404response-Integer-"></span><code>procedure <strong>SendHttp404response</strong>(connection_id: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send an HTTP 404 &quot;Not Found&quot; response to the connection identified by |connection_id|. The connection will be closed automatically after the response is sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendHttp500response-Integer-ustring-"></span><code>procedure <strong>SendHttp500response</strong>(connection_id: Integer; const error_message: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send an HTTP 500 &quot;Internal Server Error&quot; response to the connection identified by |connection_id|. |error_message| is the associated error message. The connection will be closed automatically after the response is sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendHttpResponse-Integer-Integer-ustring-int64-ICefStringMultimap-"></span><code>procedure <strong>SendHttpResponse</strong>(connection_id, response_code: Integer; const content_type: <a href="uCEFTypes.html#ustring">ustring</a>; content_length: int64; const extra_headers: <a href="uCEFInterfaces.ICefStringMultimap.html">ICefStringMultimap</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send a custom HTTP response to the connection identified by |connection_id|. |response_code| is the HTTP response code sent in the status line (e.g. 200), |content_type| is the response content type sent as the &quot;Content-Type&quot; header (e.g. &quot;text/html&quot;), |content_length| is the expected content length, and |extra_headers| is the map of extra response headers. If |content_length| is &gt;= 0 then the &quot;Content-Length&quot; header will be sent. If |content_length| is 0 then no content is expected and the connection will be closed automatically after the response is sent. If |content_length| is &lt; 0 then no &quot;Content-Length&quot; header will be sent and the client will continue reading until the connection is closed. Use the SendRawData function to send the content, if applicable, and call CloseConnection after all content has been sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendRawData-Integer-Pointer-NativeUInt-"></span><code>procedure <strong>SendRawData</strong>(connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send raw data directly to the connection identified by |connection_id|. |data| is the raw data and |data_size| is the size of |data| in bytes. The contents of |data| will be copied. No validation of |data| is performed internally so the client should be careful to send the amount indicated by the &quot;Content-Length&quot; header, if specified. See SendHttpResponse documentation for intended usage. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CloseConnection-Integer-"></span><code>procedure <strong>CloseConnection</strong>(connection_id: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Close the connection identified by |connection_id|. See SendHttpResponse documentation for intended usage. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendWebSocketMessage-Integer-Pointer-NativeUInt-"></span><code>procedure <strong>SendWebSocketMessage</strong>(connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send a WebSocket message to the connection identified by |connection_id|. |data| is the response content and |data_size| is the size of |data| in bytes. The contents of |data| will be copied. See ICefServerHandler.OnWebSocketRequest documentation for intended usage. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

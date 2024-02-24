@@ -3196,10 +3196,14 @@ type
     /// <summary>
     /// Set to a value between 1024 and 65535 to enable remote debugging on the
     /// specified port. Also configurable using the "remote-debugging-port"
-    /// command-line switch. Remote debugging can be accessed by loading the
-    /// chrome://inspect page in Google Chrome. Port numbers 9222 and 9229 are
-    /// discoverable by default. Other port numbers may need to be configured via
-    /// "Discover network targets" on the Devices tab.
+    /// command-line switch. Specifying 0 via the command-line switch will result
+    /// in the selection of an ephemeral port and the port number will be printed
+    /// as part of the WebSocket endpoint URL to stderr. If a cache directory path
+    /// is provided the port will also be written to the
+    /// <cache-dir>/DevToolsActivePort file. Remote debugging can be accessed by
+    /// loading the chrome://inspect page in Google Chrome. Port numbers 9222 and
+    /// 9229 are discoverable by default. Other port numbers may need to be
+    /// configured via "Discover network targets" on the Devices tab.
     /// </summary>
     remote_debugging_port                    : Integer;
     /// <summary>
@@ -4416,20 +4420,32 @@ type
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_COOKIE_CONTROLS_METADATA,
     /// <summary>
-    /// Content Setting for 3PC accesses granted via 3PC deprecation trial.
+    /// Content Setting for temporary 3PC accesses granted by user behavior
+    /// heuristics.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_TPCD_SUPPORT,
-    /// <summary>
-    /// Content setting used to indicate whether entering picture-in-picture
-    /// automatically should be enabled.
-    /// </summary>
-    CEF_CONTENT_SETTING_TYPE_AUTO_PICTURE_IN_PICTURE,
+    CEF_CONTENT_SETTING_TYPE_TPCD_HEURISTICS_GRANTS,
     /// <summary>
     /// Content Setting for 3PC accesses granted by metadata delivered via the
     /// component updater service. This type will only be used when
     /// `net::features::kTpcdMetadataGrants` is enabled.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_TPCD_METADATA_GRANTS,
+    /// <summary>
+    /// Content Setting for 3PC accesses granted via 3PC deprecation trial.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_TPCD_TRIAL,
+    /// <summary>
+    /// Content Setting for 3PC accesses granted via top-level 3PC deprecation
+    /// trial. Similar to TPCD_TRIAL, but applicable at the page-level for the
+    /// lifetime of the page that served the token, rather than being specific to
+    /// a requesting-origin/top-level-site combination and persistent.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_TOP_LEVEL_TPCD_TRIAL,
+    /// <summary>
+    /// Content setting used to indicate whether entering picture-in-picture
+    /// automatically should be enabled.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_AUTO_PICTURE_IN_PICTURE,
     /// <summary>
     /// Whether user has opted into keeping file/directory permissions persistent
     /// between visits for a given origin. When enabled, permission metadata
@@ -4438,15 +4454,26 @@ type
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_ACCESS_EXTENDED_PERMISSION,
     /// <summary>
-    /// Content Setting for temporary 3PC accesses granted by user behavior
-    /// heuristics.
-    /// </summary>
-    CEF_CONTENT_SETTING_TYPE_TPCD_HEURISTICS_GRANTS,
-    /// <summary>
     /// Whether the FSA Persistent Permissions restore prompt is eligible to be
     /// shown to the user, for a given origin.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_ACCESS_RESTORE_PERMISSION,
+    /// <summary>
+    /// Whether an application capturing another tab, may scroll and zoom
+    /// the captured tab.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_CAPTURED_SURFACE_CONTROL,
+    /// <summary>
+    /// Content setting for access to smart card readers.
+    /// The "guard" content setting stores whether to allow sites to access the
+    /// Smart Card API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_SMART_CARD_GUARD,
+    CEF_CONTENT_SETTING_TYPE_SMART_CARD_DATA,
+    /// <summary>
+    /// Content settings for access to printers for the Web Printing API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_WEB_PRINTING,
     CEF_CONTENT_SETTING_TYPE_NUM_TYPES
   );
 
@@ -6802,7 +6829,7 @@ type
     is_main              : function(self: PCefFrame): Integer; stdcall;
     is_focused           : function(self: PCefFrame): Integer; stdcall;
     get_name             : function(self: PCefFrame): PCefStringUserFree; stdcall;
-    get_identifier       : function(self: PCefFrame): Int64; stdcall;
+    get_identifier       : function(self: PCefFrame): PCefStringUserFree; stdcall;
     get_parent           : function(self: PCefFrame): PCefFrame; stdcall;
     get_url              : function(self: PCefFrame): PCefStringUserFree; stdcall;
     get_browser          : function(self: PCefFrame): PCefBrowser; stdcall;
@@ -7069,28 +7096,28 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">CEF source file: /include/capi/cef_browser_capi.h (cef_browser_t)</see></para>
   /// </remarks>
   TCefBrowser = record
-    base                  : TCefBaseRefCounted;
-    is_valid              : function(self: PCefBrowser): Integer; stdcall;
-    get_host              : function(self: PCefBrowser): PCefBrowserHost; stdcall;
-    can_go_back           : function(self: PCefBrowser): Integer; stdcall;
-    go_back               : procedure(self: PCefBrowser); stdcall;
-    can_go_forward        : function(self: PCefBrowser): Integer; stdcall;
-    go_forward            : procedure(self: PCefBrowser); stdcall;
-    is_loading            : function(self: PCefBrowser): Integer; stdcall;
-    reload                : procedure(self: PCefBrowser); stdcall;
-    reload_ignore_cache   : procedure(self: PCefBrowser); stdcall;
-    stop_load             : procedure(self: PCefBrowser); stdcall;
-    get_identifier        : function(self: PCefBrowser): Integer; stdcall;
-    is_same               : function(self, that: PCefBrowser): Integer; stdcall;
-    is_popup              : function(self: PCefBrowser): Integer; stdcall;
-    has_document          : function(self: PCefBrowser): Integer; stdcall;
-    get_main_frame        : function(self: PCefBrowser): PCefFrame; stdcall;
-    get_focused_frame     : function(self: PCefBrowser): PCefFrame; stdcall;
-    get_frame_byident     : function(self: PCefBrowser; identifier: Int64): PCefFrame; stdcall;
-    get_frame             : function(self: PCefBrowser; const name: PCefString): PCefFrame; stdcall;
-    get_frame_count       : function(self: PCefBrowser): NativeUInt; stdcall;
-    get_frame_identifiers : procedure(self: PCefBrowser; var identifiersCount: NativeUInt; var identifiers: Int64); stdcall;
-    get_frame_names       : procedure(self: PCefBrowser; names: TCefStringList); stdcall;
+    base                      : TCefBaseRefCounted;
+    is_valid                  : function(self: PCefBrowser): Integer; stdcall;
+    get_host                  : function(self: PCefBrowser): PCefBrowserHost; stdcall;
+    can_go_back               : function(self: PCefBrowser): Integer; stdcall;
+    go_back                   : procedure(self: PCefBrowser); stdcall;
+    can_go_forward            : function(self: PCefBrowser): Integer; stdcall;
+    go_forward                : procedure(self: PCefBrowser); stdcall;
+    is_loading                : function(self: PCefBrowser): Integer; stdcall;
+    reload                    : procedure(self: PCefBrowser); stdcall;
+    reload_ignore_cache       : procedure(self: PCefBrowser); stdcall;
+    stop_load                 : procedure(self: PCefBrowser); stdcall;
+    get_identifier            : function(self: PCefBrowser): Integer; stdcall;
+    is_same                   : function(self, that: PCefBrowser): Integer; stdcall;
+    is_popup                  : function(self: PCefBrowser): Integer; stdcall;
+    has_document              : function(self: PCefBrowser): Integer; stdcall;
+    get_main_frame            : function(self: PCefBrowser): PCefFrame; stdcall;
+    get_focused_frame         : function(self: PCefBrowser): PCefFrame; stdcall;
+    get_frame_by_identifier   : function(self: PCefBrowser; const identifier: PCefString): PCefFrame; stdcall;
+    get_frame_by_name         : function(self: PCefBrowser; const name: PCefString): PCefFrame; stdcall;
+    get_frame_count           : function(self: PCefBrowser): NativeUInt; stdcall;
+    get_frame_identifiers     : procedure(self: PCefBrowser; identifiers: TCefStringList); stdcall;
+    get_frame_names           : procedure(self: PCefBrowser; names: TCefStringList); stdcall;
   end;
 
   /// <summary>
@@ -7119,13 +7146,14 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
   /// </remarks>
   TCefBrowserProcessHandler = record
-    base                              : TCefBaseRefCounted;
-    on_register_custom_preferences    : procedure(self: PCefBrowserProcessHandler; type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar); stdcall;
-    on_context_initialized            : procedure(self: PCefBrowserProcessHandler); stdcall;
-    on_before_child_process_launch    : procedure(self: PCefBrowserProcessHandler; command_line: PCefCommandLine); stdcall;
-    on_already_running_app_relaunch   : function(self: PCefBrowserProcessHandler; command_line: PCefCommandLine; const current_directory: PCefString): integer; stdcall;
-    on_schedule_message_pump_work     : procedure(self: PCefBrowserProcessHandler; delay_ms: Int64); stdcall;
-    get_default_client                : function(self: PCefBrowserProcessHandler): PCefClient; stdcall;
+    base                                : TCefBaseRefCounted;
+    on_register_custom_preferences      : procedure(self: PCefBrowserProcessHandler; type_: TCefPreferencesType; registrar: PCefPreferenceRegistrar); stdcall;
+    on_context_initialized              : procedure(self: PCefBrowserProcessHandler); stdcall;
+    on_before_child_process_launch      : procedure(self: PCefBrowserProcessHandler; command_line: PCefCommandLine); stdcall;
+    on_already_running_app_relaunch     : function(self: PCefBrowserProcessHandler; command_line: PCefCommandLine; const current_directory: PCefString): integer; stdcall;
+    on_schedule_message_pump_work       : procedure(self: PCefBrowserProcessHandler; delay_ms: Int64); stdcall;
+    get_default_client                  : function(self: PCefBrowserProcessHandler): PCefClient; stdcall;
+    get_default_request_context_handler : function(self: PCefBrowserProcessHandler): PCefRequestContextHandler; stdcall;
   end;
 
   /// <summary>
@@ -7768,4 +7796,5 @@ type
 implementation
 
 end.
+
 

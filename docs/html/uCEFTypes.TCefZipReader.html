@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefZipReader</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefZipReader"></span><h1 class="cio">Record TCefZipReader</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefZipReader = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure that supports the reading of zip archives via the zlib unzip API. The functions of this structure should only be called on the thread that creates the object. </p>
+<p>
+
+
+<p>Implemented by ICefZipReader.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_zip_reader_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_zip_reader_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_zip_reader_capi.h (cef_zip_reader_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefZipReader.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefZipReader.html#move_to_first_file">move_to_first_file</a></strong>: function(self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefZipReader.html#move_to_next_file">move_to_next_file</a></strong>: function(self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefZipReader.html#move_to_file">move_to_file</a></strong>: function(self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>; const fileName: <a href="uCEFTypes.html#PCefString">PCefString</a>; caseSensitive: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefZipReader.html#close">close</a></strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefZipReader.html#get_file_name">get_file_name</a></strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefZipReader.html#get_file_size">get_file_size</a></strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Int64; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefZipReader.html#get_file_last_modified">get_file_last_modified</a></strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefZipReader.html#open_file">open_file</a></strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>; const password: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefZipReader.html#close_file">close_file</a></strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefZipReader.html#read_file">read_file</a></strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>; buffer: Pointer; bufferSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefZipReader.html#tell">tell</a></strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Int64; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefZipReader.html#eof">eof</a></strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Integer; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="move_to_first_file"></span><code><strong>move_to_first_file</strong>: function(self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="move_to_next_file"></span><code><strong>move_to_next_file</strong>: function(self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="move_to_file"></span><code><strong>move_to_file</strong>: function(self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>; const fileName: <a href="uCEFTypes.html#PCefString">PCefString</a>; caseSensitive: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="close"></span><code><strong>close</strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_file_name"></span><code><strong>get_file_name</strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_file_size"></span><code><strong>get_file_size</strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Int64; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_file_last_modified"></span><code><strong>get_file_last_modified</strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="open_file"></span><code><strong>open_file</strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>; const password: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="close_file"></span><code><strong>close_file</strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="read_file"></span><code><strong>read_file</strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>; buffer: Pointer; bufferSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="tell"></span><code><strong>tell</strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Int64; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="eof"></span><code><strong>eof</strong>: function(Self: <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

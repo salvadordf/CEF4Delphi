@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefDragHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefDragHandler"></span><h1 class="cio">Interface ICefDragHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefDragHandler = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this interface to handle events related to dragging. The functions of this interface will be called on the UI thread. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_drag_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_drag_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_drag_handler_capi.h (cef_drag_handler_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefDragHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDragHandler.html#OnDragEnter-ICefBrowser-ICefDragData-TCefDragOperations-">OnDragEnter</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const dragData: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; mask: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefDragHandler.html#OnDraggableRegionsChanged-ICefBrowser-ICefFrame-NativeUInt-PCefDraggableRegionArray-">OnDraggableRegionsChanged</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; regionsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const regions: <a href="uCEFTypes.html#PCefDraggableRegionArray">PCefDraggableRegionArray</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefDragHandler.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnDragEnter-ICefBrowser-ICefDragData-TCefDragOperations-"></span><code>function <strong>OnDragEnter</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const dragData: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; mask: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when an external drag event enters the browser window. |dragData| contains the drag event data and |mask| represents the type of drag operation. Return false (0) for default drag handling behavior or true (1) to cancel the drag event. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{59A89579-5B18-489F-A25C-5CC25FF831FC}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnDraggableRegionsChanged-ICefBrowser-ICefFrame-NativeUInt-PCefDraggableRegionArray-"></span><code>procedure <strong>OnDraggableRegionsChanged</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; regionsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const regions: <a href="uCEFTypes.html#PCefDraggableRegionArray">PCefDraggableRegionArray</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called whenever draggable regions for the browser window change. These can be specified using the '-webkit-app-region: drag/no-drag' CSS-property. If draggable regions are never defined in a document this function will also never be called. If the last draggable region is removed from a document this function will be called with an NULL vector. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

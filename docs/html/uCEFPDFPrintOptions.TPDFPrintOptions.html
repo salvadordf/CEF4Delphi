@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFPDFPrintOptions: Class TPDFPrintOptions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TPDFPrintOptions"></span><h1 class="cio">Class TPDFPrintOptions</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFPDFPrintOptions.html">uCEFPDFPrintOptions</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TPDFPrintOptions = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ The TPDFPrintOptions properties are used to fill the TCefPdfPrintSettings record which is used in the TChromiumCore.PrintToPDF call. </p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TPDFPrintOptions</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FLandscape">FLandscape</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPrintBackground">FPrintBackground</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FScale">FScale</a></strong>: double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPaperWidth">FPaperWidth</a></strong>: double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPaperHeight">FPaperHeight</a></strong>: double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPreferCSSPageSize">FPreferCSSPageSize</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginType">FMarginType</a></strong>: <a href="uCEFTypes.html#TCefPdfPrintMarginType">TCefPdfPrintMarginType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginTop">FMarginTop</a></strong>: double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginRight">FMarginRight</a></strong>: double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginBottom">FMarginBottom</a></strong>: double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginLeft">FMarginLeft</a></strong>: double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPageRanges">FPageRanges</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FDisplayHeaderFooter">FDisplayHeaderFooter</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FHeaderTemplate">FHeaderTemplate</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FFooterTemplate">FFooterTemplate</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FGenerateTaggedPDF">FGenerateTaggedPDF</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FGenerateDocumentOutline">FGenerateDocumentOutline</a></strong>: boolean;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetScalePct">GetScalePct</a></strong>: double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetPaperWidthMM">GetPaperWidthMM</a></strong>: double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetPaperHeightMM">GetPaperHeightMM</a></strong>: double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetMarginTopMM">GetMarginTopMM</a></strong>: double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetMarginRightMM">GetMarginRightMM</a></strong>: double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetMarginBottomMM">GetMarginBottomMM</a></strong>: double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetMarginLeftMM">GetMarginLeftMM</a></strong>: double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetScalePct-double-">SetScalePct</a></strong>(const aValue: double);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetPaperWidthMM-double-">SetPaperWidthMM</a></strong>(const aValue: double);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetPaperHeightMM-double-">SetPaperHeightMM</a></strong>(const aValue: double);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetMarginTopMM-double-">SetMarginTopMM</a></strong>(const aValue: double);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetMarginRightMM-double-">SetMarginRightMM</a></strong>(const aValue: double);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetMarginBottomMM-double-">SetMarginBottomMM</a></strong>(const aValue: double);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetMarginLeftMM-double-">SetMarginLeftMM</a></strong>(const aValue: double);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#InchesToMM-double-">InchesToMM</a></strong>(const aInches: double): double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#MMToInches-double-">MMToInches</a></strong>(const aMM: double): double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#Create">Create</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#CopyToSettings-TCefPdfPrintSettings-">CopyToSettings</a></strong>(var aSettings : <a href="uCEFTypes.TCefPdfPrintSettings.html">TCefPdfPrintSettings</a>);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#Landscape">Landscape</a></strong>                 : boolean                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FLandscape">FLandscape</a>                write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FLandscape">FLandscape</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#PrintBackground">PrintBackground</a></strong>           : boolean                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPrintBackground">FPrintBackground</a>          write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPrintBackground">FPrintBackground</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#PreferCSSPageSize">PreferCSSPageSize</a></strong>         : boolean                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPreferCSSPageSize">FPreferCSSPageSize</a>        write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPreferCSSPageSize">FPreferCSSPageSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#PageRanges">PageRanges</a></strong>                : <a href="uCEFTypes.html#ustring">ustring</a>                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPageRanges">FPageRanges</a>               write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPageRanges">FPageRanges</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#DisplayHeaderFooter">DisplayHeaderFooter</a></strong>       : boolean                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FDisplayHeaderFooter">FDisplayHeaderFooter</a>      write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FDisplayHeaderFooter">FDisplayHeaderFooter</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#HeaderTemplate">HeaderTemplate</a></strong>            : <a href="uCEFTypes.html#ustring">ustring</a>                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FHeaderTemplate">FHeaderTemplate</a>           write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FHeaderTemplate">FHeaderTemplate</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FooterTemplate">FooterTemplate</a></strong>            : <a href="uCEFTypes.html#ustring">ustring</a>                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FFooterTemplate">FFooterTemplate</a>           write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FFooterTemplate">FFooterTemplate</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GenerateTaggedPDF">GenerateTaggedPDF</a></strong>         : boolean                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FGenerateTaggedPDF">FGenerateTaggedPDF</a>        write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FGenerateTaggedPDF">FGenerateTaggedPDF</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GenerateDocumentOutline">GenerateDocumentOutline</a></strong>   : boolean                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FGenerateDocumentOutline">FGenerateDocumentOutline</a>  write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FGenerateDocumentOutline">FGenerateDocumentOutline</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#Scale">Scale</a></strong>                     : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FScale">FScale</a>                    write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FScale">FScale</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#ScalePct">ScalePct</a></strong>                  : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetScalePct">GetScalePct</a>               write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetScalePct-double-">SetScalePct</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#PaperWidthInch">PaperWidthInch</a></strong>            : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPaperWidth">FPaperWidth</a>               write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPaperWidth">FPaperWidth</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#PaperHeightInch">PaperHeightInch</a></strong>           : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPaperHeight">FPaperHeight</a>              write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPaperHeight">FPaperHeight</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#PaperWidthMM">PaperWidthMM</a></strong>              : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetPaperWidthMM">GetPaperWidthMM</a>           write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetPaperWidthMM-double-">SetPaperWidthMM</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#PaperHeightMM">PaperHeightMM</a></strong>             : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetPaperHeightMM">GetPaperHeightMM</a>          write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetPaperHeightMM-double-">SetPaperHeightMM</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#MarginType">MarginType</a></strong>                : <a href="uCEFTypes.html#TCefPdfPrintMarginType">TCefPdfPrintMarginType</a>  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginType">FMarginType</a>               write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginType">FMarginType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#MarginTopInch">MarginTopInch</a></strong>             : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginTop">FMarginTop</a>                write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginTop">FMarginTop</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#MarginRightInch">MarginRightInch</a></strong>           : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginRight">FMarginRight</a>              write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginRight">FMarginRight</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#MarginBottomInch">MarginBottomInch</a></strong>          : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginBottom">FMarginBottom</a>             write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginBottom">FMarginBottom</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#MarginLeftInch">MarginLeftInch</a></strong>            : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginLeft">FMarginLeft</a>               write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginLeft">FMarginLeft</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#MarginTopMM">MarginTopMM</a></strong>               : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetMarginTopMM">GetMarginTopMM</a>            write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetMarginTopMM-double-">SetMarginTopMM</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#MarginRightMM">MarginRightMM</a></strong>             : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetMarginRightMM">GetMarginRightMM</a>          write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetMarginRightMM-double-">SetMarginRightMM</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#MarginBottomMM">MarginBottomMM</a></strong>            : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetMarginBottomMM">GetMarginBottomMM</a>         write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetMarginBottomMM-double-">SetMarginBottomMM</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#MarginLeftMM">MarginLeftMM</a></strong>              : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetMarginLeftMM">GetMarginLeftMM</a>           write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetMarginLeftMM-double-">SetMarginLeftMM</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FLandscape"></span><code><strong>FLandscape</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FPrintBackground"></span><code><strong>FPrintBackground</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FScale"></span><code><strong>FScale</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FPaperWidth"></span><code><strong>FPaperWidth</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FPaperHeight"></span><code><strong>FPaperHeight</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FPreferCSSPageSize"></span><code><strong>FPreferCSSPageSize</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMarginType"></span><code><strong>FMarginType</strong>: <a href="uCEFTypes.html#TCefPdfPrintMarginType">TCefPdfPrintMarginType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMarginTop"></span><code><strong>FMarginTop</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMarginRight"></span><code><strong>FMarginRight</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMarginBottom"></span><code><strong>FMarginBottom</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMarginLeft"></span><code><strong>FMarginLeft</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FPageRanges"></span><code><strong>FPageRanges</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FDisplayHeaderFooter"></span><code><strong>FDisplayHeaderFooter</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FHeaderTemplate"></span><code><strong>FHeaderTemplate</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FFooterTemplate"></span><code><strong>FFooterTemplate</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FGenerateTaggedPDF"></span><code><strong>FGenerateTaggedPDF</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FGenerateDocumentOutline"></span><code><strong>FGenerateDocumentOutline</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetScalePct"></span><code>function <strong>GetScalePct</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetPaperWidthMM"></span><code>function <strong>GetPaperWidthMM</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetPaperHeightMM"></span><code>function <strong>GetPaperHeightMM</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetMarginTopMM"></span><code>function <strong>GetMarginTopMM</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetMarginRightMM"></span><code>function <strong>GetMarginRightMM</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetMarginBottomMM"></span><code>function <strong>GetMarginBottomMM</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetMarginLeftMM"></span><code>function <strong>GetMarginLeftMM</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetScalePct-double-"></span><code>procedure <strong>SetScalePct</strong>(const aValue: double);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetPaperWidthMM-double-"></span><code>procedure <strong>SetPaperWidthMM</strong>(const aValue: double);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetPaperHeightMM-double-"></span><code>procedure <strong>SetPaperHeightMM</strong>(const aValue: double);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetMarginTopMM-double-"></span><code>procedure <strong>SetMarginTopMM</strong>(const aValue: double);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetMarginRightMM-double-"></span><code>procedure <strong>SetMarginRightMM</strong>(const aValue: double);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetMarginBottomMM-double-"></span><code>procedure <strong>SetMarginBottomMM</strong>(const aValue: double);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetMarginLeftMM-double-"></span><code>procedure <strong>SetMarginLeftMM</strong>(const aValue: double);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="InchesToMM-double-"></span><code>function <strong>InchesToMM</strong>(const aInches: double): double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MMToInches-double-"></span><code>function <strong>MMToInches</strong>(const aMM: double): double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Constructor of TPDFPrintOptions </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CopyToSettings-TCefPdfPrintSettings-"></span><code>procedure <strong>CopyToSettings</strong>(var aSettings : <a href="uCEFTypes.TCefPdfPrintSettings.html">TCefPdfPrintSettings</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Copy the fields of this class to the TCefPdfPrintSettings parameter. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Landscape"></span><code>property <strong>Landscape</strong>                 : boolean                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FLandscape">FLandscape</a>                write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FLandscape">FLandscape</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to true for landscape mode or false for portrait mode. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PrintBackground"></span><code>property <strong>PrintBackground</strong>           : boolean                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPrintBackground">FPrintBackground</a>          write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPrintBackground">FPrintBackground</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to true to print background graphics. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PreferCSSPageSize"></span><code>property <strong>PreferCSSPageSize</strong>         : boolean                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPreferCSSPageSize">FPreferCSSPageSize</a>        write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPreferCSSPageSize">FPreferCSSPageSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to true to prefer page size as defined by css. Defaults to false, in which case the content will be scaled to fit the paper size. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PageRanges"></span><code>property <strong>PageRanges</strong>                : <a href="uCEFTypes.html#ustring">ustring</a>                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPageRanges">FPageRanges</a>               write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPageRanges">FPageRanges</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Paper ranges to print, one based, e.g., '1-5, 8, 11-13'. Pages are printed in the document order, not in the order specified, and no more than once. Defaults to empty string, which implies the entire document is printed.
+
+<p>The page numbers are quietly capped to actual page count of the document, and ranges beyond the end of the document are ignored. If this results in no pages to print, an error is reported. It is an error to specify a range with start greater than end.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DisplayHeaderFooter"></span><code>property <strong>DisplayHeaderFooter</strong>       : boolean                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FDisplayHeaderFooter">FDisplayHeaderFooter</a>      write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FDisplayHeaderFooter">FDisplayHeaderFooter</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to true to display the header and/or footer. Modify HeaderTemplate and/or FooterTemplate to customize the display. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HeaderTemplate"></span><code>property <strong>HeaderTemplate</strong>            : <a href="uCEFTypes.html#ustring">ustring</a>                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FHeaderTemplate">FHeaderTemplate</a>           write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FHeaderTemplate">FHeaderTemplate</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>HTML template for the print header. Only displayed if DisplayHeaderFooter is true. Should be valid HTML markup with the following classes used to inject printing values into them:
+
+<p></p>
+
+<pre class="preformatted">
+- date: formatted print date
+- title: document title
+- url: document location
+- pageNumber: current page number
+- totalPages: total pages in the document</pre>
+
+<p>
+
+<p>For example, &quot;&lt;span class=title&gt;&lt;/span&gt;&quot; would generate a span containing the title.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FooterTemplate"></span><code>property <strong>FooterTemplate</strong>            : <a href="uCEFTypes.html#ustring">ustring</a>                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FFooterTemplate">FFooterTemplate</a>           write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FFooterTemplate">FFooterTemplate</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ HTML template for the print footer. Only displayed if DisplayHeaderFooter is true. Uses the same format as HeaderTemplate. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GenerateTaggedPDF"></span><code>property <strong>GenerateTaggedPDF</strong>         : boolean                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FGenerateTaggedPDF">FGenerateTaggedPDF</a>        write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FGenerateTaggedPDF">FGenerateTaggedPDF</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to true to generate tagged (accessible) PDF. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GenerateDocumentOutline"></span><code>property <strong>GenerateDocumentOutline</strong>   : boolean                 read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FGenerateDocumentOutline">FGenerateDocumentOutline</a>  write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FGenerateDocumentOutline">FGenerateDocumentOutline</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to true to generate a document outline. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Scale"></span><code>property <strong>Scale</strong>                     : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FScale">FScale</a>                    write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FScale">FScale</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The percentage to scale the PDF by before printing (e.g. .5 is 50%). If this value is less than or equal to zero the default value of 1.0 will be used. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ScalePct"></span><code>property <strong>ScalePct</strong>                  : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetScalePct">GetScalePct</a>               write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetScalePct-double-">SetScalePct</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The percentage value to scale the PDF by before printing (e.g. 50 is 50%). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PaperWidthInch"></span><code>property <strong>PaperWidthInch</strong>            : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPaperWidth">FPaperWidth</a>               write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPaperWidth">FPaperWidth</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Output paper width in inches. If either of these values is less than or equal to zero then the default paper size (letter, 8.5 x 11 inches) will be used. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PaperHeightInch"></span><code>property <strong>PaperHeightInch</strong>           : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPaperHeight">FPaperHeight</a>              write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FPaperHeight">FPaperHeight</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Output paper height in inches. If either of these values is less than or equal to zero then the default paper size (letter, 8.5 x 11 inches) will be used. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PaperWidthMM"></span><code>property <strong>PaperWidthMM</strong>              : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetPaperWidthMM">GetPaperWidthMM</a>           write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetPaperWidthMM-double-">SetPaperWidthMM</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Output paper width in mm. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PaperHeightMM"></span><code>property <strong>PaperHeightMM</strong>             : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetPaperHeightMM">GetPaperHeightMM</a>          write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetPaperHeightMM-double-">SetPaperHeightMM</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Output paper height in mm. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MarginType"></span><code>property <strong>MarginType</strong>                : <a href="uCEFTypes.html#TCefPdfPrintMarginType">TCefPdfPrintMarginType</a>  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginType">FMarginType</a>               write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginType">FMarginType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Margin type. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MarginTopInch"></span><code>property <strong>MarginTopInch</strong>             : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginTop">FMarginTop</a>                write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginTop">FMarginTop</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Top margin in inches. Only used if MarginType is set to PDF_PRINT_MARGIN_CUSTOM. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MarginRightInch"></span><code>property <strong>MarginRightInch</strong>           : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginRight">FMarginRight</a>              write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginRight">FMarginRight</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Right margin in inches. Only used if MarginType is set to PDF_PRINT_MARGIN_CUSTOM. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MarginBottomInch"></span><code>property <strong>MarginBottomInch</strong>          : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginBottom">FMarginBottom</a>             write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginBottom">FMarginBottom</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Bottom margin in inches. Only used if MarginType is set to PDF_PRINT_MARGIN_CUSTOM. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MarginLeftInch"></span><code>property <strong>MarginLeftInch</strong>            : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginLeft">FMarginLeft</a>               write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#FMarginLeft">FMarginLeft</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Left margin in inches. Only used if MarginType is set to PDF_PRINT_MARGIN_CUSTOM. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MarginTopMM"></span><code>property <strong>MarginTopMM</strong>               : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetMarginTopMM">GetMarginTopMM</a>            write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetMarginTopMM-double-">SetMarginTopMM</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Top margin in mm. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MarginRightMM"></span><code>property <strong>MarginRightMM</strong>             : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetMarginRightMM">GetMarginRightMM</a>          write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetMarginRightMM-double-">SetMarginRightMM</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Right margin in mm. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MarginBottomMM"></span><code>property <strong>MarginBottomMM</strong>            : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetMarginBottomMM">GetMarginBottomMM</a>         write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetMarginBottomMM-double-">SetMarginBottomMM</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Bottom margin in mm. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MarginLeftMM"></span><code>property <strong>MarginLeftMM</strong>              : double                  read <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#GetMarginLeftMM">GetMarginLeftMM</a>           write <a href="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetMarginLeftMM-double-">SetMarginLeftMM</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Left margin in mm. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

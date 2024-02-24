@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFScrollView: Class TCefScrollViewRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefScrollViewRef"></span><h1 class="cio">Class TCefScrollViewRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFScrollView.html">uCEFScrollView</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefScrollViewRef = class(<a class="normal" href="uCEFView.TCefViewRef.html">TCefViewRef</a>, <a class="normal" href="uCEFInterfaces.ICefScrollView.html">ICefScrollView</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ A ScrollView will show horizontal and/or vertical scrollbars when necessary based on the size of the attached content view. Methods must be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_scroll_view_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_scroll_view_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_scroll_view_capi.h (cef_scroll_view_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="ancestor"><a class="normal" href="uCEFView.TCefViewRef.html">TCefViewRef</a></li>
+<li class="thisitem">TCefScrollViewRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFScrollView.TCefScrollViewRef.html#SetContentView-ICefView-">SetContentView</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFScrollView.TCefScrollViewRef.html#GetContentView">GetContentView</a></strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFScrollView.TCefScrollViewRef.html#GetVisibleContentRect">GetVisibleContentRect</a></strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFScrollView.TCefScrollViewRef.html#HasHorizontalScrollbar">HasHorizontalScrollbar</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFScrollView.TCefScrollViewRef.html#GetHorizontalScrollbarHeight">GetHorizontalScrollbarHeight</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFScrollView.TCefScrollViewRef.html#HasVerticalScrollbar">HasVerticalScrollbar</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFScrollView.TCefScrollViewRef.html#GetVerticalScrollbarWidth">GetVerticalScrollbarWidth</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFScrollView.TCefScrollViewRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefScrollView.html">ICefScrollView</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFScrollView.TCefScrollViewRef.html#CreateScrollView-ICefViewDelegate-">CreateScrollView</a></strong>(const delegate: <a href="uCEFInterfaces.ICefViewDelegate.html">ICefViewDelegate</a>): <a href="uCEFInterfaces.ICefScrollView.html">ICefScrollView</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetContentView-ICefView-"></span><code>procedure <strong>SetContentView</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the content View. The content View must have a specified size (e.g. via ICefView.SetBounds or ICefViewDelegate.GetPreferredSize). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetContentView"></span><code>function <strong>GetContentView</strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the content View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetVisibleContentRect"></span><code>function <strong>GetVisibleContentRect</strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the visible region of the content View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HasHorizontalScrollbar"></span><code>function <strong>HasHorizontalScrollbar</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the horizontal scrollbar is currently showing. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetHorizontalScrollbarHeight"></span><code>function <strong>GetHorizontalScrollbarHeight</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the height of the horizontal scrollbar. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HasVerticalScrollbar"></span><code>function <strong>HasVerticalScrollbar</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the vertical scrollbar is currently showing. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetVerticalScrollbarWidth"></span><code>function <strong>GetVerticalScrollbarWidth</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the width of the vertical scrollbar. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefScrollView.html">ICefScrollView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a ICefScrollView instance using a PCefScrollView data pointer. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateScrollView-ICefViewDelegate-"></span><code>class function <strong>CreateScrollView</strong>(const delegate: <a href="uCEFInterfaces.ICefViewDelegate.html">ICefViewDelegate</a>): <a href="uCEFInterfaces.ICefScrollView.html">ICefScrollView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new ScrollView. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

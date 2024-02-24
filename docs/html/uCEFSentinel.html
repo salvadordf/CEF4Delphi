@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFSentinel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<h1 class="unit">Unit uCEFSentinel</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section"><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></div><div class="one_section"><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div><div class="one_section"><a class="section" href="#PasDoc-Constants">Constants</a></div><div class="one_section">Variables</div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
+<span id="PasDoc-Classes"></span><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="uCEFSentinel.TCEFSentinel.html"><code>TCEFSentinel</code></a></td>
+<td class="itemdesc"> TCEFSentinel is used as a timer that checks the number of running CEF processes when you close all browsers before shutdown. This component is only used as a last resort when there's an unresolved shutdown issue in CEF or CEF4Delphi that generates exceptions when the application is closed. </td>
+</tr>
+</table>
+<span id="PasDoc-FuncsProcs"></span><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>procedure <strong><a href="uCEFSentinel.html#Register">Register</a></strong>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Types"></span><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFSentinel.html#TSentinelStatus">TSentinelStatus</a></strong> = (...);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Constants"></span><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_DELAYPERPROCMS">CEFSENTINEL_DEFAULT_DELAYPERPROCMS</a></strong> = 200;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_MININITDELAYMS">CEFSENTINEL_DEFAULT_MININITDELAYMS</a></strong> = 1500;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_FINALDELAYMS">CEFSENTINEL_DEFAULT_FINALDELAYMS</a></strong>   = 100;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_MINCHILDPROCS">CEFSENTINEL_DEFAULT_MINCHILDPROCS</a></strong>  = 2;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_MAXCHECKCOUNTS">CEFSENTINEL_DEFAULT_MAXCHECKCOUNTS</a></strong> = 10;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Register"></span><code>procedure <strong>Register</strong>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TSentinelStatus"></span><code><strong>TSentinelStatus</strong> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p><h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="ssIdle">ssIdle</span></li>
+<li>
+<span id="ssInitialDelay">ssInitialDelay</span></li>
+<li>
+<span id="ssCheckingChildren">ssCheckingChildren</span></li>
+<li>
+<span id="ssClosing">ssClosing</span></li>
+</ul>
+</td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEFSENTINEL_DEFAULT_DELAYPERPROCMS"></span><code><strong>CEFSENTINEL_DEFAULT_DELAYPERPROCMS</strong> = 200;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEFSENTINEL_DEFAULT_MININITDELAYMS"></span><code><strong>CEFSENTINEL_DEFAULT_MININITDELAYMS</strong> = 1500;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEFSENTINEL_DEFAULT_FINALDELAYMS"></span><code><strong>CEFSENTINEL_DEFAULT_FINALDELAYMS</strong>   = 100;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEFSENTINEL_DEFAULT_MINCHILDPROCS"></span><code><strong>CEFSENTINEL_DEFAULT_MINCHILDPROCS</strong>  = 2;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEFSENTINEL_DEFAULT_MAXCHECKCOUNTS"></span><code><strong>CEFSENTINEL_DEFAULT_MAXCHECKCOUNTS</strong> = 10;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

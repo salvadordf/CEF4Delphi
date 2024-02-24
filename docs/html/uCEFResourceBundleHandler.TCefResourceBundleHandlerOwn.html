@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFResourceBundleHandler: Class TCefResourceBundleHandlerOwn</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefResourceBundleHandlerOwn"></span><h1 class="cio">Class TCefResourceBundleHandlerOwn</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFResourceBundleHandler.html">uCEFResourceBundleHandler</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefResourceBundleHandlerOwn = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a>, <a class="normal" href="uCEFInterfaces.ICefResourceBundleHandler.html">ICefResourceBundleHandler</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="thisitem">TCefResourceBundleHandlerOwn</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFResourceBundleHandler.TCefResourceBundleHandlerOwn.html#GetLocalizedString-Integer-ustring-">GetLocalizedString</a></strong>(stringid: Integer; var stringVal: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean; virtual; abstract;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFResourceBundleHandler.TCefResourceBundleHandlerOwn.html#GetDataResource-Integer-Pointer-NativeUInt-">GetDataResource</a></strong>(resourceId: Integer; var data: Pointer; var dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean; virtual; abstract;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFResourceBundleHandler.TCefResourceBundleHandlerOwn.html#GetDataResourceForScale-Integer-TCefScaleFactor-Pointer-NativeUInt-">GetDataResourceForScale</a></strong>(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>; var data: Pointer; var dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean; virtual; abstract;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFResourceBundleHandler.TCefResourceBundleHandlerOwn.html#RemoveReferences">RemoveReferences</a></strong>; virtual; abstract;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFResourceBundleHandler.TCefResourceBundleHandlerOwn.html#Create">Create</a></strong>; virtual;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetLocalizedString-Integer-ustring-"></span><code>function <strong>GetLocalizedString</strong>(stringid: Integer; var stringVal: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean; virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefResourceBundleHandler.html#GetLocalizedString-Integer-ustring-">ICefResourceBundleHandler.GetLocalizedString</a>.</p><p>
+ Called to retrieve a localized translation for the specified |string_id|. To provide the translation set |string| to the translation string and return true (1). To use the default translation return false (0). Include cef_pack_strings.h for a listing of valid string ID values. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetDataResource-Integer-Pointer-NativeUInt-"></span><code>function <strong>GetDataResource</strong>(resourceId: Integer; var data: Pointer; var dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean; virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefResourceBundleHandler.html#GetDataResource-Integer-Pointer-NativeUInt-">ICefResourceBundleHandler.GetDataResource</a>.</p><p>
+ Called to retrieve data for the specified scale independent |resource_id|. To provide the resource data set |data| and |data_size| to the data pointer and size respectively and return true (1). To use the default resource data return false (0). The resource data will not be copied and must remain resident in memory. Include cef_pack_resources.h for a listing of valid resource ID values. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetDataResourceForScale-Integer-TCefScaleFactor-Pointer-NativeUInt-"></span><code>function <strong>GetDataResourceForScale</strong>(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>; var data: Pointer; var dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean; virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefResourceBundleHandler.html#GetDataResourceForScale-Integer-TCefScaleFactor-Pointer-NativeUInt-">ICefResourceBundleHandler.GetDataResourceForScale</a>.</p><p>
+ Called to retrieve data for the specified |resource_id| nearest the scale factor |scale_factor|. To provide the resource data set |data| and |data_size| to the data pointer and size respectively and return true (1). To use the default resource data return false (0). The resource data will not be copied and must remain resident in memory. Include cef_pack_resources.h for a listing of valid resource ID values. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>; virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefResourceBundleHandler.html#RemoveReferences">ICefResourceBundleHandler.RemoveReferences</a>.</p><p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

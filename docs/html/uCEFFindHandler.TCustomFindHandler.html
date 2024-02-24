@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFFindHandler: Class TCustomFindHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCustomFindHandler"></span><h1 class="cio">Class TCustomFindHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFFindHandler.html">uCEFFindHandler</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCustomFindHandler = class(<a class="normal" href="uCEFFindHandler.TCefFindHandlerOwn.html">TCefFindHandlerOwn</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="ancestor"><a class="normal" href="uCEFFindHandler.TCefFindHandlerOwn.html">TCefFindHandlerOwn</a></li>
+<li class="thisitem">TCustomFindHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFFindHandler.TCustomFindHandler.html#FEvents">FEvents</a></strong>: Pointer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFindHandler.TCustomFindHandler.html#OnFindResult-ICefBrowser-Integer-Integer-PCefRect-Integer-Boolean-">OnFindResult</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; identifier, count: Integer; const selectionRect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>; activeMatchOrdinal: Integer; finalUpdate: Boolean); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFindHandler.TCustomFindHandler.html#RemoveReferences">RemoveReferences</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFFindHandler.TCustomFindHandler.html#Create-IChromiumEvents-">Create</a></strong>(const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFFindHandler.TCustomFindHandler.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FEvents"></span><code><strong>FEvents</strong>: Pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnFindResult-ICefBrowser-Integer-Integer-PCefRect-Integer-Boolean-"></span><code>procedure <strong>OnFindResult</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; identifier, count: Integer; const selectionRect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>; activeMatchOrdinal: Integer; finalUpdate: Boolean); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFindHandler.html#OnFindResult-ICefBrowser-Integer-Integer-PCefRect-Integer-Boolean-">ICefFindHandler.OnFindResult</a>.</p><p>
+ Called to report find results returned by ICefBrowserHost.find(). |identifer| is a unique incremental identifier for the currently active search, |count| is the number of matches currently identified, |selectionRect| is the location of where the match was found (in window coordinates), |activeMatchOrdinal| is the current position in the search results, and |finalUpdate| is true (1) if this is the last find notification. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFindHandler.html#RemoveReferences">ICefFindHandler.RemoveReferences</a>.</p><p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-IChromiumEvents-"></span><code>constructor <strong>Create</strong>(const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

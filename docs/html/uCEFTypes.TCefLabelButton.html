@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefLabelButton</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefLabelButton"></span><h1 class="cio">Record TCefLabelButton</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefLabelButton = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ LabelButton is a button with optional text and/or icon. Methods must be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>Implemented by ICefLabelButton.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_label_button_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_label_button_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_label_button_capi.h (cef_label_button_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLabelButton.html#base">base</a></strong>: <a href="uCEFTypes.TCefButton.html">TCefButton</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLabelButton.html#as_menu_button">as_menu_button</a></strong>: function(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>): <a href="uCEFTypes.html#PCefMenuButton">PCefMenuButton</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLabelButton.html#set_text">set_text</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLabelButton.html#get_text">get_text</a></strong>: function(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLabelButton.html#set_image">set_image</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; button_state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>; image: <a href="uCEFTypes.html#PCefImage">PCefImage</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLabelButton.html#get_image">get_image</a></strong>: function(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; button_state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>): <a href="uCEFTypes.html#PCefImage">PCefImage</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLabelButton.html#set_text_color">set_text_color</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; for_state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLabelButton.html#set_enabled_text_colors">set_enabled_text_colors</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLabelButton.html#set_font_list">set_font_list</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; const font_list: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLabelButton.html#set_horizontal_alignment">set_horizontal_alignment</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; alignment: <a href="uCEFTypes.html#TCefHorizontalAlignment">TCefHorizontalAlignment</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLabelButton.html#set_minimum_size">set_minimum_size</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; const size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLabelButton.html#set_maximum_size">set_maximum_size</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; const size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefButton.html">TCefButton</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="as_menu_button"></span><code><strong>as_menu_button</strong>: function(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>): <a href="uCEFTypes.html#PCefMenuButton">PCefMenuButton</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_text"></span><code><strong>set_text</strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_text"></span><code><strong>get_text</strong>: function(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_image"></span><code><strong>set_image</strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; button_state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>; image: <a href="uCEFTypes.html#PCefImage">PCefImage</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_image"></span><code><strong>get_image</strong>: function(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; button_state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>): <a href="uCEFTypes.html#PCefImage">PCefImage</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_text_color"></span><code><strong>set_text_color</strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; for_state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_enabled_text_colors"></span><code><strong>set_enabled_text_colors</strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_font_list"></span><code><strong>set_font_list</strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; const font_list: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_horizontal_alignment"></span><code><strong>set_horizontal_alignment</strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; alignment: <a href="uCEFTypes.html#TCefHorizontalAlignment">TCefHorizontalAlignment</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_minimum_size"></span><code><strong>set_minimum_size</strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; const size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_maximum_size"></span><code><strong>set_maximum_size</strong>: procedure(self: <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; const size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

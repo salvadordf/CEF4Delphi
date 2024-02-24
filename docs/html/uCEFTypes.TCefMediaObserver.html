@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefMediaObserver</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefMediaObserver"></span><h1 class="cio">Record TCefMediaObserver</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefMediaObserver = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implemented by the client to observe MediaRouter events and registered via ICefMediaRouter.AddObserver. The functions of this structure will be called on the browser process UI thread. </p>
+<p>
+
+
+<p>Implemented by ICefMediaObserver.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_router_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_media_router_capi.h (cef_media_observer_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMediaObserver.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMediaObserver.html#on_sinks">on_sinks</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefMediaObserver">PCefMediaObserver</a>; sinksCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const sinks: <a href="uCEFTypes.html#PPCefMediaSink">PPCefMediaSink</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMediaObserver.html#on_routes">on_routes</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefMediaObserver">PCefMediaObserver</a>; routesCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const routes: <a href="uCEFTypes.html#PPCefMediaRoute">PPCefMediaRoute</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMediaObserver.html#on_route_state_changed">on_route_state_changed</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefMediaObserver">PCefMediaObserver</a>; route: <a href="uCEFTypes.html#PCefMediaRoute">PCefMediaRoute</a>; state: <a href="uCEFTypes.html#TCefMediaRouteConnectionState">TCefMediaRouteConnectionState</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMediaObserver.html#on_route_message_received">on_route_message_received</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefMediaObserver">PCefMediaObserver</a>; route: <a href="uCEFTypes.html#PCefMediaRoute">PCefMediaRoute</a>; const message_: Pointer; message_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_sinks"></span><code><strong>on_sinks</strong>: procedure(self: <a href="uCEFTypes.html#PCefMediaObserver">PCefMediaObserver</a>; sinksCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const sinks: <a href="uCEFTypes.html#PPCefMediaSink">PPCefMediaSink</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_routes"></span><code><strong>on_routes</strong>: procedure(self: <a href="uCEFTypes.html#PCefMediaObserver">PCefMediaObserver</a>; routesCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const routes: <a href="uCEFTypes.html#PPCefMediaRoute">PPCefMediaRoute</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_route_state_changed"></span><code><strong>on_route_state_changed</strong>: procedure(self: <a href="uCEFTypes.html#PCefMediaObserver">PCefMediaObserver</a>; route: <a href="uCEFTypes.html#PCefMediaRoute">PCefMediaRoute</a>; state: <a href="uCEFTypes.html#TCefMediaRouteConnectionState">TCefMediaRouteConnectionState</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_route_message_received"></span><code><strong>on_route_message_received</strong>: procedure(self: <a href="uCEFTypes.html#PCefMediaObserver">PCefMediaObserver</a>; route: <a href="uCEFTypes.html#PCefMediaRoute">PCefMediaRoute</a>; const message_: Pointer; message_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefPrintSettings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefPrintSettings"></span><h1 class="cio">Record TCefPrintSettings</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefPrintSettings = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure representing print settings. </p>
+<p>
+
+
+<p>Implemented by ICefPrintSettings.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_settings_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_settings_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_print_settings_capi.h (cef_print_settings_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#is_valid">is_valid</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#is_read_only">is_read_only</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#set_orientation">set_orientation</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; landscape: Integer); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#is_landscape">is_landscape</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#set_printer_printable_area">set_printer_printable_area</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; const physical_size_device_units: <a href="uCEFTypes.html#PCefSize">PCefSize</a>; const printable_area_device_units: <a href="uCEFTypes.html#PCefRect">PCefRect</a>; landscape_needs_flip: Integer); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#set_device_name">set_device_name</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; const name: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#get_device_name">get_device_name</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#set_dpi">set_dpi</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; dpi: Integer); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#get_dpi">get_dpi</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#set_page_ranges">set_page_ranges</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; rangesCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; ranges: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#get_page_ranges_count">get_page_ranges_count</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#get_page_ranges">get_page_ranges</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; rangesCount: <a href="uCEFTypes.html#PNativeUInt">PNativeUInt</a>; ranges: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#set_selection_only">set_selection_only</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; selection_only: Integer); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#is_selection_only">is_selection_only</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#set_collate">set_collate</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; collate: Integer); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#will_collate">will_collate</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#set_color_model">set_color_model</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; model: <a href="uCEFTypes.html#TCefColorModel">TCefColorModel</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#get_color_model">get_color_model</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): <a href="uCEFTypes.html#TCefColorModel">TCefColorModel</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#set_copies">set_copies</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; copies: Integer); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#get_copies">get_copies</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#set_duplex_mode">set_duplex_mode</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; mode: <a href="uCEFTypes.html#TCefDuplexMode">TCefDuplexMode</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPrintSettings.html#get_duplex_mode">get_duplex_mode</a></strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): <a href="uCEFTypes.html#TCefDuplexMode">TCefDuplexMode</a>; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_valid"></span><code><strong>is_valid</strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_read_only"></span><code><strong>is_read_only</strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_orientation"></span><code><strong>set_orientation</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; landscape: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_landscape"></span><code><strong>is_landscape</strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_printer_printable_area"></span><code><strong>set_printer_printable_area</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; const physical_size_device_units: <a href="uCEFTypes.html#PCefSize">PCefSize</a>; const printable_area_device_units: <a href="uCEFTypes.html#PCefRect">PCefRect</a>; landscape_needs_flip: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_device_name"></span><code><strong>set_device_name</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; const name: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_device_name"></span><code><strong>get_device_name</strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_dpi"></span><code><strong>set_dpi</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; dpi: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_dpi"></span><code><strong>get_dpi</strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_page_ranges"></span><code><strong>set_page_ranges</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; rangesCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; ranges: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_page_ranges_count"></span><code><strong>get_page_ranges_count</strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_page_ranges"></span><code><strong>get_page_ranges</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; rangesCount: <a href="uCEFTypes.html#PNativeUInt">PNativeUInt</a>; ranges: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_selection_only"></span><code><strong>set_selection_only</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; selection_only: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_selection_only"></span><code><strong>is_selection_only</strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_collate"></span><code><strong>set_collate</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; collate: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="will_collate"></span><code><strong>will_collate</strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_color_model"></span><code><strong>set_color_model</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; model: <a href="uCEFTypes.html#TCefColorModel">TCefColorModel</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_color_model"></span><code><strong>get_color_model</strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): <a href="uCEFTypes.html#TCefColorModel">TCefColorModel</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_copies"></span><code><strong>set_copies</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; copies: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_copies"></span><code><strong>get_copies</strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_duplex_mode"></span><code><strong>set_duplex_mode</strong>: procedure(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; mode: <a href="uCEFTypes.html#TCefDuplexMode">TCefDuplexMode</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_duplex_mode"></span><code><strong>get_duplex_mode</strong>: function(self: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>): <a href="uCEFTypes.html#TCefDuplexMode">TCefDuplexMode</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

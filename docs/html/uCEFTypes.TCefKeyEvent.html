@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefKeyEvent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefKeyEvent"></span><h1 class="cio">Record TCefKeyEvent</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefKeyEvent = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure representing keyboard event information. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_key_event_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyEvent.html#kind">kind</a></strong>: <a href="uCEFTypes.html#TCefKeyEventType">TCefKeyEventType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyEvent.html#modifiers">modifiers</a></strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyEvent.html#windows_key_code">windows_key_code</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyEvent.html#native_key_code">native_key_code</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyEvent.html#is_system_key">is_system_key</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyEvent.html#character">character</a></strong>: WideChar;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyEvent.html#unmodified_character">unmodified_character</a></strong>: WideChar;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyEvent.html#focus_on_editable_field">focus_on_editable_field</a></strong>: Integer;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="kind"></span><code><strong>kind</strong>: <a href="uCEFTypes.html#TCefKeyEventType">TCefKeyEventType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The type of keyboard event. It's called 'type' in the original CEF source code. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="modifiers"></span><code><strong>modifiers</strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Bit flags describing any pressed modifier keys. See TCefEventFlags for values. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="windows_key_code"></span><code><strong>windows_key_code</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The Windows key code for the key event. This value is used by the DOM specification. Sometimes it comes directly from the event (i.e. on Windows) and sometimes it's determined using a mapping function. See WebCore/platform/chromium/KeyboardCodes.h for the list of values. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="native_key_code"></span><code><strong>native_key_code</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The actual key code genenerated by the platform. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_system_key"></span><code><strong>is_system_key</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Indicates whether the event is considered a &quot;system key&quot; event (see <a href="http://msdn.microsoft.com/en-us/library/ms646286">http://msdn.microsoft.com/en-us/library/ms646286</a>(VS.85).aspx for details). This value will always be false on non-Windows platforms. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="character"></span><code><strong>character</strong>: WideChar;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The character generated by the keystroke. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="unmodified_character"></span><code><strong>unmodified_character</strong>: WideChar;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Same as |character| but unmodified by any concurrently-held modifiers (except shift). This is useful for working out shortcut keys. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="focus_on_editable_field"></span><code><strong>focus_on_editable_field</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ True if the focus is currently on an editable field on the page. This is useful for determining if standard key events should be intercepted. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

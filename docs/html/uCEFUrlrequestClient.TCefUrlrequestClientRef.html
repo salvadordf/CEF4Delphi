@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFUrlrequestClient: Class TCefUrlrequestClientRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefUrlrequestClientRef"></span><h1 class="cio">Class TCefUrlrequestClientRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFUrlrequestClient.html">uCEFUrlrequestClient</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefUrlrequestClientRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="thisitem">TCefUrlrequestClientRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFUrlrequestClient.TCefUrlrequestClientRef.html#OnRequestComplete-ICefUrlRequest-">OnRequestComplete</a></strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFUrlrequestClient.TCefUrlrequestClientRef.html#OnUploadProgress-ICefUrlRequest-Int64-Int64-">OnUploadProgress</a></strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; current, total: Int64);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFUrlrequestClient.TCefUrlrequestClientRef.html#OnDownloadProgress-ICefUrlRequest-Int64-Int64-">OnDownloadProgress</a></strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; current, total: Int64);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFUrlrequestClient.TCefUrlrequestClientRef.html#OnDownloadData-ICefUrlRequest-Pointer-NativeUInt-">OnDownloadData</a></strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; data: Pointer; dataLength: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFUrlrequestClient.TCefUrlrequestClientRef.html#OnGetAuthCredentials-Boolean-ustring-Integer-ustring-ustring-ICefAuthCallback-">OnGetAuthCredentials</a></strong>(isProxy: Boolean; const host: <a href="uCEFTypes.html#ustring">ustring</a>; port: Integer; const realm, scheme: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefAuthCallback.html">ICefAuthCallback</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFUrlrequestClient.TCefUrlrequestClientRef.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFUrlrequestClient.TCefUrlrequestClientRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnRequestComplete-ICefUrlRequest-"></span><code>procedure <strong>OnRequestComplete</strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefUrlrequestClient.html#OnRequestComplete-ICefUrlRequest-">ICefUrlrequestClient.OnRequestComplete</a>.</p><p>
+ Notifies the client that the request has completed. Use the ICefUrlRequest.GetRequestStatus function to determine if the request was successful or not. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnUploadProgress-ICefUrlRequest-Int64-Int64-"></span><code>procedure <strong>OnUploadProgress</strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; current, total: Int64);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefUrlrequestClient.html#OnUploadProgress-ICefUrlRequest-Int64-Int64-">ICefUrlrequestClient.OnUploadProgress</a>.</p><p>
+ Notifies the client of upload progress. |current| denotes the number of bytes sent so far and |total| is the total size of uploading data (or -1 if chunked upload is enabled). This function will only be called if the UR_FLAG_REPORT_UPLOAD_PROGRESS flag is set on the request. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnDownloadProgress-ICefUrlRequest-Int64-Int64-"></span><code>procedure <strong>OnDownloadProgress</strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; current, total: Int64);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefUrlrequestClient.html#OnDownloadProgress-ICefUrlRequest-Int64-Int64-">ICefUrlrequestClient.OnDownloadProgress</a>.</p><p>
+ Notifies the client of download progress. |current| denotes the number of bytes received up to the call and |total| is the expected total size of the response (or -1 if not determined). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnDownloadData-ICefUrlRequest-Pointer-NativeUInt-"></span><code>procedure <strong>OnDownloadData</strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; data: Pointer; dataLength: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefUrlrequestClient.html#OnDownloadData-ICefUrlRequest-Pointer-NativeUInt-">ICefUrlrequestClient.OnDownloadData</a>.</p><p>
+ Called when some part of the response is read. |data| contains the current bytes received since the last call. This function will not be called if the UR_FLAG_NO_DOWNLOAD_DATA flag is set on the request. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnGetAuthCredentials-Boolean-ustring-Integer-ustring-ustring-ICefAuthCallback-"></span><code>function <strong>OnGetAuthCredentials</strong>(isProxy: Boolean; const host: <a href="uCEFTypes.html#ustring">ustring</a>; port: Integer; const realm, scheme: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefAuthCallback.html">ICefAuthCallback</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefUrlrequestClient.html#OnGetAuthCredentials-Boolean-ustring-Integer-ustring-ustring-ICefAuthCallback-">ICefUrlrequestClient.OnGetAuthCredentials</a>.</p><p>
+ Called on the IO thread when the browser needs credentials from the user. |isProxy| indicates whether the host is a proxy server. |host| contains the hostname and |port| contains the port number. Return true (1) to continue the request and call ICefAuthCallback.cont() when the authentication information is available. If the request has an associated browser/frame then returning false (0) will result in a call to GetAuthCredentials on the ICefRequestHandler associated with that browser, if any. Otherwise, returning false (0) will cancel the request immediately. This function will only be called for requests initiated from the browser process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefUrlrequestClient.html#RemoveReferences">ICefUrlrequestClient.RemoveReferences</a>.</p><p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

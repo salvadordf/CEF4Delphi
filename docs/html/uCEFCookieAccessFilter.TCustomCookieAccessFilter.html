@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFCookieAccessFilter: Class TCustomCookieAccessFilter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCustomCookieAccessFilter"></span><h1 class="cio">Class TCustomCookieAccessFilter</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFCookieAccessFilter.html">uCEFCookieAccessFilter</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCustomCookieAccessFilter = class(<a class="normal" href="uCEFCookieAccessFilter.TCefCookieAccessFilterOwn.html">TCefCookieAccessFilterOwn</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="ancestor"><a class="normal" href="uCEFCookieAccessFilter.TCefCookieAccessFilterOwn.html">TCefCookieAccessFilterOwn</a></li>
+<li class="thisitem">TCustomCookieAccessFilter</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFCookieAccessFilter.TCustomCookieAccessFilter.html#FEvents">FEvents</a></strong>: Pointer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFCookieAccessFilter.TCustomCookieAccessFilter.html#CanSendCookie-ICefBrowser-ICefFrame-ICefRequest-PCefCookie-">CanSendCookie</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const cookie: <a href="uCEFTypes.html#PCefCookie">PCefCookie</a>): boolean; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFCookieAccessFilter.TCustomCookieAccessFilter.html#CanSaveCookie-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-PCefCookie-">CanSaveCookie</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; const cookie: <a href="uCEFTypes.html#PCefCookie">PCefCookie</a>): boolean; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFCookieAccessFilter.TCustomCookieAccessFilter.html#Create-IChromiumEvents-">Create</a></strong>(const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFCookieAccessFilter.TCustomCookieAccessFilter.html#BeforeDestruction">BeforeDestruction</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFCookieAccessFilter.TCustomCookieAccessFilter.html#RemoveReferences">RemoveReferences</a></strong>; override;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FEvents"></span><code><strong>FEvents</strong>: Pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CanSendCookie-ICefBrowser-ICefFrame-ICefRequest-PCefCookie-"></span><code>function <strong>CanSendCookie</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const cookie: <a href="uCEFTypes.html#PCefCookie">PCefCookie</a>): boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefCookieAccessFilter.html#CanSendCookie-ICefBrowser-ICefFrame-ICefRequest-PCefCookie-">ICefCookieAccessFilter.CanSendCookie</a>.</p><p>
+ Called on the IO thread before a resource request is sent. The |browser| and |frame| values represent the source of the request, and may be NULL for requests originating from service workers or ICefUrlRequest. |request| cannot be modified in this callback. Return true (1) if the specified cookie can be sent with the request or false (0) otherwise. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CanSaveCookie-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-PCefCookie-"></span><code>function <strong>CanSaveCookie</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; const cookie: <a href="uCEFTypes.html#PCefCookie">PCefCookie</a>): boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefCookieAccessFilter.html#CanSaveCookie-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-PCefCookie-">ICefCookieAccessFilter.CanSaveCookie</a>.</p><p>
+ Called on the IO thread after a resource response is received. The |browser| and |frame| values represent the source of the request, and may be NULL for requests originating from service workers or ICefUrlRequest. |request| cannot be modified in this callback. Return true (1) if the specified cookie returned with the response can be saved or false (0) otherwise. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-IChromiumEvents-"></span><code>constructor <strong>Create</strong>(const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BeforeDestruction"></span><code>procedure <strong>BeforeDestruction</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefCookieAccessFilter.html#RemoveReferences">ICefCookieAccessFilter.RemoveReferences</a>.</p><p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

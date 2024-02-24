@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFSentinel: Class TCEFSentinel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFSentinel"></span><h1 class="cio">Class TCEFSentinel</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFSentinel.html">uCEFSentinel</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFSentinel = class(TComponent)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ TCEFSentinel is used as a timer that checks the number of running CEF processes when you close all browsers before shutdown. This component is only used as a last resort when there's an unresolved shutdown issue in CEF or CEF4Delphi that generates exceptions when the application is closed. </p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor">TPersistent</li>
+<li class="ancestor">TComponent</li>
+<li class="thisitem">TCEFSentinel</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFSentinel.TCEFSentinel.html#FCompHandle">FCompHandle</a></strong>: HWND;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFSentinel.TCEFSentinel.html#FStatus">FStatus</a></strong>: <a href="uCEFSentinel.html#TSentinelStatus">TSentinelStatus</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFSentinel.TCEFSentinel.html#FStatusCS">FStatusCS</a></strong>: TCriticalSection;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFSentinel.TCEFSentinel.html#FDelayPerProcMs">FDelayPerProcMs</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFSentinel.TCEFSentinel.html#FMinInitDelayMs">FMinInitDelayMs</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFSentinel.TCEFSentinel.html#FFinalDelayMs">FFinalDelayMs</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFSentinel.TCEFSentinel.html#FMinChildProcs">FMinChildProcs</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFSentinel.TCEFSentinel.html#FMaxCheckCount">FMaxCheckCount</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFSentinel.TCEFSentinel.html#FCheckCount">FCheckCount</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFSentinel.TCEFSentinel.html#FOnClose">FOnClose</a></strong>: TNotifyEvent;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFSentinel.TCEFSentinel.html#FTimer">FTimer</a></strong>: TTimer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFSentinel.TCEFSentinel.html#GetStatus">GetStatus</a></strong>: <a href="uCEFSentinel.html#TSentinelStatus">TSentinelStatus</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFSentinel.TCEFSentinel.html#GetChildProcCount">GetChildProcCount</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFSentinel.TCEFSentinel.html#WndProc-TMessage-">WndProc</a></strong>(var aMessage: TMessage);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFSentinel.TCEFSentinel.html#doStartMsg-TMessage-">doStartMsg</a></strong>(var aMessage : TMessage); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFSentinel.TCEFSentinel.html#doCloseMsg-TMessage-">doCloseMsg</a></strong>(var aMessage : TMessage); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFSentinel.TCEFSentinel.html#SendCompMessage-cardinal-">SendCompMessage</a></strong>(aMsg : cardinal) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFSentinel.TCEFSentinel.html#CanClose">CanClose</a></strong>: boolean; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFSentinel.TCEFSentinel.html#Timer_OnTimer-TObject-">Timer_OnTimer</a></strong>(Sender: TObject); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFSentinel.TCEFSentinel.html#Create-TComponent-">Create</a></strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFSentinel.TCEFSentinel.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFSentinel.TCEFSentinel.html#AfterConstruction">AfterConstruction</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFSentinel.TCEFSentinel.html#Start">Start</a></strong>; virtual;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFSentinel.TCEFSentinel.html#Status">Status</a></strong>          : <a href="uCEFSentinel.html#TSentinelStatus">TSentinelStatus</a>  read <a href="uCEFSentinel.TCEFSentinel.html#GetStatus">GetStatus</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFSentinel.TCEFSentinel.html#ChildProcCount">ChildProcCount</a></strong>  : integer          read <a href="uCEFSentinel.TCEFSentinel.html#GetChildProcCount">GetChildProcCount</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFSentinel.TCEFSentinel.html#DelayPerProcMs">DelayPerProcMs</a></strong>  : cardinal         read <a href="uCEFSentinel.TCEFSentinel.html#FDelayPerProcMs">FDelayPerProcMs</a>   write <a href="uCEFSentinel.TCEFSentinel.html#FDelayPerProcMs">FDelayPerProcMs</a>  default <a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_DELAYPERPROCMS">CEFSENTINEL_DEFAULT_DELAYPERPROCMS</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFSentinel.TCEFSentinel.html#MinInitDelayMs">MinInitDelayMs</a></strong>  : cardinal         read <a href="uCEFSentinel.TCEFSentinel.html#FMinInitDelayMs">FMinInitDelayMs</a>   write <a href="uCEFSentinel.TCEFSentinel.html#FMinInitDelayMs">FMinInitDelayMs</a>  default <a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_MININITDELAYMS">CEFSENTINEL_DEFAULT_MININITDELAYMS</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFSentinel.TCEFSentinel.html#FinalDelayMs">FinalDelayMs</a></strong>    : cardinal         read <a href="uCEFSentinel.TCEFSentinel.html#FFinalDelayMs">FFinalDelayMs</a>     write <a href="uCEFSentinel.TCEFSentinel.html#FFinalDelayMs">FFinalDelayMs</a>    default <a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_FINALDELAYMS">CEFSENTINEL_DEFAULT_FINALDELAYMS</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFSentinel.TCEFSentinel.html#MinChildProcs">MinChildProcs</a></strong>   : integer          read <a href="uCEFSentinel.TCEFSentinel.html#FMinChildProcs">FMinChildProcs</a>    write <a href="uCEFSentinel.TCEFSentinel.html#FMinChildProcs">FMinChildProcs</a>   default <a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_MINCHILDPROCS">CEFSENTINEL_DEFAULT_MINCHILDPROCS</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFSentinel.TCEFSentinel.html#MaxCheckCount">MaxCheckCount</a></strong>   : integer          read <a href="uCEFSentinel.TCEFSentinel.html#FMaxCheckCount">FMaxCheckCount</a>    write <a href="uCEFSentinel.TCEFSentinel.html#FMaxCheckCount">FMaxCheckCount</a>   default <a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_MAXCHECKCOUNTS">CEFSENTINEL_DEFAULT_MAXCHECKCOUNTS</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFSentinel.TCEFSentinel.html#OnClose">OnClose</a></strong>         : TNotifyEvent     read <a href="uCEFSentinel.TCEFSentinel.html#FOnClose">FOnClose</a>          write <a href="uCEFSentinel.TCEFSentinel.html#FOnClose">FOnClose</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FCompHandle"></span><code><strong>FCompHandle</strong>: HWND;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FStatus"></span><code><strong>FStatus</strong>: <a href="uCEFSentinel.html#TSentinelStatus">TSentinelStatus</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FStatusCS"></span><code><strong>FStatusCS</strong>: TCriticalSection;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FDelayPerProcMs"></span><code><strong>FDelayPerProcMs</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMinInitDelayMs"></span><code><strong>FMinInitDelayMs</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FFinalDelayMs"></span><code><strong>FFinalDelayMs</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMinChildProcs"></span><code><strong>FMinChildProcs</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMaxCheckCount"></span><code><strong>FMaxCheckCount</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FCheckCount"></span><code><strong>FCheckCount</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnClose"></span><code><strong>FOnClose</strong>: TNotifyEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FTimer"></span><code><strong>FTimer</strong>: TTimer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetStatus"></span><code>function <strong>GetStatus</strong>: <a href="uCEFSentinel.html#TSentinelStatus">TSentinelStatus</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetChildProcCount"></span><code>function <strong>GetChildProcCount</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WndProc-TMessage-"></span><code>procedure <strong>WndProc</strong>(var aMessage: TMessage);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doStartMsg-TMessage-"></span><code>procedure <strong>doStartMsg</strong>(var aMessage : TMessage); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doCloseMsg-TMessage-"></span><code>procedure <strong>doCloseMsg</strong>(var aMessage : TMessage); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SendCompMessage-cardinal-"></span><code>function <strong>SendCompMessage</strong>(aMsg : cardinal) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CanClose"></span><code>function <strong>CanClose</strong>: boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Timer_OnTimer-TObject-"></span><code>procedure <strong>Timer_OnTimer</strong>(Sender: TObject); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-TComponent-"></span><code>constructor <strong>Create</strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AfterConstruction"></span><code>procedure <strong>AfterConstruction</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Start"></span><code>procedure <strong>Start</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Start checking all the CEF subprocesses. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Status"></span><code>property <strong>Status</strong>          : <a href="uCEFSentinel.html#TSentinelStatus">TSentinelStatus</a>  read <a href="uCEFSentinel.TCEFSentinel.html#GetStatus">GetStatus</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Status of this component. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ChildProcCount"></span><code>property <strong>ChildProcCount</strong>  : integer          read <a href="uCEFSentinel.TCEFSentinel.html#GetChildProcCount">GetChildProcCount</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Number of CEF subprocesses. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="DelayPerProcMs"></span><code>property <strong>DelayPerProcMs</strong>  : cardinal         read <a href="uCEFSentinel.TCEFSentinel.html#FDelayPerProcMs">FDelayPerProcMs</a>   write <a href="uCEFSentinel.TCEFSentinel.html#FDelayPerProcMs">FDelayPerProcMs</a>  default <a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_DELAYPERPROCMS">CEFSENTINEL_DEFAULT_DELAYPERPROCMS</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Delay per subprocess in milliseconds. This delay is used to calculate how much time to wait until this component checks the CEF subprocesses again. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="MinInitDelayMs"></span><code>property <strong>MinInitDelayMs</strong>  : cardinal         read <a href="uCEFSentinel.TCEFSentinel.html#FMinInitDelayMs">FMinInitDelayMs</a>   write <a href="uCEFSentinel.TCEFSentinel.html#FMinInitDelayMs">FMinInitDelayMs</a>  default <a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_MININITDELAYMS">CEFSENTINEL_DEFAULT_MININITDELAYMS</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Minimum initial delay in milliseconds. This is the minimum time to wait until this component checks the CEF subprocesses again. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="FinalDelayMs"></span><code>property <strong>FinalDelayMs</strong>    : cardinal         read <a href="uCEFSentinel.TCEFSentinel.html#FFinalDelayMs">FFinalDelayMs</a>     write <a href="uCEFSentinel.TCEFSentinel.html#FFinalDelayMs">FFinalDelayMs</a>    default <a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_FINALDELAYMS">CEFSENTINEL_DEFAULT_FINALDELAYMS</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Final delay in milliseconds. This is an extra delay to wait after enough CEF subprocesses are closed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="MinChildProcs"></span><code>property <strong>MinChildProcs</strong>   : integer          read <a href="uCEFSentinel.TCEFSentinel.html#FMinChildProcs">FMinChildProcs</a>    write <a href="uCEFSentinel.TCEFSentinel.html#FMinChildProcs">FMinChildProcs</a>   default <a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_MINCHILDPROCS">CEFSENTINEL_DEFAULT_MINCHILDPROCS</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Minimum number of CEF subprocesses. When ChildProcCount reaches this value it's considered safe to trigger OnClose. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="MaxCheckCount"></span><code>property <strong>MaxCheckCount</strong>   : integer          read <a href="uCEFSentinel.TCEFSentinel.html#FMaxCheckCount">FMaxCheckCount</a>    write <a href="uCEFSentinel.TCEFSentinel.html#FMaxCheckCount">FMaxCheckCount</a>   default <a href="uCEFSentinel.html#CEFSENTINEL_DEFAULT_MAXCHECKCOUNTS">CEFSENTINEL_DEFAULT_MAXCHECKCOUNTS</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Maximum number of times this component will check the CEF subprocesses. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnClose"></span><code>property <strong>OnClose</strong>         : TNotifyEvent     read <a href="uCEFSentinel.TCEFSentinel.html#FOnClose">FOnClose</a>          write <a href="uCEFSentinel.TCEFSentinel.html#FOnClose">FOnClose</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Event triggered when enought CEF subprocesses are closed. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

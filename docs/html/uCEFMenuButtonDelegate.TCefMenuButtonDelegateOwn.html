@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFMenuButtonDelegate: Class TCefMenuButtonDelegateOwn</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefMenuButtonDelegateOwn"></span><h1 class="cio">Class TCefMenuButtonDelegateOwn</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFMenuButtonDelegate.html">uCEFMenuButtonDelegate</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefMenuButtonDelegateOwn = class(<a class="normal" href="uCEFButtonDelegate.TCefButtonDelegateOwn.html">TCefButtonDelegateOwn</a>, <a class="normal" href="uCEFInterfaces.ICefMenuButtonDelegate.html">ICefMenuButtonDelegate</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this interface to handle MenuButton events. The functions of this interface will be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_menu_button_delegate_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_menu_button_delegate_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_menu_button_delegate_capi.h (cef_menu_button_delegate_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="ancestor"><a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html">TCefViewDelegateOwn</a></li>
+<li class="ancestor"><a class="normal" href="uCEFButtonDelegate.TCefButtonDelegateOwn.html">TCefButtonDelegateOwn</a></li>
+<li class="thisitem">TCefMenuButtonDelegateOwn</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuButtonDelegate.TCefMenuButtonDelegateOwn.html#OnMenuButtonPressed-ICefMenuButton-TCefPoint-ICefMenuButtonPressedLock-">OnMenuButtonPressed</a></strong>(const menu_button: <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>; const screen_point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; const button_pressed_lock: <a href="uCEFInterfaces.ICefMenuButtonPressedLock.html">ICefMenuButtonPressedLock</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuButtonDelegate.TCefMenuButtonDelegateOwn.html#InitializeCEFMethods">InitializeCEFMethods</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFMenuButtonDelegate.TCefMenuButtonDelegateOwn.html#Create">Create</a></strong>; override;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnMenuButtonPressed-ICefMenuButton-TCefPoint-ICefMenuButtonPressedLock-"></span><code>procedure <strong>OnMenuButtonPressed</strong>(const menu_button: <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>; const screen_point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; const button_pressed_lock: <a href="uCEFInterfaces.ICefMenuButtonPressedLock.html">ICefMenuButtonPressedLock</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when |button| is pressed. Call ICefMenuButton.ShowMenu() to show a popup menu at |screen_point|. When showing a custom popup such as a window keep a reference to |button_pressed_lock| until the popup is hidden to maintain the pressed button state. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="InitializeCEFMethods"></span><code>procedure <strong>InitializeCEFMethods</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Links the methods in the internal CEF record data pointer with the methods in this class. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

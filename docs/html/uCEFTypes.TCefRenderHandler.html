@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefRenderHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefRenderHandler"></span><h1 class="cio">Record TCefRenderHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefRenderHandler = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this structure to handle events when window rendering is disabled. The functions of this structure will be called on the UI thread. </p>
+<p>
+
+
+<p>Implemented by ICefRenderHandler.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_render_handler_capi.h (cef_render_handler_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#get_accessibility_handler">get_accessibility_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>): <a href="uCEFTypes.html#PCefAccessibilityHandler">PCefAccessibilityHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#get_root_screen_rect">get_root_screen_rect</a></strong>: function(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; rect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#get_view_rect">get_view_rect</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; rect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#get_screen_point">get_screen_point</a></strong>: function(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; viewX, viewY: Integer; screenX, screenY: PInteger): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#get_screen_info">get_screen_info</a></strong>: function(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; screen_info: <a href="uCEFTypes.html#PCefScreenInfo">PCefScreenInfo</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#on_popup_show">on_popup_show</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; show: Integer); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#on_popup_size">on_popup_size</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const rect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#on_paint">on_paint</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; const buffer: Pointer; width, height: Integer); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#on_accelerated_paint">on_accelerated_paint</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; shared_handle: Pointer); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#get_touch_handle_size">get_touch_handle_size</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; orientation: <a href="uCEFTypes.html#TCefHorizontalAlignment">TCefHorizontalAlignment</a>; size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#on_touch_handle_state_changed">on_touch_handle_state_changed</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const state: <a href="uCEFTypes.html#PCefTouchHandleState">PCefTouchHandleState</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#start_dragging">start_dragging</a></strong>: function(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; drag_data: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; allowed_ops: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>; x, y: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#update_drag_cursor">update_drag_cursor</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; operation: <a href="uCEFTypes.html#TCefDragOperation">TCefDragOperation</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#on_scroll_offset_changed">on_scroll_offset_changed</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; x, y: Double); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#on_ime_composition_range_changed">on_ime_composition_range_changed</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const selected_range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>; character_boundsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const character_bounds: <a href="uCEFTypes.html#PCefRect">PCefRect</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#on_text_selection_changed">on_text_selection_changed</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const selected_text: <a href="uCEFTypes.html#PCefString">PCefString</a>; const selected_range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderHandler.html#on_virtual_keyboard_requested">on_virtual_keyboard_requested</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; input_mode: <a href="uCEFTypes.html#TCefTextInpuMode">TCefTextInpuMode</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_accessibility_handler"></span><code><strong>get_accessibility_handler</strong>: function(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>): <a href="uCEFTypes.html#PCefAccessibilityHandler">PCefAccessibilityHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_root_screen_rect"></span><code><strong>get_root_screen_rect</strong>: function(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; rect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_view_rect"></span><code><strong>get_view_rect</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; rect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_screen_point"></span><code><strong>get_screen_point</strong>: function(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; viewX, viewY: Integer; screenX, screenY: PInteger): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_screen_info"></span><code><strong>get_screen_info</strong>: function(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; screen_info: <a href="uCEFTypes.html#PCefScreenInfo">PCefScreenInfo</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_popup_show"></span><code><strong>on_popup_show</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; show: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_popup_size"></span><code><strong>on_popup_size</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const rect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_paint"></span><code><strong>on_paint</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; const buffer: Pointer; width, height: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_accelerated_paint"></span><code><strong>on_accelerated_paint</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; shared_handle: Pointer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_touch_handle_size"></span><code><strong>get_touch_handle_size</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; orientation: <a href="uCEFTypes.html#TCefHorizontalAlignment">TCefHorizontalAlignment</a>; size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_touch_handle_state_changed"></span><code><strong>on_touch_handle_state_changed</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const state: <a href="uCEFTypes.html#PCefTouchHandleState">PCefTouchHandleState</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="start_dragging"></span><code><strong>start_dragging</strong>: function(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; drag_data: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; allowed_ops: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>; x, y: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="update_drag_cursor"></span><code><strong>update_drag_cursor</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; operation: <a href="uCEFTypes.html#TCefDragOperation">TCefDragOperation</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_scroll_offset_changed"></span><code><strong>on_scroll_offset_changed</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; x, y: Double); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_ime_composition_range_changed"></span><code><strong>on_ime_composition_range_changed</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const selected_range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>; character_boundsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const character_bounds: <a href="uCEFTypes.html#PCefRect">PCefRect</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_text_selection_changed"></span><code><strong>on_text_selection_changed</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const selected_text: <a href="uCEFTypes.html#PCefString">PCefString</a>; const selected_range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_virtual_keyboard_requested"></span><code><strong>on_virtual_keyboard_requested</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; input_mode: <a href="uCEFTypes.html#TCefTextInpuMode">TCefTextInpuMode</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

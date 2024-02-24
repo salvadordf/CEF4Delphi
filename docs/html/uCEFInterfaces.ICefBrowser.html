@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefBrowser</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefBrowser"></span><h1 class="cio">Interface ICefBrowser</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefBrowser = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface used to represent a browser. When used in the browser process the functions of this interface may be called on any thread unless otherwise indicated in the comments. When used in the render process the functions of this interface may only be called on the main thread. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_browser_capi.h (cef_browser_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefBrowser</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#IsValid">IsValid</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#GetHost">GetHost</a></strong>: <a href="uCEFInterfaces.ICefBrowserHost.html">ICefBrowserHost</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#CanGoBack">CanGoBack</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowser.html#GoBack">GoBack</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#CanGoForward">CanGoForward</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowser.html#GoForward">GoForward</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#IsLoading">IsLoading</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowser.html#Reload">Reload</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowser.html#ReloadIgnoreCache">ReloadIgnoreCache</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowser.html#StopLoad">StopLoad</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#GetIdentifier">GetIdentifier</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#IsSame-ICefBrowser-">IsSame</a></strong>(const that: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#IsPopup">IsPopup</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#HasDocument">HasDocument</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#GetMainFrame">GetMainFrame</a></strong>: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#GetFocusedFrame">GetFocusedFrame</a></strong>: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#GetFrameByIdentifier-ustring-">GetFrameByIdentifier</a></strong>(const identifier: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#GetFrameByName-ustring-">GetFrameByName</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#GetFrameCount">GetFrameCount</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#GetFrameIdentifiers-TStrings-">GetFrameIdentifiers</a></strong>(var aFrameIdentifiers : TStrings) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowser.html#GetFrameNames-TStrings-">GetFrameNames</a></strong>(var aFrameNames : TStrings) : boolean;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowser.html#MainFrame">MainFrame</a></strong>    : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>       read <a href="uCEFInterfaces.ICefBrowser.html#GetMainFrame">GetMainFrame</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowser.html#FocusedFrame">FocusedFrame</a></strong> : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>       read <a href="uCEFInterfaces.ICefBrowser.html#GetFocusedFrame">GetFocusedFrame</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowser.html#FrameCount">FrameCount</a></strong>   : <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>      read <a href="uCEFInterfaces.ICefBrowser.html#GetFrameCount">GetFrameCount</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowser.html#Host">Host</a></strong>         : <a href="uCEFInterfaces.ICefBrowserHost.html">ICefBrowserHost</a> read <a href="uCEFInterfaces.ICefBrowser.html#GetHost">GetHost</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowser.html#Identifier">Identifier</a></strong>   : Integer         read <a href="uCEFInterfaces.ICefBrowser.html#GetIdentifier">GetIdentifier</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsValid"></span><code>function <strong>IsValid</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ True if this object is currently valid. This will return false (0) after ICefLifeSpanHandler.OnBeforeClose is called. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{BA003C2E-CF15-458F-9D4A-FE3CEFCF3EEF}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetHost"></span><code>function <strong>GetHost</strong>: <a href="uCEFInterfaces.ICefBrowserHost.html">ICefBrowserHost</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the browser host object. This function can only be called in the browser process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CanGoBack"></span><code>function <strong>CanGoBack</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the browser can navigate backwards. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GoBack"></span><code>procedure <strong>GoBack</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Navigate backwards. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CanGoForward"></span><code>function <strong>CanGoForward</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the browser can navigate forwards. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GoForward"></span><code>procedure <strong>GoForward</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Navigate forwards. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsLoading"></span><code>function <strong>IsLoading</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the browser is currently loading. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Reload"></span><code>procedure <strong>Reload</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Reload the current page. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ReloadIgnoreCache"></span><code>procedure <strong>ReloadIgnoreCache</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Reload the current page ignoring any cached data. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="StopLoad"></span><code>procedure <strong>StopLoad</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Stop loading the page. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetIdentifier"></span><code>function <strong>GetIdentifier</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the globally unique identifier for this browser. This value is also used as the tabId for extension APIs. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsSame-ICefBrowser-"></span><code>function <strong>IsSame</strong>(const that: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this object is pointing to the same handle as |that| object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsPopup"></span><code>function <strong>IsPopup</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the browser is a popup. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasDocument"></span><code>function <strong>HasDocument</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if a document has been loaded in the browser. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetMainFrame"></span><code>function <strong>GetMainFrame</strong>: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the main (top-level) frame for the browser. In the browser process this will return a valid object until after ICefLifeSpanHandler.OnBeforeClose is called. In the renderer process this will return NULL if the main frame is hosted in a different renderer process (e.g. for cross-origin sub-frames). The main frame object will change during cross-origin navigation or re-navigation after renderer process termination (due to crashes, etc). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFocusedFrame"></span><code>function <strong>GetFocusedFrame</strong>: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the focused frame for the browser. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFrameByIdentifier-ustring-"></span><code>function <strong>GetFrameByIdentifier</strong>(const identifier: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the frame with the specified identifier, or NULL if not found. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFrameByName-ustring-"></span><code>function <strong>GetFrameByName</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the frame with the specified name, or NULL if not found. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFrameCount"></span><code>function <strong>GetFrameCount</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the number of frames that currently exist. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFrameIdentifiers-TStrings-"></span><code>function <strong>GetFrameIdentifiers</strong>(var aFrameIdentifiers : TStrings) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the identifiers of all existing frames. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFrameNames-TStrings-"></span><code>function <strong>GetFrameNames</strong>(var aFrameNames : TStrings) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the names of all existing frames. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MainFrame"></span><code>property <strong>MainFrame</strong>    : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>       read <a href="uCEFInterfaces.ICefBrowser.html#GetMainFrame">GetMainFrame</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the main (top-level) frame for the browser. In the browser process this will return a valid object until after ICefLifeSpanHandler.OnBeforeClose is called. In the renderer process this will return NULL if the main frame is hosted in a different renderer process (e.g. for cross-origin sub-frames). The main frame object will change during cross-origin navigation or re-navigation after renderer process termination (due to crashes, etc). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FocusedFrame"></span><code>property <strong>FocusedFrame</strong> : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>       read <a href="uCEFInterfaces.ICefBrowser.html#GetFocusedFrame">GetFocusedFrame</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the focused frame for the browser. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FrameCount"></span><code>property <strong>FrameCount</strong>   : <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>      read <a href="uCEFInterfaces.ICefBrowser.html#GetFrameCount">GetFrameCount</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the number of frames that currently exist. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Host"></span><code>property <strong>Host</strong>         : <a href="uCEFInterfaces.ICefBrowserHost.html">ICefBrowserHost</a> read <a href="uCEFInterfaces.ICefBrowser.html#GetHost">GetHost</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the browser host object. This function can only be called in the browser process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Identifier"></span><code>property <strong>Identifier</strong>   : Integer         read <a href="uCEFInterfaces.ICefBrowser.html#GetIdentifier">GetIdentifier</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the globally unique identifier for this browser. This value is also used as the tabId for extension APIs. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

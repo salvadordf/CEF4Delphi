@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFFMXChromium: Class TFMXChromium</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TFMXChromium"></span><h1 class="cio">Class TFMXChromium</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFFMXChromium.html">uCEFFMXChromium</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TFMXChromium = class(<a class="normal" href="uCEFChromiumCore.TChromiumCore.html">TChromiumCore</a>, <a class="normal" href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ FMX version of TChromiumCore that puts together all browser procedures, functions, properties and events in one place. It has all you need to create, modify and destroy a web browser. </p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor">TPersistent</li>
+<li class="ancestor">TComponent</li>
+<li class="ancestor"><a class="normal" href="uCEFChromiumCore.TChromiumCore.html">TChromiumCore</a></li>
+<li class="thisitem">TFMXChromium</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXChromium.TFMXChromium.html#GetParentFormHandle">GetParentFormHandle</a></strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXChromium.TFMXChromium.html#GetParentForm">GetParentForm</a></strong>: TCustomForm;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXChromium.TFMXChromium.html#GetScreenScale">GetScreenScale</a></strong>: Single;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXChromium.TFMXChromium.html#InitializeDevToolsWindowInfo">InitializeDevToolsWindowInfo</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXChromium.TFMXChromium.html#ShowDevTools-TPoint-">ShowDevTools</a></strong>(inspectElementAt: TPoint);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXChromium.TFMXChromium.html#CloseDevTools">CloseDevTools</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXChromium.TFMXChromium.html#MoveFormTo-Integer-Integer-">MoveFormTo</a></strong>(const x, y: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXChromium.TFMXChromium.html#MoveFormBy-Integer-Integer-">MoveFormBy</a></strong>(const x, y: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXChromium.TFMXChromium.html#ResizeFormWidthTo-Integer-">ResizeFormWidthTo</a></strong>(const x : Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXChromium.TFMXChromium.html#ResizeFormHeightTo-Integer-">ResizeFormHeightTo</a></strong>(const y : Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXChromium.TFMXChromium.html#SetFormLeftTo-Integer-">SetFormLeftTo</a></strong>(const x : Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXChromium.TFMXChromium.html#SetFormTopTo-Integer-">SetFormTopTo</a></strong>(const y : Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXChromium.TFMXChromium.html#CreateBrowser-ustring-ICefRequestContext-ICefDictionaryValue-">CreateBrowser</a></strong>(const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aContext : <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a> = nil; const aExtraInfo : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a> = nil) : boolean; overload; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXChromium.TFMXChromium.html#SaveAsBitmapStream-TStream-SystemTypesTRect-">SaveAsBitmapStream</a></strong>(const aStream : TStream; const aRect : System.Types.TRect) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXChromium.TFMXChromium.html#TakeSnapshot-TBitmap-SystemTypesTRect-">TakeSnapshot</a></strong>(var aBitmap : TBitmap; const aRect : System.Types.TRect) : boolean;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXChromium.TFMXChromium.html#ScreenScale">ScreenScale</a></strong>    : single             read <a href="uCEFFMXChromium.TFMXChromium.html#GetScreenScale">GetScreenScale</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetParentFormHandle"></span><code>function <strong>GetParentFormHandle</strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetParentForm"></span><code>function <strong>GetParentForm</strong>: TCustomForm;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetScreenScale"></span><code>function <strong>GetScreenScale</strong>: Single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="InitializeDevToolsWindowInfo"></span><code>procedure <strong>InitializeDevToolsWindowInfo</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ShowDevTools-TPoint-"></span><code>procedure <strong>ShowDevTools</strong>(inspectElementAt: TPoint);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Open developer tools (DevTools) in its own browser. If inspectElementAt has a valid point with coordinates different than low(integer) then the element at the specified location will be inspected. If the DevTools browser is already open then it will be focused. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CloseDevTools"></span><code>procedure <strong>CloseDevTools</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ close the developer tools. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MoveFormTo-Integer-Integer-"></span><code>procedure <strong>MoveFormTo</strong>(const x, y: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Move the parent form to the x and y coordinates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MoveFormBy-Integer-Integer-"></span><code>procedure <strong>MoveFormBy</strong>(const x, y: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Move the parent form adding x and y to the coordinates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ResizeFormWidthTo-Integer-"></span><code>procedure <strong>ResizeFormWidthTo</strong>(const x : Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add x to the parent form width. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ResizeFormHeightTo-Integer-"></span><code>procedure <strong>ResizeFormHeightTo</strong>(const y : Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add y to the parent form height. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetFormLeftTo-Integer-"></span><code>procedure <strong>SetFormLeftTo</strong>(const x : Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the parent form left property to x. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetFormTopTo-Integer-"></span><code>procedure <strong>SetFormTopTo</strong>(const y : Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the parent form top property to y. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateBrowser-ustring-ICefRequestContext-ICefDictionaryValue-"></span><code>function <strong>CreateBrowser</strong>(const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aContext : <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a> = nil; const aExtraInfo : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a> = nil) : boolean; overload; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Used to create the browser after the global request context has been initialized. You need to set all properties and events before calling this function because it will only create the internal handlers needed for those events and the property values will be used in the browser initialization. The browser will be fully initialized when the TChromiumCore.OnAfterCreated event is triggered. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SaveAsBitmapStream-TStream-SystemTypesTRect-"></span><code>function <strong>SaveAsBitmapStream</strong>(const aStream : TStream; const aRect : System.Types.TRect) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Copy the DC to a bitmap stream. Only works on Windows with browsers without GPU acceleration. It's recommended to use the &quot;Page.captureScreenshot&quot; DevTools method instead. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TakeSnapshot-TBitmap-SystemTypesTRect-"></span><code>function <strong>TakeSnapshot</strong>(var aBitmap : TBitmap; const aRect : System.Types.TRect) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Takes a snapshot into a TBitmap using the SaveAsBitmapStream function. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ScreenScale"></span><code>property <strong>ScreenScale</strong>    : single             read <a href="uCEFFMXChromium.TFMXChromium.html#GetScreenScale">GetScreenScale</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the screen scale of the monitor where the parent form is located. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

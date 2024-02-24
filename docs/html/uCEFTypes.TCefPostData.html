@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefPostData</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefPostData"></span><h1 class="cio">Record TCefPostData</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefPostData = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure used to represent post data for a web request. The functions of this structure may be called on any thread. </p>
+<p>
+
+
+<p>Implemented by ICefPostData.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_request_capi.h (cef_post_data_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPostData.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPostData.html#is_read_only">is_read_only</a></strong>: function(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPostData.html#has_excluded_elements">has_excluded_elements</a></strong>: function(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPostData.html#get_element_count">get_element_count</a></strong>: function(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPostData.html#get_elements">get_elements</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>; var elementsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var elements: <a href="uCEFTypes.html#PCefPostDataElement">PCefPostDataElement</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPostData.html#remove_element">remove_element</a></strong>: function(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>; element: <a href="uCEFTypes.html#PCefPostDataElement">PCefPostDataElement</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPostData.html#add_element">add_element</a></strong>: function(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>; element: <a href="uCEFTypes.html#PCefPostDataElement">PCefPostDataElement</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPostData.html#remove_elements">remove_elements</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_read_only"></span><code><strong>is_read_only</strong>: function(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_excluded_elements"></span><code><strong>has_excluded_elements</strong>: function(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_element_count"></span><code><strong>get_element_count</strong>: function(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_elements"></span><code><strong>get_elements</strong>: procedure(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>; var elementsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var elements: <a href="uCEFTypes.html#PCefPostDataElement">PCefPostDataElement</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="remove_element"></span><code><strong>remove_element</strong>: function(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>; element: <a href="uCEFTypes.html#PCefPostDataElement">PCefPostDataElement</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="add_element"></span><code><strong>add_element</strong>: function(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>; element: <a href="uCEFTypes.html#PCefPostDataElement">PCefPostDataElement</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="remove_elements"></span><code><strong>remove_elements</strong>: procedure(self: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

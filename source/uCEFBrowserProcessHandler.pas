@@ -28,6 +28,7 @@ type
       procedure OnAlreadyRunningAppRelaunch(const commandLine: ICefCommandLine; const current_directory: ustring; var aResult: boolean); virtual; abstract;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); virtual; abstract;
       procedure GetDefaultClient(var aClient : ICefClient); virtual;
+      procedure GetDefaultRequestContextHandler(var aRequestContextHandler : ICefRequestContextHandler); virtual;
 
       procedure RemoveReferences; virtual; abstract;
 
@@ -45,6 +46,7 @@ type
       procedure OnAlreadyRunningAppRelaunch(const commandLine: ICefCommandLine; const current_directory: ustring; var aResult: boolean); override;
       procedure OnScheduleMessagePumpWork(const delayMs: Int64); override;
       procedure GetDefaultClient(var aClient : ICefClient); override;
+      procedure GetDefaultRequestContextHandler(var aRequestContextHandler : ICefRequestContextHandler); override;
 
       procedure RemoveReferences; override;
 
@@ -168,6 +170,11 @@ begin
   aClient := nil;
 end;
 
+procedure TCefBrowserProcessHandlerOwn.GetDefaultRequestContextHandler(var aRequestContextHandler : ICefRequestContextHandler);
+begin
+  aRequestContextHandler := nil;
+end;
+
 
 // TCefCustomBrowserProcessHandler
 
@@ -254,6 +261,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomBrowserProcessHandler.GetDefaultClient', e) then raise;
+  end;
+end;
+
+procedure TCefCustomBrowserProcessHandler.GetDefaultRequestContextHandler(var aRequestContextHandler : ICefRequestContextHandler);
+begin
+  try
+    if (FCefApp <> nil) then
+      IApplicationCoreEvents(FCefApp).doGetDefaultRequestContextHandler(aRequestContextHandler);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefCustomBrowserProcessHandler.GetDefaultRequestContextHandler', e) then raise;
   end;
 end;
 

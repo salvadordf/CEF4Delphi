@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefBrowserViewDelegate</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefBrowserViewDelegate"></span><h1 class="cio">Record TCefBrowserViewDelegate</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefBrowserViewDelegate = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this structure to handle BrowserView events. The functions of this structure will be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>Implemented by ICefBrowserViewDelegate.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_browser_view_delegate_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_browser_view_delegate_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_browser_view_delegate_capi.h (cef_browser_view_delegate_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefBrowserViewDelegate.html#base">base</a></strong>: <a href="uCEFTypes.TCefViewDelegate.html">TCefViewDelegate</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefBrowserViewDelegate.html#on_browser_created">on_browser_created</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefBrowserViewDelegate.html#on_browser_destroyed">on_browser_destroyed</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefBrowserViewDelegate.html#get_delegate_for_popup_browser_view">get_delegate_for_popup_browser_view</a></strong>: function(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; const settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; client: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; is_devtools: Integer): <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefBrowserViewDelegate.html#on_popup_browser_view_created">on_popup_browser_view_created</a></strong>: function(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view, popup_browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; is_devtools: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefBrowserViewDelegate.html#get_chrome_toolbar_type">get_chrome_toolbar_type</a></strong>: function(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>): <a href="uCEFTypes.html#TCefChromeToolbarType">TCefChromeToolbarType</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefBrowserViewDelegate.html#use_frameless_window_for_picture_in_picture">use_frameless_window_for_picture_in_picture</a></strong>: function(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>): integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefBrowserViewDelegate.html#on_gesture_command">on_gesture_command</a></strong>: function(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; gesture_command: <a href="uCEFTypes.html#TCefGestureCommand">TCefGestureCommand</a>): Integer; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefViewDelegate.html">TCefViewDelegate</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_browser_created"></span><code><strong>on_browser_created</strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_browser_destroyed"></span><code><strong>on_browser_destroyed</strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_delegate_for_popup_browser_view"></span><code><strong>get_delegate_for_popup_browser_view</strong>: function(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; const settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; client: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; is_devtools: Integer): <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_popup_browser_view_created"></span><code><strong>on_popup_browser_view_created</strong>: function(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view, popup_browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; is_devtools: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_chrome_toolbar_type"></span><code><strong>get_chrome_toolbar_type</strong>: function(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>): <a href="uCEFTypes.html#TCefChromeToolbarType">TCefChromeToolbarType</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="use_frameless_window_for_picture_in_picture"></span><code><strong>use_frameless_window_for_picture_in_picture</strong>: function(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>): integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_gesture_command"></span><code><strong>on_gesture_command</strong>: function(self: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>; browser_view: <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; gesture_command: <a href="uCEFTypes.html#TCefGestureCommand">TCefGestureCommand</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

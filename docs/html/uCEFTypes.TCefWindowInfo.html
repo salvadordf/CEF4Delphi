@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefWindowInfo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefWindowInfo"></span><h1 class="cio">Record TCefWindowInfo</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefWindowInfo = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure representing window information. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h</a>&quot;&gt;CEF source file: /include/internal/cef_types_win.h (cef_window_info_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowInfo.html#ex_style">ex_style</a></strong>: DWORD;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowInfo.html#window_name">window_name</a></strong>: <a href="uCEFTypes.html#TCefString">TCefString</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowInfo.html#style">style</a></strong>: DWORD;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowInfo.html#bounds">bounds</a></strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowInfo.html#parent_window">parent_window</a></strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowInfo.html#menu">menu</a></strong>: HMENU;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowInfo.html#windowless_rendering_enabled">windowless_rendering_enabled</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowInfo.html#shared_texture_enabled">shared_texture_enabled</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowInfo.html#external_begin_frame_enabled">external_begin_frame_enabled</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowInfo.html#window">window</a></strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ex_style"></span><code><strong>ex_style</strong>: DWORD;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Standard parameters required by CreateWindowEx() </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="window_name"></span><code><strong>window_name</strong>: <a href="uCEFTypes.html#TCefString">TCefString</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="style"></span><code><strong>style</strong>: DWORD;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="bounds"></span><code><strong>bounds</strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="parent_window"></span><code><strong>parent_window</strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="menu"></span><code><strong>menu</strong>: HMENU;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="windowless_rendering_enabled"></span><code><strong>windowless_rendering_enabled</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to true (1) to create the browser using windowless (off-screen) rendering. No window will be created for the browser and all rendering will occur via the ICefRenderHandler interface. The |parent_window| value will be used to identify monitor info and to act as the parent window for dialogs, context menus, etc. If |parent_window| is not provided then the main screen monitor will be used and some functionality that requires a parent window may not function correctly. In order to create windowless browsers the TCefSettings.windowless_rendering_enabled value must be set to true. Transparent painting is enabled by default but can be disabled by setting TCefBrowserSettings.background_color to an opaque value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="shared_texture_enabled"></span><code><strong>shared_texture_enabled</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to true (1) to enable shared textures for windowless rendering. Only valid if windowless_rendering_enabled above is also set to true. Currently only supported on Windows (D3D11). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="external_begin_frame_enabled"></span><code><strong>external_begin_frame_enabled</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to true (1) to enable the ability to issue BeginFrame requests from the client application by calling ICefBrowserHost.SendExternalBeginFrame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="window"></span><code><strong>window</strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Handle for the new browser window. Only used with windowed rendering. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefCommandLine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefCommandLine"></span><h1 class="cio">Record TCefCommandLine</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefCommandLine = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure used to create and/or parse command line arguments. Arguments with &quot;&ndash;&quot;, &quot;-&quot; and, on Windows, &quot;/&quot; prefixes are considered switches. Switches will always precede any arguments without switch prefixes. Switches can optionally have a value specified using the &quot;=&quot; delimiter (e.g. &quot;-switch=value&quot;). An argument of &quot;&ndash;&quot; will terminate switch parsing with all subsequent tokens, regardless of prefix, being interpreted as non-switch arguments. Switch names should be lowercase ASCII and will be converted to such if necessary. Switch values will retain the original case and UTF8 encoding. This structure can be used before cef_initialize() is called. </p>
+<p>
+
+
+<p>Implemented by ICefCommandLine.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_command_line_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_command_line_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_command_line_capi.h (cef_command_line_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#is_valid">is_valid</a></strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#is_read_only">is_read_only</a></strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#copy">copy</a></strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#init_from_argv">init_from_argv</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; argc: Integer; const argv: PPAnsiChar); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#init_from_string">init_from_string</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const command_line: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#reset">reset</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#get_argv">get_argv</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; argv: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#get_command_line_string">get_command_line_string</a></strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#get_program">get_program</a></strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#set_program">set_program</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const program_: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#has_switches">has_switches</a></strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#has_switch">has_switch</a></strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const name: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#get_switch_value">get_switch_value</a></strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const name: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#get_switches">get_switches</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; switches: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#append_switch">append_switch</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const name: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#append_switch_with_value">append_switch_with_value</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const name, value: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#has_arguments">has_arguments</a></strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#get_arguments">get_arguments</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; arguments: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#append_argument">append_argument</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const argument: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefCommandLine.html#prepend_wrapper">prepend_wrapper</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const wrapper: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_valid"></span><code><strong>is_valid</strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_read_only"></span><code><strong>is_read_only</strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="copy"></span><code><strong>copy</strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="init_from_argv"></span><code><strong>init_from_argv</strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; argc: Integer; const argv: PPAnsiChar); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="init_from_string"></span><code><strong>init_from_string</strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const command_line: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="reset"></span><code><strong>reset</strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_argv"></span><code><strong>get_argv</strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; argv: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_command_line_string"></span><code><strong>get_command_line_string</strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_program"></span><code><strong>get_program</strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_program"></span><code><strong>set_program</strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const program_: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_switches"></span><code><strong>has_switches</strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_switch"></span><code><strong>has_switch</strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const name: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_switch_value"></span><code><strong>get_switch_value</strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const name: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_switches"></span><code><strong>get_switches</strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; switches: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="append_switch"></span><code><strong>append_switch</strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const name: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="append_switch_with_value"></span><code><strong>append_switch_with_value</strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const name, value: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_arguments"></span><code><strong>has_arguments</strong>: function(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_arguments"></span><code><strong>get_arguments</strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; arguments: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="append_argument"></span><code><strong>append_argument</strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const argument: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="prepend_wrapper"></span><code><strong>prepend_wrapper</strong>: procedure(self: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; const wrapper: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

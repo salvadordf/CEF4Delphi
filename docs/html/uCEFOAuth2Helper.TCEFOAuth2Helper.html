@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFOAuth2Helper: Class TCEFOAuth2Helper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFOAuth2Helper"></span><h1 class="cio">Class TCEFOAuth2Helper</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFOAuth2Helper.html">uCEFOAuth2Helper</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFOAuth2Helper = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TCEFOAuth2Helper</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FRedirectHost">FRedirectHost</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FRedirectPort">FRedirectPort</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FAuthEndpoint">FAuthEndpoint</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FTokenEndpoint">FTokenEndpoint</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FClientID">FClientID</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FClientSecret">FClientSecret</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FAuthCode">FAuthCode</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FError">FError</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FErrorDescription">FErrorDescription</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FCodeVerifier">FCodeVerifier</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FCodeChallenge">FCodeChallenge</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FScope">FScope</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FAccessToken">FAccessToken</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FIDToken">FIDToken</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FState">FState</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FIncState">FIncState</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FRefreshToken">FRefreshToken</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FTokenExpiry">FTokenExpiry</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FTokenType">FTokenType</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FLoginHint">FLoginHint</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FChallengeMethod">FChallengeMethod</a></strong>: <a href="uCEFOAuth2Helper.html#TOAuthChallengeMethod">TOAuthChallengeMethod</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetRedirectURI">GetRedirectURI</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetAuthCodeURI">GetAuthCodeURI</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetRefreshParams">GetRefreshParams</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetTokeExchangeParams">GetTokeExchangeParams</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetValidState">GetValidState</a></strong>: boolean; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GenerateRandomCodeChallenge">GenerateRandomCodeChallenge</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GenerateRandomState">GenerateRandomState</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GenerateRandomString-cardinal-">GenerateRandomString</a></strong>(aLength : cardinal) : <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#ParseQueryPair-ustring-">ParseQueryPair</a></strong>(const aPair : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#ReadJSONString-ICefDictionaryValue-ustring-">ReadJSONString</a></strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#ReadJSONInteger-ICefDictionaryValue-ustring-">ReadJSONInteger</a></strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : <a href="uCEFTypes.html#ustring">ustring</a>) : integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#CalculateSHA256Hash-ustring-">CalculateSHA256Hash</a></strong>(const aString : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#TCefCustomByteArray">TCefCustomByteArray</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#Create">Create</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#Initialize">Initialize</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#ParseTokenExchangeResponse-ustring-">ParseTokenExchangeResponse</a></strong>(const aResponse : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#ParseRefreshTokenResponse-ustring-">ParseRefreshTokenResponse</a></strong>(const aResponse : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#ParseCodeRequestResponse-ustring-">ParseCodeRequestResponse</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean; virtual;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#AuthEndpoint">AuthEndpoint</a></strong>          : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FAuthEndpoint">FAuthEndpoint</a>            write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FAuthEndpoint">FAuthEndpoint</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#TokenEndpoint">TokenEndpoint</a></strong>         : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FTokenEndpoint">FTokenEndpoint</a>           write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FTokenEndpoint">FTokenEndpoint</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#ClientID">ClientID</a></strong>              : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FClientID">FClientID</a>                write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FClientID">FClientID</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#ClientSecret">ClientSecret</a></strong>          : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FClientSecret">FClientSecret</a>            write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FClientSecret">FClientSecret</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#RedirectHost">RedirectHost</a></strong>          : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FRedirectHost">FRedirectHost</a>            write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FRedirectHost">FRedirectHost</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#RedirectPort">RedirectPort</a></strong>          : integer                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FRedirectPort">FRedirectPort</a>            write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FRedirectPort">FRedirectPort</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#ChallengeMethod">ChallengeMethod</a></strong>       : <a href="uCEFOAuth2Helper.html#TOAuthChallengeMethod">TOAuthChallengeMethod</a>    read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FChallengeMethod">FChallengeMethod</a>         write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FChallengeMethod">FChallengeMethod</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#Scope">Scope</a></strong>                 : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FScope">FScope</a>                   write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FScope">FScope</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#Error">Error</a></strong>                 : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FError">FError</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#ErrorDescription">ErrorDescription</a></strong>      : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FErrorDescription">FErrorDescription</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#AccessToken">AccessToken</a></strong>           : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FAccessToken">FAccessToken</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#IDToken">IDToken</a></strong>               : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FIDToken">FIDToken</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#RefreshToken">RefreshToken</a></strong>          : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FRefreshToken">FRefreshToken</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#TokenExpiry">TokenExpiry</a></strong>           : integer                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FTokenExpiry">FTokenExpiry</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#TokenType">TokenType</a></strong>             : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FTokenType">FTokenType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#CodeVerifier">CodeVerifier</a></strong>          : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FCodeVerifier">FCodeVerifier</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#CodeChallenge">CodeChallenge</a></strong>         : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FCodeChallenge">FCodeChallenge</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#RedirectURI">RedirectURI</a></strong>           : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetRedirectURI">GetRedirectURI</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#AuthCodeURI">AuthCodeURI</a></strong>           : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetAuthCodeURI">GetAuthCodeURI</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#TokeExchangeParams">TokeExchangeParams</a></strong>    : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetTokeExchangeParams">GetTokeExchangeParams</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#RefreshParams">RefreshParams</a></strong>         : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetRefreshParams">GetRefreshParams</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#ValidState">ValidState</a></strong>            : boolean                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetValidState">GetValidState</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FRedirectHost"></span><code><strong>FRedirectHost</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FRedirectPort"></span><code><strong>FRedirectPort</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FAuthEndpoint"></span><code><strong>FAuthEndpoint</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FTokenEndpoint"></span><code><strong>FTokenEndpoint</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FClientID"></span><code><strong>FClientID</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FClientSecret"></span><code><strong>FClientSecret</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FAuthCode"></span><code><strong>FAuthCode</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FError"></span><code><strong>FError</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FErrorDescription"></span><code><strong>FErrorDescription</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FCodeVerifier"></span><code><strong>FCodeVerifier</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FCodeChallenge"></span><code><strong>FCodeChallenge</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FScope"></span><code><strong>FScope</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FAccessToken"></span><code><strong>FAccessToken</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FIDToken"></span><code><strong>FIDToken</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FState"></span><code><strong>FState</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FIncState"></span><code><strong>FIncState</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FRefreshToken"></span><code><strong>FRefreshToken</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FTokenExpiry"></span><code><strong>FTokenExpiry</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FTokenType"></span><code><strong>FTokenType</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FLoginHint"></span><code><strong>FLoginHint</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FChallengeMethod"></span><code><strong>FChallengeMethod</strong>: <a href="uCEFOAuth2Helper.html#TOAuthChallengeMethod">TOAuthChallengeMethod</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetRedirectURI"></span><code>function <strong>GetRedirectURI</strong>: <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAuthCodeURI"></span><code>function <strong>GetAuthCodeURI</strong>: <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetRefreshParams"></span><code>function <strong>GetRefreshParams</strong>: <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetTokeExchangeParams"></span><code>function <strong>GetTokeExchangeParams</strong>: <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetValidState"></span><code>function <strong>GetValidState</strong>: boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GenerateRandomCodeChallenge"></span><code>procedure <strong>GenerateRandomCodeChallenge</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GenerateRandomState"></span><code>procedure <strong>GenerateRandomState</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GenerateRandomString-cardinal-"></span><code>function <strong>GenerateRandomString</strong>(aLength : cardinal) : <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ParseQueryPair-ustring-"></span><code>procedure <strong>ParseQueryPair</strong>(const aPair : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ReadJSONString-ICefDictionaryValue-ustring-"></span><code>function <strong>ReadJSONString</strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ReadJSONInteger-ICefDictionaryValue-ustring-"></span><code>function <strong>ReadJSONInteger</strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : <a href="uCEFTypes.html#ustring">ustring</a>) : integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CalculateSHA256Hash-ustring-"></span><code>function <strong>CalculateSHA256Hash</strong>(const aString : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#TCefCustomByteArray">TCefCustomByteArray</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Initialize"></span><code>procedure <strong>Initialize</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ParseTokenExchangeResponse-ustring-"></span><code>function <strong>ParseTokenExchangeResponse</strong>(const aResponse : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ParseRefreshTokenResponse-ustring-"></span><code>function <strong>ParseRefreshTokenResponse</strong>(const aResponse : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ParseCodeRequestResponse-ustring-"></span><code>function <strong>ParseCodeRequestResponse</strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AuthEndpoint"></span><code>property <strong>AuthEndpoint</strong>          : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FAuthEndpoint">FAuthEndpoint</a>            write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FAuthEndpoint">FAuthEndpoint</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TokenEndpoint"></span><code>property <strong>TokenEndpoint</strong>         : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FTokenEndpoint">FTokenEndpoint</a>           write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FTokenEndpoint">FTokenEndpoint</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ClientID"></span><code>property <strong>ClientID</strong>              : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FClientID">FClientID</a>                write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FClientID">FClientID</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ClientSecret"></span><code>property <strong>ClientSecret</strong>          : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FClientSecret">FClientSecret</a>            write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FClientSecret">FClientSecret</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RedirectHost"></span><code>property <strong>RedirectHost</strong>          : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FRedirectHost">FRedirectHost</a>            write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FRedirectHost">FRedirectHost</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RedirectPort"></span><code>property <strong>RedirectPort</strong>          : integer                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FRedirectPort">FRedirectPort</a>            write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FRedirectPort">FRedirectPort</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ChallengeMethod"></span><code>property <strong>ChallengeMethod</strong>       : <a href="uCEFOAuth2Helper.html#TOAuthChallengeMethod">TOAuthChallengeMethod</a>    read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FChallengeMethod">FChallengeMethod</a>         write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FChallengeMethod">FChallengeMethod</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Scope"></span><code>property <strong>Scope</strong>                 : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FScope">FScope</a>                   write <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FScope">FScope</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Error"></span><code>property <strong>Error</strong>                 : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FError">FError</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ErrorDescription"></span><code>property <strong>ErrorDescription</strong>      : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FErrorDescription">FErrorDescription</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AccessToken"></span><code>property <strong>AccessToken</strong>           : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FAccessToken">FAccessToken</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IDToken"></span><code>property <strong>IDToken</strong>               : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FIDToken">FIDToken</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RefreshToken"></span><code>property <strong>RefreshToken</strong>          : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FRefreshToken">FRefreshToken</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TokenExpiry"></span><code>property <strong>TokenExpiry</strong>           : integer                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FTokenExpiry">FTokenExpiry</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TokenType"></span><code>property <strong>TokenType</strong>             : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FTokenType">FTokenType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CodeVerifier"></span><code>property <strong>CodeVerifier</strong>          : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FCodeVerifier">FCodeVerifier</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CodeChallenge"></span><code>property <strong>CodeChallenge</strong>         : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#FCodeChallenge">FCodeChallenge</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RedirectURI"></span><code>property <strong>RedirectURI</strong>           : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetRedirectURI">GetRedirectURI</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AuthCodeURI"></span><code>property <strong>AuthCodeURI</strong>           : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetAuthCodeURI">GetAuthCodeURI</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TokeExchangeParams"></span><code>property <strong>TokeExchangeParams</strong>    : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetTokeExchangeParams">GetTokeExchangeParams</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RefreshParams"></span><code>property <strong>RefreshParams</strong>         : <a href="uCEFTypes.html#ustring">ustring</a>                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetRefreshParams">GetRefreshParams</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ValidState"></span><code>property <strong>ValidState</strong>            : boolean                  read <a href="uCEFOAuth2Helper.TCEFOAuth2Helper.html#GetValidState">GetValidState</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

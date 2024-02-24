@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefServer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefServer"></span><h1 class="cio">Record TCefServer</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefServer = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure representing a server that supports HTTP and WebSocket requests. Server capacity is limited and is intended to handle only a small number of simultaneous connections (e.g. for communicating between applications on localhost). The functions of this structure are safe to call from any thread in the brower process unless otherwise indicated. </p>
+<p>
+
+
+<p>Implemented by ICefServer.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_server_capi.h (cef_server_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#get_task_runner">get_task_runner</a></strong>: function(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>): <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#shutdown">shutdown</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#is_running">is_running</a></strong>: function(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#get_address">get_address</a></strong>: function(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#has_connection">has_connection</a></strong>: function(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#is_valid_connection">is_valid_connection</a></strong>: function(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#send_http200response">send_http200response</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const content_type: <a href="uCEFTypes.html#PCefString">PCefString</a>; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#send_http404response">send_http404response</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#send_http500response">send_http500response</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const error_message: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#send_http_response">send_http_response</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id, response_code: Integer; const content_type: <a href="uCEFTypes.html#PCefString">PCefString</a>; content_length: int64; extra_headers: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#send_raw_data">send_raw_data</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#close_connection">close_connection</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#send_web_socket_message">send_web_socket_message</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_task_runner"></span><code><strong>get_task_runner</strong>: function(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>): <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="shutdown"></span><code><strong>shutdown</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_running"></span><code><strong>is_running</strong>: function(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_address"></span><code><strong>get_address</strong>: function(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_connection"></span><code><strong>has_connection</strong>: function(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_valid_connection"></span><code><strong>is_valid_connection</strong>: function(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="send_http200response"></span><code><strong>send_http200response</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const content_type: <a href="uCEFTypes.html#PCefString">PCefString</a>; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="send_http404response"></span><code><strong>send_http404response</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="send_http500response"></span><code><strong>send_http500response</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const error_message: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="send_http_response"></span><code><strong>send_http_response</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id, response_code: Integer; const content_type: <a href="uCEFTypes.html#PCefString">PCefString</a>; content_length: int64; extra_headers: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="send_raw_data"></span><code><strong>send_raw_data</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="close_connection"></span><code><strong>close_connection</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="send_web_socket_message"></span><code><strong>send_web_socket_message</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

@@ -1,0 +1,2091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFBufferPanel: Class TBufferPanel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TBufferPanel"></span><h1 class="cio">Class TBufferPanel</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFBufferPanel.html">uCEFBufferPanel</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TBufferPanel = class(TCustomPanel)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ TBufferPanel is used by VCL and LCL applications with browsers in OSR mode to draw the browser contents. See the SimpleOSRBrowser demo for more details. </p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TCustomPanel</li>
+<li class="thisitem">TBufferPanel</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FScanlineSize">FScanlineSize</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FTransparent">FTransparent</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FOnPaintParentBkg">FOnPaintParentBkg</a></strong>: TNotifyEvent;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FForcedDeviceScaleFactor">FForcedDeviceScaleFactor</a></strong>: single;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FDeviceScaleFactor">FDeviceScaleFactor</a></strong>: single;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FCopyOriginalBuffer">FCopyOriginalBuffer</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FMustInitBuffer">FMustInitBuffer</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FBuffer">FBuffer</a></strong>: TBitmap;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FOrigBuffer">FOrigBuffer</a></strong>: <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html">TCEFBitmapBitBuffer</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FOrigPopupBuffer">FOrigPopupBuffer</a></strong>: <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html">TCEFBitmapBitBuffer</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FOrigPopupScanlineSize">FOrigPopupScanlineSize</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FSyncObj">FSyncObj</a></strong>: THandle;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FIMEHandler">FIMEHandler</a></strong>: <a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html">TCEFOSRIMEHandler</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FOnIMECancelComposition">FOnIMECancelComposition</a></strong>: TNotifyEvent;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FOnIMECommitText">FOnIMECommitText</a></strong>: TOnIMECommitTextEvent;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FOnIMESetComposition">FOnIMESetComposition</a></strong>: TOnIMESetCompositionEvent;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FOnCustomTouch">FOnCustomTouch</a></strong>: TOnHandledMessageEvent;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerDown">FOnPointerDown</a></strong>: TOnHandledMessageEvent;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerUp">FOnPointerUp</a></strong>: TOnHandledMessageEvent;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerUpdate">FOnPointerUpdate</a></strong>: TOnHandledMessageEvent;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#CreateSyncObj">CreateSyncObj</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#DestroySyncObj">DestroySyncObj</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#DestroyBuffer">DestroyBuffer</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#GetBufferBits">GetBufferBits</a></strong>: pointer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#GetBufferWidth">GetBufferWidth</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#GetBufferHeight">GetBufferHeight</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#GetOrigBufferWidth">GetOrigBufferWidth</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#GetOrigBufferHeight">GetOrigBufferHeight</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#GetScreenScale">GetScreenScale</a></strong>: single; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#GetRealScreenScale-single-">GetRealScreenScale</a></strong>(var aResultScale : single) : boolean; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#GetOrigPopupBufferBits">GetOrigPopupBufferBits</a></strong>: pointer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#GetOrigPopupBufferWidth">GetOrigPopupBufferWidth</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#GetOrigPopupBufferHeight">GetOrigPopupBufferHeight</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#GetParentFormHandle">GetParentFormHandle</a></strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#GetParentForm">GetParentForm</a></strong>: TCustomForm;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#SetTransparent-boolean-">SetTransparent</a></strong>(aValue : boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#CopyBuffer">CopyBuffer</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#SaveBufferToFile-string-">SaveBufferToFile</a></strong>(const aFilename : string) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#Paint">Paint</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#CreateParams-TCreateParams-">CreateParams</a></strong>(var Params: TCreateParams); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#WndProc-TMessage-">WndProc</a></strong>(var aMessage: TMessage); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#WMCEFInvalidate-TMessage-">WMCEFInvalidate</a></strong>(var aMessage: TMessage); message CEF_INVALIDATE;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#WMEraseBkgnd-TWMEraseBkgnd-">WMEraseBkgnd</a></strong>(var aMessage : TWMEraseBkgnd); message WM_ERASEBKGND;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#WMTouch-TMessage-">WMTouch</a></strong>(var aMessage: TMessage); message WM_TOUCH;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#WMPointerDown-TMessage-">WMPointerDown</a></strong>(var aMessage: TMessage); message WM_POINTERDOWN;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#WMPointerUpdate-TMessage-">WMPointerUpdate</a></strong>(var aMessage: TMessage); message WM_POINTERUPDATE;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#WMPointerUp-TMessage-">WMPointerUp</a></strong>(var aMessage: TMessage); message WM_POINTERUP;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#WMIMEStartComp-TMessage-">WMIMEStartComp</a></strong>(var aMessage: TMessage);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#WMIMEEndComp-TMessage-">WMIMEEndComp</a></strong>(var aMessage: TMessage);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#WMIMESetContext-TMessage-">WMIMESetContext</a></strong>(var aMessage: TMessage);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#WMIMEComposition-TMessage-">WMIMEComposition</a></strong>(var aMessage: TMessage);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#DoOnIMECancelComposition">DoOnIMECancelComposition</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#DoOnIMECommitText-ustring-PCefRange-integer-">DoOnIMECommitText</a></strong>(const aText : <a href="uCEFTypes.html#ustring">ustring</a>; const replacement_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>; relative_cursor_pos : integer); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#DoOnIMESetComposition-ustring-TCefCompositionUnderlineDynArray-TCefRange-TCefRange-">DoOnIMESetComposition</a></strong>(const aText : <a href="uCEFTypes.html#ustring">ustring</a>; const underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>; const replacement_range, selection_range : <a href="uCEFTypes.TCefRange.html">TCefRange</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFBufferPanel.TBufferPanel.html#Create-TComponent-">Create</a></strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFBufferPanel.TBufferPanel.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#AfterConstruction">AfterConstruction</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#SaveToFile-string-">SaveToFile</a></strong>(const aFilename : string) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#InvalidatePanel">InvalidatePanel</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#BeginBufferDraw">BeginBufferDraw</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#EndBufferDraw">EndBufferDraw</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#BufferDraw-integer-integer-TBitmap-">BufferDraw</a></strong>(x, y : integer; const aBitmap : TBitmap); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#BufferDraw-TBitmap-TRect-TRect-">BufferDraw</a></strong>(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#UpdateBufferDimensions-integer-integer-">UpdateBufferDimensions</a></strong>(aWidth, aHeight : integer) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#UpdateOrigBufferDimensions-integer-integer-">UpdateOrigBufferDimensions</a></strong>(aWidth, aHeight : integer) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#UpdateOrigPopupBufferDimensions-integer-integer-">UpdateOrigPopupBufferDimensions</a></strong>(aWidth, aHeight : integer) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#UpdateDeviceScaleFactor">UpdateDeviceScaleFactor</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBufferPanel.TBufferPanel.html#BufferIsResized-boolean-">BufferIsResized</a></strong>(aUseMutex : boolean = True) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#CreateIMEHandler">CreateIMEHandler</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#ChangeCompositionRange-TCefRange-TCefRectDynArray-">ChangeCompositionRange</a></strong>(const selection_range : <a href="uCEFTypes.TCefRange.html">TCefRange</a>; const character_bounds : <a href="uCEFTypes.html#TCefRectDynArray">TCefRectDynArray</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBufferPanel.TBufferPanel.html#DrawOrigPopupBuffer-TRect-TRect-">DrawOrigPopupBuffer</a></strong>(const aSrcRect, aDstRect : TRect);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#ScanlineSize">ScanlineSize</a></strong>              : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#FScanlineSize">FScanlineSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#BufferWidth">BufferWidth</a></strong>               : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetBufferWidth">GetBufferWidth</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#BufferHeight">BufferHeight</a></strong>              : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetBufferHeight">GetBufferHeight</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#BufferBits">BufferBits</a></strong>                : pointer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetBufferBits">GetBufferBits</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#ScreenScale">ScreenScale</a></strong>               : single                    read <a href="uCEFBufferPanel.TBufferPanel.html#GetScreenScale">GetScreenScale</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#ForcedDeviceScaleFactor">ForcedDeviceScaleFactor</a></strong>   : single                    read <a href="uCEFBufferPanel.TBufferPanel.html#FForcedDeviceScaleFactor">FForcedDeviceScaleFactor</a>   write <a href="uCEFBufferPanel.TBufferPanel.html#FForcedDeviceScaleFactor">FForcedDeviceScaleFactor</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#MustInitBuffer">MustInitBuffer</a></strong>            : boolean                   read <a href="uCEFBufferPanel.TBufferPanel.html#FMustInitBuffer">FMustInitBuffer</a>            write <a href="uCEFBufferPanel.TBufferPanel.html#FMustInitBuffer">FMustInitBuffer</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#Buffer">Buffer</a></strong>                    : TBitmap                   read <a href="uCEFBufferPanel.TBufferPanel.html#FBuffer">FBuffer</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OrigBuffer">OrigBuffer</a></strong>                : <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html">TCEFBitmapBitBuffer</a>       read <a href="uCEFBufferPanel.TBufferPanel.html#FOrigBuffer">FOrigBuffer</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OrigBufferWidth">OrigBufferWidth</a></strong>           : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetOrigBufferWidth">GetOrigBufferWidth</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OrigBufferHeight">OrigBufferHeight</a></strong>          : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetOrigBufferHeight">GetOrigBufferHeight</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OrigPopupBuffer">OrigPopupBuffer</a></strong>           : <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html">TCEFBitmapBitBuffer</a>       read <a href="uCEFBufferPanel.TBufferPanel.html#FOrigPopupBuffer">FOrigPopupBuffer</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OrigPopupBufferWidth">OrigPopupBufferWidth</a></strong>      : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetOrigPopupBufferWidth">GetOrigPopupBufferWidth</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OrigPopupBufferHeight">OrigPopupBufferHeight</a></strong>     : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetOrigPopupBufferHeight">GetOrigPopupBufferHeight</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OrigPopupBufferBits">OrigPopupBufferBits</a></strong>       : pointer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetOrigPopupBufferBits">GetOrigPopupBufferBits</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OrigPopupScanlineSize">OrigPopupScanlineSize</a></strong>     : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#FOrigPopupScanlineSize">FOrigPopupScanlineSize</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#ParentFormHandle">ParentFormHandle</a></strong>          : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>          read <a href="uCEFBufferPanel.TBufferPanel.html#GetParentFormHandle">GetParentFormHandle</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#ParentForm">ParentForm</a></strong>                : TCustomForm               read <a href="uCEFBufferPanel.TBufferPanel.html#GetParentForm">GetParentForm</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#DockManager">DockManager</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#Canvas">Canvas</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnIMECancelComposition">OnIMECancelComposition</a></strong>    : TNotifyEvent              read <a href="uCEFBufferPanel.TBufferPanel.html#FOnIMECancelComposition">FOnIMECancelComposition</a>    write <a href="uCEFBufferPanel.TBufferPanel.html#FOnIMECancelComposition">FOnIMECancelComposition</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnIMECommitText">OnIMECommitText</a></strong>           : TOnIMECommitTextEvent     read <a href="uCEFBufferPanel.TBufferPanel.html#FOnIMECommitText">FOnIMECommitText</a>           write <a href="uCEFBufferPanel.TBufferPanel.html#FOnIMECommitText">FOnIMECommitText</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnIMESetComposition">OnIMESetComposition</a></strong>       : TOnIMESetCompositionEvent read <a href="uCEFBufferPanel.TBufferPanel.html#FOnIMESetComposition">FOnIMESetComposition</a>       write <a href="uCEFBufferPanel.TBufferPanel.html#FOnIMESetComposition">FOnIMESetComposition</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnCustomTouch">OnCustomTouch</a></strong>             : TOnHandledMessageEvent    read <a href="uCEFBufferPanel.TBufferPanel.html#FOnCustomTouch">FOnCustomTouch</a>             write <a href="uCEFBufferPanel.TBufferPanel.html#FOnCustomTouch">FOnCustomTouch</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnPointerDown">OnPointerDown</a></strong>             : TOnHandledMessageEvent    read <a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerDown">FOnPointerDown</a>             write <a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerDown">FOnPointerDown</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnPointerUp">OnPointerUp</a></strong>               : TOnHandledMessageEvent    read <a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerUp">FOnPointerUp</a>               write <a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerUp">FOnPointerUp</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnPointerUpdate">OnPointerUpdate</a></strong>           : TOnHandledMessageEvent    read <a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerUpdate">FOnPointerUpdate</a>           write <a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerUpdate">FOnPointerUpdate</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnPaintParentBkg">OnPaintParentBkg</a></strong>          : TNotifyEvent              read <a href="uCEFBufferPanel.TBufferPanel.html#FOnPaintParentBkg">FOnPaintParentBkg</a>          write <a href="uCEFBufferPanel.TBufferPanel.html#FOnPaintParentBkg">FOnPaintParentBkg</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#Transparent">Transparent</a></strong>               : boolean                   read <a href="uCEFBufferPanel.TBufferPanel.html#FTransparent">FTransparent</a>               write <a href="uCEFBufferPanel.TBufferPanel.html#SetTransparent-boolean-">SetTransparent</a>       default False;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#CopyOriginalBuffer">CopyOriginalBuffer</a></strong>        : boolean                   read <a href="uCEFBufferPanel.TBufferPanel.html#FCopyOriginalBuffer">FCopyOriginalBuffer</a>        write <a href="uCEFBufferPanel.TBufferPanel.html#FCopyOriginalBuffer">FCopyOriginalBuffer</a>  default False;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#Align">Align</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#Alignment">Alignment</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#Anchors">Anchors</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#AutoSize">AutoSize</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnUTF8KeyPress">OnUTF8KeyPress</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#BevelInner">BevelInner</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#BevelOuter">BevelOuter</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#BevelWidth">BevelWidth</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#BiDiMode">BiDiMode</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#BorderWidth">BorderWidth</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#BorderStyle">BorderStyle</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#Caption">Caption</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#Color">Color</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#Constraints">Constraints</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#UseDockManager">UseDockManager</a></strong> default True;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#DockSite">DockSite</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#DoubleBuffered">DoubleBuffered</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#DragCursor">DragCursor</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#DragKind">DragKind</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#DragMode">DragMode</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#Enabled">Enabled</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#FullRepaint">FullRepaint</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#Font">Font</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#ParentBiDiMode">ParentBiDiMode</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#ParentColor">ParentColor</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#ParentFont">ParentFont</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#ParentShowHint">ParentShowHint</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#PopupMenu">PopupMenu</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#ShowHint">ShowHint</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#TabOrder">TabOrder</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#TabStop">TabStop</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#Visible">Visible</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnClick">OnClick</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnConstrainedResize">OnConstrainedResize</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnContextPopup">OnContextPopup</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnDockDrop">OnDockDrop</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnDockOver">OnDockOver</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnDblClick">OnDblClick</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnDragDrop">OnDragDrop</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnDragOver">OnDragOver</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnEndDock">OnEndDock</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnEndDrag">OnEndDrag</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnEnter">OnEnter</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnExit">OnExit</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnGetSiteInfo">OnGetSiteInfo</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnMouseDown">OnMouseDown</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnMouseMove">OnMouseMove</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnMouseUp">OnMouseUp</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnMouseWheel">OnMouseWheel</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnKeyDown">OnKeyDown</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnKeyPress">OnKeyPress</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnKeyUp">OnKeyUp</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnResize">OnResize</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnStartDock">OnStartDock</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnStartDrag">OnStartDrag</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnUnDock">OnUnDock</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnMouseEnter">OnMouseEnter</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBufferPanel.TBufferPanel.html#OnMouseLeave">OnMouseLeave</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FScanlineSize"></span><code><strong>FScanlineSize</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FTransparent"></span><code><strong>FTransparent</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnPaintParentBkg"></span><code><strong>FOnPaintParentBkg</strong>: TNotifyEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FForcedDeviceScaleFactor"></span><code><strong>FForcedDeviceScaleFactor</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FDeviceScaleFactor"></span><code><strong>FDeviceScaleFactor</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FCopyOriginalBuffer"></span><code><strong>FCopyOriginalBuffer</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMustInitBuffer"></span><code><strong>FMustInitBuffer</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FBuffer"></span><code><strong>FBuffer</strong>: TBitmap;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOrigBuffer"></span><code><strong>FOrigBuffer</strong>: <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html">TCEFBitmapBitBuffer</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOrigPopupBuffer"></span><code><strong>FOrigPopupBuffer</strong>: <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html">TCEFBitmapBitBuffer</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOrigPopupScanlineSize"></span><code><strong>FOrigPopupScanlineSize</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FSyncObj"></span><code><strong>FSyncObj</strong>: THandle;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FIMEHandler"></span><code><strong>FIMEHandler</strong>: <a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html">TCEFOSRIMEHandler</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnIMECancelComposition"></span><code><strong>FOnIMECancelComposition</strong>: TNotifyEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnIMECommitText"></span><code><strong>FOnIMECommitText</strong>: TOnIMECommitTextEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnIMESetComposition"></span><code><strong>FOnIMESetComposition</strong>: TOnIMESetCompositionEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnCustomTouch"></span><code><strong>FOnCustomTouch</strong>: TOnHandledMessageEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnPointerDown"></span><code><strong>FOnPointerDown</strong>: TOnHandledMessageEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnPointerUp"></span><code><strong>FOnPointerUp</strong>: TOnHandledMessageEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnPointerUpdate"></span><code><strong>FOnPointerUpdate</strong>: TOnHandledMessageEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CreateSyncObj"></span><code>procedure <strong>CreateSyncObj</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroySyncObj"></span><code>procedure <strong>DestroySyncObj</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroyBuffer"></span><code>procedure <strong>DestroyBuffer</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBufferBits"></span><code>function <strong>GetBufferBits</strong>: pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBufferWidth"></span><code>function <strong>GetBufferWidth</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBufferHeight"></span><code>function <strong>GetBufferHeight</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetOrigBufferWidth"></span><code>function <strong>GetOrigBufferWidth</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetOrigBufferHeight"></span><code>function <strong>GetOrigBufferHeight</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetScreenScale"></span><code>function <strong>GetScreenScale</strong>: single; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetRealScreenScale-single-"></span><code>function <strong>GetRealScreenScale</strong>(var aResultScale : single) : boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetOrigPopupBufferBits"></span><code>function <strong>GetOrigPopupBufferBits</strong>: pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetOrigPopupBufferWidth"></span><code>function <strong>GetOrigPopupBufferWidth</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetOrigPopupBufferHeight"></span><code>function <strong>GetOrigPopupBufferHeight</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetParentFormHandle"></span><code>function <strong>GetParentFormHandle</strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetParentForm"></span><code>function <strong>GetParentForm</strong>: TCustomForm;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetTransparent-boolean-"></span><code>procedure <strong>SetTransparent</strong>(aValue : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CopyBuffer"></span><code>function <strong>CopyBuffer</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SaveBufferToFile-string-"></span><code>function <strong>SaveBufferToFile</strong>(const aFilename : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Paint"></span><code>procedure <strong>Paint</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CreateParams-TCreateParams-"></span><code>procedure <strong>CreateParams</strong>(var Params: TCreateParams); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WndProc-TMessage-"></span><code>procedure <strong>WndProc</strong>(var aMessage: TMessage); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WMCEFInvalidate-TMessage-"></span><code>procedure <strong>WMCEFInvalidate</strong>(var aMessage: TMessage); message CEF_INVALIDATE;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WMEraseBkgnd-TWMEraseBkgnd-"></span><code>procedure <strong>WMEraseBkgnd</strong>(var aMessage : TWMEraseBkgnd); message WM_ERASEBKGND;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WMTouch-TMessage-"></span><code>procedure <strong>WMTouch</strong>(var aMessage: TMessage); message WM_TOUCH;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WMPointerDown-TMessage-"></span><code>procedure <strong>WMPointerDown</strong>(var aMessage: TMessage); message WM_POINTERDOWN;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WMPointerUpdate-TMessage-"></span><code>procedure <strong>WMPointerUpdate</strong>(var aMessage: TMessage); message WM_POINTERUPDATE;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WMPointerUp-TMessage-"></span><code>procedure <strong>WMPointerUp</strong>(var aMessage: TMessage); message WM_POINTERUP;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WMIMEStartComp-TMessage-"></span><code>procedure <strong>WMIMEStartComp</strong>(var aMessage: TMessage);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WMIMEEndComp-TMessage-"></span><code>procedure <strong>WMIMEEndComp</strong>(var aMessage: TMessage);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WMIMESetContext-TMessage-"></span><code>procedure <strong>WMIMESetContext</strong>(var aMessage: TMessage);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WMIMEComposition-TMessage-"></span><code>procedure <strong>WMIMEComposition</strong>(var aMessage: TMessage);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DoOnIMECancelComposition"></span><code>procedure <strong>DoOnIMECancelComposition</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DoOnIMECommitText-ustring-PCefRange-integer-"></span><code>procedure <strong>DoOnIMECommitText</strong>(const aText : <a href="uCEFTypes.html#ustring">ustring</a>; const replacement_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>; relative_cursor_pos : integer); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DoOnIMESetComposition-ustring-TCefCompositionUnderlineDynArray-TCefRange-TCefRange-"></span><code>procedure <strong>DoOnIMESetComposition</strong>(const aText : <a href="uCEFTypes.html#ustring">ustring</a>; const underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>; const replacement_range, selection_range : <a href="uCEFTypes.TCefRange.html">TCefRange</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-TComponent-"></span><code>constructor <strong>Create</strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AfterConstruction"></span><code>procedure <strong>AfterConstruction</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SaveToFile-string-"></span><code>function <strong>SaveToFile</strong>(const aFilename : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Save the visible web contents as a bitmap file. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="InvalidatePanel"></span><code>function <strong>InvalidatePanel</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Invalidate this panel. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BeginBufferDraw"></span><code>function <strong>BeginBufferDraw</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Acquires the synchronization object before drawing into the background bitmap. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="EndBufferDraw"></span><code>procedure <strong>EndBufferDraw</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Releases the synchronization object after drawing into the background bitmap. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BufferDraw-integer-integer-TBitmap-"></span><code>procedure <strong>BufferDraw</strong>(x, y : integer; const aBitmap : TBitmap); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Draws aBitmap into the background bitmap buffer at the specified coordinates. </p>
+<p>
+ 
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>x</dt>
+<dd>x coordinate where the bitmap will be drawn.</dd>
+<dt>y</dt>
+<dd>y coordinate where the bitmap will be drawn.</dd>
+<dt>aBitmap</dt>
+<dd>Bitmap that will be drawn into the background bitmap.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BufferDraw-TBitmap-TRect-TRect-"></span><code>procedure <strong>BufferDraw</strong>(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Draws a part of aBitmap into the background bitmap buffer at the specified rectangle. </p>
+<p>
+ 
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>aBitmap</dt>
+<dd>Bitmap that will be drawn into the background bitmap.</dd>
+<dt>aSrcRect</dt>
+<dd>Rectangle that defines the area of aBitmap that will be drawn into the background bitmap.</dd>
+<dt>aDstRect</dt>
+<dd>Rectangle that defines the area of the background bitmap where aBitmap will be drawn.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UpdateBufferDimensions-integer-integer-"></span><code>function <strong>UpdateBufferDimensions</strong>(aWidth, aHeight : integer) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Update the background bitmap size. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UpdateOrigBufferDimensions-integer-integer-"></span><code>function <strong>UpdateOrigBufferDimensions</strong>(aWidth, aHeight : integer) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Update the image size of the original buffer copy. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UpdateOrigPopupBufferDimensions-integer-integer-"></span><code>function <strong>UpdateOrigPopupBufferDimensions</strong>(aWidth, aHeight : integer) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Update the popup image size of the original buffer copy. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UpdateDeviceScaleFactor"></span><code>procedure <strong>UpdateDeviceScaleFactor</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Update the FDeviceScaleFactor value with the current scale. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BufferIsResized-boolean-"></span><code>function <strong>BufferIsResized</strong>(aUseMutex : boolean = True) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Check if the background image buffers have the same dimensions as this panel. Returns true if they have the same size. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateIMEHandler"></span><code>procedure <strong>CreateIMEHandler</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Creates the IME handler. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ChangeCompositionRange-TCefRange-TCefRectDynArray-"></span><code>procedure <strong>ChangeCompositionRange</strong>(const selection_range : <a href="uCEFTypes.TCefRange.html">TCefRange</a>; const character_bounds : <a href="uCEFTypes.html#TCefRectDynArray">TCefRectDynArray</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Calls ChangeCompositionRange in the IME handler. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DrawOrigPopupBuffer-TRect-TRect-"></span><code>procedure <strong>DrawOrigPopupBuffer</strong>(const aSrcRect, aDstRect : TRect);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Copy the contents from the original popup buffer copy to the main buffer copy. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ScanlineSize"></span><code>property <strong>ScanlineSize</strong>              : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#FScanlineSize">FScanlineSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the scanline size. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BufferWidth"></span><code>property <strong>BufferWidth</strong>               : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetBufferWidth">GetBufferWidth</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Image width. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BufferHeight"></span><code>property <strong>BufferHeight</strong>              : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetBufferHeight">GetBufferHeight</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Image height. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BufferBits"></span><code>property <strong>BufferBits</strong>                : pointer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetBufferBits">GetBufferBits</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a pointer to the buffer that stores the image. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ScreenScale"></span><code>property <strong>ScreenScale</strong>               : single                    read <a href="uCEFBufferPanel.TBufferPanel.html#GetScreenScale">GetScreenScale</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the screen scale. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ForcedDeviceScaleFactor"></span><code>property <strong>ForcedDeviceScaleFactor</strong>   : single                    read <a href="uCEFBufferPanel.TBufferPanel.html#FForcedDeviceScaleFactor">FForcedDeviceScaleFactor</a>   write <a href="uCEFBufferPanel.TBufferPanel.html#FForcedDeviceScaleFactor">FForcedDeviceScaleFactor</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Screen scale value used instead of the real one. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MustInitBuffer"></span><code>property <strong>MustInitBuffer</strong>            : boolean                   read <a href="uCEFBufferPanel.TBufferPanel.html#FMustInitBuffer">FMustInitBuffer</a>            write <a href="uCEFBufferPanel.TBufferPanel.html#FMustInitBuffer">FMustInitBuffer</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Clear the background image before copying the original buffer contents. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Buffer"></span><code>property <strong>Buffer</strong>                    : TBitmap                   read <a href="uCEFBufferPanel.TBufferPanel.html#FBuffer">FBuffer</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Background bitmap. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OrigBuffer"></span><code>property <strong>OrigBuffer</strong>                : <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html">TCEFBitmapBitBuffer</a>       read <a href="uCEFBufferPanel.TBufferPanel.html#FOrigBuffer">FOrigBuffer</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Copy of the raw main bitmap buffer sent by CEF in the TChromiumCore.OnPaint event. OrigBuffer will be transferred to the bitmap buffer before copying the bitmap buffer to the panel. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OrigBufferWidth"></span><code>property <strong>OrigBufferWidth</strong>           : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetOrigBufferWidth">GetOrigBufferWidth</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Image width of the raw main bitmap buffer copy. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OrigBufferHeight"></span><code>property <strong>OrigBufferHeight</strong>          : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetOrigBufferHeight">GetOrigBufferHeight</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Image height of the raw main bitmap buffer copy. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OrigPopupBuffer"></span><code>property <strong>OrigPopupBuffer</strong>           : <a href="uCEFBitmapBitBuffer.TCEFBitmapBitBuffer.html">TCEFBitmapBitBuffer</a>       read <a href="uCEFBufferPanel.TBufferPanel.html#FOrigPopupBuffer">FOrigPopupBuffer</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Copy of the raw popup bitmap buffer sent by CEF in the TChromiumCore.OnPaint event. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OrigPopupBufferWidth"></span><code>property <strong>OrigPopupBufferWidth</strong>      : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetOrigPopupBufferWidth">GetOrigPopupBufferWidth</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Image width of the raw popup bitmap buffer copy. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OrigPopupBufferHeight"></span><code>property <strong>OrigPopupBufferHeight</strong>     : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetOrigPopupBufferHeight">GetOrigPopupBufferHeight</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Image height of the raw popup bitmap buffer copy. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OrigPopupBufferBits"></span><code>property <strong>OrigPopupBufferBits</strong>       : pointer                   read <a href="uCEFBufferPanel.TBufferPanel.html#GetOrigPopupBufferBits">GetOrigPopupBufferBits</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a pointer to the raw popup bitmap buffer copye. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OrigPopupScanlineSize"></span><code>property <strong>OrigPopupScanlineSize</strong>     : integer                   read <a href="uCEFBufferPanel.TBufferPanel.html#FOrigPopupScanlineSize">FOrigPopupScanlineSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the scanline size of the raw popup bitmap buffer copy. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ParentFormHandle"></span><code>property <strong>ParentFormHandle</strong>          : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>          read <a href="uCEFBufferPanel.TBufferPanel.html#GetParentFormHandle">GetParentFormHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the handle of the parent form. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ParentForm"></span><code>property <strong>ParentForm</strong>                : TCustomForm               read <a href="uCEFBufferPanel.TBufferPanel.html#GetParentForm">GetParentForm</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the parent form. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DockManager"></span><code>property <strong>DockManager</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Canvas"></span><code>property <strong>Canvas</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnIMECancelComposition"></span><code>property <strong>OnIMECancelComposition</strong>    : TNotifyEvent              read <a href="uCEFBufferPanel.TBufferPanel.html#FOnIMECancelComposition">FOnIMECancelComposition</a>    write <a href="uCEFBufferPanel.TBufferPanel.html#FOnIMECancelComposition">FOnIMECancelComposition</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Event triggered when a WM_IME_ENDCOMPOSITION message is received because the IME ended composition. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-endcomposition">https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-endcomposition</a>&quot;&gt;See the WM_IME_ENDCOMPOSITION article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnIMECommitText"></span><code>property <strong>OnIMECommitText</strong>           : TOnIMECommitTextEvent     read <a href="uCEFBufferPanel.TBufferPanel.html#FOnIMECommitText">FOnIMECommitText</a>           write <a href="uCEFBufferPanel.TBufferPanel.html#FOnIMECommitText">FOnIMECommitText</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Event triggered when a WM_IME_COMPOSITION message is received because the IME changed composition status as a result of a keystroke. This event is triggered after retrieving a composition result of the ongoing composition if it exists. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-composition">https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-composition</a>&quot;&gt;See the WM_IME_COMPOSITION article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnIMESetComposition"></span><code>property <strong>OnIMESetComposition</strong>       : TOnIMESetCompositionEvent read <a href="uCEFBufferPanel.TBufferPanel.html#FOnIMESetComposition">FOnIMESetComposition</a>       write <a href="uCEFBufferPanel.TBufferPanel.html#FOnIMESetComposition">FOnIMESetComposition</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Event triggered when a WM_IME_COMPOSITION message is received because the IME changed composition status as a result of a keystroke. This event is triggered after retrieving the current composition status of the ongoing composition. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-composition">https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-composition</a>&quot;&gt;See the WM_IME_COMPOSITION article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnCustomTouch"></span><code>property <strong>OnCustomTouch</strong>             : TOnHandledMessageEvent    read <a href="uCEFBufferPanel.TBufferPanel.html#FOnCustomTouch">FOnCustomTouch</a>             write <a href="uCEFBufferPanel.TBufferPanel.html#FOnCustomTouch">FOnCustomTouch</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Event triggered when a WM_TOUCH message is received. It notifies the window when one or more touch points, such as a finger or pen, touches a touch-sensitive digitizer surface. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/wintouch/wm-touchdown">https://learn.microsoft.com/en-us/windows/win32/wintouch/wm-touchdown</a>&quot;&gt;See the WM_TOUCH article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnPointerDown"></span><code>property <strong>OnPointerDown</strong>             : TOnHandledMessageEvent    read <a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerDown">FOnPointerDown</a>             write <a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerDown">FOnPointerDown</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Event triggered when a WM_POINTERDOWN message is received. Posted when a pointer makes contact over the client area of a window. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/inputmsg/wm-pointerdown">https://learn.microsoft.com/en-us/windows/win32/inputmsg/wm-pointerdown</a>&quot;&gt;See the WM_POINTERDOWN article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnPointerUp"></span><code>property <strong>OnPointerUp</strong>               : TOnHandledMessageEvent    read <a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerUp">FOnPointerUp</a>               write <a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerUp">FOnPointerUp</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Event triggered when a WM_POINTERUP message is received. Posted when a pointer that made contact over the client area of a window breaks contact. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/inputmsg/wm-pointerup">https://learn.microsoft.com/en-us/windows/win32/inputmsg/wm-pointerup</a>&quot;&gt;See the WM_POINTERUP article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnPointerUpdate"></span><code>property <strong>OnPointerUpdate</strong>           : TOnHandledMessageEvent    read <a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerUpdate">FOnPointerUpdate</a>           write <a href="uCEFBufferPanel.TBufferPanel.html#FOnPointerUpdate">FOnPointerUpdate</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Event triggered when a WM_POINTERUPDATE message is received. Posted to provide an update on a pointer that made contact over the client area of a window or on a hovering uncaptured pointer over the client area of a window. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/inputmsg/wm-pointerupdate">https://learn.microsoft.com/en-us/windows/win32/inputmsg/wm-pointerupdate</a>&quot;&gt;See the WM_POINTERUPDATE article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnPaintParentBkg"></span><code>property <strong>OnPaintParentBkg</strong>          : TNotifyEvent              read <a href="uCEFBufferPanel.TBufferPanel.html#FOnPaintParentBkg">FOnPaintParentBkg</a>          write <a href="uCEFBufferPanel.TBufferPanel.html#FOnPaintParentBkg">FOnPaintParentBkg</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Event triggered before the AlphaBlend call that transfer the web contents from the bitmap buffer to the panel when the Transparent property is True. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Transparent"></span><code>property <strong>Transparent</strong>               : boolean                   read <a href="uCEFBufferPanel.TBufferPanel.html#FTransparent">FTransparent</a>               write <a href="uCEFBufferPanel.TBufferPanel.html#SetTransparent-boolean-">SetTransparent</a>       default False;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set Transparent to True to use a WS_EX_TRANSPARENT window style in the panel and to call AlphaBlend in order to transfer the web contents from the bitmap buffer to the panel. If this property is False then BitBlt is used to transfer the web contents from the bitmap buffer to the panel. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="CopyOriginalBuffer"></span><code>property <strong>CopyOriginalBuffer</strong>        : boolean                   read <a href="uCEFBufferPanel.TBufferPanel.html#FCopyOriginalBuffer">FCopyOriginalBuffer</a>        write <a href="uCEFBufferPanel.TBufferPanel.html#FCopyOriginalBuffer">FCopyOriginalBuffer</a>  default False;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ When CopyOriginalBuffer is True then OrigBuffer will be used internally to copy of the raw main bitmap buffer sent by CEF in the TChromiumCore.OnPaint event. OrigBuffer will be transferred to the bitmap buffer before copying the buffer to the panel. This is necessary in GTK applications in order to avoid handling bitmaps in background threads. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Align"></span><code>property <strong>Align</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Alignment"></span><code>property <strong>Alignment</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Anchors"></span><code>property <strong>Anchors</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="AutoSize"></span><code>property <strong>AutoSize</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnUTF8KeyPress"></span><code>property <strong>OnUTF8KeyPress</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="BevelInner"></span><code>property <strong>BevelInner</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="BevelOuter"></span><code>property <strong>BevelOuter</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="BevelWidth"></span><code>property <strong>BevelWidth</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="BiDiMode"></span><code>property <strong>BiDiMode</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="BorderWidth"></span><code>property <strong>BorderWidth</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="BorderStyle"></span><code>property <strong>BorderStyle</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Caption"></span><code>property <strong>Caption</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Color"></span><code>property <strong>Color</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Constraints"></span><code>property <strong>Constraints</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="UseDockManager"></span><code>property <strong>UseDockManager</strong> default True;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="DockSite"></span><code>property <strong>DockSite</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="DoubleBuffered"></span><code>property <strong>DoubleBuffered</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="DragCursor"></span><code>property <strong>DragCursor</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="DragKind"></span><code>property <strong>DragKind</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="DragMode"></span><code>property <strong>DragMode</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Enabled"></span><code>property <strong>Enabled</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="FullRepaint"></span><code>property <strong>FullRepaint</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Font"></span><code>property <strong>Font</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="ParentBiDiMode"></span><code>property <strong>ParentBiDiMode</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="ParentColor"></span><code>property <strong>ParentColor</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="ParentFont"></span><code>property <strong>ParentFont</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="ParentShowHint"></span><code>property <strong>ParentShowHint</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="PopupMenu"></span><code>property <strong>PopupMenu</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="ShowHint"></span><code>property <strong>ShowHint</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="TabOrder"></span><code>property <strong>TabOrder</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="TabStop"></span><code>property <strong>TabStop</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Visible"></span><code>property <strong>Visible</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnClick"></span><code>property <strong>OnClick</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnConstrainedResize"></span><code>property <strong>OnConstrainedResize</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnContextPopup"></span><code>property <strong>OnContextPopup</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnDockDrop"></span><code>property <strong>OnDockDrop</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnDockOver"></span><code>property <strong>OnDockOver</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnDblClick"></span><code>property <strong>OnDblClick</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnDragDrop"></span><code>property <strong>OnDragDrop</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnDragOver"></span><code>property <strong>OnDragOver</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnEndDock"></span><code>property <strong>OnEndDock</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnEndDrag"></span><code>property <strong>OnEndDrag</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnEnter"></span><code>property <strong>OnEnter</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnExit"></span><code>property <strong>OnExit</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnGetSiteInfo"></span><code>property <strong>OnGetSiteInfo</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnMouseDown"></span><code>property <strong>OnMouseDown</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnMouseMove"></span><code>property <strong>OnMouseMove</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnMouseUp"></span><code>property <strong>OnMouseUp</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnMouseWheel"></span><code>property <strong>OnMouseWheel</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnKeyDown"></span><code>property <strong>OnKeyDown</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnKeyPress"></span><code>property <strong>OnKeyPress</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnKeyUp"></span><code>property <strong>OnKeyUp</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnResize"></span><code>property <strong>OnResize</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnStartDock"></span><code>property <strong>OnStartDock</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnStartDrag"></span><code>property <strong>OnStartDrag</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnUnDock"></span><code>property <strong>OnUnDock</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnMouseEnter"></span><code>property <strong>OnMouseEnter</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnMouseLeave"></span><code>property <strong>OnMouseLeave</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

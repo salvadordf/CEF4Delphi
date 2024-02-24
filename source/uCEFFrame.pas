@@ -36,7 +36,7 @@ type
       function  IsMain: Boolean;
       function  IsFocused: Boolean;
       function  GetName: ustring;
-      function  GetIdentifier: Int64;
+      function  GetIdentifier: ustring;
       function  GetParent: ICefFrame;
       function  GetUrl: ustring;
       function  GetBrowser: ICefBrowser;
@@ -88,9 +88,9 @@ begin
   Result := TCefBrowserRef.UnWrap(PCefFrame(FData)^.get_browser(PCefFrame(FData)));
 end;
 
-function TCefFrameRef.GetIdentifier: Int64;
+function TCefFrameRef.GetIdentifier: ustring;
 begin
-  Result := PCefFrame(FData)^.get_identifier(PCefFrame(FData));
+  Result := CefStringFreeAndGet(PCefFrame(FData)^.get_identifier(PCefFrame(FData)));
 end;
 
 function TCefFrameRef.GetName: ustring;

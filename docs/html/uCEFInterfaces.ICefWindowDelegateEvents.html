@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefWindowDelegateEvents</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefWindowDelegateEvents"></span><h1 class="cio">Interface ICefWindowDelegateEvents</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefWindowDelegateEvents = interface(<a class="normal" href="uCEFInterfaces.ICefPanelDelegateEvents.html">ICefPanelDelegateEvents</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Custom interface used to handle all the ICefWindowDelegate events. </p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefViewDelegateEvents.html">ICefViewDelegateEvents</a></li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefPanelDelegateEvents.html">ICefPanelDelegateEvents</a></li>
+<li class="thisitem">ICefWindowDelegateEvents</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnWindowCreated-ICefWindow-">doOnWindowCreated</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnWindowClosing-ICefWindow-">doOnWindowClosing</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnWindowDestroyed-ICefWindow-">doOnWindowDestroyed</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnWindowActivationChanged-ICefWindow-boolean-">doOnWindowActivationChanged</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; active: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnWindowBoundsChanged-ICefWindow-TCefRect-">doOnWindowBoundsChanged</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const new_bounds: <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnGetParentWindow-ICefWindow-boolean-boolean-ICefWindow-">doOnGetParentWindow</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var is_menu, can_activate_menu: boolean; var aResult : <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnIsWindowModalDialog-ICefWindow-boolean-">doOnIsWindowModalDialog</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnGetInitialBounds-ICefWindow-TCefRect-">doOnGetInitialBounds</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnGetInitialShowState-ICefWindow-TCefShowState-">doOnGetInitialShowState</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : <a href="uCEFTypes.html#TCefShowState">TCefShowState</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnIsFrameless-ICefWindow-boolean-">doOnIsFrameless</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnWithStandardWindowButtons-ICefWindow-boolean-">doOnWithStandardWindowButtons</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnGetTitlebarHeight-ICefWindow-Single-boolean-">doOnGetTitlebarHeight</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var titlebar_height: Single; var aResult : boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnCanResize-ICefWindow-boolean-">doOnCanResize</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnCanMaximize-ICefWindow-boolean-">doOnCanMaximize</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnCanMinimize-ICefWindow-boolean-">doOnCanMinimize</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnCanClose-ICefWindow-boolean-">doOnCanClose</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnAccelerator-ICefWindow-Integer-boolean-">doOnAccelerator</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; command_id: Integer; var aResult : boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnKeyEvent-ICefWindow-TCefKeyEvent-boolean-">doOnKeyEvent</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const event: <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnWindowFullscreenTransition-ICefWindow-boolean-">doOnWindowFullscreenTransition</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; is_completed: boolean);</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnWindowCreated-ICefWindow-"></span><code>procedure <strong>doOnWindowCreated</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p><h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{05C19A41-E75D-459E-AD4D-C8A0CA4A49D3}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnWindowClosing-ICefWindow-"></span><code>procedure <strong>doOnWindowClosing</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnWindowDestroyed-ICefWindow-"></span><code>procedure <strong>doOnWindowDestroyed</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnWindowActivationChanged-ICefWindow-boolean-"></span><code>procedure <strong>doOnWindowActivationChanged</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; active: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnWindowBoundsChanged-ICefWindow-TCefRect-"></span><code>procedure <strong>doOnWindowBoundsChanged</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const new_bounds: <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnGetParentWindow-ICefWindow-boolean-boolean-ICefWindow-"></span><code>procedure <strong>doOnGetParentWindow</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var is_menu, can_activate_menu: boolean; var aResult : <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnIsWindowModalDialog-ICefWindow-boolean-"></span><code>procedure <strong>doOnIsWindowModalDialog</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnGetInitialBounds-ICefWindow-TCefRect-"></span><code>procedure <strong>doOnGetInitialBounds</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnGetInitialShowState-ICefWindow-TCefShowState-"></span><code>procedure <strong>doOnGetInitialShowState</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : <a href="uCEFTypes.html#TCefShowState">TCefShowState</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnIsFrameless-ICefWindow-boolean-"></span><code>procedure <strong>doOnIsFrameless</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnWithStandardWindowButtons-ICefWindow-boolean-"></span><code>procedure <strong>doOnWithStandardWindowButtons</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnGetTitlebarHeight-ICefWindow-Single-boolean-"></span><code>procedure <strong>doOnGetTitlebarHeight</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var titlebar_height: Single; var aResult : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnCanResize-ICefWindow-boolean-"></span><code>procedure <strong>doOnCanResize</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnCanMaximize-ICefWindow-boolean-"></span><code>procedure <strong>doOnCanMaximize</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnCanMinimize-ICefWindow-boolean-"></span><code>procedure <strong>doOnCanMinimize</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnCanClose-ICefWindow-boolean-"></span><code>procedure <strong>doOnCanClose</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnAccelerator-ICefWindow-Integer-boolean-"></span><code>procedure <strong>doOnAccelerator</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; command_id: Integer; var aResult : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnKeyEvent-ICefWindow-TCefKeyEvent-boolean-"></span><code>procedure <strong>doOnKeyEvent</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const event: <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>; var aResult : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnWindowFullscreenTransition-ICefWindow-boolean-"></span><code>procedure <strong>doOnWindowFullscreenTransition</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; is_completed: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

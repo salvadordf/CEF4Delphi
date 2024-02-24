@@ -38,10 +38,10 @@ type
       function  HasDocument: Boolean;
       function  GetMainFrame: ICefFrame;
       function  GetFocusedFrame: ICefFrame;
-      function  GetFrameByident(const identifier: Int64): ICefFrame;
-      function  GetFrame(const name: ustring): ICefFrame;
+      function  GetFrameByIdentifier(const identifier: ustring): ICefFrame;
+      function  GetFrameByName(const name: ustring): ICefFrame;
       function  GetFrameCount: NativeUInt;
-      function  GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
+      function  GetFrameIdentifiers(var aFrameIdentifiers : TStrings) : boolean;
       function  GetFrameNames(var aFrameNames : TStrings) : boolean;
 
     public
@@ -160,17 +160,20 @@ begin
   Result := TCefFrameRef.UnWrap(PCefBrowser(FData)^.get_focused_frame(PCefBrowser(FData)));
 end;
 
-function TCefBrowserRef.GetFrameByident(const identifier: Int64): ICefFrame;
+function TCefBrowserRef.GetFrameByIdentifier(const identifier: ustring): ICefFrame;
+var
+  TempIdentifier : TCefString;
 begin
-  Result := TCefFrameRef.UnWrap(PCefBrowser(FData)^.get_frame_byident(PCefBrowser(FData), identifier));
+  TempIdentifier := CefString(identifier);
+  Result         := TCefFrameRef.UnWrap(PCefBrowser(FData)^.get_frame_by_identifier(PCefBrowser(FData), @TempIdentifier));
 end;
 
-function TCefBrowserRef.GetFrame(const name: ustring): ICefFrame;
+function TCefBrowserRef.GetFrameByName(const name: ustring): ICefFrame;
 var
   TempName : TCefString;
 begin
   TempName := CefString(name);
-  Result   := TCefFrameRef.UnWrap(PCefBrowser(FData)^.get_frame(PCefBrowser(FData), @TempName));
+  Result   := TCefFrameRef.UnWrap(PCefBrowser(FData)^.get_frame_by_name(PCefBrowser(FData), @TempName));
 end;
 
 function TCefBrowserRef.GetFrameCount: NativeUInt;
@@ -178,31 +181,19 @@ begin
   Result := PCefBrowser(FData)^.get_frame_count(PCefBrowser(FData));
 end;
 
-function TCefBrowserRef.GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
+function TCefBrowserRef.GetFrameIdentifiers(var aFrameIdentifiers : TStrings) : boolean;
 var
-  i : NativeUInt;
+  TempSL : ICefStringList;
 begin
   Result := False;
 
-  try
-    if (aFrameCount > 0) then
-      begin
-        SetLength(aFrameIdentifierArray, aFrameCount);
-        i := 0;
-        while (i < aFrameCount) do
-          begin
-            aFrameIdentifierArray[i] := 0;
-            inc(i);
-          end;
-
-        PCefBrowser(FData)^.get_frame_identifiers(PCefBrowser(FData), aFrameCount, aFrameIdentifierArray[0]);
-
-        Result := True;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefBrowserRef.GetFrameIdentifiers', e) then raise;
-  end;
+  if (aFrameIdentifiers <> nil) then
+    begin
+      TempSL := TCefStringListOwn.Create;
+      PCefBrowser(FData)^.get_frame_identifiers(PCefBrowser(FData), TempSL.Handle);
+      TempSL.CopyToStrings(aFrameIdentifiers);
+      Result := True;
+    end;
 end;
 
 function TCefBrowserRef.GetFrameNames(var aFrameNames : TStrings) : boolean;

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFJson: Class TCEFJson</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFJson"></span><h1 class="cio">Class TCEFJson</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFJson.html">uCEFJson</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFJson = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TCEFJson</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#ReadValue-ICefDictionaryValue-string-ICefValue-">ReadValue</a></strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#ReadBoolean-ICefDictionaryValue-string-boolean-">ReadBoolean</a></strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : boolean) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#ReadInteger-ICefDictionaryValue-string-integer-">ReadInteger</a></strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : integer) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#ReadDouble-ICefDictionaryValue-string-double-">ReadDouble</a></strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : double) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#ReadString-ICefDictionaryValue-string-ustring-">ReadString</a></strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#ReadBinary-ICefDictionaryValue-string-ICefBinaryValue-">ReadBinary</a></strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#ReadDictionary-ICefDictionaryValue-string-ICefDictionaryValue-">ReadDictionary</a></strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#ReadList-ICefDictionaryValue-string-ICefListValue-">ReadList</a></strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#Parse-ustring-TCefJsonParserOptions-">Parse</a></strong>(const jsonString: <a href="uCEFTypes.html#ustring">ustring</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a> = <a href="uCEFTypes.html#JSON_PARSER_RFC">JSON_PARSER_RFC</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#Parse-Pointer-NativeUInt-TCefJsonParserOptions-">Parse</a></strong>(const json: Pointer; json_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a> = <a href="uCEFTypes.html#JSON_PARSER_RFC">JSON_PARSER_RFC</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#ParseAndReturnError-ustring-TCefJsonParserOptions-ustring-">ParseAndReturnError</a></strong>(const jsonString: <a href="uCEFTypes.html#ustring">ustring</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a>; out errorMsgOut: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#Write-ICefValue-TCefJsonWriterOptions-">Write</a></strong>(const node: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; options: <a href="uCEFTypes.html#TCefJsonWriterOptions">TCefJsonWriterOptions</a> = <a href="uCEFConstants.html#JSON_WRITER_DEFAULT">JSON_WRITER_DEFAULT</a>): <a href="uCEFTypes.html#ustring">ustring</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#Write-ICefDictionaryValue-TCefJsonWriterOptions-">Write</a></strong>(const node: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; options: <a href="uCEFTypes.html#TCefJsonWriterOptions">TCefJsonWriterOptions</a> = <a href="uCEFConstants.html#JSON_WRITER_DEFAULT">JSON_WRITER_DEFAULT</a>): <a href="uCEFTypes.html#ustring">ustring</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#Write-ICefValue-TStringList-">Write</a></strong>(const node: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; var aRsltStrings: TStringList): boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#Write-ICefDictionaryValue-TStringList-">Write</a></strong>(const node: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; var aRsltStrings: TStringList): boolean; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#SaveToFile-ICefValue-ustring-">SaveToFile</a></strong>(const node: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; const aFileName: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#SaveToFile-ICefDictionaryValue-ustring-">SaveToFile</a></strong>(const node: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aFileName: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFJson.TCEFJson.html#LoadFromFile-ustring-ICefValue-TCefJsonParserOptions-">LoadFromFile</a></strong>(const aFileName: <a href="uCEFTypes.html#ustring">ustring</a>; var aRsltNode: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a> = <a href="uCEFTypes.html#JSON_PARSER_RFC">JSON_PARSER_RFC</a>): boolean;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ReadValue-ICefDictionaryValue-string-ICefValue-"></span><code>class function <strong>ReadValue</strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the ICefValue value at the specified key. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ReadBoolean-ICefDictionaryValue-string-boolean-"></span><code>class function <strong>ReadBoolean</strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : boolean) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the boolean value at the specified key. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ReadInteger-ICefDictionaryValue-string-integer-"></span><code>class function <strong>ReadInteger</strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : integer) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the integer value at the specified key. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ReadDouble-ICefDictionaryValue-string-double-"></span><code>class function <strong>ReadDouble</strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : double) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the double value at the specified key. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ReadString-ICefDictionaryValue-string-ustring-"></span><code>class function <strong>ReadString</strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the ustring value at the specified key. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ReadBinary-ICefDictionaryValue-string-ICefBinaryValue-"></span><code>class function <strong>ReadBinary</strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the ICefBinaryValue value at the specified key. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ReadDictionary-ICefDictionaryValue-string-ICefDictionaryValue-"></span><code>class function <strong>ReadDictionary</strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the ICefDictionaryValue value at the specified key. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ReadList-ICefDictionaryValue-string-ICefListValue-"></span><code>class function <strong>ReadList</strong>(const aDictionary : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aKey : string; var aValue : <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the ICefListValue value at the specified key. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Parse-ustring-TCefJsonParserOptions-"></span><code>class function <strong>Parse</strong>(const jsonString: <a href="uCEFTypes.html#ustring">ustring</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a> = <a href="uCEFTypes.html#JSON_PARSER_RFC">JSON_PARSER_RFC</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Parses the specified |json_string| and returns a dictionary or list representation. If JSON parsing fails this function returns NULL. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Parse-Pointer-NativeUInt-TCefJsonParserOptions-"></span><code>class function <strong>Parse</strong>(const json: Pointer; json_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a> = <a href="uCEFTypes.html#JSON_PARSER_RFC">JSON_PARSER_RFC</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Parses the specified UTF8-encoded |json| buffer of size |json_size| and returns a dictionary or list representation. If JSON parsing fails this function returns NULL. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ParseAndReturnError-ustring-TCefJsonParserOptions-ustring-"></span><code>class function <strong>ParseAndReturnError</strong>(const jsonString: <a href="uCEFTypes.html#ustring">ustring</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a>; out errorMsgOut: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Parses the specified |json_string| and returns a dictionary or list representation. If JSON parsing fails this function returns NULL and populates |error_msg_out| with a formatted error message. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Write-ICefValue-TCefJsonWriterOptions-"></span><code>class function <strong>Write</strong>(const node: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; options: <a href="uCEFTypes.html#TCefJsonWriterOptions">TCefJsonWriterOptions</a> = <a href="uCEFConstants.html#JSON_WRITER_DEFAULT">JSON_WRITER_DEFAULT</a>): <a href="uCEFTypes.html#ustring">ustring</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Generates a JSON string from the specified root |node|. Returns an NULL string on failure. This function requires exclusive access to |node| including any underlying data. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Write-ICefDictionaryValue-TCefJsonWriterOptions-"></span><code>class function <strong>Write</strong>(const node: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; options: <a href="uCEFTypes.html#TCefJsonWriterOptions">TCefJsonWriterOptions</a> = <a href="uCEFConstants.html#JSON_WRITER_DEFAULT">JSON_WRITER_DEFAULT</a>): <a href="uCEFTypes.html#ustring">ustring</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Generates a JSON string from the specified root |node|. Returns an NULL string on failure. This function requires exclusive access to |node| including any underlying data. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Write-ICefValue-TStringList-"></span><code>class function <strong>Write</strong>(const node: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; var aRsltStrings: TStringList): boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Generates a JSON string from the specified root |node|. Returns an NULL string on failure. This function requires exclusive access to |node| including any underlying data. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Write-ICefDictionaryValue-TStringList-"></span><code>class function <strong>Write</strong>(const node: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; var aRsltStrings: TStringList): boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Generates a JSON string from the specified root |node|. Returns an NULL string on failure. This function requires exclusive access to |node| including any underlying data. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SaveToFile-ICefValue-ustring-"></span><code>class function <strong>SaveToFile</strong>(const node: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; const aFileName: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Saves the JSON data in |node| to a file in aFileName. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SaveToFile-ICefDictionaryValue-ustring-"></span><code>class function <strong>SaveToFile</strong>(const node: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const aFileName: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Saves the JSON data in |node| to a file in aFileName. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="LoadFromFile-ustring-ICefValue-TCefJsonParserOptions-"></span><code>class function <strong>LoadFromFile</strong>(const aFileName: <a href="uCEFTypes.html#ustring">ustring</a>; var aRsltNode: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a> = <a href="uCEFTypes.html#JSON_PARSER_RFC">JSON_PARSER_RFC</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Loads the JSON data in |aFileName| using the |encoding| and returns an ICefValue node in |aRsltNode|. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

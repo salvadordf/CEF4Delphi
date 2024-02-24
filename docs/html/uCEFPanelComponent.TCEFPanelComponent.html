@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFPanelComponent: Class TCEFPanelComponent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFPanelComponent"></span><h1 class="cio">Class TCEFPanelComponent</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFPanelComponent.html">uCEFPanelComponent</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFPanelComponent = class(<a class="normal" href="uCEFViewComponent.TCEFViewComponent.html">TCEFViewComponent</a>, <a class="normal" href="uCEFInterfaces.ICefPanelDelegateEvents.html">ICefPanelDelegateEvents</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor">TPersistent</li>
+<li class="ancestor">TComponent</li>
+<li class="ancestor"><a class="normal" href="uCEFViewComponent.TCEFViewComponent.html">TCEFViewComponent</a></li>
+<li class="thisitem">TCEFPanelComponent</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#FPanel">FPanel</a></strong>: <a href="uCEFInterfaces.ICefPanel.html">ICefPanel</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#DestroyView">DestroyView</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#Initialize">Initialize</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#GetInitialized">GetInitialized</a></strong>: boolean; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#GetAsView">GetAsView</a></strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#GetAsPanel">GetAsPanel</a></strong>: <a href="uCEFInterfaces.ICefPanel.html">ICefPanel</a>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#GetAsWindow">GetAsWindow</a></strong>: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#GetChildViewCount">GetChildViewCount</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#doCreateCustomView">doCreateCustomView</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#CreatePanel">CreatePanel</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#SetToFillLayout">SetToFillLayout</a></strong>: <a href="uCEFInterfaces.ICefFillLayout.html">ICefFillLayout</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#SetToBoxLayout-TCefBoxLayoutSettings-">SetToBoxLayout</a></strong>(const settings: <a href="uCEFTypes.TCefBoxLayoutSettings.html">TCefBoxLayoutSettings</a>): <a href="uCEFInterfaces.ICefBoxLayout.html">ICefBoxLayout</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#GetLayout">GetLayout</a></strong>: <a href="uCEFInterfaces.ICefLayout.html">ICefLayout</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#Layout">Layout</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#AddChildView-ICefView-">AddChildView</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#AddChildViewAt-ICefView-Integer-">AddChildViewAt</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; index: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#ReorderChildView-ICefView-Integer-">ReorderChildView</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; index: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#RemoveChildView-ICefView-">RemoveChildView</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#RemoveAllChildViews">RemoveAllChildViews</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#GetChildViewAt-Integer-">GetChildViewAt</a></strong>(index: Integer): <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#AsWindow">AsWindow</a></strong>       : <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>   read <a href="uCEFPanelComponent.TCEFPanelComponent.html#GetAsWindow">GetAsWindow</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPanelComponent.TCEFPanelComponent.html#ChildViewCount">ChildViewCount</a></strong> : <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>   read <a href="uCEFPanelComponent.TCEFPanelComponent.html#GetChildViewCount">GetChildViewCount</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FPanel"></span><code><strong>FPanel</strong>: <a href="uCEFInterfaces.ICefPanel.html">ICefPanel</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroyView"></span><code>procedure <strong>DestroyView</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Initialize"></span><code>procedure <strong>Initialize</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetInitialized"></span><code>function <strong>GetInitialized</strong>: boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsView"></span><code>function <strong>GetAsView</strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsPanel"></span><code>function <strong>GetAsPanel</strong>: <a href="uCEFInterfaces.ICefPanel.html">ICefPanel</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsWindow"></span><code>function <strong>GetAsWindow</strong>: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetChildViewCount"></span><code>function <strong>GetChildViewCount</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doCreateCustomView"></span><code>procedure <strong>doCreateCustomView</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefViewDelegateEvents</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreatePanel"></span><code>procedure <strong>CreatePanel</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new Panel. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetToFillLayout"></span><code>function <strong>SetToFillLayout</strong>: <a href="uCEFInterfaces.ICefFillLayout.html">ICefFillLayout</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set this Panel's Layout to FillLayout and return the FillLayout object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetToBoxLayout-TCefBoxLayoutSettings-"></span><code>function <strong>SetToBoxLayout</strong>(const settings: <a href="uCEFTypes.TCefBoxLayoutSettings.html">TCefBoxLayoutSettings</a>): <a href="uCEFInterfaces.ICefBoxLayout.html">ICefBoxLayout</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set this Panel's Layout to BoxLayout and return the BoxLayout object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetLayout"></span><code>function <strong>GetLayout</strong>: <a href="uCEFInterfaces.ICefLayout.html">ICefLayout</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the Layout. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Layout"></span><code>procedure <strong>Layout</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Lay out the child Views (set their bounds based on sizing heuristics specific to the current Layout). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddChildView-ICefView-"></span><code>procedure <strong>AddChildView</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add a child View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddChildViewAt-ICefView-Integer-"></span><code>procedure <strong>AddChildViewAt</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; index: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add a child View at the specified |index|. If |index| matches the result of GetChildCount() then the View will be added at the end. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ReorderChildView-ICefView-Integer-"></span><code>procedure <strong>ReorderChildView</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; index: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Move the child View to the specified |index|. A negative value for |index| will move the View to the end. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveChildView-ICefView-"></span><code>procedure <strong>RemoveChildView</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Remove a child View. The View can then be added to another Panel. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveAllChildViews"></span><code>procedure <strong>RemoveAllChildViews</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Remove all child Views. The removed Views will be deleted if the client holds no references to them. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetChildViewAt-Integer-"></span><code>function <strong>GetChildViewAt</strong>(index: Integer): <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the child View at the specified |index|. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsWindow"></span><code>property <strong>AsWindow</strong>       : <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>   read <a href="uCEFPanelComponent.TCEFPanelComponent.html#GetAsWindow">GetAsWindow</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this Panel as a Window or NULL if this is not a Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ChildViewCount"></span><code>property <strong>ChildViewCount</strong> : <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>   read <a href="uCEFPanelComponent.TCEFPanelComponent.html#GetChildViewCount">GetChildViewCount</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the number of child Views. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

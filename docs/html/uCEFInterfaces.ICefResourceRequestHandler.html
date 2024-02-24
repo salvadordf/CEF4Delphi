@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefResourceRequestHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefResourceRequestHandler"></span><h1 class="cio">Interface ICefResourceRequestHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefResourceRequestHandler = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this interface to handle events related to browser requests. The functions of this interface will be called on the IO thread unless otherwise indicated. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_request_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_request_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_resource_request_handler_capi.h (cef_resource_request_handler_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefResourceRequestHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefResourceRequestHandler.html#GetCookieAccessFilter-ICefBrowser-ICefFrame-ICefRequest-ICefCookieAccessFilter-">GetCookieAccessFilter</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; var aFilter: <a href="uCEFInterfaces.ICefCookieAccessFilter.html">ICefCookieAccessFilter</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefResourceRequestHandler.html#OnBeforeResourceLoad-ICefBrowser-ICefFrame-ICefRequest-ICefCallback-">OnBeforeResourceLoad</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>): <a href="uCEFTypes.html#TCefReturnValue">TCefReturnValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefResourceRequestHandler.html#GetResourceHandler-ICefBrowser-ICefFrame-ICefRequest-ICefResourceHandler-">GetResourceHandler</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; var aResourceHandler : <a href="uCEFInterfaces.ICefResourceHandler.html">ICefResourceHandler</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefResourceRequestHandler.html#OnResourceRedirect-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-ustring-">OnResourceRedirect</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; var newUrl: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefResourceRequestHandler.html#OnResourceResponse-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-">OnResourceResponse</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefResourceRequestHandler.html#GetResourceResponseFilter-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-ICefResponseFilter-">GetResourceResponseFilter</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; var aResourceFilter: <a href="uCEFInterfaces.ICefResponseFilter.html">ICefResponseFilter</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefResourceRequestHandler.html#OnResourceLoadComplete-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-TCefUrlRequestStatus-Int64-">OnResourceLoadComplete</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; status: <a href="uCEFTypes.html#TCefUrlRequestStatus">TCefUrlRequestStatus</a>; receivedContentLength: Int64);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefResourceRequestHandler.html#OnProtocolExecution-ICefBrowser-ICefFrame-ICefRequest-Boolean-">OnProtocolExecution</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; var allowOsExecution: Boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefResourceRequestHandler.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetCookieAccessFilter-ICefBrowser-ICefFrame-ICefRequest-ICefCookieAccessFilter-"></span><code>procedure <strong>GetCookieAccessFilter</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; var aFilter: <a href="uCEFInterfaces.ICefCookieAccessFilter.html">ICefCookieAccessFilter</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the IO thread before a resource request is loaded. The |browser| and |frame| values represent the source of the request, and may be NULL for requests originating from service workers or ICefUrlRequest. To optionally filter cookies for the request return a ICefCookieAccessFilter object. The |request| object cannot not be modified in this callback. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{CFA42A38-EA91-4A95-95CE-178BCD412411}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnBeforeResourceLoad-ICefBrowser-ICefFrame-ICefRequest-ICefCallback-"></span><code>function <strong>OnBeforeResourceLoad</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>): <a href="uCEFTypes.html#TCefReturnValue">TCefReturnValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the IO thread before a resource request is loaded. The |browser| and |frame| values represent the source of the request, and may be NULL for requests originating from service workers or ICefUrlRequest. To redirect or change the resource load optionally modify |request|. Modification of the request URL will be treated as a redirect. Return RV_CONTINUE to continue the request immediately. Return RV_CONTINUE_ASYNC and call ICefCallback functions at a later time to continue or cancel the request asynchronously. Return RV_CANCEL to cancel the request immediately. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetResourceHandler-ICefBrowser-ICefFrame-ICefRequest-ICefResourceHandler-"></span><code>procedure <strong>GetResourceHandler</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; var aResourceHandler : <a href="uCEFInterfaces.ICefResourceHandler.html">ICefResourceHandler</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the IO thread before a resource is loaded. The |browser| and |frame| values represent the source of the request, and may be NULL for requests originating from service workers or ICefUrlRequest. To allow the resource to load using the default network loader return NULL. To specify a handler for the resource return a ICefResourceHandler object. The |request| object cannot not be modified in this callback. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnResourceRedirect-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-ustring-"></span><code>procedure <strong>OnResourceRedirect</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; var newUrl: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the IO thread when a resource load is redirected. The |browser| and |frame| values represent the source of the request, and may be NULL for requests originating from service workers or ICefUrlRequest. The |request| parameter will contain the old URL and other request-related information. The |response| parameter will contain the response that resulted in the redirect. The |new_url| parameter will contain the new URL and can be changed if desired. The |request| and |response| objects cannot be modified in this callback. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnResourceResponse-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-"></span><code>function <strong>OnResourceResponse</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the IO thread when a resource response is received. The |browser| and |frame| values represent the source of the request, and may be NULL for requests originating from service workers or ICefUrlRequest. To allow the resource load to proceed without modification return false (0). To redirect or retry the resource load optionally modify |request| and return true (1). Modification of the request URL will be treated as a redirect. Requests handled using the default network loader cannot be redirected in this callback. The |response| object cannot be modified in this callback.
+
+<p>WARNING: Redirecting using this function is deprecated. Use OnBeforeResourceLoad or GetResourceHandler to perform redirects. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetResourceResponseFilter-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-ICefResponseFilter-"></span><code>procedure <strong>GetResourceResponseFilter</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; var aResourceFilter: <a href="uCEFInterfaces.ICefResponseFilter.html">ICefResponseFilter</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the IO thread to optionally filter resource response content. The |browser| and |frame| values represent the source of the request, and may be NULL for requests originating from service workers or ICefUrlRequest. |request| and |response| represent the request and response respectively and cannot be modified in this callback. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnResourceLoadComplete-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-TCefUrlRequestStatus-Int64-"></span><code>procedure <strong>OnResourceLoadComplete</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; status: <a href="uCEFTypes.html#TCefUrlRequestStatus">TCefUrlRequestStatus</a>; receivedContentLength: Int64);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the IO thread when a resource load has completed. The |browser| and |frame| values represent the source of the request, and may be NULL for requests originating from service workers or ICefUrlRequest. |request| and |response| represent the request and response respectively and cannot be modified in this callback. |status| indicates the load completion status. |received_content_length| is the number of response bytes actually read. This function will be called for all requests, including requests that are aborted due to CEF shutdown or destruction of the associated browser. In cases where the associated browser is destroyed this callback may arrive after the ICefLifeSpanHandler.OnBeforeClose callback for that browser. The ICefFrame.IsValid function can be used to test for this situation, and care should be taken not to call |browser| or |frame| functions that modify state (like LoadURL, SendProcessMessage, etc.) if the frame is invalid. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnProtocolExecution-ICefBrowser-ICefFrame-ICefRequest-Boolean-"></span><code>procedure <strong>OnProtocolExecution</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; var allowOsExecution: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the IO thread to handle requests for URLs with an unknown protocol component. The |browser| and |frame| values represent the source of the request, and may be NULL for requests originating from service workers or ICefUrlRequest. |request| cannot be modified in this callback. Set |allow_os_execution| to true (1) to attempt execution via the registered OS protocol handler, if any. SECURITY WARNING: YOU SHOULD USE THIS METHOD TO ENFORCE RESTRICTIONS BASED ON SCHEME, HOST OR OTHER URL ANALYSIS BEFORE ALLOWING OS EXECUTION. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

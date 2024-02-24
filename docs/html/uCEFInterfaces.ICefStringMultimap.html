@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefStringMultimap</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefStringMultimap"></span><h1 class="cio">Interface ICefStringMultimap</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefStringMultimap = interface(IInterface)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Custom interface used to handle all the CEF functions related to CefStringMultimap. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{583ED0C2-A9D6-4034-A7C9-20EC7E47F0C7}']</dt>
+  <dd></dd>
+</dl>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="thisitem">ICefStringMultimap</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefStringMultimap.html#GetHandle">GetHandle</a></strong>: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefStringMultimap.html#GetSize">GetSize</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefStringMultimap.html#FindCount-ustring-">FindCount</a></strong>(const Key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefStringMultimap.html#GetEnumerate-ustring-NativeUInt-">GetEnumerate</a></strong>(const Key: <a href="uCEFTypes.html#ustring">ustring</a>; ValueIndex: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefStringMultimap.html#GetKey-NativeUInt-">GetKey</a></strong>(Index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefStringMultimap.html#GetValue-NativeUInt-">GetValue</a></strong>(Index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefStringMultimap.html#Append-ustring-ustring-">Append</a></strong>(const Key, Value: <a href="uCEFTypes.html#ustring">ustring</a>) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefStringMultimap.html#Clear">Clear</a></strong>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefStringMultimap.html#Handle">Handle</a></strong>                                                  : <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a> read <a href="uCEFInterfaces.ICefStringMultimap.html#GetHandle">GetHandle</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefStringMultimap.html#Size">Size</a></strong>                                                    : <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>         read <a href="uCEFInterfaces.ICefStringMultimap.html#GetSize">GetSize</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefStringMultimap.html#Key">Key</a></strong>[index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>]: <a href="uCEFTypes.html#ustring">ustring</a>            read <a href="uCEFInterfaces.ICefStringMultimap.html#GetKey-NativeUInt-">GetKey</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefStringMultimap.html#Value">Value</a></strong>[index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>]: <a href="uCEFTypes.html#ustring">ustring</a>            read <a href="uCEFInterfaces.ICefStringMultimap.html#GetValue-NativeUInt-">GetValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefStringMultimap.html#Enumerate">Enumerate</a></strong>[const aKey: <a href="uCEFTypes.html#ustring">ustring</a>; aValueIndex: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>]: <a href="uCEFTypes.html#ustring">ustring</a>            read <a href="uCEFInterfaces.ICefStringMultimap.html#GetEnumerate-ustring-NativeUInt-">GetEnumerate</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetHandle"></span><code>function <strong>GetHandle</strong>: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSize"></span><code>function <strong>GetSize</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FindCount-ustring-"></span><code>function <strong>FindCount</strong>(const Key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetEnumerate-ustring-NativeUInt-"></span><code>function <strong>GetEnumerate</strong>(const Key: <a href="uCEFTypes.html#ustring">ustring</a>; ValueIndex: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetKey-NativeUInt-"></span><code>function <strong>GetKey</strong>(Index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetValue-NativeUInt-"></span><code>function <strong>GetValue</strong>(Index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Append-ustring-ustring-"></span><code>function <strong>Append</strong>(const Key, Value: <a href="uCEFTypes.html#ustring">ustring</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Clear"></span><code>procedure <strong>Clear</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Handle"></span><code>property <strong>Handle</strong>                                                  : <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a> read <a href="uCEFInterfaces.ICefStringMultimap.html#GetHandle">GetHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Size"></span><code>property <strong>Size</strong>                                                    : <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>         read <a href="uCEFInterfaces.ICefStringMultimap.html#GetSize">GetSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Key"></span><code>property <strong>Key</strong>[index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>]: <a href="uCEFTypes.html#ustring">ustring</a>            read <a href="uCEFInterfaces.ICefStringMultimap.html#GetKey-NativeUInt-">GetKey</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Value"></span><code>property <strong>Value</strong>[index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>]: <a href="uCEFTypes.html#ustring">ustring</a>            read <a href="uCEFInterfaces.ICefStringMultimap.html#GetValue-NativeUInt-">GetValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Enumerate"></span><code>property <strong>Enumerate</strong>[const aKey: <a href="uCEFTypes.html#ustring">ustring</a>; aValueIndex: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>]: <a href="uCEFTypes.html#ustring">ustring</a>            read <a href="uCEFInterfaces.ICefStringMultimap.html#GetEnumerate-ustring-NativeUInt-">GetEnumerate</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

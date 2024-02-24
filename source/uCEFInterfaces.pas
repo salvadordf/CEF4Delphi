@@ -127,11 +127,11 @@ type
   ICefSharedProcessMessageBuilder = interface;
   ICefBrowserViewDelegate = interface;
   ICefMenuButtonPressedLock = interface;
+  ICefRequestContextHandler = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
   TCefBinaryValueArray     = array of ICefBinaryValue;
-  TCefFrameIdentifierArray = array of int64;
   TCefPostDataElementArray = array of ICefPostDataElement;
   TCefMediaRouteArray      = array of ICefMediaRoute;
   TCefMediaSinkArray       = array of ICefMediaSink;
@@ -285,6 +285,7 @@ type
     procedure doOnAlreadyRunningAppRelaunch(const commandLine: ICefCommandLine; const current_directory: ustring; var aResult: boolean);
     procedure doOnScheduleMessagePumpWork(const delayMs: Int64);
     procedure doGetDefaultClient(var aClient : ICefClient);
+    procedure doGetDefaultRequestContextHandler(var aRequestContextHandler : ICefRequestContextHandler);
 
     // ICefResourceBundleHandler
     function  doGetLocalizedString(stringid: Integer; var stringVal: ustring): Boolean;
@@ -1533,11 +1534,11 @@ type
     /// <summary>
     /// Returns the frame with the specified identifier, or NULL if not found.
     /// </summary>
-    function  GetFrameByident(const identifier: Int64): ICefFrame;
+    function  GetFrameByIdentifier(const identifier: ustring): ICefFrame;
     /// <summary>
     /// Returns the frame with the specified name, or NULL if not found.
     /// </summary>
-    function  GetFrame(const name: ustring): ICefFrame;
+    function  GetFrameByName(const name: ustring): ICefFrame;
     /// <summary>
     /// Returns the number of frames that currently exist.
     /// </summary>
@@ -1545,7 +1546,7 @@ type
     /// <summary>
     /// Returns the identifiers of all existing frames.
     /// </summary>
-    function  GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
+    function  GetFrameIdentifiers(var aFrameIdentifiers : TStrings) : boolean;
     /// <summary>
     /// Returns the names of all existing frames.
     /// </summary>
@@ -1962,10 +1963,10 @@ type
     /// </summary>
     function  GetName: ustring;
     /// <summary>
-    /// Returns the globally unique identifier for this frame or < 0 if the
+    /// Returns the globally unique identifier for this frame or empty if the
     /// underlying frame does not yet exist.
     /// </summary>
-    function  GetIdentifier: Int64;
+    function  GetIdentifier: ustring;
     /// <summary>
     /// Returns the parent of this frame or NULL if this is the main (top-level)
     /// frame.
@@ -2042,10 +2043,10 @@ type
     /// </summary>
     property Parent     : ICefFrame   read GetParent;
     /// <summary>
-    /// Returns the globally unique identifier for this frame or < 0 if the
+    /// Returns the globally unique identifier for this frame or empty if the
     /// underlying frame does not yet exist.
     /// </summary>
-    property Identifier : int64       read GetIdentifier;
+    property Identifier : ustring     read GetIdentifier;
   end;
 
   /// <summary>
@@ -4639,13 +4640,22 @@ type
     /// </summary>
     procedure OnScheduleMessagePumpWork(const delayMs: Int64);
     /// <summary>
-    /// Return the default client for use with a newly created browser window. If
-    /// null is returned the browser will be unmanaged (no callbacks will be
-    /// executed for that browser) and application shutdown will be blocked until
-    /// the browser window is closed manually. This function is currently only
-    /// used with the chrome runtime.
+    /// Return the default client for use with a newly created browser window
+    /// (TCefBrowser object). If null is returned the TCefBrowser will be
+    /// unmanaged (no callbacks will be executed for that TCefBrowser) and
+    /// application shutdown will be blocked until the browser window is closed
+    /// manually. This function is currently only used with the Chrome runtime
+    /// when creating new browser windows via Chrome UI.
     /// </summary>
     procedure GetDefaultClient(var aClient : ICefClient);
+    /// <summary>
+    /// Return the default handler for use with a new user or incognito profile
+    /// (TCefRequestContext object). If null is returned the
+    /// TCefRequestContext will be unmanaged (no callbacks will be executed for
+    /// that TCefRequestContext). This function is currently only used with the
+    /// Chrome runtime when creating new browser windows via Chrome UI.
+    /// </summary>
+    procedure GetDefaultRequestContextHandler(var aRequestContextHandler : ICefRequestContextHandler);
     /// <summary>
     /// Custom procedure to clear all references.
     /// </summary>

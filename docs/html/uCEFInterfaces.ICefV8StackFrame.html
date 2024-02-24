@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefV8StackFrame</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefV8StackFrame"></span><h1 class="cio">Interface ICefV8StackFrame</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefV8StackFrame = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface representing a V8 stack frame handle. V8 handles can only be accessed from the thread on which they are created. Valid threads for creating a V8 handle include the render process main thread (TID_RENDERER) and WebWorker threads. A task runner for posting tasks on the associated thread can be retrieved via the ICefv8context.GetTaskRunner() function. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_v8_capi.h (cef_v8stack_frame_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefV8StackFrame</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8StackFrame.html#IsValid">IsValid</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8StackFrame.html#GetScriptName">GetScriptName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8StackFrame.html#GetScriptNameOrSourceUrl">GetScriptNameOrSourceUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8StackFrame.html#GetFunctionName">GetFunctionName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8StackFrame.html#GetLineNumber">GetLineNumber</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8StackFrame.html#GetColumn">GetColumn</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8StackFrame.html#IsEval">IsEval</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8StackFrame.html#IsConstructor">IsConstructor</a></strong>: Boolean;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefV8StackFrame.html#ScriptName">ScriptName</a></strong>             : <a href="uCEFTypes.html#ustring">ustring</a> read <a href="uCEFInterfaces.ICefV8StackFrame.html#GetScriptName">GetScriptName</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefV8StackFrame.html#ScriptNameOrSourceUrl">ScriptNameOrSourceUrl</a></strong>  : <a href="uCEFTypes.html#ustring">ustring</a> read <a href="uCEFInterfaces.ICefV8StackFrame.html#GetScriptNameOrSourceUrl">GetScriptNameOrSourceUrl</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefV8StackFrame.html#FunctionName">FunctionName</a></strong>           : <a href="uCEFTypes.html#ustring">ustring</a> read <a href="uCEFInterfaces.ICefV8StackFrame.html#GetFunctionName">GetFunctionName</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefV8StackFrame.html#LineNumber">LineNumber</a></strong>             : Integer read <a href="uCEFInterfaces.ICefV8StackFrame.html#GetLineNumber">GetLineNumber</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefV8StackFrame.html#Column">Column</a></strong>                 : Integer read <a href="uCEFInterfaces.ICefV8StackFrame.html#GetColumn">GetColumn</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsValid"></span><code>function <strong>IsValid</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the underlying handle is valid and it can be accessed on the current thread. Do not call any other functions if this function returns false (0). </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{BA1FFBF4-E9F2-4842-A827-DC220F324286}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetScriptName"></span><code>function <strong>GetScriptName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the name of the resource script that contains the function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetScriptNameOrSourceUrl"></span><code>function <strong>GetScriptNameOrSourceUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the name of the resource script that contains the function or the sourceURL value if the script name is undefined and its source ends with a &quot;//@ sourceURL=...&quot; string. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFunctionName"></span><code>function <strong>GetFunctionName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the name of the function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetLineNumber"></span><code>function <strong>GetLineNumber</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the 1-based line number for the function call or 0 if unknown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetColumn"></span><code>function <strong>GetColumn</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the 1-based column offset on the line for the function call or 0 if unknown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsEval"></span><code>function <strong>IsEval</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the function was compiled using eval(). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsConstructor"></span><code>function <strong>IsConstructor</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the function was called as a constructor via &quot;new&quot;. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ScriptName"></span><code>property <strong>ScriptName</strong>             : <a href="uCEFTypes.html#ustring">ustring</a> read <a href="uCEFInterfaces.ICefV8StackFrame.html#GetScriptName">GetScriptName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the name of the resource script that contains the function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ScriptNameOrSourceUrl"></span><code>property <strong>ScriptNameOrSourceUrl</strong>  : <a href="uCEFTypes.html#ustring">ustring</a> read <a href="uCEFInterfaces.ICefV8StackFrame.html#GetScriptNameOrSourceUrl">GetScriptNameOrSourceUrl</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the name of the resource script that contains the function or the sourceURL value if the script name is undefined and its source ends with a &quot;//@ sourceURL=...&quot; string. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FunctionName"></span><code>property <strong>FunctionName</strong>           : <a href="uCEFTypes.html#ustring">ustring</a> read <a href="uCEFInterfaces.ICefV8StackFrame.html#GetFunctionName">GetFunctionName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the name of the function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="LineNumber"></span><code>property <strong>LineNumber</strong>             : Integer read <a href="uCEFInterfaces.ICefV8StackFrame.html#GetLineNumber">GetLineNumber</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the 1-based line number for the function call or 0 if unknown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Column"></span><code>property <strong>Column</strong>                 : Integer read <a href="uCEFInterfaces.ICefV8StackFrame.html#GetColumn">GetColumn</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the 1-based column offset on the line for the function call or 0 if unknown. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

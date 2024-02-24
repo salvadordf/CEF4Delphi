@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefView</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefView"></span><h1 class="cio">Interface ICefView</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefView = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ A View is a rectangle within the views View hierarchy. It is the base interface for all Views. All size and position values are in density independent pixels (DIP) unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_view_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_view_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_view_capi.h (cef_view_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefView</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#AsBrowserView">AsBrowserView</a></strong>: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#AsButton">AsButton</a></strong>: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#AsPanel">AsPanel</a></strong>: <a href="uCEFInterfaces.ICefPanel.html">ICefPanel</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#AsScrollView">AsScrollView</a></strong>: <a href="uCEFInterfaces.ICefScrollView.html">ICefScrollView</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#AsTextfield">AsTextfield</a></strong>: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetTypeString">GetTypeString</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ToStringEx-boolean-">ToStringEx</a></strong>(include_children: boolean): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#IsValid">IsValid</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#IsAttached">IsAttached</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#IsSame-ICefView-">IsSame</a></strong>(const that: <a href="uCEFInterfaces.ICefView.html">ICefView</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetDelegate">GetDelegate</a></strong>: <a href="uCEFInterfaces.ICefViewDelegate.html">ICefViewDelegate</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetWindow">GetWindow</a></strong>: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetID">GetID</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#SetID-Integer-">SetID</a></strong>(id_: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetGroupID">GetGroupID</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#SetGroupID-Integer-">SetGroupID</a></strong>(group_id: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetParentView">GetParentView</a></strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetViewForID-Integer-">GetViewForID</a></strong>(id_: Integer): <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#SetBounds-TCefRect-">SetBounds</a></strong>(const bounds_: <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetBounds">GetBounds</a></strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetBoundsInScreen">GetBoundsInScreen</a></strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#SetSize-TCefSize-">SetSize</a></strong>(const size_: <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetSize">GetSize</a></strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#SetPosition-TCefPoint-">SetPosition</a></strong>(const position_: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetPosition">GetPosition</a></strong>: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#SetInsets-TCefInsets-">SetInsets</a></strong>(const insets: <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetInsets">GetInsets</a></strong>: <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetPreferredSize">GetPreferredSize</a></strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#SizeToPreferredSize">SizeToPreferredSize</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetMinimumSize">GetMinimumSize</a></strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetMaximumSize">GetMaximumSize</a></strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetHeightForWidth-Integer-">GetHeightForWidth</a></strong>(width: Integer): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#InvalidateLayout">InvalidateLayout</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#SetVisible-boolean-">SetVisible</a></strong>(visible_: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#IsVisible">IsVisible</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#IsDrawn">IsDrawn</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#SetEnabled-boolean-">SetEnabled</a></strong>(enabled_: boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#IsEnabled">IsEnabled</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#SetFocusable-boolean-">SetFocusable</a></strong>(focusable_: boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#IsFocusable">IsFocusable</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#IsAccessibilityFocusable">IsAccessibilityFocusable</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#RequestFocus">RequestFocus</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#SetBackgroundColor-TCefColor-">SetBackgroundColor</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetBackgroundColor">GetBackgroundColor</a></strong>: <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointToScreen-TCefPoint-">ConvertPointToScreen</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointFromScreen-TCefPoint-">ConvertPointFromScreen</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointToWindow-TCefPoint-">ConvertPointToWindow</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointFromWindow-TCefPoint-">ConvertPointFromWindow</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointToView-ICefView-TCefPoint-">ConvertPointToView</a></strong>(const view : <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointFromView-ICefView-TCefPoint-">ConvertPointFromView</a></strong>(const view : <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#Valid">Valid</a></strong>                  : boolean          read <a href="uCEFInterfaces.ICefView.html#IsValid">IsValid</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#Attached">Attached</a></strong>               : boolean          read <a href="uCEFInterfaces.ICefView.html#IsAttached">IsAttached</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#Delegate">Delegate</a></strong>               : <a href="uCEFInterfaces.ICefViewDelegate.html">ICefViewDelegate</a> read <a href="uCEFInterfaces.ICefView.html#GetDelegate">GetDelegate</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#Window">Window</a></strong>                 : <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>       read <a href="uCEFInterfaces.ICefView.html#GetWindow">GetWindow</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#ParentView">ParentView</a></strong>             : <a href="uCEFInterfaces.ICefView.html">ICefView</a>         read <a href="uCEFInterfaces.ICefView.html#GetParentView">GetParentView</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#BoundsInScreen">BoundsInScreen</a></strong>         : <a href="uCEFTypes.TCefRect.html">TCefRect</a>         read <a href="uCEFInterfaces.ICefView.html#GetBoundsInScreen">GetBoundsInScreen</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#PreferredSize">PreferredSize</a></strong>          : <a href="uCEFTypes.TCefSize.html">TCefSize</a>         read <a href="uCEFInterfaces.ICefView.html#GetPreferredSize">GetPreferredSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#MinimumSize">MinimumSize</a></strong>            : <a href="uCEFTypes.TCefSize.html">TCefSize</a>         read <a href="uCEFInterfaces.ICefView.html#GetMinimumSize">GetMinimumSize</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#MaximumSize">MaximumSize</a></strong>            : <a href="uCEFTypes.TCefSize.html">TCefSize</a>         read <a href="uCEFInterfaces.ICefView.html#GetMaximumSize">GetMaximumSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#Visible">Visible</a></strong>                : boolean          read <a href="uCEFInterfaces.ICefView.html#IsVisible">IsVisible</a>                  write <a href="uCEFInterfaces.ICefView.html#SetVisible-boolean-">SetVisible</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#Drawn">Drawn</a></strong>                  : boolean          read <a href="uCEFInterfaces.ICefView.html#IsDrawn">IsDrawn</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#Enabled">Enabled</a></strong>                : boolean          read <a href="uCEFInterfaces.ICefView.html#IsEnabled">IsEnabled</a>                  write <a href="uCEFInterfaces.ICefView.html#SetEnabled-boolean-">SetEnabled</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#Focusable">Focusable</a></strong>              : boolean          read <a href="uCEFInterfaces.ICefView.html#IsFocusable">IsFocusable</a>                write <a href="uCEFInterfaces.ICefView.html#SetFocusable-boolean-">SetFocusable</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#AccessibilityFocusable">AccessibilityFocusable</a></strong> : boolean          read <a href="uCEFInterfaces.ICefView.html#IsAccessibilityFocusable">IsAccessibilityFocusable</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#BackgroundColor">BackgroundColor</a></strong>        : <a href="uCEFTypes.html#TCefColor">TCefColor</a>        read <a href="uCEFInterfaces.ICefView.html#GetBackgroundColor">GetBackgroundColor</a>         write <a href="uCEFInterfaces.ICefView.html#SetBackgroundColor-TCefColor-">SetBackgroundColor</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#ID">ID</a></strong>                     : integer          read <a href="uCEFInterfaces.ICefView.html#GetID">GetID</a>                      write <a href="uCEFInterfaces.ICefView.html#SetID-Integer-">SetID</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#GroupID">GroupID</a></strong>                : integer          read <a href="uCEFInterfaces.ICefView.html#GetGroupID">GetGroupID</a>                 write <a href="uCEFInterfaces.ICefView.html#SetGroupID-Integer-">SetGroupID</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#Bounds">Bounds</a></strong>                 : <a href="uCEFTypes.TCefRect.html">TCefRect</a>         read <a href="uCEFInterfaces.ICefView.html#GetBounds">GetBounds</a>                  write <a href="uCEFInterfaces.ICefView.html#SetBounds-TCefRect-">SetBounds</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#Size">Size</a></strong>                   : <a href="uCEFTypes.TCefSize.html">TCefSize</a>         read <a href="uCEFInterfaces.ICefView.html#GetSize">GetSize</a>                    write <a href="uCEFInterfaces.ICefView.html#SetSize-TCefSize-">SetSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#Position">Position</a></strong>               : <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>        read <a href="uCEFInterfaces.ICefView.html#GetPosition">GetPosition</a>                write <a href="uCEFInterfaces.ICefView.html#SetPosition-TCefPoint-">SetPosition</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#Insets">Insets</a></strong>                 : <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>       read <a href="uCEFInterfaces.ICefView.html#GetInsets">GetInsets</a>                  write <a href="uCEFInterfaces.ICefView.html#SetInsets-TCefInsets-">SetInsets</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefView.html#TypeString">TypeString</a></strong>             : <a href="uCEFTypes.html#ustring">ustring</a>          read <a href="uCEFInterfaces.ICefView.html#GetTypeString">GetTypeString</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsBrowserView"></span><code>function <strong>AsBrowserView</strong>: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this View as a BrowserView or NULL if this is not a BrowserView. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{E9AF950A-F4E8-420C-BD1F-F26F4FDFA48D}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsButton"></span><code>function <strong>AsButton</strong>: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this View as a Button or NULL if this is not a Button. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsPanel"></span><code>function <strong>AsPanel</strong>: <a href="uCEFInterfaces.ICefPanel.html">ICefPanel</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this View as a Panel or NULL if this is not a Panel. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsScrollView"></span><code>function <strong>AsScrollView</strong>: <a href="uCEFInterfaces.ICefScrollView.html">ICefScrollView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this View as a ScrollView or NULL if this is not a ScrollView. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsTextfield"></span><code>function <strong>AsTextfield</strong>: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this View as a Textfield or NULL if this is not a Textfield. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetTypeString"></span><code>function <strong>GetTypeString</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the type of this View as a string. Used primarily for testing purposes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ToStringEx-boolean-"></span><code>function <strong>ToStringEx</strong>(include_children: boolean): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a string representation of this View which includes the type and various type-specific identifying attributes. If |include_children| is true (1) any child Views will also be included. Used primarily for testing purposes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsValid"></span><code>function <strong>IsValid</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this View is valid. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsAttached"></span><code>function <strong>IsAttached</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this View is currently attached to another View. A View can only be attached to one View at a time. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsSame-ICefView-"></span><code>function <strong>IsSame</strong>(const that: <a href="uCEFInterfaces.ICefView.html">ICefView</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this View is the same as |that| View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDelegate"></span><code>function <strong>GetDelegate</strong>: <a href="uCEFInterfaces.ICefViewDelegate.html">ICefViewDelegate</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the delegate associated with this View, if any. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetWindow"></span><code>function <strong>GetWindow</strong>: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the top-level Window hosting this View, if any. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetID"></span><code>function <strong>GetID</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the ID for this View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetID-Integer-"></span><code>procedure <strong>SetID</strong>(id_: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the ID for this View. ID should be unique within the subtree that you intend to search for it. 0 is the default ID for views. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetGroupID"></span><code>function <strong>GetGroupID</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the group id of this View, or -1 if not set. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetGroupID-Integer-"></span><code>procedure <strong>SetGroupID</strong>(group_id: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ A group id is used to tag Views which are part of the same logical group. Focus can be moved between views with the same group using the arrow keys. The group id is immutable once it's set. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetParentView"></span><code>function <strong>GetParentView</strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the View that contains this View, if any. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetViewForID-Integer-"></span><code>function <strong>GetViewForID</strong>(id_: Integer): <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Recursively descends the view tree starting at this View, and returns the first child that it encounters with the given ID. Returns NULL if no matching child view is found. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetBounds-TCefRect-"></span><code>procedure <strong>SetBounds</strong>(const bounds_: <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the bounds (size and position) of this View. |bounds| is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetBounds"></span><code>function <strong>GetBounds</strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the bounds (size and position) of this View in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetBoundsInScreen"></span><code>function <strong>GetBoundsInScreen</strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the bounds (size and position) of this View in DIP screen coordinates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetSize-TCefSize-"></span><code>procedure <strong>SetSize</strong>(const size_: <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the size of this View without changing the position. |size| in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSize"></span><code>function <strong>GetSize</strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the size of this View in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetPosition-TCefPoint-"></span><code>procedure <strong>SetPosition</strong>(const position_: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the position of this View without changing the size. |position| is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetPosition"></span><code>function <strong>GetPosition</strong>: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the position of this View. Position is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetInsets-TCefInsets-"></span><code>procedure <strong>SetInsets</strong>(const insets: <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the insets for this View. |insets| is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetInsets"></span><code>function <strong>GetInsets</strong>: <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the insets for this View in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetPreferredSize"></span><code>function <strong>GetPreferredSize</strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the size this View would like to be if enough space is available. Size is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SizeToPreferredSize"></span><code>procedure <strong>SizeToPreferredSize</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Size this View to its preferred size. Size is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetMinimumSize"></span><code>function <strong>GetMinimumSize</strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the minimum size for this View. Size is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetMaximumSize"></span><code>function <strong>GetMaximumSize</strong>: <a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the maximum size for this View. Size is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetHeightForWidth-Integer-"></span><code>function <strong>GetHeightForWidth</strong>(width: Integer): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the height necessary to display this View with the provided width. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="InvalidateLayout"></span><code>procedure <strong>InvalidateLayout</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Indicate that this View and all parent Views require a re-layout. This ensures the next call to layout() will propagate to this View even if the bounds of parent Views do not change. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetVisible-boolean-"></span><code>procedure <strong>SetVisible</strong>(visible_: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets whether this View is visible. Windows are hidden by default and other views are visible by default. This View and any parent views must be set as visible for this View to be drawn in a Window. If this View is set as hidden then it and any child views will not be drawn and, if any of those views currently have focus, then focus will also be cleared. Painting is scheduled as needed. If this View is a Window then calling this function is equivalent to calling the Window show() and hide() functions. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsVisible"></span><code>function <strong>IsVisible</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns whether this View is visible. A view may be visible but still not drawn in a Window if any parent views are hidden. If this View is a Window then a return value of true (1) indicates that this Window is currently visible to the user on-screen. If this View is not a Window then call is_drawn() to determine whether this View and all parent views are visible and will be drawn. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsDrawn"></span><code>function <strong>IsDrawn</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns whether this View is visible and drawn in a Window. A view is drawn if it and all parent views are visible. If this View is a Window then calling this function is equivalent to calling is_visible(). Otherwise, to determine if the containing Window is visible to the user on-screen call is_visible() on the Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetEnabled-boolean-"></span><code>procedure <strong>SetEnabled</strong>(enabled_: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set whether this View is enabled. A disabled View does not receive keyboard or mouse inputs. If |enabled| differs from the current value the View will be repainted. Also, clears focus if the focused View is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsEnabled"></span><code>function <strong>IsEnabled</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns whether this View is enabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetFocusable-boolean-"></span><code>procedure <strong>SetFocusable</strong>(focusable_: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets whether this View is capable of taking focus. It will clear focus if the focused View is set to be non-focusable. This is false (0) by default so that a View used as a container does not get the focus. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsFocusable"></span><code>function <strong>IsFocusable</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this View is focusable, enabled and drawn. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsAccessibilityFocusable"></span><code>function <strong>IsAccessibilityFocusable</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return whether this View is focusable when the user requires full keyboard access, even though it may not be normally focusable. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RequestFocus"></span><code>procedure <strong>RequestFocus</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Request keyboard focus. If this View is focusable it will become the focused View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetBackgroundColor-TCefColor-"></span><code>procedure <strong>SetBackgroundColor</strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the background color for this View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetBackgroundColor"></span><code>function <strong>GetBackgroundColor</strong>: <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the background color for this View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ConvertPointToScreen-TCefPoint-"></span><code>function <strong>ConvertPointToScreen</strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert |point| from this View's coordinate system to DIP screen coordinates. This View must belong to a Window when calling this function. Returns true (1) if the conversion is successful or false (0) otherwise. Use ICefDisplay.ConvertPointToPixels() after calling this function if further conversion to display-specific pixel coordinates is desired. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ConvertPointFromScreen-TCefPoint-"></span><code>function <strong>ConvertPointFromScreen</strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert |point| to this View's coordinate system from DIP screen coordinates. This View must belong to a Window when calling this function. Returns true (1) if the conversion is successful or false (0) otherwise. Use ICefDisplay.ConvertPointFromPixels() before calling this function if conversion from display-specific pixel coordinates is necessary. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ConvertPointToWindow-TCefPoint-"></span><code>function <strong>ConvertPointToWindow</strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert |point| from this View's coordinate system to that of the Window. This View must belong to a Window when calling this function. Returns true (1) if the conversion is successful or false (0) otherwise. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ConvertPointFromWindow-TCefPoint-"></span><code>function <strong>ConvertPointFromWindow</strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert |point| to this View's coordinate system from that of the Window. This View must belong to a Window when calling this function. Returns true (1) if the conversion is successful or false (0) otherwise. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ConvertPointToView-ICefView-TCefPoint-"></span><code>function <strong>ConvertPointToView</strong>(const view : <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert |point| from this View's coordinate system to that of |view|. |view| needs to be in the same Window but not necessarily the same view hierarchy. Returns true (1) if the conversion is successful or false (0) otherwise. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ConvertPointFromView-ICefView-TCefPoint-"></span><code>function <strong>ConvertPointFromView</strong>(const view : <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Convert |point| to this View's coordinate system from that |view|. |view| needs to be in the same Window but not necessarily the same view hierarchy. Returns true (1) if the conversion is successful or false (0) otherwise. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Valid"></span><code>property <strong>Valid</strong>                  : boolean          read <a href="uCEFInterfaces.ICefView.html#IsValid">IsValid</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this View is valid. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Attached"></span><code>property <strong>Attached</strong>               : boolean          read <a href="uCEFInterfaces.ICefView.html#IsAttached">IsAttached</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this View is currently attached to another View. A View can only be attached to one View at a time. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Delegate"></span><code>property <strong>Delegate</strong>               : <a href="uCEFInterfaces.ICefViewDelegate.html">ICefViewDelegate</a> read <a href="uCEFInterfaces.ICefView.html#GetDelegate">GetDelegate</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the delegate associated with this View, if any. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Window"></span><code>property <strong>Window</strong>                 : <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>       read <a href="uCEFInterfaces.ICefView.html#GetWindow">GetWindow</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the top-level Window hosting this View, if any. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ParentView"></span><code>property <strong>ParentView</strong>             : <a href="uCEFInterfaces.ICefView.html">ICefView</a>         read <a href="uCEFInterfaces.ICefView.html#GetParentView">GetParentView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the View that contains this View, if any. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BoundsInScreen"></span><code>property <strong>BoundsInScreen</strong>         : <a href="uCEFTypes.TCefRect.html">TCefRect</a>         read <a href="uCEFInterfaces.ICefView.html#GetBoundsInScreen">GetBoundsInScreen</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the bounds (size and position) of this View in DIP screen coordinates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PreferredSize"></span><code>property <strong>PreferredSize</strong>          : <a href="uCEFTypes.TCefSize.html">TCefSize</a>         read <a href="uCEFInterfaces.ICefView.html#GetPreferredSize">GetPreferredSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the size this View would like to be if enough space is available. Size is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MinimumSize"></span><code>property <strong>MinimumSize</strong>            : <a href="uCEFTypes.TCefSize.html">TCefSize</a>         read <a href="uCEFInterfaces.ICefView.html#GetMinimumSize">GetMinimumSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the minimum size for this View. Size is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MaximumSize"></span><code>property <strong>MaximumSize</strong>            : <a href="uCEFTypes.TCefSize.html">TCefSize</a>         read <a href="uCEFInterfaces.ICefView.html#GetMaximumSize">GetMaximumSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the maximum size for this View. Size is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Visible"></span><code>property <strong>Visible</strong>                : boolean          read <a href="uCEFInterfaces.ICefView.html#IsVisible">IsVisible</a>                  write <a href="uCEFInterfaces.ICefView.html#SetVisible-boolean-">SetVisible</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns whether this View is visible. A view may be visible but still not drawn in a Window if any parent views are hidden. If this View is a Window then a return value of true (1) indicates that this Window is currently visible to the user on-screen. If this View is not a Window then call is_drawn() to determine whether this View and all parent views are visible and will be drawn. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Drawn"></span><code>property <strong>Drawn</strong>                  : boolean          read <a href="uCEFInterfaces.ICefView.html#IsDrawn">IsDrawn</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns whether this View is visible and drawn in a Window. A view is drawn if it and all parent views are visible. If this View is a Window then calling this function is equivalent to calling is_visible(). Otherwise, to determine if the containing Window is visible to the user on-screen call is_visible() on the Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Enabled"></span><code>property <strong>Enabled</strong>                : boolean          read <a href="uCEFInterfaces.ICefView.html#IsEnabled">IsEnabled</a>                  write <a href="uCEFInterfaces.ICefView.html#SetEnabled-boolean-">SetEnabled</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns whether this View is enabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Focusable"></span><code>property <strong>Focusable</strong>              : boolean          read <a href="uCEFInterfaces.ICefView.html#IsFocusable">IsFocusable</a>                write <a href="uCEFInterfaces.ICefView.html#SetFocusable-boolean-">SetFocusable</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this View is focusable, enabled and drawn. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AccessibilityFocusable"></span><code>property <strong>AccessibilityFocusable</strong> : boolean          read <a href="uCEFInterfaces.ICefView.html#IsAccessibilityFocusable">IsAccessibilityFocusable</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return whether this View is focusable when the user requires full keyboard access, even though it may not be normally focusable. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BackgroundColor"></span><code>property <strong>BackgroundColor</strong>        : <a href="uCEFTypes.html#TCefColor">TCefColor</a>        read <a href="uCEFInterfaces.ICefView.html#GetBackgroundColor">GetBackgroundColor</a>         write <a href="uCEFInterfaces.ICefView.html#SetBackgroundColor-TCefColor-">SetBackgroundColor</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the background color for this View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ID"></span><code>property <strong>ID</strong>                     : integer          read <a href="uCEFInterfaces.ICefView.html#GetID">GetID</a>                      write <a href="uCEFInterfaces.ICefView.html#SetID-Integer-">SetID</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the ID for this View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GroupID"></span><code>property <strong>GroupID</strong>                : integer          read <a href="uCEFInterfaces.ICefView.html#GetGroupID">GetGroupID</a>                 write <a href="uCEFInterfaces.ICefView.html#SetGroupID-Integer-">SetGroupID</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the group id of this View, or -1 if not set. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Bounds"></span><code>property <strong>Bounds</strong>                 : <a href="uCEFTypes.TCefRect.html">TCefRect</a>         read <a href="uCEFInterfaces.ICefView.html#GetBounds">GetBounds</a>                  write <a href="uCEFInterfaces.ICefView.html#SetBounds-TCefRect-">SetBounds</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the bounds (size and position) of this View in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Size"></span><code>property <strong>Size</strong>                   : <a href="uCEFTypes.TCefSize.html">TCefSize</a>         read <a href="uCEFInterfaces.ICefView.html#GetSize">GetSize</a>                    write <a href="uCEFInterfaces.ICefView.html#SetSize-TCefSize-">SetSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the size of this View in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Position"></span><code>property <strong>Position</strong>               : <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>        read <a href="uCEFInterfaces.ICefView.html#GetPosition">GetPosition</a>                write <a href="uCEFInterfaces.ICefView.html#SetPosition-TCefPoint-">SetPosition</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the position of this View. Position is in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Insets"></span><code>property <strong>Insets</strong>                 : <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>       read <a href="uCEFInterfaces.ICefView.html#GetInsets">GetInsets</a>                  write <a href="uCEFInterfaces.ICefView.html#SetInsets-TCefInsets-">SetInsets</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the insets for this View in parent coordinates, or DIP screen coordinates if there is no parent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TypeString"></span><code>property <strong>TypeString</strong>             : <a href="uCEFTypes.html#ustring">ustring</a>          read <a href="uCEFInterfaces.ICefView.html#GetTypeString">GetTypeString</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the type of this View as a string. Used primarily for testing purposes. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

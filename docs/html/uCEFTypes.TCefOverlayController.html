@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefOverlayController</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefOverlayController"></span><h1 class="cio">Record TCefOverlayController</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefOverlayController = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Controller for an overlay that contains a contents View added via ICefWindow.AddOverlayView. Methods exposed by this controller should be called in preference to functions of the same name exposed by the contents View unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>Implemented by ICefOverlayController.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_overlay_controller_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_overlay_controller_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_overlay_controller_capi.h (cef_overlay_controller_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#is_valid">is_valid</a></strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#is_same">is_same</a></strong>: function(self, that: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#get_contents_view">get_contents_view</a></strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.html#PCefView">PCefView</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#get_window">get_window</a></strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#get_docking_mode">get_docking_mode</a></strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.html#TCefDockingMode">TCefDockingMode</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#destroy">destroy</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#set_bounds">set_bounds</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>; const bounds: <a href="uCEFTypes.html#PCefRect">PCefRect</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#get_bounds">get_bounds</a></strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.TCefRect.html">TCefRect</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#get_bounds_in_screen">get_bounds_in_screen</a></strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.TCefRect.html">TCefRect</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#set_size">set_size</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>; const size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#get_size">get_size</a></strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.TCefSize.html">TCefSize</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#set_position">set_position</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>; const position: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#get_position">get_position</a></strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#set_insets">set_insets</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>; const insets: <a href="uCEFTypes.html#PCefInsets">PCefInsets</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#get_insets">get_insets</a></strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#size_to_preferred_size">size_to_preferred_size</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#set_visible">set_visible</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>; visible: integer); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#is_visible">is_visible</a></strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefOverlayController.html#is_drawn">is_drawn</a></strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): integer; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_valid"></span><code><strong>is_valid</strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_same"></span><code><strong>is_same</strong>: function(self, that: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_contents_view"></span><code><strong>get_contents_view</strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.html#PCefView">PCefView</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_window"></span><code><strong>get_window</strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_docking_mode"></span><code><strong>get_docking_mode</strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.html#TCefDockingMode">TCefDockingMode</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="destroy"></span><code><strong>destroy</strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_bounds"></span><code><strong>set_bounds</strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>; const bounds: <a href="uCEFTypes.html#PCefRect">PCefRect</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_bounds"></span><code><strong>get_bounds</strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.TCefRect.html">TCefRect</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_bounds_in_screen"></span><code><strong>get_bounds_in_screen</strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.TCefRect.html">TCefRect</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_size"></span><code><strong>set_size</strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>; const size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_size"></span><code><strong>get_size</strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.TCefSize.html">TCefSize</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_position"></span><code><strong>set_position</strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>; const position: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_position"></span><code><strong>get_position</strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_insets"></span><code><strong>set_insets</strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>; const insets: <a href="uCEFTypes.html#PCefInsets">PCefInsets</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_insets"></span><code><strong>get_insets</strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): <a href="uCEFTypes.TCefInsets.html">TCefInsets</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="size_to_preferred_size"></span><code><strong>size_to_preferred_size</strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_visible"></span><code><strong>set_visible</strong>: procedure(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>; visible: integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_visible"></span><code><strong>is_visible</strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_drawn"></span><code><strong>is_drawn</strong>: function(self: <a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a>): integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

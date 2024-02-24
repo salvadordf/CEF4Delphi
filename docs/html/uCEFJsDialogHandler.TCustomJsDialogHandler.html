@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFJsDialogHandler: Class TCustomJsDialogHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCustomJsDialogHandler"></span><h1 class="cio">Class TCustomJsDialogHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFJsDialogHandler.html">uCEFJsDialogHandler</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCustomJsDialogHandler = class(<a class="normal" href="uCEFJsDialogHandler.TCefJsDialogHandlerOwn.html">TCefJsDialogHandlerOwn</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="ancestor"><a class="normal" href="uCEFJsDialogHandler.TCefJsDialogHandlerOwn.html">TCefJsDialogHandlerOwn</a></li>
+<li class="thisitem">TCustomJsDialogHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFJsDialogHandler.TCustomJsDialogHandler.html#FEvents">FEvents</a></strong>: Pointer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFJsDialogHandler.TCustomJsDialogHandler.html#OnJsdialog-ICefBrowser-ustring-TCefJsDialogType-ustring-ustring-ICefJsDialogCallback-Boolean-">OnJsdialog</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const originUrl: <a href="uCEFTypes.html#ustring">ustring</a>; dialogType: <a href="uCEFTypes.html#TCefJsDialogType">TCefJsDialogType</a>; const messageText, defaultPromptText: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefJsDialogCallback.html">ICefJsDialogCallback</a>; out suppressMessage: Boolean): Boolean; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFJsDialogHandler.TCustomJsDialogHandler.html#OnBeforeUnloadDialog-ICefBrowser-ustring-Boolean-ICefJsDialogCallback-">OnBeforeUnloadDialog</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const messageText: <a href="uCEFTypes.html#ustring">ustring</a>; isReload: Boolean; const callback: <a href="uCEFInterfaces.ICefJsDialogCallback.html">ICefJsDialogCallback</a>): Boolean; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFJsDialogHandler.TCustomJsDialogHandler.html#OnResetDialogState-ICefBrowser-">OnResetDialogState</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFJsDialogHandler.TCustomJsDialogHandler.html#OnDialogClosed-ICefBrowser-">OnDialogClosed</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFJsDialogHandler.TCustomJsDialogHandler.html#RemoveReferences">RemoveReferences</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFJsDialogHandler.TCustomJsDialogHandler.html#Create-IChromiumEvents-">Create</a></strong>(const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFJsDialogHandler.TCustomJsDialogHandler.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FEvents"></span><code><strong>FEvents</strong>: Pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnJsdialog-ICefBrowser-ustring-TCefJsDialogType-ustring-ustring-ICefJsDialogCallback-Boolean-"></span><code>function <strong>OnJsdialog</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const originUrl: <a href="uCEFTypes.html#ustring">ustring</a>; dialogType: <a href="uCEFTypes.html#TCefJsDialogType">TCefJsDialogType</a>; const messageText, defaultPromptText: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefJsDialogCallback.html">ICefJsDialogCallback</a>; out suppressMessage: Boolean): Boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefJsDialogHandler.html#OnJsdialog-ICefBrowser-ustring-TCefJsDialogType-ustring-ustring-ICefJsDialogCallback-Boolean-">ICefJsDialogHandler.OnJsdialog</a>.</p><p>
+ Called to run a JavaScript dialog. If |origin_url| is non-NULL it can be passed to the CefFormatUrlForSecurityDisplay function to retrieve a secure and user-friendly display string. The |default_prompt_text| value will be specified for prompt dialogs only. Set |suppress_message| to true (1) and return false (0) to suppress the message (suppressing messages is preferable to immediately executing the callback as this is used to detect presumably malicious behavior like spamming alert messages in onbeforeunload). Set |suppress_message| to false (0) and return false (0) to use the default implementation (the default implementation will show one modal dialog at a time and suppress any additional dialog requests until the displayed dialog is dismissed). Return true (1) if the application will use a custom dialog or if the callback has been executed immediately. Custom dialogs may be either modal or modeless. If a custom dialog is used the application must execute |callback| once the custom dialog is dismissed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnBeforeUnloadDialog-ICefBrowser-ustring-Boolean-ICefJsDialogCallback-"></span><code>function <strong>OnBeforeUnloadDialog</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const messageText: <a href="uCEFTypes.html#ustring">ustring</a>; isReload: Boolean; const callback: <a href="uCEFInterfaces.ICefJsDialogCallback.html">ICefJsDialogCallback</a>): Boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefJsDialogHandler.html#OnBeforeUnloadDialog-ICefBrowser-ustring-Boolean-ICefJsDialogCallback-">ICefJsDialogHandler.OnBeforeUnloadDialog</a>.</p><p>
+ Called to run a dialog asking the user if they want to leave a page. Return false (0) to use the default dialog implementation. Return true (1) if the application will use a custom dialog or if the callback has been executed immediately. Custom dialogs may be either modal or modeless. If a custom dialog is used the application must execute |callback| once the custom dialog is dismissed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnResetDialogState-ICefBrowser-"></span><code>procedure <strong>OnResetDialogState</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefJsDialogHandler.html#OnResetDialogState-ICefBrowser-">ICefJsDialogHandler.OnResetDialogState</a>.</p><p>
+ Called to cancel any pending dialogs and reset any saved dialog state. Will be called due to events like page navigation irregardless of whether any dialogs are currently pending. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnDialogClosed-ICefBrowser-"></span><code>procedure <strong>OnDialogClosed</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefJsDialogHandler.html#OnDialogClosed-ICefBrowser-">ICefJsDialogHandler.OnDialogClosed</a>.</p><p>
+ Called when the dialog is closed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefJsDialogHandler.html#RemoveReferences">ICefJsDialogHandler.RemoveReferences</a>.</p><p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-IChromiumEvents-"></span><code>constructor <strong>Create</strong>(const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

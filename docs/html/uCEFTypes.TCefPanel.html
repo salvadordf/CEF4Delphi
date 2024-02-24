@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefPanel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefPanel"></span><h1 class="cio">Record TCefPanel</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefPanel = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ A Panel is a container in the views hierarchy that can contain other Views as children. Methods must be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>Implemented by ICefPanel.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_panel_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_panel_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_panel_capi.h (cef_panel_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPanel.html#base">base</a></strong>: <a href="uCEFTypes.TCefView.html">TCefView</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPanel.html#as_window">as_window</a></strong>: function(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>): <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPanel.html#set_to_fill_layout">set_to_fill_layout</a></strong>: function(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>): <a href="uCEFTypes.html#PCefFillLayout">PCefFillLayout</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPanel.html#set_to_box_layout">set_to_box_layout</a></strong>: function(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; const settings: <a href="uCEFTypes.html#PCefBoxLayoutSettings">PCefBoxLayoutSettings</a>): <a href="uCEFTypes.html#PCefBoxLayout">PCefBoxLayout</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPanel.html#get_layout">get_layout</a></strong>: function(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>): <a href="uCEFTypes.html#PCefLayout">PCefLayout</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPanel.html#layout">layout</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPanel.html#add_child_view">add_child_view</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; view: <a href="uCEFTypes.html#PCefView">PCefView</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPanel.html#add_child_view_at">add_child_view_at</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; view: <a href="uCEFTypes.html#PCefView">PCefView</a>; index: Integer); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPanel.html#reorder_child_view">reorder_child_view</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; view: <a href="uCEFTypes.html#PCefView">PCefView</a>; index: Integer); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPanel.html#remove_child_view">remove_child_view</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; view: <a href="uCEFTypes.html#PCefView">PCefView</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPanel.html#remove_all_child_views">remove_all_child_views</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPanel.html#get_child_view_count">get_child_view_count</a></strong>: function(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefPanel.html#get_child_view_at">get_child_view_at</a></strong>: function(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; index: Integer): <a href="uCEFTypes.html#PCefView">PCefView</a>; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefView.html">TCefView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="as_window"></span><code><strong>as_window</strong>: function(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>): <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_to_fill_layout"></span><code><strong>set_to_fill_layout</strong>: function(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>): <a href="uCEFTypes.html#PCefFillLayout">PCefFillLayout</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_to_box_layout"></span><code><strong>set_to_box_layout</strong>: function(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; const settings: <a href="uCEFTypes.html#PCefBoxLayoutSettings">PCefBoxLayoutSettings</a>): <a href="uCEFTypes.html#PCefBoxLayout">PCefBoxLayout</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_layout"></span><code><strong>get_layout</strong>: function(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>): <a href="uCEFTypes.html#PCefLayout">PCefLayout</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="layout"></span><code><strong>layout</strong>: procedure(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="add_child_view"></span><code><strong>add_child_view</strong>: procedure(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; view: <a href="uCEFTypes.html#PCefView">PCefView</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="add_child_view_at"></span><code><strong>add_child_view_at</strong>: procedure(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; view: <a href="uCEFTypes.html#PCefView">PCefView</a>; index: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="reorder_child_view"></span><code><strong>reorder_child_view</strong>: procedure(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; view: <a href="uCEFTypes.html#PCefView">PCefView</a>; index: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="remove_child_view"></span><code><strong>remove_child_view</strong>: procedure(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; view: <a href="uCEFTypes.html#PCefView">PCefView</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="remove_all_child_views"></span><code><strong>remove_all_child_views</strong>: procedure(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_child_view_count"></span><code><strong>get_child_view_count</strong>: function(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_child_view_at"></span><code><strong>get_child_view_at</strong>: function(self: <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; index: Integer): <a href="uCEFTypes.html#PCefView">PCefView</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

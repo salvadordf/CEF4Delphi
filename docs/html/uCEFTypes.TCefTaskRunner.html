@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefTaskRunner</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefTaskRunner"></span><h1 class="cio">Record TCefTaskRunner</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefTaskRunner = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure that asynchronously executes tasks on the associated thread. It is safe to call the functions of this structure on any thread.
+
+<p>CEF maintains multiple internal threads that are used for handling different types of tasks in different processes. The TCefThreadId definitions in cef_types.h list the common CEF threads. Task runners are also available for other CEF threads as appropriate (for example, V8 WebWorker threads). </p>
+<p>
+
+
+<p>Implemented by ICefTaskRunner.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_task_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_task_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_task_capi.h (cef_task_runner_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTaskRunner.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTaskRunner.html#is_same">is_same</a></strong>: function(self, that: <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTaskRunner.html#belongs_to_current_thread">belongs_to_current_thread</a></strong>: function(self: <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTaskRunner.html#belongs_to_thread">belongs_to_thread</a></strong>: function(self: <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>; threadId: <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTaskRunner.html#post_task">post_task</a></strong>: function(self: <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>; task: <a href="uCEFTypes.html#PCefTask">PCefTask</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTaskRunner.html#post_delayed_task">post_delayed_task</a></strong>: function(self: <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>; task: <a href="uCEFTypes.html#PCefTask">PCefTask</a>; delay_ms: Int64): Integer; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_same"></span><code><strong>is_same</strong>: function(self, that: <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="belongs_to_current_thread"></span><code><strong>belongs_to_current_thread</strong>: function(self: <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="belongs_to_thread"></span><code><strong>belongs_to_thread</strong>: function(self: <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>; threadId: <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="post_task"></span><code><strong>post_task</strong>: function(self: <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>; task: <a href="uCEFTypes.html#PCefTask">PCefTask</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="post_delayed_task"></span><code><strong>post_delayed_task</strong>: function(self: <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>; task: <a href="uCEFTypes.html#PCefTask">PCefTask</a>; delay_ms: Int64): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

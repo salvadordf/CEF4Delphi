@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFApp: Class TCustomCefApp</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCustomCefApp"></span><h1 class="cio">Class TCustomCefApp</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFApp.html">uCEFApp</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCustomCefApp = class(<a class="normal" href="uCEFApp.TCefAppOwn.html">TCefAppOwn</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFApp.TCefAppOwn.html">TCefAppOwn</a>.</p><p>
+ Implement this interface to provide handler implementations. Methods will be called by the process and/or thread indicated. 
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_app_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_app_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_app_capi.h (cef_app_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="ancestor"><a class="normal" href="uCEFApp.TCefAppOwn.html">TCefAppOwn</a></li>
+<li class="thisitem">TCustomCefApp</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFApp.TCustomCefApp.html#FCefApp">FCefApp</a></strong>: <a href="uCEFApplicationCore.TCefApplicationCore.html">TCefApplicationCore</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFApp.TCustomCefApp.html#FResourceBundleHandler">FResourceBundleHandler</a></strong>: <a href="uCEFInterfaces.ICefResourceBundleHandler.html">ICefResourceBundleHandler</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFApp.TCustomCefApp.html#FBrowserProcessHandler">FBrowserProcessHandler</a></strong>: <a href="uCEFInterfaces.ICefBrowserProcessHandler.html">ICefBrowserProcessHandler</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFApp.TCustomCefApp.html#FRenderProcessHandler">FRenderProcessHandler</a></strong>: <a href="uCEFInterfaces.ICefRenderProcessHandler.html">ICefRenderProcessHandler</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFApp.TCustomCefApp.html#OnBeforeCommandLineProcessing-ustring-ICefCommandLine-">OnBeforeCommandLineProcessing</a></strong>(const processType: <a href="uCEFTypes.html#ustring">ustring</a>; const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFApp.TCustomCefApp.html#OnRegisterCustomSchemes-TCefSchemeRegistrarRef-">OnRegisterCustomSchemes</a></strong>(const registrar: <a href="uCEFSchemeRegistrar.TCefSchemeRegistrarRef.html">TCefSchemeRegistrarRef</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFApp.TCustomCefApp.html#GetResourceBundleHandler-ICefResourceBundleHandler-">GetResourceBundleHandler</a></strong>(var aHandler : <a href="uCEFInterfaces.ICefResourceBundleHandler.html">ICefResourceBundleHandler</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFApp.TCustomCefApp.html#GetBrowserProcessHandler-ICefBrowserProcessHandler-">GetBrowserProcessHandler</a></strong>(var aHandler : <a href="uCEFInterfaces.ICefBrowserProcessHandler.html">ICefBrowserProcessHandler</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFApp.TCustomCefApp.html#GetRenderProcessHandler-ICefRenderProcessHandler-">GetRenderProcessHandler</a></strong>(var aHandler : <a href="uCEFInterfaces.ICefRenderProcessHandler.html">ICefRenderProcessHandler</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFApp.TCustomCefApp.html#InitializeVars">InitializeVars</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFApp.TCustomCefApp.html#RemoveReferences">RemoveReferences</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFApp.TCustomCefApp.html#Create-TCefApplicationCore-">Create</a></strong>(const aCefApp : <a href="uCEFApplicationCore.TCefApplicationCore.html">TCefApplicationCore</a>); reintroduce;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFApp.TCustomCefApp.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FCefApp"></span><code><strong>FCefApp</strong>: <a href="uCEFApplicationCore.TCefApplicationCore.html">TCefApplicationCore</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FResourceBundleHandler"></span><code><strong>FResourceBundleHandler</strong>: <a href="uCEFInterfaces.ICefResourceBundleHandler.html">ICefResourceBundleHandler</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FBrowserProcessHandler"></span><code><strong>FBrowserProcessHandler</strong>: <a href="uCEFInterfaces.ICefBrowserProcessHandler.html">ICefBrowserProcessHandler</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FRenderProcessHandler"></span><code><strong>FRenderProcessHandler</strong>: <a href="uCEFInterfaces.ICefRenderProcessHandler.html">ICefRenderProcessHandler</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnBeforeCommandLineProcessing-ustring-ICefCommandLine-"></span><code>procedure <strong>OnBeforeCommandLineProcessing</strong>(const processType: <a href="uCEFTypes.html#ustring">ustring</a>; const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefApp.html#OnBeforeCommandLineProcessing-ustring-ICefCommandLine-">ICefApp.OnBeforeCommandLineProcessing</a>.</p><p>
+ Provides an opportunity to view and/or modify command-line arguments before processing by CEF and Chromium. The |process_type| value will be NULL for the browser process. Do not keep a reference to the ICefCommandLine object passed to this function. The TCefSettings.command_line_args_disabled value can be used to start with an NULL command-line object. Any values specified in CefSettings that equate to command-line arguments will be set before this function is called. Be cautious when using this function to modify command-line arguments for non-browser processes as this may result in undefined behavior including crashes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnRegisterCustomSchemes-TCefSchemeRegistrarRef-"></span><code>procedure <strong>OnRegisterCustomSchemes</strong>(const registrar: <a href="uCEFSchemeRegistrar.TCefSchemeRegistrarRef.html">TCefSchemeRegistrarRef</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefApp.html#OnRegisterCustomSchemes-TCefSchemeRegistrarRef-">ICefApp.OnRegisterCustomSchemes</a>.</p><p>
+ Provides an opportunity to register custom schemes. Do not keep a reference to the |registrar| object. This function is called on the main thread for each process and the registered schemes should be the same across all processes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetResourceBundleHandler-ICefResourceBundleHandler-"></span><code>procedure <strong>GetResourceBundleHandler</strong>(var aHandler : <a href="uCEFInterfaces.ICefResourceBundleHandler.html">ICefResourceBundleHandler</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefApp.html#GetResourceBundleHandler-ICefResourceBundleHandler-">ICefApp.GetResourceBundleHandler</a>.</p><p>
+ Return the handler for resource bundle events. If TCefSettings.pack_loading_disabled is true (1) a handler must be returned. If no handler is returned resources will be loaded from pack files. This function is called by the browser and render processes on multiple threads. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBrowserProcessHandler-ICefBrowserProcessHandler-"></span><code>procedure <strong>GetBrowserProcessHandler</strong>(var aHandler : <a href="uCEFInterfaces.ICefBrowserProcessHandler.html">ICefBrowserProcessHandler</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefApp.html#GetBrowserProcessHandler-ICefBrowserProcessHandler-">ICefApp.GetBrowserProcessHandler</a>.</p><p>
+ Return the handler for functionality specific to the browser process. This function is called on multiple threads in the browser process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetRenderProcessHandler-ICefRenderProcessHandler-"></span><code>procedure <strong>GetRenderProcessHandler</strong>(var aHandler : <a href="uCEFInterfaces.ICefRenderProcessHandler.html">ICefRenderProcessHandler</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefApp.html#GetRenderProcessHandler-ICefRenderProcessHandler-">ICefApp.GetRenderProcessHandler</a>.</p><p>
+ Return the handler for functionality specific to the render process. This function is called on the render process main thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="InitializeVars"></span><code>procedure <strong>InitializeVars</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefApp.html#RemoveReferences">ICefApp.RemoveReferences</a>.</p><p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-TCefApplicationCore-"></span><code>constructor <strong>Create</strong>(const aCefApp : <a href="uCEFApplicationCore.TCefApplicationCore.html">TCefApplicationCore</a>); reintroduce;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

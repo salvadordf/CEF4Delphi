@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefImage</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefImage"></span><h1 class="cio">Interface ICefImage</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefImage = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Container for a single image represented at different scale factors. All image representations should be the same size in density independent pixel (DIP) units. For example, if the image at scale factor 1.0 is 100x100 pixels then the image at scale factor 2.0 should be 200x200 pixels &ndash; both images will display with a DIP size of 100x100 units. The functions of this interface can be called on any browser process thread. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_image_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_image_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_image_capi.h (cef_image_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefImage</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefImage.html#IsEmpty">IsEmpty</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefImage.html#IsSame-ICefImage-">IsSame</a></strong>(const that: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefImage.html#AddBitmap-Single-Integer-Integer-TCefColorType-TCefAlphaType-Pointer-NativeUInt-">AddBitmap</a></strong>(scaleFactor: Single; pixelWidth, pixelHeight: Integer; colorType: <a href="uCEFTypes.html#TCefColorType">TCefColorType</a>; alphaType: <a href="uCEFTypes.html#TCefAlphaType">TCefAlphaType</a>; const pixelData: Pointer; pixelDataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefImage.html#AddPng-Single-Pointer-NativeUInt-">AddPng</a></strong>(scaleFactor: Single; const pngData: Pointer; pngDataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefImage.html#AddJpeg-Single-Pointer-NativeUInt-">AddJpeg</a></strong>(scaleFactor: Single; const jpegData: Pointer; jpegDataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefImage.html#GetWidth">GetWidth</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefImage.html#GetHeight">GetHeight</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefImage.html#HasRepresentation-Single-">HasRepresentation</a></strong>(scaleFactor: Single): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefImage.html#RemoveRepresentation-Single-">RemoveRepresentation</a></strong>(scaleFactor: Single): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefImage.html#GetRepresentationInfo-Single-Single-Integer-Integer-">GetRepresentationInfo</a></strong>(scaleFactor: Single; var actualScaleFactor: Single; var pixelWidth, pixelHeight: Integer): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefImage.html#GetAsBitmap-Single-TCefColorType-TCefAlphaType-Integer-Integer-">GetAsBitmap</a></strong>(scaleFactor: Single; colorType: <a href="uCEFTypes.html#TCefColorType">TCefColorType</a>; alphaType: <a href="uCEFTypes.html#TCefAlphaType">TCefAlphaType</a>; var pixelWidth, pixelHeight: Integer): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefImage.html#GetAsPng-Single-Boolean-Integer-Integer-">GetAsPng</a></strong>(scaleFactor: Single; withTransparency: Boolean; var pixelWidth, pixelHeight: Integer): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefImage.html#GetAsJpeg-Single-Integer-Integer-Integer-">GetAsJpeg</a></strong>(scaleFactor: Single; quality: Integer; var pixelWidth, pixelHeight: Integer): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefImage.html#Width">Width</a></strong>  : <a href="uCEFTypes.html#NativeUInt">NativeUInt</a> read <a href="uCEFInterfaces.ICefImage.html#GetWidth">GetWidth</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefImage.html#Height">Height</a></strong> : <a href="uCEFTypes.html#NativeUInt">NativeUInt</a> read <a href="uCEFInterfaces.ICefImage.html#GetHeight">GetHeight</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsEmpty"></span><code>function <strong>IsEmpty</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this Image is NULL. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{E2C2F424-26A2-4498-BB45-DA23219831BE}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsSame-ICefImage-"></span><code>function <strong>IsSame</strong>(const that: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this Image and |that| Image share the same underlying storage. Will also return true (1) if both images are NULL. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddBitmap-Single-Integer-Integer-TCefColorType-TCefAlphaType-Pointer-NativeUInt-"></span><code>function <strong>AddBitmap</strong>(scaleFactor: Single; pixelWidth, pixelHeight: Integer; colorType: <a href="uCEFTypes.html#TCefColorType">TCefColorType</a>; alphaType: <a href="uCEFTypes.html#TCefAlphaType">TCefAlphaType</a>; const pixelData: Pointer; pixelDataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add a bitmap image representation for |scale_factor|. Only 32-bit RGBA/BGRA formats are supported. |pixel_width| and |pixel_height| are the bitmap representation size in pixel coordinates. |pixel_data| is the array of pixel data and should be |pixel_width| x |pixel_height| x 4 bytes in size. |color_type| and |alpha_type| values specify the pixel format. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddPng-Single-Pointer-NativeUInt-"></span><code>function <strong>AddPng</strong>(scaleFactor: Single; const pngData: Pointer; pngDataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add a PNG image representation for |scale_factor|. |png_data| is the image data of size |png_data_size|. Any alpha transparency in the PNG data will be maintained. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddJpeg-Single-Pointer-NativeUInt-"></span><code>function <strong>AddJpeg</strong>(scaleFactor: Single; const jpegData: Pointer; jpegDataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a JPEG image representation for |scale_factor|. |jpeg_data| is the image data of size |jpeg_data_size|. The JPEG format does not support transparency so the alpha byte will be set to 0xFF for all pixels. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetWidth"></span><code>function <strong>GetWidth</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the image width in density independent pixel (DIP) units. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetHeight"></span><code>function <strong>GetHeight</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the image height in density independent pixel (DIP) units. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasRepresentation-Single-"></span><code>function <strong>HasRepresentation</strong>(scaleFactor: Single): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this image contains a representation for |scale_factor|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveRepresentation-Single-"></span><code>function <strong>RemoveRepresentation</strong>(scaleFactor: Single): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Removes the representation for |scale_factor|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetRepresentationInfo-Single-Single-Integer-Integer-"></span><code>function <strong>GetRepresentationInfo</strong>(scaleFactor: Single; var actualScaleFactor: Single; var pixelWidth, pixelHeight: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns information for the representation that most closely matches |scale_factor|. |actual_scale_factor| is the actual scale factor for the representation. |pixel_width| and |pixel_height| are the representation size in pixel coordinates. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetAsBitmap-Single-TCefColorType-TCefAlphaType-Integer-Integer-"></span><code>function <strong>GetAsBitmap</strong>(scaleFactor: Single; colorType: <a href="uCEFTypes.html#TCefColorType">TCefColorType</a>; alphaType: <a href="uCEFTypes.html#TCefAlphaType">TCefAlphaType</a>; var pixelWidth, pixelHeight: Integer): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the bitmap representation that most closely matches |scale_factor|. Only 32-bit RGBA/BGRA formats are supported. |color_type| and |alpha_type| values specify the desired output pixel format. |pixel_width| and |pixel_height| are the output representation size in pixel coordinates. Returns a ICefBinaryValue containing the pixel data on success or NULL on failure. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetAsPng-Single-Boolean-Integer-Integer-"></span><code>function <strong>GetAsPng</strong>(scaleFactor: Single; withTransparency: Boolean; var pixelWidth, pixelHeight: Integer): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the PNG representation that most closely matches |scale_factor|. If |with_transparency| is true (1) any alpha transparency in the image will be represented in the resulting PNG data. |pixel_width| and |pixel_height| are the output representation size in pixel coordinates. Returns a ICefBinaryValue containing the PNG image data on success or NULL on failure. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetAsJpeg-Single-Integer-Integer-Integer-"></span><code>function <strong>GetAsJpeg</strong>(scaleFactor: Single; quality: Integer; var pixelWidth, pixelHeight: Integer): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the JPEG representation that most closely matches |scale_factor|. |quality| determines the compression level with 0 == lowest and 100 == highest. The JPEG format does not support alpha transparency and the alpha channel, if any, will be discarded. |pixel_width| and |pixel_height| are the output representation size in pixel coordinates. Returns a ICefBinaryValue containing the JPEG image data on success or NULL on failure. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Width"></span><code>property <strong>Width</strong>  : <a href="uCEFTypes.html#NativeUInt">NativeUInt</a> read <a href="uCEFInterfaces.ICefImage.html#GetWidth">GetWidth</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the image width in density independent pixel (DIP) units. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Height"></span><code>property <strong>Height</strong> : <a href="uCEFTypes.html#NativeUInt">NativeUInt</a> read <a href="uCEFInterfaces.ICefImage.html#GetHeight">GetHeight</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the image height in density independent pixel (DIP) units. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

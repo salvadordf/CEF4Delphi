@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefDomDocument</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefDomDocument"></span><h1 class="cio">Interface ICefDomDocument</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefDomDocument = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface used to represent a DOM document. The functions of this interface should only be called on the render process main thread thread. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dom_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dom_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_dom_capi.h (cef_domdocument_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefDomDocument</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#GetType">GetType</a></strong>: <a href="uCEFTypes.html#TCefDomDocumentType">TCefDomDocumentType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#GetDocument">GetDocument</a></strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#GetBody">GetBody</a></strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#GetHead">GetHead</a></strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#GetTitle">GetTitle</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#GetElementById-ustring-">GetElementById</a></strong>(const id: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#GetFocusedNode">GetFocusedNode</a></strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#HasSelection">HasSelection</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#GetSelectionStartOffset">GetSelectionStartOffset</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#GetSelectionEndOffset">GetSelectionEndOffset</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#GetSelectionAsMarkup">GetSelectionAsMarkup</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#GetSelectionAsText">GetSelectionAsText</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#GetBaseUrl">GetBaseUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDomDocument.html#GetCompleteUrl-ustring-">GetCompleteUrl</a></strong>(const partialURL: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomDocument.html#DocType">DocType</a></strong>              : <a href="uCEFTypes.html#TCefDomDocumentType">TCefDomDocumentType</a> read <a href="uCEFInterfaces.ICefDomDocument.html#GetType">GetType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomDocument.html#Document">Document</a></strong>             : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>         read <a href="uCEFInterfaces.ICefDomDocument.html#GetDocument">GetDocument</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomDocument.html#Body">Body</a></strong>                 : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>         read <a href="uCEFInterfaces.ICefDomDocument.html#GetBody">GetBody</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomDocument.html#Head">Head</a></strong>                 : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>         read <a href="uCEFInterfaces.ICefDomDocument.html#GetHead">GetHead</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomDocument.html#Title">Title</a></strong>                : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefDomDocument.html#GetTitle">GetTitle</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomDocument.html#FocusedNode">FocusedNode</a></strong>          : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>         read <a href="uCEFInterfaces.ICefDomDocument.html#GetFocusedNode">GetFocusedNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomDocument.html#SelectionStartOffset">SelectionStartOffset</a></strong> : Integer             read <a href="uCEFInterfaces.ICefDomDocument.html#GetSelectionStartOffset">GetSelectionStartOffset</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomDocument.html#SelectionEndOffset">SelectionEndOffset</a></strong>   : Integer             read <a href="uCEFInterfaces.ICefDomDocument.html#GetSelectionEndOffset">GetSelectionEndOffset</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomDocument.html#SelectionAsMarkup">SelectionAsMarkup</a></strong>    : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefDomDocument.html#GetSelectionAsMarkup">GetSelectionAsMarkup</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomDocument.html#SelectionAsText">SelectionAsText</a></strong>      : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefDomDocument.html#GetSelectionAsText">GetSelectionAsText</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDomDocument.html#BaseUrl">BaseUrl</a></strong>              : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefDomDocument.html#GetBaseUrl">GetBaseUrl</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetType"></span><code>function <strong>GetType</strong>: <a href="uCEFTypes.html#TCefDomDocumentType">TCefDomDocumentType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the document type. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{08E74052-45AF-4F69-A578-98A5C3959426}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDocument"></span><code>function <strong>GetDocument</strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the root document node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetBody"></span><code>function <strong>GetBody</strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the BODY node of an HTML document. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetHead"></span><code>function <strong>GetHead</strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the HEAD node of an HTML document. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetTitle"></span><code>function <strong>GetTitle</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the title of an HTML document. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetElementById-ustring-"></span><code>function <strong>GetElementById</strong>(const id: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the document element with the specified ID value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFocusedNode"></span><code>function <strong>GetFocusedNode</strong>: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the node that currently has keyboard focus. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasSelection"></span><code>function <strong>HasSelection</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if a portion of the document is selected. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSelectionStartOffset"></span><code>function <strong>GetSelectionStartOffset</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the selection offset within the start node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSelectionEndOffset"></span><code>function <strong>GetSelectionEndOffset</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the selection offset within the end node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSelectionAsMarkup"></span><code>function <strong>GetSelectionAsMarkup</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the contents of this selection as markup. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSelectionAsText"></span><code>function <strong>GetSelectionAsText</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the contents of this selection as text. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetBaseUrl"></span><code>function <strong>GetBaseUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the base URL for the document. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetCompleteUrl-ustring-"></span><code>function <strong>GetCompleteUrl</strong>(const partialURL: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a complete URL based on the document base URL and the specified partial URL. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DocType"></span><code>property <strong>DocType</strong>              : <a href="uCEFTypes.html#TCefDomDocumentType">TCefDomDocumentType</a> read <a href="uCEFInterfaces.ICefDomDocument.html#GetType">GetType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the document type. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Document"></span><code>property <strong>Document</strong>             : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>         read <a href="uCEFInterfaces.ICefDomDocument.html#GetDocument">GetDocument</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the root document node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Body"></span><code>property <strong>Body</strong>                 : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>         read <a href="uCEFInterfaces.ICefDomDocument.html#GetBody">GetBody</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the BODY node of an HTML document. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Head"></span><code>property <strong>Head</strong>                 : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>         read <a href="uCEFInterfaces.ICefDomDocument.html#GetHead">GetHead</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the HEAD node of an HTML document. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Title"></span><code>property <strong>Title</strong>                : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefDomDocument.html#GetTitle">GetTitle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the title of an HTML document. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FocusedNode"></span><code>property <strong>FocusedNode</strong>          : <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>         read <a href="uCEFInterfaces.ICefDomDocument.html#GetFocusedNode">GetFocusedNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the node that currently has keyboard focus. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SelectionStartOffset"></span><code>property <strong>SelectionStartOffset</strong> : Integer             read <a href="uCEFInterfaces.ICefDomDocument.html#GetSelectionStartOffset">GetSelectionStartOffset</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the selection offset within the start node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SelectionEndOffset"></span><code>property <strong>SelectionEndOffset</strong>   : Integer             read <a href="uCEFInterfaces.ICefDomDocument.html#GetSelectionEndOffset">GetSelectionEndOffset</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the selection offset within the end node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SelectionAsMarkup"></span><code>property <strong>SelectionAsMarkup</strong>    : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefDomDocument.html#GetSelectionAsMarkup">GetSelectionAsMarkup</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the contents of this selection as markup. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SelectionAsText"></span><code>property <strong>SelectionAsText</strong>      : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefDomDocument.html#GetSelectionAsText">GetSelectionAsText</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the contents of this selection as text. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BaseUrl"></span><code>property <strong>BaseUrl</strong>              : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefDomDocument.html#GetBaseUrl">GetBaseUrl</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the base URL for the document. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFDevToolsMessageObserver: Class TCustomDevToolsMessageObserver</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCustomDevToolsMessageObserver"></span><h1 class="cio">Class TCustomDevToolsMessageObserver</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFDevToolsMessageObserver.html">uCEFDevToolsMessageObserver</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCustomDevToolsMessageObserver = class(<a class="normal" href="uCEFDevToolsMessageObserver.TCEFDevToolsMessageObserverOwn.html">TCEFDevToolsMessageObserverOwn</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="ancestor"><a class="normal" href="uCEFDevToolsMessageObserver.TCEFDevToolsMessageObserverOwn.html">TCEFDevToolsMessageObserverOwn</a></li>
+<li class="thisitem">TCustomDevToolsMessageObserver</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFDevToolsMessageObserver.TCustomDevToolsMessageObserver.html#FEvents">FEvents</a></strong>: Pointer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFDevToolsMessageObserver.TCustomDevToolsMessageObserver.html#OnDevToolsMessage-ICefBrowser-Pointer-NativeUInt-boolean-">OnDevToolsMessage</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const message_: Pointer; message_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var aHandled: boolean); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFDevToolsMessageObserver.TCustomDevToolsMessageObserver.html#OnDevToolsMethodResult-ICefBrowser-integer-boolean-Pointer-NativeUInt-">OnDevToolsMethodResult</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; message_id: integer; success: boolean; const result: Pointer; result_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFDevToolsMessageObserver.TCustomDevToolsMessageObserver.html#OnDevToolsEvent-ICefBrowser-ustring-Pointer-NativeUInt-">OnDevToolsEvent</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const method: <a href="uCEFTypes.html#ustring">ustring</a>; const params: Pointer; params_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFDevToolsMessageObserver.TCustomDevToolsMessageObserver.html#OnDevToolsAgentAttached-ICefBrowser-">OnDevToolsAgentAttached</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFDevToolsMessageObserver.TCustomDevToolsMessageObserver.html#OnDevToolsAgentDetached-ICefBrowser-">OnDevToolsAgentDetached</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFDevToolsMessageObserver.TCustomDevToolsMessageObserver.html#Create-IChromiumEvents-">Create</a></strong>(const events: <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFDevToolsMessageObserver.TCustomDevToolsMessageObserver.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FEvents"></span><code><strong>FEvents</strong>: Pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnDevToolsMessage-ICefBrowser-Pointer-NativeUInt-boolean-"></span><code>procedure <strong>OnDevToolsMessage</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const message_: Pointer; message_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var aHandled: boolean); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDevToolsMessageObserver.html#OnDevToolsMessage-ICefBrowser-Pointer-NativeUInt-boolean-">ICefDevToolsMessageObserver.OnDevToolsMessage</a>.</p><p>
+ Method that will be called on receipt of a DevTools protocol message. |browser| is the originating browser instance. |message| is a UTF8-encoded JSON dictionary representing either a function result or an event. |message| is only valid for the scope of this callback and should be copied if necessary. Return true (1) if the message was handled or false (0) if the message should be further processed and passed to the OnDevToolsMethodResult or OnDevToolsEvent functions as appropriate.
+
+<p>Method result dictionaries include an &quot;id&quot; (int) value that identifies the orginating function call sent from ICefBrowserHost.SendDevToolsMessage, and optionally either a &quot;result&quot; (dictionary) or &quot;error&quot; (dictionary) value. The &quot;error&quot; dictionary will contain &quot;code&quot; (int) and &quot;message&quot; (string) values. Event dictionaries include a &quot;function&quot; (string) value and optionally a &quot;params&quot; (dictionary) value. See the DevTools protocol documentation at <a href="https://chromedevtools.github.io/devtools-protocol/">https://chromedevtools.github.io/devtools-protocol/</a> for details of supported function calls and the expected &quot;result&quot; or &quot;params&quot; dictionary contents. JSON dictionaries can be parsed using the CefParseJSON function if desired, however be aware of performance considerations when parsing large messages (some of which may exceed 1MB in size). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnDevToolsMethodResult-ICefBrowser-integer-boolean-Pointer-NativeUInt-"></span><code>procedure <strong>OnDevToolsMethodResult</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; message_id: integer; success: boolean; const result: Pointer; result_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDevToolsMessageObserver.html#OnDevToolsMethodResult-ICefBrowser-integer-boolean-Pointer-NativeUInt-">ICefDevToolsMessageObserver.OnDevToolsMethodResult</a>.</p><p>
+ Method that will be called after attempted execution of a DevTools protocol function. |browser| is the originating browser instance. |message_id| is the &quot;id&quot; value that identifies the originating function call message. If the function succeeded |success| will be true (1) and |result| will be the UTF8-encoded JSON &quot;result&quot; dictionary value (which may be NULL). If the function failed |success| will be false (0) and |result| will be the UTF8-encoded JSON &quot;error&quot; dictionary value. |result| is only valid for the scope of this callback and should be copied if necessary. See the OnDevToolsMessage documentation for additional details on |result| contents. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnDevToolsEvent-ICefBrowser-ustring-Pointer-NativeUInt-"></span><code>procedure <strong>OnDevToolsEvent</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const method: <a href="uCEFTypes.html#ustring">ustring</a>; const params: Pointer; params_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDevToolsMessageObserver.html#OnDevToolsEvent-ICefBrowser-ustring-Pointer-NativeUInt-">ICefDevToolsMessageObserver.OnDevToolsEvent</a>.</p><p>
+ Method that will be called on receipt of a DevTools protocol event. |browser| is the originating browser instance. |function| is the &quot;function&quot; value. |params| is the UTF8-encoded JSON &quot;params&quot; dictionary value (which may be NULL). |params| is only valid for the scope of this callback and should be copied if necessary. See the OnDevToolsMessage documentation for additional details on |params| contents. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnDevToolsAgentAttached-ICefBrowser-"></span><code>procedure <strong>OnDevToolsAgentAttached</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDevToolsMessageObserver.html#OnDevToolsAgentAttached-ICefBrowser-">ICefDevToolsMessageObserver.OnDevToolsAgentAttached</a>.</p><p>
+ Method that will be called when the DevTools agent has attached. |browser| is the originating browser instance. This will generally occur in response to the first message sent while the agent is detached. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnDevToolsAgentDetached-ICefBrowser-"></span><code>procedure <strong>OnDevToolsAgentDetached</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDevToolsMessageObserver.html#OnDevToolsAgentDetached-ICefBrowser-">ICefDevToolsMessageObserver.OnDevToolsAgentDetached</a>.</p><p>
+ Method that will be called when the DevTools agent has detached. |browser| is the originating browser instance. Any function results that were pending before the agent became detached will not be delivered, and any active event subscriptions will be canceled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-IChromiumEvents-"></span><code>constructor <strong>Create</strong>(const events: <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

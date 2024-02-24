@@ -1596,26 +1596,14 @@ end;
 
 procedure TMiniBrowserFrm.CopyFramesIDsMsg(var aMessage : TMessage);
 var
-  i          : NativeUInt;
-  TempCount  : NativeUInt;
-  TempArray  : TCefFrameIdentifierArray;
-  TempString : string;
+  TempSL : TStringList;
 begin
-  TempCount := Chromium1.FrameCount;
+  TempSL := TStringList.Create;
 
-  if Chromium1.GetFrameIdentifiers(TempCount, TempArray) then
-    begin
-      TempString := '';
-      i          := 0;
+  if Chromium1.GetFrameIdentifiers(TStrings(TempSL)) then
+    clipboard.AsText := TempSL.Text;
 
-      while (i < TempCount) do
-        begin
-          TempString := TempString + inttostr(TempArray[i]) + CRLF;
-          inc(i);
-        end;
-
-      clipboard.AsText := TempString;
-    end;
+  TempSL.Free;
 end;
 
 procedure TMiniBrowserFrm.CopyFramesNamesMsg(var aMessage : TMessage);

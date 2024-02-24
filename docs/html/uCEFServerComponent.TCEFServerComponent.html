@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFServerComponent: Class TCEFServerComponent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFServerComponent"></span><h1 class="cio">Class TCEFServerComponent</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFServerComponent.html">uCEFServerComponent</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFServerComponent = class(TComponent, <a class="normal" href="uCEFInterfaces.IServerEvents.html">IServerEvents</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ The TCEFServerComponent class puts together all CEF server procedures, functions, properties and events in one place. </p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor">TPersistent</li>
+<li class="ancestor">TComponent</li>
+<li class="thisitem">TCEFServerComponent</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFServerComponent.TCEFServerComponent.html#FHandler">FHandler</a></strong>: <a href="uCEFInterfaces.ICefServerHandler.html">ICefServerHandler</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFServerComponent.TCEFServerComponent.html#FServer">FServer</a></strong>: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFServerComponent.TCEFServerComponent.html#FInitialized">FInitialized</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFServerComponent.TCEFServerComponent.html#FOnServerCreated">FOnServerCreated</a></strong>: TOnServerCreated;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFServerComponent.TCEFServerComponent.html#FOnServerDestroyed">FOnServerDestroyed</a></strong>: TOnServerDestroyed;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFServerComponent.TCEFServerComponent.html#FOnClientConnected">FOnClientConnected</a></strong>: TOnClientConnected;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFServerComponent.TCEFServerComponent.html#FOnClientDisconnected">FOnClientDisconnected</a></strong>: TOnClientDisconnected;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFServerComponent.TCEFServerComponent.html#FOnHttpRequest">FOnHttpRequest</a></strong>: TOnHttpRequest;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketRequest">FOnWebSocketRequest</a></strong>: TOnWebSocketRequest;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketConnected">FOnWebSocketConnected</a></strong>: TOnWebSocketConnected;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketMessage">FOnWebSocketMessage</a></strong>: TOnWebSocketMessage;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFServerComponent.TCEFServerComponent.html#GetInitialized">GetInitialized</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFServerComponent.TCEFServerComponent.html#GetIsRunning">GetIsRunning</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFServerComponent.TCEFServerComponent.html#GetAddress">GetAddress</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFServerComponent.TCEFServerComponent.html#GetHasConnection">GetHasConnection</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#doOnServerCreated-ICefServer-">doOnServerCreated</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#doOnServerDestroyed-ICefServer-">doOnServerDestroyed</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#doOnClientConnected-ICefServer-Integer-">doOnClientConnected</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#doOnClientDisconnected-ICefServer-Integer-">doOnClientDisconnected</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#doOnHttpRequest-ICefServer-Integer-ustring-ICefRequest-">doOnHttpRequest</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#doOnWebSocketRequest-ICefServer-Integer-ustring-ICefRequest-ICefCallback-">doOnWebSocketRequest</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#doOnWebSocketConnected-ICefServer-Integer-">doOnWebSocketConnected</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#doOnWebSocketMessage-ICefServer-Integer-Pointer-NativeUInt-">doOnWebSocketMessage</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#InitializeEvents">InitializeEvents</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFServerComponent.TCEFServerComponent.html#Create-TComponent-">Create</a></strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFServerComponent.TCEFServerComponent.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#CreateServer-ustring-uint16-Integer-">CreateServer</a></strong>(const address : <a href="uCEFTypes.html#ustring">ustring</a> = <a href="uCEFServerComponent.html#DEFAULT_CEFSERVER_ADDRESS">DEFAULT_CEFSERVER_ADDRESS</a>; port : uint16 = <a href="uCEFServerComponent.html#DEFAULT_CEFSERVER_PORT">DEFAULT_CEFSERVER_PORT</a>; backlog : Integer = <a href="uCEFServerComponent.html#DEFAULT_CEFSERVER_BACKLOG">DEFAULT_CEFSERVER_BACKLOG</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#Shutdown">Shutdown</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFServerComponent.TCEFServerComponent.html#IsValidConnection-Integer-">IsValidConnection</a></strong>(connection_id: Integer) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#SendHttp200response-Integer-ustring-Pointer-NativeUInt-">SendHttp200response</a></strong>(connection_id: Integer; const content_type: <a href="uCEFTypes.html#ustring">ustring</a>; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#SendHttp404response-Integer-">SendHttp404response</a></strong>(connection_id: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#SendHttp500response-Integer-ustring-">SendHttp500response</a></strong>(connection_id: Integer; const error_message: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#SendHttpResponse-Integer-Integer-ustring-int64-ICefStringMultimap-">SendHttpResponse</a></strong>(connection_id, response_code: Integer; const content_type: <a href="uCEFTypes.html#ustring">ustring</a>; content_length: int64; const extra_headers: <a href="uCEFInterfaces.ICefStringMultimap.html">ICefStringMultimap</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#SendRawData-Integer-Pointer-NativeUInt-">SendRawData</a></strong>(connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#CloseConnection-Integer-">CloseConnection</a></strong>(connection_id: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerComponent.TCEFServerComponent.html#SendWebSocketMessage-Integer-Pointer-NativeUInt-">SendWebSocketMessage</a></strong>(connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFServerComponent.TCEFServerComponent.html#Initialized">Initialized</a></strong>            : boolean                 read <a href="uCEFServerComponent.TCEFServerComponent.html#GetInitialized">GetInitialized</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFServerComponent.TCEFServerComponent.html#IsRunning">IsRunning</a></strong>              : boolean                 read <a href="uCEFServerComponent.TCEFServerComponent.html#GetIsRunning">GetIsRunning</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFServerComponent.TCEFServerComponent.html#Address">Address</a></strong>                : <a href="uCEFTypes.html#ustring">ustring</a>                 read <a href="uCEFServerComponent.TCEFServerComponent.html#GetAddress">GetAddress</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFServerComponent.TCEFServerComponent.html#HasConnection">HasConnection</a></strong>          : boolean                 read <a href="uCEFServerComponent.TCEFServerComponent.html#GetHasConnection">GetHasConnection</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFServerComponent.TCEFServerComponent.html#OnServerCreated">OnServerCreated</a></strong>        : TOnServerCreated        read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnServerCreated">FOnServerCreated</a>       write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnServerCreated">FOnServerCreated</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFServerComponent.TCEFServerComponent.html#OnServerDestroyed">OnServerDestroyed</a></strong>      : TOnServerDestroyed      read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnServerDestroyed">FOnServerDestroyed</a>     write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnServerDestroyed">FOnServerDestroyed</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFServerComponent.TCEFServerComponent.html#OnClientConnected">OnClientConnected</a></strong>      : TOnClientConnected      read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnClientConnected">FOnClientConnected</a>     write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnClientConnected">FOnClientConnected</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFServerComponent.TCEFServerComponent.html#OnClientDisconnected">OnClientDisconnected</a></strong>   : TOnClientDisconnected   read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnClientDisconnected">FOnClientDisconnected</a>  write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnClientDisconnected">FOnClientDisconnected</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFServerComponent.TCEFServerComponent.html#OnHttpRequest">OnHttpRequest</a></strong>          : TOnHttpRequest          read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnHttpRequest">FOnHttpRequest</a>         write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnHttpRequest">FOnHttpRequest</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFServerComponent.TCEFServerComponent.html#OnWebSocketRequest">OnWebSocketRequest</a></strong>     : TOnWebSocketRequest     read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketRequest">FOnWebSocketRequest</a>    write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketRequest">FOnWebSocketRequest</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFServerComponent.TCEFServerComponent.html#OnWebSocketConnected">OnWebSocketConnected</a></strong>   : TOnWebSocketConnected   read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketConnected">FOnWebSocketConnected</a>  write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketConnected">FOnWebSocketConnected</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFServerComponent.TCEFServerComponent.html#OnWebSocketMessage">OnWebSocketMessage</a></strong>     : TOnWebSocketMessage     read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketMessage">FOnWebSocketMessage</a>    write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketMessage">FOnWebSocketMessage</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FHandler"></span><code><strong>FHandler</strong>: <a href="uCEFInterfaces.ICefServerHandler.html">ICefServerHandler</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FServer"></span><code><strong>FServer</strong>: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FInitialized"></span><code><strong>FInitialized</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnServerCreated"></span><code><strong>FOnServerCreated</strong>: TOnServerCreated;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+IServerEvents</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnServerDestroyed"></span><code><strong>FOnServerDestroyed</strong>: TOnServerDestroyed;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnClientConnected"></span><code><strong>FOnClientConnected</strong>: TOnClientConnected;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnClientDisconnected"></span><code><strong>FOnClientDisconnected</strong>: TOnClientDisconnected;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnHttpRequest"></span><code><strong>FOnHttpRequest</strong>: TOnHttpRequest;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnWebSocketRequest"></span><code><strong>FOnWebSocketRequest</strong>: TOnWebSocketRequest;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnWebSocketConnected"></span><code><strong>FOnWebSocketConnected</strong>: TOnWebSocketConnected;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnWebSocketMessage"></span><code><strong>FOnWebSocketMessage</strong>: TOnWebSocketMessage;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetInitialized"></span><code>function <strong>GetInitialized</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetIsRunning"></span><code>function <strong>GetIsRunning</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAddress"></span><code>function <strong>GetAddress</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetHasConnection"></span><code>function <strong>GetHasConnection</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnServerCreated-ICefServer-"></span><code>procedure <strong>doOnServerCreated</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+IServerEvents</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnServerDestroyed-ICefServer-"></span><code>procedure <strong>doOnServerDestroyed</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnClientConnected-ICefServer-Integer-"></span><code>procedure <strong>doOnClientConnected</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnClientDisconnected-ICefServer-Integer-"></span><code>procedure <strong>doOnClientDisconnected</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnHttpRequest-ICefServer-Integer-ustring-ICefRequest-"></span><code>procedure <strong>doOnHttpRequest</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnWebSocketRequest-ICefServer-Integer-ustring-ICefRequest-ICefCallback-"></span><code>procedure <strong>doOnWebSocketRequest</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnWebSocketConnected-ICefServer-Integer-"></span><code>procedure <strong>doOnWebSocketConnected</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnWebSocketMessage-ICefServer-Integer-Pointer-NativeUInt-"></span><code>procedure <strong>doOnWebSocketMessage</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="InitializeEvents"></span><code>procedure <strong>InitializeEvents</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-TComponent-"></span><code>constructor <strong>Create</strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateServer-ustring-uint16-Integer-"></span><code>procedure <strong>CreateServer</strong>(const address : <a href="uCEFTypes.html#ustring">ustring</a> = <a href="uCEFServerComponent.html#DEFAULT_CEFSERVER_ADDRESS">DEFAULT_CEFSERVER_ADDRESS</a>; port : uint16 = <a href="uCEFServerComponent.html#DEFAULT_CEFSERVER_PORT">DEFAULT_CEFSERVER_PORT</a>; backlog : Integer = <a href="uCEFServerComponent.html#DEFAULT_CEFSERVER_BACKLOG">DEFAULT_CEFSERVER_BACKLOG</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new server that binds to |address| and |port|. |address| must be a valid IPv4 or IPv6 address (e.g. 127.0.0.1 or ::1) and |port| must be a port number outside of the reserved range (e.g. between 1025 and 65535 on most platforms). |backlog| is the maximum number of pending connections. A new thread will be created for each CreateServer call (the &quot;dedicated server thread&quot;). It is therefore recommended to use a different ICefServerHandler instance for each CreateServer call to avoid thread safety issues in the ICefServerHandler implementation. The ICefServerHandler.OnServerCreated function will be called on the dedicated server thread to report success or failure. See ICefServerHandler.OnServerCreated documentation for a description of server lifespan. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Shutdown"></span><code>procedure <strong>Shutdown</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Stop the server and shut down the dedicated server thread. See ICefServerHandler.OnServerCreated documentation for a description of server lifespan. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsValidConnection-Integer-"></span><code>function <strong>IsValidConnection</strong>(connection_id: Integer) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if |connection_id| represents a valid connection. This function must be called on the dedicated server thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendHttp200response-Integer-ustring-Pointer-NativeUInt-"></span><code>procedure <strong>SendHttp200response</strong>(connection_id: Integer; const content_type: <a href="uCEFTypes.html#ustring">ustring</a>; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send an HTTP 200 &quot;OK&quot; response to the connection identified by |connection_id|. |content_type| is the response content type (e.g. &quot;text/html&quot;), |data| is the response content, and |data_size| is the size of |data| in bytes. The contents of |data| will be copied. The connection will be closed automatically after the response is sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendHttp404response-Integer-"></span><code>procedure <strong>SendHttp404response</strong>(connection_id: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send an HTTP 404 &quot;Not Found&quot; response to the connection identified by |connection_id|. The connection will be closed automatically after the response is sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendHttp500response-Integer-ustring-"></span><code>procedure <strong>SendHttp500response</strong>(connection_id: Integer; const error_message: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send an HTTP 500 &quot;Internal Server Error&quot; response to the connection identified by |connection_id|. |error_message| is the associated error message. The connection will be closed automatically after the response is sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendHttpResponse-Integer-Integer-ustring-int64-ICefStringMultimap-"></span><code>procedure <strong>SendHttpResponse</strong>(connection_id, response_code: Integer; const content_type: <a href="uCEFTypes.html#ustring">ustring</a>; content_length: int64; const extra_headers: <a href="uCEFInterfaces.ICefStringMultimap.html">ICefStringMultimap</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send a custom HTTP response to the connection identified by |connection_id|. |response_code| is the HTTP response code sent in the status line (e.g. 200), |content_type| is the response content type sent as the &quot;Content-Type&quot; header (e.g. &quot;text/html&quot;), |content_length| is the expected content length, and |extra_headers| is the map of extra response headers. If |content_length| is &gt;= 0 then the &quot;Content-Length&quot; header will be sent. If |content_length| is 0 then no content is expected and the connection will be closed automatically after the response is sent. If |content_length| is &lt; 0 then no &quot;Content-Length&quot; header will be sent and the client will continue reading until the connection is closed. Use the SendRawData function to send the content, if applicable, and call CloseConnection after all content has been sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendRawData-Integer-Pointer-NativeUInt-"></span><code>procedure <strong>SendRawData</strong>(connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send raw data directly to the connection identified by |connection_id|. |data| is the raw data and |data_size| is the size of |data| in bytes. The contents of |data| will be copied. No validation of |data| is performed internally so the client should be careful to send the amount indicated by the &quot;Content-Length&quot; header, if specified. See SendHttpResponse documentation for intended usage. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CloseConnection-Integer-"></span><code>procedure <strong>CloseConnection</strong>(connection_id: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Close the connection identified by |connection_id|. See SendHttpResponse documentation for intended usage. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendWebSocketMessage-Integer-Pointer-NativeUInt-"></span><code>procedure <strong>SendWebSocketMessage</strong>(connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send a WebSocket message to the connection identified by |connection_id|. |data| is the response content and |data_size| is the size of |data| in bytes. The contents of |data| will be copied. See ICefServerHandler.OnWebSocketRequest documentation for intended usage. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Initialized"></span><code>property <strong>Initialized</strong>            : boolean                 read <a href="uCEFServerComponent.TCEFServerComponent.html#GetInitialized">GetInitialized</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true when the server and the handler are initialized. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsRunning"></span><code>property <strong>IsRunning</strong>              : boolean                 read <a href="uCEFServerComponent.TCEFServerComponent.html#GetIsRunning">GetIsRunning</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the server is currently running and accepting incoming connections. See ICefServerHandler.OnServerCreated documentation for a description of server lifespan. This function must be called on the dedicated server thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Address"></span><code>property <strong>Address</strong>                : <a href="uCEFTypes.html#ustring">ustring</a>                 read <a href="uCEFServerComponent.TCEFServerComponent.html#GetAddress">GetAddress</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the server address including the port number. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasConnection"></span><code>property <strong>HasConnection</strong>          : boolean                 read <a href="uCEFServerComponent.TCEFServerComponent.html#GetHasConnection">GetHasConnection</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the server currently has a connection. This function must be called on the dedicated server thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnServerCreated"></span><code>property <strong>OnServerCreated</strong>        : TOnServerCreated        read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnServerCreated">FOnServerCreated</a>       write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnServerCreated">FOnServerCreated</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when |server| is created. If the server was started successfully then ICefServer.IsRunning will return true (1). The server will continue running until ICefServerShutdown is called, after which time OnServerDestroyed will be called. If the server failed to start then OnServerDestroyed will be called immediately after this function returns. </p>
+<p>
+
+
+<p>This event will be called on the CEF server thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_server_capi.h (cef_server_handler_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnServerDestroyed"></span><code>property <strong>OnServerDestroyed</strong>      : TOnServerDestroyed      read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnServerDestroyed">FOnServerDestroyed</a>     write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnServerDestroyed">FOnServerDestroyed</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when |server| is destroyed. The server thread will be stopped after this function returns. The client should release any references to |server| when this function is called. See OnServerCreated documentation for a description of server lifespan. </p>
+<p>
+
+
+<p>This event will be called on the CEF server thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_server_capi.h (cef_server_handler_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnClientConnected"></span><code>property <strong>OnClientConnected</strong>      : TOnClientConnected      read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnClientConnected">FOnClientConnected</a>     write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnClientConnected">FOnClientConnected</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when a client connects to |server|. |connection_id| uniquely identifies the connection. Each call to this function will have a matching call to OnClientDisconnected. </p>
+<p>
+
+
+<p>This event will be called on the CEF server thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_server_capi.h (cef_server_handler_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnClientDisconnected"></span><code>property <strong>OnClientDisconnected</strong>   : TOnClientDisconnected   read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnClientDisconnected">FOnClientDisconnected</a>  write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnClientDisconnected">FOnClientDisconnected</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when a client disconnects from |server|. |connection_id| uniquely identifies the connection. The client should release any data associated with |connection_id| when this function is called and |connection_id| should no longer be passed to ICefServer functions. Disconnects can originate from either the client or the server. For example, the server will disconnect automatically after a ICefServer.SendHttpXXXResponse function is called. </p>
+<p>
+
+
+<p>This event will be called on the CEF server thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_server_capi.h (cef_server_handler_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnHttpRequest"></span><code>property <strong>OnHttpRequest</strong>          : TOnHttpRequest          read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnHttpRequest">FOnHttpRequest</a>         write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnHttpRequest">FOnHttpRequest</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when |server| receives an HTTP request. |connection_id| uniquely identifies the connection, |client_address| is the requesting IPv4 or IPv6 client address including port number, and |request| contains the request contents (URL, function, headers and optional POST data). Call ICefServer functions either synchronously or asynchronusly to send a response. </p>
+<p>
+
+
+<p>This event will be called on the CEF server thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_server_capi.h (cef_server_handler_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnWebSocketRequest"></span><code>property <strong>OnWebSocketRequest</strong>     : TOnWebSocketRequest     read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketRequest">FOnWebSocketRequest</a>    write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketRequest">FOnWebSocketRequest</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when |server| receives a WebSocket request. |connection_id| uniquely identifies the connection, |client_address| is the requesting IPv4 or IPv6 client address including port number, and |request| contains the request contents (URL, function, headers and optional POST data). Execute |callback| either synchronously or asynchronously to accept or decline the WebSocket connection. If the request is accepted then OnWebSocketConnected will be called after the WebSocket has connected and incoming messages will be delivered to the OnWebSocketMessage callback. If the request is declined then the client will be disconnected and OnClientDisconnected will be called. Call the ICefServer.SendWebSocketMessage function after receiving the OnWebSocketConnected callback to respond with WebSocket messages. </p>
+<p>
+
+
+<p>This event will be called on the CEF server thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_server_capi.h (cef_server_handler_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnWebSocketConnected"></span><code>property <strong>OnWebSocketConnected</strong>   : TOnWebSocketConnected   read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketConnected">FOnWebSocketConnected</a>  write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketConnected">FOnWebSocketConnected</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called after the client has accepted the WebSocket connection for |server| and |connection_id| via the OnWebSocketRequest callback. See OnWebSocketRequest documentation for intended usage. </p>
+<p>
+
+
+<p>This event will be called on the CEF server thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_server_capi.h (cef_server_handler_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnWebSocketMessage"></span><code>property <strong>OnWebSocketMessage</strong>     : TOnWebSocketMessage     read <a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketMessage">FOnWebSocketMessage</a>    write <a href="uCEFServerComponent.TCEFServerComponent.html#FOnWebSocketMessage">FOnWebSocketMessage</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when |server| receives an WebSocket message. |connection_id| uniquely identifies the connection, |data| is the message content and |data_size| is the size of |data| in bytes. Do not keep a reference to |data| outside of this function. See OnWebSocketRequest documentation for intended usage. </p>
+<p>
+
+
+<p>This event will be called on the CEF server thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_server_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_server_capi.h (cef_server_handler_t))</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

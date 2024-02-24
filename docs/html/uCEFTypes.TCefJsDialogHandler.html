@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefJsDialogHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefJsDialogHandler"></span><h1 class="cio">Record TCefJsDialogHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefJsDialogHandler = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this structure to handle events related to JavaScript dialogs. The functions of this structure will be called on the UI thread. </p>
+<p>
+
+
+<p>Implemented by ICefJsDialogHandler.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_jsdialog_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_jsdialog_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_jsdialog_handler_capi.h (cef_jsdialog_handler_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefJsDialogHandler.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefJsDialogHandler.html#on_jsdialog">on_jsdialog</a></strong>: function(self: <a href="uCEFTypes.html#PCefJsDialogHandler">PCefJsDialogHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const origin_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; dialog_type: <a href="uCEFTypes.html#TCefJsDialogType">TCefJsDialogType</a>; const message_text, default_prompt_text: <a href="uCEFTypes.html#PCefString">PCefString</a>; callback: <a href="uCEFTypes.html#PCefJsDialogCallback">PCefJsDialogCallback</a>; suppress_message: PInteger): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefJsDialogHandler.html#on_before_unload_dialog">on_before_unload_dialog</a></strong>: function(self: <a href="uCEFTypes.html#PCefJsDialogHandler">PCefJsDialogHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const message_text: <a href="uCEFTypes.html#PCefString">PCefString</a>; is_reload: Integer; callback: <a href="uCEFTypes.html#PCefJsDialogCallback">PCefJsDialogCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefJsDialogHandler.html#on_reset_dialog_state">on_reset_dialog_state</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefJsDialogHandler">PCefJsDialogHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefJsDialogHandler.html#on_dialog_closed">on_dialog_closed</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefJsDialogHandler">PCefJsDialogHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_jsdialog"></span><code><strong>on_jsdialog</strong>: function(self: <a href="uCEFTypes.html#PCefJsDialogHandler">PCefJsDialogHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const origin_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; dialog_type: <a href="uCEFTypes.html#TCefJsDialogType">TCefJsDialogType</a>; const message_text, default_prompt_text: <a href="uCEFTypes.html#PCefString">PCefString</a>; callback: <a href="uCEFTypes.html#PCefJsDialogCallback">PCefJsDialogCallback</a>; suppress_message: PInteger): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_before_unload_dialog"></span><code><strong>on_before_unload_dialog</strong>: function(self: <a href="uCEFTypes.html#PCefJsDialogHandler">PCefJsDialogHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const message_text: <a href="uCEFTypes.html#PCefString">PCefString</a>; is_reload: Integer; callback: <a href="uCEFTypes.html#PCefJsDialogCallback">PCefJsDialogCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_reset_dialog_state"></span><code><strong>on_reset_dialog_state</strong>: procedure(self: <a href="uCEFTypes.html#PCefJsDialogHandler">PCefJsDialogHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_dialog_closed"></span><code><strong>on_dialog_closed</strong>: procedure(self: <a href="uCEFTypes.html#PCefJsDialogHandler">PCefJsDialogHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

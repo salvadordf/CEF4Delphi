@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFMiscFunctions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<h1 class="unit">Unit uCEFMiscFunctions</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section">Classes, Interfaces, Objects and Records</div><div class="one_section"><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></div><div class="one_section">Types</div><div class="one_section"><a class="section" href="#PasDoc-Constants">Constants</a></div><div class="one_section">Variables</div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
+<span id="PasDoc-FuncsProcs"></span><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefColorGetA-TCefColor-">CefColorGetA</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Byte;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefColorGetR-TCefColor-">CefColorGetR</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): byte;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefColorGetG-TCefColor-">CefColorGetG</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Byte;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefColorGetB-TCefColor-">CefColorGetB</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Byte;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefColorSetARGB-Byte-Byte-Byte-Byte-">CefColorSetARGB</a></strong>(a, r, g, b: Byte): <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefInt64Set-Integer-Integer-">CefInt64Set</a></strong>(int32_low, int32_high: Integer): Int64;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefInt64GetLow-Int64-">CefInt64GetLow</a></strong>(const int64_val: Int64): Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefInt64GetHigh-Int64-">CefInt64GetHigh</a></strong>(const int64_val: Int64): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetObject-Pointer-">CefGetObject</a></strong>(ptr: Pointer): TObject; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetData-ICefBaseRefCounted-">CefGetData</a></strong>(const i: <a href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>): Pointer; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefStringAlloc-ustring-">CefStringAlloc</a></strong>(const str: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#TCefString">TCefString</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefStringClearAndGet-PCefString-">CefStringClearAndGet</a></strong>(str: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefString-ustring-">CefString</a></strong>(const str: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#TCefString">TCefString</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefString-PCefString-">CefString</a></strong>(const str: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#ustring">ustring</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefUserFreeString-ustring-">CefUserFreeString</a></strong>(const str: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefStringFree-PCefString-">CefStringFree</a></strong>(const str: <a href="uCEFTypes.html#PCefString">PCefString</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefStringFreeAndGet-PCefStringUserFree-">CefStringFreeAndGet</a></strong>(const str: <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefStringSet-PCefString-ustring-">CefStringSet</a></strong>(const str: <a href="uCEFTypes.html#PCefString">PCefString</a>; const value: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefStringInitialize-PCefString-">CefStringInitialize</a></strong>(const aCefString : <a href="uCEFTypes.html#PCefString">PCefString</a>); inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefRegisterExtension-ustring-ustring-ICefv8Handler-">CefRegisterExtension</a></strong>(const name, code: <a href="uCEFTypes.html#ustring">ustring</a>; const Handler: <a href="uCEFInterfaces.ICefv8Handler.html">ICefv8Handler</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefPostTask-TCefThreadId-ICefTask-">CefPostTask</a></strong>(aThreadId : <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>; const aTask: <a href="uCEFInterfaces.ICefTask.html">ICefTask</a>) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefPostDelayedTask-TCefThreadId-ICefTask-Int64-">CefPostDelayedTask</a></strong>(aThreadId : <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>; const aTask : <a href="uCEFInterfaces.ICefTask.html">ICefTask</a>; aDelayMs : Int64) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefCurrentlyOn-TCefThreadId-">CefCurrentlyOn</a></strong>(aThreadId : <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefTimeToSystemTime-TCefTime-">CefTimeToSystemTime</a></strong>(const dt: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): TSystemTime;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#SystemTimeToCefTime-TSystemTime-">SystemTimeToCefTime</a></strong>(const dt: TSystemTime): <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#FixCefTime-TCefTime-">FixCefTime</a></strong>(const dt : <a href="uCEFTypes.TCefTime.html">TCefTime</a>): <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefTimeToDateTime-TCefTime-">CefTimeToDateTime</a></strong>(const dt: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): TDateTime;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#DateTimeToCefTime-TDateTime-">DateTimeToCefTime</a></strong>(dt: TDateTime): <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#DateTimeToCefBaseTime-TDateTime-">DateTimeToCefBaseTime</a></strong>(dt: TDateTime): <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefTimeToDouble-TCefTime-">CefTimeToDouble</a></strong>(const dt: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): double;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#DoubleToCefTime-double-">DoubleToCefTime</a></strong>(const dt: double): <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefTimeToUnixTime-TCefTime-">CefTimeToUnixTime</a></strong>(const dt: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): int64;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#UnixTimeToCefTime-int64-">UnixTimeToCefTime</a></strong>(const dt: int64): <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefTimeNow">CefTimeNow</a></strong>: <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#DoubleTimeNow">DoubleTimeNow</a></strong>: double;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefTimeDelta-TCefTime-TCefTime-">CefTimeDelta</a></strong>(const cef_time1, cef_time2: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): int64;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefBaseTimeNow">CefBaseTimeNow</a></strong>: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CetTimeToCefBaseTime-TCefTime-">CetTimeToCefBaseTime</a></strong>(const ct: <a href="uCEFTypes.TCefTime.html">TCefTime</a>) : <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CetTimeFromCefBaseTime-TCefBaseTime-">CetTimeFromCefBaseTime</a></strong>(const cbt: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>) : <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefBaseTimeToDateTime-TCefBaseTime-">CefBaseTimeToDateTime</a></strong>(const cbt: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>) : TDateTime;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetTimeIntervalMilliseconds-TCefTime-">GetTimeIntervalMilliseconds</a></strong>(const from_: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#InitializeCefTime-TCefTime-">InitializeCefTime</a></strong>(var aTime : <a href="uCEFTypes.TCefTime.html">TCefTime</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#cef_string_wide_copy-PWideChar-NativeUInt-PCefStringWide-">cef_string_wide_copy</a></strong>(const src: PWideChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>): Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#cef_string_utf8_copy-PAnsiChar-NativeUInt-PCefStringUtf8-">cef_string_utf8_copy</a></strong>(const src: PAnsiChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf8">PCefStringUtf8</a>): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#cef_string_utf16_copy-PChar16-NativeUInt-PCefStringUtf16-">cef_string_utf16_copy</a></strong>(const src: <a href="uCEFTypes.html#PChar16">PChar16</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#cef_string_copy-PCefChar-NativeUInt-PCefString-">cef_string_copy</a></strong>(const src: <a href="uCEFTypes.html#PCefChar">PCefChar</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#WindowInfoAsChild-TCefWindowInfo-TCefWindowHandle-TRect-ustring-DWORD-">WindowInfoAsChild</a></strong>(var aWindowInfo : <a href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a>; aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; aRect : TRect; const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; aExStyle : DWORD = 0);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#WindowInfoAsPopUp-TCefWindowInfo-TCefWindowHandle-ustring-DWORD-">WindowInfoAsPopUp</a></strong>(var aWindowInfo : <a href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a>; aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; aExStyle : DWORD = 0);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#WindowInfoAsWindowless-TCefWindowInfo-TCefWindowHandle-ustring-DWORD-">WindowInfoAsWindowless</a></strong>(var aWindowInfo : <a href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a>; aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; aExStyle : DWORD = 0);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#ProcessUnderWow64-THandle-PBOOL-">ProcessUnderWow64</a></strong>(hProcess: THandle; Wow64Process: PBOOL): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#Kernel32DLL">Kernel32DLL</a> name 'IsWow64Process';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#PathIsRelativeAnsi-LPCSTR-">PathIsRelativeAnsi</a></strong>(pszPath: LPCSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathIsRelativeA';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#PathIsRelativeUnicode-LPCWSTR-">PathIsRelativeUnicode</a></strong>(pszPath: LPCWSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathIsRelativeW';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetGlobalMemoryStatusEx-LPMEMORYSTATUSEX-">GetGlobalMemoryStatusEx</a></strong>(lpBuffer: <a href="uCEFTypes.html#LPMEMORYSTATUSEX">LPMEMORYSTATUSEX</a>): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#Kernel32DLL">Kernel32DLL</a> name 'GlobalMemoryStatusEx';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#PathCanonicalizeAnsi-LPSTR-LPCSTR-">PathCanonicalizeAnsi</a></strong>(pszBuf: LPSTR; pszPath: LPCSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathCanonicalizeA';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#PathCanonicalizeUnicode-LPWSTR-LPCWSTR-">PathCanonicalizeUnicode</a></strong>(pszBuf: LPWSTR; pszPath: LPCWSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathCanonicalizeW';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#PathIsUNCAnsi-LPCSTR-">PathIsUNCAnsi</a></strong>(pszPath: LPCSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathIsUNCA';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#PathIsUNCUnicode-LPCWSTR-">PathIsUNCUnicode</a></strong>(pszPath: LPCWSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathIsUNCW';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#PathIsURLAnsi-LPCSTR-">PathIsURLAnsi</a></strong>(pszPath: LPCSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathIsURLA';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#PathIsURLUnicode-LPCWSTR-">PathIsURLUnicode</a></strong>(pszPath: LPCWSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathIsURLW';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#ShutdownBlockReasonCreate-HWND-LPCWSTR-">ShutdownBlockReasonCreate</a></strong>(hWnd: HWND; Reason: LPCWSTR): Bool; stdcall; external <a href="uCEFMiscFunctions.html#User32DLL">User32DLL</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#ShutdownBlockReasonDestroy-HWND-">ShutdownBlockReasonDestroy</a></strong>(hWnd: HWND): Bool; stdcall; external <a href="uCEFMiscFunctions.html#User32DLL">User32DLL</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#NetServerGetInfo-LPWSTR-DWORD-Pointer-">NetServerGetInfo</a></strong>(servername: LPWSTR; level: DWORD; out bufptr: Pointer): DWORD; stdcall; external <a href="uCEFMiscFunctions.html#Netapi32DLL">Netapi32DLL</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#NetApiBufferFree-Pointer-">NetApiBufferFree</a></strong>(Buffer: Pointer): DWORD; stdcall; external <a href="uCEFMiscFunctions.html#Netapi32DLL">Netapi32DLL</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#SetWindowLongPtr-HWND-Integer-LongInt-">SetWindowLongPtr</a></strong>(hWnd: HWND; nIndex: Integer; dwNewLong: LongInt): LongInt; stdcall; external user32 name 'SetWindowLongW';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CustomPathIsRelative-string-">CustomPathIsRelative</a></strong>(const aPath : string) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CustomPathCanonicalize-string-string-">CustomPathCanonicalize</a></strong>(const aOriginalPath : string; var aCanonicalPath : string) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CustomAbsolutePath-string-boolean-">CustomAbsolutePath</a></strong>(const aPath : string; aMustExist : boolean = False) : string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CustomPathIsURL-string-">CustomPathIsURL</a></strong>(const aPath : string) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CustomPathIsUNC-string-">CustomPathIsUNC</a></strong>(const aPath : string) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetModulePath">GetModulePath</a></strong>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefIsCertStatusError-TCefCertStatus-">CefIsCertStatusError</a></strong>(Status : <a href="uCEFTypes.html#TCefCertStatus">TCefCertStatus</a>) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefCrashReportingEnabled">CefCrashReportingEnabled</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefSetCrashKeyValue-ustring-ustring-">CefSetCrashKeyValue</a></strong>(const aKey, aValue : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefLog-string-integer-integer-string-">CefLog</a></strong>(const aFile : string; aLine, aSeverity : integer; const aMessage : string);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefDebugLog-string-integer-">CefDebugLog</a></strong>(const aMessage : string; aSeverity : integer = <a href="uCEFConstants.html#CEF_LOG_SEVERITY_ERROR">CEF_LOG_SEVERITY_ERROR</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefKeyEventLog-TCefKeyEvent-">CefKeyEventLog</a></strong>(const aEvent : <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefMouseEventLog-TCefMouseEvent-">CefMouseEventLog</a></strong>(const aEvent : <a href="uCEFTypes.TCefMouseEvent.html">TCefMouseEvent</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#OutputDebugMessage-string-">OutputDebugMessage</a></strong>(const aMessage : string);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CustomExceptionHandler-string-exception-">CustomExceptionHandler</a></strong>(const aFunctionName : string; const aException : exception) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetMinLogLevel">CefGetMinLogLevel</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetVLogLevel-string-">CefGetVLogLevel</a></strong>(const file_start : string): integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetLogSeverityName-integer-">CefGetLogSeverityName</a></strong>(aSeverity: integer): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefRegisterSchemeHandlerFactory-ustring-ustring-TCefResourceHandlerClass-">CefRegisterSchemeHandlerFactory</a></strong>(const SchemeName, DomainName : <a href="uCEFTypes.html#ustring">ustring</a>; const handler: <a href="uCEFResourceHandler.html#TCefResourceHandlerClass">TCefResourceHandlerClass</a> = nil): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefClearSchemeHandlerFactories">CefClearSchemeHandlerFactories</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefAddCrossOriginWhitelistEntry-ustring-ustring-ustring-Boolean-">CefAddCrossOriginWhitelistEntry</a></strong>(const SourceOrigin, TargetProtocol, TargetDomain: <a href="uCEFTypes.html#ustring">ustring</a>; AllowTargetSubdomains: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefRemoveCrossOriginWhitelistEntry-ustring-ustring-ustring-Boolean-">CefRemoveCrossOriginWhitelistEntry</a></strong>(const SourceOrigin, TargetProtocol, TargetDomain: <a href="uCEFTypes.html#ustring">ustring</a>; AllowTargetSubdomains: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefClearCrossOriginWhitelist">CefClearCrossOriginWhitelist</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#UInt64ToFileVersionInfo-uint64-TFileVersionInfo-">UInt64ToFileVersionInfo</a></strong>(const aVersion : uint64; var aVersionInfo : <a href="uCEFTypes.TFileVersionInfo.html">TFileVersionInfo</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetExtendedFileVersion-ustring-">GetExtendedFileVersion</a></strong>(const aFileName : <a href="uCEFTypes.html#ustring">ustring</a>) : uint64;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetDLLVersion-ustring-TFileVersionInfo-">GetDLLVersion</a></strong>(const aDLLFile : <a href="uCEFTypes.html#ustring">ustring</a>; var aVersionInfo : <a href="uCEFTypes.TFileVersionInfo.html">TFileVersionInfo</a>) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#OutputLastErrorMessage">OutputLastErrorMessage</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetRegistryWindowsVersion-cardinal-cardinal-">GetRegistryWindowsVersion</a></strong>(var aMajor, aMinor: cardinal) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetRealWindowsVersion-cardinal-cardinal-">GetRealWindowsVersion</a></strong>(var aMajor, aMinor: cardinal) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CheckRealWindowsVersion-cardinal-cardinal-">CheckRealWindowsVersion</a></strong>(aMajor, aMinor: cardinal) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#SplitLongString-string-">SplitLongString</a></strong>(aSrcString : string) : string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetAbsoluteDirPath-string-string-">GetAbsoluteDirPath</a></strong>(const aSrcPath : string; var aRsltPath : string) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CheckSubprocessPath-string-string-">CheckSubprocessPath</a></strong>(const aSubprocessPath : string; var aMissingFiles : string) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CheckLocales-string-string-string-">CheckLocales</a></strong>(const aLocalesDirPath : string; var aMissingFiles : string; const aLocalesRequired : string = '') : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CheckResources-string-string-">CheckResources</a></strong>(const aResourcesDirPath : string; var aMissingFiles : string) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CheckDLLs-string-string-">CheckDLLs</a></strong>(const aFrameworkDirPath : string; var aMissingFiles : string) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CheckDLLVersion-ustring-uint16-uint16-uint16-uint16-">CheckDLLVersion</a></strong>(const aDLLFile : <a href="uCEFTypes.html#ustring">ustring</a>; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetDLLHeaderMachine-ustring-integer-">GetDLLHeaderMachine</a></strong>(const aDLLFile : <a href="uCEFTypes.html#ustring">ustring</a>; var aMachine : integer) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetFileTypeDescription-ustring-">GetFileTypeDescription</a></strong>(const aExtension : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#FileVersionInfoToString-TFileVersionInfo-">FileVersionInfoToString</a></strong>(const aVersionInfo : <a href="uCEFTypes.TFileVersionInfo.html">TFileVersionInfo</a>) : string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CheckFilesExist-TStringList-string-">CheckFilesExist</a></strong>(var aList : TStringList; var aMissingFiles : string) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#Is32BitProcess">Is32BitProcess</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefResolveUrl-ustring-ustring-">CefResolveUrl</a></strong>(const base_url, relative_url: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefParseUrl-ustring-TUrlParts-">CefParseUrl</a></strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>; var parts: <a href="uCEFTypes.TUrlParts.html">TUrlParts</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefCreateUrl-TUrlParts-">CefCreateUrl</a></strong>(var parts: <a href="uCEFTypes.TUrlParts.html">TUrlParts</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefFormatUrlForSecurityDisplay-string-">CefFormatUrlForSecurityDisplay</a></strong>(const originUrl: string): string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetMimeType-ustring-">CefGetMimeType</a></strong>(const extension: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefGetExtensionsForMimeType-ustring-TStringList-">CefGetExtensionsForMimeType</a></strong>(const mimeType: <a href="uCEFTypes.html#ustring">ustring</a>; var extensions: TStringList);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefBase64Encode-Pointer-NativeUInt-">CefBase64Encode</a></strong>(const data: Pointer; dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefBase64Decode-ustring-">CefBase64Decode</a></strong>(const data: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefUriEncode-ustring-Boolean-">CefUriEncode</a></strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; usePlus: Boolean): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefUriDecode-ustring-Boolean-TCefUriUnescapeRule-">CefUriDecode</a></strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; convertToUtf8: Boolean; unescapeRule: <a href="uCEFTypes.html#TCefUriUnescapeRule">TCefUriUnescapeRule</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetPath-TCefPathKey-">CefGetPath</a></strong>(const aPathKey : <a href="uCEFTypes.html#TCefPathKey">TCefPathKey</a>) : <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefIsRTL">CefIsRTL</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefCreateDirectory-ustring-">CefCreateDirectory</a></strong>(const fullPath: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetTempDirectory-ustring-">CefGetTempDirectory</a></strong>(out tempDir: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefCreateNewTempDirectory-ustring-ustring-">CefCreateNewTempDirectory</a></strong>(const prefix: <a href="uCEFTypes.html#ustring">ustring</a>; out newTempPath: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefCreateTempDirectoryInDirectory-ustring-ustring-ustring-">CefCreateTempDirectoryInDirectory</a></strong>(const baseDir, prefix: <a href="uCEFTypes.html#ustring">ustring</a>; out newDir: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefDirectoryExists-ustring-">CefDirectoryExists</a></strong>(const path: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefDeleteFile-ustring-Boolean-">CefDeleteFile</a></strong>(const path: <a href="uCEFTypes.html#ustring">ustring</a>; recursive: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefZipDirectory-ustring-ustring-Boolean-">CefZipDirectory</a></strong>(const srcDir, destFile: <a href="uCEFTypes.html#ustring">ustring</a>; includeHiddenFiles: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefLoadCRLSetsFile-ustring-">CefLoadCRLSetsFile</a></strong>(const path : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefIsKeyDown-WPARAM-">CefIsKeyDown</a></strong>(aWparam : WPARAM) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefIsKeyToggled-WPARAM-">CefIsKeyToggled</a></strong>(aWparam : WPARAM) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetCefMouseModifiers">GetCefMouseModifiers</a></strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetCefMouseModifiers-WPARAM-">GetCefMouseModifiers</a></strong>(awparam : WPARAM) : <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetCefKeyboardModifiers-WPARAM-LPARAM-">GetCefKeyboardModifiers</a></strong>(aWparam : WPARAM; aLparam : LPARAM) : <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefCheckAltGrPressed-WPARAM-TCefKeyEvent-">CefCheckAltGrPressed</a></strong>(aWparam : WPARAM; var aEvent : <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#DropEffectToDragOperation-Longint-TCefDragOperations-">DropEffectToDragOperation</a></strong>(aEffect : Longint; var aAllowedOps : <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#DragOperationToDropEffect-TCefDragOperations-Longint-">DragOperationToDropEffect</a></strong>(const aDragOperations : <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>; var aEffect: Longint);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetWindowsMajorMinorVersion-DWORD-DWORD-">GetWindowsMajorMinorVersion</a></strong>(var wMajorVersion, wMinorVersion : DWORD) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#RunningWindows10OrNewer">RunningWindows10OrNewer</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetDPIForHandle-HWND-UINT-">GetDPIForHandle</a></strong>(aHandle : HWND; var aDPI : UINT) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetDefaultCEFUserAgent">GetDefaultCEFUserAgent</a></strong>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#DeviceToLogical-integer-double-">DeviceToLogical</a></strong>(aValue : integer; const aDeviceScaleFactor : double) : integer; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#DeviceToLogical-single-double-">DeviceToLogical</a></strong>(aValue : single; const aDeviceScaleFactor : double) : single; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#DeviceToLogical-TCEFMouseEvent-double-">DeviceToLogical</a></strong>(var aEvent : <a href="uCEFTypes.TCefMouseEvent.html">TCEFMouseEvent</a>; const aDeviceScaleFactor : double); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#DeviceToLogical-TCefTouchEvent-double-">DeviceToLogical</a></strong>(var aEvent : <a href="uCEFTypes.TCefTouchEvent.html">TCefTouchEvent</a>; const aDeviceScaleFactor : double); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#DeviceToLogical-TPoint-double-">DeviceToLogical</a></strong>(var aPoint : TPoint; const aDeviceScaleFactor : double); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#LogicalToDevice-integer-double-">LogicalToDevice</a></strong>(aValue : integer; const aDeviceScaleFactor : double) : integer; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#LogicalToDevice-TCEFRect-double-">LogicalToDevice</a></strong>(var aRect : <a href="uCEFTypes.TCefRect.html">TCEFRect</a>; const aDeviceScaleFactor : double); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetScreenDPI">GetScreenDPI</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetDeviceScaleFactor">GetDeviceScaleFactor</a></strong>: single;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#DeleteDirContents-string-TStringList-">DeleteDirContents</a></strong>(const aDirectory : string; const aExcludeFiles : TStringList = nil) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#DeleteFileList-TStringList-">DeleteFileList</a></strong>(const aFileList : TStringList) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#MoveFileList-TStringList-string-string-">MoveFileList</a></strong>(const aFileList : TStringList; const aSrcDirectory, aDstDirectory : string) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetDataURI-ustring-ustring-">CefGetDataURI</a></strong>(const aString, aMimeType : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#ustring">ustring</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetDataURI-pointer-integer-ustring-ustring-">CefGetDataURI</a></strong>(aData : pointer; aSize : integer; const aMimeType : <a href="uCEFTypes.html#ustring">ustring</a>; const aCharset : <a href="uCEFTypes.html#ustring">ustring</a> = '') : <a href="uCEFTypes.html#ustring">ustring</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#ValidCefWindowHandle-TCefWindowHandle-">ValidCefWindowHandle</a></strong>(aHandle : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#InitializeWindowHandle-TCefWindowHandle-">InitializeWindowHandle</a></strong>(var aHandle : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetCommandLineSwitchValue-string-ustring-">GetCommandLineSwitchValue</a></strong>(const aKey : string; var aValue : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#IsCEFSubprocess">IsCEFSubprocess</a></strong>: boolean;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Constants"></span><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFMiscFunctions.html#Kernel32DLL">Kernel32DLL</a></strong> = 'kernel32.dll';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a></strong>  = 'shlwapi.dll';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFMiscFunctions.html#NTDLL">NTDLL</a></strong>       = 'ntdll.dll';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFMiscFunctions.html#User32DLL">User32DLL</a></strong>   = 'User32.dll';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFMiscFunctions.html#Netapi32DLL">Netapi32DLL</a></strong> = 'Netapi32.dll';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFMiscFunctions.html#GWLP_WNDPROC">GWLP_WNDPROC</a></strong>    = GWL_WNDPROC;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFMiscFunctions.html#GWLP_HWNDPARENT">GWLP_HWNDPARENT</a></strong> = GWL_HWNDPARENT;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefColorGetA-TCefColor-"></span><code>function <strong>CefColorGetA</strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Byte;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Return the alpha byte from a cef_color_t value.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefColorGetR-TCefColor-"></span><code>function <strong>CefColorGetR</strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): byte;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Return the red byte from a cef_color_t value.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefColorGetG-TCefColor-"></span><code>function <strong>CefColorGetG</strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Byte;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Return the green byte from a cef_color_t value.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefColorGetB-TCefColor-"></span><code>function <strong>CefColorGetB</strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Byte;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Return the blue byte from a cef_color_t value.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefColorSetARGB-Byte-Byte-Byte-Byte-"></span><code>function <strong>CefColorSetARGB</strong>(a, r, g, b: Byte): <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Return an cef_color_t value with the specified byte component values.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefInt64Set-Integer-Integer-"></span><code>function <strong>CefInt64Set</strong>(int32_low, int32_high: Integer): Int64;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Return an int64_t value with the specified low and high int32_t component values.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefInt64GetLow-Int64-"></span><code>function <strong>CefInt64GetLow</strong>(const int64_val: Int64): Integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Return the low int32_t value from an int64_t value.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefInt64GetHigh-Int64-"></span><code>function <strong>CefInt64GetHigh</strong>(const int64_val: Int64): Integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Return the high int32_t value from an int64_t value.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefGetObject-Pointer-"></span><code>function <strong>CefGetObject</strong>(ptr: Pointer): TObject; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefGetData-ICefBaseRefCounted-"></span><code>function <strong>CefGetData</strong>(const i: <a href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>): Pointer; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefStringAlloc-ustring-"></span><code>function <strong>CefStringAlloc</strong>(const str: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#TCefString">TCefString</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefStringClearAndGet-PCefString-"></span><code>function <strong>CefStringClearAndGet</strong>(str: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefString-ustring-"></span><code>function <strong>CefString</strong>(const str: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#TCefString">TCefString</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Converts ustring to TCefString.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefString-PCefString-"></span><code>function <strong>CefString</strong>(const str: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#ustring">ustring</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Converts PCefString to ustring.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefUserFreeString-ustring-"></span><code>function <strong>CefUserFreeString</strong>(const str: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefStringFree-PCefString-"></span><code>procedure <strong>CefStringFree</strong>(const str: <a href="uCEFTypes.html#PCefString">PCefString</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefStringFreeAndGet-PCefStringUserFree-"></span><code>function <strong>CefStringFreeAndGet</strong>(const str: <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefStringSet-PCefString-ustring-"></span><code>procedure <strong>CefStringSet</strong>(const str: <a href="uCEFTypes.html#PCefString">PCefString</a>; const value: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefStringInitialize-PCefString-"></span><code>procedure <strong>CefStringInitialize</strong>(const aCefString : <a href="uCEFTypes.html#PCefString">PCefString</a>); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefRegisterExtension-ustring-ustring-ICefv8Handler-"></span><code>function <strong>CefRegisterExtension</strong>(const name, code: <a href="uCEFTypes.html#ustring">ustring</a>; const Handler: <a href="uCEFInterfaces.ICefv8Handler.html">ICefv8Handler</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Register a new V8 extension with the specified JavaScript extension code and handler. Functions implemented by the handler are prototyped using the keyword 'native'. The calling of a native function is restricted to the scope in which the prototype of the native function is defined. This function may only be called on the render process main thread.
+
+<p>Example JavaScript extension code: &lt;pre&gt; // create the 'example' global object if it doesn't already exist. if (!example) example = {}; // create the 'example.test' global object if it doesn't already exist. if (!example.test) example.test = {}; (function() { // Define the function 'example.test.myfunction'. example.test.myfunction = function() { // Call CefV8Handler::Execute() with the function name 'MyFunction' // and no arguments. native function MyFunction(); return MyFunction(); }; // Define the getter function for parameter 'example.test.myparam'. example.test.__defineGetter__('myparam', function() { // Call CefV8Handler::Execute() with the function name 'GetMyParam' // and no arguments. native function GetMyParam(); return GetMyParam(); }); // Define the setter function for parameter 'example.test.myparam'. example.test.__defineSetter__('myparam', function(b) { // Call CefV8Handler::Execute() with the function name 'SetMyParam' // and a single argument. native function SetMyParam(); if(b) SetMyParam(b); });
+
+<p>// Extension definitions can also contain normal JavaScript variables // and functions. var myint = 0; example.test.increment = function() { myint += 1; return myint; }; })(); &lt;/pre&gt;
+
+<p>Example usage in the page: &lt;pre&gt; // Call the function. example.test.myfunction(); // Set the parameter. example.test.myparam = value; // Get the parameter. value = example.test.myparam; // Call another function. example.test.increment(); &lt;/pre&gt; </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefPostTask-TCefThreadId-ICefTask-"></span><code>function <strong>CefPostTask</strong>(aThreadId : <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>; const aTask: <a href="uCEFInterfaces.ICefTask.html">ICefTask</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Post a task for execution on the specified thread. Equivalent to using TCefTaskRunnerRef.GetForThread(threadId).PostTask(task). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefPostDelayedTask-TCefThreadId-ICefTask-Int64-"></span><code>function <strong>CefPostDelayedTask</strong>(aThreadId : <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>; const aTask : <a href="uCEFInterfaces.ICefTask.html">ICefTask</a>; aDelayMs : Int64) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Post a task for delayed execution on the specified thread. Equivalent to using TCefTaskRunnerRef.GetForThread(threadId).PostDelayedTask(task, delay_ms). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefCurrentlyOn-TCefThreadId-"></span><code>function <strong>CefCurrentlyOn</strong>(aThreadId : <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returns true (1) if called on the specified thread. Equivalent to using TCefTaskRunnerRef.GetForThread(threadId).BelongsToCurrentThread(). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefTimeToSystemTime-TCefTime-"></span><code>function <strong>CefTimeToSystemTime</strong>(const dt: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): TSystemTime;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Converts a TCefTime value to TSystemTime. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SystemTimeToCefTime-TSystemTime-"></span><code>function <strong>SystemTimeToCefTime</strong>(const dt: TSystemTime): <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Converts a TSystemTime value to TCefTime. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FixCefTime-TCefTime-"></span><code>function <strong>FixCefTime</strong>(const dt : <a href="uCEFTypes.TCefTime.html">TCefTime</a>): <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returns a new TCefTime with a valid time in case the original has errors. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefTimeToDateTime-TCefTime-"></span><code>function <strong>CefTimeToDateTime</strong>(const dt: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): TDateTime;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Converts a TCefTime value to TDateTime. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DateTimeToCefTime-TDateTime-"></span><code>function <strong>DateTimeToCefTime</strong>(dt: TDateTime): <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Converts a TDateTime value to TCefTime. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DateTimeToCefBaseTime-TDateTime-"></span><code>function <strong>DateTimeToCefBaseTime</strong>(dt: TDateTime): <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Converts a TDateTime value to TCefBaseTime. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefTimeToDouble-TCefTime-"></span><code>function <strong>CefTimeToDouble</strong>(const dt: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Converts TCefTime to a double which is the number of seconds since epoch (Jan 1, 1970). Webkit uses this format to represent time. A value of 0 means &quot;not initialized&quot;. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h</a>&quot;&gt;CEF source file: /include/internal/cef_time.h (cef_time_to_doublet))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DoubleToCefTime-double-"></span><code>function <strong>DoubleToCefTime</strong>(const dt: double): <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Converts TCefTime from a double which is the number of seconds since epoch (Jan 1, 1970). Webkit uses this format to represent time. A value of 0 means &quot;not initialized&quot;. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h</a>&quot;&gt;CEF source file: /include/internal/cef_time.h (cef_time_from_doublet))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefTimeToUnixTime-TCefTime-"></span><code>function <strong>CefTimeToUnixTime</strong>(const dt: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): int64;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Converts cef_time_t to time_t. time_t is almost always an integral value holding the number of seconds (not counting leap seconds) since 00:00, Jan 1 1970 UTC, corresponding to POSIX time. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h</a>&quot;&gt;CEF source file: /include/internal/cef_time.h (cef_time_to_timet))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="UnixTimeToCefTime-int64-"></span><code>function <strong>UnixTimeToCefTime</strong>(const dt: int64): <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Converts cef_time_t from time_t. time_t is almost always an integral value holding the number of seconds (not counting leap seconds) since 00:00, Jan 1 1970 UTC, corresponding to POSIX time. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h</a>&quot;&gt;CEF source file: /include/internal/cef_time.h (cef_time_from_timet))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefTimeNow"></span><code>function <strong>CefTimeNow</strong>: <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Retrieve the current system time in a TCefTime type. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h</a>&quot;&gt;CEF source file: /include/internal/cef_time.h (cef_time_now))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DoubleTimeNow"></span><code>function <strong>DoubleTimeNow</strong>: double;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Retrieve the current system time in a double type. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h</a>&quot;&gt;CEF source file: /include/internal/cef_time.h (cef_time_now))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefTimeDelta-TCefTime-TCefTime-"></span><code>function <strong>CefTimeDelta</strong>(const cef_time1, cef_time2: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): int64;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Retrieve the delta in milliseconds between two time values. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h</a>&quot;&gt;CEF source file: /include/internal/cef_time.h (cef_time_delta))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefBaseTimeNow"></span><code>function <strong>CefBaseTimeNow</strong>: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Retrieve the current system time in a TCefBaseTime type. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h</a>&quot;&gt;CEF source file: /include/internal/cef_time.h (cef_basetime_now))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CetTimeToCefBaseTime-TCefTime-"></span><code>function <strong>CetTimeToCefBaseTime</strong>(const ct: <a href="uCEFTypes.TCefTime.html">TCefTime</a>) : <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Converts TCefTime to TCefBaseTime. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h</a>&quot;&gt;CEF source file: /include/internal/cef_time.h (cef_time_to_basetime))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CetTimeFromCefBaseTime-TCefBaseTime-"></span><code>function <strong>CetTimeFromCefBaseTime</strong>(const cbt: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>) : <a href="uCEFTypes.TCefTime.html">TCefTime</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Converts TCefBaseTime to TCefTime. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h</a>&quot;&gt;CEF source file: /include/internal/cef_time.h (cef_time_from_basetime))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefBaseTimeToDateTime-TCefBaseTime-"></span><code>function <strong>CefBaseTimeToDateTime</strong>(const cbt: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>) : TDateTime;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Converts TCefBaseTime to TDateTime. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h</a>&quot;&gt;CEF source file: /include/internal/cef_time.h (cef_time_from_basetime))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetTimeIntervalMilliseconds-TCefTime-"></span><code>function <strong>GetTimeIntervalMilliseconds</strong>(const from_: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returns the time interval between now and from_ in milliseconds. This funcion should only be used by TCEFTimerWorkScheduler. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="InitializeCefTime-TCefTime-"></span><code>procedure <strong>InitializeCefTime</strong>(var aTime : <a href="uCEFTypes.TCefTime.html">TCefTime</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Initialize a TCefTime variable. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_wide_copy-PWideChar-NativeUInt-PCefStringWide-"></span><code>function <strong>cef_string_wide_copy</strong>(const src: PWideChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>): Integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf8_copy-PAnsiChar-NativeUInt-PCefStringUtf8-"></span><code>function <strong>cef_string_utf8_copy</strong>(const src: PAnsiChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf8">PCefStringUtf8</a>): Integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf16_copy-PChar16-NativeUInt-PCefStringUtf16-"></span><code>function <strong>cef_string_utf16_copy</strong>(const src: <a href="uCEFTypes.html#PChar16">PChar16</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_copy-PCefChar-NativeUInt-PCefString-"></span><code>function <strong>cef_string_copy</strong>(const src: <a href="uCEFTypes.html#PCefChar">PCefChar</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="WindowInfoAsChild-TCefWindowInfo-TCefWindowHandle-TRect-ustring-DWORD-"></span><code>procedure <strong>WindowInfoAsChild</strong>(var aWindowInfo : <a href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a>; aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; aRect : TRect; const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; aExStyle : DWORD = 0);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="WindowInfoAsPopUp-TCefWindowInfo-TCefWindowHandle-ustring-DWORD-"></span><code>procedure <strong>WindowInfoAsPopUp</strong>(var aWindowInfo : <a href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a>; aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; aExStyle : DWORD = 0);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="WindowInfoAsWindowless-TCefWindowInfo-TCefWindowHandle-ustring-DWORD-"></span><code>procedure <strong>WindowInfoAsWindowless</strong>(var aWindowInfo : <a href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a>; aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; aExStyle : DWORD = 0);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ProcessUnderWow64-THandle-PBOOL-"></span><code>function <strong>ProcessUnderWow64</strong>(hProcess: THandle; Wow64Process: PBOOL): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#Kernel32DLL">Kernel32DLL</a> name 'IsWow64Process';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PathIsRelativeAnsi-LPCSTR-"></span><code>function <strong>PathIsRelativeAnsi</strong>(pszPath: LPCSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathIsRelativeA';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PathIsRelativeUnicode-LPCWSTR-"></span><code>function <strong>PathIsRelativeUnicode</strong>(pszPath: LPCWSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathIsRelativeW';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetGlobalMemoryStatusEx-LPMEMORYSTATUSEX-"></span><code>function <strong>GetGlobalMemoryStatusEx</strong>(lpBuffer: <a href="uCEFTypes.html#LPMEMORYSTATUSEX">LPMEMORYSTATUSEX</a>): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#Kernel32DLL">Kernel32DLL</a> name 'GlobalMemoryStatusEx';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PathCanonicalizeAnsi-LPSTR-LPCSTR-"></span><code>function <strong>PathCanonicalizeAnsi</strong>(pszBuf: LPSTR; pszPath: LPCSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathCanonicalizeA';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PathCanonicalizeUnicode-LPWSTR-LPCWSTR-"></span><code>function <strong>PathCanonicalizeUnicode</strong>(pszBuf: LPWSTR; pszPath: LPCWSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathCanonicalizeW';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PathIsUNCAnsi-LPCSTR-"></span><code>function <strong>PathIsUNCAnsi</strong>(pszPath: LPCSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathIsUNCA';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PathIsUNCUnicode-LPCWSTR-"></span><code>function <strong>PathIsUNCUnicode</strong>(pszPath: LPCWSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathIsUNCW';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PathIsURLAnsi-LPCSTR-"></span><code>function <strong>PathIsURLAnsi</strong>(pszPath: LPCSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathIsURLA';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PathIsURLUnicode-LPCWSTR-"></span><code>function <strong>PathIsURLUnicode</strong>(pszPath: LPCWSTR): BOOL; stdcall; external <a href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a> name 'PathIsURLW';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ShutdownBlockReasonCreate-HWND-LPCWSTR-"></span><code>function <strong>ShutdownBlockReasonCreate</strong>(hWnd: HWND; Reason: LPCWSTR): Bool; stdcall; external <a href="uCEFMiscFunctions.html#User32DLL">User32DLL</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ShutdownBlockReasonDestroy-HWND-"></span><code>function <strong>ShutdownBlockReasonDestroy</strong>(hWnd: HWND): Bool; stdcall; external <a href="uCEFMiscFunctions.html#User32DLL">User32DLL</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NetServerGetInfo-LPWSTR-DWORD-Pointer-"></span><code>function <strong>NetServerGetInfo</strong>(servername: LPWSTR; level: DWORD; out bufptr: Pointer): DWORD; stdcall; external <a href="uCEFMiscFunctions.html#Netapi32DLL">Netapi32DLL</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NetApiBufferFree-Pointer-"></span><code>function <strong>NetApiBufferFree</strong>(Buffer: Pointer): DWORD; stdcall; external <a href="uCEFMiscFunctions.html#Netapi32DLL">Netapi32DLL</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SetWindowLongPtr-HWND-Integer-LongInt-"></span><code>function <strong>SetWindowLongPtr</strong>(hWnd: HWND; nIndex: Integer; dwNewLong: LongInt): LongInt; stdcall; external user32 name 'SetWindowLongW';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CustomPathIsRelative-string-"></span><code>function <strong>CustomPathIsRelative</strong>(const aPath : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returns true if aPath is a relative path. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathisrelativew">https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathisrelativew</a>&quot;&gt;See the PathIsRelativeW article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CustomPathCanonicalize-string-string-"></span><code>function <strong>CustomPathCanonicalize</strong>(const aOriginalPath : string; var aCanonicalPath : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Simplifies a path by removing navigation elements such as &quot;.&quot; and &quot;..&quot; to produce a direct, well-formed path. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathcanonicalizew">https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathcanonicalizew</a>&quot;&gt;See the PathCanonicalizeW article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CustomAbsolutePath-string-boolean-"></span><code>function <strong>CustomAbsolutePath</strong>(const aPath : string; aMustExist : boolean = False) : string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returns the absolute path version of aPath. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CustomPathIsURL-string-"></span><code>function <strong>CustomPathIsURL</strong>(const aPath : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Tests aPath to determine if it conforms to a valid URL format. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathisurlw">https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathisurlw</a>&quot;&gt;See the PathIsURLW article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CustomPathIsUNC-string-"></span><code>function <strong>CustomPathIsUNC</strong>(const aPath : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Determines if aPath is a valid Universal Naming Convention (UNC) path, as opposed to a path based on a drive letter. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathisuncw">https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathisuncw</a>&quot;&gt;See the PathIsUNCW article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetModulePath"></span><code>function <strong>GetModulePath</strong>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Retrieves the fully qualified path for the current module. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamew">https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamew</a>&quot;&gt;See the GetModuleFileNameW article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefIsCertStatusError-TCefCertStatus-"></span><code>function <strong>CefIsCertStatusError</strong>(Status : <a href="uCEFTypes.html#TCefCertStatus">TCefCertStatus</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returns true (1) if the certificate status represents an error. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefCrashReportingEnabled"></span><code>function <strong>CefCrashReportingEnabled</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Crash reporting is configured using an INI-style config file named &quot;crash_reporter.cfg&quot;. On Windows and Linux this file must be placed next to the main application executable. On macOS this file must be placed in the top-level app bundle Resources directory (e.g. &quot;&lt;appname&gt;.app/Contents/Resources&quot;). File contents are as follows:
+
+<p>&lt;pre&gt; # Comments start with a hash character and must be on their own line.
+
+<p>[Config] ProductName=&lt;Value of the &quot;prod&quot; crash key; defaults to &quot;cef&quot;&gt; ProductVersion=&lt;Value of the &quot;ver&quot; crash key; defaults to the CEF version&gt; AppName=&lt;Windows only; App-specific folder name component for storing crash information; default to &quot;CEF&quot;&gt; ExternalHandler=&lt;Windows only; Name of the external handler exe to use instead of re-launching the main exe; default to empty&gt; BrowserCrashForwardingEnabled=&lt;macOS only; True if browser process crashes should be forwarded to the system crash reporter; default to false&gt; ServerURL=&lt;crash server URL; default to empty&gt; RateLimitEnabled=&lt;True if uploads should be rate limited; default to true&gt; MaxUploadsPerDay=&lt;Max uploads per 24 hours, used if rate limit is enabled; default to 5&gt; MaxDatabaseSizeInMb=&lt;Total crash report disk usage greater than this value will cause older reports to be deleted; default to 20&gt; MaxDatabaseAgeInDays=&lt;Crash reports older than this value will be deleted; default to 5&gt;
+
+<p>[CrashKeys] my_key1=&lt;small|medium|large&gt; my_key2=&lt;small|medium|large&gt; &lt;/pre&gt;
+
+<p><strong>Config section:</strong>
+
+<p>If &quot;ProductName&quot; and/or &quot;ProductVersion&quot; are set then the specified values will be included in the crash dump metadata. On macOS if these values are set to NULL then they will be retrieved from the Info.plist file using the &quot;CFBundleName&quot; and &quot;CFBundleShortVersionString&quot; keys respectively.
+
+<p>If &quot;AppName&quot; is set on Windows then crash report information (metrics, database and dumps) will be stored locally on disk under the &quot;C:\Users\[CurrentUser]\AppData\Local\[AppName]\User Data&quot; folder. On other platforms the cef_settings_t.root_cache_path value will be used.
+
+<p>If &quot;ExternalHandler&quot; is set on Windows then the specified exe will be launched as the crashpad-handler instead of re-launching the main process exe. The value can be an absolute path or a path relative to the main exe directory. On Linux the cef_settings_t.browser_subprocess_path value will be used. On macOS the existing subprocess app bundle will be used.
+
+<p>If &quot;BrowserCrashForwardingEnabled&quot; is set to true (1) on macOS then browser process crashes will be forwarded to the system crash reporter. This results in the crash UI dialog being displayed to the user and crash reports being logged under &quot;~/Library/Logs/DiagnosticReports&quot;. Forwarding of crash reports from non-browser processes and Debug builds is always disabled.
+
+<p>If &quot;ServerURL&quot; is set then crashes will be uploaded as a multi-part POST request to the specified URL. Otherwise, reports will only be stored locally on disk.
+
+<p>If &quot;RateLimitEnabled&quot; is set to true (1) then crash report uploads will be rate limited as follows: 1. If &quot;MaxUploadsPerDay&quot; is set to a positive value then at most the specified number of crashes will be uploaded in each 24 hour period. 2. If crash upload fails due to a network or server error then an incremental backoff delay up to a maximum of 24 hours will be applied for retries. 3. If a backoff delay is applied and &quot;MaxUploadsPerDay&quot; is &gt; 1 then the &quot;MaxUploadsPerDay&quot; value will be reduced to 1 until the client is restarted. This helps to avoid an upload flood when the network or server error is resolved. Rate limiting is not supported on Linux.
+
+<p>If &quot;MaxDatabaseSizeInMb&quot; is set to a positive value then crash report storage on disk will be limited to that size in megabytes. For example, on Windows each dump is about 600KB so a &quot;MaxDatabaseSizeInMb&quot; value of 20 equates to about 34 crash reports stored on disk. Not supported on Linux.
+
+<p>If &quot;MaxDatabaseAgeInDays&quot; is set to a positive value then crash reports older than the specified age in days will be deleted. Not supported on Linux.
+
+<p><strong>CrashKeys section:</strong>
+
+<p>A maximum of 26 crash keys of each size can be specified for use by the application. Crash key values will be truncated based on the specified size (small = 64 bytes, medium = 256 bytes, large = 1024 bytes). The value of crash keys can be set from any thread or process using the CefSetCrashKeyValue function. These key/value pairs will be sent to the crash server along with the crash dump file. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefSetCrashKeyValue-ustring-ustring-"></span><code>procedure <strong>CefSetCrashKeyValue</strong>(const aKey, aValue : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Sets or clears a specific key-value pair from the crash metadata. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefLog-string-integer-integer-string-"></span><code>procedure <strong>CefLog</strong>(const aFile : string; aLine, aSeverity : integer; const aMessage : string);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Add a log message. See the LogSeverity defines for supported |severity| values. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h</a>&quot;&gt;CEF source file: /include/base/cef_logging.h (cef_log))
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h</a>&quot;&gt;CEF source file: /include/base/cef_logging.h (LogSeverity))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefDebugLog-string-integer-"></span><code>procedure <strong>CefDebugLog</strong>(const aMessage : string; aSeverity : integer = <a href="uCEFConstants.html#CEF_LOG_SEVERITY_ERROR">CEF_LOG_SEVERITY_ERROR</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefKeyEventLog-TCefKeyEvent-"></span><code>procedure <strong>CefKeyEventLog</strong>(const aEvent : <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefMouseEventLog-TCefMouseEvent-"></span><code>procedure <strong>CefMouseEventLog</strong>(const aEvent : <a href="uCEFTypes.TCefMouseEvent.html">TCefMouseEvent</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="OutputDebugMessage-string-"></span><code>procedure <strong>OutputDebugMessage</strong>(const aMessage : string);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CustomExceptionHandler-string-exception-"></span><code>function <strong>CustomExceptionHandler</strong>(const aFunctionName : string; const aException : exception) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefGetMinLogLevel"></span><code>function <strong>CefGetMinLogLevel</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Gets the current log verbose level (LogSeverity). </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h</a>&quot;&gt;CEF source file: /include/base/cef_logging.h (cef_get_min_log_level))
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h</a>&quot;&gt;CEF source file: /include/base/cef_logging.h (LogSeverity))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefGetVLogLevel-string-"></span><code>function <strong>CefGetVLogLevel</strong>(const file_start : string): integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Gets the current vlog level for the given file. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h</a>&quot;&gt;CEF source file: /include/base/cef_logging.h (cef_get_vlog_level))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefGetLogSeverityName-integer-"></span><code>function <strong>CefGetLogSeverityName</strong>(aSeverity: integer): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Gets the log severity name. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h</a>&quot;&gt;CEF source file: /include/base/cef_logging.h (LogSeverity))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefRegisterSchemeHandlerFactory-ustring-ustring-TCefResourceHandlerClass-"></span><code>function <strong>CefRegisterSchemeHandlerFactory</strong>(const SchemeName, DomainName : <a href="uCEFTypes.html#ustring">ustring</a>; const handler: <a href="uCEFResourceHandler.html#TCefResourceHandlerClass">TCefResourceHandlerClass</a> = nil): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Register a scheme handler factory with the global request context. An NULL |DomainName| value for a standard scheme will cause the factory to match all domain names. The |DomainName| value will be ignored for non-standard schemes. If |SchemeName| is a built-in scheme and no handler is returned by |factory| then the built-in scheme handler factory will be called. If |SchemeName| is a custom scheme then you must also implement the ICefApp.OnRegisterCustomSchemes function in all processes. This function may be called multiple times to change or remove the factory that matches the specified |SchemeName| and optional |DomainName|. Returns false (0) if an error occurs. This function may be called on any thread in the browser process. Using this function is equivalent to calling cef_reques t_context_t::cef_request_context_get_global_context()-&gt;register_scheme_handl er_factory(). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefClearSchemeHandlerFactories"></span><code>function <strong>CefClearSchemeHandlerFactories</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Clear all scheme handler factories registered with the global request context. Returns false (0) on error. This function may be called on any thread in the browser process. Using this function is equivalent to calling cef_request_context_t::cef_request_context_get_global_context()-&gt;clear_schem e_handler_factories(). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefAddCrossOriginWhitelistEntry-ustring-ustring-ustring-Boolean-"></span><code>function <strong>CefAddCrossOriginWhitelistEntry</strong>(const SourceOrigin, TargetProtocol, TargetDomain: <a href="uCEFTypes.html#ustring">ustring</a>; AllowTargetSubdomains: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+
+
+<p>Add an entry to the cross-origin access whitelist.
+
+<p>The same-origin policy restricts how scripts hosted from different origins (scheme + domain + port) can communicate. By default, scripts can only access resources with the same origin. Scripts hosted on the HTTP and HTTPS schemes (but no other schemes) can use the &quot;Access-Control-Allow-Origin&quot; header to allow cross-origin requests. For example, <a href="https://source.example.com">https://source.example.com</a> can make XMLHttpRequest requests on <a href="http://target.example.com">http://target.example.com</a> if the <a href="http://target.example.com">http://target.example.com</a> request returns an &quot;Access-Control-Allow-Origin: <a href="https://source.example.com">https://source.example.com</a>&quot; response header.
+
+<p>Scripts in separate frames or iframes and hosted from the same protocol and domain suffix can execute cross-origin JavaScript if both pages set the document.domain value to the same domain suffix. For example, <a href="scheme://foo.example.com">scheme://foo.example.com</a> and <a href="scheme://bar.example.com">scheme://bar.example.com</a> can communicate using JavaScript if both domains set document.domain=&quot;example.com&quot;.
+
+<p>This function is used to allow access to origins that would otherwise violate the same-origin policy. Scripts hosted underneath the fully qualified |source_origin| URL (like <a href="http://www.example.com">http://www.example.com</a>) will be allowed access to all resources hosted on the specified |target_protocol| and |target_domain|. If |target_domain| is non-NULL and |allow_target_subdomains| is false (0) only exact domain matches will be allowed. If |target_domain| contains a top- level domain component (like &quot;example.com&quot;) and |allow_target_subdomains| is true (1) sub-domain matches will be allowed. If |target_domain| is NULL and |allow_target_subdomains| if true (1) all domains and IP addresses will be allowed.
+
+<p>This function cannot be used to bypass the restrictions on local or display isolated schemes. See the comments on CefRegisterCustomScheme for more information.
+
+<p>This function may be called on any thread. Returns false (0) if |source_origin| is invalid or the whitelist cannot be accessed.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefRemoveCrossOriginWhitelistEntry-ustring-ustring-ustring-Boolean-"></span><code>function <strong>CefRemoveCrossOriginWhitelistEntry</strong>(const SourceOrigin, TargetProtocol, TargetDomain: <a href="uCEFTypes.html#ustring">ustring</a>; AllowTargetSubdomains: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Remove an entry from the cross-origin access whitelist. Returns false (0) if |source_origin| is invalid or the whitelist cannot be accessed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefClearCrossOriginWhitelist"></span><code>function <strong>CefClearCrossOriginWhitelist</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Remove all entries from the cross-origin access whitelist. Returns false (0) if the whitelist cannot be accessed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="UInt64ToFileVersionInfo-uint64-TFileVersionInfo-"></span><code>procedure <strong>UInt64ToFileVersionInfo</strong>(const aVersion : uint64; var aVersionInfo : <a href="uCEFTypes.TFileVersionInfo.html">TFileVersionInfo</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetExtendedFileVersion-ustring-"></span><code>function <strong>GetExtendedFileVersion</strong>(const aFileName : <a href="uCEFTypes.html#ustring">ustring</a>) : uint64;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetDLLVersion-ustring-TFileVersionInfo-"></span><code>function <strong>GetDLLVersion</strong>(const aDLLFile : <a href="uCEFTypes.html#ustring">ustring</a>; var aVersionInfo : <a href="uCEFTypes.TFileVersionInfo.html">TFileVersionInfo</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="OutputLastErrorMessage"></span><code>procedure <strong>OutputLastErrorMessage</strong>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetRegistryWindowsVersion-cardinal-cardinal-"></span><code>function <strong>GetRegistryWindowsVersion</strong>(var aMajor, aMinor: cardinal) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetRealWindowsVersion-cardinal-cardinal-"></span><code>function <strong>GetRealWindowsVersion</strong>(var aMajor, aMinor: cardinal) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CheckRealWindowsVersion-cardinal-cardinal-"></span><code>function <strong>CheckRealWindowsVersion</strong>(aMajor, aMinor: cardinal) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SplitLongString-string-"></span><code>function <strong>SplitLongString</strong>(aSrcString : string) : string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetAbsoluteDirPath-string-string-"></span><code>function <strong>GetAbsoluteDirPath</strong>(const aSrcPath : string; var aRsltPath : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CheckSubprocessPath-string-string-"></span><code>function <strong>CheckSubprocessPath</strong>(const aSubprocessPath : string; var aMissingFiles : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CheckLocales-string-string-string-"></span><code>function <strong>CheckLocales</strong>(const aLocalesDirPath : string; var aMissingFiles : string; const aLocalesRequired : string = '') : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CheckResources-string-string-"></span><code>function <strong>CheckResources</strong>(const aResourcesDirPath : string; var aMissingFiles : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CheckDLLs-string-string-"></span><code>function <strong>CheckDLLs</strong>(const aFrameworkDirPath : string; var aMissingFiles : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CheckDLLVersion-ustring-uint16-uint16-uint16-uint16-"></span><code>function <strong>CheckDLLVersion</strong>(const aDLLFile : <a href="uCEFTypes.html#ustring">ustring</a>; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetDLLHeaderMachine-ustring-integer-"></span><code>function <strong>GetDLLHeaderMachine</strong>(const aDLLFile : <a href="uCEFTypes.html#ustring">ustring</a>; var aMachine : integer) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetFileTypeDescription-ustring-"></span><code>function <strong>GetFileTypeDescription</strong>(const aExtension : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="FileVersionInfoToString-TFileVersionInfo-"></span><code>function <strong>FileVersionInfoToString</strong>(const aVersionInfo : <a href="uCEFTypes.TFileVersionInfo.html">TFileVersionInfo</a>) : string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CheckFilesExist-TStringList-string-"></span><code>function <strong>CheckFilesExist</strong>(var aList : TStringList; var aMissingFiles : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Is32BitProcess"></span><code>function <strong>Is32BitProcess</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefResolveUrl-ustring-ustring-"></span><code>function <strong>CefResolveUrl</strong>(const base_url, relative_url: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Combines specified |base_url| and |relative_url| into a ustring. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefParseUrl-ustring-TUrlParts-"></span><code>function <strong>CefParseUrl</strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>; var parts: <a href="uCEFTypes.TUrlParts.html">TUrlParts</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Parse the specified |url| into its component parts. Returns false (0) if the URL is invalid. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefCreateUrl-TUrlParts-"></span><code>function <strong>CefCreateUrl</strong>(var parts: <a href="uCEFTypes.TUrlParts.html">TUrlParts</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Creates a URL from the specified |parts|, which must contain a non-NULL spec or a non-NULL host and path (at a minimum), but not both. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefFormatUrlForSecurityDisplay-string-"></span><code>function <strong>CefFormatUrlForSecurityDisplay</strong>(const originUrl: string): string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ This is a convenience function for formatting a URL in a concise and human- friendly way to help users make security-related decisions (or in other circumstances when people need to distinguish sites, origins, or otherwise- simplified URLs from each other). Internationalized domain names (IDN) may be presented in Unicode if the conversion is considered safe. The returned value will (a) omit the path for standard schemes, excepting file and filesystem, and (b) omit the port if it is the default for the scheme. Do not use this for URLs which will be parsed or sent to other applications. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefGetMimeType-ustring-"></span><code>function <strong>CefGetMimeType</strong>(const extension: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returns the mime type for the specified file extension or an NULL string if unknown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefGetExtensionsForMimeType-ustring-TStringList-"></span><code>procedure <strong>CefGetExtensionsForMimeType</strong>(const mimeType: <a href="uCEFTypes.html#ustring">ustring</a>; var extensions: TStringList);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Get the extensions associated with the given mime type. This should be passed in lower case. There could be multiple extensions for a given mime type, like &quot;html,htm&quot; for &quot;text/html&quot;, or &quot;txt,text,html,...&quot; for &quot;text/*&quot;. Any existing elements in the provided vector will not be erased. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefBase64Encode-Pointer-NativeUInt-"></span><code>function <strong>CefBase64Encode</strong>(const data: Pointer; dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Encodes |data| as a base64 string. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefBase64Decode-ustring-"></span><code>function <strong>CefBase64Decode</strong>(const data: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Decodes the base64 encoded string |data|. The returned value will be NULL if the decoding fails. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefUriEncode-ustring-Boolean-"></span><code>function <strong>CefUriEncode</strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; usePlus: Boolean): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Escapes characters in |text| which are unsuitable for use as a query parameter value. Everything except alphanumerics and -_.!~*'() will be converted to &quot;%XX&quot;. If |use_plus| is true (1) spaces will change to &quot;+&quot;. The result is basically the same as encodeURIComponent in Javacript. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefUriDecode-ustring-Boolean-TCefUriUnescapeRule-"></span><code>function <strong>CefUriDecode</strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; convertToUtf8: Boolean; unescapeRule: <a href="uCEFTypes.html#TCefUriUnescapeRule">TCefUriUnescapeRule</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Unescapes |text| and returns the result. Unescaping consists of looking for the exact pattern &quot;%XX&quot; where each X is a hex digit and converting to the character with the numerical value of those digits (e.g. &quot;i%20=%203%3b&quot; unescapes to &quot;i = 3;&quot;). If |convert_to_utf8| is true (1) this function will attempt to interpret the initial decoded result as UTF-8. If the result is convertable into UTF-8 it will be returned as converted. Otherwise the initial decoded result will be returned. The |unescape_rule| parameter supports further customization the decoding process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefGetPath-TCefPathKey-"></span><code>function <strong>CefGetPath</strong>(const aPathKey : <a href="uCEFTypes.html#TCefPathKey">TCefPathKey</a>) : <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Retrieve the path associated with the specified |aPathKey|. Can be called on any thread in the browser process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefIsRTL"></span><code>function <strong>CefIsRTL</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returns true (1) if the application text direction is right-to-left. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefCreateDirectory-ustring-"></span><code>function <strong>CefCreateDirectory</strong>(const fullPath: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Creates a directory and all parent directories if they don't already exist. Returns true (1) on successful creation or if the directory already exists. The directory is only readable by the current user. Calling this function on the browser process UI or IO threads is not allowed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefGetTempDirectory-ustring-"></span><code>function <strong>CefGetTempDirectory</strong>(out tempDir: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Get the temporary directory provided by the system. WARNING: In general, you should use the temp directory variants below instead of this function. Those variants will ensure that the proper permissions are set so that other users on the system can't edit them while they're open (which could lead to security issues). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefCreateNewTempDirectory-ustring-ustring-"></span><code>function <strong>CefCreateNewTempDirectory</strong>(const prefix: <a href="uCEFTypes.html#ustring">ustring</a>; out newTempPath: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Creates a new directory. On Windows if |prefix| is provided the new directory name is in the format of &quot;prefixyyyy&quot;. Returns true (1) on success and sets |newTempPath| to the full path of the directory that was created. The directory is only readable by the current user. Calling this function on the browser process UI or IO threads is not allowed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefCreateTempDirectoryInDirectory-ustring-ustring-ustring-"></span><code>function <strong>CefCreateTempDirectoryInDirectory</strong>(const baseDir, prefix: <a href="uCEFTypes.html#ustring">ustring</a>; out newDir: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Creates a directory within another directory. Extra characters will be appended to |prefix| to ensure that the new directory does not have the same name as an existing directory. Returns true (1) on success and sets |newDir| to the full path of the directory that was created. The directory is only readable by the current user. Calling this function on the browser process UI or IO threads is not allowed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefDirectoryExists-ustring-"></span><code>function <strong>CefDirectoryExists</strong>(const path: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returns true (1) if the given path exists and is a directory. Calling this function on the browser process UI or IO threads is not allowed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefDeleteFile-ustring-Boolean-"></span><code>function <strong>CefDeleteFile</strong>(const path: <a href="uCEFTypes.html#ustring">ustring</a>; recursive: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Deletes the given path whether it's a file or a directory. If |path| is a directory all contents will be deleted. If |recursive| is true (1) any sub- directories and their contents will also be deleted (equivalent to executing &quot;rm -rf&quot;, so use with caution). On POSIX environments if |path| is a symbolic link then only the symlink will be deleted. Returns true (1) on successful deletion or if |path| does not exist. Calling this function on the browser process UI or IO threads is not allowed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefZipDirectory-ustring-ustring-Boolean-"></span><code>function <strong>CefZipDirectory</strong>(const srcDir, destFile: <a href="uCEFTypes.html#ustring">ustring</a>; includeHiddenFiles: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Writes the contents of |srcDir| into a zip archive at |destFile|. If |includeHiddenFiles| is true (1) files starting with &quot;.&quot; will be included. Returns true (1) on success. Calling this function on the browser process UI or IO threads is not allowed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefLoadCRLSetsFile-ustring-"></span><code>procedure <strong>CefLoadCRLSetsFile</strong>(const path : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Loads the existing &quot;Certificate Revocation Lists&quot; file that is managed by Google Chrome. This file can generally be found in Chrome's User Data directory (e.g. &quot;C:\Users\[User]\AppData\Local\Google\Chrome\User Data\&quot; on Windows) and is updated periodically by Chrome's component updater service. Must be called in the browser process after the context has been initialized. See <a href="https://dev.chromium.org/Home/chromium-security/crlsets">https://dev.chromium.org/Home/chromium-security/crlsets</a> for background. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefIsKeyDown-WPARAM-"></span><code>function <strong>CefIsKeyDown</strong>(aWparam : WPARAM) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefIsKeyToggled-WPARAM-"></span><code>function <strong>CefIsKeyToggled</strong>(aWparam : WPARAM) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetCefMouseModifiers"></span><code>function <strong>GetCefMouseModifiers</strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetCefMouseModifiers-WPARAM-"></span><code>function <strong>GetCefMouseModifiers</strong>(awparam : WPARAM) : <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetCefKeyboardModifiers-WPARAM-LPARAM-"></span><code>function <strong>GetCefKeyboardModifiers</strong>(aWparam : WPARAM; aLparam : LPARAM) : <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefCheckAltGrPressed-WPARAM-TCefKeyEvent-"></span><code>procedure <strong>CefCheckAltGrPressed</strong>(aWparam : WPARAM; var aEvent : <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DropEffectToDragOperation-Longint-TCefDragOperations-"></span><code>procedure <strong>DropEffectToDragOperation</strong>(aEffect : Longint; var aAllowedOps : <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DragOperationToDropEffect-TCefDragOperations-Longint-"></span><code>procedure <strong>DragOperationToDropEffect</strong>(const aDragOperations : <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>; var aEffect: Longint);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetWindowsMajorMinorVersion-DWORD-DWORD-"></span><code>function <strong>GetWindowsMajorMinorVersion</strong>(var wMajorVersion, wMinorVersion : DWORD) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="RunningWindows10OrNewer"></span><code>function <strong>RunningWindows10OrNewer</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetDPIForHandle-HWND-UINT-"></span><code>function <strong>GetDPIForHandle</strong>(aHandle : HWND; var aDPI : UINT) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetDefaultCEFUserAgent"></span><code>function <strong>GetDefaultCEFUserAgent</strong>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DeviceToLogical-integer-double-"></span><code>function <strong>DeviceToLogical</strong>(aValue : integer; const aDeviceScaleFactor : double) : integer; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DeviceToLogical-single-double-"></span><code>function <strong>DeviceToLogical</strong>(aValue : single; const aDeviceScaleFactor : double) : single; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DeviceToLogical-TCEFMouseEvent-double-"></span><code>procedure <strong>DeviceToLogical</strong>(var aEvent : <a href="uCEFTypes.TCefMouseEvent.html">TCEFMouseEvent</a>; const aDeviceScaleFactor : double); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DeviceToLogical-TCefTouchEvent-double-"></span><code>procedure <strong>DeviceToLogical</strong>(var aEvent : <a href="uCEFTypes.TCefTouchEvent.html">TCefTouchEvent</a>; const aDeviceScaleFactor : double); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DeviceToLogical-TPoint-double-"></span><code>procedure <strong>DeviceToLogical</strong>(var aPoint : TPoint; const aDeviceScaleFactor : double); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="LogicalToDevice-integer-double-"></span><code>function <strong>LogicalToDevice</strong>(aValue : integer; const aDeviceScaleFactor : double) : integer; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="LogicalToDevice-TCEFRect-double-"></span><code>procedure <strong>LogicalToDevice</strong>(var aRect : <a href="uCEFTypes.TCefRect.html">TCEFRect</a>; const aDeviceScaleFactor : double); overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetScreenDPI"></span><code>function <strong>GetScreenDPI</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetDeviceScaleFactor"></span><code>function <strong>GetDeviceScaleFactor</strong>: single;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DeleteDirContents-string-TStringList-"></span><code>function <strong>DeleteDirContents</strong>(const aDirectory : string; const aExcludeFiles : TStringList = nil) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="DeleteFileList-TStringList-"></span><code>function <strong>DeleteFileList</strong>(const aFileList : TStringList) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="MoveFileList-TStringList-string-string-"></span><code>function <strong>MoveFileList</strong>(const aFileList : TStringList; const aSrcDirectory, aDstDirectory : string) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefGetDataURI-ustring-ustring-"></span><code>function <strong>CefGetDataURI</strong>(const aString, aMimeType : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#ustring">ustring</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returns a URI with a DATA scheme using |aString| as the URI's data. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefGetDataURI-pointer-integer-ustring-ustring-"></span><code>function <strong>CefGetDataURI</strong>(aData : pointer; aSize : integer; const aMimeType : <a href="uCEFTypes.html#ustring">ustring</a>; const aCharset : <a href="uCEFTypes.html#ustring">ustring</a> = '') : <a href="uCEFTypes.html#ustring">ustring</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returns a URI with a DATA scheme encoding |aData| as a base64 string. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ValidCefWindowHandle-TCefWindowHandle-"></span><code>function <strong>ValidCefWindowHandle</strong>(aHandle : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="InitializeWindowHandle-TCefWindowHandle-"></span><code>procedure <strong>InitializeWindowHandle</strong>(var aHandle : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GetCommandLineSwitchValue-string-ustring-"></span><code>function <strong>GetCommandLineSwitchValue</strong>(const aKey : string; var aValue : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returns a command line switch value if it exists. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IsCEFSubprocess"></span><code>function <strong>IsCEFSubprocess</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returns true if the command line switch has a &quot;type&quot; value. </p>
+</td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Kernel32DLL"></span><code><strong>Kernel32DLL</strong> = 'kernel32.dll';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SHLWAPIDLL"></span><code><strong>SHLWAPIDLL</strong>  = 'shlwapi.dll';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NTDLL"></span><code><strong>NTDLL</strong>       = 'ntdll.dll';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="User32DLL"></span><code><strong>User32DLL</strong>   = 'User32.dll';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Netapi32DLL"></span><code><strong>Netapi32DLL</strong> = 'Netapi32.dll';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GWLP_WNDPROC"></span><code><strong>GWLP_WNDPROC</strong>    = GWL_WNDPROC;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="GWLP_HWNDPARENT"></span><code><strong>GWLP_HWNDPARENT</strong> = GWL_HWNDPARENT;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefResourceBundle</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefResourceBundle"></span><h1 class="cio">Interface ICefResourceBundle</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefResourceBundle = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface used for retrieving resources from the resource bundle (*.pak) files loaded by CEF during startup or via the ICefResourceBundleHandler returned from ICefApp.GetResourceBundleHandler. See TCefSettings for additional options related to resource bundle loading. The functions of this interface may be called on any thread unless otherwise indicated. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_bundle_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_bundle_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_resource_bundle_capi.h (cef_resource_bundle_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefResourceBundle</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefResourceBundle.html#GetLocalizedString-Integer-">GetLocalizedString</a></strong>(stringId: Integer): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefResourceBundle.html#GetDataResource-Integer-">GetDataResource</a></strong>(resourceId: Integer): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefResourceBundle.html#GetDataResourceForScale-Integer-TCefScaleFactor-">GetDataResourceForScale</a></strong>(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetLocalizedString-Integer-"></span><code>function <strong>GetLocalizedString</strong>(stringId: Integer): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the localized string for the specified |string_id| or an NULL string if the value is not found. Include cef_pack_strings.h for a listing of valid string ID values. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{3213CF97-C854-452B-B615-39192F8D07DC}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDataResource-Integer-"></span><code>function <strong>GetDataResource</strong>(resourceId: Integer): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a ICefBinaryValue containing the decompressed contents of the specified scale independent |resource_id| or NULL if not found. Include cef_pack_resources.h for a listing of valid resource ID values. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDataResourceForScale-Integer-TCefScaleFactor-"></span><code>function <strong>GetDataResourceForScale</strong>(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a ICefBinaryValue containing the decompressed contents of the specified |resource_id| nearest the scale factor |scale_factor| or NULL if not found. Use a |scale_factor| value of SCALE_FACTOR_NONE for scale independent resources or call GetDataResource instead.Include cef_pack_resources.h for a listing of valid resource ID values. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

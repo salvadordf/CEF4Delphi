@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefRenderProcessHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefRenderProcessHandler"></span><h1 class="cio">Record TCefRenderProcessHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefRenderProcessHandler = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure used to implement render process callbacks. The functions of this structure will be called on the render process main thread (TID_RENDERER) unless otherwise indicated. </p>
+<p>
+
+
+<p>Implemented by ICefRenderProcessHandler.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_process_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_process_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderProcessHandler.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderProcessHandler.html#on_web_kit_initialized">on_web_kit_initialized</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderProcessHandler.html#on_browser_created">on_browser_created</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; extra_info: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderProcessHandler.html#on_browser_destroyed">on_browser_destroyed</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderProcessHandler.html#get_load_handler">get_load_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>): <a href="uCEFTypes.html#PCefLoadHandler">PCefLoadHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderProcessHandler.html#on_context_created">on_context_created</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; context: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderProcessHandler.html#on_context_released">on_context_released</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; context: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderProcessHandler.html#on_uncaught_exception">on_uncaught_exception</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; context: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; exception: <a href="uCEFTypes.html#PCefV8Exception">PCefV8Exception</a>; stackTrace: <a href="uCEFTypes.html#PCefV8StackTrace">PCefV8StackTrace</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderProcessHandler.html#on_focused_node_changed">on_focused_node_changed</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; node: <a href="uCEFTypes.html#PCefDomNode">PCefDomNode</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRenderProcessHandler.html#on_process_message_received">on_process_message_received</a></strong>: function(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; source_process: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; message_: <a href="uCEFTypes.html#PCefProcessMessage">PCefProcessMessage</a>): Integer; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_web_kit_initialized"></span><code><strong>on_web_kit_initialized</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_browser_created"></span><code><strong>on_browser_created</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; extra_info: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_browser_destroyed"></span><code><strong>on_browser_destroyed</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_load_handler"></span><code><strong>get_load_handler</strong>: function(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>): <a href="uCEFTypes.html#PCefLoadHandler">PCefLoadHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_context_created"></span><code><strong>on_context_created</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; context: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_context_released"></span><code><strong>on_context_released</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; context: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_uncaught_exception"></span><code><strong>on_uncaught_exception</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; context: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; exception: <a href="uCEFTypes.html#PCefV8Exception">PCefV8Exception</a>; stackTrace: <a href="uCEFTypes.html#PCefV8StackTrace">PCefV8StackTrace</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_focused_node_changed"></span><code><strong>on_focused_node_changed</strong>: procedure(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; node: <a href="uCEFTypes.html#PCefDomNode">PCefDomNode</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_process_message_received"></span><code><strong>on_process_message_received</strong>: function(self: <a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; source_process: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; message_: <a href="uCEFTypes.html#PCefProcessMessage">PCefProcessMessage</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

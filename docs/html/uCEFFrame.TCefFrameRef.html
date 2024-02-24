@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFFrame: Class TCefFrameRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefFrameRef"></span><h1 class="cio">Class TCefFrameRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFFrame.html">uCEFFrame</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefFrameRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="thisitem">TCefFrameRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFrame.TCefFrameRef.html#IsValid">IsValid</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#Undo">Undo</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#Redo">Redo</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#Cut">Cut</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#Copy">Copy</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#Paste">Paste</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#Del">Del</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#SelectAll">SelectAll</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#ViewSource">ViewSource</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#GetSource-ICefStringVisitor-">GetSource</a></strong>(const visitor: <a href="uCEFInterfaces.ICefStringVisitor.html">ICefStringVisitor</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#GetSourceProc-TCefStringVisitorProc-">GetSourceProc</a></strong>(const proc: TCefStringVisitorProc);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#GetText-ICefStringVisitor-">GetText</a></strong>(const visitor: <a href="uCEFInterfaces.ICefStringVisitor.html">ICefStringVisitor</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#GetTextProc-TCefStringVisitorProc-">GetTextProc</a></strong>(const proc: TCefStringVisitorProc);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#LoadRequest-ICefRequest-">LoadRequest</a></strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#LoadUrl-ustring-">LoadUrl</a></strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#ExecuteJavaScript-ustring-ustring-Integer-">ExecuteJavaScript</a></strong>(const code, scriptUrl: <a href="uCEFTypes.html#ustring">ustring</a>; startLine: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFrame.TCefFrameRef.html#IsMain">IsMain</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFrame.TCefFrameRef.html#IsFocused">IsFocused</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFrame.TCefFrameRef.html#GetName">GetName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFrame.TCefFrameRef.html#GetIdentifier">GetIdentifier</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFrame.TCefFrameRef.html#GetParent">GetParent</a></strong>: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFrame.TCefFrameRef.html#GetUrl">GetUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFrame.TCefFrameRef.html#GetBrowser">GetBrowser</a></strong>: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFrame.TCefFrameRef.html#GetV8Context">GetV8Context</a></strong>: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#VisitDom-ICefDomVisitor-">VisitDom</a></strong>(const visitor: <a href="uCEFInterfaces.ICefDomVisitor.html">ICefDomVisitor</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#VisitDomProc-TCefDomVisitorProc-">VisitDomProc</a></strong>(const proc: TCefDomVisitorProc);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFrame.TCefFrameRef.html#CreateUrlRequest-ICefRequest-ICefUrlrequestClient-">CreateUrlRequest</a></strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const client: <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>): <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrame.TCefFrameRef.html#SendProcessMessage-TCefProcessId-ICefProcessMessage-">SendProcessMessage</a></strong>(targetProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const message_: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFFrame.TCefFrameRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsValid"></span><code>function <strong>IsValid</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#IsValid">ICefFrame.IsValid</a>.</p><p>
+ True if this object is currently attached to a valid frame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Undo"></span><code>procedure <strong>Undo</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#Undo">ICefFrame.Undo</a>.</p><p>
+ Execute undo in this frame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Redo"></span><code>procedure <strong>Redo</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#Redo">ICefFrame.Redo</a>.</p><p>
+ Execute redo in this frame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Cut"></span><code>procedure <strong>Cut</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#Cut">ICefFrame.Cut</a>.</p><p>
+ Execute cut in this frame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Copy"></span><code>procedure <strong>Copy</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#Copy">ICefFrame.Copy</a>.</p><p>
+ Execute copy in this frame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Paste"></span><code>procedure <strong>Paste</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#Paste">ICefFrame.Paste</a>.</p><p>
+ Execute paste in this frame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Del"></span><code>procedure <strong>Del</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#Del">ICefFrame.Del</a>.</p><p>
+ Execute delete in this frame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SelectAll"></span><code>procedure <strong>SelectAll</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#SelectAll">ICefFrame.SelectAll</a>.</p><p>
+ Execute select all in this frame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ViewSource"></span><code>procedure <strong>ViewSource</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#ViewSource">ICefFrame.ViewSource</a>.</p><p>
+ Save this frame's HTML source to a temporary file and open it in the default text viewing application. This function can only be called from the browser process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSource-ICefStringVisitor-"></span><code>procedure <strong>GetSource</strong>(const visitor: <a href="uCEFInterfaces.ICefStringVisitor.html">ICefStringVisitor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#GetSource-ICefStringVisitor-">ICefFrame.GetSource</a>.</p><p>
+ Retrieve this frame's HTML source as a string sent to the specified visitor. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSourceProc-TCefStringVisitorProc-"></span><code>procedure <strong>GetSourceProc</strong>(const proc: TCefStringVisitorProc);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#GetSourceProc-TCefStringVisitorProc-">ICefFrame.GetSourceProc</a>.</p><p>
+ Retrieve this frame's HTML source as a string sent to the specified visitor. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetText-ICefStringVisitor-"></span><code>procedure <strong>GetText</strong>(const visitor: <a href="uCEFInterfaces.ICefStringVisitor.html">ICefStringVisitor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#GetText-ICefStringVisitor-">ICefFrame.GetText</a>.</p><p>
+ Retrieve this frame's display text as a string sent to the specified visitor. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetTextProc-TCefStringVisitorProc-"></span><code>procedure <strong>GetTextProc</strong>(const proc: TCefStringVisitorProc);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#GetTextProc-TCefStringVisitorProc-">ICefFrame.GetTextProc</a>.</p><p>
+ Retrieve this frame's display text as a string sent to the specified visitor. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="LoadRequest-ICefRequest-"></span><code>procedure <strong>LoadRequest</strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#LoadRequest-ICefRequest-">ICefFrame.LoadRequest</a>.</p><p>
+ Load the request represented by the |request| object.
+
+<p>WARNING: This function will fail with &quot;bad IPC message&quot; reason INVALID_INITIATOR_ORIGIN (213) unless you first navigate to the request origin using some other mechanism (LoadURL, link click, etc). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="LoadUrl-ustring-"></span><code>procedure <strong>LoadUrl</strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#LoadUrl-ustring-">ICefFrame.LoadUrl</a>.</p><p>
+ Load the specified |url|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ExecuteJavaScript-ustring-ustring-Integer-"></span><code>procedure <strong>ExecuteJavaScript</strong>(const code, scriptUrl: <a href="uCEFTypes.html#ustring">ustring</a>; startLine: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#ExecuteJavaScript-ustring-ustring-Integer-">ICefFrame.ExecuteJavaScript</a>.</p><p>
+ Execute a string of JavaScript code in this frame. The |script_url| parameter is the URL where the script in question can be found, if any. The renderer may request this URL to show the developer the source of the error. The |start_line| parameter is the base line number to use for error reporting. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsMain"></span><code>function <strong>IsMain</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#IsMain">ICefFrame.IsMain</a>.</p><p>
+ Returns true (1) if this is the main (top-level) frame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsFocused"></span><code>function <strong>IsFocused</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#IsFocused">ICefFrame.IsFocused</a>.</p><p>
+ Returns true (1) if this is the focused frame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetName"></span><code>function <strong>GetName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#GetName">ICefFrame.GetName</a>.</p><p>
+ Returns the name for this frame. If the frame has an assigned name (for example, set via the iframe &quot;name&quot; attribute) then that value will be returned. Otherwise a unique name will be constructed based on the frame parent hierarchy. The main (top-level) frame will always have an NULL name value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetIdentifier"></span><code>function <strong>GetIdentifier</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#GetIdentifier">ICefFrame.GetIdentifier</a>.</p><p>
+ Returns the globally unique identifier for this frame or empty if the underlying frame does not yet exist. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetParent"></span><code>function <strong>GetParent</strong>: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#GetParent">ICefFrame.GetParent</a>.</p><p>
+ Returns the parent of this frame or NULL if this is the main (top-level) frame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetUrl"></span><code>function <strong>GetUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#GetUrl">ICefFrame.GetUrl</a>.</p><p>
+ Returns the URL currently loaded in this frame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetBrowser"></span><code>function <strong>GetBrowser</strong>: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#GetBrowser">ICefFrame.GetBrowser</a>.</p><p>
+ Returns the browser that this frame belongs to. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetV8Context"></span><code>function <strong>GetV8Context</strong>: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#GetV8Context">ICefFrame.GetV8Context</a>.</p><p>
+ Get the V8 context associated with the frame. This function can only be called from the render process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="VisitDom-ICefDomVisitor-"></span><code>procedure <strong>VisitDom</strong>(const visitor: <a href="uCEFInterfaces.ICefDomVisitor.html">ICefDomVisitor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#VisitDom-ICefDomVisitor-">ICefFrame.VisitDom</a>.</p><p>
+ Visit the DOM document. This function can only be called from the render process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="VisitDomProc-TCefDomVisitorProc-"></span><code>procedure <strong>VisitDomProc</strong>(const proc: TCefDomVisitorProc);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#VisitDomProc-TCefDomVisitorProc-">ICefFrame.VisitDomProc</a>.</p><p>
+ Visit the DOM document. This function can only be called from the render process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateUrlRequest-ICefRequest-ICefUrlrequestClient-"></span><code>function <strong>CreateUrlRequest</strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const client: <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>): <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#CreateUrlRequest-ICefRequest-ICefUrlrequestClient-">ICefFrame.CreateUrlRequest</a>.</p><p>
+ Create a new URL request that will be treated as originating from this frame and the associated browser. Use TCustomCefUrlrequestClient.Create instead if you do not want the request to have this association, in which case it may be handled differently (see documentation on that function). A request created with this function may only originate from the browser process, and will behave as follows: - It may be intercepted by the client via CefResourceRequestHandler or CefSchemeHandlerFactory. - POST data may only contain a single element of type PDE_TYPE_FILE or PDE_TYPE_BYTES.
+
+<p>The |request| object will be marked as read-only after calling this function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendProcessMessage-TCefProcessId-ICefProcessMessage-"></span><code>procedure <strong>SendProcessMessage</strong>(targetProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const message_: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrame.html#SendProcessMessage-TCefProcessId-ICefProcessMessage-">ICefFrame.SendProcessMessage</a>.</p><p>
+ Send a message to the specified |target_process|. Ownership of the message contents will be transferred and the |message| reference will be invalidated. Message delivery is not guaranteed in all cases (for example, if the browser is closing, navigating, or if the target process crashes). Send an ACK message back from the target process if confirmation is required. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

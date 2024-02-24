@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefThread</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefThread"></span><h1 class="cio">Interface ICefThread</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefThread = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ A simple thread abstraction that establishes a message loop on a new thread. The consumer uses ICefTaskRunner to execute code on the thread's message loop. The thread is terminated when the ICefThread object is destroyed or stop() is called. All pending tasks queued on the thread's message loop will run to completion before the thread is terminated. cef_thread_create() can be called on any valid CEF thread in either the browser or render process. This interface should only be used for tasks that require a dedicated thread. In most cases you can post tasks to an existing CEF thread instead of creating a new one; see cef_task.h for details. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_thread_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_thread_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_thread_capi.h (cef_thread_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefThread</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefThread.html#GetTaskRunner">GetTaskRunner</a></strong>: <a href="uCEFInterfaces.ICefTaskRunner.html">ICefTaskRunner</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefThread.html#GetPlatformThreadID">GetPlatformThreadID</a></strong>: <a href="uCEFTypes.html#TCefPlatformThreadId">TCefPlatformThreadId</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefThread.html#Stop">Stop</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefThread.html#IsRunning">IsRunning</a></strong>: boolean;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetTaskRunner"></span><code>function <strong>GetTaskRunner</strong>: <a href="uCEFInterfaces.ICefTaskRunner.html">ICefTaskRunner</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the ICefTaskRunner that will execute code on this thread's message loop. This function is safe to call from any thread. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{26B30EA5-F44A-4C40-97DF-67FD9E73A4FF}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetPlatformThreadID"></span><code>function <strong>GetPlatformThreadID</strong>: <a href="uCEFTypes.html#TCefPlatformThreadId">TCefPlatformThreadId</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the platform thread ID. It will return the same value after stop() is called. This function is safe to call from any thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Stop"></span><code>procedure <strong>Stop</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Stop and join the thread. This function must be called from the same thread that called cef_thread_create(). Do not call this function if cef_thread_create() was called with a |stoppable| value of false (0). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsRunning"></span><code>function <strong>IsRunning</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the thread is currently running. This function must be called from the same thread that called cef_thread_create(). </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFWorkScheduler: Class TCEFWorkScheduler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFWorkScheduler"></span><h1 class="cio">Class TCEFWorkScheduler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFWorkScheduler.html">uCEFWorkScheduler</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFWorkScheduler = class(TComponent)</code></p>
+<h2 class="description">Description</h2>
+<p>
+
+
+<p>Implementation of an external message pump for VCL and LCL.
+
+<p>Read the GlobalCEFApp.OnScheduleMessagePumpWork documentation for all the details.
+
+<p></p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor">TPersistent</li>
+<li class="ancestor">TComponent</li>
+<li class="thisitem">TCEFWorkScheduler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FThread">FThread</a></strong>: <a href="uCEFWorkSchedulerThread.TCEFWorkSchedulerThread.html">TCEFWorkSchedulerThread</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FQueueThread">FQueueThread</a></strong>: <a href="uCEFWorkSchedulerQueueThread.TCEFWorkSchedulerQueueThread.html">TCEFWorkSchedulerQueueThread</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FDepleteWorkCycles">FDepleteWorkCycles</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FDepleteWorkDelay">FDepleteWorkDelay</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FDefaultInterval">FDefaultInterval</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FStopped">FStopped</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FUseQueueThread">FUseQueueThread</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FCompHandle">FCompHandle</a></strong>: HWND;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FPriority">FPriority</a></strong>: TThreadPriority;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#CreateQueueThread">CreateQueueThread</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#DestroyQueueThread">DestroyQueueThread</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#QueueThread_OnPulse-TObject-integer-">QueueThread_OnPulse</a></strong>(Sender : TObject; aDelay : integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#DestroyThread">DestroyThread</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#DepleteWork">DepleteWork</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#WndProc-TMessage-">WndProc</a></strong>(var aMessage: TMessage);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#DeallocateWindowHandle">DeallocateWindowHandle</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#NextPulse-integer-">NextPulse</a></strong>(aInterval : integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#ScheduleWork-int64-">ScheduleWork</a></strong>(const delay_ms : int64);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#DoWork">DoWork</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#DoMessageLoopWork">DoMessageLoopWork</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#Initialize">Initialize</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#SetDefaultInterval-integer-">SetDefaultInterval</a></strong>(aValue : integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#SetPriority-TThreadPriority-">SetPriority</a></strong>(aValue : TThreadPriority);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#Thread_OnPulse-TObject-">Thread_OnPulse</a></strong>(Sender : TObject);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#Create-TComponent-">Create</a></strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#CreateDelayed">CreateDelayed</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#ScheduleMessagePumpWork-int64-">ScheduleMessagePumpWork</a></strong>(const delay_ms : int64);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#StopScheduler">StopScheduler</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#CreateThread">CreateThread</a></strong>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#Priority">Priority</a></strong>           : TThreadPriority  read <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FPriority">FPriority</a>            write <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#SetPriority-TThreadPriority-">SetPriority</a>         default  tpNormal;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#DefaultInterval">DefaultInterval</a></strong>    : integer          read <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FDefaultInterval">FDefaultInterval</a>     write <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#SetDefaultInterval-integer-">SetDefaultInterval</a>  default  <a href="uCEFConstants.html#CEF_TIMER_MAXDELAY">CEF_TIMER_MAXDELAY</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#DepleteWorkCycles">DepleteWorkCycles</a></strong>  : cardinal         read <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FDepleteWorkCycles">FDepleteWorkCycles</a>   write <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FDepleteWorkCycles">FDepleteWorkCycles</a>  default  <a href="uCEFConstants.html#CEF_TIMER_DEPLETEWORK_CYCLES">CEF_TIMER_DEPLETEWORK_CYCLES</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#DepleteWorkDelay">DepleteWorkDelay</a></strong>   : cardinal         read <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FDepleteWorkDelay">FDepleteWorkDelay</a>    write <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FDepleteWorkDelay">FDepleteWorkDelay</a>   default  <a href="uCEFConstants.html#CEF_TIMER_DEPLETEWORK_DELAY">CEF_TIMER_DEPLETEWORK_DELAY</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWorkScheduler.TCEFWorkScheduler.html#UseQueueThread">UseQueueThread</a></strong>     : boolean          read <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FUseQueueThread">FUseQueueThread</a>      write <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FUseQueueThread">FUseQueueThread</a>     default  False;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FThread"></span><code><strong>FThread</strong>: <a href="uCEFWorkSchedulerThread.TCEFWorkSchedulerThread.html">TCEFWorkSchedulerThread</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FQueueThread"></span><code><strong>FQueueThread</strong>: <a href="uCEFWorkSchedulerQueueThread.TCEFWorkSchedulerQueueThread.html">TCEFWorkSchedulerQueueThread</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FDepleteWorkCycles"></span><code><strong>FDepleteWorkCycles</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FDepleteWorkDelay"></span><code><strong>FDepleteWorkDelay</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FDefaultInterval"></span><code><strong>FDefaultInterval</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FStopped"></span><code><strong>FStopped</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FUseQueueThread"></span><code><strong>FUseQueueThread</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FCompHandle"></span><code><strong>FCompHandle</strong>: HWND;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FPriority"></span><code><strong>FPriority</strong>: TThreadPriority;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CreateQueueThread"></span><code>procedure <strong>CreateQueueThread</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroyQueueThread"></span><code>procedure <strong>DestroyQueueThread</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="QueueThread_OnPulse-TObject-integer-"></span><code>procedure <strong>QueueThread_OnPulse</strong>(Sender : TObject; aDelay : integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroyThread"></span><code>procedure <strong>DestroyThread</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DepleteWork"></span><code>procedure <strong>DepleteWork</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="WndProc-TMessage-"></span><code>procedure <strong>WndProc</strong>(var aMessage: TMessage);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DeallocateWindowHandle"></span><code>procedure <strong>DeallocateWindowHandle</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="NextPulse-integer-"></span><code>procedure <strong>NextPulse</strong>(aInterval : integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ScheduleWork-int64-"></span><code>procedure <strong>ScheduleWork</strong>(const delay_ms : int64);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DoWork"></span><code>procedure <strong>DoWork</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DoMessageLoopWork"></span><code>procedure <strong>DoMessageLoopWork</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Initialize"></span><code>procedure <strong>Initialize</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetDefaultInterval-integer-"></span><code>procedure <strong>SetDefaultInterval</strong>(aValue : integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetPriority-TThreadPriority-"></span><code>procedure <strong>SetPriority</strong>(aValue : TThreadPriority);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Thread_OnPulse-TObject-"></span><code>procedure <strong>Thread_OnPulse</strong>(Sender : TObject);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-TComponent-"></span><code>constructor <strong>Create</strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Full constructor of TCEFWorkScheduler. This constructor also creates the internal threads. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateDelayed"></span><code>constructor <strong>CreateDelayed</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Partial constructor of TCEFWorkScheduler. This constructor doesn't create any threads. Call TCEFWorkScheduler.CreateThread when necessary. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ TCEFWorkScheduler destructor. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ScheduleMessagePumpWork-int64-"></span><code>procedure <strong>ScheduleMessagePumpWork</strong>(const delay_ms : int64);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called from GlobalCEFApp.OnScheduleMessagePumpWork to schedule a GlobalCEFApp.DoMessageLoopWork call asynchronously to perform a single iteration of CEF message loop processing. </p>
+<p>
+ </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>delay_ms</dt>
+<dd>Requested delay in milliseconds.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="StopScheduler"></span><code>procedure <strong>StopScheduler</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Stop the scheduler. This function must be called after the destruction of all the forms in the application. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateThread"></span><code>procedure <strong>CreateThread</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Creates all the internal threads used by TCEFWorkScheduler. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Priority"></span><code>property <strong>Priority</strong>           : TThreadPriority  read <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FPriority">FPriority</a>            write <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#SetPriority-TThreadPriority-">SetPriority</a>         default  tpNormal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Priority of TCEFWorkSchedulerThread in Windows. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="DefaultInterval"></span><code>property <strong>DefaultInterval</strong>    : integer          read <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FDefaultInterval">FDefaultInterval</a>     write <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#SetDefaultInterval-integer-">SetDefaultInterval</a>  default  <a href="uCEFConstants.html#CEF_TIMER_MAXDELAY">CEF_TIMER_MAXDELAY</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Default interval in milliseconds to do the next GlobalCEFApp.DoMessageLoopWork call. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="DepleteWorkCycles"></span><code>property <strong>DepleteWorkCycles</strong>  : cardinal         read <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FDepleteWorkCycles">FDepleteWorkCycles</a>   write <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FDepleteWorkCycles">FDepleteWorkCycles</a>  default  <a href="uCEFConstants.html#CEF_TIMER_DEPLETEWORK_CYCLES">CEF_TIMER_DEPLETEWORK_CYCLES</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Number of cycles used to deplete the remaining messages in the work loop. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="DepleteWorkDelay"></span><code>property <strong>DepleteWorkDelay</strong>   : cardinal         read <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FDepleteWorkDelay">FDepleteWorkDelay</a>    write <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FDepleteWorkDelay">FDepleteWorkDelay</a>   default  <a href="uCEFConstants.html#CEF_TIMER_DEPLETEWORK_DELAY">CEF_TIMER_DEPLETEWORK_DELAY</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Delay in milliseconds between the cycles used to deplete the remaining messages in the work loop. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="UseQueueThread"></span><code>property <strong>UseQueueThread</strong>     : boolean          read <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FUseQueueThread">FUseQueueThread</a>      write <a href="uCEFWorkScheduler.TCEFWorkScheduler.html#FUseQueueThread">FUseQueueThread</a>     default  False;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Use a custom queue thread instead of Windows messages or any other way to schedule the next pump work. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

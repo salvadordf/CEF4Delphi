@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefUrlRequest</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefUrlRequest"></span><h1 class="cio">Interface ICefUrlRequest</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefUrlRequest = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface used to make a URL request. URL requests are not associated with a browser instance so no ICefClient callbacks will be executed. URL requests can be created on any valid CEF thread in either the browser or render process. Once created the functions of the URL request object must be accessed on the same thread that created it. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_urlrequest_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_urlrequest_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_urlrequest_capi.h (cef_urlrequest_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefUrlRequest</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefUrlRequest.html#GetRequest">GetRequest</a></strong>: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefUrlRequest.html#GetClient">GetClient</a></strong>: <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefUrlRequest.html#GetRequestStatus">GetRequestStatus</a></strong>: <a href="uCEFTypes.html#TCefUrlRequestStatus">TCefUrlRequestStatus</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefUrlRequest.html#GetRequestError">GetRequestError</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefUrlRequest.html#GetResponse">GetResponse</a></strong>: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefUrlRequest.html#GetResponseWasCached">GetResponseWasCached</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefUrlRequest.html#Cancel">Cancel</a></strong>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefUrlRequest.html#Request">Request</a></strong>           : <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>           read <a href="uCEFInterfaces.ICefUrlRequest.html#GetRequest">GetRequest</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefUrlRequest.html#Client">Client</a></strong>            : <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>  read <a href="uCEFInterfaces.ICefUrlRequest.html#GetClient">Getclient</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefUrlRequest.html#RequestStatus">RequestStatus</a></strong>     : <a href="uCEFTypes.html#TCefUrlRequestStatus">TCefUrlRequestStatus</a>  read <a href="uCEFInterfaces.ICefUrlRequest.html#GetRequestStatus">GetRequestStatus</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefUrlRequest.html#RequestError">RequestError</a></strong>      : Integer               read <a href="uCEFInterfaces.ICefUrlRequest.html#GetRequestError">GetRequestError</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefUrlRequest.html#Response">Response</a></strong>          : <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>          read <a href="uCEFInterfaces.ICefUrlRequest.html#GetResponse">GetResponse</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefUrlRequest.html#ResponseWasCached">ResponseWasCached</a></strong> : boolean               read <a href="uCEFInterfaces.ICefUrlRequest.html#GetResponseWasCached">GetResponseWasCached</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetRequest"></span><code>function <strong>GetRequest</strong>: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the request object used to create this URL request. The returned object is read-only and should not be modified. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{59226AC1-A0FA-4D59-9DF4-A65C42391A67}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetClient"></span><code>function <strong>GetClient</strong>: <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the client. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetRequestStatus"></span><code>function <strong>GetRequestStatus</strong>: <a href="uCEFTypes.html#TCefUrlRequestStatus">TCefUrlRequestStatus</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the request status. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetRequestError"></span><code>function <strong>GetRequestError</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the request error if status is UR_CANCELED or UR_FAILED, or 0 otherwise. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetResponse"></span><code>function <strong>GetResponse</strong>: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the response, or NULL if no response information is available. Response information will only be available after the upload has completed. The returned object is read-only and should not be modified. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetResponseWasCached"></span><code>function <strong>GetResponseWasCached</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the response body was served from the cache. This includes responses for which revalidation was required. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Cancel"></span><code>procedure <strong>Cancel</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Cancel the request. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Request"></span><code>property <strong>Request</strong>           : <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>           read <a href="uCEFInterfaces.ICefUrlRequest.html#GetRequest">GetRequest</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the request object used to create this URL request. The returned object is read-only and should not be modified. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Client"></span><code>property <strong>Client</strong>            : <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>  read <a href="uCEFInterfaces.ICefUrlRequest.html#GetClient">Getclient</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the client. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RequestStatus"></span><code>property <strong>RequestStatus</strong>     : <a href="uCEFTypes.html#TCefUrlRequestStatus">TCefUrlRequestStatus</a>  read <a href="uCEFInterfaces.ICefUrlRequest.html#GetRequestStatus">GetRequestStatus</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the request status. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RequestError"></span><code>property <strong>RequestError</strong>      : Integer               read <a href="uCEFInterfaces.ICefUrlRequest.html#GetRequestError">GetRequestError</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the request error if status is UR_CANCELED or UR_FAILED, or 0 otherwise. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Response"></span><code>property <strong>Response</strong>          : <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>          read <a href="uCEFInterfaces.ICefUrlRequest.html#GetResponse">GetResponse</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the response body was served from the cache. This includes responses for which revalidation was required. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ResponseWasCached"></span><code>property <strong>ResponseWasCached</strong> : boolean               read <a href="uCEFInterfaces.ICefUrlRequest.html#GetResponseWasCached">GetResponseWasCached</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the response body was served from the cache. This includes responses for which revalidation was required. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

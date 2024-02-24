@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefWindow</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefWindow"></span><h1 class="cio">Interface ICefWindow</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefWindow = interface(<a class="normal" href="uCEFInterfaces.ICefPanel.html">ICefPanel</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ A Window is a top-level Window/widget in the Views hierarchy. By default it will have a non-client area with title bar, icon and buttons that supports moving and resizing. All size and position values are in density independent pixels (DIP) unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_window_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_window_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_window_capi.h (cef_window_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefView.html">ICefView</a></li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefPanel.html">ICefPanel</a></li>
+<li class="thisitem">ICefWindow</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#Show">Show</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#ShowAsBrowserModalDialog-ICefBrowserView-">ShowAsBrowserModalDialog</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#Hide">Hide</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#CenterWindow-TCefSize-">CenterWindow</a></strong>(const size_: <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#Close">Close</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#IsClosed">IsClosed</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#Activate">Activate</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#Deactivate">Deactivate</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#IsActive">IsActive</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#BringToTop">BringToTop</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#SetAlwaysOnTop-boolean-">SetAlwaysOnTop</a></strong>(on_top: boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#IsAlwaysOnTop">IsAlwaysOnTop</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#Maximize">Maximize</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#Minimize">Minimize</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#Restore">Restore</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#SetFullscreen-boolean-">SetFullscreen</a></strong>(fullscreen: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#IsMaximized">IsMaximized</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#IsMinimized">IsMinimized</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#IsFullscreen">IsFullscreen</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#SetTitle-ustring-">SetTitle</a></strong>(const title_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#GetTitle">GetTitle</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#SetWindowIcon-ICefImage-">SetWindowIcon</a></strong>(const image: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#GetWindowIcon">GetWindowIcon</a></strong>: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#SetWindowAppIcon-ICefImage-">SetWindowAppIcon</a></strong>(const image: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#GetWindowAppIcon">GetWindowAppIcon</a></strong>: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#AddOverlayView-ICefView-TCefDockingMode-boolean-">AddOverlayView</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; docking_mode: <a href="uCEFTypes.html#TCefDockingMode">TCefDockingMode</a>; can_activate: boolean): <a href="uCEFInterfaces.ICefOverlayController.html">ICefOverlayController</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#ShowMenu-ICefMenuModel-TCefPoint-TCefMenuAnchorPosition-">ShowMenu</a></strong>(const menu_model: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; const screen_point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; anchor_position : <a href="uCEFTypes.html#TCefMenuAnchorPosition">TCefMenuAnchorPosition</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#CancelMenu">CancelMenu</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#GetDisplay">GetDisplay</a></strong>: <a href="uCEFInterfaces.ICefDisplay.html">ICefDisplay</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#GetClientAreaBoundsInScreen">GetClientAreaBoundsInScreen</a></strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#SetDraggableRegions-NativeUInt-PCefDraggableRegionArray-">SetDraggableRegions</a></strong>(regionsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const regions: <a href="uCEFTypes.html#PCefDraggableRegionArray">PCefDraggableRegionArray</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#GetWindowHandle">GetWindowHandle</a></strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#SendKeyPress-Integer-cardinal-">SendKeyPress</a></strong>(key_code: Integer; event_flags: cardinal);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#SendMouseMove-Integer-Integer-">SendMouseMove</a></strong>(screen_x, screen_y: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#SendMouseEvents-TCefMouseButtonType-boolean-boolean-">SendMouseEvents</a></strong>(button: <a href="uCEFTypes.html#TCefMouseButtonType">TCefMouseButtonType</a>; mouse_down, mouse_up: boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#SetAccelerator-Integer-Integer-boolean-boolean-boolean-boolean-">SetAccelerator</a></strong>(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed, high_priority: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#RemoveAccelerator-Integer-">RemoveAccelerator</a></strong>(command_id: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#RemoveAllAccelerators">RemoveAllAccelerators</a></strong>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefWindow.html#Title">Title</a></strong>                    : <a href="uCEFTypes.html#ustring">ustring</a>            read <a href="uCEFInterfaces.ICefWindow.html#GetTitle">GetTitle</a>                     write <a href="uCEFInterfaces.ICefWindow.html#SetTitle-ustring-">SetTitle</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefWindow.html#WindowIcon">WindowIcon</a></strong>               : <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>          read <a href="uCEFInterfaces.ICefWindow.html#GetWindowIcon">GetWindowIcon</a>                write <a href="uCEFInterfaces.ICefWindow.html#SetWindowIcon-ICefImage-">SetWindowIcon</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefWindow.html#WindowAppIcon">WindowAppIcon</a></strong>            : <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>          read <a href="uCEFInterfaces.ICefWindow.html#GetWindowAppIcon">GetWindowAppIcon</a>             write <a href="uCEFInterfaces.ICefWindow.html#SetWindowAppIcon-ICefImage-">SetWindowAppIcon</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefWindow.html#Display">Display</a></strong>                  : <a href="uCEFInterfaces.ICefDisplay.html">ICefDisplay</a>        read <a href="uCEFInterfaces.ICefWindow.html#GetDisplay">GetDisplay</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefWindow.html#ClientAreaBoundsInScreen">ClientAreaBoundsInScreen</a></strong> : <a href="uCEFTypes.TCefRect.html">TCefRect</a>           read <a href="uCEFInterfaces.ICefWindow.html#GetClientAreaBoundsInScreen">GetClientAreaBoundsInScreen</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefWindow.html#WindowHandle">WindowHandle</a></strong>             : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>   read <a href="uCEFInterfaces.ICefWindow.html#GetWindowHandle">GetWindowHandle</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Show"></span><code>procedure <strong>Show</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Show the Window. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{C450C974-BF0A-4968-A6BE-153CEAD10DA6}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ShowAsBrowserModalDialog-ICefBrowserView-"></span><code>procedure <strong>ShowAsBrowserModalDialog</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Show the Window as a browser modal dialog relative to |browser_view|. A parent Window must be returned via ICefWindowDelegate.GetParentWindow() and |browser_view| must belong to that parent Window. While this Window is visible, |browser_view| will be disabled while other controls in the parent Window remain enabled. Navigating or destroying the |browser_view| will close this Window automatically. Alternately, use show() and return true (1) from ICefWindowDelegate.IsWindowModalDialog() for a window modal dialog where all controls in the parent Window are disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Hide"></span><code>procedure <strong>Hide</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Hide the Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CenterWindow-TCefSize-"></span><code>procedure <strong>CenterWindow</strong>(const size_: <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sizes the Window to |size| and centers it in the current display. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Close"></span><code>procedure <strong>Close</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Close the Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsClosed"></span><code>function <strong>IsClosed</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the Window has been closed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Activate"></span><code>procedure <strong>Activate</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Activate the Window, assuming it already exists and is visible. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Deactivate"></span><code>procedure <strong>Deactivate</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Deactivate the Window, making the next Window in the Z order the active Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsActive"></span><code>function <strong>IsActive</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns whether the Window is the currently active Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="BringToTop"></span><code>procedure <strong>BringToTop</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Bring this Window to the top of other Windows in the Windowing system. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetAlwaysOnTop-boolean-"></span><code>procedure <strong>SetAlwaysOnTop</strong>(on_top: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the Window to be on top of other Windows in the Windowing system. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsAlwaysOnTop"></span><code>function <strong>IsAlwaysOnTop</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns whether the Window has been set to be on top of other Windows in the Windowing system. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Maximize"></span><code>procedure <strong>Maximize</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Maximize the Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Minimize"></span><code>procedure <strong>Minimize</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Minimize the Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Restore"></span><code>procedure <strong>Restore</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Restore the Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetFullscreen-boolean-"></span><code>procedure <strong>SetFullscreen</strong>(fullscreen: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set fullscreen Window state. The ICefWindowDelegate.OnWindowFullscreenTransition function will be called during the fullscreen transition for notification purposes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsMaximized"></span><code>function <strong>IsMaximized</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the Window is maximized. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsMinimized"></span><code>function <strong>IsMinimized</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the Window is minimized. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsFullscreen"></span><code>function <strong>IsFullscreen</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the Window is fullscreen. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetTitle-ustring-"></span><code>procedure <strong>SetTitle</strong>(const title_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the Window title. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetTitle"></span><code>function <strong>GetTitle</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the Window title. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetWindowIcon-ICefImage-"></span><code>procedure <strong>SetWindowIcon</strong>(const image: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the Window icon. This should be a 16x16 icon suitable for use in the Windows's title bar. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetWindowIcon"></span><code>function <strong>GetWindowIcon</strong>: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the Window icon. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetWindowAppIcon-ICefImage-"></span><code>procedure <strong>SetWindowAppIcon</strong>(const image: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the Window App icon. This should be a larger icon for use in the host environment app switching UI. On Windows, this is the ICON_BIG used in Alt-Tab list and Windows taskbar. The Window icon will be used by default if no Window App icon is specified. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetWindowAppIcon"></span><code>function <strong>GetWindowAppIcon</strong>: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the Window App icon. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddOverlayView-ICefView-TCefDockingMode-boolean-"></span><code>function <strong>AddOverlayView</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; docking_mode: <a href="uCEFTypes.html#TCefDockingMode">TCefDockingMode</a>; can_activate: boolean): <a href="uCEFInterfaces.ICefOverlayController.html">ICefOverlayController</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add a View that will be overlayed on the Window contents with absolute positioning and high z-order. Positioning is controlled by |docking_mode| as described below. Setting |can_activate| to true (1) will allow the overlay view to receive input focus. The returned cef_overlay_controller_t object is used to control the overlay. Overlays are hidden by default.
+
+<p>With CEF_DOCKING_MODE_CUSTOM: 1. The overlay is initially hidden, sized to |view|'s preferred size, and positioned in the top-left corner. 2. Optionally change the overlay position and/or size by calling CefOverlayController methods. 3. Call ICefOverlayController.SetVisible(true) to show the overlay. 4. The overlay will be automatically re-sized if |view|'s layout changes. Optionally change the overlay position and/or size when OnLayoutChanged is called on the Window's delegate to indicate a change in Window bounds.
+
+<p>With other docking modes: 1. The overlay is initially hidden, sized to |view|'s preferred size, and positioned based on |docking_mode|. 2. Call ICefOverlayController.SetVisible(true) to show the overlay. 3. The overlay will be automatically re-sized if |view|'s layout changes and re-positioned as appropriate when the Window resizes.
+
+<p>Overlays created by this function will receive a higher z-order then any child Views added previously. It is therefore recommended to call this function last after all other child Views have been added so that the overlay displays as the top-most child of the Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ShowMenu-ICefMenuModel-TCefPoint-TCefMenuAnchorPosition-"></span><code>procedure <strong>ShowMenu</strong>(const menu_model: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; const screen_point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; anchor_position : <a href="uCEFTypes.html#TCefMenuAnchorPosition">TCefMenuAnchorPosition</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Show a menu with contents |menu_model|. |screen_point| specifies the menu position in screen coordinates. |anchor_position| specifies how the menu will be anchored relative to |screen_point|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CancelMenu"></span><code>procedure <strong>CancelMenu</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Cancel the menu that is currently showing, if any. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDisplay"></span><code>function <strong>GetDisplay</strong>: <a href="uCEFInterfaces.ICefDisplay.html">ICefDisplay</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the Display that most closely intersects the bounds of this Window. May return NULL if this Window is not currently displayed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetClientAreaBoundsInScreen"></span><code>function <strong>GetClientAreaBoundsInScreen</strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the bounds (size and position) of this Window's client area. Position is in screen coordinates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetDraggableRegions-NativeUInt-PCefDraggableRegionArray-"></span><code>procedure <strong>SetDraggableRegions</strong>(regionsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const regions: <a href="uCEFTypes.html#PCefDraggableRegionArray">PCefDraggableRegionArray</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the regions where mouse events will be intercepted by this Window to support drag operations. Call this function with an NULL vector to clear the draggable regions. The draggable region bounds should be in window coordinates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetWindowHandle"></span><code>function <strong>GetWindowHandle</strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve the platform window handle for this Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendKeyPress-Integer-cardinal-"></span><code>procedure <strong>SendKeyPress</strong>(key_code: Integer; event_flags: cardinal);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Simulate a key press. |key_code| is the VKEY_* value from Chromium's ui/events/keycodes/keyboard_codes.h header (VK_* values on Windows). |event_flags| is some combination of EVENTFLAG_SHIFT_DOWN, EVENTFLAG_CONTROL_DOWN and/or EVENTFLAG_ALT_DOWN. This function is exposed primarily for testing purposes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendMouseMove-Integer-Integer-"></span><code>procedure <strong>SendMouseMove</strong>(screen_x, screen_y: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Simulate a mouse move. The mouse cursor will be moved to the specified (screen_x, screen_y) position. This function is exposed primarily for testing purposes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendMouseEvents-TCefMouseButtonType-boolean-boolean-"></span><code>procedure <strong>SendMouseEvents</strong>(button: <a href="uCEFTypes.html#TCefMouseButtonType">TCefMouseButtonType</a>; mouse_down, mouse_up: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Simulate mouse down and/or mouse up events. |button| is the mouse button type. If |mouse_down| is true (1) a mouse down event will be sent. If |mouse_up| is true (1) a mouse up event will be sent. If both are true (1) a mouse down event will be sent followed by a mouse up event (equivalent to clicking the mouse button). The events will be sent using the current cursor position so make sure to call send_mouse_move() first to position the mouse. This function is exposed primarily for testing purposes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetAccelerator-Integer-Integer-boolean-boolean-boolean-boolean-"></span><code>procedure <strong>SetAccelerator</strong>(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed, high_priority: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Set the keyboard accelerator for the specified |command_id|. |key_code| can be any virtual key or character value. Required modifier keys are specified by |shift_pressed|, |ctrl_pressed| and/or |alt_pressed|. ICefWindowDelegate.OnAccelerator will be called if the keyboard combination is triggered while this window has focus.
+
+<p>The |high_priority| value will be considered if a child ICefBrowserView has focus when the keyboard combination is triggered. If |high_priority| is true (1) then the key event will not be forwarded to the web content (`keydown` event handler) or ICefKeyboardHandler first. If |high_priority| is false (0) then the behavior will depend on the ICefBrowserView.SetPreferAccelerators configuration.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveAccelerator-Integer-"></span><code>procedure <strong>RemoveAccelerator</strong>(command_id: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Remove the keyboard accelerator for the specified |command_id|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveAllAccelerators"></span><code>procedure <strong>RemoveAllAccelerators</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Remove all keyboard accelerators. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Title"></span><code>property <strong>Title</strong>                    : <a href="uCEFTypes.html#ustring">ustring</a>            read <a href="uCEFInterfaces.ICefWindow.html#GetTitle">GetTitle</a>                     write <a href="uCEFInterfaces.ICefWindow.html#SetTitle-ustring-">SetTitle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the Window title. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="WindowIcon"></span><code>property <strong>WindowIcon</strong>               : <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>          read <a href="uCEFInterfaces.ICefWindow.html#GetWindowIcon">GetWindowIcon</a>                write <a href="uCEFInterfaces.ICefWindow.html#SetWindowIcon-ICefImage-">SetWindowIcon</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the Window icon. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="WindowAppIcon"></span><code>property <strong>WindowAppIcon</strong>            : <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>          read <a href="uCEFInterfaces.ICefWindow.html#GetWindowAppIcon">GetWindowAppIcon</a>             write <a href="uCEFInterfaces.ICefWindow.html#SetWindowAppIcon-ICefImage-">SetWindowAppIcon</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the Window App icon. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Display"></span><code>property <strong>Display</strong>                  : <a href="uCEFInterfaces.ICefDisplay.html">ICefDisplay</a>        read <a href="uCEFInterfaces.ICefWindow.html#GetDisplay">GetDisplay</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the Display that most closely intersects the bounds of this Window. May return NULL if this Window is not currently displayed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ClientAreaBoundsInScreen"></span><code>property <strong>ClientAreaBoundsInScreen</strong> : <a href="uCEFTypes.TCefRect.html">TCefRect</a>           read <a href="uCEFInterfaces.ICefWindow.html#GetClientAreaBoundsInScreen">GetClientAreaBoundsInScreen</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the bounds (size and position) of this Window's client area. Position is in screen coordinates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="WindowHandle"></span><code>property <strong>WindowHandle</strong>             : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>   read <a href="uCEFInterfaces.ICefWindow.html#GetWindowHandle">GetWindowHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve the platform window handle for this Window. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

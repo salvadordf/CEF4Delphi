@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface IServerEvents</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="IServerEvents"></span><h1 class="cio">Interface IServerEvents</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type IServerEvents = interface(IInterface)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Custom interface used to handle all the TCEFServerComponent events. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{06A1B3C6-0967-4F6C-A751-8AA3A29E2FF5}']</dt>
+  <dd></dd>
+</dl>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="thisitem">IServerEvents</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IServerEvents.html#doOnServerCreated-ICefServer-">doOnServerCreated</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IServerEvents.html#doOnServerDestroyed-ICefServer-">doOnServerDestroyed</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IServerEvents.html#doOnClientConnected-ICefServer-Integer-">doOnClientConnected</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IServerEvents.html#doOnClientDisconnected-ICefServer-Integer-">doOnClientDisconnected</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IServerEvents.html#doOnHttpRequest-ICefServer-Integer-ustring-ICefRequest-">doOnHttpRequest</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IServerEvents.html#doOnWebSocketRequest-ICefServer-Integer-ustring-ICefRequest-ICefCallback-">doOnWebSocketRequest</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IServerEvents.html#doOnWebSocketConnected-ICefServer-Integer-">doOnWebSocketConnected</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IServerEvents.html#doOnWebSocketMessage-ICefServer-Integer-Pointer-NativeUInt-">doOnWebSocketMessage</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnServerCreated-ICefServer-"></span><code>procedure <strong>doOnServerCreated</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefServerHandler</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnServerDestroyed-ICefServer-"></span><code>procedure <strong>doOnServerDestroyed</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnClientConnected-ICefServer-Integer-"></span><code>procedure <strong>doOnClientConnected</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnClientDisconnected-ICefServer-Integer-"></span><code>procedure <strong>doOnClientDisconnected</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnHttpRequest-ICefServer-Integer-ustring-ICefRequest-"></span><code>procedure <strong>doOnHttpRequest</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnWebSocketRequest-ICefServer-Integer-ustring-ICefRequest-ICefCallback-"></span><code>procedure <strong>doOnWebSocketRequest</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnWebSocketConnected-ICefServer-Integer-"></span><code>procedure <strong>doOnWebSocketConnected</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnWebSocketMessage-ICefServer-Integer-Pointer-NativeUInt-"></span><code>procedure <strong>doOnWebSocketMessage</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFXmlReader: Class TCefXmlReaderRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefXmlReaderRef"></span><h1 class="cio">Class TCefXmlReaderRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFXmlReader.html">uCEFXmlReader</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefXmlReaderRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefXmlReader.html">ICefXmlReader</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="thisitem">TCefXmlReaderRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#MoveToNextNode">MoveToNextNode</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#Close">Close</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#HasError">HasError</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetError">GetError</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetType">GetType</a></strong>: <a href="uCEFTypes.html#TCefXmlNodeType">TCefXmlNodeType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetDepth">GetDepth</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetLocalName">GetLocalName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetPrefix">GetPrefix</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetQualifiedName">GetQualifiedName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetNamespaceUri">GetNamespaceUri</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetBaseUri">GetBaseUri</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetXmlLang">GetXmlLang</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#IsEmptyElement">IsEmptyElement</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#HasValue">HasValue</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetValue">GetValue</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#HasAttributes">HasAttributes</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetAttributeCount">GetAttributeCount</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetAttributeByIndex-Integer-">GetAttributeByIndex</a></strong>(index: Integer): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetAttributeByQName-ustring-">GetAttributeByQName</a></strong>(const qualifiedName: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetAttributeByLName-ustring-ustring-">GetAttributeByLName</a></strong>(const localName, namespaceURI: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetInnerXml">GetInnerXml</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetOuterXml">GetOuterXml</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#GetLineNumber">GetLineNumber</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#MoveToAttributeByIndex-Integer-">MoveToAttributeByIndex</a></strong>(index: Integer): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#MoveToAttributeByQName-ustring-">MoveToAttributeByQName</a></strong>(const qualifiedName: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#MoveToAttributeByLName-ustring-ustring-">MoveToAttributeByLName</a></strong>(const localName, namespaceURI: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#MoveToFirstAttribute">MoveToFirstAttribute</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#MoveToNextAttribute">MoveToNextAttribute</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#MoveToCarryingElement">MoveToCarryingElement</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefXmlReader.html">ICefXmlReader</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFXmlReader.TCefXmlReaderRef.html#New-ICefStreamReader-TCefXmlEncodingType-ustring-">New</a></strong>(const stream: <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>; encodingType: <a href="uCEFTypes.html#TCefXmlEncodingType">TCefXmlEncodingType</a>; const URI: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefXmlReader.html">ICefXmlReader</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MoveToNextNode"></span><code>function <strong>MoveToNextNode</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#MoveToNextNode">ICefXmlReader.MoveToNextNode</a>.</p><p>
+ Moves the cursor to the next node in the document. This function must be called at least once to set the current cursor position. Returns true (1) if the cursor position was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Close"></span><code>function <strong>Close</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#Close">ICefXmlReader.Close</a>.</p><p>
+ Close the document. This should be called directly to ensure that cleanup occurs on the correct thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HasError"></span><code>function <strong>HasError</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#HasError">ICefXmlReader.HasError</a>.</p><p>
+ Returns true (1) if an error has been reported by the XML parser. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetError"></span><code>function <strong>GetError</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetError">ICefXmlReader.GetError</a>.</p><p>
+ Returns the error string. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetType"></span><code>function <strong>GetType</strong>: <a href="uCEFTypes.html#TCefXmlNodeType">TCefXmlNodeType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetType">ICefXmlReader.GetType</a>.</p><p>
+ Returns the node type. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetDepth"></span><code>function <strong>GetDepth</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetDepth">ICefXmlReader.GetDepth</a>.</p><p>
+ Returns the node depth. Depth starts at 0 for the root node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetLocalName"></span><code>function <strong>GetLocalName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetLocalName">ICefXmlReader.GetLocalName</a>.</p><p>
+ Returns the local name. See <a href="http://www.w3.org/TR/REC-xml-names/#NT">http://www.w3.org/TR/REC-xml-names/#NT</a>- LocalPart for additional details. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetPrefix"></span><code>function <strong>GetPrefix</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetPrefix">ICefXmlReader.GetPrefix</a>.</p><p>
+ Returns the namespace prefix. See <a href="http://www.w3.org/TR/REC-xml-names/">http://www.w3.org/TR/REC-xml-names/</a> for additional details. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetQualifiedName"></span><code>function <strong>GetQualifiedName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetQualifiedName">ICefXmlReader.GetQualifiedName</a>.</p><p>
+ Returns the qualified name, equal to (Prefix:)LocalName. See <a href="http://www.w3.org/TR/REC-xml-names/#ns-qualnames">http://www.w3.org/TR/REC-xml-names/#ns-qualnames</a> for additional details. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetNamespaceUri"></span><code>function <strong>GetNamespaceUri</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetNamespaceUri">ICefXmlReader.GetNamespaceUri</a>.</p><p>
+ Returns the URI defining the namespace associated with the node. See <a href="http://www.w3.org/TR/REC-xml-names/">http://www.w3.org/TR/REC-xml-names/</a> for additional details. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBaseUri"></span><code>function <strong>GetBaseUri</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetBaseUri">ICefXmlReader.GetBaseUri</a>.</p><p>
+ Returns the base URI of the node. See <a href="http://www.w3.org/TR/xmlbase/">http://www.w3.org/TR/xmlbase/</a> for additional details. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetXmlLang"></span><code>function <strong>GetXmlLang</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetXmlLang">ICefXmlReader.GetXmlLang</a>.</p><p>
+ Returns the xml:lang scope within which the node resides. See <a href="http://www.w3.org/TR/REC-xml/#sec-lang-tag">http://www.w3.org/TR/REC-xml/#sec-lang-tag</a> for additional details. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsEmptyElement"></span><code>function <strong>IsEmptyElement</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#IsEmptyElement">ICefXmlReader.IsEmptyElement</a>.</p><p>
+ Returns true (1) if the node represents an NULL element. &quot;&lt;a/&gt;&quot; is considered NULL but &quot;&lt;a&gt;&lt;/a&gt;&quot; is not. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HasValue"></span><code>function <strong>HasValue</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#HasValue">ICefXmlReader.HasValue</a>.</p><p>
+ Returns true (1) if the node has a text value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetValue"></span><code>function <strong>GetValue</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetValue">ICefXmlReader.GetValue</a>.</p><p>
+ Returns the text value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HasAttributes"></span><code>function <strong>HasAttributes</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#HasAttributes">ICefXmlReader.HasAttributes</a>.</p><p>
+ Returns true (1) if the node has attributes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAttributeCount"></span><code>function <strong>GetAttributeCount</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetAttributeCount">ICefXmlReader.GetAttributeCount</a>.</p><p>
+ Returns the number of attributes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAttributeByIndex-Integer-"></span><code>function <strong>GetAttributeByIndex</strong>(index: Integer): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetAttributeByIndex-Integer-">ICefXmlReader.GetAttributeByIndex</a>.</p><p>
+ Returns the value of the attribute at the specified 0-based index. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAttributeByQName-ustring-"></span><code>function <strong>GetAttributeByQName</strong>(const qualifiedName: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetAttributeByQName-ustring-">ICefXmlReader.GetAttributeByQName</a>.</p><p>
+ Returns the value of the attribute with the specified qualified name. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAttributeByLName-ustring-ustring-"></span><code>function <strong>GetAttributeByLName</strong>(const localName, namespaceURI: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetAttributeByLName-ustring-ustring-">ICefXmlReader.GetAttributeByLName</a>.</p><p>
+ Returns the value of the attribute with the specified local name and namespace URI. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetInnerXml"></span><code>function <strong>GetInnerXml</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetInnerXml">ICefXmlReader.GetInnerXml</a>.</p><p>
+ Returns an XML representation of the current node's children. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetOuterXml"></span><code>function <strong>GetOuterXml</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetOuterXml">ICefXmlReader.GetOuterXml</a>.</p><p>
+ Returns an XML representation of the current node including its children. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetLineNumber"></span><code>function <strong>GetLineNumber</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#GetLineNumber">ICefXmlReader.GetLineNumber</a>.</p><p>
+ Returns the line number for the current node. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MoveToAttributeByIndex-Integer-"></span><code>function <strong>MoveToAttributeByIndex</strong>(index: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#MoveToAttributeByIndex-Integer-">ICefXmlReader.MoveToAttributeByIndex</a>.</p><p>
+ Moves the cursor to the attribute at the specified 0-based index. Returns true (1) if the cursor position was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MoveToAttributeByQName-ustring-"></span><code>function <strong>MoveToAttributeByQName</strong>(const qualifiedName: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#MoveToAttributeByQName-ustring-">ICefXmlReader.MoveToAttributeByQName</a>.</p><p>
+ Moves the cursor to the attribute with the specified qualified name. Returns true (1) if the cursor position was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MoveToAttributeByLName-ustring-ustring-"></span><code>function <strong>MoveToAttributeByLName</strong>(const localName, namespaceURI: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#MoveToAttributeByLName-ustring-ustring-">ICefXmlReader.MoveToAttributeByLName</a>.</p><p>
+ Moves the cursor to the attribute with the specified local name and namespace URI. Returns true (1) if the cursor position was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MoveToFirstAttribute"></span><code>function <strong>MoveToFirstAttribute</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#MoveToFirstAttribute">ICefXmlReader.MoveToFirstAttribute</a>.</p><p>
+ Moves the cursor to the first attribute in the current element. Returns true (1) if the cursor position was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MoveToNextAttribute"></span><code>function <strong>MoveToNextAttribute</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#MoveToNextAttribute">ICefXmlReader.MoveToNextAttribute</a>.</p><p>
+ Moves the cursor to the next attribute in the current element. Returns true (1) if the cursor position was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MoveToCarryingElement"></span><code>function <strong>MoveToCarryingElement</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefXmlReader.html#MoveToCarryingElement">ICefXmlReader.MoveToCarryingElement</a>.</p><p>
+ Moves the cursor back to the carrying element. Returns true (1) if the cursor position was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefXmlReader.html">ICefXmlReader</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="New-ICefStreamReader-TCefXmlEncodingType-ustring-"></span><code>class function <strong>New</strong>(const stream: <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>; encodingType: <a href="uCEFTypes.html#TCefXmlEncodingType">TCefXmlEncodingType</a>; const URI: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefXmlReader.html">ICefXmlReader</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

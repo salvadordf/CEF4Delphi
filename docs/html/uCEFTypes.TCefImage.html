@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefImage</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefImage"></span><h1 class="cio">Record TCefImage</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefImage = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Container for a single image represented at different scale factors. All image representations should be the same size in density independent pixel (DIP) units. For example, if the image at scale factor 1.0 is 100x100 pixels then the image at scale factor 2.0 should be 200x200 pixels &ndash; both images will display with a DIP size of 100x100 units. The functions of this structure can be called on any browser process thread. </p>
+<p>
+
+
+<p>Implemented by ICefImage.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_image_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_image_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_image_capi.h (cef_image_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#is_empty">is_empty</a></strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#is_same">is_same</a></strong>: function(self, that: <a href="uCEFTypes.html#PCefImage">PCefImage</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#add_bitmap">add_bitmap</a></strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; pixel_width, pixel_height: Integer; color_type: <a href="uCEFTypes.html#TCefColorType">TCefColorType</a>; alpha_type: <a href="uCEFTypes.html#TCefAlphaType">TCefAlphaType</a>; const pixel_data: Pointer; pixel_data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#add_png">add_png</a></strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; const png_data: Pointer; png_data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#add_jpeg">add_jpeg</a></strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; const jpeg_data: Pointer; jpeg_data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#get_width">get_width</a></strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#get_height">get_height</a></strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#has_representation">has_representation</a></strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#remove_representation">remove_representation</a></strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#get_representation_info">get_representation_info</a></strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; actual_scale_factor: PSingle; pixel_width, pixel_height: PInteger): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#get_as_bitmap">get_as_bitmap</a></strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; color_type: <a href="uCEFTypes.html#TCefColorType">TCefColorType</a>; alpha_type: <a href="uCEFTypes.html#TCefAlphaType">TCefAlphaType</a>; pixel_width, pixel_height: PInteger): <a href="uCEFTypes.html#PCefBinaryValue">PCefBinaryValue</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#get_as_png">get_as_png</a></strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; with_transparency: Integer; pixel_width, pixel_height: PInteger): <a href="uCEFTypes.html#PCefBinaryValue">PCefBinaryValue</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefImage.html#get_as_jpeg">get_as_jpeg</a></strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; quality: Integer; pixel_width, pixel_height: PInteger): <a href="uCEFTypes.html#PCefBinaryValue">PCefBinaryValue</a>; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_empty"></span><code><strong>is_empty</strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_same"></span><code><strong>is_same</strong>: function(self, that: <a href="uCEFTypes.html#PCefImage">PCefImage</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="add_bitmap"></span><code><strong>add_bitmap</strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; pixel_width, pixel_height: Integer; color_type: <a href="uCEFTypes.html#TCefColorType">TCefColorType</a>; alpha_type: <a href="uCEFTypes.html#TCefAlphaType">TCefAlphaType</a>; const pixel_data: Pointer; pixel_data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="add_png"></span><code><strong>add_png</strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; const png_data: Pointer; png_data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="add_jpeg"></span><code><strong>add_jpeg</strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; const jpeg_data: Pointer; jpeg_data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_width"></span><code><strong>get_width</strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_height"></span><code><strong>get_height</strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_representation"></span><code><strong>has_representation</strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="remove_representation"></span><code><strong>remove_representation</strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_representation_info"></span><code><strong>get_representation_info</strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; actual_scale_factor: PSingle; pixel_width, pixel_height: PInteger): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_as_bitmap"></span><code><strong>get_as_bitmap</strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; color_type: <a href="uCEFTypes.html#TCefColorType">TCefColorType</a>; alpha_type: <a href="uCEFTypes.html#TCefAlphaType">TCefAlphaType</a>; pixel_width, pixel_height: PInteger): <a href="uCEFTypes.html#PCefBinaryValue">PCefBinaryValue</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_as_png"></span><code><strong>get_as_png</strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; with_transparency: Integer; pixel_width, pixel_height: PInteger): <a href="uCEFTypes.html#PCefBinaryValue">PCefBinaryValue</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_as_jpeg"></span><code><strong>get_as_jpeg</strong>: function(self: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; scale_factor: Single; quality: Integer; pixel_width, pixel_height: PInteger): <a href="uCEFTypes.html#PCefBinaryValue">PCefBinaryValue</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

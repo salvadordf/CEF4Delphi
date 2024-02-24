@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFStreamReader: Class TCefStreamReaderRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefStreamReaderRef"></span><h1 class="cio">Class TCefStreamReaderRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFStreamReader.html">uCEFStreamReader</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefStreamReaderRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="thisitem">TCefStreamReaderRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFStreamReader.TCefStreamReaderRef.html#Read-Pointer-NativeUInt-NativeUInt-">Read</a></strong>(ptr: Pointer; size, n: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFStreamReader.TCefStreamReaderRef.html#Seek-Int64-Integer-">Seek</a></strong>(offset: Int64; whence: Integer): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFStreamReader.TCefStreamReaderRef.html#Tell">Tell</a></strong>: Int64;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFStreamReader.TCefStreamReaderRef.html#Eof">Eof</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFStreamReader.TCefStreamReaderRef.html#MayBlock">MayBlock</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFStreamReader.TCefStreamReaderRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFStreamReader.TCefStreamReaderRef.html#CreateForFile-ustring-">CreateForFile</a></strong>(const filename: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFStreamReader.TCefStreamReaderRef.html#CreateForCustomStream-ICefCustomStreamReader-">CreateForCustomStream</a></strong>(const stream: <a href="uCEFInterfaces.ICefCustomStreamReader.html">ICefCustomStreamReader</a>): <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFStreamReader.TCefStreamReaderRef.html#CreateForStream-TSTream-Boolean-">CreateForStream</a></strong>(const stream: TSTream; owned: Boolean): <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFStreamReader.TCefStreamReaderRef.html#CreateForData-Pointer-NativeUInt-">CreateForData</a></strong>(data: Pointer; size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFStreamReader.TCefStreamReaderRef.html#CreateForHandler-ICefReadHandler-">CreateForHandler</a></strong>(const handler: <a href="uCEFInterfaces.ICefReadHandler.html">ICefReadHandler</a>): <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Read-Pointer-NativeUInt-NativeUInt-"></span><code>function <strong>Read</strong>(ptr: Pointer; size, n: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefStreamReader.html#Read-Pointer-NativeUInt-NativeUInt-">ICefStreamReader.Read</a>.</p><p>
+ Read raw binary data. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Seek-Int64-Integer-"></span><code>function <strong>Seek</strong>(offset: Int64; whence: Integer): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefStreamReader.html#Seek-Int64-Integer-">ICefStreamReader.Seek</a>.</p><p>
+ Seek to the specified offset position. |whence| may be any one of SEEK_CUR, SEEK_END or SEEK_SET. Return zero on success and non-zero on failure. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Tell"></span><code>function <strong>Tell</strong>: Int64;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefStreamReader.html#Tell">ICefStreamReader.Tell</a>.</p><p>
+ Return the current offset position. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Eof"></span><code>function <strong>Eof</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefStreamReader.html#Eof">ICefStreamReader.Eof</a>.</p><p>
+ Return non-zero if at end of file. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MayBlock"></span><code>function <strong>MayBlock</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefStreamReader.html#MayBlock">ICefStreamReader.MayBlock</a>.</p><p>
+ Return true (1) if this handler performs work like accessing the file system which may block. Used as a hint for determining the thread to access the handler from. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateForFile-ustring-"></span><code>class function <strong>CreateForFile</strong>(const filename: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateForCustomStream-ICefCustomStreamReader-"></span><code>class function <strong>CreateForCustomStream</strong>(const stream: <a href="uCEFInterfaces.ICefCustomStreamReader.html">ICefCustomStreamReader</a>): <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateForStream-TSTream-Boolean-"></span><code>class function <strong>CreateForStream</strong>(const stream: TSTream; owned: Boolean): <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateForData-Pointer-NativeUInt-"></span><code>class function <strong>CreateForData</strong>(data: Pointer; size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateForHandler-ICefReadHandler-"></span><code>class function <strong>CreateForHandler</strong>(const handler: <a href="uCEFInterfaces.ICefReadHandler.html">ICefReadHandler</a>): <a href="uCEFInterfaces.ICefStreamReader.html">ICefStreamReader</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

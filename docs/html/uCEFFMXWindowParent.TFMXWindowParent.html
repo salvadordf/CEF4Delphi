@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFFMXWindowParent: Class TFMXWindowParent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TFMXWindowParent"></span><h1 class="cio">Class TFMXWindowParent</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFFMXWindowParent.html">uCEFFMXWindowParent</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TFMXWindowParent = class(TCommonCustomForm)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TCommonCustomForm</li>
+<li class="thisitem">TFMXWindowParent</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFFMXWindowParent.TFMXWindowParent.html#FChromium">FChromium</a></strong>: <a href="uCEFFMXChromium.TFMXChromium.html">TFMXChromium</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFMXWindowParent.TFMXWindowParent.html#GetChildWindowHandle">GetChildWindowHandle</a></strong>: HWND;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXWindowParent.TFMXWindowParent.html#Notification-TComponent-TOperation-">Notification</a></strong>(AComponent: TComponent; Operation: TOperation); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXWindowParent.TFMXWindowParent.html#Reparent-TFmxHandle-">Reparent</a></strong>(const aNewParentHandle : TFmxHandle);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXWindowParent.TFMXWindowParent.html#UpdateSize">UpdateSize</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFMXWindowParent.TFMXWindowParent.html#SetBounds-Integer-Integer-Integer-Integer-">SetBounds</a></strong>(ALeft, ATop, AWidth, AHeight: Integer); override;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXWindowParent.TFMXWindowParent.html#ChildWindowHandle">ChildWindowHandle</a></strong> : HWND          read <a href="uCEFFMXWindowParent.TFMXWindowParent.html#GetChildWindowHandle">GetChildWindowHandle</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXWindowParent.TFMXWindowParent.html#Chromium">Chromium</a></strong>          : <a href="uCEFFMXChromium.TFMXChromium.html">TFMXChromium</a>  read <a href="uCEFFMXWindowParent.TFMXWindowParent.html#FChromium">FChromium</a>              write <a href="uCEFFMXWindowParent.TFMXWindowParent.html#FChromium">FChromium</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXWindowParent.TFMXWindowParent.html#Visible">Visible</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXWindowParent.TFMXWindowParent.html#Height">Height</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFMXWindowParent.TFMXWindowParent.html#Width">Width</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FChromium"></span><code><strong>FChromium</strong>: <a href="uCEFFMXChromium.TFMXChromium.html">TFMXChromium</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetChildWindowHandle"></span><code>function <strong>GetChildWindowHandle</strong>: HWND;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Notification-TComponent-TOperation-"></span><code>procedure <strong>Notification</strong>(AComponent: TComponent; Operation: TOperation); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Reparent-TFmxHandle-"></span><code>procedure <strong>Reparent</strong>(const aNewParentHandle : TFmxHandle);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set a new parent for this control. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UpdateSize"></span><code>procedure <strong>UpdateSize</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Updates the size of the child windows created by the browser. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetBounds-Integer-Integer-Integer-Integer-"></span><code>procedure <strong>SetBounds</strong>(ALeft, ATop, AWidth, AHeight: Integer); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ChildWindowHandle"></span><code>property <strong>ChildWindowHandle</strong> : HWND          read <a href="uCEFFMXWindowParent.TFMXWindowParent.html#GetChildWindowHandle">GetChildWindowHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Handle of the first child window created by the browser. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Chromium"></span><code>property <strong>Chromium</strong>          : <a href="uCEFFMXChromium.TFMXChromium.html">TFMXChromium</a>  read <a href="uCEFFMXWindowParent.TFMXWindowParent.html#FChromium">FChromium</a>              write <a href="uCEFFMXWindowParent.TFMXWindowParent.html#FChromium">FChromium</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ TChromium instance used by this component. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Visible"></span><code>property <strong>Visible</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Height"></span><code>property <strong>Height</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Width"></span><code>property <strong>Width</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

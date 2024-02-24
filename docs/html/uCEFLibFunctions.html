@@ -1,0 +1,2051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFLibFunctions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<h1 class="unit">Unit uCEFLibFunctions</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section">Classes, Interfaces, Objects and Records</div><div class="one_section">Functions and Procedures</div><div class="one_section">Types</div><div class="one_section">Constants</div><div class="one_section"><a class="section" href="#PasDoc-Variables">Variables</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
+<span id="PasDoc-Variables"></span><h3 class="summary">Variables</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_api_hash">cef_api_hash</a></strong>: function(entry: integer): PAnsiChar; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_initialize">cef_initialize</a></strong>: function(const args: <a href="uCEFTypes.html#PCefMainArgs">PCefMainArgs</a>; const settings: <a href="uCEFTypes.html#PCefSettings">PCefSettings</a>; application: <a href="uCEFTypes.html#PCefApp">PCefApp</a>; windows_sandbox_info: Pointer): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_shutdown">cef_shutdown</a></strong>: procedure; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_execute_process">cef_execute_process</a></strong>: function(const args: <a href="uCEFTypes.html#PCefMainArgs">PCefMainArgs</a>; application: <a href="uCEFTypes.html#PCefApp">PCefApp</a>; windows_sandbox_info: Pointer): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_do_message_loop_work">cef_do_message_loop_work</a></strong>: procedure; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_run_message_loop">cef_run_message_loop</a></strong>: procedure; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_quit_message_loop">cef_quit_message_loop</a></strong>: procedure; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_browser_host_create_browser">cef_browser_host_create_browser</a></strong>: function(const windowInfo: <a href="uCEFTypes.html#PCefWindowInfo">PCefWindowInfo</a>; client: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; const url: <a href="uCEFTypes.html#PCefString">PCefString</a>; const settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; extra_info: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; request_context: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_browser_host_create_browser_sync">cef_browser_host_create_browser_sync</a></strong>: function(const windowInfo: <a href="uCEFTypes.html#PCefWindowInfo">PCefWindowInfo</a>; client: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; const url: <a href="uCEFTypes.html#PCefString">PCefString</a>; const settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; extra_info: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; request_context: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>): <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_command_line_create">cef_command_line_create</a></strong>: function: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_command_line_get_global">cef_command_line_get_global</a></strong>: function: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_cookie_manager_get_global_manager">cef_cookie_manager_get_global_manager</a></strong>: function(callback: <a href="uCEFTypes.html#PCefCompletionCallback">PCefCompletionCallback</a>): <a href="uCEFTypes.html#PCefCookieManager">PCefCookieManager</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_crash_reporting_enabled">cef_crash_reporting_enabled</a></strong>: function: integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_set_crash_key_value">cef_set_crash_key_value</a></strong>: procedure(const key, value : <a href="uCEFTypes.html#PCefString">PCefString</a>); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_drag_data_create">cef_drag_data_create</a></strong>: function: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_create_directory">cef_create_directory</a></strong>: function(const full_path : <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_get_temp_directory">cef_get_temp_directory</a></strong>: function(temp_dir : <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_create_new_temp_directory">cef_create_new_temp_directory</a></strong>: function(const prefix : <a href="uCEFTypes.html#PCefString">PCefString</a>; new_temp_path: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_create_temp_directory_in_directory">cef_create_temp_directory_in_directory</a></strong>: function(const base_dir, prefix : <a href="uCEFTypes.html#PCefString">PCefString</a>; new_dir : <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_directory_exists">cef_directory_exists</a></strong>: function(const path : <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_delete_file">cef_delete_file</a></strong>: function(const path : <a href="uCEFTypes.html#PCefString">PCefString</a>; recursive : integer): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_zip_directory">cef_zip_directory</a></strong>: function(const src_dir, dest_file : <a href="uCEFTypes.html#PCefString">PCefString</a>; include_hidden_files : integer): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_load_crlsets_file">cef_load_crlsets_file</a></strong>: procedure(const path : <a href="uCEFTypes.html#PCefString">PCefString</a>); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_is_rtl">cef_is_rtl</a></strong>: function: Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_image_create">cef_image_create</a></strong>: function: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_media_router_get_global">cef_media_router_get_global</a></strong>: function(callback: <a href="uCEFTypes.html#PCefCompletionCallback">PCefCompletionCallback</a>) : <a href="uCEFTypes.html#PCefMediaRouter">PCefMediaRouter</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_menu_model_create">cef_menu_model_create</a></strong>: function(delegate: <a href="uCEFTypes.html#PCefMenuModelDelegate">PCefMenuModelDelegate</a>): <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_add_cross_origin_whitelist_entry">cef_add_cross_origin_whitelist_entry</a></strong>: function(const source_origin, target_protocol, target_domain: <a href="uCEFTypes.html#PCefString">PCefString</a>; allow_target_subdomains: Integer): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_remove_cross_origin_whitelist_entry">cef_remove_cross_origin_whitelist_entry</a></strong>: function(const source_origin, target_protocol, target_domain: <a href="uCEFTypes.html#PCefString">PCefString</a>; allow_target_subdomains: Integer): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_clear_cross_origin_whitelist">cef_clear_cross_origin_whitelist</a></strong>: function: Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_resolve_url">cef_resolve_url</a></strong>: function(const base_url, relative_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; resolved_url: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_parse_url">cef_parse_url</a></strong>: function(const url: <a href="uCEFTypes.html#PCefString">PCefString</a>; var parts: <a href="uCEFTypes.TCefUrlParts.html">TCefUrlParts</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_create_url">cef_create_url</a></strong>: function(const parts: <a href="uCEFTypes.html#PCefUrlParts">PCefUrlParts</a>; url: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_format_url_for_security_display">cef_format_url_for_security_display</a></strong>: function(const origin_url: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_get_mime_type">cef_get_mime_type</a></strong>: function(const extension: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_get_extensions_for_mime_type">cef_get_extensions_for_mime_type</a></strong>: procedure(const mime_type: <a href="uCEFTypes.html#PCefString">PCefString</a>; extensions: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_base64encode">cef_base64encode</a></strong>: function(const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_base64decode">cef_base64decode</a></strong>: function(const data: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefBinaryValue">PCefBinaryValue</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_uriencode">cef_uriencode</a></strong>: function(const text: <a href="uCEFTypes.html#PCefString">PCefString</a>; use_plus: Integer): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_uridecode">cef_uridecode</a></strong>: function(const text: <a href="uCEFTypes.html#PCefString">PCefString</a>; convert_to_utf8: Integer; unescape_rule: <a href="uCEFTypes.html#TCefUriUnescapeRule">TCefUriUnescapeRule</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_parse_json">cef_parse_json</a></strong>: function(const json_string: <a href="uCEFTypes.html#PCefString">PCefString</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a>): <a href="uCEFTypes.html#PCefValue">PCefValue</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_parse_json_buffer">cef_parse_json_buffer</a></strong>: function(const json: Pointer; json_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a>): <a href="uCEFTypes.html#PCefValue">PCefValue</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_parse_jsonand_return_error">cef_parse_jsonand_return_error</a></strong>: function(const json_string: <a href="uCEFTypes.html#PCefString">PCefString</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a>; error_msg_out: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefValue">PCefValue</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_write_json">cef_write_json</a></strong>: function(node: <a href="uCEFTypes.html#PCefValue">PCefValue</a>; options: <a href="uCEFTypes.html#TCefJsonWriterOptions">TCefJsonWriterOptions</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_get_path">cef_get_path</a></strong>: function(key: <a href="uCEFTypes.html#TCefPathKey">TCefPathKey</a>; path: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_preference_manager_get_global">cef_preference_manager_get_global</a></strong>: function: <a href="uCEFTypes.html#PCefPreferenceManager">PCefPreferenceManager</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_print_settings_create">cef_print_settings_create</a></strong>: function: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_process_message_create">cef_process_message_create</a></strong>: function(const name: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefProcessMessage">PCefProcessMessage</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_launch_process">cef_launch_process</a></strong>: function(command_line: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_request_create">cef_request_create</a></strong>: function: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_post_data_create">cef_post_data_create</a></strong>: function: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_post_data_element_create">cef_post_data_element_create</a></strong>: function: <a href="uCEFTypes.html#PCefPostDataElement">PCefPostDataElement</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_request_context_get_global_context">cef_request_context_get_global_context</a></strong>: function: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_request_context_create_context">cef_request_context_create_context</a></strong>: function(const settings: <a href="uCEFTypes.html#PCefRequestContextSettings">PCefRequestContextSettings</a>; handler: <a href="uCEFTypes.html#PCefRequestContextHandler">PCefRequestContextHandler</a>): <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_create_context_shared">cef_create_context_shared</a></strong>: function(other: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; handler: <a href="uCEFTypes.html#PCefRequestContextHandler">PCefRequestContextHandler</a>): <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_resource_bundle_get_global">cef_resource_bundle_get_global</a></strong>: function: <a href="uCEFTypes.html#PCefResourceBundle">PCefResourceBundle</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_response_create">cef_response_create</a></strong>: function: <a href="uCEFTypes.html#PCefResponse">PCefResponse</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_register_scheme_handler_factory">cef_register_scheme_handler_factory</a></strong>: function(const scheme_name, domain_name: <a href="uCEFTypes.html#PCefString">PCefString</a>; factory: <a href="uCEFTypes.html#PCefSchemeHandlerFactory">PCefSchemeHandlerFactory</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_clear_scheme_handler_factories">cef_clear_scheme_handler_factories</a></strong>: function: Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_server_create">cef_server_create</a></strong>: procedure(const address: <a href="uCEFTypes.html#PCefString">PCefString</a>; port: uint16; backlog: Integer; handler: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_shared_process_message_builder_create">cef_shared_process_message_builder_create</a></strong>: function(const name: <a href="uCEFTypes.html#PCefString">PCefString</a>; byte_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>) : <a href="uCEFTypes.html#PCefSharedProcessMessageBuilder">PCefSharedProcessMessageBuilder</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_is_cert_status_error">cef_is_cert_status_error</a></strong>: function(status : <a href="uCEFTypes.html#TCefCertStatus">TCefCertStatus</a>) : integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_stream_reader_create_for_file">cef_stream_reader_create_for_file</a></strong>: function(const fileName: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefStreamReader">PCefStreamReader</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_stream_reader_create_for_data">cef_stream_reader_create_for_data</a></strong>: function(data: Pointer; size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#PCefStreamReader">PCefStreamReader</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_stream_reader_create_for_handler">cef_stream_reader_create_for_handler</a></strong>: function(handler: <a href="uCEFTypes.html#PCefReadHandler">PCefReadHandler</a>): <a href="uCEFTypes.html#PCefStreamReader">PCefStreamReader</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_stream_writer_create_for_file">cef_stream_writer_create_for_file</a></strong>: function(const fileName: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefStreamWriter">PCefStreamWriter</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_stream_writer_create_for_handler">cef_stream_writer_create_for_handler</a></strong>: function(handler: <a href="uCEFTypes.html#PCefWriteHandler">PCefWriteHandler</a>): <a href="uCEFTypes.html#PCefStreamWriter">PCefStreamWriter</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_task_runner_get_for_current_thread">cef_task_runner_get_for_current_thread</a></strong>: function: <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_task_runner_get_for_thread">cef_task_runner_get_for_thread</a></strong>: function(threadId: <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>): <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_currently_on">cef_currently_on</a></strong>: function(threadId: <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_post_task">cef_post_task</a></strong>: function(threadId: <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>; task: <a href="uCEFTypes.html#PCefTask">PCefTask</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_post_delayed_task">cef_post_delayed_task</a></strong>: function(threadId: <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>; task: <a href="uCEFTypes.html#PCefTask">PCefTask</a>; delay_ms: Int64): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_thread_create">cef_thread_create</a></strong>: function(const display_name: <a href="uCEFTypes.html#PCefString">PCefString</a>; priority: <a href="uCEFTypes.html#TCefThreadPriority">TCefThreadPriority</a>; message_loop_type: <a href="uCEFTypes.html#TCefMessageLoopType">TCefMessageLoopType</a>; stoppable: integer; com_init_mode: <a href="uCEFTypes.html#TCefCOMInitMode">TCefCOMInitMode</a>): <a href="uCEFTypes.html#PCefThread">PCefThread</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_begin_tracing">cef_begin_tracing</a></strong>: function(const categories: <a href="uCEFTypes.html#PCefString">PCefString</a>; callback: <a href="uCEFTypes.html#PCefCompletionCallback">PCefCompletionCallback</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_end_tracing">cef_end_tracing</a></strong>: function(const tracing_file: <a href="uCEFTypes.html#PCefString">PCefString</a>; callback: <a href="uCEFTypes.html#PCefEndTracingCallback">PCefEndTracingCallback</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_now_from_system_trace_time">cef_now_from_system_trace_time</a></strong>: function: int64; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_urlrequest_create">cef_urlrequest_create</a></strong>: function(request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; client: <a href="uCEFTypes.html#PCefUrlRequestClient">PCefUrlRequestClient</a>; request_context: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>): <a href="uCEFTypes.html#PCefUrlRequest">PCefUrlRequest</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8context_get_current_context">cef_v8context_get_current_context</a></strong>: function: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8context_get_entered_context">cef_v8context_get_entered_context</a></strong>: function: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8context_in_context">cef_v8context_in_context</a></strong>: function: Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_undefined">cef_v8value_create_undefined</a></strong>: function: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_null">cef_v8value_create_null</a></strong>: function: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_bool">cef_v8value_create_bool</a></strong>: function(value: Integer): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_int">cef_v8value_create_int</a></strong>: function(value: Integer): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_uint">cef_v8value_create_uint</a></strong>: function(value: Cardinal): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_double">cef_v8value_create_double</a></strong>: function(value: Double): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_date">cef_v8value_create_date</a></strong>: function(value: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_string">cef_v8value_create_string</a></strong>: function(const value: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_object">cef_v8value_create_object</a></strong>: function(accessor: <a href="uCEFTypes.html#PCefV8Accessor">PCefV8Accessor</a>; interceptor: <a href="uCEFTypes.html#PCefV8Interceptor">PCefV8Interceptor</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_array">cef_v8value_create_array</a></strong>: function(length: Integer): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_array_buffer">cef_v8value_create_array_buffer</a></strong>: function(buffer : Pointer; length: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; release_callback : <a href="uCEFTypes.html#PCefv8ArrayBufferReleaseCallback">PCefv8ArrayBufferReleaseCallback</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_function">cef_v8value_create_function</a></strong>: function(const name: <a href="uCEFTypes.html#PCefString">PCefString</a>; handler: <a href="uCEFTypes.html#PCefv8Handler">PCefv8Handler</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_promise">cef_v8value_create_promise</a></strong>: function: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8stack_trace_get_current">cef_v8stack_trace_get_current</a></strong>: function(frame_limit: Integer): <a href="uCEFTypes.html#PCefV8StackTrace">PCefV8StackTrace</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_register_extension">cef_register_extension</a></strong>: function(const extension_name, javascript_code: <a href="uCEFTypes.html#PCefString">PCefString</a>; handler: <a href="uCEFTypes.html#PCefv8Handler">PCefv8Handler</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_value_create">cef_value_create</a></strong>: function: <a href="uCEFTypes.html#PCefValue">PCefValue</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_binary_value_create">cef_binary_value_create</a></strong>: function(const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#PCefBinaryValue">PCefBinaryValue</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_dictionary_value_create">cef_dictionary_value_create</a></strong>: function: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_list_value_create">cef_list_value_create</a></strong>: function: <a href="uCEFTypes.html#PCefListValue">PCefListValue</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_waitable_event_create">cef_waitable_event_create</a></strong>: function(automatic_reset, initially_signaled : integer): <a href="uCEFTypes.html#PCefWaitableEvent">PCefWaitableEvent</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_xml_reader_create">cef_xml_reader_create</a></strong>: function(stream: <a href="uCEFTypes.html#PCefStreamReader">PCefStreamReader</a>; encodingType: <a href="uCEFTypes.html#TCefXmlEncodingType">TCefXmlEncodingType</a>; const URI: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefXmlReader">PCefXmlReader</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_zip_reader_create">cef_zip_reader_create</a></strong>: function(stream: <a href="uCEFTypes.html#PCefStreamReader">PCefStreamReader</a>): <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_browser_view_create">cef_browser_view_create</a></strong>: function(client: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; const url: <a href="uCEFTypes.html#PCefString">PCefString</a>; const settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; extra_info: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; request_context: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; delegate: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>): <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_browser_view_get_for_browser">cef_browser_view_get_for_browser</a></strong>: function(browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>): <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_display_get_primary">cef_display_get_primary</a></strong>: function: <a href="uCEFTypes.html#PCefDisplay">PCefDisplay</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_display_get_nearest_point">cef_display_get_nearest_point</a></strong>: function(const point: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>; input_pixel_coords: Integer): <a href="uCEFTypes.html#PCefDisplay">PCefDisplay</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_display_get_matching_bounds">cef_display_get_matching_bounds</a></strong>: function(const bounds: <a href="uCEFTypes.html#PCefRect">PCefRect</a>; input_pixel_coords: Integer): <a href="uCEFTypes.html#PCefDisplay">PCefDisplay</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_display_get_count">cef_display_get_count</a></strong>: function: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_display_get_alls">cef_display_get_alls</a></strong>: procedure(displaysCount: <a href="uCEFTypes.html#PNativeUInt">PNativeUInt</a>; displays: <a href="uCEFTypes.html#PPCefDisplay">PPCefDisplay</a>); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_display_convert_screen_point_to_pixels">cef_display_convert_screen_point_to_pixels</a></strong>: function(const point: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>): <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_display_convert_screen_point_from_pixels">cef_display_convert_screen_point_from_pixels</a></strong>: function(const point: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>): <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_display_convert_screen_rect_to_pixels">cef_display_convert_screen_rect_to_pixels</a></strong>: function(const rect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>): <a href="uCEFTypes.TCefRect.html">TCefRect</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_display_convert_screen_rect_from_pixels">cef_display_convert_screen_rect_from_pixels</a></strong>: function(const rect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>): <a href="uCEFTypes.TCefRect.html">TCefRect</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_label_button_create">cef_label_button_create</a></strong>: function(delegate: <a href="uCEFTypes.html#PCefButtonDelegate">PCefButtonDelegate</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_menu_button_create">cef_menu_button_create</a></strong>: function(delegate: <a href="uCEFTypes.html#PCefMenuButtonDelegate">PCefMenuButtonDelegate</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefMenuButton">PCefMenuButton</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_panel_create">cef_panel_create</a></strong>: function(delegate: <a href="uCEFTypes.html#PCefPanelDelegate">PCefPanelDelegate</a>): <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_scroll_view_create">cef_scroll_view_create</a></strong>: function(delegate: <a href="uCEFTypes.html#PCefViewDelegate">PCefViewDelegate</a>): <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_textfield_create">cef_textfield_create</a></strong>: function(delegate: <a href="uCEFTypes.html#PCefTextfieldDelegate">PCefTextfieldDelegate</a>): <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_window_create_top_level">cef_window_create_top_level</a></strong>: function(delegate: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>): <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_set_osmodal_loop">cef_set_osmodal_loop</a></strong>: procedure(osModalLoop: Integer); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_get_min_log_level">cef_get_min_log_level</a></strong>: function: Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_get_vlog_level">cef_get_vlog_level</a></strong>: function(const file_start: PAnsiChar; N: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_log">cef_log</a></strong>: procedure(const file_: PAnsiChar; line, severity: Integer; const message_: PAnsiChar); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_list_alloc">cef_string_list_alloc</a></strong>: function: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_list_size">cef_string_list_size</a></strong>: function(list: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_list_value">cef_string_list_value</a></strong>: function(list: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_list_append">cef_string_list_append</a></strong>: procedure(list: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>; const value: <a href="uCEFTypes.html#PCefString">PCefString</a>); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_list_clear">cef_string_list_clear</a></strong>: procedure(list: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_list_free">cef_string_list_free</a></strong>: procedure(list: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_list_copy">cef_string_list_copy</a></strong>: function(list: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_map_alloc">cef_string_map_alloc</a></strong>: function: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_map_size">cef_string_map_size</a></strong>: function(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_map_find">cef_string_map_find</a></strong>: function(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>; value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_map_key">cef_string_map_key</a></strong>: function(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; key: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_map_value">cef_string_map_value</a></strong>: function(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_map_append">cef_string_map_append</a></strong>: function(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>; const key, value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_map_clear">cef_string_map_clear</a></strong>: procedure(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_map_free">cef_string_map_free</a></strong>: procedure(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_multimap_alloc">cef_string_multimap_alloc</a></strong>: function: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_multimap_size">cef_string_multimap_size</a></strong>: function(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_multimap_find_count">cef_string_multimap_find_count</a></strong>: function(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_multimap_enumerate">cef_string_multimap_enumerate</a></strong>: function(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>; value_index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_multimap_key">cef_string_multimap_key</a></strong>: function(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; key: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_multimap_value">cef_string_multimap_value</a></strong>: function(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_multimap_append">cef_string_multimap_append</a></strong>: function(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>; const key, value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_multimap_clear">cef_string_multimap_clear</a></strong>: procedure(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_multimap_free">cef_string_multimap_free</a></strong>: procedure(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_wide_set">cef_string_wide_set</a></strong>: function(const src: PWideChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>; copy: Integer): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_utf8_set">cef_string_utf8_set</a></strong>: function(const src: PAnsiChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf8">PCefStringUtf8</a>; copy: Integer): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_utf16_set">cef_string_utf16_set</a></strong>: function(const src: <a href="uCEFTypes.html#PChar16">PChar16</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>; copy: Integer): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_wide_clear">cef_string_wide_clear</a></strong>: procedure(str: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_utf8_clear">cef_string_utf8_clear</a></strong>: procedure(str: <a href="uCEFTypes.html#PCefStringUtf8">PCefStringUtf8</a>); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_utf16_clear">cef_string_utf16_clear</a></strong>: procedure(str: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_wide_cmp">cef_string_wide_cmp</a></strong>: function(const str1, str2: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_utf8_cmp">cef_string_utf8_cmp</a></strong>: function(const str1, str2: <a href="uCEFTypes.html#PCefStringUtf8">PCefStringUtf8</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_utf16_cmp">cef_string_utf16_cmp</a></strong>: function(const str1, str2: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_wide_to_utf8">cef_string_wide_to_utf8</a></strong>: function(const src: PWideChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf8">PCefStringUtf8</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_utf8_to_wide">cef_string_utf8_to_wide</a></strong>: function(const src: PAnsiChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_wide_to_utf16">cef_string_wide_to_utf16</a></strong>: function(const src: PWideChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_utf16_to_wide">cef_string_utf16_to_wide</a></strong>: function(const src: <a href="uCEFTypes.html#PChar16">PChar16</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_utf8_to_utf16">cef_string_utf8_to_utf16</a></strong>: function(const src: PAnsiChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_utf16_to_utf8">cef_string_utf16_to_utf8</a></strong>: function(const src: <a href="uCEFTypes.html#PChar16">PChar16</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf8">PCefStringUtf8</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_ascii_to_wide">cef_string_ascii_to_wide</a></strong>: function(const src: PAnsiChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_ascii_to_utf16">cef_string_ascii_to_utf16</a></strong>: function(const src: PAnsiChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_userfree_wide_alloc">cef_string_userfree_wide_alloc</a></strong>: function: <a href="uCEFTypes.html#PCefStringUserFreeWide">PCefStringUserFreeWide</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_userfree_utf8_alloc">cef_string_userfree_utf8_alloc</a></strong>: function: <a href="uCEFTypes.html#PCefStringUserFreeUtf8">PCefStringUserFreeUtf8</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_userfree_utf16_alloc">cef_string_userfree_utf16_alloc</a></strong>: function: <a href="uCEFTypes.html#PCefStringUserFreeUtf16">PCefStringUserFreeUtf16</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_userfree_wide_free">cef_string_userfree_wide_free</a></strong>: procedure(str: <a href="uCEFTypes.html#PCefStringUserFreeWide">PCefStringUserFreeWide</a>); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_userfree_utf8_free">cef_string_userfree_utf8_free</a></strong>: procedure(str: <a href="uCEFTypes.html#PCefStringUserFreeUtf8">PCefStringUserFreeUtf8</a>); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_userfree_utf16_free">cef_string_userfree_utf16_free</a></strong>: procedure(str: <a href="uCEFTypes.html#PCefStringUserFreeUtf16">PCefStringUserFreeUtf16</a>); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_utf16_to_lower">cef_string_utf16_to_lower</a></strong>: function(const src: <a href="uCEFTypes.html#PChar16">PChar16</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_string_utf16_to_upper">cef_string_utf16_to_upper</a></strong>: function(const src: <a href="uCEFTypes.html#PChar16">PChar16</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_get_current_platform_thread_id">cef_get_current_platform_thread_id</a></strong>: function: <a href="uCEFTypes.html#TCefPlatformThreadId">TCefPlatformThreadId</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_get_current_platform_thread_handle">cef_get_current_platform_thread_handle</a></strong>: function: <a href="uCEFTypes.html#TCefPlatformThreadHandle">TCefPlatformThreadHandle</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_time_to_timet">cef_time_to_timet</a></strong>: function(const cef_time: <a href="uCEFTypes.html#PCefTime">PCefTime</a>; out time_: Int64): integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_time_from_timet">cef_time_from_timet</a></strong>: function(time_: int64; out cef_time: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_time_to_doublet">cef_time_to_doublet</a></strong>: function(const cef_time: <a href="uCEFTypes.html#PCefTime">PCefTime</a>; out time_: double): integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_time_from_doublet">cef_time_from_doublet</a></strong>: function(time: double; out cef_time: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_time_now">cef_time_now</a></strong>: function(out cef_time: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_basetime_now">cef_basetime_now</a></strong>: function: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_time_delta">cef_time_delta</a></strong>: function(const cef_time1, cef_time2: <a href="uCEFTypes.html#PCefTime">PCefTime</a>; out delta: int64): integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_time_to_basetime">cef_time_to_basetime</a></strong>: function(const from: <a href="uCEFTypes.html#PCefTime">PCefTime</a>; to_: <a href="uCEFTypes.html#PCefBaseTime">PCefBaseTime</a>) : integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_time_from_basetime">cef_time_from_basetime</a></strong>: function(const from: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>; to_: <a href="uCEFTypes.html#PCefTime">PCefTime</a>) : integer; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_trace_event_instant">cef_trace_event_instant</a></strong>: procedure(const category, name, arg1_name: PAnsiChar; arg1_val: uint64; const arg2_name: PAnsiChar; arg2_val: UInt64); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_trace_event_begin">cef_trace_event_begin</a></strong>: procedure(const category, name, arg1_name: PAnsiChar; arg1_val: UInt64; const arg2_name: PAnsiChar; arg2_val: UInt64); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_trace_event_end">cef_trace_event_end</a></strong>: procedure(const category, name, arg1_name: PAnsiChar; arg1_val: UInt64; const arg2_name: PAnsiChar; arg2_val: UInt64); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_trace_counter">cef_trace_counter</a></strong>: procedure(const category, name, value1_name: PAnsiChar; value1_val: UInt64; const value2_name: PAnsiChar; value2_val: UInt64); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_trace_counter_id">cef_trace_counter_id</a></strong>: procedure(const category, name: PAnsiChar; id: UInt64; const value1_name: PAnsiChar; value1_val: UInt64; const value2_name: PAnsiChar; value2_val: UInt64); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_trace_event_async_begin">cef_trace_event_async_begin</a></strong>: procedure(const category, name: PAnsiChar; id: UInt64; const arg1_name: PAnsiChar; arg1_val: UInt64; const arg2_name: PAnsiChar; arg2_val: UInt64); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_trace_event_async_step_into">cef_trace_event_async_step_into</a></strong>: procedure(const category, name: PAnsiChar; id, step: UInt64; const arg1_name: PAnsiChar; arg1_val: UInt64); cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_trace_event_async_step_past">cef_trace_event_async_step_past</a></strong>: procedure(const category, name: PAnsiChar; id, step: UInt64; const arg1_name: PAnsiChar; arg1_val: UInt64); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_trace_event_async_end">cef_trace_event_async_end</a></strong>: procedure(const category, name: PAnsiChar; id: UInt64; const arg1_name: PAnsiChar; arg1_val: UInt64; const arg2_name: PAnsiChar; arg2_val: UInt64); cdecl;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Variables</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_api_hash"></span><code><strong>cef_api_hash</strong>: function(entry: integer): PAnsiChar; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+********************************* *********** API HASH ************ ********************************* /include/cef_api_hash.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_initialize"></span><code><strong>cef_initialize</strong>: function(const args: <a href="uCEFTypes.html#PCefMainArgs">PCefMainArgs</a>; const settings: <a href="uCEFTypes.html#PCefSettings">PCefSettings</a>; application: <a href="uCEFTypes.html#PCefApp">PCefApp</a>; windows_sandbox_info: Pointer): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+********************************* ************* CAPI ************** ********************************* /include/capi/cef_app_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_shutdown"></span><code><strong>cef_shutdown</strong>: procedure; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_execute_process"></span><code><strong>cef_execute_process</strong>: function(const args: <a href="uCEFTypes.html#PCefMainArgs">PCefMainArgs</a>; application: <a href="uCEFTypes.html#PCefApp">PCefApp</a>; windows_sandbox_info: Pointer): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_do_message_loop_work"></span><code><strong>cef_do_message_loop_work</strong>: procedure; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_run_message_loop"></span><code><strong>cef_run_message_loop</strong>: procedure; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_quit_message_loop"></span><code><strong>cef_quit_message_loop</strong>: procedure; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_browser_host_create_browser"></span><code><strong>cef_browser_host_create_browser</strong>: function(const windowInfo: <a href="uCEFTypes.html#PCefWindowInfo">PCefWindowInfo</a>; client: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; const url: <a href="uCEFTypes.html#PCefString">PCefString</a>; const settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; extra_info: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; request_context: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_browser_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_browser_host_create_browser_sync"></span><code><strong>cef_browser_host_create_browser_sync</strong>: function(const windowInfo: <a href="uCEFTypes.html#PCefWindowInfo">PCefWindowInfo</a>; client: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; const url: <a href="uCEFTypes.html#PCefString">PCefString</a>; const settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; extra_info: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; request_context: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>): <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_command_line_create"></span><code><strong>cef_command_line_create</strong>: function: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_command_line_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_command_line_get_global"></span><code><strong>cef_command_line_get_global</strong>: function: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_cookie_manager_get_global_manager"></span><code><strong>cef_cookie_manager_get_global_manager</strong>: function(callback: <a href="uCEFTypes.html#PCefCompletionCallback">PCefCompletionCallback</a>): <a href="uCEFTypes.html#PCefCookieManager">PCefCookieManager</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_cookie_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_crash_reporting_enabled"></span><code><strong>cef_crash_reporting_enabled</strong>: function: integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_crash_util.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_set_crash_key_value"></span><code><strong>cef_set_crash_key_value</strong>: procedure(const key, value : <a href="uCEFTypes.html#PCefString">PCefString</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_drag_data_create"></span><code><strong>cef_drag_data_create</strong>: function: <a href="uCEFTypes.html#PCefDragData">PCefDragData</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_drag_data_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_create_directory"></span><code><strong>cef_create_directory</strong>: function(const full_path : <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_file_util_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_get_temp_directory"></span><code><strong>cef_get_temp_directory</strong>: function(temp_dir : <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_create_new_temp_directory"></span><code><strong>cef_create_new_temp_directory</strong>: function(const prefix : <a href="uCEFTypes.html#PCefString">PCefString</a>; new_temp_path: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_create_temp_directory_in_directory"></span><code><strong>cef_create_temp_directory_in_directory</strong>: function(const base_dir, prefix : <a href="uCEFTypes.html#PCefString">PCefString</a>; new_dir : <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_directory_exists"></span><code><strong>cef_directory_exists</strong>: function(const path : <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_delete_file"></span><code><strong>cef_delete_file</strong>: function(const path : <a href="uCEFTypes.html#PCefString">PCefString</a>; recursive : integer): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_zip_directory"></span><code><strong>cef_zip_directory</strong>: function(const src_dir, dest_file : <a href="uCEFTypes.html#PCefString">PCefString</a>; include_hidden_files : integer): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_load_crlsets_file"></span><code><strong>cef_load_crlsets_file</strong>: procedure(const path : <a href="uCEFTypes.html#PCefString">PCefString</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_is_rtl"></span><code><strong>cef_is_rtl</strong>: function: Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/ include/capi/cef_i18n_util_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_image_create"></span><code><strong>cef_image_create</strong>: function: <a href="uCEFTypes.html#PCefImage">PCefImage</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_image_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_media_router_get_global"></span><code><strong>cef_media_router_get_global</strong>: function(callback: <a href="uCEFTypes.html#PCefCompletionCallback">PCefCompletionCallback</a>) : <a href="uCEFTypes.html#PCefMediaRouter">PCefMediaRouter</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_media_router_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_menu_model_create"></span><code><strong>cef_menu_model_create</strong>: function(delegate: <a href="uCEFTypes.html#PCefMenuModelDelegate">PCefMenuModelDelegate</a>): <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_menu_model_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_add_cross_origin_whitelist_entry"></span><code><strong>cef_add_cross_origin_whitelist_entry</strong>: function(const source_origin, target_protocol, target_domain: <a href="uCEFTypes.html#PCefString">PCefString</a>; allow_target_subdomains: Integer): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_origin_whitelist_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_remove_cross_origin_whitelist_entry"></span><code><strong>cef_remove_cross_origin_whitelist_entry</strong>: function(const source_origin, target_protocol, target_domain: <a href="uCEFTypes.html#PCefString">PCefString</a>; allow_target_subdomains: Integer): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_clear_cross_origin_whitelist"></span><code><strong>cef_clear_cross_origin_whitelist</strong>: function: Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_resolve_url"></span><code><strong>cef_resolve_url</strong>: function(const base_url, relative_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; resolved_url: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_parser_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_parse_url"></span><code><strong>cef_parse_url</strong>: function(const url: <a href="uCEFTypes.html#PCefString">PCefString</a>; var parts: <a href="uCEFTypes.TCefUrlParts.html">TCefUrlParts</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_create_url"></span><code><strong>cef_create_url</strong>: function(const parts: <a href="uCEFTypes.html#PCefUrlParts">PCefUrlParts</a>; url: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_format_url_for_security_display"></span><code><strong>cef_format_url_for_security_display</strong>: function(const origin_url: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_get_mime_type"></span><code><strong>cef_get_mime_type</strong>: function(const extension: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_get_extensions_for_mime_type"></span><code><strong>cef_get_extensions_for_mime_type</strong>: procedure(const mime_type: <a href="uCEFTypes.html#PCefString">PCefString</a>; extensions: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_base64encode"></span><code><strong>cef_base64encode</strong>: function(const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_base64decode"></span><code><strong>cef_base64decode</strong>: function(const data: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefBinaryValue">PCefBinaryValue</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_uriencode"></span><code><strong>cef_uriencode</strong>: function(const text: <a href="uCEFTypes.html#PCefString">PCefString</a>; use_plus: Integer): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_uridecode"></span><code><strong>cef_uridecode</strong>: function(const text: <a href="uCEFTypes.html#PCefString">PCefString</a>; convert_to_utf8: Integer; unescape_rule: <a href="uCEFTypes.html#TCefUriUnescapeRule">TCefUriUnescapeRule</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_parse_json"></span><code><strong>cef_parse_json</strong>: function(const json_string: <a href="uCEFTypes.html#PCefString">PCefString</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a>): <a href="uCEFTypes.html#PCefValue">PCefValue</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_parse_json_buffer"></span><code><strong>cef_parse_json_buffer</strong>: function(const json: Pointer; json_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a>): <a href="uCEFTypes.html#PCefValue">PCefValue</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_parse_jsonand_return_error"></span><code><strong>cef_parse_jsonand_return_error</strong>: function(const json_string: <a href="uCEFTypes.html#PCefString">PCefString</a>; options: <a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a>; error_msg_out: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefValue">PCefValue</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_write_json"></span><code><strong>cef_write_json</strong>: function(node: <a href="uCEFTypes.html#PCefValue">PCefValue</a>; options: <a href="uCEFTypes.html#TCefJsonWriterOptions">TCefJsonWriterOptions</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_get_path"></span><code><strong>cef_get_path</strong>: function(key: <a href="uCEFTypes.html#TCefPathKey">TCefPathKey</a>; path: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_path_util_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_preference_manager_get_global"></span><code><strong>cef_preference_manager_get_global</strong>: function: <a href="uCEFTypes.html#PCefPreferenceManager">PCefPreferenceManager</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_preference_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_print_settings_create"></span><code><strong>cef_print_settings_create</strong>: function: <a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_print_settings_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_process_message_create"></span><code><strong>cef_process_message_create</strong>: function(const name: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefProcessMessage">PCefProcessMessage</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_process_message_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_launch_process"></span><code><strong>cef_launch_process</strong>: function(command_line: <a href="uCEFTypes.html#PCefCommandLine">PCefCommandLine</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_process_util_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_request_create"></span><code><strong>cef_request_create</strong>: function: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_request_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_post_data_create"></span><code><strong>cef_post_data_create</strong>: function: <a href="uCEFTypes.html#PCefPostData">PCefPostData</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_post_data_element_create"></span><code><strong>cef_post_data_element_create</strong>: function: <a href="uCEFTypes.html#PCefPostDataElement">PCefPostDataElement</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_request_context_get_global_context"></span><code><strong>cef_request_context_get_global_context</strong>: function: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_request_context_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_request_context_create_context"></span><code><strong>cef_request_context_create_context</strong>: function(const settings: <a href="uCEFTypes.html#PCefRequestContextSettings">PCefRequestContextSettings</a>; handler: <a href="uCEFTypes.html#PCefRequestContextHandler">PCefRequestContextHandler</a>): <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_create_context_shared"></span><code><strong>cef_create_context_shared</strong>: function(other: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; handler: <a href="uCEFTypes.html#PCefRequestContextHandler">PCefRequestContextHandler</a>): <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_resource_bundle_get_global"></span><code><strong>cef_resource_bundle_get_global</strong>: function: <a href="uCEFTypes.html#PCefResourceBundle">PCefResourceBundle</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_resource_bundle_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_response_create"></span><code><strong>cef_response_create</strong>: function: <a href="uCEFTypes.html#PCefResponse">PCefResponse</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_response_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_register_scheme_handler_factory"></span><code><strong>cef_register_scheme_handler_factory</strong>: function(const scheme_name, domain_name: <a href="uCEFTypes.html#PCefString">PCefString</a>; factory: <a href="uCEFTypes.html#PCefSchemeHandlerFactory">PCefSchemeHandlerFactory</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_scheme_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_clear_scheme_handler_factories"></span><code><strong>cef_clear_scheme_handler_factories</strong>: function: Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_server_create"></span><code><strong>cef_server_create</strong>: procedure(const address: <a href="uCEFTypes.html#PCefString">PCefString</a>; port: uint16; backlog: Integer; handler: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_server_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_shared_process_message_builder_create"></span><code><strong>cef_shared_process_message_builder_create</strong>: function(const name: <a href="uCEFTypes.html#PCefString">PCefString</a>; byte_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>) : <a href="uCEFTypes.html#PCefSharedProcessMessageBuilder">PCefSharedProcessMessageBuilder</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_shared_process_message_builder_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_is_cert_status_error"></span><code><strong>cef_is_cert_status_error</strong>: function(status : <a href="uCEFTypes.html#TCefCertStatus">TCefCertStatus</a>) : integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_ssl_info_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_stream_reader_create_for_file"></span><code><strong>cef_stream_reader_create_for_file</strong>: function(const fileName: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefStreamReader">PCefStreamReader</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_stream_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_stream_reader_create_for_data"></span><code><strong>cef_stream_reader_create_for_data</strong>: function(data: Pointer; size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#PCefStreamReader">PCefStreamReader</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_stream_reader_create_for_handler"></span><code><strong>cef_stream_reader_create_for_handler</strong>: function(handler: <a href="uCEFTypes.html#PCefReadHandler">PCefReadHandler</a>): <a href="uCEFTypes.html#PCefStreamReader">PCefStreamReader</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_stream_writer_create_for_file"></span><code><strong>cef_stream_writer_create_for_file</strong>: function(const fileName: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefStreamWriter">PCefStreamWriter</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_stream_writer_create_for_handler"></span><code><strong>cef_stream_writer_create_for_handler</strong>: function(handler: <a href="uCEFTypes.html#PCefWriteHandler">PCefWriteHandler</a>): <a href="uCEFTypes.html#PCefStreamWriter">PCefStreamWriter</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_task_runner_get_for_current_thread"></span><code><strong>cef_task_runner_get_for_current_thread</strong>: function: <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_task_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_task_runner_get_for_thread"></span><code><strong>cef_task_runner_get_for_thread</strong>: function(threadId: <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>): <a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_currently_on"></span><code><strong>cef_currently_on</strong>: function(threadId: <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_post_task"></span><code><strong>cef_post_task</strong>: function(threadId: <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>; task: <a href="uCEFTypes.html#PCefTask">PCefTask</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_post_delayed_task"></span><code><strong>cef_post_delayed_task</strong>: function(threadId: <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>; task: <a href="uCEFTypes.html#PCefTask">PCefTask</a>; delay_ms: Int64): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_thread_create"></span><code><strong>cef_thread_create</strong>: function(const display_name: <a href="uCEFTypes.html#PCefString">PCefString</a>; priority: <a href="uCEFTypes.html#TCefThreadPriority">TCefThreadPriority</a>; message_loop_type: <a href="uCEFTypes.html#TCefMessageLoopType">TCefMessageLoopType</a>; stoppable: integer; com_init_mode: <a href="uCEFTypes.html#TCefCOMInitMode">TCefCOMInitMode</a>): <a href="uCEFTypes.html#PCefThread">PCefThread</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_thread_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_begin_tracing"></span><code><strong>cef_begin_tracing</strong>: function(const categories: <a href="uCEFTypes.html#PCefString">PCefString</a>; callback: <a href="uCEFTypes.html#PCefCompletionCallback">PCefCompletionCallback</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_trace_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_end_tracing"></span><code><strong>cef_end_tracing</strong>: function(const tracing_file: <a href="uCEFTypes.html#PCefString">PCefString</a>; callback: <a href="uCEFTypes.html#PCefEndTracingCallback">PCefEndTracingCallback</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_now_from_system_trace_time"></span><code><strong>cef_now_from_system_trace_time</strong>: function: int64; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_urlrequest_create"></span><code><strong>cef_urlrequest_create</strong>: function(request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; client: <a href="uCEFTypes.html#PCefUrlRequestClient">PCefUrlRequestClient</a>; request_context: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>): <a href="uCEFTypes.html#PCefUrlRequest">PCefUrlRequest</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_urlrequest_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8context_get_current_context"></span><code><strong>cef_v8context_get_current_context</strong>: function: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_v8_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8context_get_entered_context"></span><code><strong>cef_v8context_get_entered_context</strong>: function: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8context_in_context"></span><code><strong>cef_v8context_in_context</strong>: function: Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_undefined"></span><code><strong>cef_v8value_create_undefined</strong>: function: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_null"></span><code><strong>cef_v8value_create_null</strong>: function: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_bool"></span><code><strong>cef_v8value_create_bool</strong>: function(value: Integer): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_int"></span><code><strong>cef_v8value_create_int</strong>: function(value: Integer): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_uint"></span><code><strong>cef_v8value_create_uint</strong>: function(value: Cardinal): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_double"></span><code><strong>cef_v8value_create_double</strong>: function(value: Double): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_date"></span><code><strong>cef_v8value_create_date</strong>: function(value: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_string"></span><code><strong>cef_v8value_create_string</strong>: function(const value: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_object"></span><code><strong>cef_v8value_create_object</strong>: function(accessor: <a href="uCEFTypes.html#PCefV8Accessor">PCefV8Accessor</a>; interceptor: <a href="uCEFTypes.html#PCefV8Interceptor">PCefV8Interceptor</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_array"></span><code><strong>cef_v8value_create_array</strong>: function(length: Integer): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_array_buffer"></span><code><strong>cef_v8value_create_array_buffer</strong>: function(buffer : Pointer; length: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; release_callback : <a href="uCEFTypes.html#PCefv8ArrayBufferReleaseCallback">PCefv8ArrayBufferReleaseCallback</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_function"></span><code><strong>cef_v8value_create_function</strong>: function(const name: <a href="uCEFTypes.html#PCefString">PCefString</a>; handler: <a href="uCEFTypes.html#PCefv8Handler">PCefv8Handler</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_promise"></span><code><strong>cef_v8value_create_promise</strong>: function: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8stack_trace_get_current"></span><code><strong>cef_v8stack_trace_get_current</strong>: function(frame_limit: Integer): <a href="uCEFTypes.html#PCefV8StackTrace">PCefV8StackTrace</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_register_extension"></span><code><strong>cef_register_extension</strong>: function(const extension_name, javascript_code: <a href="uCEFTypes.html#PCefString">PCefString</a>; handler: <a href="uCEFTypes.html#PCefv8Handler">PCefv8Handler</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_value_create"></span><code><strong>cef_value_create</strong>: function: <a href="uCEFTypes.html#PCefValue">PCefValue</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_values_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_binary_value_create"></span><code><strong>cef_binary_value_create</strong>: function(const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#PCefBinaryValue">PCefBinaryValue</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_dictionary_value_create"></span><code><strong>cef_dictionary_value_create</strong>: function: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_list_value_create"></span><code><strong>cef_list_value_create</strong>: function: <a href="uCEFTypes.html#PCefListValue">PCefListValue</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_waitable_event_create"></span><code><strong>cef_waitable_event_create</strong>: function(automatic_reset, initially_signaled : integer): <a href="uCEFTypes.html#PCefWaitableEvent">PCefWaitableEvent</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_waitable_event_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_xml_reader_create"></span><code><strong>cef_xml_reader_create</strong>: function(stream: <a href="uCEFTypes.html#PCefStreamReader">PCefStreamReader</a>; encodingType: <a href="uCEFTypes.html#TCefXmlEncodingType">TCefXmlEncodingType</a>; const URI: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefXmlReader">PCefXmlReader</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_xml_reader_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_zip_reader_create"></span><code><strong>cef_zip_reader_create</strong>: function(stream: <a href="uCEFTypes.html#PCefStreamReader">PCefStreamReader</a>): <a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_zip_reader_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_browser_view_create"></span><code><strong>cef_browser_view_create</strong>: function(client: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; const url: <a href="uCEFTypes.html#PCefString">PCefString</a>; const settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; extra_info: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; request_context: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; delegate: <a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a>): <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+********************************* ********** CAPI VIEWS *********** ********************************* /include/capi/views/cef_browser_view_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_browser_view_get_for_browser"></span><code><strong>cef_browser_view_get_for_browser</strong>: function(browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>): <a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_display_get_primary"></span><code><strong>cef_display_get_primary</strong>: function: <a href="uCEFTypes.html#PCefDisplay">PCefDisplay</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/views/cef_display_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_display_get_nearest_point"></span><code><strong>cef_display_get_nearest_point</strong>: function(const point: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>; input_pixel_coords: Integer): <a href="uCEFTypes.html#PCefDisplay">PCefDisplay</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_display_get_matching_bounds"></span><code><strong>cef_display_get_matching_bounds</strong>: function(const bounds: <a href="uCEFTypes.html#PCefRect">PCefRect</a>; input_pixel_coords: Integer): <a href="uCEFTypes.html#PCefDisplay">PCefDisplay</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_display_get_count"></span><code><strong>cef_display_get_count</strong>: function: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_display_get_alls"></span><code><strong>cef_display_get_alls</strong>: procedure(displaysCount: <a href="uCEFTypes.html#PNativeUInt">PNativeUInt</a>; displays: <a href="uCEFTypes.html#PPCefDisplay">PPCefDisplay</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_display_convert_screen_point_to_pixels"></span><code><strong>cef_display_convert_screen_point_to_pixels</strong>: function(const point: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>): <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_display_convert_screen_point_from_pixels"></span><code><strong>cef_display_convert_screen_point_from_pixels</strong>: function(const point: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>): <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_display_convert_screen_rect_to_pixels"></span><code><strong>cef_display_convert_screen_rect_to_pixels</strong>: function(const rect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>): <a href="uCEFTypes.TCefRect.html">TCefRect</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_display_convert_screen_rect_from_pixels"></span><code><strong>cef_display_convert_screen_rect_from_pixels</strong>: function(const rect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>): <a href="uCEFTypes.TCefRect.html">TCefRect</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_label_button_create"></span><code><strong>cef_label_button_create</strong>: function(delegate: <a href="uCEFTypes.html#PCefButtonDelegate">PCefButtonDelegate</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/views/cef_label_button_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_menu_button_create"></span><code><strong>cef_menu_button_create</strong>: function(delegate: <a href="uCEFTypes.html#PCefMenuButtonDelegate">PCefMenuButtonDelegate</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefMenuButton">PCefMenuButton</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/views/cef_menu_button_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_panel_create"></span><code><strong>cef_panel_create</strong>: function(delegate: <a href="uCEFTypes.html#PCefPanelDelegate">PCefPanelDelegate</a>): <a href="uCEFTypes.html#PCefPanel">PCefPanel</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/views/cef_panel_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_scroll_view_create"></span><code><strong>cef_scroll_view_create</strong>: function(delegate: <a href="uCEFTypes.html#PCefViewDelegate">PCefViewDelegate</a>): <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/views/cef_scroll_view_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_textfield_create"></span><code><strong>cef_textfield_create</strong>: function(delegate: <a href="uCEFTypes.html#PCefTextfieldDelegate">PCefTextfieldDelegate</a>): <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/views/cef_textfield_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_window_create_top_level"></span><code><strong>cef_window_create_top_level</strong>: function(delegate: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>): <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/views/cef_window_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_set_osmodal_loop"></span><code><strong>cef_set_osmodal_loop</strong>: procedure(osModalLoop: Integer); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+********************************* *********** INTERNAL ************ ********************************* /include/internal/cef_app_win.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_get_min_log_level"></span><code><strong>cef_get_min_log_level</strong>: function: Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/internal/cef_logging_internal.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_get_vlog_level"></span><code><strong>cef_get_vlog_level</strong>: function(const file_start: PAnsiChar; N: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_log"></span><code><strong>cef_log</strong>: procedure(const file_: PAnsiChar; line, severity: Integer; const message_: PAnsiChar); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_list_alloc"></span><code><strong>cef_string_list_alloc</strong>: function: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/internal/cef_string_list.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_list_size"></span><code><strong>cef_string_list_size</strong>: function(list: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_list_value"></span><code><strong>cef_string_list_value</strong>: function(list: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_list_append"></span><code><strong>cef_string_list_append</strong>: procedure(list: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>; const value: <a href="uCEFTypes.html#PCefString">PCefString</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_list_clear"></span><code><strong>cef_string_list_clear</strong>: procedure(list: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_list_free"></span><code><strong>cef_string_list_free</strong>: procedure(list: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_list_copy"></span><code><strong>cef_string_list_copy</strong>: function(list: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_map_alloc"></span><code><strong>cef_string_map_alloc</strong>: function: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/internal/cef_string_map.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_map_size"></span><code><strong>cef_string_map_size</strong>: function(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_map_find"></span><code><strong>cef_string_map_find</strong>: function(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>; value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_map_key"></span><code><strong>cef_string_map_key</strong>: function(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; key: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_map_value"></span><code><strong>cef_string_map_value</strong>: function(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_map_append"></span><code><strong>cef_string_map_append</strong>: function(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>; const key, value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_map_clear"></span><code><strong>cef_string_map_clear</strong>: procedure(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_map_free"></span><code><strong>cef_string_map_free</strong>: procedure(map: <a href="uCEFTypes.html#TCefStringMap">TCefStringMap</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_multimap_alloc"></span><code><strong>cef_string_multimap_alloc</strong>: function: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/internal/cef_string_multimap.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_multimap_size"></span><code><strong>cef_string_multimap_size</strong>: function(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_multimap_find_count"></span><code><strong>cef_string_multimap_find_count</strong>: function(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_multimap_enumerate"></span><code><strong>cef_string_multimap_enumerate</strong>: function(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>; const key: <a href="uCEFTypes.html#PCefString">PCefString</a>; value_index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_multimap_key"></span><code><strong>cef_string_multimap_key</strong>: function(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; key: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_multimap_value"></span><code><strong>cef_string_multimap_value</strong>: function(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>; index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_multimap_append"></span><code><strong>cef_string_multimap_append</strong>: function(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>; const key, value: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_multimap_clear"></span><code><strong>cef_string_multimap_clear</strong>: procedure(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_multimap_free"></span><code><strong>cef_string_multimap_free</strong>: procedure(map: <a href="uCEFTypes.html#TCefStringMultimap">TCefStringMultimap</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_wide_set"></span><code><strong>cef_string_wide_set</strong>: function(const src: PWideChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>; copy: Integer): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/internal/cef_string_types.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf8_set"></span><code><strong>cef_string_utf8_set</strong>: function(const src: PAnsiChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf8">PCefStringUtf8</a>; copy: Integer): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf16_set"></span><code><strong>cef_string_utf16_set</strong>: function(const src: <a href="uCEFTypes.html#PChar16">PChar16</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>; copy: Integer): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_wide_clear"></span><code><strong>cef_string_wide_clear</strong>: procedure(str: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf8_clear"></span><code><strong>cef_string_utf8_clear</strong>: procedure(str: <a href="uCEFTypes.html#PCefStringUtf8">PCefStringUtf8</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf16_clear"></span><code><strong>cef_string_utf16_clear</strong>: procedure(str: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_wide_cmp"></span><code><strong>cef_string_wide_cmp</strong>: function(const str1, str2: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf8_cmp"></span><code><strong>cef_string_utf8_cmp</strong>: function(const str1, str2: <a href="uCEFTypes.html#PCefStringUtf8">PCefStringUtf8</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf16_cmp"></span><code><strong>cef_string_utf16_cmp</strong>: function(const str1, str2: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_wide_to_utf8"></span><code><strong>cef_string_wide_to_utf8</strong>: function(const src: PWideChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf8">PCefStringUtf8</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf8_to_wide"></span><code><strong>cef_string_utf8_to_wide</strong>: function(const src: PAnsiChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_wide_to_utf16"></span><code><strong>cef_string_wide_to_utf16</strong>: function(const src: PWideChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf16_to_wide"></span><code><strong>cef_string_utf16_to_wide</strong>: function(const src: <a href="uCEFTypes.html#PChar16">PChar16</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf8_to_utf16"></span><code><strong>cef_string_utf8_to_utf16</strong>: function(const src: PAnsiChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf16_to_utf8"></span><code><strong>cef_string_utf16_to_utf8</strong>: function(const src: <a href="uCEFTypes.html#PChar16">PChar16</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf8">PCefStringUtf8</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_ascii_to_wide"></span><code><strong>cef_string_ascii_to_wide</strong>: function(const src: PAnsiChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringWide">PCefStringWide</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_ascii_to_utf16"></span><code><strong>cef_string_ascii_to_utf16</strong>: function(const src: PAnsiChar; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_userfree_wide_alloc"></span><code><strong>cef_string_userfree_wide_alloc</strong>: function: <a href="uCEFTypes.html#PCefStringUserFreeWide">PCefStringUserFreeWide</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_userfree_utf8_alloc"></span><code><strong>cef_string_userfree_utf8_alloc</strong>: function: <a href="uCEFTypes.html#PCefStringUserFreeUtf8">PCefStringUserFreeUtf8</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_userfree_utf16_alloc"></span><code><strong>cef_string_userfree_utf16_alloc</strong>: function: <a href="uCEFTypes.html#PCefStringUserFreeUtf16">PCefStringUserFreeUtf16</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_userfree_wide_free"></span><code><strong>cef_string_userfree_wide_free</strong>: procedure(str: <a href="uCEFTypes.html#PCefStringUserFreeWide">PCefStringUserFreeWide</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_userfree_utf8_free"></span><code><strong>cef_string_userfree_utf8_free</strong>: procedure(str: <a href="uCEFTypes.html#PCefStringUserFreeUtf8">PCefStringUserFreeUtf8</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_userfree_utf16_free"></span><code><strong>cef_string_userfree_utf16_free</strong>: procedure(str: <a href="uCEFTypes.html#PCefStringUserFreeUtf16">PCefStringUserFreeUtf16</a>); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf16_to_lower"></span><code><strong>cef_string_utf16_to_lower</strong>: function(const src: <a href="uCEFTypes.html#PChar16">PChar16</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_string_utf16_to_upper"></span><code><strong>cef_string_utf16_to_upper</strong>: function(const src: <a href="uCEFTypes.html#PChar16">PChar16</a>; src_len: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; output: <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_get_current_platform_thread_id"></span><code><strong>cef_get_current_platform_thread_id</strong>: function: <a href="uCEFTypes.html#TCefPlatformThreadId">TCefPlatformThreadId</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/internal/cef_thread_internal.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_get_current_platform_thread_handle"></span><code><strong>cef_get_current_platform_thread_handle</strong>: function: <a href="uCEFTypes.html#TCefPlatformThreadHandle">TCefPlatformThreadHandle</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_time_to_timet"></span><code><strong>cef_time_to_timet</strong>: function(const cef_time: <a href="uCEFTypes.html#PCefTime">PCefTime</a>; out time_: Int64): integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/internal/cef_time.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_time_from_timet"></span><code><strong>cef_time_from_timet</strong>: function(time_: int64; out cef_time: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_time_to_doublet"></span><code><strong>cef_time_to_doublet</strong>: function(const cef_time: <a href="uCEFTypes.html#PCefTime">PCefTime</a>; out time_: double): integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_time_from_doublet"></span><code><strong>cef_time_from_doublet</strong>: function(time: double; out cef_time: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_time_now"></span><code><strong>cef_time_now</strong>: function(out cef_time: <a href="uCEFTypes.TCefTime.html">TCefTime</a>): integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_basetime_now"></span><code><strong>cef_basetime_now</strong>: function: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_time_delta"></span><code><strong>cef_time_delta</strong>: function(const cef_time1, cef_time2: <a href="uCEFTypes.html#PCefTime">PCefTime</a>; out delta: int64): integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_time_to_basetime"></span><code><strong>cef_time_to_basetime</strong>: function(const from: <a href="uCEFTypes.html#PCefTime">PCefTime</a>; to_: <a href="uCEFTypes.html#PCefBaseTime">PCefBaseTime</a>) : integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_time_from_basetime"></span><code><strong>cef_time_from_basetime</strong>: function(const from: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>; to_: <a href="uCEFTypes.html#PCefTime">PCefTime</a>) : integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_trace_event_instant"></span><code><strong>cef_trace_event_instant</strong>: procedure(const category, name, arg1_name: PAnsiChar; arg1_val: uint64; const arg2_name: PAnsiChar; arg2_val: UInt64); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/internal/cef_trace_event_internal.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_trace_event_begin"></span><code><strong>cef_trace_event_begin</strong>: procedure(const category, name, arg1_name: PAnsiChar; arg1_val: UInt64; const arg2_name: PAnsiChar; arg2_val: UInt64); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_trace_event_end"></span><code><strong>cef_trace_event_end</strong>: procedure(const category, name, arg1_name: PAnsiChar; arg1_val: UInt64; const arg2_name: PAnsiChar; arg2_val: UInt64); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_trace_counter"></span><code><strong>cef_trace_counter</strong>: procedure(const category, name, value1_name: PAnsiChar; value1_val: UInt64; const value2_name: PAnsiChar; value2_val: UInt64); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_trace_counter_id"></span><code><strong>cef_trace_counter_id</strong>: procedure(const category, name: PAnsiChar; id: UInt64; const value1_name: PAnsiChar; value1_val: UInt64; const value2_name: PAnsiChar; value2_val: UInt64); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_trace_event_async_begin"></span><code><strong>cef_trace_event_async_begin</strong>: procedure(const category, name: PAnsiChar; id: UInt64; const arg1_name: PAnsiChar; arg1_val: UInt64; const arg2_name: PAnsiChar; arg2_val: UInt64); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_trace_event_async_step_into"></span><code><strong>cef_trace_event_async_step_into</strong>: procedure(const category, name: PAnsiChar; id, step: UInt64; const arg1_name: PAnsiChar; arg1_val: UInt64); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_trace_event_async_step_past"></span><code><strong>cef_trace_event_async_step_past</strong>: procedure(const category, name: PAnsiChar; id, step: UInt64; const arg1_name: PAnsiChar; arg1_val: UInt64); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_trace_event_async_end"></span><code><strong>cef_trace_event_async_end</strong>: procedure(const category, name: PAnsiChar; id: UInt64; const arg1_name: PAnsiChar; arg1_val: UInt64; const arg2_name: PAnsiChar; arg2_val: UInt64); cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

@@ -205,6 +205,7 @@ type
       FOnAlreadyRunningAppRelaunch       : TOnAlreadyRunningAppRelaunchEvent;
       FOnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent;
       FOnGetDefaultClient                : TOnGetDefaultClientEvent;
+      FOnGetDefaultRequestContextHandler : TOnGetDefaultRequestContextHandlerEvent;
 
       // ICefResourceBundleHandler
       FOnGetLocalizedString              : TOnGetLocalizedStringEvent;
@@ -331,6 +332,7 @@ type
       procedure doOnAlreadyRunningAppRelaunch(const commandLine: ICefCommandLine; const current_directory: ustring; var aResult: boolean); virtual;
       procedure doOnScheduleMessagePumpWork(const delayMs: Int64); virtual;
       procedure doGetDefaultClient(var aClient : ICefClient); virtual;
+      procedure doGetDefaultRequestContextHandler(var aRequestContextHandler : ICefRequestContextHandler); virtual;
 
       // ICefResourceBundleHandler
       function  doGetLocalizedString(stringid: Integer; var stringVal: ustring): Boolean; virtual;
@@ -468,7 +470,7 @@ type
       /// cef_sandbox_win.h for requirements to enable the sandbox on Windows. Also
       /// configurable using the "no-sandbox" command-line switch.
       /// </summary>
-      property NoSandbox                         : Boolean                             read FNoSandbox                         write FNoSandbox;
+      property NoSandbox                         : Boolean                                  read FNoSandbox                         write FNoSandbox;
       /// <summary>
       /// The path to a separate executable that will be launched for sub-processes.
       /// If this value is empty on Windows or Linux then the main process
@@ -479,7 +481,7 @@ type
       /// non-empty then it must be an absolute path. Also configurable using the
       /// "browser-subprocess-path" command-line switch.
       /// </summary>
-      property BrowserSubprocessPath             : ustring                             read FBrowserSubprocessPath             write SetBrowserSubprocessPath;
+      property BrowserSubprocessPath             : ustring                                  read FBrowserSubprocessPath             write SetBrowserSubprocessPath;
       /// <summary>
       /// The path to the CEF framework directory on macOS. If this value is empty
       /// then the framework must exist at "Contents/Frameworks/Chromium Embedded
@@ -487,27 +489,27 @@ type
       /// non-empty then it must be an absolute path. Also configurable using the
       /// "framework-dir-path" command-line switch.
       /// </summary>
-      property FrameworkDirPath                  : ustring                             read FFrameworkDirPath                  write SetFrameworkDirPath;
+      property FrameworkDirPath                  : ustring                                  read FFrameworkDirPath                  write SetFrameworkDirPath;
       /// <summary>
       /// The path to the main bundle on macOS. If this value is empty then it
       /// defaults to the top-level app bundle. If this value is non-empty then it
       /// must be an absolute path. Also configurable using the "main-bundle-path"
       /// command-line switch.
       /// </summary>
-      property MainBundlePath                    : ustring                             read FMainBundlePath                    write FMainBundlePath;
+      property MainBundlePath                    : ustring                                  read FMainBundlePath                    write FMainBundlePath;
       /// <summary>
       /// Set to true (1) to enable use of the Chrome runtime in CEF. This feature
       /// is considered experimental and is not recommended for most users at this
       /// time. See issue #2969 for details.
       /// </summary>
-      property ChromeRuntime                     : boolean                             read FChromeRuntime                     write FChromeRuntime;
+      property ChromeRuntime                     : boolean                                  read FChromeRuntime                     write FChromeRuntime;
       /// <summary>
       /// Set to true (1) to have the browser process message loop run in a separate
       /// thread. If false (0) then the CefDoMessageLoopWork() function must be
       /// called from your application message loop. This option is only supported
       /// on Windows and Linux.
       /// </summary>
-      property MultiThreadedMessageLoop          : boolean                             read FMultiThreadedMessageLoop          write FMultiThreadedMessageLoop;
+      property MultiThreadedMessageLoop          : boolean                                  read FMultiThreadedMessageLoop          write FMultiThreadedMessageLoop;
       /// <summary>
       /// Set to true (1) to control browser process main (UI) thread message pump
       /// scheduling via the ICefBrowserProcessHandler.OnScheduleMessagePumpWork()
@@ -519,20 +521,20 @@ type
       /// the CefRunMessageLoop() function or multi_threaded_message_loop if
       /// possible.
       /// </summary>
-      property ExternalMessagePump               : boolean                             read FExternalMessagePump               write FExternalMessagePump;
+      property ExternalMessagePump               : boolean                                  read FExternalMessagePump               write FExternalMessagePump;
       /// <summary>
       /// Set to true (1) to enable windowless (off-screen) rendering support. Do
       /// not enable this value if the application does not use windowless rendering
       /// as it may reduce rendering performance on some systems.
       /// </summary>
-      property WindowlessRenderingEnabled        : Boolean                             read FWindowlessRenderingEnabled        write FWindowlessRenderingEnabled;
+      property WindowlessRenderingEnabled        : Boolean                                  read FWindowlessRenderingEnabled        write FWindowlessRenderingEnabled;
       /// <summary>
       /// Set to true (1) to disable configuration of browser process features using
       /// standard CEF and Chromium command-line arguments. Configuration can still
       /// be specified using CEF data structures or via the
       /// ICefApp.OnBeforeCommandLineProcessing() method.
       /// </summary>
-      property CommandLineArgsDisabled           : Boolean                             read FCommandLineArgsDisabled           write FCommandLineArgsDisabled;
+      property CommandLineArgsDisabled           : Boolean                                  read FCommandLineArgsDisabled           write FCommandLineArgsDisabled;
       /// <summary>
       /// The directory where data for the global browser cache will be stored on
       /// disk. If this value is non-empty then it must be an absolute path that is
@@ -547,7 +549,7 @@ type
       /// any child directory value will be ignored and the "default" profile (also
       /// a child directory) will be used instead.
       /// </summary>
-      property Cache                             : ustring                             read FCache                             write SetCache;
+      property Cache                             : ustring                                  read FCache                             write SetCache;
       /// <summary>
       /// <para>The root directory for installation-specific data and the parent directory
       /// for profile-specific data. All TCefSettings.cache_path and
@@ -572,7 +574,7 @@ type
       /// crashes or other unexpected behaviors (for example, the sandbox blocking
       /// read/write access to certain files).</para>
       /// </summary>
-      property RootCache                         : ustring                             read FRootCache                         write SetRootCache;
+      property RootCache                         : ustring                                  read FRootCache                         write SetRootCache;
       /// <summary>
       /// To persist session cookies (cookies without an expiry date or validity
       /// interval) by default when using the global cookie manager set this value
@@ -583,7 +585,7 @@ type
       /// individual CefRequestContext instances via the
       /// TCefRequestContextSettings.persist_session_cookies value.
       /// </summary>
-      property PersistSessionCookies             : Boolean                             read FPersistSessionCookies             write FPersistSessionCookies;
+      property PersistSessionCookies             : Boolean                                  read FPersistSessionCookies             write FPersistSessionCookies;
       /// <summary>
       /// To persist user preferences as a JSON file in the cache path directory set
       /// this value to true (1). A |cache_path| value must also be specified
@@ -592,20 +594,20 @@ type
       /// individual CefRequestContext instances via the
       /// TCefRequestContextSettings.persist_user_preferences value.
       /// </summary>
-      property PersistUserPreferences            : Boolean                             read FPersistUserPreferences            write FPersistUserPreferences;
+      property PersistUserPreferences            : Boolean                                  read FPersistUserPreferences            write FPersistUserPreferences;
       /// <summary>
       /// Value that will be returned as the User-Agent HTTP header. If empty the
       /// default User-Agent string will be used. Also configurable using the
       /// "user-agent" command-line switch.
       /// </summary>
-      property UserAgent                         : ustring                             read FUserAgent                         write FUserAgent;
+      property UserAgent                         : ustring                                  read FUserAgent                         write FUserAgent;
       /// <summary>
       /// Value that will be inserted as the product portion of the default
       /// User-Agent string. If empty the Chromium product version will be used. If
       /// |userAgent| is specified this value will be ignored. Also configurable
       /// using the "user-agent-product" command-line switch.
       /// </summary>
-      property UserAgentProduct                  : ustring                             read FUserAgentProduct                  write FUserAgentProduct;
+      property UserAgentProduct                  : ustring                                  read FUserAgentProduct                  write FUserAgentProduct;
       /// <summary>
       /// The locale string that will be passed to WebKit. If empty the default
       /// locale of "en-US" will be used. This value is ignored on Linux where
@@ -613,7 +615,7 @@ type
       /// precedence order: LANGUAGE, LC_ALL, LC_MESSAGES and LANG. Also
       /// configurable using the "lang" command-line switch.
       /// </summary>
-      property Locale                            : ustring                             read FLocale                            write FLocale;
+      property Locale                            : ustring                                  read FLocale                            write FLocale;
       /// <summary>
       /// The directory and file name to use for the debug log. If empty a default
       /// log file name and location will be used. On Windows and Linux a
@@ -622,7 +624,7 @@ type
       /// [app name] is the name of the main app executable. Also configurable using
       /// the "log-file" command-line switch.
       /// </summary>
-      property LogFile                           : ustring                             read FLogFile                           write FLogFile;
+      property LogFile                           : ustring                                  read FLogFile                           write FLogFile;
       /// <summary>
       /// The log severity. Only messages of this severity level or higher will be
       /// logged. When set to DISABLE no messages will be written to the log file,
@@ -630,20 +632,20 @@ type
       /// the "log-severity" command-line switch with a value of "verbose", "info",
       /// "warning", "error", "fatal" or "disable".
       /// </summary>
-      property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
+      property LogSeverity                       : TCefLogSeverity                          read FLogSeverity                       write FLogSeverity;
       /// <summary>
       /// The log items prepended to each log line. If not set the default log items
       /// will be used. Also configurable using the "log-items" command-line switch
       /// with a value of "none" for no log items, or a comma-delimited list of
       /// values "pid", "tid", "timestamp" or "tickcount" for custom log items.
       /// </summary>
-      property LogItems                          : TCefLogItems                        read FLogItems                          write FLogItems;
+      property LogItems                          : TCefLogItems                             read FLogItems                          write FLogItems;
       /// <summary>
       /// Custom flags that will be used when initializing the V8 JavaScript engine.
       /// The consequences of using custom flags may not be well tested. Also
       /// configurable using the "js-flags" command-line switch.
       /// </summary>
-      property JavaScriptFlags                   : ustring                             read FJavaScriptFlags                   write FJavaScriptFlags;
+      property JavaScriptFlags                   : ustring                                  read FJavaScriptFlags                   write FJavaScriptFlags;
       /// <summary>
       /// The fully qualified path for the resources directory. If this value is
       /// empty the *.pak files must be located in the module directory on
@@ -651,7 +653,7 @@ type
       /// value is non-empty then it must be an absolute path. Also configurable
       /// using the "resources-dir-path" command-line switch.
       /// </summary>
-      property ResourcesDirPath                  : ustring                             read GetResourcesDirPath                write SetResourcesDirPath;
+      property ResourcesDirPath                  : ustring                                  read GetResourcesDirPath                write SetResourcesDirPath;
       /// <summary>
       /// The fully qualified path for the locales directory. If this value is empty
       /// the locales directory must be located in the module directory. If this
@@ -660,7 +662,7 @@ type
       /// directory. Also configurable using the "locales-dir-path" command-line
       /// switch.
       /// </summary>
-      property LocalesDirPath                    : ustring                             read GetLocalesDirPath                  write SetLocalesDirPath;
+      property LocalesDirPath                    : ustring                                  read GetLocalesDirPath                  write SetLocalesDirPath;
       /// <summary>
       /// Set to true (1) to disable loading of pack files for resources and
       /// locales. A resource bundle handler must be provided for the browser and
@@ -668,16 +670,20 @@ type
       /// files is disabled. Also configurable using the "disable-pack-loading"
       /// command- line switch.
       /// </summary>
-      property PackLoadingDisabled               : Boolean                             read FPackLoadingDisabled               write FPackLoadingDisabled;
+      property PackLoadingDisabled               : Boolean                                  read FPackLoadingDisabled               write FPackLoadingDisabled;
       /// <summary>
       /// Set to a value between 1024 and 65535 to enable remote debugging on the
       /// specified port. Also configurable using the "remote-debugging-port"
-      /// command-line switch. Remote debugging can be accessed by loading the
-      /// chrome://inspect page in Google Chrome. Port numbers 9222 and 9229 are
-      /// discoverable by default. Other port numbers may need to be configured via
-      /// "Discover network targets" on the Devices tab.
+      /// command-line switch. Specifying 0 via the command-line switch will result
+      /// in the selection of an ephemeral port and the port number will be printed
+      /// as part of the WebSocket endpoint URL to stderr. If a cache directory path
+      /// is provided the port will also be written to the
+      /// <cache-dir>/DevToolsActivePort file. Remote debugging can be accessed by
+      /// loading the chrome://inspect page in Google Chrome. Port numbers 9222 and
+      /// 9229 are discoverable by default. Other port numbers may need to be
+      /// configured via "Discover network targets" on the Devices tab.
       /// </summary>
-      property RemoteDebuggingPort               : Integer                             read FRemoteDebuggingPort               write FRemoteDebuggingPort;
+      property RemoteDebuggingPort               : Integer                                  read FRemoteDebuggingPort               write FRemoteDebuggingPort;
       /// <summary>
       /// The number of stack trace frames to capture for uncaught exceptions.
       /// Specify a positive value to enable the
@@ -686,7 +692,7 @@ type
       /// configurable using the "uncaught-exception-stack-size" command-line
       /// switch.
       /// </summary>
-      property UncaughtExceptionStackSize        : Integer                             read FUncaughtExceptionStackSize        write FUncaughtExceptionStackSize;
+      property UncaughtExceptionStackSize        : Integer                                  read FUncaughtExceptionStackSize        write FUncaughtExceptionStackSize;
       /// <summary>
       /// Background color used for the browser before a document is loaded and when
       /// no document color is specified. The alpha component must be either fully
@@ -697,7 +703,7 @@ type
       /// transparent for a windowless (off-screen) browser then transparent
       /// painting will be enabled.
       /// </summary>
-      property BackgroundColor                   : TCefColor                           read FBackgroundColor                   write FBackgroundColor;
+      property BackgroundColor                   : TCefColor                                read FBackgroundColor                   write FBackgroundColor;
       /// <summary>
       /// Comma delimited ordered list of language codes without any whitespace that
       /// will be used in the "Accept-Language" HTTP request header and
@@ -705,7 +711,7 @@ type
       /// ICefRequestContext instances via the
       /// TCefRequestContextSettingsCefRequestContextSettings.accept_language_list value.
       /// </summary>
-      property AcceptLanguageList                : ustring                             read FAcceptLanguageList                write FAcceptLanguageList;
+      property AcceptLanguageList                : ustring                                  read FAcceptLanguageList                write FAcceptLanguageList;
       /// <summary>
       /// Comma delimited list of schemes supported by the associated
       /// ICefCookieManager. If |cookieable_schemes_exclude_defaults| is false (0)
@@ -717,11 +723,11 @@ type
       /// configured via the TCefRequestContextSettings.cookieable_schemes_list and
       /// TCefRequestContextSettings.cookieable_schemes_exclude_defaults values.
       /// </summary>
-      property CookieableSchemesList             : ustring                             read FCookieableSchemesList             write FCookieableSchemesList;
+      property CookieableSchemesList             : ustring                                  read FCookieableSchemesList             write FCookieableSchemesList;
       /// <summary>
       /// See the CookieableSchemesList property.
       /// </summary>
-      property CookieableSchemesExcludeDefaults  : boolean                             read FCookieableSchemesExcludeDefaults  write FCookieableSchemesExcludeDefaults;
+      property CookieableSchemesExcludeDefaults  : boolean                                  read FCookieableSchemesExcludeDefaults  write FCookieableSchemesExcludeDefaults;
       /// <summary>
       /// <para>Specify an ID to enable Chrome policy management via Platform and OS-user
       /// policies. On Windows, this is a registry key like
@@ -734,7 +740,7 @@ type
       /// the specified ID. See https://support.google.com/chrome/a/answer/9116814
       /// for details.</para>
       /// </summary>
-      property ChromePolicyId                    : ustring                             read FChromePolicyId                    write FChromePolicyId;
+      property ChromePolicyId                    : ustring                                  read FChromePolicyId                    write FChromePolicyId;
       /// <summary>
       /// Specify an ID for an ICON resource that can be loaded from the main
       /// executable and used when creating default Chrome windows such as DevTools
@@ -742,42 +748,42 @@ type
       /// [101]) will be loaded from libcef.dll. Only supported with the Chrome
       /// runtime on Windows.
       /// </summary>
-      property ChromeAppIconId                   : integer                             read FChromeAppIconId                   write FChromeAppIconId;
+      property ChromeAppIconId                   : integer                                  read FChromeAppIconId                   write FChromeAppIconId;
       /// <summary>
       /// Runs the renderer and plugins in the same process as the browser.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --single-process</see></para>
       /// </remarks>
-      property SingleProcess                     : Boolean                             read FSingleProcess                     write FSingleProcess;
+      property SingleProcess                     : Boolean                                  read FSingleProcess                     write FSingleProcess;
       /// <summary>
       /// Enable media (WebRTC audio/video) streaming.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --enable-media-stream</see></para>
       /// </remarks>
-      property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;
+      property EnableMediaStream                 : boolean                                  read FEnableMediaStream                 write FEnableMediaStream;
       /// <summary>
       /// Enable speech input (x-webkit-speech).
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --enable-speech-input</see></para>
       /// </remarks>
-      property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;
+      property EnableSpeechInput                 : boolean                                  read FEnableSpeechInput                 write FEnableSpeechInput;
       /// <summary>
       /// Bypass the media stream infobar by selecting the default device for media streams (e.g. WebRTC). Works with --use-fake-device-for-media-stream.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --single-process</see></para>
       /// </remarks>
-      property UseFakeUIForMediaStream           : boolean                             read FUseFakeUIForMediaStream           write FUseFakeUIForMediaStream;
+      property UseFakeUIForMediaStream           : boolean                                  read FUseFakeUIForMediaStream           write FUseFakeUIForMediaStream;
       /// <summary>
       /// Enable screen capturing support for MediaStream API.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --enable-usermedia-screen-capturing</see></para>
       /// </remarks>
-      property EnableUsermediaScreenCapturing    : boolean                             read FEnableUsermediaScreenCapturing    write FEnableUsermediaScreenCapturing;
+      property EnableUsermediaScreenCapturing    : boolean                                  read FEnableUsermediaScreenCapturing    write FEnableUsermediaScreenCapturing;
       /// <summary>
       /// Enable GPU hardware acceleration.
       /// </summary>
@@ -785,7 +791,7 @@ type
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --disable-gpu</see></para>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --disable-gpu-compositing</see></para>
       /// </remarks>
-      property EnableGPU                         : boolean                             read FEnableGPU                         write FEnableGPU;
+      property EnableGPU                         : boolean                                  read FEnableGPU                         write FEnableGPU;
       /// <summary>
       /// List of feature names to enable.
       /// </summary>
@@ -796,7 +802,7 @@ type
       /// <para>https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/content_features.cc</para>
       /// <para>https://source.chromium.org/search?q=base::Feature</para>
       /// </remarks>
-      property EnableFeatures                    : ustring                             read FEnableFeatures                    write FEnableFeatures;
+      property EnableFeatures                    : ustring                                  read FEnableFeatures                    write FEnableFeatures;
       /// <summary>
       /// List of feature names to disable.
       /// </summary>
@@ -807,7 +813,7 @@ type
       /// <para>https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/content_features.cc</para>
       /// <para>https://source.chromium.org/search?q=base::Feature</para>
       /// </remarks>
-      property DisableFeatures                   : ustring                             read FDisableFeatures                   write FDisableFeatures;
+      property DisableFeatures                   : ustring                                  read FDisableFeatures                   write FDisableFeatures;
       /// <summary>
       /// Enable one or more Blink runtime-enabled features.
       /// </summary>
@@ -816,7 +822,7 @@ type
       /// <para>The list of Blink features you can enable is here:</para>
       /// <para>https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5</para>
       /// </remarks>
-      property EnableBlinkFeatures               : ustring                             read FEnableBlinkFeatures               write FEnableBlinkFeatures;
+      property EnableBlinkFeatures               : ustring                                  read FEnableBlinkFeatures               write FEnableBlinkFeatures;
       /// <summary>
       /// Disable one or more Blink runtime-enabled features.
       /// </summary>
@@ -825,7 +831,7 @@ type
       /// <para>The list of Blink features you can disable is here:</para>
       /// <para>https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5</para>
       /// </remarks>
-      property DisableBlinkFeatures              : ustring                             read FDisableBlinkFeatures              write FDisableBlinkFeatures;
+      property DisableBlinkFeatures              : ustring                                  read FDisableBlinkFeatures              write FDisableBlinkFeatures;
       /// <summary>
       /// Set blink settings. Format is <name>[=<value],<name>[=<value>],...
       /// The names are declared in Settings.json5. For boolean type, use "true", "false",
@@ -837,7 +843,7 @@ type
       /// <para>The list of Blink settings you can disable is here:</para>
       /// <para>https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/frame/settings.json5</para>
       /// </remarks>
-      property BlinkSettings                     : ustring                             read FBlinkSettings                     write FBlinkSettings;
+      property BlinkSettings                     : ustring                                  read FBlinkSettings                     write FBlinkSettings;
       /// <summary>
       /// This option can be used to force field trials when testing changes locally.
       /// The argument is a list of name and value pairs, separated by slashes.
@@ -852,7 +858,7 @@ type
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --force-fieldtrials</see></para>
       /// <para>https://source.chromium.org/chromium/chromium/src/+/master:base/base_switches.cc</para>
       /// </remarks>
-      property ForceFieldTrials                  : ustring                             read FForceFieldTrials                  write FForceFieldTrials;
+      property ForceFieldTrials                  : ustring                                  read FForceFieldTrials                  write FForceFieldTrials;
       /// <summary>
       /// This option can be used to force parameters of field trials when testing
       /// changes locally. The argument is a param list of (key, value) pairs prefixed
@@ -866,21 +872,21 @@ type
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --force-fieldtrial-params</see></para>
       /// <para>https://source.chromium.org/chromium/chromium/src/+/master:components/variations/variations_switches.cc</para>
       /// </remarks>
-      property ForceFieldTrialParams             : ustring                             read FForceFieldTrialParams             write FForceFieldTrialParams;
+      property ForceFieldTrialParams             : ustring                                  read FForceFieldTrialParams             write FForceFieldTrialParams;
       /// <summary>
       /// On platforms that support it, enables smooth scroll animation.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --enable-smooth-scrolling</see></para>
       /// </remarks>
-      property SmoothScrolling                   : TCefState                           read FSmoothScrolling                   write FSmoothScrolling;
+      property SmoothScrolling                   : TCefState                                read FSmoothScrolling                   write FSmoothScrolling;
       /// <summary>
       /// Mutes audio sent to the audio device so it is not audible during automated testing.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --mute-audio</see></para>
       /// </remarks>
-      property MuteAudio                         : boolean                             read FMuteAudio                         write FMuteAudio;
+      property MuteAudio                         : boolean                                  read FMuteAudio                         write FMuteAudio;
       /// <summary>
       /// Enforces a one-site-per-process security policy: Each renderer process, for its
       /// whole lifetime, is dedicated to rendering pages for just one site. Thus, pages
@@ -894,28 +900,28 @@ type
       /// <para>https://www.chromium.org/developers/design-documents/site-isolation</para>
       /// <para>https://www.chromium.org/developers/design-documents/process-models</para>
       /// </remarks>
-      property SitePerProcess                    : boolean                             read FSitePerProcess                    write FSitePerProcess;
+      property SitePerProcess                    : boolean                                  read FSitePerProcess                    write FSitePerProcess;
       /// <summary>
       /// Don't enforce the same-origin policy.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --disable-web-security</see></para>
       /// </remarks>
-      property DisableWebSecurity                : boolean                             read FDisableWebSecurity                write FDisableWebSecurity;
+      property DisableWebSecurity                : boolean                                  read FDisableWebSecurity                write FDisableWebSecurity;
       /// <summary>
       /// Disable the PDF extension.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --disable-pdf-extension</see></para>
       /// </remarks>
-      property DisablePDFExtension               : boolean                             read FDisablePDFExtension               write FDisablePDFExtension;
+      property DisablePDFExtension               : boolean                                  read FDisablePDFExtension               write FDisablePDFExtension;
       /// <summary>
       /// Disables site isolation.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --disable-site-isolation-trials</see></para>
       /// </remarks>
-      property DisableSiteIsolationTrials        : boolean                             read FDisableSiteIsolationTrials        write FDisableSiteIsolationTrials;
+      property DisableSiteIsolationTrials        : boolean                                  read FDisableSiteIsolationTrials        write FDisableSiteIsolationTrials;
       /// <summary>
       /// Delegate all login requests to the client GetAuthCredentials
       /// callback when using the Chrome runtime.
@@ -923,245 +929,245 @@ type
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --disable-chrome-login-prompt</see></para>
       /// </remarks>
-      property DisableChromeLoginPrompt          : boolean                             read FDisableChromeLoginPrompt          write FDisableChromeLoginPrompt;
+      property DisableChromeLoginPrompt          : boolean                                  read FDisableChromeLoginPrompt          write FDisableChromeLoginPrompt;
       /// <summary>
       /// Disable extensions.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --disable-extensions</see></para>
       /// </remarks>
-      property DisableExtensions                 : boolean                             read FDisableExtensions                 write FDisableExtensions;
+      property DisableExtensions                 : boolean                                  read FDisableExtensions                 write FDisableExtensions;
       /// <summary>
       /// Autoplay policy.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --autoplay-policy</see></para>
       /// </remarks>
-      property AutoplayPolicy                    : TCefAutoplayPolicy                  read FAutoplayPolicy                    write FAutoplayPolicy;
+      property AutoplayPolicy                    : TCefAutoplayPolicy                       read FAutoplayPolicy                    write FAutoplayPolicy;
       /// <summary>
       /// Disable several subsystems which run network requests in the background.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --disable-background-networking</see></para>
       /// </remarks>
-      property DisableBackgroundNetworking       : boolean                             read FDisableBackgroundNetworking       write FDisableBackgroundNetworking;
+      property DisableBackgroundNetworking       : boolean                                  read FDisableBackgroundNetworking       write FDisableBackgroundNetworking;
       /// <summary>
       /// Enables the recording of metrics reports but disables reporting.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --metrics-recording-only</see></para>
       /// </remarks>
-      property MetricsRecordingOnly              : boolean                             read FMetricsRecordingOnly              write FMetricsRecordingOnly;
+      property MetricsRecordingOnly              : boolean                                  read FMetricsRecordingOnly              write FMetricsRecordingOnly;
       /// <summary>
       /// By default, file:// URIs cannot read other file:// URIs. This is an override for developers who need the old behavior for testing.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --allow-file-access-from-files</see></para>
       /// </remarks>
-      property AllowFileAccessFromFiles          : boolean                             read FAllowFileAccessFromFiles          write FAllowFileAccessFromFiles;
+      property AllowFileAccessFromFiles          : boolean                                  read FAllowFileAccessFromFiles          write FAllowFileAccessFromFiles;
       /// <summary>
       /// By default, an https page cannot run JavaScript, CSS or plugins from http URLs. This provides an override to get the old insecure behavior.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --allow-running-insecure-content</see></para>
       /// </remarks>
-      property AllowRunningInsecureContent       : boolean                             read FAllowRunningInsecureContent       write FAllowRunningInsecureContent;
+      property AllowRunningInsecureContent       : boolean                                  read FAllowRunningInsecureContent       write FAllowRunningInsecureContent;
       /// <summary>
       /// Enable print preview.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --enable-print-preview</see></para>
       /// </remarks>
-      property EnablePrintPreview                : boolean                             read FEnablePrintPreview                write FEnablePrintPreview;
+      property EnablePrintPreview                : boolean                                  read FEnablePrintPreview                write FEnablePrintPreview;
       /// <summary>
       /// Default encoding.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --default-encoding</see></para>
       /// </remarks>
-      property DefaultEncoding                   : ustring                             read FDefaultEncoding                   write FDefaultEncoding;
+      property DefaultEncoding                   : ustring                                  read FDefaultEncoding                   write FDefaultEncoding;
       /// <summary>
       /// Disable JavaScript.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --disable-javascript</see></para>
       /// </remarks>
-      property DisableJavascript                 : boolean                             read FDisableJavascript                 write FDisableJavascript;
+      property DisableJavascript                 : boolean                                  read FDisableJavascript                 write FDisableJavascript;
       /// <summary>
       /// Disable closing of windows via JavaScript.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --disable-javascript-close-windows</see></para>
       /// </remarks>
-      property DisableJavascriptCloseWindows     : boolean                             read FDisableJavascriptCloseWindows     write FDisableJavascriptCloseWindows;
+      property DisableJavascriptCloseWindows     : boolean                                  read FDisableJavascriptCloseWindows     write FDisableJavascriptCloseWindows;
       /// <summary>
       /// Disable clipboard access via JavaScript.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --disable-javascript-access-clipboard</see></para>
       /// </remarks>
-      property DisableJavascriptAccessClipboard  : boolean                             read FDisableJavascriptAccessClipboard  write FDisableJavascriptAccessClipboard;
+      property DisableJavascriptAccessClipboard  : boolean                                  read FDisableJavascriptAccessClipboard  write FDisableJavascriptAccessClipboard;
       /// <summary>
       /// Disable DOM paste via JavaScript execCommand("paste").
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --disable-javascript-dom-paste</see></para>
       /// </remarks>
-      property DisableJavascriptDomPaste         : boolean                             read FDisableJavascriptDomPaste         write FDisableJavascriptDomPaste;
+      property DisableJavascriptDomPaste         : boolean                                  read FDisableJavascriptDomPaste         write FDisableJavascriptDomPaste;
       /// <summary>
       /// Allow universal access from file URLs.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --allow-universal-access-from-files</see></para>
       /// </remarks>
-      property AllowUniversalAccessFromFileUrls  : boolean                             read FAllowUniversalAccessFromFileUrls  write FAllowUniversalAccessFromFileUrls;
+      property AllowUniversalAccessFromFileUrls  : boolean                                  read FAllowUniversalAccessFromFileUrls  write FAllowUniversalAccessFromFileUrls;
       /// <summary>
       /// Disable loading of images from the network. A cached image will still be rendered if requested.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --disable-image-loading</see></para>
       /// </remarks>
-      property DisableImageLoading               : boolean                             read FDisableImageLoading               write FDisableImageLoading;
+      property DisableImageLoading               : boolean                                  read FDisableImageLoading               write FDisableImageLoading;
       /// <summary>
       /// Shrink stand-alone images to fit.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --image-shrink-standalone-to-fit</see></para>
       /// </remarks>
-      property ImageShrinkStandaloneToFit        : boolean                             read FImageShrinkStandaloneToFit        write FImageShrinkStandaloneToFit;
+      property ImageShrinkStandaloneToFit        : boolean                                  read FImageShrinkStandaloneToFit        write FImageShrinkStandaloneToFit;
       /// <summary>
       /// Disable resizing of text areas.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --disable-text-area-resize</see></para>
       /// </remarks>
-      property DisableTextAreaResize             : boolean                             read FDisableTextAreaResize             write FDisableTextAreaResize;
+      property DisableTextAreaResize             : boolean                                  read FDisableTextAreaResize             write FDisableTextAreaResize;
       /// <summary>
       /// Disable using the tab key to advance focus to links.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --disable-tab-to-links</see></para>
       /// </remarks>
-      property DisableTabToLinks                 : boolean                             read FDisableTabToLinks                 write FDisableTabToLinks;
+      property DisableTabToLinks                 : boolean                                  read FDisableTabToLinks                 write FDisableTabToLinks;
       /// <summary>
       /// Enable the speech input profanity filter.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --enable-profanity-filter</see></para>
       /// </remarks>
-      property EnableProfanityFilter             : boolean                             read FEnableProfanityFilter             write FEnableProfanityFilter;
+      property EnableProfanityFilter             : boolean                                  read FEnableProfanityFilter             write FEnableProfanityFilter;
       /// <summary>
       /// Disable spell checking.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --disable-spell-checking</see></para>
       /// </remarks>
-      property DisableSpellChecking              : boolean                             read FDisableSpellChecking              write FDisableSpellChecking;
+      property DisableSpellChecking              : boolean                                  read FDisableSpellChecking              write FDisableSpellChecking;
       /// <summary>
       /// Override the default spellchecking language which comes from locales.pak.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --override-spell-check-lang</see></para>
       /// </remarks>
-      property OverrideSpellCheckLang            : ustring                             read FOverrideSpellCheckLang            write FOverrideSpellCheckLang;
+      property OverrideSpellCheckLang            : ustring                                  read FOverrideSpellCheckLang            write FOverrideSpellCheckLang;
       /// <summary>
       /// Enable support for touch event feature detection.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --touch-events</see></para>
       /// </remarks>
-      property TouchEvents                       : TCefState                           read FTouchEvents                       write FTouchEvents;
+      property TouchEvents                       : TCefState                                read FTouchEvents                       write FTouchEvents;
       /// <summary>
       /// Taints all <canvas> elements, regardless of origin.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --disable-reading-from-canvas</see></para>
       /// </remarks>
-      property DisableReadingFromCanvas          : boolean                             read FDisableReadingFromCanvas          write FDisableReadingFromCanvas;
+      property DisableReadingFromCanvas          : boolean                                  read FDisableReadingFromCanvas          write FDisableReadingFromCanvas;
       /// <summary>
       /// Don't send hyperlink auditing pings.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --no-pings</see></para>
       /// </remarks>
-      property HyperlinkAuditing                 : boolean                             read FHyperlinkAuditing                 write FHyperlinkAuditing;
+      property HyperlinkAuditing                 : boolean                                  read FHyperlinkAuditing                 write FHyperlinkAuditing;
       /// <summary>
       /// Disable the timeout for delivering new browser info to the renderer process.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --disable-new-browser-info-timeout</see></para>
       /// </remarks>
-      property DisableNewBrowserInfoTimeout      : boolean                             read FDisableNewBrowserInfoTimeout      write FDisableNewBrowserInfoTimeout;
+      property DisableNewBrowserInfoTimeout      : boolean                                  read FDisableNewBrowserInfoTimeout      write FDisableNewBrowserInfoTimeout;
       /// <summary>
       /// File used for logging DevTools protocol messages.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --devtools-protocol-log-file</see></para>
       /// </remarks>
-      property DevToolsProtocolLogFile           : ustring                             read FDevToolsProtocolLogFile           write FDevToolsProtocolLogFile;
+      property DevToolsProtocolLogFile           : ustring                                  read FDevToolsProtocolLogFile           write FDevToolsProtocolLogFile;
       /// <summary>
       /// Overrides the device scale factor for the browser UI and the contents.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --force-device-scale-factor</see></para>
       /// </remarks>
-      property ForcedDeviceScaleFactor           : single                              read FForcedDeviceScaleFactor           write FForcedDeviceScaleFactor;
+      property ForcedDeviceScaleFactor           : single                                   read FForcedDeviceScaleFactor           write FForcedDeviceScaleFactor;
       /// <summary>
       /// Disables the use of a zygote process for forking child processes. Instead, child processes will be forked and exec'd directly.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --no-zygote</see></para>
       /// </remarks>
-      property DisableZygote                     : boolean                             read FDisableZygote                     write FDisableZygote;
+      property DisableZygote                     : boolean                                  read FDisableZygote                     write FDisableZygote;
       /// <summary>
       /// Uses mock keychain for testing purposes, which prevents blocking dialogs from causing timeouts.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --use-mock-keychain</see></para>
       /// </remarks>
-      property UseMockKeyChain                   : boolean                             read FUseMockKeyChain                   write FUseMockKeyChain;
+      property UseMockKeyChain                   : boolean                                  read FUseMockKeyChain                   write FUseMockKeyChain;
       /// <summary>
       /// Disable request handling in CEF to faciliate debugging of network-related issues.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --disable-request-handling-for-testing</see></para>
       /// </remarks>
-      property DisableRequestHandlingForTesting  : boolean                             read FDisableRequestHandlingForTesting  write FDisableRequestHandlingForTesting;
+      property DisableRequestHandlingForTesting  : boolean                                  read FDisableRequestHandlingForTesting  write FDisableRequestHandlingForTesting;
       /// <summary>
       /// Disables pop-up blocking.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --disable-popup-blocking</see></para>
       /// </remarks>
-      property DisablePopupBlocking              : boolean                             read FDisablePopupBlocking              write FDisablePopupBlocking;
+      property DisablePopupBlocking              : boolean                                  read FDisablePopupBlocking              write FDisablePopupBlocking;
       /// <summary>
       /// Disables the BackForwardCache feature.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --disable-back-forward-cache</see></para>
       /// </remarks>
-      property DisableBackForwardCache           : boolean                             read FDisableBackForwardCache           write FDisableBackForwardCache;
+      property DisableBackForwardCache           : boolean                                  read FDisableBackForwardCache           write FDisableBackForwardCache;
       /// <summary>
       /// Disable the component updater. Widevine will not be downloaded or initialized.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --disable-component-update</see></para>
       /// </remarks>
-      property DisableComponentUpdate            : boolean                             read FDisableComponentUpdate            write FDisableComponentUpdate;
+      property DisableComponentUpdate            : boolean                                  read FDisableComponentUpdate            write FDisableComponentUpdate;
       /// <summary>
       /// Enables TLS/SSL errors on localhost to be ignored (no interstitial, no blocking of requests).
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --allow-insecure-localhost</see></para>
       /// </remarks>
-      property AllowInsecureLocalhost            : boolean                             read FAllowInsecureLocalhost            write FAllowInsecureLocalhost;
+      property AllowInsecureLocalhost            : boolean                                  read FAllowInsecureLocalhost            write FAllowInsecureLocalhost;
       /// <summary>
       /// Enable automatically pressing the print button in print preview.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --kiosk-printing</see></para>
       /// </remarks>
-      property KioskPrinting                     : boolean                             read FKioskPrinting                     write SetKioskPrinting;
+      property KioskPrinting                     : boolean                                  read FKioskPrinting                     write SetKioskPrinting;
       /// <summary>
       /// Treat given (insecure) origins as secure origins.
       /// Multiple origins can be supplied as a comma-separated list.
@@ -1172,14 +1178,14 @@ type
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --unsafely-treat-insecure-origin-as-secure</see></para>
       /// </remarks>
-      property TreatInsecureOriginAsSecure       : ustring                             read FTreatInsecureOriginAsSecure       write FTreatInsecureOriginAsSecure;
+      property TreatInsecureOriginAsSecure       : ustring                                  read FTreatInsecureOriginAsSecure       write FTreatInsecureOriginAsSecure;
       /// <summary>
       /// Enables saving net log events to a file.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --log-net-log</see></para>
       /// </remarks>
-      property NetLogEnabled                     : boolean                             read FNetLogEnabled                     write FNetLogEnabled;
+      property NetLogEnabled                     : boolean                                  read FNetLogEnabled                     write FNetLogEnabled;
       /// <summary>
       /// File name used to log net events. If a value is given,
       /// it used as the path the the file, otherwise the file is named netlog.json
@@ -1188,21 +1194,21 @@ type
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --log-net-log</see></para>
       /// </remarks>
-      property NetLogFile                        : ustring                             read FNetLogFile                        write FNetLogFile;
+      property NetLogFile                        : ustring                                  read FNetLogFile                        write FNetLogFile;
       /// <summary>
       /// Sets the granularity of events to capture in the network log.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --net-log-capture-mode</see></para>
       /// </remarks>
-      property NetLogCaptureMode                 : TCefNetLogCaptureMode               read FNetLogCaptureMode                 write FNetLogCaptureMode;
+      property NetLogCaptureMode                 : TCefNetLogCaptureMode                    read FNetLogCaptureMode                 write FNetLogCaptureMode;
       /// <summary>
       /// Enables web socket connections from the specified origins only. '*' allows any origin.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --remote-allow-origins</see></para>
       /// </remarks>
-      property RemoteAllowOrigins                : ustring                             read FRemoteAllowOrigins                write FRemoteAllowOrigins;
+      property RemoteAllowOrigins                : ustring                                  read FRemoteAllowOrigins                write FRemoteAllowOrigins;
       /// <summary>
       /// Bypasses the dialog prompting the user for permission to capture cameras and microphones.
       /// Useful in automatic tests of video-conferencing Web applications. This is nearly
@@ -1212,137 +1218,137 @@ type
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --auto-accept-camera-and-microphone-capture</see></para>
       /// </remarks>
-      property AutoAcceptCamAndMicCapture        : boolean                             read FAutoAcceptCamAndMicCapture        write FAutoAcceptCamAndMicCapture;
+      property AutoAcceptCamAndMicCapture        : boolean                                  read FAutoAcceptCamAndMicCapture        write FAutoAcceptCamAndMicCapture;
       /// <summary>
       /// Forces light or dark mode in UI for platforms that support it.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switches: --force-dark-mode --force-light-mode</see></para>
       /// </remarks>
-      property UIColorMode                       : TCefUIColorMode                     read FUIColorMode                       write FUIColorMode;
+      property UIColorMode                       : TCefUIColorMode                          read FUIColorMode                       write FUIColorMode;
       /// <summary>
       /// Ignores certificate-related errors.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:components/network_session_configurator/common/network_switch_list.h">Uses the following command line switch: --ignore-certificate-errors</see></para>
       /// </remarks>
-      property IgnoreCertificateErrors           : Boolean                             read FIgnoreCertificateErrors           write FIgnoreCertificateErrors;
+      property IgnoreCertificateErrors           : Boolean                                  read FIgnoreCertificateErrors           write FIgnoreCertificateErrors;
 
       /// <summary>
       /// Pointer to the sandbox info. Currently unused in Delphi and Lazarus.
       /// </summary>
-      property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
+      property WindowsSandboxInfo                : Pointer                                  read FWindowsSandboxInfo                write FWindowsSandboxInfo;
       {$IFDEF LINUX}
       /// <summary>
       /// argc parameter copy used in Linux only.
       /// </summary>
-      property argcCopy                          : longint                             read GetArgc;
+      property argcCopy                          : longint                                  read GetArgc;
       /// <summary>
       /// argv parameter copy used in Linux only.
       /// </summary>
-      property argvCopy                          : PPAnsiChar                          read GetArgv;
+      property argvCopy                          : PPAnsiChar                               read GetArgv;
       {$ENDIF}
 
       /// <summary>
       /// Used to delete all the cache files before CEF is initialized.
       /// </summary>
-      property DeleteCache                       : boolean                             read FDeleteCache                       write FDeleteCache;
+      property DeleteCache                       : boolean                                  read FDeleteCache                       write FDeleteCache;
       /// <summary>
       /// Used to delete all the cookies before CEF is initialized.
       /// </summary>
-      property DeleteCookies                     : boolean                             read FDeleteCookies                     write FDeleteCookies;
+      property DeleteCookies                     : boolean                                  read FDeleteCookies                     write FDeleteCookies;
       /// <summary>
       /// Checks if the CEF binaries are present and the DLL version.
       /// </summary>
-      property CheckCEFFiles                     : boolean                             read FCheckCEFFiles                     write FCheckCEFFiles;
+      property CheckCEFFiles                     : boolean                                  read FCheckCEFFiles                     write FCheckCEFFiles;
       /// <summary>
       /// Set to true when you need to use a showmessage dialog to show the error messages.
       /// </summary>
-      property ShowMessageDlg                    : boolean                             read FShowMessageDlg                    write FShowMessageDlg;
+      property ShowMessageDlg                    : boolean                                  read FShowMessageDlg                    write FShowMessageDlg;
       /// <summary>
       /// Raise an exception when the CEF binaries check fails.
       /// </summary>
-      property MissingBinariesException          : boolean                             read FMissingBinariesException          write FMissingBinariesException;
+      property MissingBinariesException          : boolean                                  read FMissingBinariesException          write FMissingBinariesException;
       /// <summary>
       ///	Used to set the current directory when the CEF libraries are loaded. This is required if the application is launched from a different application.
       /// </summary>
-      property SetCurrentDir                     : boolean                             read FSetCurrentDir                     write FSetCurrentDir;
+      property SetCurrentDir                     : boolean                                  read FSetCurrentDir                     write FSetCurrentDir;
       /// <summary>
       ///	Set to True when the global context is initialized and the application can start creating web browsers.
       /// </summary>
-      property GlobalContextInitialized          : boolean                             read GetGlobalContextInitialized;
+      property GlobalContextInitialized          : boolean                                  read GetGlobalContextInitialized;
       /// <summary>
       ///	Returns the major version information from Chromium.
       /// </summary>
-      property ChromeMajorVer                    : uint16                              read FChromeVersionInfo.MajorVer;
+      property ChromeMajorVer                    : uint16                                   read FChromeVersionInfo.MajorVer;
       /// <summary>
       ///	Returns the minor version information from Chromium.
       /// </summary>
-      property ChromeMinorVer                    : uint16                              read FChromeVersionInfo.MinorVer;
+      property ChromeMinorVer                    : uint16                                   read FChromeVersionInfo.MinorVer;
       /// <summary>
       ///	Returns the release version information from Chromium.
       /// </summary>
-      property ChromeRelease                     : uint16                              read FChromeVersionInfo.Release;
+      property ChromeRelease                     : uint16                                   read FChromeVersionInfo.Release;
       /// <summary>
       ///	Returns the build version information from Chromium.
       /// </summary>
-      property ChromeBuild                       : uint16                              read FChromeVersionInfo.Build;
+      property ChromeBuild                       : uint16                                   read FChromeVersionInfo.Build;
       /// <summary>
       ///	Returns the full version information from Chromium.
       /// </summary>
-      property ChromeVersion                     : ustring                             read GetChromeVersion;
+      property ChromeVersion                     : ustring                                  read GetChromeVersion;
       /// <summary>
       ///	Complete libcef version information.
       /// </summary>
-      property LibCefVersion                     : ustring                             read GetLibCefVersion;
+      property LibCefVersion                     : ustring                                  read GetLibCefVersion;
       /// <summary>
       ///	Path to libcef.dll or libcef.so
       /// </summary>
-      property LibCefPath                        : ustring                             read GetLibCefPath;
+      property LibCefPath                        : ustring                                  read GetLibCefPath;
       /// <summary>
       ///	Returns the path to chrome_elf.dll.
       /// </summary>
-      property ChromeElfPath                     : ustring                             read GetChromeElfPath;
+      property ChromeElfPath                     : ustring                                  read GetChromeElfPath;
       /// <summary>
       ///	Set to true when TCEFApplicationCore has loaded the CEF libraries.
       /// </summary>
-      property LibLoaded                         : boolean                             read FLibLoaded;
+      property LibLoaded                         : boolean                                  read FLibLoaded;
       /// <summary>
       ///	Add a debug log information line when the CEF libraries are loaded.
       /// </summary>
-      property LogProcessInfo                    : boolean                             read FLogProcessInfo                    write FLogProcessInfo;
+      property LogProcessInfo                    : boolean                                  read FLogProcessInfo                    write FLogProcessInfo;
       /// <summary>
       /// Set to true to raise all exceptions.
       /// </summary>
-      property ReRaiseExceptions                 : boolean                             read FReRaiseExceptions                 write FReRaiseExceptions;
+      property ReRaiseExceptions                 : boolean                                  read FReRaiseExceptions                 write FReRaiseExceptions;
       /// <summary>
       /// Returns the device scale factor used in OSR mode.
       /// </summary>
-      property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
+      property DeviceScaleFactor                 : single                                   read FDeviceScaleFactor;
       /// <summary>
       /// List of locale files that will be checked with CheckCEFFiles.
       /// </summary>
-      property LocalesRequired                   : ustring                             read FLocalesRequired                   write FLocalesRequired;
+      property LocalesRequired                   : ustring                                  read FLocalesRequired                   write FLocalesRequired;
       /// <summary>
       /// CEF process type currently running.
       /// </summary>
-      property ProcessType                       : TCefProcessType                     read FProcessType;
+      property ProcessType                       : TCefProcessType                          read FProcessType;
       /// <summary>
       /// Force the creation of ICefResourceBundleHandler.
       /// </summary>
-      property MustCreateResourceBundleHandler   : boolean                             read GetMustCreateResourceBundleHandler write FMustCreateResourceBundleHandler;
+      property MustCreateResourceBundleHandler   : boolean                                  read GetMustCreateResourceBundleHandler write FMustCreateResourceBundleHandler;
       /// <summary>
       /// Force the creation of ICefBrowserProcessHandler.
       /// </summary>
-      property MustCreateBrowserProcessHandler   : boolean                             read GetMustCreateBrowserProcessHandler write FMustCreateBrowserProcessHandler;
+      property MustCreateBrowserProcessHandler   : boolean                                  read GetMustCreateBrowserProcessHandler write FMustCreateBrowserProcessHandler;
       /// <summary>
       /// Force the creation of ICefRenderProcessHandler.
       /// </summary>
-      property MustCreateRenderProcessHandler    : boolean                             read GetMustCreateRenderProcessHandler  write FMustCreateRenderProcessHandler;
+      property MustCreateRenderProcessHandler    : boolean                                  read GetMustCreateRenderProcessHandler  write FMustCreateRenderProcessHandler;
       /// <summary>
       /// Force the creation of ICefLoadHandler.
       /// </summary>
-      property MustCreateLoadHandler             : boolean                             read GetMustCreateLoadHandler           write FMustCreateLoadHandler;
+      property MustCreateLoadHandler             : boolean                                  read GetMustCreateLoadHandler           write FMustCreateLoadHandler;
       {$IFDEF MSWINDOWS}
       /// <summary>
       /// Set to true (1) before calling Windows APIs like TrackPopupMenu that enter a
@@ -1351,62 +1357,62 @@ type
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_app_win.h">CEF source file: /include/internal/cef_app_win.h (cef_set_osmodal_loop)</see></para>
       /// </remarks>
-      property OsmodalLoop                       : boolean                                                                     write SetOsmodalLoop;
+      property OsmodalLoop                       : boolean                                                                          write SetOsmodalLoop;
       {$ENDIF}
       /// <summary>
       /// Returns the TCEFApplicationCore initialization status.
       /// </summary>
-      property Status                            : TCefAplicationStatus                read FStatus;
+      property Status                            : TCefAplicationStatus                     read FStatus;
       /// <summary>
       /// List of missing CEF library files.
       /// </summary>
-      property MissingLibFiles                   : string                              read FMissingLibFiles;
+      property MissingLibFiles                   : string                                   read FMissingLibFiles;
       /// <summary>
       /// Set to true to free the library handle when TCEFApplicationCore is destroyed.
       /// </summary>
-      property MustFreeLibrary                   : boolean                             read FMustFreeLibrary                   write FMustFreeLibrary;
+      property MustFreeLibrary                   : boolean                                  read FMustFreeLibrary                   write FMustFreeLibrary;
       /// <summary>
       /// Returns the number of CEF subprocesses running at that moment.
       /// </summary>
-      property ChildProcessesCount               : integer                             read GetChildProcessesCount;
+      property ChildProcessesCount               : integer                                  read GetChildProcessesCount;
       /// <summary>
       /// Total used memory by all CEF processes.
       /// </summary>
-      property UsedMemory                        : uint64                              read GetUsedMemory;
+      property UsedMemory                        : uint64                                   read GetUsedMemory;
       /// <summary>
       /// Total system memory in Windows.
       /// </summary>
-      property TotalSystemMemory                 : uint64                              read GetTotalSystemMemory;
+      property TotalSystemMemory                 : uint64                                   read GetTotalSystemMemory;
       /// <summary>
       /// Calculates the available memory in Windows.
       /// </summary>
-      property AvailableSystemMemory             : uint64                              read GetAvailableSystemMemory;
+      property AvailableSystemMemory             : uint64                                   read GetAvailableSystemMemory;
       /// <summary>
       /// Memory load in Windows.
       /// </summary>
-      property SystemMemoryLoad                  : cardinal                            read GetSystemMemoryLoad;
+      property SystemMemoryLoad                  : cardinal                                 read GetSystemMemoryLoad;
       /// <summary>
       /// Calls cef_api_hash to get the universal hash.
       /// </summary>
-      property ApiHashUniversal                  : ustring                             read GetApiHashUniversal;
+      property ApiHashUniversal                  : ustring                                  read GetApiHashUniversal;
       /// <summary>
       /// Calls cef_api_hash to get the platform hash.
       /// </summary>
-      property ApiHashPlatform                   : ustring                             read GetApiHashPlatform;
+      property ApiHashPlatform                   : ustring                                  read GetApiHashPlatform;
       /// <summary>
       ///	Calls cef_api_hash to get the commit hash.
       /// </summary>
-      property ApiHashCommit                     : ustring                             read GetApiHashCommit;
+      property ApiHashCommit                     : ustring                                  read GetApiHashCommit;
       /// <summary>
       /// Last error message that is usually shown when CEF finds a problem at initialization.
       /// </summary>
-      property LastErrorMessage                  : ustring                             read FLastErrorMessage;
+      property LastErrorMessage                  : ustring                                  read FLastErrorMessage;
       {$IFDEF LINUX}
       /// <summary>
       /// Return the singleton X11 display shared with Chromium. The display is not
       /// thread-safe and must only be accessed on the browser process UI thread.
       /// </summary>
-      property XDisplay                          : PXDisplay                           read GetXDisplay;
+      property XDisplay                          : PXDisplay                                read GetXDisplay;
       {$ENDIF}
 
       /// <summary>
@@ -1418,7 +1424,7 @@ type
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_app_capi.h">CEF source file: /include/capi/cef_app_capi.h (cef_app_t)</see></para>
       /// </remarks>
-      property OnRegCustomSchemes                : TOnRegisterCustomSchemesEvent       read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
+      property OnRegCustomSchemes                : TOnRegisterCustomSchemesEvent            read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
       /// <summary>
       /// Provides an opportunity to register custom preferences prior to global and
       /// request context initialization.
@@ -1444,7 +1450,7 @@ type
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
       /// </remarks>
-      property OnRegisterCustomPreferences       : TOnRegisterCustomPreferencesEvent   read FOnRegisterCustomPreferences       write FOnRegisterCustomPreferences;
+      property OnRegisterCustomPreferences       : TOnRegisterCustomPreferencesEvent        read FOnRegisterCustomPreferences       write FOnRegisterCustomPreferences;
       /// <summary>
       /// Called on the browser process UI thread immediately after the CEF context
       /// has been initialized.
@@ -1452,7 +1458,7 @@ type
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
       /// </remarks>
-      property OnContextInitialized              : TOnContextInitializedEvent          read FOnContextInitialized              write FOnContextInitialized;
+      property OnContextInitialized              : TOnContextInitializedEvent               read FOnContextInitialized              write FOnContextInitialized;
       /// <summary>
       /// Called before a child process is launched. Will be called on the browser
       /// process UI thread when launching a render process and on the browser
@@ -1463,7 +1469,7 @@ type
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
       /// </remarks>
-      property OnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent    read FOnBeforeChildProcessLaunch        write FOnBeforeChildProcessLaunch;
+      property OnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent         read FOnBeforeChildProcessLaunch        write FOnBeforeChildProcessLaunch;
       /// <summary>
       /// <para>Implement this function to provide app-specific behavior when an already
       /// running app is relaunched with the same TCefSettings.root_cache_path value.
@@ -1483,7 +1489,7 @@ type
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
       /// </remarks>
-      property OnAlreadyRunningAppRelaunch       : TOnAlreadyRunningAppRelaunchEvent   read FOnAlreadyRunningAppRelaunch       write FOnAlreadyRunningAppRelaunch;
+      property OnAlreadyRunningAppRelaunch       : TOnAlreadyRunningAppRelaunchEvent        read FOnAlreadyRunningAppRelaunch       write FOnAlreadyRunningAppRelaunch;
       /// <summary>
       /// Called from any thread when work has been scheduled for the browser
       /// process main (UI) thread. This callback is used in combination with
@@ -1500,18 +1506,30 @@ type
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
       /// </remarks>
-      property OnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent     read FOnScheduleMessagePumpWork         write FOnScheduleMessagePumpWork;
+      property OnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent          read FOnScheduleMessagePumpWork         write FOnScheduleMessagePumpWork;
       /// <summary>
-      /// Return the default client for use with a newly created browser window. If
-      /// null is returned the browser will be unmanaged (no callbacks will be
-      /// executed for that browser) and application shutdown will be blocked until
-      /// the browser window is closed manually. This function is currently only
-      /// used with the chrome runtime.
+      /// Return the default client for use with a newly created browser window
+      /// (TCefBrowser object). If null is returned the TCefBrowser will be
+      /// unmanaged (no callbacks will be executed for that TCefBrowser) and
+      /// application shutdown will be blocked until the browser window is closed
+      /// manually. This function is currently only used with the Chrome runtime
+      /// when creating new browser windows via Chrome UI.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
       /// </remarks>
-      property OnGetDefaultClient                : TOnGetDefaultClientEvent            read FOnGetDefaultClient                write FOnGetDefaultClient;
+      property OnGetDefaultClient                : TOnGetDefaultClientEvent                 read FOnGetDefaultClient                write FOnGetDefaultClient;
+      /// <summary>
+      /// Return the default handler for use with a new user or incognito profile
+      /// (TCefRequestContext object). If null is returned the
+      /// TCefRequestContext will be unmanaged (no callbacks will be executed for
+      /// that TCefRequestContext). This function is currently only used with the
+      /// Chrome runtime when creating new browser windows via Chrome UI.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
+      /// </remarks>
+      property OnGetDefaultRequestContextHandler : TOnGetDefaultRequestContextHandlerEvent  read FOnGetDefaultRequestContextHandler write FOnGetDefaultRequestContextHandler;
       /// <summary>
       /// Called to retrieve a localized translation for the specified |string_id|.
       /// To provide the translation set |string| to the translation string and
@@ -1522,7 +1540,7 @@ type
       /// <para>This event may be called on multiple threads.</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_bundle_handler_capi.h">CEF source file: /include/capi/cef_resource_bundle_handler_capi.h (cef_resource_bundle_handler_t)</see></para>
       /// </remarks>
-      property OnGetLocalizedString              : TOnGetLocalizedStringEvent          read FOnGetLocalizedString              write FOnGetLocalizedString;
+      property OnGetLocalizedString              : TOnGetLocalizedStringEvent               read FOnGetLocalizedString              write FOnGetLocalizedString;
       /// <summary>
       /// Called to retrieve data for the specified scale independent |resource_id|.
       /// To provide the resource data set |data| and |data_size| to the data
@@ -1535,7 +1553,7 @@ type
       /// <para>This event may be called on multiple threads.</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_bundle_handler_capi.h">CEF source file: /include/capi/cef_resource_bundle_handler_capi.h (cef_resource_bundle_handler_t)</see></para>
       /// </remarks>
-      property OnGetDataResource                 : TOnGetDataResourceEvent             read FOnGetDataResource                 write FOnGetDataResource;
+      property OnGetDataResource                 : TOnGetDataResourceEvent                  read FOnGetDataResource                 write FOnGetDataResource;
       /// <summary>
       /// Called to retrieve data for the specified |resource_id| nearest the scale
       /// factor |scale_factor|. To provide the resource data set |data| and
@@ -1548,7 +1566,7 @@ type
       /// <para>This event may be called on multiple threads.</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_resource_bundle_handler_capi.h">CEF source file: /include/capi/cef_resource_bundle_handler_capi.h (cef_resource_bundle_handler_t)</see></para>
       /// </remarks>
-      property OnGetDataResourceForScale         : TOnGetDataResourceForScaleEvent     read FOnGetDataResourceForScale         write FOnGetDataResourceForScale;
+      property OnGetDataResourceForScale         : TOnGetDataResourceForScaleEvent          read FOnGetDataResourceForScale         write FOnGetDataResourceForScale;
       /// <summary>
       /// Called after WebKit has been initialized.
       /// </summary>
@@ -1556,7 +1574,7 @@ type
       /// <para>This event will be called on the render process main thread (TID_RENDERER)</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_process_handler_capi.h">CEF source file: /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)</see></para>
       /// </remarks>
-      property OnWebKitInitialized               : TOnWebKitInitializedEvent           read FOnWebKitInitialized               write FOnWebKitInitialized;
+      property OnWebKitInitialized               : TOnWebKitInitializedEvent                read FOnWebKitInitialized               write FOnWebKitInitialized;
       /// <summary>
       /// Called after a browser has been created. When browsing cross-origin a new
       /// browser will be created before the old browser with the same identifier is
@@ -1570,7 +1588,7 @@ type
       /// <para>This event will be called on the render process main thread (TID_RENDERER)</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_process_handler_capi.h">CEF source file: /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)</see></para>
       /// </remarks>
-      property OnBrowserCreated                  : TOnBrowserCreatedEvent              read FOnBrowserCreated                  write FOnBrowserCreated;
+      property OnBrowserCreated                  : TOnBrowserCreatedEvent                   read FOnBrowserCreated                  write FOnBrowserCreated;
       /// <summary>
       /// Called before a browser is destroyed.
       /// </summary>
@@ -1578,7 +1596,7 @@ type
       /// <para>This event will be called on the render process main thread (TID_RENDERER)</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_process_handler_capi.h">CEF source file: /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)</see></para>
       /// </remarks>
-      property OnBrowserDestroyed                : TOnBrowserDestroyedEvent            read FOnBrowserDestroyed                write FOnBrowserDestroyed;
+      property OnBrowserDestroyed                : TOnBrowserDestroyedEvent                 read FOnBrowserDestroyed                write FOnBrowserDestroyed;
       /// <summary>
       /// Called immediately after the V8 context for a frame has been created. To
       /// retrieve the JavaScript 'window' object use the
@@ -1591,7 +1609,7 @@ type
       /// <para>This event will be called on the render process main thread (TID_RENDERER)</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_process_handler_capi.h">CEF source file: /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)</see></para>
       /// </remarks>
-      property OnContextCreated                  : TOnContextCreatedEvent              read FOnContextCreated                  write FOnContextCreated;
+      property OnContextCreated                  : TOnContextCreatedEvent                   read FOnContextCreated                  write FOnContextCreated;
       /// <summary>
       /// Called immediately before the V8 context for a frame is released. No
       /// references to the context should be kept after this function is called.
@@ -1600,7 +1618,7 @@ type
       /// <para>This event will be called on the render process main thread (TID_RENDERER)</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_process_handler_capi.h">CEF source file: /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)</see></para>
       /// </remarks>
-      property OnContextReleased                 : TOnContextReleasedEvent             read FOnContextReleased                 write FOnContextReleased;
+      property OnContextReleased                 : TOnContextReleasedEvent                  read FOnContextReleased                 write FOnContextReleased;
       /// <summary>
       /// Called for global uncaught exceptions in a frame. Execution of this
       /// callback is disabled by default. To enable set
@@ -1610,7 +1628,7 @@ type
       /// <para>This event will be called on the render process main thread (TID_RENDERER)</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_process_handler_capi.h">CEF source file: /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)</see></para>
       /// </remarks>
-      property OnUncaughtException               : TOnUncaughtExceptionEvent           read FOnUncaughtException               write FOnUncaughtException;
+      property OnUncaughtException               : TOnUncaughtExceptionEvent                read FOnUncaughtException               write FOnUncaughtException;
       /// <summary>
       /// Called when a new node in the the browser gets focus. The |node| value may
       /// be NULL if no specific node has gained focus. The node object passed to
@@ -1623,7 +1641,7 @@ type
       /// <para>This event will be called on the render process main thread (TID_RENDERER)</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_process_handler_capi.h">CEF source file: /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)</see></para>
       /// </remarks>
-      property OnFocusedNodeChanged              : TOnFocusedNodeChangedEvent          read FOnFocusedNodeChanged              write FOnFocusedNodeChanged;
+      property OnFocusedNodeChanged              : TOnFocusedNodeChangedEvent               read FOnFocusedNodeChanged              write FOnFocusedNodeChanged;
       /// <summary>
       /// Called when a new message is received from a different process. Return
       /// true (1) if the message was handled or false (0) otherwise. It is safe to
@@ -1633,7 +1651,7 @@ type
       /// <para>This event will be called on the render process main thread (TID_RENDERER)</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_render_process_handler_capi.h">CEF source file: /include/capi/cef_render_process_handler_capi.h (cef_render_process_handler_t)</see></para>
       /// </remarks>
-      property OnProcessMessageReceived          : TOnProcessMessageReceivedEvent      read FOnProcessMessageReceived          write FOnProcessMessageReceived;
+      property OnProcessMessageReceived          : TOnProcessMessageReceivedEvent           read FOnProcessMessageReceived          write FOnProcessMessageReceived;
       /// <summary>
       /// Called when the loading state has changed. This callback will be executed
       /// twice -- once when loading is initiated either programmatically or by user
@@ -1645,7 +1663,7 @@ type
       /// <para>This event will be called on the render process main thread (TID_RENDERER)</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_load_handler_capi.h">CEF source file: /include/capi/cef_load_handler_capi.h (cef_load_handler_t)</see></para>
       /// </remarks>
-      property OnLoadingStateChange              : TOnRenderLoadingStateChange         read FOnLoadingStateChange              write FOnLoadingStateChange;
+      property OnLoadingStateChange              : TOnRenderLoadingStateChange              read FOnLoadingStateChange              write FOnLoadingStateChange;
       /// <summary>
       /// Called after a navigation has been committed and before the browser begins
       /// loading contents in the frame. The |frame| value will never be NULL --
@@ -1662,7 +1680,7 @@ type
       /// <para>This event will be called on the render process main thread (TID_RENDERER)</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_load_handler_capi.h">CEF source file: /include/capi/cef_load_handler_capi.h (cef_load_handler_t)</see></para>
       /// </remarks>
-      property OnLoadStart                       : TOnRenderLoadStart                  read FOnLoadStart                       write FOnLoadStart;
+      property OnLoadStart                       : TOnRenderLoadStart                       read FOnLoadStart                       write FOnLoadStart;
       /// <summary>
       /// Called when the browser is done loading a frame. The |frame| value will
       /// never be NULL -- call the IsMain() function to check if this frame is the
@@ -1677,7 +1695,7 @@ type
       /// <para>This event will be called on the render process main thread (TID_RENDERER)</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_load_handler_capi.h">CEF source file: /include/capi/cef_load_handler_capi.h (cef_load_handler_t)</see></para>
       /// </remarks>
-      property OnLoadEnd                         : TOnRenderLoadEnd                    read FOnLoadEnd                         write FOnLoadEnd;
+      property OnLoadEnd                         : TOnRenderLoadEnd                         read FOnLoadEnd                         write FOnLoadEnd;
       /// <summary>
       /// Called when a navigation fails or is canceled. This function may be called
       /// by itself if before commit or in combination with OnLoadStart/OnLoadEnd if
@@ -1689,7 +1707,7 @@ type
       /// <para>This event will be called on the render process main thread (TID_RENDERER)</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_load_handler_capi.h">CEF source file: /include/capi/cef_load_handler_capi.h (cef_load_handler_t)</see></para>
       /// </remarks>
-      property OnLoadError                       : TOnRenderLoadError                  read FOnLoadError                       write FOnLoadError;
+      property OnLoadError                       : TOnRenderLoadError                       read FOnLoadError                       write FOnLoadError;
   end;
 
   TCEFDirectoryDeleterThread = class(TThread)
@@ -1930,6 +1948,7 @@ begin
   FOnAlreadyRunningAppRelaunch       := nil;
   FOnScheduleMessagePumpWork         := nil;
   FOnGetDefaultClient                := nil;
+  FOnGetDefaultRequestContextHandler := nil;
 
   // ICefResourceBundleHandler
   FOnGetLocalizedString              := nil;
@@ -2073,6 +2092,12 @@ procedure TCefApplicationCore.doGetDefaultClient(var aClient : ICefClient);
 begin
   if assigned(FOnGetDefaultClient) then
     FOnGetDefaultClient(aClient);
+end;
+
+procedure TCefApplicationCore.doGetDefaultRequestContextHandler(var aRequestContextHandler : ICefRequestContextHandler);
+begin
+  if assigned(FOnGetDefaultRequestContextHandler) then
+    FOnGetDefaultRequestContextHandler(aRequestContextHandler);
 end;
 
 function TCefApplicationCore.doGetLocalizedString(stringid: Integer; var stringVal: ustring) : boolean;
@@ -3402,8 +3427,9 @@ begin
               assigned(FOnContextInitialized)         or
               assigned(FOnBeforeChildProcessLaunch)   or
               assigned(FOnAlreadyRunningAppRelaunch)  or
-              assigned(FOnScheduleMessagePumpWork))   or
-              assigned(FOnGetDefaultClient));
+              assigned(FOnScheduleMessagePumpWork)    or
+              assigned(FOnGetDefaultClient)           or
+              assigned(FOnGetDefaultRequestContextHandler)));
 end;
 
 function TCefApplicationCore.GetMustCreateRenderProcessHandler : boolean;

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefAudioHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefAudioHandler"></span><h1 class="cio">Interface ICefAudioHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefAudioHandler = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this interface to handle audio events. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_audio_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_audio_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_audio_handler_capi.h (cef_audio_handler_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefAudioHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefAudioHandler.html#OnGetAudioParameters-ICefBrowser-TCefAudioParameters-boolean-">OnGetAudioParameters</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var params: <a href="uCEFTypes.TCefAudioParameters.html">TCefAudioParameters</a>; var aResult: boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefAudioHandler.html#OnAudioStreamStarted-ICefBrowser-TCefAudioParameters-integer-">OnAudioStreamStarted</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const params: <a href="uCEFTypes.TCefAudioParameters.html">TCefAudioParameters</a>; channels: integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefAudioHandler.html#OnAudioStreamPacket-ICefBrowser-PPSingle-integer-int64-">OnAudioStreamPacket</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const data : <a href="uCEFTypes.html#PPSingle">PPSingle</a>; frames: integer; pts: int64);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefAudioHandler.html#OnAudioStreamStopped-ICefBrowser-">OnAudioStreamStopped</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefAudioHandler.html#OnAudioStreamError-ICefBrowser-ustring-">OnAudioStreamError</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const message_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefAudioHandler.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnGetAudioParameters-ICefBrowser-TCefAudioParameters-boolean-"></span><code>procedure <strong>OnGetAudioParameters</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var params: <a href="uCEFTypes.TCefAudioParameters.html">TCefAudioParameters</a>; var aResult: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the UI thread to allow configuration of audio stream parameters. Return true (1) to proceed with audio stream capture, or false (0) to cancel it. All members of |params| can optionally be configured here, but they are also pre-filled with some sensible defaults. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{8963271A-0B94-4279-82C8-FB2EA7B3CDEC}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnAudioStreamStarted-ICefBrowser-TCefAudioParameters-integer-"></span><code>procedure <strong>OnAudioStreamStarted</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const params: <a href="uCEFTypes.TCefAudioParameters.html">TCefAudioParameters</a>; channels: integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on a browser audio capture thread when the browser starts streaming audio. OnAudioStreamStopped will always be called after OnAudioStreamStarted; both functions may be called multiple times for the same browser. |params| contains the audio parameters like sample rate and channel layout. |channels| is the number of channels. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnAudioStreamPacket-ICefBrowser-PPSingle-integer-int64-"></span><code>procedure <strong>OnAudioStreamPacket</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const data : <a href="uCEFTypes.html#PPSingle">PPSingle</a>; frames: integer; pts: int64);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the audio stream thread when a PCM packet is received for the stream. |data| is an array representing the raw PCM data as a floating point type, i.e. 4-byte value(s). |frames| is the number of frames in the PCM packet. |pts| is the presentation timestamp (in milliseconds since the Unix Epoch) and represents the time at which the decompressed packet should be presented to the user. Based on |frames| and the |channel_layout| value passed to OnAudioStreamStarted you can calculate the size of the |data| array in bytes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnAudioStreamStopped-ICefBrowser-"></span><code>procedure <strong>OnAudioStreamStopped</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the UI thread when the stream has stopped. OnAudioSteamStopped will always be called after OnAudioStreamStarted; both functions may be called multiple times for the same stream. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnAudioStreamError-ICefBrowser-ustring-"></span><code>procedure <strong>OnAudioStreamError</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const message_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called on the UI or audio stream thread when an error occurred. During the stream creation phase this callback will be called on the UI thread while in the capturing phase it will be called on the audio stream thread. The stream will be stopped immediately. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

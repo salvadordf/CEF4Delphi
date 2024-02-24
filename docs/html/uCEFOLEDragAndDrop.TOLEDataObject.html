@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFOLEDragAndDrop: Class TOLEDataObject</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TOLEDataObject"></span><h1 class="cio">Class TOLEDataObject</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFOLEDragAndDrop.html">uCEFOLEDragAndDrop</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TOLEDataObject = class(TInterfacedObject, IDataObject)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="thisitem">TOLEDataObject</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#FNumFormats">FNumFormats</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#FFormatArray">FFormatArray</a></strong>: <a href="uCEFOLEDragAndDrop.html#TOLEFormatArray">TOLEFormatArray</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#FMediumArray">FMediumArray</a></strong>: <a href="uCEFOLEDragAndDrop.html#TOLEMediumArray">TOLEMediumArray</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#FAsync">FAsync</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#FInOperation">FInOperation</a></strong>: boolean;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#LookupFormatEtc-TFormatEtc-">LookupFormatEtc</a></strong>(const aFormatEtc : TFormatEtc) : integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#DupGlobalMem-HGLOBAL-">DupGlobalMem</a></strong>(hMem : HGLOBAL) : HGLOBAL;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#Create-TOLEFormatArray-TOLEMediumArray-integer-">Create</a></strong>(const aFormatArray : <a href="uCEFOLEDragAndDrop.html#TOLEFormatArray">TOLEFormatArray</a>; const aMediumArray : <a href="uCEFOLEDragAndDrop.html#TOLEMediumArray">TOLEMediumArray</a>; aNumFormats : integer); reintroduce;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#GetData-TFormatEtc-TStgMedium-">GetData</a></strong>(const FormatEtcIn: TFormatEtc; out Medium: TStgMedium):HRESULT; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#GetDataHere-TFormatEtc-TStgMedium-">GetDataHere</a></strong>(const FormatEtc: TFormatEtc; out Medium: TStgMedium):HRESULT; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#QueryGetData-TFormatEtc-">QueryGetData</a></strong>(const FormatEtc: TFormatEtc): HRESULT; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#GetCanonicalFormatEtc-TFormatEtc-TFormatEtc-">GetCanonicalFormatEtc</a></strong>(const FormatEtc: TFormatEtc; out FormatEtcout: TFormatEtc): HRESULT; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#SetData-FORMATETC-STGMEDIUM-BOOL-">SetData</a></strong>(const pformatetc: FORMATETC; const medium: STGMEDIUM; FRelease: BOOL): HRESULT; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#EnumFormatEtc-DWORD-IENUMFORMATETC-">EnumFormatEtc</a></strong>(dwDirection: DWORD; out aEnumFormatEtc: IENUMFORMATETC): HRESULT; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#DAdvise-FORMATETC-DWORD-IAdviseSink-DWORD-">DAdvise</a></strong>(const formatetc: FORMATETC; advf: DWORD; const AdvSink: IAdviseSink; out dwConnection: DWORD): HRESULT; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#DUnadvise-DWORD-">DUnadvise</a></strong>(dwconnection: DWORD): HRESULT; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOLEDragAndDrop.TOLEDataObject.html#EnumdAdvise-IEnumStatData-">EnumdAdvise</a></strong>(out EnumAdvise: IEnumStatData): HRESULT; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FNumFormats"></span><code><strong>FNumFormats</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FFormatArray"></span><code><strong>FFormatArray</strong>: <a href="uCEFOLEDragAndDrop.html#TOLEFormatArray">TOLEFormatArray</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMediumArray"></span><code><strong>FMediumArray</strong>: <a href="uCEFOLEDragAndDrop.html#TOLEMediumArray">TOLEMediumArray</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FAsync"></span><code><strong>FAsync</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FInOperation"></span><code><strong>FInOperation</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="LookupFormatEtc-TFormatEtc-"></span><code>function <strong>LookupFormatEtc</strong>(const aFormatEtc : TFormatEtc) : integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DupGlobalMem-HGLOBAL-"></span><code>function <strong>DupGlobalMem</strong>(hMem : HGLOBAL) : HGLOBAL;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-TOLEFormatArray-TOLEMediumArray-integer-"></span><code>constructor <strong>Create</strong>(const aFormatArray : <a href="uCEFOLEDragAndDrop.html#TOLEFormatArray">TOLEFormatArray</a>; const aMediumArray : <a href="uCEFOLEDragAndDrop.html#TOLEMediumArray">TOLEMediumArray</a>; aNumFormats : integer); reintroduce;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetData-TFormatEtc-TStgMedium-"></span><code>function <strong>GetData</strong>(const FormatEtcIn: TFormatEtc; out Medium: TStgMedium):HRESULT; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+IDataObject</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDataHere-TFormatEtc-TStgMedium-"></span><code>function <strong>GetDataHere</strong>(const FormatEtc: TFormatEtc; out Medium: TStgMedium):HRESULT; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="QueryGetData-TFormatEtc-"></span><code>function <strong>QueryGetData</strong>(const FormatEtc: TFormatEtc): HRESULT; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetCanonicalFormatEtc-TFormatEtc-TFormatEtc-"></span><code>function <strong>GetCanonicalFormatEtc</strong>(const FormatEtc: TFormatEtc; out FormatEtcout: TFormatEtc): HRESULT; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetData-FORMATETC-STGMEDIUM-BOOL-"></span><code>function <strong>SetData</strong>(const pformatetc: FORMATETC; const medium: STGMEDIUM; FRelease: BOOL): HRESULT; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="EnumFormatEtc-DWORD-IENUMFORMATETC-"></span><code>function <strong>EnumFormatEtc</strong>(dwDirection: DWORD; out aEnumFormatEtc: IENUMFORMATETC): HRESULT; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DAdvise-FORMATETC-DWORD-IAdviseSink-DWORD-"></span><code>function <strong>DAdvise</strong>(const formatetc: FORMATETC; advf: DWORD; const AdvSink: IAdviseSink; out dwConnection: DWORD): HRESULT; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DUnadvise-DWORD-"></span><code>function <strong>DUnadvise</strong>(dwconnection: DWORD): HRESULT; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="EnumdAdvise-IEnumStatData-"></span><code>function <strong>EnumdAdvise</strong>(out EnumAdvise: IEnumStatData): HRESULT; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

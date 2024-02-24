@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFPreferenceManager: Class TCefPreferenceManagerRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefPreferenceManagerRef"></span><h1 class="cio">Class TCefPreferenceManagerRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFPreferenceManager.html">uCEFPreferenceManager</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefPreferenceManagerRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefPreferenceManager.html">ICefPreferenceManager</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="thisitem">TCefPreferenceManagerRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#HasPreference-ustring-">HasPreference</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#GetPreference-ustring-">GetPreference</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#GetAllPreferences-Boolean-">GetAllPreferences</a></strong>(includeDefaults: Boolean): <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#CanSetPreference-ustring-">CanSetPreference</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#SetPreference-ustring-ICefValue-ustring-">SetPreference</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; out error: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefPreferenceManager.html">ICefPreferenceManager</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#Global">Global</a></strong>: <a href="uCEFInterfaces.ICefPreferenceManager.html">ICefPreferenceManager</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HasPreference-ustring-"></span><code>function <strong>HasPreference</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPreferenceManager.html#HasPreference-ustring-">ICefPreferenceManager.HasPreference</a>.</p><p>
+ Returns true (1) if a preference with the specified |name| exists. This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetPreference-ustring-"></span><code>function <strong>GetPreference</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPreferenceManager.html#GetPreference-ustring-">ICefPreferenceManager.GetPreference</a>.</p><p>
+ Returns the value for the preference with the specified |name|. Returns NULL if the preference does not exist. The returned object contains a copy of the underlying preference value and modifications to the returned object will not modify the underlying preference value. This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAllPreferences-Boolean-"></span><code>function <strong>GetAllPreferences</strong>(includeDefaults: Boolean): <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPreferenceManager.html#GetAllPreferences-Boolean-">ICefPreferenceManager.GetAllPreferences</a>.</p><p>
+ Returns all preferences as a dictionary. If |include_defaults| is true (1) then preferences currently at their default value will be included. The returned object contains a copy of the underlying preference values and modifications to the returned object will not modify the underlying preference values. This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CanSetPreference-ustring-"></span><code>function <strong>CanSetPreference</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPreferenceManager.html#CanSetPreference-ustring-">ICefPreferenceManager.CanSetPreference</a>.</p><p>
+ Returns true (1) if the preference with the specified |name| can be modified using SetPreference. As one example preferences set via the command-line usually cannot be modified. This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetPreference-ustring-ICefValue-ustring-"></span><code>function <strong>SetPreference</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; out error: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPreferenceManager.html#SetPreference-ustring-ICefValue-ustring-">ICefPreferenceManager.SetPreference</a>.</p><p>
+ Set the |value| associated with preference |name|. Returns true (1) if the value is set successfully and false (0) otherwise. If |value| is NULL the preference will be restored to its default value. If setting the preference fails then |error| will be populated with a detailed description of the problem. This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefPreferenceManager.html">ICefPreferenceManager</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Global"></span><code>class function <strong>Global</strong>: <a href="uCEFInterfaces.ICefPreferenceManager.html">ICefPreferenceManager</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

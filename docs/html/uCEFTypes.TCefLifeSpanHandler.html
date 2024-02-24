@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefLifeSpanHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefLifeSpanHandler"></span><h1 class="cio">Record TCefLifeSpanHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefLifeSpanHandler = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this structure to handle events related to browser life span. The functions of this structure will be called on the UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>Implemented by ICefLifeSpanHandler.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_life_span_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_life_span_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_life_span_handler_capi.h (cef_life_span_handler_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLifeSpanHandler.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLifeSpanHandler.html#on_before_popup">on_before_popup</a></strong>: function(self: <a href="uCEFTypes.html#PCefLifeSpanHandler">PCefLifeSpanHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; const target_url, target_frame_name: <a href="uCEFTypes.html#PCefString">PCefString</a>; target_disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>; user_gesture: Integer; const popupFeatures: <a href="uCEFTypes.html#PCefPopupFeatures">PCefPopupFeatures</a>; windowInfo: <a href="uCEFTypes.html#PCefWindowInfo">PCefWindowInfo</a>; var client: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; var extra_info: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; no_javascript_access: PInteger): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLifeSpanHandler.html#on_before_dev_tools_popup">on_before_dev_tools_popup</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefLifeSpanHandler">PCefLifeSpanHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; windowInfo: <a href="uCEFTypes.html#PCefWindowInfo">PCefWindowInfo</a>; var client: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; var extra_info: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; use_default_window: PInteger); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLifeSpanHandler.html#on_after_created">on_after_created</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefLifeSpanHandler">PCefLifeSpanHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLifeSpanHandler.html#do_close">do_close</a></strong>: function(self: <a href="uCEFTypes.html#PCefLifeSpanHandler">PCefLifeSpanHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefLifeSpanHandler.html#on_before_close">on_before_close</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefLifeSpanHandler">PCefLifeSpanHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_before_popup"></span><code><strong>on_before_popup</strong>: function(self: <a href="uCEFTypes.html#PCefLifeSpanHandler">PCefLifeSpanHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; const target_url, target_frame_name: <a href="uCEFTypes.html#PCefString">PCefString</a>; target_disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>; user_gesture: Integer; const popupFeatures: <a href="uCEFTypes.html#PCefPopupFeatures">PCefPopupFeatures</a>; windowInfo: <a href="uCEFTypes.html#PCefWindowInfo">PCefWindowInfo</a>; var client: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; var extra_info: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; no_javascript_access: PInteger): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_before_dev_tools_popup"></span><code><strong>on_before_dev_tools_popup</strong>: procedure(self: <a href="uCEFTypes.html#PCefLifeSpanHandler">PCefLifeSpanHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; windowInfo: <a href="uCEFTypes.html#PCefWindowInfo">PCefWindowInfo</a>; var client: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; var extra_info: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; use_default_window: PInteger); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_after_created"></span><code><strong>on_after_created</strong>: procedure(self: <a href="uCEFTypes.html#PCefLifeSpanHandler">PCefLifeSpanHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="do_close"></span><code><strong>do_close</strong>: function(self: <a href="uCEFTypes.html#PCefLifeSpanHandler">PCefLifeSpanHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_before_close"></span><code><strong>on_before_close</strong>: procedure(self: <a href="uCEFTypes.html#PCefLifeSpanHandler">PCefLifeSpanHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

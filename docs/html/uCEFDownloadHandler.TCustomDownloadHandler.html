@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFDownloadHandler: Class TCustomDownloadHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCustomDownloadHandler"></span><h1 class="cio">Class TCustomDownloadHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFDownloadHandler.html">uCEFDownloadHandler</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCustomDownloadHandler = class(<a class="normal" href="uCEFDownloadHandler.TCefDownloadHandlerOwn.html">TCefDownloadHandlerOwn</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="ancestor"><a class="normal" href="uCEFDownloadHandler.TCefDownloadHandlerOwn.html">TCefDownloadHandlerOwn</a></li>
+<li class="thisitem">TCustomDownloadHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFDownloadHandler.TCustomDownloadHandler.html#FEvents">FEvents</a></strong>: Pointer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDownloadHandler.TCustomDownloadHandler.html#CanDownload-ICefBrowser-ustring-ustring-">CanDownload</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const url, request_method: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFDownloadHandler.TCustomDownloadHandler.html#OnBeforeDownload-ICefBrowser-ICefDownloadItem-ustring-ICefBeforeDownloadCallback-">OnBeforeDownload</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFDownloadHandler.TCustomDownloadHandler.html#OnDownloadUpdated-ICefBrowser-ICefDownloadItem-ICefDownloadItemCallback-">OnDownloadUpdated</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const callback: <a href="uCEFInterfaces.ICefDownloadItemCallback.html">ICefDownloadItemCallback</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFDownloadHandler.TCustomDownloadHandler.html#RemoveReferences">RemoveReferences</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFDownloadHandler.TCustomDownloadHandler.html#Create-IChromiumEvents-">Create</a></strong>(const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFDownloadHandler.TCustomDownloadHandler.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FEvents"></span><code><strong>FEvents</strong>: Pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CanDownload-ICefBrowser-ustring-ustring-"></span><code>function <strong>CanDownload</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const url, request_method: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDownloadHandler.html#CanDownload-ICefBrowser-ustring-ustring-">ICefDownloadHandler.CanDownload</a>.</p><p>
+ Called before a download begins in response to a user-initiated action (e.g. alt + link click or link click that returns a `Content-Disposition: attachment` response from the server). |url| is the target download URL and |request_function| is the target function (GET, POST, etc). Return true (1) to proceed with the download or false (0) to cancel the download. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnBeforeDownload-ICefBrowser-ICefDownloadItem-ustring-ICefBeforeDownloadCallback-"></span><code>procedure <strong>OnBeforeDownload</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDownloadHandler.html#OnBeforeDownload-ICefBrowser-ICefDownloadItem-ustring-ICefBeforeDownloadCallback-">ICefDownloadHandler.OnBeforeDownload</a>.</p><p>
+ Called before a download begins. |suggested_name| is the suggested name for the download file. By default the download will be canceled. Execute |callback| either asynchronously or in this function to continue the download if desired. Do not keep a reference to |download_item| outside of this function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnDownloadUpdated-ICefBrowser-ICefDownloadItem-ICefDownloadItemCallback-"></span><code>procedure <strong>OnDownloadUpdated</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const callback: <a href="uCEFInterfaces.ICefDownloadItemCallback.html">ICefDownloadItemCallback</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDownloadHandler.html#OnDownloadUpdated-ICefBrowser-ICefDownloadItem-ICefDownloadItemCallback-">ICefDownloadHandler.OnDownloadUpdated</a>.</p><p>
+ Called when a download's status or progress information has been updated. This may be called multiple times before and after OnBeforeDownload. Execute |callback| either asynchronously or in this function to cancel the download if desired. Do not keep a reference to |download_item| outside of this function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDownloadHandler.html#RemoveReferences">ICefDownloadHandler.RemoveReferences</a>.</p><p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-IChromiumEvents-"></span><code>constructor <strong>Create</strong>(const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>); reintroduce; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefDownloadItem</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefDownloadItem"></span><h1 class="cio">Interface ICefDownloadItem</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefDownloadItem = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface used to represent a download item. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_download_item_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_download_item_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_download_item_capi.h (cef_download_item_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefDownloadItem</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#IsValid">IsValid</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#IsInProgress">IsInProgress</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#IsComplete">IsComplete</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#IsCanceled">IsCanceled</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#IsInterrupted">IsInterrupted</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetInterruptReason">GetInterruptReason</a></strong>: <a href="uCEFTypes.html#TCefDownloadInterruptReason">TCefDownloadInterruptReason</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetCurrentSpeed">GetCurrentSpeed</a></strong>: Int64;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetPercentComplete">GetPercentComplete</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetTotalBytes">GetTotalBytes</a></strong>: Int64;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetReceivedBytes">GetReceivedBytes</a></strong>: Int64;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetStartTime">GetStartTime</a></strong>: TDateTime;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetEndTime">GetEndTime</a></strong>: TDateTime;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetFullPath">GetFullPath</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetId">GetId</a></strong>: Cardinal;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetUrl">GetUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetOriginalUrl">GetOriginalUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetSuggestedFileName">GetSuggestedFileName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetContentDisposition">GetContentDisposition</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDownloadItem.html#GetMimeType">GetMimeType</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#CurrentSpeed">CurrentSpeed</a></strong>        : Int64                         read <a href="uCEFInterfaces.ICefDownloadItem.html#GetCurrentSpeed">GetCurrentSpeed</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#PercentComplete">PercentComplete</a></strong>     : Integer                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetPercentComplete">GetPercentComplete</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#TotalBytes">TotalBytes</a></strong>          : Int64                         read <a href="uCEFInterfaces.ICefDownloadItem.html#GetTotalBytes">GetTotalBytes</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#ReceivedBytes">ReceivedBytes</a></strong>       : Int64                         read <a href="uCEFInterfaces.ICefDownloadItem.html#GetReceivedBytes">GetReceivedBytes</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#StartTime">StartTime</a></strong>           : TDateTime                     read <a href="uCEFInterfaces.ICefDownloadItem.html#GetStartTime">GetStartTime</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#EndTime">EndTime</a></strong>             : TDateTime                     read <a href="uCEFInterfaces.ICefDownloadItem.html#GetEndTime">GetEndTime</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#FullPath">FullPath</a></strong>            : <a href="uCEFTypes.html#ustring">ustring</a>                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetFullPath">GetFullPath</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#Id">Id</a></strong>                  : Cardinal                      read <a href="uCEFInterfaces.ICefDownloadItem.html#GetId">GetId</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#Url">Url</a></strong>                 : <a href="uCEFTypes.html#ustring">ustring</a>                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetUrl">GetUrl</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#OriginalUrl">OriginalUrl</a></strong>         : <a href="uCEFTypes.html#ustring">ustring</a>                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetOriginalUrl">GetOriginalUrl</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#SuggestedFileName">SuggestedFileName</a></strong>   : <a href="uCEFTypes.html#ustring">ustring</a>                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetSuggestedFileName">GetSuggestedFileName</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#ContentDisposition">ContentDisposition</a></strong>  : <a href="uCEFTypes.html#ustring">ustring</a>                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetContentDisposition">GetContentDisposition</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#MimeType">MimeType</a></strong>            : <a href="uCEFTypes.html#ustring">ustring</a>                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetMimeType">GetMimeType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDownloadItem.html#InterruptReason">InterruptReason</a></strong>     : <a href="uCEFTypes.html#TCefDownloadInterruptReason">TCefDownloadInterruptReason</a>   read <a href="uCEFInterfaces.ICefDownloadItem.html#GetInterruptReason">GetInterruptReason</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsValid"></span><code>function <strong>IsValid</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this object is valid. Do not call any other functions if this function returns false (0). </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{B34BD320-A82E-4185-8E84-B98E5EEC803F}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsInProgress"></span><code>function <strong>IsInProgress</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the download is in progress. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsComplete"></span><code>function <strong>IsComplete</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the download is complete. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsCanceled"></span><code>function <strong>IsCanceled</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the download has been canceled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsInterrupted"></span><code>function <strong>IsInterrupted</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the download has been interrupted. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetInterruptReason"></span><code>function <strong>GetInterruptReason</strong>: <a href="uCEFTypes.html#TCefDownloadInterruptReason">TCefDownloadInterruptReason</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the most recent interrupt reason. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetCurrentSpeed"></span><code>function <strong>GetCurrentSpeed</strong>: Int64;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a simple speed estimate in bytes/s. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetPercentComplete"></span><code>function <strong>GetPercentComplete</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the rough percent complete or -1 if the receive total size is unknown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetTotalBytes"></span><code>function <strong>GetTotalBytes</strong>: Int64;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the total number of bytes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetReceivedBytes"></span><code>function <strong>GetReceivedBytes</strong>: Int64;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the number of received bytes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetStartTime"></span><code>function <strong>GetStartTime</strong>: TDateTime;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the time that the download started. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetEndTime"></span><code>function <strong>GetEndTime</strong>: TDateTime;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the time that the download ended. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFullPath"></span><code>function <strong>GetFullPath</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the full path to the downloaded or downloading file. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetId"></span><code>function <strong>GetId</strong>: Cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the unique identifier for this download. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetUrl"></span><code>function <strong>GetUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the URL. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetOriginalUrl"></span><code>function <strong>GetOriginalUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the original URL before any redirections. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSuggestedFileName"></span><code>function <strong>GetSuggestedFileName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the suggested file name. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetContentDisposition"></span><code>function <strong>GetContentDisposition</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the content disposition. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetMimeType"></span><code>function <strong>GetMimeType</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the mime type. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CurrentSpeed"></span><code>property <strong>CurrentSpeed</strong>        : Int64                         read <a href="uCEFInterfaces.ICefDownloadItem.html#GetCurrentSpeed">GetCurrentSpeed</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a simple speed estimate in bytes/s. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PercentComplete"></span><code>property <strong>PercentComplete</strong>     : Integer                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetPercentComplete">GetPercentComplete</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the rough percent complete or -1 if the receive total size is unknown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TotalBytes"></span><code>property <strong>TotalBytes</strong>          : Int64                         read <a href="uCEFInterfaces.ICefDownloadItem.html#GetTotalBytes">GetTotalBytes</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the total number of bytes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ReceivedBytes"></span><code>property <strong>ReceivedBytes</strong>       : Int64                         read <a href="uCEFInterfaces.ICefDownloadItem.html#GetReceivedBytes">GetReceivedBytes</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the number of received bytes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="StartTime"></span><code>property <strong>StartTime</strong>           : TDateTime                     read <a href="uCEFInterfaces.ICefDownloadItem.html#GetStartTime">GetStartTime</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the time that the download started. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="EndTime"></span><code>property <strong>EndTime</strong>             : TDateTime                     read <a href="uCEFInterfaces.ICefDownloadItem.html#GetEndTime">GetEndTime</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the time that the download ended. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FullPath"></span><code>property <strong>FullPath</strong>            : <a href="uCEFTypes.html#ustring">ustring</a>                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetFullPath">GetFullPath</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the full path to the downloaded or downloading file. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Id"></span><code>property <strong>Id</strong>                  : Cardinal                      read <a href="uCEFInterfaces.ICefDownloadItem.html#GetId">GetId</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the unique identifier for this download. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Url"></span><code>property <strong>Url</strong>                 : <a href="uCEFTypes.html#ustring">ustring</a>                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetUrl">GetUrl</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the URL. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OriginalUrl"></span><code>property <strong>OriginalUrl</strong>         : <a href="uCEFTypes.html#ustring">ustring</a>                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetOriginalUrl">GetOriginalUrl</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the original URL before any redirections. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SuggestedFileName"></span><code>property <strong>SuggestedFileName</strong>   : <a href="uCEFTypes.html#ustring">ustring</a>                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetSuggestedFileName">GetSuggestedFileName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the suggested file name. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ContentDisposition"></span><code>property <strong>ContentDisposition</strong>  : <a href="uCEFTypes.html#ustring">ustring</a>                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetContentDisposition">GetContentDisposition</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the content disposition. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MimeType"></span><code>property <strong>MimeType</strong>            : <a href="uCEFTypes.html#ustring">ustring</a>                       read <a href="uCEFInterfaces.ICefDownloadItem.html#GetMimeType">GetMimeType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the mime type. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="InterruptReason"></span><code>property <strong>InterruptReason</strong>     : <a href="uCEFTypes.html#TCefDownloadInterruptReason">TCefDownloadInterruptReason</a>   read <a href="uCEFInterfaces.ICefDownloadItem.html#GetInterruptReason">GetInterruptReason</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the most recent interrupt reason. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

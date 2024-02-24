@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefContextMenuHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefContextMenuHandler"></span><h1 class="cio">Record TCefContextMenuHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefContextMenuHandler = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this structure to handle context menu events. The functions of this structure will be called on the UI thread. </p>
+<p>
+
+
+<p>Implemented by ICefContextMenuHandler.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_context_menu_handler_capi.h (cef_context_menu_handler_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuHandler.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuHandler.html#on_before_context_menu">on_before_context_menu</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; params: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>; model: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuHandler.html#run_context_menu">run_context_menu</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; params: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>; model: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; callback: <a href="uCEFTypes.html#PCefRunContextMenuCallback">PCefRunContextMenuCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuHandler.html#on_context_menu_command">on_context_menu_command</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; params: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>; command_id: Integer; event_flags: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuHandler.html#on_context_menu_dismissed">on_context_menu_dismissed</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuHandler.html#run_quick_menu">run_quick_menu</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; location: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>; size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>; edit_state_flags: <a href="uCEFTypes.html#TCefQuickMenuEditStateFlags">TCefQuickMenuEditStateFlags</a>; callback: <a href="uCEFTypes.html#PCefRunQuickMenuCallback">PCefRunQuickMenuCallback</a>): integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuHandler.html#on_quick_menu_command">on_quick_menu_command</a></strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; command_id: integer; event_flags: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>): integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefContextMenuHandler.html#on_quick_menu_dismissed">on_quick_menu_dismissed</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_before_context_menu"></span><code><strong>on_before_context_menu</strong>: procedure(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; params: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>; model: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="run_context_menu"></span><code><strong>run_context_menu</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; params: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>; model: <a href="uCEFTypes.html#PCefMenuModel">PCefMenuModel</a>; callback: <a href="uCEFTypes.html#PCefRunContextMenuCallback">PCefRunContextMenuCallback</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_context_menu_command"></span><code><strong>on_context_menu_command</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; params: <a href="uCEFTypes.html#PCefContextMenuParams">PCefContextMenuParams</a>; command_id: Integer; event_flags: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_context_menu_dismissed"></span><code><strong>on_context_menu_dismissed</strong>: procedure(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="run_quick_menu"></span><code><strong>run_quick_menu</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; location: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>; size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>; edit_state_flags: <a href="uCEFTypes.html#TCefQuickMenuEditStateFlags">TCefQuickMenuEditStateFlags</a>; callback: <a href="uCEFTypes.html#PCefRunQuickMenuCallback">PCefRunQuickMenuCallback</a>): integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_quick_menu_command"></span><code><strong>on_quick_menu_command</strong>: function(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; command_id: integer; event_flags: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>): integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_quick_menu_dismissed"></span><code><strong>on_quick_menu_dismissed</strong>: procedure(self: <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

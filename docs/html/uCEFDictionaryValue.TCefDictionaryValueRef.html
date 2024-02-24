@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFDictionaryValue: Class TCefDictionaryValueRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefDictionaryValueRef"></span><h1 class="cio">Class TCefDictionaryValueRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFDictionaryValue.html">uCEFDictionaryValue</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefDictionaryValueRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="thisitem">TCefDictionaryValueRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#IsValid">IsValid</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#isOwned">isOwned</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#IsReadOnly">IsReadOnly</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#IsSame-ICefDictionaryValue-">IsSame</a></strong>(const that: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#IsEqual-ICefDictionaryValue-">IsEqual</a></strong>(const that: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#Copy-Boolean-">Copy</a></strong>(excludeEmptyChildren: Boolean): <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#GetSize">GetSize</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#Clear">Clear</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#HasKey-ustring-">HasKey</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#GetKeys-TStrings-">GetKeys</a></strong>(const keys: TStrings): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#Remove-ustring-">Remove</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#GetType-ustring-">GetType</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#TCefValueType">TCefValueType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#GetValue-ustring-">GetValue</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#GetBool-ustring-">GetBool</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#GetInt-ustring-">GetInt</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#GetDouble-ustring-">GetDouble</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#GetString-ustring-">GetString</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#GetBinary-ustring-">GetBinary</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#GetDictionary-ustring-">GetDictionary</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#GetList-ustring-">GetList</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#SetValue-ustring-ICefValue-">SetValue</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#SetNull-ustring-">SetNull</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#SetBool-ustring-Boolean-">SetBool</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; value: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#SetInt-ustring-Integer-">SetInt</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; value: Integer): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#SetDouble-ustring-Double-">SetDouble</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; value: Double): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#SetString-ustring-ustring-">SetString</a></strong>(const key, value: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#SetBinary-ustring-ICefBinaryValue-">SetBinary</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#SetDictionary-ustring-ICefDictionaryValue-">SetDictionary</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#SetList-ustring-ICefListValue-">SetList</a></strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFDictionaryValue.TCefDictionaryValueRef.html#New">New</a></strong>: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsValid"></span><code>function <strong>IsValid</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#IsValid">ICefDictionaryValue.IsValid</a>.</p><p>
+ Returns true (1) if this object is valid. This object may become invalid if the underlying data is owned by another object (e.g. list or dictionary) and that other object is then modified or destroyed. Do not call any other functions if this function returns false (0). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="isOwned"></span><code>function <strong>isOwned</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#isOwned">ICefDictionaryValue.isOwned</a>.</p><p>
+ Returns true (1) if this object is currently owned by another object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsReadOnly"></span><code>function <strong>IsReadOnly</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#IsReadOnly">ICefDictionaryValue.IsReadOnly</a>.</p><p>
+ Returns true (1) if the values of this object are read-only. Some APIs may expose read-only objects. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsSame-ICefDictionaryValue-"></span><code>function <strong>IsSame</strong>(const that: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#IsSame-ICefDictionaryValue-">ICefDictionaryValue.IsSame</a>.</p><p>
+ Returns true (1) if this object and |that| object have the same underlying data. If true (1) modifications to this object will also affect |that| object and vice-versa. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsEqual-ICefDictionaryValue-"></span><code>function <strong>IsEqual</strong>(const that: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#IsEqual-ICefDictionaryValue-">ICefDictionaryValue.IsEqual</a>.</p><p>
+ Returns true (1) if this object and |that| object have an equivalent underlying value but are not necessarily the same object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Copy-Boolean-"></span><code>function <strong>Copy</strong>(excludeEmptyChildren: Boolean): <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#Copy-Boolean-">ICefDictionaryValue.Copy</a>.</p><p>
+ Returns a writable copy of this object. If |exclude_NULL_children| is true (1) any NULL dictionaries or lists will be excluded from the copy. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetSize"></span><code>function <strong>GetSize</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#GetSize">ICefDictionaryValue.GetSize</a>.</p><p>
+ Returns the number of values. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Clear"></span><code>function <strong>Clear</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#Clear">ICefDictionaryValue.Clear</a>.</p><p>
+ Removes all values. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HasKey-ustring-"></span><code>function <strong>HasKey</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#HasKey-ustring-">ICefDictionaryValue.HasKey</a>.</p><p>
+ Returns true (1) if the current dictionary has a value for the given key. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetKeys-TStrings-"></span><code>function <strong>GetKeys</strong>(const keys: TStrings): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#GetKeys-TStrings-">ICefDictionaryValue.GetKeys</a>.</p><p>
+ Reads all keys for this dictionary into the specified vector. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Remove-ustring-"></span><code>function <strong>Remove</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#Remove-ustring-">ICefDictionaryValue.Remove</a>.</p><p>
+ Removes the value at the specified key. Returns true (1) is the value was removed successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetType-ustring-"></span><code>function <strong>GetType</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#TCefValueType">TCefValueType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#GetType-ustring-">ICefDictionaryValue.GetType</a>.</p><p>
+ Returns the value type for the specified key. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetValue-ustring-"></span><code>function <strong>GetValue</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#GetValue-ustring-">ICefDictionaryValue.GetValue</a>.</p><p>
+ Returns the value at the specified key. For simple types the returned value will copy existing data and modifications to the value will not modify this object. For complex types (binary, dictionary and list) the returned value will reference existing data and modifications to the value will modify this object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBool-ustring-"></span><code>function <strong>GetBool</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#GetBool-ustring-">ICefDictionaryValue.GetBool</a>.</p><p>
+ Returns the value at the specified key as type bool. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetInt-ustring-"></span><code>function <strong>GetInt</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#GetInt-ustring-">ICefDictionaryValue.GetInt</a>.</p><p>
+ Returns the value at the specified key as type int. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetDouble-ustring-"></span><code>function <strong>GetDouble</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#GetDouble-ustring-">ICefDictionaryValue.GetDouble</a>.</p><p>
+ Returns the value at the specified key as type double. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetString-ustring-"></span><code>function <strong>GetString</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#GetString-ustring-">ICefDictionaryValue.GetString</a>.</p><p>
+ Returns the value at the specified key as type string. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBinary-ustring-"></span><code>function <strong>GetBinary</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#GetBinary-ustring-">ICefDictionaryValue.GetBinary</a>.</p><p>
+ Returns the value at the specified key as type binary. The returned value will reference existing data. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetDictionary-ustring-"></span><code>function <strong>GetDictionary</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#GetDictionary-ustring-">ICefDictionaryValue.GetDictionary</a>.</p><p>
+ Returns the value at the specified key as type dictionary. The returned value will reference existing data and modifications to the value will modify this object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetList-ustring-"></span><code>function <strong>GetList</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#GetList-ustring-">ICefDictionaryValue.GetList</a>.</p><p>
+ Returns the value at the specified key as type list. The returned value will reference existing data and modifications to the value will modify this object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetValue-ustring-ICefValue-"></span><code>function <strong>SetValue</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#SetValue-ustring-ICefValue-">ICefDictionaryValue.SetValue</a>.</p><p>
+ Sets the value at the specified key. Returns true (1) if the value was set successfully. If |value| represents simple data then the underlying data will be copied and modifications to |value| will not modify this object. If |value| represents complex data (binary, dictionary or list) then the underlying data will be referenced and modifications to |value| will modify this object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetNull-ustring-"></span><code>function <strong>SetNull</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#SetNull-ustring-">ICefDictionaryValue.SetNull</a>.</p><p>
+ Sets the value at the specified key as type null. Returns true (1) if the value was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetBool-ustring-Boolean-"></span><code>function <strong>SetBool</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; value: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#SetBool-ustring-Boolean-">ICefDictionaryValue.SetBool</a>.</p><p>
+ Sets the value at the specified key as type bool. Returns true (1) if the value was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetInt-ustring-Integer-"></span><code>function <strong>SetInt</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; value: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#SetInt-ustring-Integer-">ICefDictionaryValue.SetInt</a>.</p><p>
+ Sets the value at the specified key as type int. Returns true (1) if the value was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetDouble-ustring-Double-"></span><code>function <strong>SetDouble</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; value: Double): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#SetDouble-ustring-Double-">ICefDictionaryValue.SetDouble</a>.</p><p>
+ Sets the value at the specified key as type double. Returns true (1) if the value was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetString-ustring-ustring-"></span><code>function <strong>SetString</strong>(const key, value: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#SetString-ustring-ustring-">ICefDictionaryValue.SetString</a>.</p><p>
+ Sets the value at the specified key as type string. Returns true (1) if the value was set successfully. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetBinary-ustring-ICefBinaryValue-"></span><code>function <strong>SetBinary</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#SetBinary-ustring-ICefBinaryValue-">ICefDictionaryValue.SetBinary</a>.</p><p>
+ Sets the value at the specified key as type binary. Returns true (1) if the value was set successfully. If |value| is currently owned by another object then the value will be copied and the |value| reference will not change. Otherwise, ownership will be transferred to this object and the |value| reference will be invalidated. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetDictionary-ustring-ICefDictionaryValue-"></span><code>function <strong>SetDictionary</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#SetDictionary-ustring-ICefDictionaryValue-">ICefDictionaryValue.SetDictionary</a>.</p><p>
+ Sets the value at the specified key as type dict. Returns true (1) if the value was set successfully. If |value| is currently owned by another object then the value will be copied and the |value| reference will not change. Otherwise, ownership will be transferred to this object and the |value| reference will be invalidated. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetList-ustring-ICefListValue-"></span><code>function <strong>SetList</strong>(const key: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefListValue.html">ICefListValue</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDictionaryValue.html#SetList-ustring-ICefListValue-">ICefDictionaryValue.SetList</a>.</p><p>
+ Sets the value at the specified key as type list. Returns true (1) if the value was set successfully. If |value| is currently owned by another object then the value will be copied and the |value| reference will not change. Otherwise, ownership will be transferred to this object and the |value| reference will be invalidated. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="New"></span><code>class function <strong>New</strong>: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

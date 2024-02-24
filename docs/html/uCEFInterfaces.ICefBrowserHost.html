@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefBrowserHost</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefBrowserHost"></span><h1 class="cio">Interface ICefBrowserHost</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefBrowserHost = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface used to represent the browser process aspects of a browser. The functions of this interface can only be called in the browser process. They may be called on any thread in that process unless otherwise indicated in the comments. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_browser_capi.h (cef_browser_host_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefBrowserHost</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#GetBrowser">GetBrowser</a></strong>: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#CloseBrowser-Boolean-">CloseBrowser</a></strong>(forceClose: Boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#TryCloseBrowser">TryCloseBrowser</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SetFocus-Boolean-">SetFocus</a></strong>(focus: Boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#GetWindowHandle">GetWindowHandle</a></strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#GetOpenerWindowHandle">GetOpenerWindowHandle</a></strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#HasView">HasView</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#GetClient">GetClient</a></strong>: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#GetRequestContext">GetRequestContext</a></strong>: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#CanZoom-TCefZoomCommand-">CanZoom</a></strong>(command: <a href="uCEFTypes.html#TCefZoomCommand">TCefZoomCommand</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#Zoom-TCefZoomCommand-">Zoom</a></strong>(command: <a href="uCEFTypes.html#TCefZoomCommand">TCefZoomCommand</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#GetDefaultZoomLevel">GetDefaultZoomLevel</a></strong>: Double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#GetZoomLevel">GetZoomLevel</a></strong>: Double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SetZoomLevel-Double-">SetZoomLevel</a></strong>(const zoomLevel: Double);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#RunFileDialog-TCefFileDialogMode-ustring-ustring-TStrings-ICefRunFileDialogCallback-">RunFileDialog</a></strong>(mode: <a href="uCEFTypes.html#TCefFileDialogMode">TCefFileDialogMode</a>; const title, defaultFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const acceptFilters: TStrings; const callback: <a href="uCEFInterfaces.ICefRunFileDialogCallback.html">ICefRunFileDialogCallback</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#RunFileDialogProc-TCefFileDialogMode-ustring-ustring-TStrings-TCefRunFileDialogCallbackProc-">RunFileDialogProc</a></strong>(mode: <a href="uCEFTypes.html#TCefFileDialogMode">TCefFileDialogMode</a>; const title, defaultFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const acceptFilters: TStrings; const callback: TCefRunFileDialogCallbackProc);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#StartDownload-ustring-">StartDownload</a></strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#DownloadImage-ustring-Boolean-cardinal-Boolean-ICefDownloadImageCallback-">DownloadImage</a></strong>(const imageUrl: <a href="uCEFTypes.html#ustring">ustring</a>; isFavicon: Boolean; maxImageSize: cardinal; bypassCache: Boolean; const callback: <a href="uCEFInterfaces.ICefDownloadImageCallback.html">ICefDownloadImageCallback</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#Print">Print</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#PrintToPdf-ustring-PCefPdfPrintSettings-ICefPdfPrintCallback-">PrintToPdf</a></strong>(const path: <a href="uCEFTypes.html#ustring">ustring</a>; settings: <a href="uCEFTypes.html#PCefPdfPrintSettings">PCefPdfPrintSettings</a>; const callback: <a href="uCEFInterfaces.ICefPdfPrintCallback.html">ICefPdfPrintCallback</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#PrintToPdfProc-ustring-PCefPdfPrintSettings-TOnPdfPrintFinishedProc-">PrintToPdfProc</a></strong>(const path: <a href="uCEFTypes.html#ustring">ustring</a>; settings: <a href="uCEFTypes.html#PCefPdfPrintSettings">PCefPdfPrintSettings</a>; const callback: TOnPdfPrintFinishedProc);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#Find-ustring-Boolean-Boolean-Boolean-">Find</a></strong>(const searchText: <a href="uCEFTypes.html#ustring">ustring</a>; forward_, matchCase, findNext: Boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#StopFinding-Boolean-">StopFinding</a></strong>(clearSelection: Boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#ShowDevTools-PCefWindowInfo-ICefClient-PCefBrowserSettings-PCefPoint-">ShowDevTools</a></strong>(const windowInfo: <a href="uCEFTypes.html#PCefWindowInfo">PCefWindowInfo</a>; const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; const settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; inspectElementAt: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#CloseDevTools">CloseDevTools</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#HasDevTools">HasDevTools</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SendDevToolsMessage-ustring-">SendDevToolsMessage</a></strong>(const message_: <a href="uCEFTypes.html#ustring">ustring</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#ExecuteDevToolsMethod-integer-ustring-ICefDictionaryValue-">ExecuteDevToolsMethod</a></strong>(message_id: integer; const method: <a href="uCEFTypes.html#ustring">ustring</a>; const params: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#AddDevToolsMessageObserver-ICefDevToolsMessageObserver-">AddDevToolsMessageObserver</a></strong>(const observer: <a href="uCEFInterfaces.ICefDevToolsMessageObserver.html">ICefDevToolsMessageObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#GetNavigationEntries-ICefNavigationEntryVisitor-Boolean-">GetNavigationEntries</a></strong>(const visitor: <a href="uCEFInterfaces.ICefNavigationEntryVisitor.html">ICefNavigationEntryVisitor</a>; currentOnly: Boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#GetNavigationEntriesProc-TCefNavigationEntryVisitorProc-Boolean-">GetNavigationEntriesProc</a></strong>(const proc: TCefNavigationEntryVisitorProc; currentOnly: Boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#ReplaceMisspelling-ustring-">ReplaceMisspelling</a></strong>(const word: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#AddWordToDictionary-ustring-">AddWordToDictionary</a></strong>(const word: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#IsWindowRenderingDisabled">IsWindowRenderingDisabled</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#WasResized">WasResized</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#WasHidden-Boolean-">WasHidden</a></strong>(hidden: Boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#NotifyScreenInfoChanged">NotifyScreenInfoChanged</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#Invalidate-TCefPaintElementType-">Invalidate</a></strong>(kind: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SendExternalBeginFrame">SendExternalBeginFrame</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SendKeyEvent-PCefKeyEvent-">SendKeyEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefKeyEvent">PCefKeyEvent</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SendMouseClickEvent-PCefMouseEvent-TCefMouseButtonType-Boolean-Integer-">SendMouseClickEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; type_: <a href="uCEFTypes.html#TCefMouseButtonType">TCefMouseButtonType</a>; mouseUp: Boolean; clickCount: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SendMouseMoveEvent-PCefMouseEvent-Boolean-">SendMouseMoveEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; mouseLeave: Boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SendMouseWheelEvent-PCefMouseEvent-Integer-Integer-">SendMouseWheelEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; deltaX, deltaY: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SendTouchEvent-PCefTouchEvent-">SendTouchEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefTouchEvent">PCefTouchEvent</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SendCaptureLostEvent">SendCaptureLostEvent</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#NotifyMoveOrResizeStarted">NotifyMoveOrResizeStarted</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#GetWindowlessFrameRate">GetWindowlessFrameRate</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SetWindowlessFrameRate-Integer-">SetWindowlessFrameRate</a></strong>(frameRate: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#IMESetComposition-ustring-TCefCompositionUnderlineDynArray-PCefRange-PCefRange-">IMESetComposition</a></strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; const underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>; const replacement_range, selection_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#IMECommitText-ustring-PCefRange-integer-">IMECommitText</a></strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; const replacement_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>; relative_cursor_pos : integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#IMEFinishComposingText-boolean-">IMEFinishComposingText</a></strong>(keep_selection : boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#IMECancelComposition">IMECancelComposition</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#DragTargetDragEnter-ICefDragData-PCefMouseEvent-TCefDragOperations-">DragTargetDragEnter</a></strong>(const dragData: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#DragTargetDragOver-PCefMouseEvent-TCefDragOperations-">DragTargetDragOver</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#DragTargetDragLeave">DragTargetDragLeave</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#DragTargetDrop-PCefMouseEvent-">DragTargetDrop</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#DragSourceEndedAt-Integer-Integer-TCefDragOperation-">DragSourceEndedAt</a></strong>(x, y: Integer; op: <a href="uCEFTypes.html#TCefDragOperation">TCefDragOperation</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#DragSourceSystemDragEnded">DragSourceSystemDragEnded</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#GetVisibleNavigationEntry">GetVisibleNavigationEntry</a></strong>: <a href="uCEFInterfaces.ICefNavigationEntry.html">ICefNavigationEntry</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SetAccessibilityState-TCefState-">SetAccessibilityState</a></strong>(accessibilityState: <a href="uCEFTypes.html#TCefState">TCefState</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SetAutoResizeEnabled-boolean-PCefSize-PCefSize-">SetAutoResizeEnabled</a></strong>(enabled: boolean; const min_size, max_size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#GetExtension">GetExtension</a></strong>: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#IsBackgroundHost">IsBackgroundHost</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#SetAudioMuted-boolean-">SetAudioMuted</a></strong>(mute: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#IsAudioMuted">IsAudioMuted</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#IsFullscreen">IsFullscreen</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#ExitFullscreen-boolean-">ExitFullscreen</a></strong>(will_cause_resize: boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#CanExecuteChromeCommand-integer-">CanExecuteChromeCommand</a></strong>(command_id: integer): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#ExecuteChromeCommand-integer-TCefWindowOpenDisposition-">ExecuteChromeCommand</a></strong>(command_id: integer; disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowserHost.html#Browser">Browser</a></strong>                    : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>              read <a href="uCEFInterfaces.ICefBrowserHost.html#GetBrowser">GetBrowser</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowserHost.html#WindowHandle">WindowHandle</a></strong>               : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>         read <a href="uCEFInterfaces.ICefBrowserHost.html#GetWindowHandle">GetWindowHandle</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowserHost.html#OpenerWindowHandle">OpenerWindowHandle</a></strong>         : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>         read <a href="uCEFInterfaces.ICefBrowserHost.html#GetOpenerWindowHandle">GetOpenerWindowHandle</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowserHost.html#ZoomLevel">ZoomLevel</a></strong>                  : Double                   read <a href="uCEFInterfaces.ICefBrowserHost.html#GetZoomLevel">GetZoomLevel</a>                 write <a href="uCEFInterfaces.ICefBrowserHost.html#SetZoomLevel-Double-">SetZoomLevel</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowserHost.html#DefaultZoomLevel">DefaultZoomLevel</a></strong>           : Double                   read <a href="uCEFInterfaces.ICefBrowserHost.html#GetDefaultZoomLevel">GetDefaultZoomLevel</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowserHost.html#RequestContext">RequestContext</a></strong>             : <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>       read <a href="uCEFInterfaces.ICefBrowserHost.html#GetRequestContext">GetRequestContext</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowserHost.html#VisibleNavigationEntry">VisibleNavigationEntry</a></strong>     : <a href="uCEFInterfaces.ICefNavigationEntry.html">ICefNavigationEntry</a>      read <a href="uCEFInterfaces.ICefBrowserHost.html#GetVisibleNavigationEntry">GetVisibleNavigationEntry</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetBrowser"></span><code>function <strong>GetBrowser</strong>: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the hosted browser object. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{53AE02FF-EF5D-48C3-A43E-069DA9535424}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CloseBrowser-Boolean-"></span><code>procedure <strong>CloseBrowser</strong>(forceClose: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Request that the browser close. The JavaScript 'onbeforeunload' event will be fired. If |force_close| is false (0) the event handler, if any, will be allowed to prompt the user and the user can optionally cancel the close. If |force_close| is true (1) the prompt will not be displayed and the close will proceed. Results in a call to ICefLifeSpanHandler.DoClose() if the event handler allows the close or if |force_close| is true (1). See ICefLifeSpanHandler.DoClose() documentation for additional usage information. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TryCloseBrowser"></span><code>function <strong>TryCloseBrowser</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Helper for closing a browser. Call this function from the top-level window close handler (if any). Internally this calls CloseBrowser(false (0)) if the close has not yet been initiated. This function returns false (0) while the close is pending and true (1) after the close has completed. See CloseBrowser() and ICefLifeSpanHandler.DoClose() documentation for additional usage information. This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetFocus-Boolean-"></span><code>procedure <strong>SetFocus</strong>(focus: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set whether the browser is focused. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetWindowHandle"></span><code>function <strong>GetWindowHandle</strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve the window handle (if any) for this browser. If this browser is wrapped in a ICefBrowserView this function should be called on the browser process UI thread and it will return the handle for the top-level native window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetOpenerWindowHandle"></span><code>function <strong>GetOpenerWindowHandle</strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve the window handle (if any) of the browser that opened this browser. Will return NULL for non-popup browsers or if this browser is wrapped in a ICefBrowserView. This function can be used in combination with custom handling of modal windows. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasView"></span><code>function <strong>HasView</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this browser is wrapped in a ICefBrowserView. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetClient"></span><code>function <strong>GetClient</strong>: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the client for this browser. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetRequestContext"></span><code>function <strong>GetRequestContext</strong>: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the request context for this browser. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CanZoom-TCefZoomCommand-"></span><code>function <strong>CanZoom</strong>(command: <a href="uCEFTypes.html#TCefZoomCommand">TCefZoomCommand</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this browser can execute the specified zoom command. This function can only be called on the UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Zoom-TCefZoomCommand-"></span><code>procedure <strong>Zoom</strong>(command: <a href="uCEFTypes.html#TCefZoomCommand">TCefZoomCommand</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Execute a zoom command in this browser. If called on the UI thread the change will be applied immediately. Otherwise, the change will be applied asynchronously on the UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDefaultZoomLevel"></span><code>function <strong>GetDefaultZoomLevel</strong>: Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the default zoom level. This value will be 0.0 by default but can be configured with the Chrome runtime. This function can only be called on the UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetZoomLevel"></span><code>function <strong>GetZoomLevel</strong>: Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the current zoom level. This function can only be called on the UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetZoomLevel-Double-"></span><code>procedure <strong>SetZoomLevel</strong>(const zoomLevel: Double);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Change the zoom level to the specified value. Specify 0.0 to reset the zoom level to the default. If called on the UI thread the change will be applied immediately. Otherwise, the change will be applied asynchronously on the UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RunFileDialog-TCefFileDialogMode-ustring-ustring-TStrings-ICefRunFileDialogCallback-"></span><code>procedure <strong>RunFileDialog</strong>(mode: <a href="uCEFTypes.html#TCefFileDialogMode">TCefFileDialogMode</a>; const title, defaultFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const acceptFilters: TStrings; const callback: <a href="uCEFInterfaces.ICefRunFileDialogCallback.html">ICefRunFileDialogCallback</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Call to run a file chooser dialog. Only a single file chooser dialog may be pending at any given time. |mode| represents the type of dialog to display. |title| to the title to be used for the dialog and may be NULL to show the default title (&quot;Open&quot; or &quot;Save&quot; depending on the mode). |default_file_path| is the path with optional directory and/or file name component that will be initially selected in the dialog. |accept_filters| are used to restrict the selectable file types and may any combination of (a) valid lower-cased MIME types (e.g. &quot;text/*&quot; or &quot;image/*&quot;), (b) individual file extensions (e.g. &quot;.txt&quot; or &quot;.png&quot;), or (c) combined description and file extension delimited using &quot;|&quot; and &quot;;&quot; (e.g. &quot;Image Types|.png;.gif;.jpg&quot;). |callback| will be executed after the dialog is dismissed or immediately if another dialog is already pending. The dialog will be initiated asynchronously on the UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RunFileDialogProc-TCefFileDialogMode-ustring-ustring-TStrings-TCefRunFileDialogCallbackProc-"></span><code>procedure <strong>RunFileDialogProc</strong>(mode: <a href="uCEFTypes.html#TCefFileDialogMode">TCefFileDialogMode</a>; const title, defaultFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const acceptFilters: TStrings; const callback: TCefRunFileDialogCallbackProc);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Call to run a file chooser dialog. Only a single file chooser dialog may be pending at any given time. |mode| represents the type of dialog to display. |title| to the title to be used for the dialog and may be NULL to show the default title (&quot;Open&quot; or &quot;Save&quot; depending on the mode). |default_file_path| is the path with optional directory and/or file name component that will be initially selected in the dialog. |accept_filters| are used to restrict the selectable file types and may any combination of (a) valid lower-cased MIME types (e.g. &quot;text/*&quot; or &quot;image/*&quot;), (b) individual file extensions (e.g. &quot;.txt&quot; or &quot;.png&quot;), or (c) combined description and file extension delimited using &quot;|&quot; and &quot;;&quot; (e.g. &quot;Image Types|.png;.gif;.jpg&quot;). |callback| will be executed after the dialog is dismissed or immediately if another dialog is already pending. The dialog will be initiated asynchronously on the UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="StartDownload-ustring-"></span><code>procedure <strong>StartDownload</strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Download the file at |url| using ICefDownloadHandler. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DownloadImage-ustring-Boolean-cardinal-Boolean-ICefDownloadImageCallback-"></span><code>procedure <strong>DownloadImage</strong>(const imageUrl: <a href="uCEFTypes.html#ustring">ustring</a>; isFavicon: Boolean; maxImageSize: cardinal; bypassCache: Boolean; const callback: <a href="uCEFInterfaces.ICefDownloadImageCallback.html">ICefDownloadImageCallback</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Download |image_url| and execute |callback| on completion with the images received from the renderer. If |is_favicon| is true (1) then cookies are not sent and not accepted during download. Images with density independent pixel (DIP) sizes larger than |max_image_size| are filtered out from the image results. Versions of the image at different scale factors may be downloaded up to the maximum scale factor supported by the system. If there are no image results &lt;= |max_image_size| then the smallest image is resized to |max_image_size| and is the only result. A |max_image_size| of 0 means unlimited. If |bypass_cache| is true (1) then |image_url| is requested from the server even if it is present in the browser cache. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Print"></span><code>procedure <strong>Print</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Print the current browser contents. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PrintToPdf-ustring-PCefPdfPrintSettings-ICefPdfPrintCallback-"></span><code>procedure <strong>PrintToPdf</strong>(const path: <a href="uCEFTypes.html#ustring">ustring</a>; settings: <a href="uCEFTypes.html#PCefPdfPrintSettings">PCefPdfPrintSettings</a>; const callback: <a href="uCEFInterfaces.ICefPdfPrintCallback.html">ICefPdfPrintCallback</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Print the current browser contents to the PDF file specified by |path| and execute |callback| on completion. The caller is responsible for deleting |path| when done. For PDF printing to work on Linux you must implement the ICefPrintHandler.GetPdfPaperSize function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PrintToPdfProc-ustring-PCefPdfPrintSettings-TOnPdfPrintFinishedProc-"></span><code>procedure <strong>PrintToPdfProc</strong>(const path: <a href="uCEFTypes.html#ustring">ustring</a>; settings: <a href="uCEFTypes.html#PCefPdfPrintSettings">PCefPdfPrintSettings</a>; const callback: TOnPdfPrintFinishedProc);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Print the current browser contents to the PDF file specified by |path| and execute |callback| on completion. The caller is responsible for deleting |path| when done. For PDF printing to work on Linux you must implement the ICefPrintHandler.GetPdfPaperSize function. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Find-ustring-Boolean-Boolean-Boolean-"></span><code>procedure <strong>Find</strong>(const searchText: <a href="uCEFTypes.html#ustring">ustring</a>; forward_, matchCase, findNext: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Search for |searchText|. |forward| indicates whether to search forward or backward within the page. |matchCase| indicates whether the search should be case-sensitive. |findNext| indicates whether this is the first request or a follow-up. The search will be restarted if |searchText| or |matchCase| change. The search will be stopped if |searchText| is NULL. The ICefFindHandler instance, if any, returned via ICefClient.GetFindHandler will be called to report find results. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="StopFinding-Boolean-"></span><code>procedure <strong>StopFinding</strong>(clearSelection: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Cancel all searches that are currently going on. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ShowDevTools-PCefWindowInfo-ICefClient-PCefBrowserSettings-PCefPoint-"></span><code>procedure <strong>ShowDevTools</strong>(const windowInfo: <a href="uCEFTypes.html#PCefWindowInfo">PCefWindowInfo</a>; const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; const settings: <a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a>; inspectElementAt: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Open developer tools (DevTools) in its own browser. The DevTools browser will remain associated with this browser. If the DevTools browser is already open then it will be focused, in which case the |windowInfo|, |client| and |settings| parameters will be ignored. If |inspectElementAt| is non-NULL then the element at the specified (x,y) location will be inspected. The |windowInfo| parameter will be ignored if this browser is wrapped in a ICefBrowserView. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CloseDevTools"></span><code>procedure <strong>CloseDevTools</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Explicitly close the associated DevTools browser, if any. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasDevTools"></span><code>function <strong>HasDevTools</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this browser currently has an associated DevTools browser. Must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendDevToolsMessage-ustring-"></span><code>function <strong>SendDevToolsMessage</strong>(const message_: <a href="uCEFTypes.html#ustring">ustring</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send a function call message over the DevTools protocol. |message| must be a UTF8-encoded JSON dictionary that contains &quot;id&quot; (int), &quot;function&quot; (string) and &quot;params&quot; (dictionary, optional) values. See the DevTools protocol documentation at <a href="https://chromedevtools.github.io/devtools">https://chromedevtools.github.io/devtools</a>- protocol/ for details of supported functions and the expected &quot;params&quot; dictionary contents. |message| will be copied if necessary. This function will return true (1) if called on the UI thread and the message was successfully submitted for validation, otherwise false (0). Validation will be applied asynchronously and any messages that fail due to formatting errors or missing parameters may be discarded without notification. Prefer ExecuteDevToolsMethod if a more structured approach to message formatting is desired.
+
+<p>Every valid function call will result in an asynchronous function result or error message that references the sent message &quot;id&quot;. Event messages are received while notifications are enabled (for example, between function calls for &quot;Page.enable&quot; and &quot;Page.disable&quot;). All received messages will be delivered to the observer(s) registered with AddDevToolsMessageObserver. See ICefDevToolsMessageObserver.OnDevToolsMessage documentation for details of received message contents.
+
+<p>Usage of the SendDevToolsMessage, ExecuteDevToolsMethod and AddDevToolsMessageObserver functions does not require an active DevTools front-end or remote-debugging session. Other active DevTools sessions will continue to function independently. However, any modification of global browser state by one session may not be reflected in the UI of other sessions.
+
+<p>Communication with the DevTools front-end (when displayed) can be logged for development purposes by passing the `&ndash;devtools-protocol-log- file=&lt;path&gt;` command-line flag. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ExecuteDevToolsMethod-integer-ustring-ICefDictionaryValue-"></span><code>function <strong>ExecuteDevToolsMethod</strong>(message_id: integer; const method: <a href="uCEFTypes.html#ustring">ustring</a>; const params: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Execute a function call over the DevTools protocol. This is a more structured version of SendDevToolsMessage. |message_id| is an incremental number that uniquely identifies the message (pass 0 to have the next number assigned automatically based on previous values). |function| is the function name. |params| are the function parameters, which may be NULL. See the DevTools protocol documentation (linked above) for details of supported functions and the expected |params| dictionary contents. This function will return the assigned message ID if called on the UI thread and the message was successfully submitted for validation, otherwise 0. See the SendDevToolsMessage documentation for additional usage information. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddDevToolsMessageObserver-ICefDevToolsMessageObserver-"></span><code>function <strong>AddDevToolsMessageObserver</strong>(const observer: <a href="uCEFInterfaces.ICefDevToolsMessageObserver.html">ICefDevToolsMessageObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add an observer for DevTools protocol messages (function results and events). The observer will remain registered until the returned Registration object is destroyed. See the SendDevToolsMessage documentation for additional usage information. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetNavigationEntries-ICefNavigationEntryVisitor-Boolean-"></span><code>procedure <strong>GetNavigationEntries</strong>(const visitor: <a href="uCEFInterfaces.ICefNavigationEntryVisitor.html">ICefNavigationEntryVisitor</a>; currentOnly: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve a snapshot of current navigation entries as values sent to the specified visitor. If |current_only| is true (1) only the current navigation entry will be sent, otherwise all navigation entries will be sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetNavigationEntriesProc-TCefNavigationEntryVisitorProc-Boolean-"></span><code>procedure <strong>GetNavigationEntriesProc</strong>(const proc: TCefNavigationEntryVisitorProc; currentOnly: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve a snapshot of current navigation entries as values sent to the specified visitor. If |current_only| is true (1) only the current navigation entry will be sent, otherwise all navigation entries will be sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ReplaceMisspelling-ustring-"></span><code>procedure <strong>ReplaceMisspelling</strong>(const word: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ If a misspelled word is currently selected in an editable node calling this function will replace it with the specified |word|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddWordToDictionary-ustring-"></span><code>procedure <strong>AddWordToDictionary</strong>(const word: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add the specified |word| to the spelling dictionary. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsWindowRenderingDisabled"></span><code>function <strong>IsWindowRenderingDisabled</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="WasResized"></span><code>procedure <strong>WasResized</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Notify the browser that the widget has been resized. The browser will first call ICefRenderHandler.GetViewRect to get the new size and then call ICefRenderHandler.OnPaint asynchronously with the updated regions. This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="WasHidden-Boolean-"></span><code>procedure <strong>WasHidden</strong>(hidden: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Notify the browser that it has been hidden or shown. Layouting and ICefRenderHandler.OnPaint notification will stop when the browser is hidden. This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NotifyScreenInfoChanged"></span><code>procedure <strong>NotifyScreenInfoChanged</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send a notification to the browser that the screen info has changed. The browser will then call ICefRenderHandler.GetScreenInfo to update the screen information with the new values. This simulates moving the webview window from one display to another, or changing the properties of the current display. This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Invalidate-TCefPaintElementType-"></span><code>procedure <strong>Invalidate</strong>(kind: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Invalidate the view. The browser will call ICefRenderHandler.OnPaint asynchronously. This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendExternalBeginFrame"></span><code>procedure <strong>SendExternalBeginFrame</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Issue a BeginFrame request to Chromium. Only valid when TCefWindowInfo.external_begin_frame_enabled is set to true (1). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendKeyEvent-PCefKeyEvent-"></span><code>procedure <strong>SendKeyEvent</strong>(const event: <a href="uCEFTypes.html#PCefKeyEvent">PCefKeyEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send a key event to the browser. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendMouseClickEvent-PCefMouseEvent-TCefMouseButtonType-Boolean-Integer-"></span><code>procedure <strong>SendMouseClickEvent</strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; type_: <a href="uCEFTypes.html#TCefMouseButtonType">TCefMouseButtonType</a>; mouseUp: Boolean; clickCount: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send a mouse click event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendMouseMoveEvent-PCefMouseEvent-Boolean-"></span><code>procedure <strong>SendMouseMoveEvent</strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; mouseLeave: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send a mouse move event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendMouseWheelEvent-PCefMouseEvent-Integer-Integer-"></span><code>procedure <strong>SendMouseWheelEvent</strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; deltaX, deltaY: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send a mouse wheel event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. The |deltaX| and |deltaY| values represent the movement delta in the X and Y directions respectively. In order to scroll inside select popups with window rendering disabled ICefRenderHandler.GetScreenPoint should be implemented properly. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendTouchEvent-PCefTouchEvent-"></span><code>procedure <strong>SendTouchEvent</strong>(const event: <a href="uCEFTypes.html#PCefTouchEvent">PCefTouchEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send a touch event to the browser for a windowless browser. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendCaptureLostEvent"></span><code>procedure <strong>SendCaptureLostEvent</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Send a capture lost event to the browser. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NotifyMoveOrResizeStarted"></span><code>procedure <strong>NotifyMoveOrResizeStarted</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Notify the browser that the window hosting it is about to be moved or resized. This function is only used on Windows and Linux. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetWindowlessFrameRate"></span><code>function <strong>GetWindowlessFrameRate</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the maximum rate in frames per second (fps) that ICefRenderHandler.OnPaint will be called for a windowless browser. The actual fps may be lower if the browser cannot generate frames at the requested rate. The minimum value is 1 and the maximum value is 60 (default 30). This function can only be called on the UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetWindowlessFrameRate-Integer-"></span><code>procedure <strong>SetWindowlessFrameRate</strong>(frameRate: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the maximum rate in frames per second (fps) that ICefRenderHandler.OnPaint will be called for a windowless browser. The actual fps may be lower if the browser cannot generate frames at the requested rate. The minimum value is 1 and the maximum value is 60 (default 30). Can also be set at browser creation via TCefBrowserSettings.windowless_frame_rate. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IMESetComposition-ustring-TCefCompositionUnderlineDynArray-PCefRange-PCefRange-"></span><code>procedure <strong>IMESetComposition</strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; const underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>; const replacement_range, selection_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Begins a new composition or updates the existing composition. Blink has a special node (a composition node) that allows the input function to change text without affecting other DOM nodes. |text| is the optional text that will be inserted into the composition node. |underlines| is an optional set of ranges that will be underlined in the resulting text. |replacement_range| is an optional range of the existing text that will be replaced. |selection_range| is an optional range of the resulting text that will be selected after insertion or replacement. The |replacement_range| value is only used on OS X.
+
+<p>This function may be called multiple times as the composition changes. When the client is done making changes the composition should either be canceled or completed. To cancel the composition call ImeCancelComposition. To complete the composition call either ImeCommitText or ImeFinishComposingText. Completion is usually signaled when:
+
+<p>1. The client receives a WM_IME_COMPOSITION message with a GCS_RESULTSTR flag (on Windows), or; 2. The client receives a &quot;commit&quot; signal of GtkIMContext (on Linux), or; 3. insertText of NSTextInput is called (on Mac).
+
+<p>This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IMECommitText-ustring-PCefRange-integer-"></span><code>procedure <strong>IMECommitText</strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; const replacement_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>; relative_cursor_pos : integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Completes the existing composition by optionally inserting the specified |text| into the composition node. |replacement_range| is an optional range of the existing text that will be replaced. |relative_cursor_pos| is where the cursor will be positioned relative to the current cursor position. See comments on ImeSetComposition for usage. The |replacement_range| and |relative_cursor_pos| values are only used on OS X. This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IMEFinishComposingText-boolean-"></span><code>procedure <strong>IMEFinishComposingText</strong>(keep_selection : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Completes the existing composition by applying the current composition node contents. If |keep_selection| is false (0) the current selection, if any, will be discarded. See comments on ImeSetComposition for usage. This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IMECancelComposition"></span><code>procedure <strong>IMECancelComposition</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Cancels the existing composition and discards the composition node contents without applying them. See comments on ImeSetComposition for usage. This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DragTargetDragEnter-ICefDragData-PCefMouseEvent-TCefDragOperations-"></span><code>procedure <strong>DragTargetDragEnter</strong>(const dragData: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Call this function when the user drags the mouse into the web view (before calling DragTargetDragOver/DragTargetLeave/DragTargetDrop). |drag_data| should not contain file contents as this type of data is not allowed to be dragged into the web view. File contents can be removed using ICefDragData.ResetFileContents (for example, if |drag_data| comes from ICefRenderHandler.StartDragging). This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DragTargetDragOver-PCefMouseEvent-TCefDragOperations-"></span><code>procedure <strong>DragTargetDragOver</strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Call this function each time the mouse is moved across the web view during a drag operation (after calling DragTargetDragEnter and before calling DragTargetDragLeave/DragTargetDrop). This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DragTargetDragLeave"></span><code>procedure <strong>DragTargetDragLeave</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Call this function when the user drags the mouse out of the web view (after calling DragTargetDragEnter). This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DragTargetDrop-PCefMouseEvent-"></span><code>procedure <strong>DragTargetDrop</strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Call this function when the user completes the drag operation by dropping the object onto the web view (after calling DragTargetDragEnter). The object being dropped is |drag_data|, given as an argument to the previous DragTargetDragEnter call. This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DragSourceEndedAt-Integer-Integer-TCefDragOperation-"></span><code>procedure <strong>DragSourceEndedAt</strong>(x, y: Integer; op: <a href="uCEFTypes.html#TCefDragOperation">TCefDragOperation</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Call this function when the drag operation started by a ICefRenderHandler.StartDragging call has ended either in a drop or by being cancelled. |x| and |y| are mouse coordinates relative to the upper- left corner of the view. If the web view is both the drag source and the drag target then all DragTarget* functions should be called before DragSource* mthods. This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DragSourceSystemDragEnded"></span><code>procedure <strong>DragSourceSystemDragEnded</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Call this function when the drag operation started by a ICefRenderHandler.StartDragging call has completed. This function may be called immediately without first calling DragSourceEndedAt to cancel a drag operation. If the web view is both the drag source and the drag target then all DragTarget* functions should be called before DragSource* mthods. This function is only used when window rendering is disabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetVisibleNavigationEntry"></span><code>function <strong>GetVisibleNavigationEntry</strong>: <a href="uCEFInterfaces.ICefNavigationEntry.html">ICefNavigationEntry</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current visible navigation entry for this browser. This function can only be called on the UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetAccessibilityState-TCefState-"></span><code>procedure <strong>SetAccessibilityState</strong>(accessibilityState: <a href="uCEFTypes.html#TCefState">TCefState</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set accessibility state for all frames. |accessibility_state| may be default, enabled or disabled. If |accessibility_state| is STATE_DEFAULT then accessibility will be disabled by default and the state may be further controlled with the &quot;force-renderer-accessibility&quot; and &quot;disable- renderer-accessibility&quot; command-line switches. If |accessibility_state| is STATE_ENABLED then accessibility will be enabled. If |accessibility_state| is STATE_DISABLED then accessibility will be completely disabled.
+
+<p>For windowed browsers accessibility will be enabled in Complete mode (which corresponds to kAccessibilityModeComplete in Chromium). In this mode all platform accessibility objects will be created and managed by Chromium's internal implementation. The client needs only to detect the screen reader and call this function appropriately. For example, on macOS the client can handle the @&quot;AXEnhancedUserStructure&quot; accessibility attribute to detect VoiceOver state changes and on Windows the client can handle WM_GETOBJECT with OBJID_CLIENT to detect accessibility readers.
+
+<p>For windowless browsers accessibility will be enabled in TreeOnly mode (which corresponds to kAccessibilityModeWebContentsOnly in Chromium). In this mode renderer accessibility is enabled, the full tree is computed, and events are passed to CefAccessibiltyHandler, but platform accessibility objects are not created. The client may implement platform accessibility objects using CefAccessibiltyHandler callbacks if desired. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetAutoResizeEnabled-boolean-PCefSize-PCefSize-"></span><code>procedure <strong>SetAutoResizeEnabled</strong>(enabled: boolean; const min_size, max_size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Enable notifications of auto resize via ICefDisplayHandler.OnAutoResize. Notifications are disabled by default. |min_size| and |max_size| define the range of allowed sizes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetExtension"></span><code>function <strong>GetExtension</strong>: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the extension hosted in this browser or NULL if no extension is hosted. See ICefRequestContext.LoadExtension for details. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsBackgroundHost"></span><code>function <strong>IsBackgroundHost</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this browser is hosting an extension background script. Background hosts do not have a window and are not displayable. See ICefRequestContext.LoadExtension for details. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetAudioMuted-boolean-"></span><code>procedure <strong>SetAudioMuted</strong>(mute: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set whether the browser's audio is muted. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsAudioMuted"></span><code>function <strong>IsAudioMuted</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the browser's audio is muted. This function can only be called on the UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsFullscreen"></span><code>function <strong>IsFullscreen</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the renderer is currently in browser fullscreen. This differs from window fullscreen in that browser fullscreen is entered using the JavaScript Fullscreen API and modifies CSS attributes such as the ::backdrop pseudo-element and :fullscreen pseudo-structure. This function can only be called on the UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ExitFullscreen-boolean-"></span><code>procedure <strong>ExitFullscreen</strong>(will_cause_resize: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Requests the renderer to exit browser fullscreen. In most cases exiting window fullscreen should also exit browser fullscreen. With the Alloy runtime this function should be called in response to a user action such as clicking the green traffic light button on MacOS (ICefWindowDelegate.OnWindowFullscreenTransition callback) or pressing the &quot;ESC&quot; key (ICefKeyboardHandler.OnPreKeyEvent callback). With the Chrome runtime these standard exit actions are handled internally but new/additional user actions can use this function. Set |will_cause_resize| to true (1) if exiting browser fullscreen will cause a view resize. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CanExecuteChromeCommand-integer-"></span><code>function <strong>CanExecuteChromeCommand</strong>(command_id: integer): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if a Chrome command is supported and enabled. Values for |command_id| can be found in the cef_command_ids.h file. This function can only be called on the UI thread. Only used with the Chrome runtime. </p>
+<p>
+
+
+<p><a class="normal" href="uCEFConstants.html">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</a>
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/app/chrome_command_ids.h&quot;&gt;The command_id values are also available in chrome/app/chrome_command_ids.h)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ExecuteChromeCommand-integer-TCefWindowOpenDisposition-"></span><code>procedure <strong>ExecuteChromeCommand</strong>(command_id: integer; disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Execute a Chrome command. Values for |command_id| can be found in the cef_command_ids.h file. |disposition| provides information about the intended command target. Only used with the Chrome runtime. </p>
+<p>
+
+
+<p><a class="normal" href="uCEFConstants.html">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</a>
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/app/chrome_command_ids.h&quot;&gt;The command_id values are also available in chrome/app/chrome_command_ids.h)</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Browser"></span><code>property <strong>Browser</strong>                    : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>              read <a href="uCEFInterfaces.ICefBrowserHost.html#GetBrowser">GetBrowser</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the hosted browser object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="WindowHandle"></span><code>property <strong>WindowHandle</strong>               : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>         read <a href="uCEFInterfaces.ICefBrowserHost.html#GetWindowHandle">GetWindowHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve the window handle (if any) for this browser. If this browser is wrapped in a ICefBrowserView this function should be called on the browser process UI thread and it will return the handle for the top-level native window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OpenerWindowHandle"></span><code>property <strong>OpenerWindowHandle</strong>         : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>         read <a href="uCEFInterfaces.ICefBrowserHost.html#GetOpenerWindowHandle">GetOpenerWindowHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve the window handle (if any) of the browser that opened this browser. Will return NULL for non-popup browsers or if this browser is wrapped in a ICefBrowserView. This function can be used in combination with custom handling of modal windows. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ZoomLevel"></span><code>property <strong>ZoomLevel</strong>                  : Double                   read <a href="uCEFInterfaces.ICefBrowserHost.html#GetZoomLevel">GetZoomLevel</a>                 write <a href="uCEFInterfaces.ICefBrowserHost.html#SetZoomLevel-Double-">SetZoomLevel</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the current zoom level. The default zoom level is 0.0. This function can only be called on the UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DefaultZoomLevel"></span><code>property <strong>DefaultZoomLevel</strong>           : Double                   read <a href="uCEFInterfaces.ICefBrowserHost.html#GetDefaultZoomLevel">GetDefaultZoomLevel</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Get the default zoom level. This value will be 0.0 by default but can be configured with the Chrome runtime. This function can only be called on the UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RequestContext"></span><code>property <strong>RequestContext</strong>             : <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>       read <a href="uCEFInterfaces.ICefBrowserHost.html#GetRequestContext">GetRequestContext</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the request context for this browser. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="VisibleNavigationEntry"></span><code>property <strong>VisibleNavigationEntry</strong>     : <a href="uCEFInterfaces.ICefNavigationEntry.html">ICefNavigationEntry</a>      read <a href="uCEFInterfaces.ICefBrowserHost.html#GetVisibleNavigationEntry">GetVisibleNavigationEntry</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve a snapshot of current navigation entries as values sent to the specified visitor. If |current_only| is true (1) only the current navigation entry will be sent, otherwise all navigation entries will be sent. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

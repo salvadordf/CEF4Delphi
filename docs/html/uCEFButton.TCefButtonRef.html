@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFButton: Class TCefButtonRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefButtonRef"></span><h1 class="cio">Class TCefButtonRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFButton.html">uCEFButton</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefButtonRef = class(<a class="normal" href="uCEFView.TCefViewRef.html">TCefViewRef</a>, <a class="normal" href="uCEFInterfaces.ICefButton.html">ICefButton</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ A View representing a button. Depending on the specific type, the button could be implemented by a native control or custom rendered. Methods must be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_button_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_button_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_button_capi.h (cef_button_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="ancestor"><a class="normal" href="uCEFView.TCefViewRef.html">TCefViewRef</a></li>
+<li class="thisitem">TCefButtonRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFButton.TCefButtonRef.html#AsLabelButton">AsLabelButton</a></strong>: <a href="uCEFInterfaces.ICefLabelButton.html">ICefLabelButton</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFButton.TCefButtonRef.html#SetState-TCefButtonState-">SetState</a></strong>(state_: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFButton.TCefButtonRef.html#GetState">GetState</a></strong>: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFButton.TCefButtonRef.html#SetInkDropEnabled-boolean-">SetInkDropEnabled</a></strong>(enabled_: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFButton.TCefButtonRef.html#SetTooltipText-ustring-">SetTooltipText</a></strong>(const tooltip_text: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFButton.TCefButtonRef.html#SetAccessibleName-ustring-">SetAccessibleName</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFButton.TCefButtonRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="AsLabelButton"></span><code>function <strong>AsLabelButton</strong>: <a href="uCEFInterfaces.ICefLabelButton.html">ICefLabelButton</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this Button as a LabelButton or NULL if this is not a LabelButton. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetState-TCefButtonState-"></span><code>procedure <strong>SetState</strong>(state_: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the current display state of the Button. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetState"></span><code>function <strong>GetState</strong>: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current display state of the Button. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetInkDropEnabled-boolean-"></span><code>procedure <strong>SetInkDropEnabled</strong>(enabled_: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the Button will use an ink drop effect for displaying state changes. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetTooltipText-ustring-"></span><code>procedure <strong>SetTooltipText</strong>(const tooltip_text: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the tooltip text that will be displayed when the user hovers the mouse cursor over the Button. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetAccessibleName-ustring-"></span><code>procedure <strong>SetAccessibleName</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the accessible name that will be exposed to assistive technology (AT). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a ICefButton instance using a PCefButton data pointer. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

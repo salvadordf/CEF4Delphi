@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefMenuModel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefMenuModel"></span><h1 class="cio">Interface ICefMenuModel</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefMenuModel = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Supports creation and modification of menus. See TCefMenuId for the command ids that have default implementations. All user-defined command ids should be between MENU_ID_USER_FIRST and MENU_ID_USER_LAST. The functions of this interface can only be accessed on the browser process the UI thread. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_menu_model_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_menu_model_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_menu_model_capi.h (cef_menu_model_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefMenuModel</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#IsSubMenu">IsSubMenu</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#Clear">Clear</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetCount">GetCount</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#AddSeparator">AddSeparator</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#AddItem-Integer-ustring-">AddItem</a></strong>(commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#AddCheckItem-Integer-ustring-">AddCheckItem</a></strong>(commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#AddRadioItem-Integer-ustring-Integer-">AddRadioItem</a></strong>(commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>; groupId: Integer): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#AddSubMenu-Integer-ustring-">AddSubMenu</a></strong>(commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#InsertSeparatorAt-NativeUInt-">InsertSeparatorAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#InsertItemAt-NativeUInt-Integer-ustring-">InsertItemAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#InsertCheckItemAt-NativeUInt-Integer-ustring-">InsertCheckItemAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#InsertRadioItemAt-NativeUInt-Integer-ustring-Integer-">InsertRadioItemAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>; groupId: Integer): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#InsertSubMenuAt-NativeUInt-Integer-ustring-">InsertSubMenuAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#Remove-Integer-">Remove</a></strong>(commandId: Integer): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#RemoveAt-NativeUInt-">RemoveAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetIndexOf-Integer-">GetIndexOf</a></strong>(commandId: Integer): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetCommandIdAt-NativeUInt-">GetCommandIdAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetCommandIdAt-NativeUInt-Integer-">SetCommandIdAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; commandId: Integer): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetLabel-Integer-">GetLabel</a></strong>(commandId: Integer): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetLabelAt-NativeUInt-">GetLabelAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetLabel-Integer-ustring-">SetLabel</a></strong>(commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetLabelAt-NativeUInt-ustring-">SetLabelAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const text: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetType-Integer-">GetType</a></strong>(commandId: Integer): <a href="uCEFTypes.html#TCefMenuItemType">TCefMenuItemType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetTypeAt-NativeUInt-">GetTypeAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#TCefMenuItemType">TCefMenuItemType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetGroupId-Integer-">GetGroupId</a></strong>(commandId: Integer): Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetGroupIdAt-NativeUInt-">GetGroupIdAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetGroupId-Integer-Integer-">SetGroupId</a></strong>(commandId, groupId: Integer): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetGroupIdAt-NativeUInt-Integer-">SetGroupIdAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; groupId: Integer): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetSubMenu-Integer-">GetSubMenu</a></strong>(commandId: Integer): <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetSubMenuAt-NativeUInt-">GetSubMenuAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#IsVisible-Integer-">IsVisible</a></strong>(commandId: Integer): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#isVisibleAt-NativeUInt-">isVisibleAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetVisible-Integer-Boolean-">SetVisible</a></strong>(commandId: Integer; visible: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetVisibleAt-NativeUInt-Boolean-">SetVisibleAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; visible: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#IsEnabled-Integer-">IsEnabled</a></strong>(commandId: Integer): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#IsEnabledAt-NativeUInt-">IsEnabledAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetEnabled-Integer-Boolean-">SetEnabled</a></strong>(commandId: Integer; enabled: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetEnabledAt-NativeUInt-Boolean-">SetEnabledAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; enabled: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#IsChecked-Integer-">IsChecked</a></strong>(commandId: Integer): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#IsCheckedAt-NativeUInt-">IsCheckedAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#setChecked-Integer-Boolean-">setChecked</a></strong>(commandId: Integer; checked: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#setCheckedAt-NativeUInt-Boolean-">setCheckedAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; checked: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#HasAccelerator-Integer-">HasAccelerator</a></strong>(commandId: Integer): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#HasAcceleratorAt-NativeUInt-">HasAcceleratorAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetAccelerator-Integer-Integer-Boolean-Boolean-Boolean-">SetAccelerator</a></strong>(commandId, keyCode: Integer; shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetAcceleratorAt-NativeUInt-Integer-Boolean-Boolean-Boolean-">SetAcceleratorAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; keyCode: Integer; shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#RemoveAccelerator-Integer-">RemoveAccelerator</a></strong>(commandId: Integer): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#RemoveAcceleratorAt-NativeUInt-">RemoveAcceleratorAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetAccelerator-Integer-Integer-Boolean-Boolean-Boolean-">GetAccelerator</a></strong>(commandId: Integer; out keyCode: Integer; out shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetAcceleratorAt-NativeUInt-Integer-Boolean-Boolean-Boolean-">GetAcceleratorAt</a></strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; out keyCode: Integer; out shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetColor-Integer-TCefMenuColorType-TCefColor-">SetColor</a></strong>(commandId: Integer; colorType: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetColorAt-Integer-TCefMenuColorType-TCefColor-">SetColorAt</a></strong>(index: Integer; colorType: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetColor-Integer-TCefMenuColorType-TCefColor-">GetColor</a></strong>(commandId: Integer; colorType: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; out color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#GetColorAt-Integer-TCefMenuColorType-TCefColor-">GetColorAt</a></strong>(index: Integer; colorType: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; out color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetFontList-Integer-ustring-">SetFontList</a></strong>(commandId: Integer; const fontList: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefMenuModel.html#SetFontListAt-Integer-ustring-">SetFontListAt</a></strong>(index: Integer; const fontList: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsSubMenu"></span><code>function <strong>IsSubMenu</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this menu is a submenu. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{40AF19D3-8B4E-44B8-8F89-DEB5907FC495}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Clear"></span><code>function <strong>Clear</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Clears the menu. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetCount"></span><code>function <strong>GetCount</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the number of items in this menu. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddSeparator"></span><code>function <strong>AddSeparator</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add a separator to the menu. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddItem-Integer-ustring-"></span><code>function <strong>AddItem</strong>(commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add an item to the menu. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddCheckItem-Integer-ustring-"></span><code>function <strong>AddCheckItem</strong>(commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add a check item to the menu. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddRadioItem-Integer-ustring-Integer-"></span><code>function <strong>AddRadioItem</strong>(commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>; groupId: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add a radio item to the menu. Only a single item with the specified |group_id| can be checked at a time. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddSubMenu-Integer-ustring-"></span><code>function <strong>AddSubMenu</strong>(commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add a sub-menu to the menu. The new sub-menu is returned. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="InsertSeparatorAt-NativeUInt-"></span><code>function <strong>InsertSeparatorAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Insert a separator in the menu at the specified |index|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="InsertItemAt-NativeUInt-Integer-ustring-"></span><code>function <strong>InsertItemAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Insert an item in the menu at the specified |index|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="InsertCheckItemAt-NativeUInt-Integer-ustring-"></span><code>function <strong>InsertCheckItemAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Insert a check item in the menu at the specified |index|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="InsertRadioItemAt-NativeUInt-Integer-ustring-Integer-"></span><code>function <strong>InsertRadioItemAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>; groupId: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Insert a radio item in the menu at the specified |index|. Only a single item with the specified |group_id| can be checked at a time. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="InsertSubMenuAt-NativeUInt-Integer-ustring-"></span><code>function <strong>InsertSubMenuAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Insert a sub-menu in the menu at the specified |index|. The new sub-menu is returned. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Remove-Integer-"></span><code>function <strong>Remove</strong>(commandId: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Removes the item with the specified |command_id|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveAt-NativeUInt-"></span><code>function <strong>RemoveAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Removes the item at the specified |index|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetIndexOf-Integer-"></span><code>function <strong>GetIndexOf</strong>(commandId: Integer): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the index associated with the specified |command_id| or -1 if not found due to the command id not existing in the menu. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetCommandIdAt-NativeUInt-"></span><code>function <strong>GetCommandIdAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the command id at the specified |index| or -1 if not found due to invalid range or the index being a separator. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetCommandIdAt-NativeUInt-Integer-"></span><code>function <strong>SetCommandIdAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; commandId: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the command id at the specified |index|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetLabel-Integer-"></span><code>function <strong>GetLabel</strong>(commandId: Integer): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the label for the specified |command_id| or NULL if not found. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetLabelAt-NativeUInt-"></span><code>function <strong>GetLabelAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the label at the specified |index| or NULL if not found due to invalid range or the index being a separator. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetLabel-Integer-ustring-"></span><code>function <strong>SetLabel</strong>(commandId: Integer; const text: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the label for the specified |command_id|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetLabelAt-NativeUInt-ustring-"></span><code>function <strong>SetLabelAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const text: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the label at the specified |index|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetType-Integer-"></span><code>function <strong>GetType</strong>(commandId: Integer): <a href="uCEFTypes.html#TCefMenuItemType">TCefMenuItemType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the item type for the specified |command_id|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetTypeAt-NativeUInt-"></span><code>function <strong>GetTypeAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#TCefMenuItemType">TCefMenuItemType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the item type at the specified |index|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetGroupId-Integer-"></span><code>function <strong>GetGroupId</strong>(commandId: Integer): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the group id for the specified |command_id| or -1 if invalid. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetGroupIdAt-NativeUInt-"></span><code>function <strong>GetGroupIdAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the group id at the specified |index| or -1 if invalid. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetGroupId-Integer-Integer-"></span><code>function <strong>SetGroupId</strong>(commandId, groupId: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the group id for the specified |command_id|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetGroupIdAt-NativeUInt-Integer-"></span><code>function <strong>SetGroupIdAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; groupId: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the group id at the specified |index|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSubMenu-Integer-"></span><code>function <strong>GetSubMenu</strong>(commandId: Integer): <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the submenu for the specified |command_id| or NULL if invalid. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSubMenuAt-NativeUInt-"></span><code>function <strong>GetSubMenuAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the submenu at the specified |index| or NULL if invalid. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsVisible-Integer-"></span><code>function <strong>IsVisible</strong>(commandId: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the specified |command_id| is visible. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="isVisibleAt-NativeUInt-"></span><code>function <strong>isVisibleAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the specified |index| is visible. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetVisible-Integer-Boolean-"></span><code>function <strong>SetVisible</strong>(commandId: Integer; visible: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Change the visibility of the specified |command_id|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetVisibleAt-NativeUInt-Boolean-"></span><code>function <strong>SetVisibleAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; visible: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Change the visibility at the specified |index|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsEnabled-Integer-"></span><code>function <strong>IsEnabled</strong>(commandId: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the specified |command_id| is enabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsEnabledAt-NativeUInt-"></span><code>function <strong>IsEnabledAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the specified |index| is enabled. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetEnabled-Integer-Boolean-"></span><code>function <strong>SetEnabled</strong>(commandId: Integer; enabled: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Change the enabled status of the specified |command_id|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetEnabledAt-NativeUInt-Boolean-"></span><code>function <strong>SetEnabledAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; enabled: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Change the enabled status at the specified |index|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsChecked-Integer-"></span><code>function <strong>IsChecked</strong>(commandId: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the specified |command_id| is checked. Only applies to check and radio items. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsCheckedAt-NativeUInt-"></span><code>function <strong>IsCheckedAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the specified |index| is checked. Only applies to check and radio items. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="setChecked-Integer-Boolean-"></span><code>function <strong>setChecked</strong>(commandId: Integer; checked: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Check the specified |command_id|. Only applies to check and radio items. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="setCheckedAt-NativeUInt-Boolean-"></span><code>function <strong>setCheckedAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; checked: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Check the specified |index|. Only applies to check and radio items. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasAccelerator-Integer-"></span><code>function <strong>HasAccelerator</strong>(commandId: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the specified |command_id| has a keyboard accelerator assigned. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasAcceleratorAt-NativeUInt-"></span><code>function <strong>HasAcceleratorAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the specified |index| has a keyboard accelerator assigned. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetAccelerator-Integer-Integer-Boolean-Boolean-Boolean-"></span><code>function <strong>SetAccelerator</strong>(commandId, keyCode: Integer; shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the keyboard accelerator for the specified |command_id|. |key_code| can be any virtual key or character value. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetAcceleratorAt-NativeUInt-Integer-Boolean-Boolean-Boolean-"></span><code>function <strong>SetAcceleratorAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; keyCode: Integer; shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the keyboard accelerator at the specified |index|. |key_code| can be any virtual key or character value. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveAccelerator-Integer-"></span><code>function <strong>RemoveAccelerator</strong>(commandId: Integer): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Remove the keyboard accelerator for the specified |command_id|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveAcceleratorAt-NativeUInt-"></span><code>function <strong>RemoveAcceleratorAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Remove the keyboard accelerator at the specified |index|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetAccelerator-Integer-Integer-Boolean-Boolean-Boolean-"></span><code>function <strong>GetAccelerator</strong>(commandId: Integer; out keyCode: Integer; out shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieves the keyboard accelerator for the specified |command_id|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetAcceleratorAt-NativeUInt-Integer-Boolean-Boolean-Boolean-"></span><code>function <strong>GetAcceleratorAt</strong>(index: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; out keyCode: Integer; out shiftPressed, ctrlPressed, altPressed: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieves the keyboard accelerator for the specified |index|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetColor-Integer-TCefMenuColorType-TCefColor-"></span><code>function <strong>SetColor</strong>(commandId: Integer; colorType: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the explicit color for |command_id| and |color_type| to |color|. Specify a |color| value of 0 to remove the explicit color. If no explicit color or default color is set for |color_type| then the system color will be used. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetColorAt-Integer-TCefMenuColorType-TCefColor-"></span><code>function <strong>SetColorAt</strong>(index: Integer; colorType: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set the explicit color for |command_id| and |index| to |color|. Specify a |color| value of 0 to remove the explicit color. Specify an |index| value of -1 to set the default color for items that do not have an explicit color set. If no explicit color or default color is set for |color_type| then the system color will be used. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetColor-Integer-TCefMenuColorType-TCefColor-"></span><code>function <strong>GetColor</strong>(commandId: Integer; colorType: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; out color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns in |color| the color that was explicitly set for |command_id| and |color_type|. If a color was not set then 0 will be returned in |color|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetColorAt-Integer-TCefMenuColorType-TCefColor-"></span><code>function <strong>GetColorAt</strong>(index: Integer; colorType: <a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a>; out color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns in |color| the color that was explicitly set for |command_id| and |color_type|. Specify an |index| value of -1 to return the default color in |color|. If a color was not set then 0 will be returned in |color|. Returns true (1) on success. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetFontList-Integer-ustring-"></span><code>function <strong>SetFontList</strong>(commandId: Integer; const fontList: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the font list for the specified |command_id|. If |font_list| is NULL the system font will be used. Returns true (1) on success. The format is &quot;&lt;FONT_FAMILY_LIST&gt;,[STYLES] &lt;SIZE&gt;&quot;, where: - FONT_FAMILY_LIST is a comma-separated list of font family names, - STYLES is an optional space-separated list of style names (case-sensitive &quot;Bold&quot; and &quot;Italic&quot; are supported), and - SIZE is an integer font size in pixels with the suffix &quot;px&quot;.
+
+<p>Here are examples of valid font description strings: - &quot;Arial, Helvetica, Bold Italic 14px&quot; - &quot;Arial, 14px&quot; </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetFontListAt-Integer-ustring-"></span><code>function <strong>SetFontListAt</strong>(index: Integer; const fontList: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the font list for the specified |index|. Specify an |index| value of -1 to set the default font. If |font_list| is NULL the system font will be used. Returns true (1) on success. The format is &quot;&lt;FONT_FAMILY_LIST&gt;,[STYLES] &lt;SIZE&gt;&quot;, where: - FONT_FAMILY_LIST is a comma-separated list of font family names, - STYLES is an optional space-separated list of style names (case-sensitive &quot;Bold&quot; and &quot;Italic&quot; are supported), and - SIZE is an integer font size in pixels with the suffix &quot;px&quot;.
+
+<p>Here are examples of valid font description strings: - &quot;Arial, Helvetica, Bold Italic 14px&quot; - &quot;Arial, 14px&quot; </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

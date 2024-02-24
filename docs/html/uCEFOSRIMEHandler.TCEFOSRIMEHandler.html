@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFOSRIMEHandler: Class TCEFOSRIMEHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFOSRIMEHandler"></span><h1 class="cio">Class TCEFOSRIMEHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFOSRIMEHandler.html">uCEFOSRIMEHandler</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFOSRIMEHandler = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Class used to handle the IME window. </p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TCEFOSRIMEHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#FHWND">FHWND</a></strong>: HWND;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#FCompositionRange">FCompositionRange</a></strong>: <a href="uCEFTypes.TCefRange.html">TCefRange</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#FCursorIndex">FCursorIndex</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#FIMERect">FIMERect</a></strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#FSystemCaret">FSystemCaret</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#FInputLanguageID">FInputLanguageID</a></strong>: LANGID;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#FCompositionBounds">FCompositionBounds</a></strong>: <a href="uCEFTypes.html#TCefRectDynArray">TCefRectDynArray</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#FIsComposing">FIsComposing</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#FIMM32DLL">FIMM32DLL</a></strong>: THandle;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetPrimaryLangID">GetPrimaryLangID</a></strong>: word;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetSubLangID">GetSubLangID</a></strong>: word;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetInitialized">GetInitialized</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetCompositionInfo-HIMC-LPARAM-ustring-TCefCompositionUnderlineDynArray-integer-">GetCompositionInfo</a></strong>(imc : HIMC; aParam : LPARAM; var composition_text : <a href="uCEFTypes.html#ustring">ustring</a>; var underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>; var composition_start : integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetString-HIMC-WParam-integer-ustring-">GetString</a></strong>(imc : HIMC; aParam : WParam; aType : integer; var aResult : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#IsSelectionAttribute-AnsiChar-">IsSelectionAttribute</a></strong>(aAttribute : AnsiChar) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetCompositionSelectionRange-HIMC-cardinal-cardinal-">GetCompositionSelectionRange</a></strong>(imc : HIMC; var target_start, target_end : cardinal);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetCompositionUnderlines-HIMC-cardinal-cardinal-TCefCompositionUnderlineDynArray-">GetCompositionUnderlines</a></strong>(imc : HIMC; target_start, target_end : cardinal; var underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#Create-HWND-">Create</a></strong>(aHWND : HWND);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#SetInputLanguage">SetInputLanguage</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#CreateImeWindow">CreateImeWindow</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#DestroyImeWindow">DestroyImeWindow</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#CleanupComposition">CleanupComposition</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#ResetComposition">ResetComposition</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetResult-LPARAM-ustring-">GetResult</a></strong>(aParam : LPARAM; var aResult : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetComposition-LPARAM-ustring-TCefCompositionUnderlineDynArray-integer-">GetComposition</a></strong>(aParam : LPARAM; var composition_text : <a href="uCEFTypes.html#ustring">ustring</a>; var underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>; var composition_start : integer) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#EnableIME">EnableIME</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#DisableIME">DisableIME</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#CancelIME">CancelIME</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#UpdateCaretPosition-cardinal-">UpdateCaretPosition</a></strong>(index : cardinal);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#ChangeCompositionRange-TCefRange-TCefRectDynArray-">ChangeCompositionRange</a></strong>(const selection_range : <a href="uCEFTypes.TCefRange.html">TCefRange</a>; const character_bounds : <a href="uCEFTypes.html#TCefRectDynArray">TCefRectDynArray</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#MoveImeWindow">MoveImeWindow</a></strong>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#IsComposing">IsComposing</a></strong>     : boolean   read <a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#FIsComposing">FIsComposing</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#InputLanguageID">InputLanguageID</a></strong> : LANGID    read <a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#FInputLanguageID">FInputLanguageID</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#PrimaryLangID">PrimaryLangID</a></strong>   : word      read <a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetPrimaryLangID">GetPrimaryLangID</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#SubLangID">SubLangID</a></strong>       : word      read <a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetSubLangID">GetSubLangID</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#Initialized">Initialized</a></strong>     : boolean   read <a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetInitialized">GetInitialized</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FHWND"></span><code><strong>FHWND</strong>: HWND;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FCompositionRange"></span><code><strong>FCompositionRange</strong>: <a href="uCEFTypes.TCefRange.html">TCefRange</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FCursorIndex"></span><code><strong>FCursorIndex</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FIMERect"></span><code><strong>FIMERect</strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FSystemCaret"></span><code><strong>FSystemCaret</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FInputLanguageID"></span><code><strong>FInputLanguageID</strong>: LANGID;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FCompositionBounds"></span><code><strong>FCompositionBounds</strong>: <a href="uCEFTypes.html#TCefRectDynArray">TCefRectDynArray</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FIsComposing"></span><code><strong>FIsComposing</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FIMM32DLL"></span><code><strong>FIMM32DLL</strong>: THandle;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetPrimaryLangID"></span><code>function <strong>GetPrimaryLangID</strong>: word;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetSubLangID"></span><code>function <strong>GetSubLangID</strong>: word;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetInitialized"></span><code>function <strong>GetInitialized</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetCompositionInfo-HIMC-LPARAM-ustring-TCefCompositionUnderlineDynArray-integer-"></span><code>procedure <strong>GetCompositionInfo</strong>(imc : HIMC; aParam : LPARAM; var composition_text : <a href="uCEFTypes.html#ustring">ustring</a>; var underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>; var composition_start : integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetString-HIMC-WParam-integer-ustring-"></span><code>function <strong>GetString</strong>(imc : HIMC; aParam : WParam; aType : integer; var aResult : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsSelectionAttribute-AnsiChar-"></span><code>function <strong>IsSelectionAttribute</strong>(aAttribute : AnsiChar) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetCompositionSelectionRange-HIMC-cardinal-cardinal-"></span><code>procedure <strong>GetCompositionSelectionRange</strong>(imc : HIMC; var target_start, target_end : cardinal);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetCompositionUnderlines-HIMC-cardinal-cardinal-TCefCompositionUnderlineDynArray-"></span><code>procedure <strong>GetCompositionUnderlines</strong>(imc : HIMC; target_start, target_end : cardinal; var underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-HWND-"></span><code>constructor <strong>Create</strong>(aHWND : HWND);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetInputLanguage"></span><code>procedure <strong>SetInputLanguage</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets InputLanguageID using the name of the active input locale identifier obtained from a GetKeyboardLayoutNameW call. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getkeyboardlayoutnamew">https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getkeyboardlayoutnamew</a>&quot;&gt;See the GetKeyboardLayoutNameW article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateImeWindow"></span><code>procedure <strong>CreateImeWindow</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Calls CreateCaret for some languages in order to creates a new shape for the system caret and assigns ownership of the caret to the specified window. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createcaret">https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createcaret</a>&quot;&gt;See the CreateCaret article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DestroyImeWindow"></span><code>procedure <strong>DestroyImeWindow</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Calls DestroyCaret for some languages in order to destroy the caret's current shape, frees the caret from the window, and removes the caret from the screen. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-destroycaret">https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-destroycaret</a>&quot;&gt;See the DestroyCaret article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CleanupComposition"></span><code>procedure <strong>CleanupComposition</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Cleans up the all resources attached to the given IMM32Manager object, and reset its composition status. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/api/imm/nf-imm-immnotifyime">https://learn.microsoft.com/en-us/windows/win32/api/imm/nf-imm-immnotifyime</a>&quot;&gt;See the ImmNotifyIME article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ResetComposition"></span><code>procedure <strong>ResetComposition</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Reset the composition status. Cancel the ongoing composition if it exists. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetResult-LPARAM-ustring-"></span><code>function <strong>GetResult</strong>(aParam : LPARAM; var aResult : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve a composition result of the ongoing composition if it exists. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetComposition-LPARAM-ustring-TCefCompositionUnderlineDynArray-integer-"></span><code>function <strong>GetComposition</strong>(aParam : LPARAM; var composition_text : <a href="uCEFTypes.html#ustring">ustring</a>; var underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>; var composition_start : integer) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve the current composition status of the ongoing composition. Includes composition text, underline information and selection range in the composition text. IMM32 does not support char selection. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="EnableIME"></span><code>procedure <strong>EnableIME</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Enable the IME attached to the given window, i.e. allows user-input events to be dispatched to the IME. In Chromium, this function is used when a renderer process moves its input focus to another edit control, or a renrerer process moves the position of the focused edit control. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DisableIME"></span><code>procedure <strong>DisableIME</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Disable the IME attached to the given window, i.e. prohibits any user-input events from being dispatched to the IME. In Chromium, this function is used when a renreder process sets its input focus to a password input. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CancelIME"></span><code>procedure <strong>CancelIME</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Cancels an ongoing composition of the IME. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UpdateCaretPosition-cardinal-"></span><code>procedure <strong>UpdateCaretPosition</strong>(index : cardinal);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Updates the IME caret position of the given window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ChangeCompositionRange-TCefRange-TCefRectDynArray-"></span><code>procedure <strong>ChangeCompositionRange</strong>(const selection_range : <a href="uCEFTypes.TCefRange.html">TCefRange</a>; const character_bounds : <a href="uCEFTypes.html#TCefRectDynArray">TCefRectDynArray</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Updates the composition range. |selected_range| is the range of characters that have been selected. |character_bounds| is the bounds of each character in view device coordinates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MoveImeWindow"></span><code>procedure <strong>MoveImeWindow</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Updates the position of the IME windows. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsComposing"></span><code>property <strong>IsComposing</strong>     : boolean   read <a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#FIsComposing">FIsComposing</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieves whether or not there is an ongoing composition. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="InputLanguageID"></span><code>property <strong>InputLanguageID</strong> : LANGID    read <a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#FInputLanguageID">FInputLanguageID</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The current input Language ID retrieved from Windows used for processing language-specific operations in IME. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PrimaryLangID"></span><code>property <strong>PrimaryLangID</strong>   : word      read <a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetPrimaryLangID">GetPrimaryLangID</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the primary language ID based on the InputLanguageID value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SubLangID"></span><code>property <strong>SubLangID</strong>       : word      read <a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetSubLangID">GetSubLangID</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the sublanguage ID based on the InputLanguageID value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Initialized"></span><code>property <strong>Initialized</strong>     : boolean   read <a href="uCEFOSRIMEHandler.TCEFOSRIMEHandler.html#GetInitialized">GetInitialized</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Resturns True if the library was loaded successfully. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefClient</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefClient"></span><h1 class="cio">Record TCefClient</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefClient = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this structure to provide handler implementations. </p>
+<p>
+
+
+<p>Implemented by ICefClient.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_client_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_client_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_client_capi.h (cef_client_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_audio_handler">get_audio_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefAudioHandler">PCefAudioHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_command_handler">get_command_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefCommandHandler">PCefCommandHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_context_menu_handler">get_context_menu_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_dialog_handler">get_dialog_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefDialogHandler">PCefDialogHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_display_handler">get_display_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefDisplayHandler">PCefDisplayHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_download_handler">get_download_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefDownloadHandler">PCefDownloadHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_drag_handler">get_drag_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefDragHandler">PCefDragHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_find_handler">get_find_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefFindHandler">PCefFindHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_focus_handler">get_focus_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefFocusHandler">PCefFocusHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_frame_handler">get_frame_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefFrameHandler">PCefFrameHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_permission_handler">get_permission_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefPermissionHandler">PCefPermissionHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_jsdialog_handler">get_jsdialog_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefJsDialogHandler">PCefJsDialogHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_keyboard_handler">get_keyboard_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefKeyboardHandler">PCefKeyboardHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_life_span_handler">get_life_span_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefLifeSpanHandler">PCefLifeSpanHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_load_handler">get_load_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefLoadHandler">PCefLoadHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_print_handler">get_print_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_render_handler">get_render_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#get_request_handler">get_request_handler</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefClient.html#on_process_message_received">on_process_message_received</a></strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; source_process: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; message_: <a href="uCEFTypes.html#PCefProcessMessage">PCefProcessMessage</a>): Integer; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_audio_handler"></span><code><strong>get_audio_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefAudioHandler">PCefAudioHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_command_handler"></span><code><strong>get_command_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefCommandHandler">PCefCommandHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_context_menu_handler"></span><code><strong>get_context_menu_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefContextMenuHandler">PCefContextMenuHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_dialog_handler"></span><code><strong>get_dialog_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefDialogHandler">PCefDialogHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_display_handler"></span><code><strong>get_display_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefDisplayHandler">PCefDisplayHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_download_handler"></span><code><strong>get_download_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefDownloadHandler">PCefDownloadHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_drag_handler"></span><code><strong>get_drag_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefDragHandler">PCefDragHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_find_handler"></span><code><strong>get_find_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefFindHandler">PCefFindHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_focus_handler"></span><code><strong>get_focus_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefFocusHandler">PCefFocusHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_frame_handler"></span><code><strong>get_frame_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefFrameHandler">PCefFrameHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_permission_handler"></span><code><strong>get_permission_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefPermissionHandler">PCefPermissionHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_jsdialog_handler"></span><code><strong>get_jsdialog_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefJsDialogHandler">PCefJsDialogHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_keyboard_handler"></span><code><strong>get_keyboard_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefKeyboardHandler">PCefKeyboardHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_life_span_handler"></span><code><strong>get_life_span_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefLifeSpanHandler">PCefLifeSpanHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_load_handler"></span><code><strong>get_load_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefLoadHandler">PCefLoadHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_print_handler"></span><code><strong>get_print_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefPrintHandler">PCefPrintHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_render_handler"></span><code><strong>get_render_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_request_handler"></span><code><strong>get_request_handler</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>): <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_process_message_received"></span><code><strong>on_process_message_received</strong>: function(self: <a href="uCEFTypes.html#PCefClient">PCefClient</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; frame: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>; source_process: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; message_: <a href="uCEFTypes.html#PCefProcessMessage">PCefProcessMessage</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

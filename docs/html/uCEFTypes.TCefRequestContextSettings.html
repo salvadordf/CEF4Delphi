@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefRequestContextSettings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefRequestContextSettings"></span><h1 class="cio">Record TCefRequestContextSettings</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefRequestContextSettings = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Request context initialization settings. Specify NULL or 0 to get the recommended default values. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_request_context_settings_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContextSettings.html#size">size</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContextSettings.html#cache_path">cache_path</a></strong>: <a href="uCEFTypes.html#TCefString">TCefString</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContextSettings.html#persist_session_cookies">persist_session_cookies</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContextSettings.html#persist_user_preferences">persist_user_preferences</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContextSettings.html#accept_language_list">accept_language_list</a></strong>: <a href="uCEFTypes.html#TCefString">TCefString</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContextSettings.html#cookieable_schemes_list">cookieable_schemes_list</a></strong>: <a href="uCEFTypes.html#TCefString">TCefString</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContextSettings.html#cookieable_schemes_exclude_defaults">cookieable_schemes_exclude_defaults</a></strong>: integer;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="size"></span><code><strong>size</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Size of this structure. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="cache_path"></span><code><strong>cache_path</strong>: <a href="uCEFTypes.html#TCefString">TCefString</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The directory where cache data for this request context will be stored on disk. If this value is non-empty then it must be an absolute path that is either equal to or a child directory of TCefSettings.root_cache_path. If this value is empty then browsers will be created in &quot;incognito mode&quot; where in-memory caches are used for storage and no profile-specific data is persisted to disk (installation-specific data will still be persisted in root_cache_path). HTML5 databases such as localStorage will only persist across sessions if a cache path is specified. To share the global browser cache and related configuration set this value to match the TCefSettings.cache_path value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="persist_session_cookies"></span><code><strong>persist_session_cookies</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ To persist session cookies (cookies without an expiry date or validity interval) by default when using the global cookie manager set this value to true (1). Session cookies are generally intended to be transient and most Web browsers do not persist them. Can be set globally using the TCefSettings.persist_session_cookies value. This value will be ignored if |cache_path| is empty or if it matches the TCefSettings.cache_path value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="persist_user_preferences"></span><code><strong>persist_user_preferences</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ To persist user preferences as a JSON file in the cache path directory set this value to true (1). Can be set globally using the TCefSettings.persist_user_preferences value. This value will be ignored if |cache_path| is empty or if it matches the TCefSettings.cache_path value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="accept_language_list"></span><code><strong>accept_language_list</strong>: <a href="uCEFTypes.html#TCefString">TCefString</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Comma delimited ordered list of language codes without any whitespace that will be used in the &quot;Accept-Language&quot; HTTP header. Can be set globally using the TCefSettings.accept_language_list value or overridden on a per- browser basis using the TCefBrowserSettings.accept_language_list value. If all values are empty then &quot;en-US,en&quot; will be used. This value will be ignored if |cache_path| matches the TCefSettings.cache_path value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="cookieable_schemes_list"></span><code><strong>cookieable_schemes_list</strong>: <a href="uCEFTypes.html#TCefString">TCefString</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Comma delimited list of schemes supported by the associated ICefCookieManager. If |cookieable_schemes_exclude_defaults| is false (0) the default schemes (&quot;http&quot;, &quot;https&quot;, &quot;ws&quot; and &quot;wss&quot;) will also be supported. Not specifying a |cookieable_schemes_list| value and setting |cookieable_schemes_exclude_defaults| to true (1) will disable all loading and saving of cookies. These values will be ignored if |cache_path| matches the TCefSettings.cache_path value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="cookieable_schemes_exclude_defaults"></span><code><strong>cookieable_schemes_exclude_defaults</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

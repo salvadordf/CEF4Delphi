@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefTextfield</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefTextfield"></span><h1 class="cio">Record TCefTextfield</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefTextfield = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ A Textfield supports editing of text. This control is custom rendered with no platform-specific code. Methods must be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>Implemented by ICefTextfield.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_textfield_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_textfield_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_textfield_capi.h (cef_textfield_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#base">base</a></strong>: <a href="uCEFTypes.TCefView.html">TCefView</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#set_password_input">set_password_input</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; password_input: Integer); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#is_password_input">is_password_input</a></strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#set_read_only">set_read_only</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; read_only: Integer); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#is_read_only">is_read_only</a></strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#get_text">get_text</a></strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#set_text">set_text</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#append_text">append_text</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#insert_or_replace_text">insert_or_replace_text</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#has_selection">has_selection</a></strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#get_selected_text">get_selected_text</a></strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#select_all">select_all</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; reversed: Integer); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#clear_selection">clear_selection</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#get_selected_range">get_selected_range</a></strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.TCefRange.html">TCefRange</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#select_range">select_range</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#get_cursor_position">get_cursor_position</a></strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#set_text_color">set_text_color</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#get_text_color">get_text_color</a></strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#TCefColor">TCefColor</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#set_selection_text_color">set_selection_text_color</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#get_selection_text_color">get_selection_text_color</a></strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#TCefColor">TCefColor</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#set_selection_background_color">set_selection_background_color</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#get_selection_background_color">get_selection_background_color</a></strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#TCefColor">TCefColor</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#set_font_list">set_font_list</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const font_list: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#apply_text_color">apply_text_color</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>; const range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#apply_text_style">apply_text_style</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; style: <a href="uCEFTypes.html#TCefTextStyle">TCefTextStyle</a>; add: Integer; const range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#is_command_enabled">is_command_enabled</a></strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; command_id: <a href="uCEFTypes.html#TCefTextFieldCommands">TCefTextFieldCommands</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#execute_command">execute_command</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; command_id: <a href="uCEFTypes.html#TCefTextFieldCommands">TCefTextFieldCommands</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#clear_edit_history">clear_edit_history</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#set_placeholder_text">set_placeholder_text</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#get_placeholder_text">get_placeholder_text</a></strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#set_placeholder_text_color">set_placeholder_text_color</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTextfield.html#set_accessible_name">set_accessible_name</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const name: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefView.html">TCefView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_password_input"></span><code><strong>set_password_input</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; password_input: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_password_input"></span><code><strong>is_password_input</strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_read_only"></span><code><strong>set_read_only</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; read_only: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_read_only"></span><code><strong>is_read_only</strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_text"></span><code><strong>get_text</strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_text"></span><code><strong>set_text</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="append_text"></span><code><strong>append_text</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="insert_or_replace_text"></span><code><strong>insert_or_replace_text</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_selection"></span><code><strong>has_selection</strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_selected_text"></span><code><strong>get_selected_text</strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="select_all"></span><code><strong>select_all</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; reversed: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="clear_selection"></span><code><strong>clear_selection</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_selected_range"></span><code><strong>get_selected_range</strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.TCefRange.html">TCefRange</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="select_range"></span><code><strong>select_range</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_cursor_position"></span><code><strong>get_cursor_position</strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_text_color"></span><code><strong>set_text_color</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_text_color"></span><code><strong>get_text_color</strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#TCefColor">TCefColor</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_selection_text_color"></span><code><strong>set_selection_text_color</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_selection_text_color"></span><code><strong>get_selection_text_color</strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#TCefColor">TCefColor</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_selection_background_color"></span><code><strong>set_selection_background_color</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_selection_background_color"></span><code><strong>get_selection_background_color</strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#TCefColor">TCefColor</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_font_list"></span><code><strong>set_font_list</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const font_list: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="apply_text_color"></span><code><strong>apply_text_color</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>; const range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="apply_text_style"></span><code><strong>apply_text_style</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; style: <a href="uCEFTypes.html#TCefTextStyle">TCefTextStyle</a>; add: Integer; const range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="is_command_enabled"></span><code><strong>is_command_enabled</strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; command_id: <a href="uCEFTypes.html#TCefTextFieldCommands">TCefTextFieldCommands</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="execute_command"></span><code><strong>execute_command</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; command_id: <a href="uCEFTypes.html#TCefTextFieldCommands">TCefTextFieldCommands</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="clear_edit_history"></span><code><strong>clear_edit_history</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_placeholder_text"></span><code><strong>set_placeholder_text</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_placeholder_text"></span><code><strong>get_placeholder_text</strong>: function(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>): <a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_placeholder_text_color"></span><code><strong>set_placeholder_text_color</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_accessible_name"></span><code><strong>set_accessible_name</strong>: procedure(self: <a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a>; const name: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

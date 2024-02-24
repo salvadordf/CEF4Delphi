@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefContextMenuHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefContextMenuHandler"></span><h1 class="cio">Interface ICefContextMenuHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefContextMenuHandler = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this interface to handle context menu events. The functions of this interface will be called on the UI thread. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_context_menu_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_context_menu_handler_capi.h (cef_context_menu_handler_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefContextMenuHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefContextMenuHandler.html#OnBeforeContextMenu-ICefBrowser-ICefFrame-ICefContextMenuParams-ICefMenuModel-">OnBeforeContextMenu</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const params: <a href="uCEFInterfaces.ICefContextMenuParams.html">ICefContextMenuParams</a>; const model: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuHandler.html#RunContextMenu-ICefBrowser-ICefFrame-ICefContextMenuParams-ICefMenuModel-ICefRunContextMenuCallback-">RunContextMenu</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const params: <a href="uCEFInterfaces.ICefContextMenuParams.html">ICefContextMenuParams</a>; const model: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; const callback: <a href="uCEFInterfaces.ICefRunContextMenuCallback.html">ICefRunContextMenuCallback</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuHandler.html#OnContextMenuCommand-ICefBrowser-ICefFrame-ICefContextMenuParams-Integer-TCefEventFlags-">OnContextMenuCommand</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const params: <a href="uCEFInterfaces.ICefContextMenuParams.html">ICefContextMenuParams</a>; commandId: Integer; eventFlags: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefContextMenuHandler.html#OnContextMenuDismissed-ICefBrowser-ICefFrame-">OnContextMenuDismissed</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuHandler.html#RunQuickMenu-ICefBrowser-ICefFrame-PCefPoint-PCefSize-TCefQuickMenuEditStateFlags-ICefRunQuickMenuCallback-">RunQuickMenu</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; location: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>; size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>; edit_state_flags: <a href="uCEFTypes.html#TCefQuickMenuEditStateFlags">TCefQuickMenuEditStateFlags</a>; const callback: <a href="uCEFInterfaces.ICefRunQuickMenuCallback.html">ICefRunQuickMenuCallback</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefContextMenuHandler.html#OnQuickMenuCommand-ICefBrowser-ICefFrame-integer-TCefEventFlags-">OnQuickMenuCommand</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; command_id: integer; event_flags: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefContextMenuHandler.html#OnQuickMenuDismissed-ICefBrowser-ICefFrame-">OnQuickMenuDismissed</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefContextMenuHandler.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnBeforeContextMenu-ICefBrowser-ICefFrame-ICefContextMenuParams-ICefMenuModel-"></span><code>procedure <strong>OnBeforeContextMenu</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const params: <a href="uCEFInterfaces.ICefContextMenuParams.html">ICefContextMenuParams</a>; const model: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called before a context menu is displayed. |params| provides information about the context menu state. |model| initially contains the default context menu. The |model| can be cleared to show no context menu or modified to show a custom menu. Do not keep references to |params| or |model| outside of this callback. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{C2951895-4087-49D5-BA18-4D9BA4F5EDD7}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RunContextMenu-ICefBrowser-ICefFrame-ICefContextMenuParams-ICefMenuModel-ICefRunContextMenuCallback-"></span><code>function <strong>RunContextMenu</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const params: <a href="uCEFInterfaces.ICefContextMenuParams.html">ICefContextMenuParams</a>; const model: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; const callback: <a href="uCEFInterfaces.ICefRunContextMenuCallback.html">ICefRunContextMenuCallback</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called to allow custom display of the context menu. |params| provides information about the context menu state. |model| contains the context menu model resulting from OnBeforeContextMenu. For custom display return true (1) and execute |callback| either synchronously or asynchronously with the selected command ID. For default display return false (0). Do not keep references to |params| or |model| outside of this callback. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnContextMenuCommand-ICefBrowser-ICefFrame-ICefContextMenuParams-Integer-TCefEventFlags-"></span><code>function <strong>OnContextMenuCommand</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const params: <a href="uCEFInterfaces.ICefContextMenuParams.html">ICefContextMenuParams</a>; commandId: Integer; eventFlags: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called to execute a command selected from the context menu. Return true (1) if the command was handled or false (0) for the default implementation. See TCefMenuId for the command ids that have default implementations. All user-defined command ids should be between MENU_ID_USER_FIRST and MENU_ID_USER_LAST. |params| will have the same values as what was passed to on_before_context_menu(). Do not keep a reference to |params| outside of this callback. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnContextMenuDismissed-ICefBrowser-ICefFrame-"></span><code>procedure <strong>OnContextMenuDismissed</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when the context menu is dismissed irregardless of whether the menu was canceled or a command was selected. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RunQuickMenu-ICefBrowser-ICefFrame-PCefPoint-PCefSize-TCefQuickMenuEditStateFlags-ICefRunQuickMenuCallback-"></span><code>function <strong>RunQuickMenu</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; location: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>; size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>; edit_state_flags: <a href="uCEFTypes.html#TCefQuickMenuEditStateFlags">TCefQuickMenuEditStateFlags</a>; const callback: <a href="uCEFInterfaces.ICefRunQuickMenuCallback.html">ICefRunQuickMenuCallback</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called to allow custom display of the quick menu for a windowless browser. |location| is the top left corner of the selected region. |size| is the size of the selected region. |edit_state_flags| is a combination of flags that represent the state of the quick menu. Return true (1) if the menu will be handled and execute |callback| either synchronously or asynchronously with the selected command ID. Return false (0) to cancel the menu. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnQuickMenuCommand-ICefBrowser-ICefFrame-integer-TCefEventFlags-"></span><code>function <strong>OnQuickMenuCommand</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; command_id: integer; event_flags: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called to execute a command selected from the quick menu for a windowless browser. Return true (1) if the command was handled or false (0) for the default implementation. See TCefMenuId for command IDs that have default implementations. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnQuickMenuDismissed-ICefBrowser-ICefFrame-"></span><code>procedure <strong>OnQuickMenuDismissed</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when the quick menu for a windowless browser is dismissed irregardless of whether the menu was canceled or a command was selected. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

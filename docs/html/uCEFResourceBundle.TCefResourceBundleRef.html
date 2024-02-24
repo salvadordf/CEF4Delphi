@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFResourceBundle: Class TCefResourceBundleRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefResourceBundleRef"></span><h1 class="cio">Class TCefResourceBundleRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFResourceBundle.html">uCEFResourceBundle</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefResourceBundleRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefResourceBundle.html">ICefResourceBundle</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="thisitem">TCefResourceBundleRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFResourceBundle.TCefResourceBundleRef.html#GetLocalizedString-Integer-">GetLocalizedString</a></strong>(stringId: Integer): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFResourceBundle.TCefResourceBundleRef.html#GetDataResource-Integer-">GetDataResource</a></strong>(resourceId: Integer): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFResourceBundle.TCefResourceBundleRef.html#GetDataResourceForScale-Integer-TCefScaleFactor-">GetDataResourceForScale</a></strong>(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFResourceBundle.TCefResourceBundleRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefResourceBundle.html">ICefResourceBundle</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFResourceBundle.TCefResourceBundleRef.html#Global">Global</a></strong>: <a href="uCEFInterfaces.ICefResourceBundle.html">ICefResourceBundle</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetLocalizedString-Integer-"></span><code>function <strong>GetLocalizedString</strong>(stringId: Integer): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefResourceBundle.html#GetLocalizedString-Integer-">ICefResourceBundle.GetLocalizedString</a>.</p><p>
+ Returns the localized string for the specified |string_id| or an NULL string if the value is not found. Include cef_pack_strings.h for a listing of valid string ID values. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetDataResource-Integer-"></span><code>function <strong>GetDataResource</strong>(resourceId: Integer): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefResourceBundle.html#GetDataResource-Integer-">ICefResourceBundle.GetDataResource</a>.</p><p>
+ Returns a ICefBinaryValue containing the decompressed contents of the specified scale independent |resource_id| or NULL if not found. Include cef_pack_resources.h for a listing of valid resource ID values. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetDataResourceForScale-Integer-TCefScaleFactor-"></span><code>function <strong>GetDataResourceForScale</strong>(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefResourceBundle.html#GetDataResourceForScale-Integer-TCefScaleFactor-">ICefResourceBundle.GetDataResourceForScale</a>.</p><p>
+ Returns a ICefBinaryValue containing the decompressed contents of the specified |resource_id| nearest the scale factor |scale_factor| or NULL if not found. Use a |scale_factor| value of SCALE_FACTOR_NONE for scale independent resources or call GetDataResource instead.Include cef_pack_resources.h for a listing of valid resource ID values. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefResourceBundle.html">ICefResourceBundle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Global"></span><code>class function <strong>Global</strong>: <a href="uCEFInterfaces.ICefResourceBundle.html">ICefResourceBundle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

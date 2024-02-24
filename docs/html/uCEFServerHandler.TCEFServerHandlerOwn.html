@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFServerHandler: Class TCEFServerHandlerOwn</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFServerHandlerOwn"></span><h1 class="cio">Class TCEFServerHandlerOwn</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFServerHandler.html">uCEFServerHandler</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFServerHandlerOwn = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a>, <a class="normal" href="uCEFInterfaces.ICefServerHandler.html">ICefServerHandler</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="thisitem">TCEFServerHandlerOwn</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerHandler.TCEFServerHandlerOwn.html#OnServerCreated-ICefServer-">OnServerCreated</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerHandler.TCEFServerHandlerOwn.html#OnServerDestroyed-ICefServer-">OnServerDestroyed</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerHandler.TCEFServerHandlerOwn.html#OnClientConnected-ICefServer-Integer-">OnClientConnected</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerHandler.TCEFServerHandlerOwn.html#OnClientDisconnected-ICefServer-Integer-">OnClientDisconnected</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerHandler.TCEFServerHandlerOwn.html#OnHttpRequest-ICefServer-Integer-ustring-ICefRequest-">OnHttpRequest</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerHandler.TCEFServerHandlerOwn.html#OnWebSocketRequest-ICefServer-Integer-ustring-ICefRequest-ICefCallback-">OnWebSocketRequest</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerHandler.TCEFServerHandlerOwn.html#OnWebSocketConnected-ICefServer-Integer-">OnWebSocketConnected</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServerHandler.TCEFServerHandlerOwn.html#OnWebSocketMessage-ICefServer-Integer-Pointer-NativeUInt-">OnWebSocketMessage</a></strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFServerHandler.TCEFServerHandlerOwn.html#Create">Create</a></strong>; virtual;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnServerCreated-ICefServer-"></span><code>procedure <strong>OnServerCreated</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServerHandler.html#OnServerCreated-ICefServer-">ICefServerHandler.OnServerCreated</a>.</p><p>
+ Called when |server| is created. If the server was started successfully then ICefServer.IsRunning will return true (1). The server will continue running until ICefServerShutdown is called, after which time OnServerDestroyed will be called. If the server failed to start then OnServerDestroyed will be called immediately after this function returns. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnServerDestroyed-ICefServer-"></span><code>procedure <strong>OnServerDestroyed</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServerHandler.html#OnServerDestroyed-ICefServer-">ICefServerHandler.OnServerDestroyed</a>.</p><p>
+ Called when |server| is destroyed. The server thread will be stopped after this function returns. The client should release any references to |server| when this function is called. See OnServerCreated documentation for a description of server lifespan. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnClientConnected-ICefServer-Integer-"></span><code>procedure <strong>OnClientConnected</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServerHandler.html#OnClientConnected-ICefServer-Integer-">ICefServerHandler.OnClientConnected</a>.</p><p>
+ Called when a client connects to |server|. |connection_id| uniquely identifies the connection. Each call to this function will have a matching call to OnClientDisconnected. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnClientDisconnected-ICefServer-Integer-"></span><code>procedure <strong>OnClientDisconnected</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServerHandler.html#OnClientDisconnected-ICefServer-Integer-">ICefServerHandler.OnClientDisconnected</a>.</p><p>
+ Called when a client disconnects from |server|. |connection_id| uniquely identifies the connection. The client should release any data associated with |connection_id| when this function is called and |connection_id| should no longer be passed to ICefServer functions. Disconnects can originate from either the client or the server. For example, the server will disconnect automatically after a ICefServer.SendHttpXXXResponse function is called. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnHttpRequest-ICefServer-Integer-ustring-ICefRequest-"></span><code>procedure <strong>OnHttpRequest</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServerHandler.html#OnHttpRequest-ICefServer-Integer-ustring-ICefRequest-">ICefServerHandler.OnHttpRequest</a>.</p><p>
+ Called when |server| receives an HTTP request. |connection_id| uniquely identifies the connection, |client_address| is the requesting IPv4 or IPv6 client address including port number, and |request| contains the request contents (URL, function, headers and optional POST data). Call ICefServer functions either synchronously or asynchronusly to send a response. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnWebSocketRequest-ICefServer-Integer-ustring-ICefRequest-ICefCallback-"></span><code>procedure <strong>OnWebSocketRequest</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServerHandler.html#OnWebSocketRequest-ICefServer-Integer-ustring-ICefRequest-ICefCallback-">ICefServerHandler.OnWebSocketRequest</a>.</p><p>
+ Called when |server| receives a WebSocket request. |connection_id| uniquely identifies the connection, |client_address| is the requesting IPv4 or IPv6 client address including port number, and |request| contains the request contents (URL, function, headers and optional POST data). Execute |callback| either synchronously or asynchronously to accept or decline the WebSocket connection. If the request is accepted then OnWebSocketConnected will be called after the WebSocket has connected and incoming messages will be delivered to the OnWebSocketMessage callback. If the request is declined then the client will be disconnected and OnClientDisconnected will be called. Call the ICefServer.SendWebSocketMessage function after receiving the OnWebSocketConnected callback to respond with WebSocket messages. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnWebSocketConnected-ICefServer-Integer-"></span><code>procedure <strong>OnWebSocketConnected</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServerHandler.html#OnWebSocketConnected-ICefServer-Integer-">ICefServerHandler.OnWebSocketConnected</a>.</p><p>
+ Called after the client has accepted the WebSocket connection for |server| and |connection_id| via the OnWebSocketRequest callback. See OnWebSocketRequest documentation for intended usage. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnWebSocketMessage-ICefServer-Integer-Pointer-NativeUInt-"></span><code>procedure <strong>OnWebSocketMessage</strong>(const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServerHandler.html#OnWebSocketMessage-ICefServer-Integer-Pointer-NativeUInt-">ICefServerHandler.OnWebSocketMessage</a>.</p><p>
+ Called when |server| receives an WebSocket message. |connection_id| uniquely identifies the connection, |data| is the message content and |data_size| is the size of |data| in bytes. Do not keep a reference to |data| outside of this function. See OnWebSocketRequest documentation for intended usage. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

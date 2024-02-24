@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefV8Exception</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefV8Exception"></span><h1 class="cio">Interface ICefV8Exception</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefV8Exception = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface representing a V8 exception. The functions of this interface may be called on any render process thread. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_v8_capi.h (cef_v8exception_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefV8Exception</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8Exception.html#GetMessage">GetMessage</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8Exception.html#GetSourceLine">GetSourceLine</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8Exception.html#GetScriptResourceName">GetScriptResourceName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8Exception.html#GetLineNumber">GetLineNumber</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8Exception.html#GetStartPosition">GetStartPosition</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8Exception.html#GetEndPosition">GetEndPosition</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8Exception.html#GetStartColumn">GetStartColumn</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefV8Exception.html#GetEndColumn">GetEndColumn</a></strong>: Integer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefV8Exception.html#Message">Message</a></strong>            : <a href="uCEFTypes.html#ustring">ustring</a> read <a href="uCEFInterfaces.ICefV8Exception.html#GetMessage">GetMessage</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefV8Exception.html#SourceLine">SourceLine</a></strong>         : <a href="uCEFTypes.html#ustring">ustring</a> read <a href="uCEFInterfaces.ICefV8Exception.html#GetSourceLine">GetSourceLine</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefV8Exception.html#ScriptResourceName">ScriptResourceName</a></strong> : <a href="uCEFTypes.html#ustring">ustring</a> read <a href="uCEFInterfaces.ICefV8Exception.html#GetScriptResourceName">GetScriptResourceName</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefV8Exception.html#LineNumber">LineNumber</a></strong>         : Integer read <a href="uCEFInterfaces.ICefV8Exception.html#GetLineNumber">GetLineNumber</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefV8Exception.html#StartPosition">StartPosition</a></strong>      : Integer read <a href="uCEFInterfaces.ICefV8Exception.html#GetStartPosition">GetStartPosition</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefV8Exception.html#EndPosition">EndPosition</a></strong>        : Integer read <a href="uCEFInterfaces.ICefV8Exception.html#GetEndPosition">GetEndPosition</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefV8Exception.html#StartColumn">StartColumn</a></strong>        : Integer read <a href="uCEFInterfaces.ICefV8Exception.html#GetStartColumn">GetStartColumn</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefV8Exception.html#EndColumn">EndColumn</a></strong>          : Integer read <a href="uCEFInterfaces.ICefV8Exception.html#GetEndColumn">GetEndColumn</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetMessage"></span><code>function <strong>GetMessage</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the exception message. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{7E422CF0-05AC-4A60-A029-F45105DCE6A4}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSourceLine"></span><code>function <strong>GetSourceLine</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the line of source code that the exception occurred within. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetScriptResourceName"></span><code>function <strong>GetScriptResourceName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the resource name for the script from where the function causing the error originates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetLineNumber"></span><code>function <strong>GetLineNumber</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the 1-based number of the line where the error occurred or 0 if the line number is unknown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetStartPosition"></span><code>function <strong>GetStartPosition</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the index within the script of the first character where the error occurred. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetEndPosition"></span><code>function <strong>GetEndPosition</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the index within the script of the last character where the error occurred. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetStartColumn"></span><code>function <strong>GetStartColumn</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the index within the line of the first character where the error occurred. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetEndColumn"></span><code>function <strong>GetEndColumn</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the index within the line of the last character where the error occurred. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Message"></span><code>property <strong>Message</strong>            : <a href="uCEFTypes.html#ustring">ustring</a> read <a href="uCEFInterfaces.ICefV8Exception.html#GetMessage">GetMessage</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the exception message. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SourceLine"></span><code>property <strong>SourceLine</strong>         : <a href="uCEFTypes.html#ustring">ustring</a> read <a href="uCEFInterfaces.ICefV8Exception.html#GetSourceLine">GetSourceLine</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the line of source code that the exception occurred within. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ScriptResourceName"></span><code>property <strong>ScriptResourceName</strong> : <a href="uCEFTypes.html#ustring">ustring</a> read <a href="uCEFInterfaces.ICefV8Exception.html#GetScriptResourceName">GetScriptResourceName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the resource name for the script from where the function causing the error originates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="LineNumber"></span><code>property <strong>LineNumber</strong>         : Integer read <a href="uCEFInterfaces.ICefV8Exception.html#GetLineNumber">GetLineNumber</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the 1-based number of the line where the error occurred or 0 if the line number is unknown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="StartPosition"></span><code>property <strong>StartPosition</strong>      : Integer read <a href="uCEFInterfaces.ICefV8Exception.html#GetStartPosition">GetStartPosition</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the index within the script of the first character where the error occurred. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="EndPosition"></span><code>property <strong>EndPosition</strong>        : Integer read <a href="uCEFInterfaces.ICefV8Exception.html#GetEndPosition">GetEndPosition</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the index within the script of the last character where the error occurred. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="StartColumn"></span><code>property <strong>StartColumn</strong>        : Integer read <a href="uCEFInterfaces.ICefV8Exception.html#GetStartColumn">GetStartColumn</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the index within the line of the first character where the error occurred. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="EndColumn"></span><code>property <strong>EndColumn</strong>          : Integer read <a href="uCEFInterfaces.ICefV8Exception.html#GetEndColumn">GetEndColumn</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the index within the line of the last character where the error occurred. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

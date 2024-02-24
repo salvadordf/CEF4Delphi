@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFDragAndDropMgr: Class TCEFDragAndDropMgr</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFDragAndDropMgr"></span><h1 class="cio">Class TCEFDragAndDropMgr</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFDragAndDropMgr.html">uCEFDragAndDropMgr</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFDragAndDropMgr = class(<a class="normal" href="uCEFOLEDragAndDrop.TOLEDragAndDropMgr.html">TOLEDragAndDropMgr</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor"><a class="normal" href="uCEFOLEDragAndDrop.TOLEDragAndDropMgr.html">TOLEDragAndDropMgr</a></li>
+<li class="thisitem">TCEFDragAndDropMgr</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FCurrentDragData">FCurrentDragData</a></strong>: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOLEEffect">FOLEEffect</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FMozURLFormat">FMozURLFormat</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FHTMLFormat">FHTMLFormat</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FFileDescFormat">FFileDescFormat</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FFileContentsFormat">FFileContentsFormat</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragEnter">FOnDragEnter</a></strong>: TDragEnterEvent;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragOver">FOnDragOver</a></strong>: TDragOverEvent;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragLeave">FOnDragLeave</a></strong>: TNotifyEvent;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDrop">FOnDrop</a></strong>: TDropEvent;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DragDataToDataObject_Unicode-ICefDragData-TFormatEtc-TStgMedium-">DragDataToDataObject_Unicode</a></strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; var aFormat : TFormatEtc; var aMedium : TStgMedium) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DragDataToDataObject_Text-ICefDragData-TFormatEtc-TStgMedium-">DragDataToDataObject_Text</a></strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; var aFormat : TFormatEtc; var aMedium : TStgMedium) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DragDataToDataObject_HTML-ICefDragData-TFormatEtc-TStgMedium-">DragDataToDataObject_HTML</a></strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; var aFormat : TFormatEtc; var aMedium : TStgMedium) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DragDataToDataObject_URL-ICefDragData-TFormatEtc-TStgMedium-">DragDataToDataObject_URL</a></strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; var aFormat : TFormatEtc; var aMedium : TStgMedium) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DragDataToDataObject_FileDesc-ICefDragData-TFormatEtc-TStgMedium-">DragDataToDataObject_FileDesc</a></strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; var aFormat : TFormatEtc; var aMedium : TStgMedium) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DragDataToDataObject_FileContents-ICefDragData-TFormatEtc-TStgMedium-">DragDataToDataObject_FileContents</a></strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; var aFormat : TFormatEtc; var aMedium : TStgMedium) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DataObjectToDragData-IDataObject-ICefDragData-">DataObjectToDragData</a></strong>(const aDataObject : IDataObject; var aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DataObjectToDragData_Unicode-TStgMedium-ICefDragData-">DataObjectToDragData_Unicode</a></strong>(var aMedium : TStgMedium; var aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DataObjectToDragData_Text-TStgMedium-ICefDragData-">DataObjectToDragData_Text</a></strong>(var aMedium : TStgMedium; var aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DataObjectToDragData_URL-TStgMedium-ICefDragData-">DataObjectToDragData_URL</a></strong>(var aMedium : TStgMedium; var aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DataObjectToDragData_HTML-TStgMedium-ICefDragData-">DataObjectToDragData_HTML</a></strong>(var aMedium : TStgMedium; var aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>) : boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DataObjectToDragData_FileDrop-TStgMedium-ICefDragData-">DataObjectToDragData_FileDrop</a></strong>(var aMedium : TStgMedium; var aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#HtmlToCFHtml-ustring-ustring-">HtmlToCFHtml</a></strong>(var aHTML, aBaseURL : <a href="uCEFTypes.html#ustring">ustring</a>) : AnsiString;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#CFHtmlToHtml-AnsiString-string-string-">CFHtmlToHtml</a></strong>(const cf_html : AnsiString; var html, base_url : string);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#ZeroFiller-integer-integer-">ZeroFiller</a></strong>(aNumber, aLength : integer) : AnsiString;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FindStringField-AnsiString-AnsiString-integer-">FindStringField</a></strong>(const aString, aFieldName : AnsiString; var aPos : integer) : string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#Create">Create</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#StartDragging">StartDragging</a></strong>: <a href="uCEFTypes.html#TCefDragOperation">TCefDragOperation</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#CloneDragData-ICefDragData-TCefDragOperations-">CloneDragData</a></strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; aAllowedOps : <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DragEnter-IDataObject-Longint-TPoint-Longint-">DragEnter</a></strong>(const DataObj: IDataObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint): HRESULT; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DragOver-Longint-TPoint-Longint-">DragOver</a></strong>(grfKeyState: Longint; pt: TPoint; var dwEffect: Longint): HRESULT; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#DragLeave">DragLeave</a></strong>: HRESULT; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#Drop-IDataObject-Longint-TPoint-Longint-">Drop</a></strong>(const dataObj: IDataObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint): HRESULT; override;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#OnDragEnter">OnDragEnter</a></strong>        : TDragEnterEvent  read <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragEnter">FOnDragEnter</a>  write <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragEnter">FOnDragEnter</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#OnDragOver">OnDragOver</a></strong>         : TDragOverEvent   read <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragOver">FOnDragOver</a>   write <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragOver">FOnDragOver</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#OnDragLeave">OnDragLeave</a></strong>        : TNotifyEvent     read <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragLeave">FOnDragLeave</a>  write <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragLeave">FOnDragLeave</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#OnDrop">OnDrop</a></strong>             : TDropEvent       read <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDrop">FOnDrop</a>       write <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDrop">FOnDrop</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FCurrentDragData"></span><code><strong>FCurrentDragData</strong>: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOLEEffect"></span><code><strong>FOLEEffect</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMozURLFormat"></span><code><strong>FMozURLFormat</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FHTMLFormat"></span><code><strong>FHTMLFormat</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FFileDescFormat"></span><code><strong>FFileDescFormat</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FFileContentsFormat"></span><code><strong>FFileContentsFormat</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnDragEnter"></span><code><strong>FOnDragEnter</strong>: TDragEnterEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnDragOver"></span><code><strong>FOnDragOver</strong>: TDragOverEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnDragLeave"></span><code><strong>FOnDragLeave</strong>: TNotifyEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnDrop"></span><code><strong>FOnDrop</strong>: TDropEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DragDataToDataObject_Unicode-ICefDragData-TFormatEtc-TStgMedium-"></span><code>function <strong>DragDataToDataObject_Unicode</strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; var aFormat : TFormatEtc; var aMedium : TStgMedium) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DragDataToDataObject_Text-ICefDragData-TFormatEtc-TStgMedium-"></span><code>function <strong>DragDataToDataObject_Text</strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; var aFormat : TFormatEtc; var aMedium : TStgMedium) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DragDataToDataObject_HTML-ICefDragData-TFormatEtc-TStgMedium-"></span><code>function <strong>DragDataToDataObject_HTML</strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; var aFormat : TFormatEtc; var aMedium : TStgMedium) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DragDataToDataObject_URL-ICefDragData-TFormatEtc-TStgMedium-"></span><code>function <strong>DragDataToDataObject_URL</strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; var aFormat : TFormatEtc; var aMedium : TStgMedium) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DragDataToDataObject_FileDesc-ICefDragData-TFormatEtc-TStgMedium-"></span><code>function <strong>DragDataToDataObject_FileDesc</strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; var aFormat : TFormatEtc; var aMedium : TStgMedium) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DragDataToDataObject_FileContents-ICefDragData-TFormatEtc-TStgMedium-"></span><code>function <strong>DragDataToDataObject_FileContents</strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; var aFormat : TFormatEtc; var aMedium : TStgMedium) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DataObjectToDragData-IDataObject-ICefDragData-"></span><code>procedure <strong>DataObjectToDragData</strong>(const aDataObject : IDataObject; var aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DataObjectToDragData_Unicode-TStgMedium-ICefDragData-"></span><code>function <strong>DataObjectToDragData_Unicode</strong>(var aMedium : TStgMedium; var aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DataObjectToDragData_Text-TStgMedium-ICefDragData-"></span><code>function <strong>DataObjectToDragData_Text</strong>(var aMedium : TStgMedium; var aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DataObjectToDragData_URL-TStgMedium-ICefDragData-"></span><code>function <strong>DataObjectToDragData_URL</strong>(var aMedium : TStgMedium; var aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DataObjectToDragData_HTML-TStgMedium-ICefDragData-"></span><code>function <strong>DataObjectToDragData_HTML</strong>(var aMedium : TStgMedium; var aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DataObjectToDragData_FileDrop-TStgMedium-ICefDragData-"></span><code>function <strong>DataObjectToDragData_FileDrop</strong>(var aMedium : TStgMedium; var aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HtmlToCFHtml-ustring-ustring-"></span><code>function <strong>HtmlToCFHtml</strong>(var aHTML, aBaseURL : <a href="uCEFTypes.html#ustring">ustring</a>) : AnsiString;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CFHtmlToHtml-AnsiString-string-string-"></span><code>procedure <strong>CFHtmlToHtml</strong>(const cf_html : AnsiString; var html, base_url : string);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ZeroFiller-integer-integer-"></span><code>function <strong>ZeroFiller</strong>(aNumber, aLength : integer) : AnsiString;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FindStringField-AnsiString-AnsiString-integer-"></span><code>function <strong>FindStringField</strong>(const aString, aFieldName : AnsiString; var aPos : integer) : string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="StartDragging"></span><code>function <strong>StartDragging</strong>: <a href="uCEFTypes.html#TCefDragOperation">TCefDragOperation</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CloneDragData-ICefDragData-TCefDragOperations-"></span><code>function <strong>CloneDragData</strong>(const aDragData : <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; aAllowedOps : <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DragEnter-IDataObject-Longint-TPoint-Longint-"></span><code>function <strong>DragEnter</strong>(const DataObj: IDataObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint): HRESULT; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DragOver-Longint-TPoint-Longint-"></span><code>function <strong>DragOver</strong>(grfKeyState: Longint; pt: TPoint; var dwEffect: Longint): HRESULT; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DragLeave"></span><code>function <strong>DragLeave</strong>: HRESULT; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Drop-IDataObject-Longint-TPoint-Longint-"></span><code>function <strong>Drop</strong>(const dataObj: IDataObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint): HRESULT; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnDragEnter"></span><code>property <strong>OnDragEnter</strong>        : TDragEnterEvent  read <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragEnter">FOnDragEnter</a>  write <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragEnter">FOnDragEnter</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnDragOver"></span><code>property <strong>OnDragOver</strong>         : TDragOverEvent   read <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragOver">FOnDragOver</a>   write <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragOver">FOnDragOver</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnDragLeave"></span><code>property <strong>OnDragLeave</strong>        : TNotifyEvent     read <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragLeave">FOnDragLeave</a>  write <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDragLeave">FOnDragLeave</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnDrop"></span><code>property <strong>OnDrop</strong>             : TDropEvent       read <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDrop">FOnDrop</a>       write <a href="uCEFDragAndDropMgr.TCEFDragAndDropMgr.html#FOnDrop">FOnDrop</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

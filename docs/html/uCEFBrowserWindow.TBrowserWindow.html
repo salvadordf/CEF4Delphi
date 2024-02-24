@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFBrowserWindow: Class TBrowserWindow</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TBrowserWindow"></span><h1 class="cio">Class TBrowserWindow</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFBrowserWindow.html">uCEFBrowserWindow</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TBrowserWindow = class(<a class="normal" href="uCEFLinkedWinControlBase.TCEFLinkedWinControlBase.html">TCEFLinkedWinControlBase</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+TBrowserWindow
+
+<p>A simple &quot;drop on the Form&quot; component for an full embedded browser.
+
+<p>The component handles most events required by CEF. The only additions needed to be made by the User in their code are:
+
+<p>* Implement TForm.OnCloseQuery CEF must be able to destroy the browser, before the main form is closed. (That is while the Form still has a Handle, and the event loop is still running) It is adviced to do the same for any other form (other than the main form).
+
+<p>TForm.OnCloseQuery should call (for each TBrowserWindow) TBrowserWindow.CloseBrowser(True); The Form can be allowed to close by setting (checking for all BrowserWindows) CanClose := BrowserWindow.IsClosed;
+
+<p>On Windows and Linux it is also possible to Destroy the TBrowserWindow. This will wait for the browser to close, and after that the form can be closed. - However, this must be done in OnCloseQuery (or before). - Once TForm.Destroy is called, it is to late. By that time the event loop no longer runs.
+
+<p>*** IMPORTANT: (MacOS) *** On MacOs CloseBrowser() must be called, and the *event* must be awaited. Neither destroying the component, nor waiting with App.ProcessMessages will work. On MacOS, CEF will not finish until the OnCloseQuery event returned to the main event loop. (Hence ProcessMessage does not work). The same is true for any action taken in OnClick or other event. CEF always waits for any event to return to the main event loop. See also the BrowserWindowEX example how that affect modal forms.
+
+<p>* Implement TBrowserWindow.OnBrowserClosed If TForm.OnCloseQuery called CloseBrowser, this callback can be used to call Form.Close again (the callback should check if the browser was closed by OnCloseQuery.
+
+<p>* On Windows: handle the WM_ENTERMENULOOP and WM_EXITMENULOOP, as shown in examples
+
+<p>* Optional prevent pop-up windows by implementing Chromium.BeforePopup Chromium.OpenUrlFromTab</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TWinControl</li>
+<li class="ancestor"><a class="normal" href="uCEFWinControl.TCEFWinControl.html">TCEFWinControl</a></li>
+<li class="ancestor"><a class="normal" href="uCEFLinkedWinControlBase.TCEFLinkedWinControlBase.html">TCEFLinkedWinControlBase</a></li>
+<li class="thisitem">TBrowserWindow</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#GetChromium">GetChromium</a></strong>: <a href="uCEFChromium.TChromium.html">TChromium</a>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#DestroyHandle">DestroyHandle</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#RealizeBounds">RealizeBounds</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#DoEnter">DoEnter</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#DoExit">DoExit</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#DoOnCreated">DoOnCreated</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#DoOnClosed-PtrInt-">DoOnClosed</a></strong>(Data: PtrInt);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#DoOnFocus-PtrInt-">DoOnFocus</a></strong>(Data: PtrInt);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#Create-TComponent-">Create</a></strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#CreateHandle">CreateHandle</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#CloseBrowser-boolean-">CloseBrowser</a></strong>(aForceClose: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#WaitForBrowserClosed">WaitForBrowserClosed</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#IsClosed">IsClosed</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#LoadURL-ustring-">LoadURL</a></strong>(aURL: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#Chromium">Chromium</a></strong>: <a href="uCEFBrowserWindow.TEmbeddedChromium.html">TEmbeddedChromium</a> read GetEmbeddedChromium;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#OnBrowserCreated">OnBrowserCreated</a></strong> : TNotifyEvent read FOnBrowserCreated write FOnBrowserCreated;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBrowserWindow.TBrowserWindow.html#OnBrowserClosed">OnBrowserClosed</a></strong>  : TNotifyEvent read FOnBrowserClosed write FOnBrowserClosed;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetChromium"></span><code>function <strong>GetChromium</strong>: <a href="uCEFChromium.TChromium.html">TChromium</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroyHandle"></span><code>procedure <strong>DestroyHandle</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RealizeBounds"></span><code>procedure <strong>RealizeBounds</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DoEnter"></span><code>procedure <strong>DoEnter</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DoExit"></span><code>procedure <strong>DoExit</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DoOnCreated"></span><code>procedure <strong>DoOnCreated</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DoOnClosed-PtrInt-"></span><code>procedure <strong>DoOnClosed</strong>(Data: PtrInt);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DoOnFocus-PtrInt-"></span><code>procedure <strong>DoOnFocus</strong>(Data: PtrInt);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-TComponent-"></span><code>constructor <strong>Create</strong>(AOwner: TComponent); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateHandle"></span><code>procedure <strong>CreateHandle</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFWinControl.TCEFWinControl.html#CreateHandle">TCEFWinControl.CreateHandle</a>.</p><p>
+ Exposes the CreateHandle procedure to create the Handle at any time. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CloseBrowser-boolean-"></span><code>procedure <strong>CloseBrowser</strong>(aForceClose: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="WaitForBrowserClosed"></span><code>procedure <strong>WaitForBrowserClosed</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsClosed"></span><code>function <strong>IsClosed</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="LoadURL-ustring-"></span><code>procedure <strong>LoadURL</strong>(aURL: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="Chromium"></span><code>property <strong>Chromium</strong>: <a href="uCEFBrowserWindow.TEmbeddedChromium.html">TEmbeddedChromium</a> read GetEmbeddedChromium;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnBrowserCreated"></span><code>property <strong>OnBrowserCreated</strong> : TNotifyEvent read FOnBrowserCreated write FOnBrowserCreated;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnBrowserClosed"></span><code>property <strong>OnBrowserClosed</strong>  : TNotifyEvent read FOnBrowserClosed write FOnBrowserClosed;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+OnBrowserClosed will not be called, if the TBrowserWindow is destroyed/destroying before the browser is closed.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

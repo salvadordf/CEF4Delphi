@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFBrowserViewDelegate: Class TCustomBrowserViewDelegate</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCustomBrowserViewDelegate"></span><h1 class="cio">Class TCustomBrowserViewDelegate</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFBrowserViewDelegate.html">uCEFBrowserViewDelegate</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCustomBrowserViewDelegate = class(<a class="normal" href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html">TCefBrowserViewDelegateOwn</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ This class handles all the ICefBrowserViewDelegate methods which call the ICefBrowserViewDelegateEvents methods. ICefBrowserViewDelegateEvents will be implemented by the control receiving the ICefBrowserViewDelegate events. </p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="ancestor"><a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html">TCefViewDelegateOwn</a></li>
+<li class="ancestor"><a class="normal" href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html">TCefBrowserViewDelegateOwn</a></li>
+<li class="thisitem">TCustomBrowserViewDelegate</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#FEvents">FEvents</a></strong>: Pointer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnGetPreferredSize-ICefView-TCefSize-">OnGetPreferredSize</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnGetMinimumSize-ICefView-TCefSize-">OnGetMinimumSize</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnGetMaximumSize-ICefView-TCefSize-">OnGetMaximumSize</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnGetHeightForWidth-ICefView-Integer-Integer-">OnGetHeightForWidth</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; width: Integer; var aResult: Integer); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnParentViewChanged-ICefView-boolean-ICefView-">OnParentViewChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const parent: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnChildViewChanged-ICefView-boolean-ICefView-">OnChildViewChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const child: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnWindowChanged-ICefView-boolean-">OnWindowChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnLayoutChanged-ICefView-TCefRect-">OnLayoutChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; new_bounds: <a href="uCEFTypes.TCefRect.html">TCefRect</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnFocus-ICefView-">OnFocus</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnBlur-ICefView-">OnBlur</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnBrowserCreated-ICefBrowserView-ICefBrowser-">OnBrowserCreated</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnBrowserDestroyed-ICefBrowserView-ICefBrowser-">OnBrowserDestroyed</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnGetDelegateForPopupBrowserView-ICefBrowserView-TCefBrowserSettings-ICefClient-boolean-ICefBrowserViewDelegate-">OnGetDelegateForPopupBrowserView</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; is_devtools: boolean; var aResult : <a href="uCEFInterfaces.ICefBrowserViewDelegate.html">ICefBrowserViewDelegate</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnPopupBrowserViewCreated-ICefBrowserView-ICefBrowserView-boolean-boolean-">OnPopupBrowserViewCreated</a></strong>(const browser_view, popup_browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; is_devtools: boolean; var aResult : boolean); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnGetChromeToolbarType-ICefBrowserView-TCefChromeToolbarType-">OnGetChromeToolbarType</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: <a href="uCEFTypes.html#TCefChromeToolbarType">TCefChromeToolbarType</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnUseFramelessWindowForPictureInPicture-ICefBrowserView-boolean-">OnUseFramelessWindowForPictureInPicture</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnGestureCommand-ICefBrowserView-TCefGestureCommand-boolean-">OnGestureCommand</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; gesture_command: <a href="uCEFTypes.html#TCefGestureCommand">TCefGestureCommand</a>; var aResult : boolean); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#Create-ICefBrowserViewDelegateEvents-">Create</a></strong>(const events: <a href="uCEFInterfaces.ICefBrowserViewDelegateEvents.html">ICefBrowserViewDelegateEvents</a>); reintroduce;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FEvents"></span><code><strong>FEvents</strong>: Pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnGetPreferredSize-ICefView-TCefSize-"></span><code>procedure <strong>OnGetPreferredSize</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefViewDelegate</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnGetMinimumSize-ICefView-TCefSize-"></span><code>procedure <strong>OnGetMinimumSize</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html#OnGetMinimumSize-ICefView-TCefSize-">TCefViewDelegateOwn.OnGetMinimumSize</a>.</p><p>
+ Return the minimum size for |view|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnGetMaximumSize-ICefView-TCefSize-"></span><code>procedure <strong>OnGetMaximumSize</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html#OnGetMaximumSize-ICefView-TCefSize-">TCefViewDelegateOwn.OnGetMaximumSize</a>.</p><p>
+ Return the maximum size for |view|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnGetHeightForWidth-ICefView-Integer-Integer-"></span><code>procedure <strong>OnGetHeightForWidth</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; width: Integer; var aResult: Integer); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html#OnGetHeightForWidth-ICefView-Integer-Integer-">TCefViewDelegateOwn.OnGetHeightForWidth</a>.</p><p>
+ Return the height necessary to display |view| with the provided |width|. If not specified the result of get_preferred_size().height will be used by default. Override if |view|'s preferred height depends upon the width (for example, with Labels). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnParentViewChanged-ICefView-boolean-ICefView-"></span><code>procedure <strong>OnParentViewChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const parent: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html#OnParentViewChanged-ICefView-boolean-ICefView-">TCefViewDelegateOwn.OnParentViewChanged</a>.</p><p>
+ Called when the parent of |view| has changed. If |view| is being added to |parent| then |added| will be true (1). If |view| is being removed from |parent| then |added| will be false (0). If |view| is being reparented the remove notification will be sent before the add notification. Do not modify the view hierarchy in this callback. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnChildViewChanged-ICefView-boolean-ICefView-"></span><code>procedure <strong>OnChildViewChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const child: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html#OnChildViewChanged-ICefView-boolean-ICefView-">TCefViewDelegateOwn.OnChildViewChanged</a>.</p><p>
+ Called when a child of |view| has changed. If |child| is being added to |view| then |added| will be true (1). If |child| is being removed from |view| then |added| will be false (0). If |child| is being reparented the remove notification will be sent to the old parent before the add notification is sent to the new parent. Do not modify the view hierarchy in this callback. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnWindowChanged-ICefView-boolean-"></span><code>procedure <strong>OnWindowChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html#OnWindowChanged-ICefView-boolean-">TCefViewDelegateOwn.OnWindowChanged</a>.</p><p>
+ Called when |view| is added or removed from the ICefWindow. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnLayoutChanged-ICefView-TCefRect-"></span><code>procedure <strong>OnLayoutChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; new_bounds: <a href="uCEFTypes.TCefRect.html">TCefRect</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html#OnLayoutChanged-ICefView-TCefRect-">TCefViewDelegateOwn.OnLayoutChanged</a>.</p><p>
+ Called when the layout of |view| has changed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnFocus-ICefView-"></span><code>procedure <strong>OnFocus</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html#OnFocus-ICefView-">TCefViewDelegateOwn.OnFocus</a>.</p><p>
+ Called when |view| gains focus. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnBlur-ICefView-"></span><code>procedure <strong>OnBlur</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html#OnBlur-ICefView-">TCefViewDelegateOwn.OnBlur</a>.</p><p>
+ Called when |view| loses focus. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnBrowserCreated-ICefBrowserView-ICefBrowser-"></span><code>procedure <strong>OnBrowserCreated</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefBrowserViewDelegate</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnBrowserDestroyed-ICefBrowserView-ICefBrowser-"></span><code>procedure <strong>OnBrowserDestroyed</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#OnBrowserDestroyed-ICefBrowserView-ICefBrowser-">TCefBrowserViewDelegateOwn.OnBrowserDestroyed</a>.</p><p>
+ Called when |browser| associated with |browser_view| is destroyed. Release all references to |browser| and do not attempt to execute any functions on |browser| after this callback returns. This function will be called before ICefLifeSpanHandler.OnBeforeClose() is called for |browser|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnGetDelegateForPopupBrowserView-ICefBrowserView-TCefBrowserSettings-ICefClient-boolean-ICefBrowserViewDelegate-"></span><code>procedure <strong>OnGetDelegateForPopupBrowserView</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; is_devtools: boolean; var aResult : <a href="uCEFInterfaces.ICefBrowserViewDelegate.html">ICefBrowserViewDelegate</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#OnGetDelegateForPopupBrowserView-ICefBrowserView-TCefBrowserSettings-ICefClient-boolean-ICefBrowserViewDelegate-">TCefBrowserViewDelegateOwn.OnGetDelegateForPopupBrowserView</a>.</p><p>
+ Called before a new popup BrowserView is created. The popup originated from |browser_view|. |settings| and |client| are the values returned from ICefLifeSpanHandler.OnBeforePopup(). |is_devtools| will be true (1) if the popup will be a DevTools browser. Return the delegate that will be used for the new popup BrowserView. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnPopupBrowserViewCreated-ICefBrowserView-ICefBrowserView-boolean-boolean-"></span><code>procedure <strong>OnPopupBrowserViewCreated</strong>(const browser_view, popup_browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; is_devtools: boolean; var aResult : boolean); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#OnPopupBrowserViewCreated-ICefBrowserView-ICefBrowserView-boolean-boolean-">TCefBrowserViewDelegateOwn.OnPopupBrowserViewCreated</a>.</p><p>
+ Called after |popup_browser_view| is created. This function will be called after ICefLifeSpanHandler.OnAfterCreated() and OnBrowserCreated() are called for the new popup browser. The popup originated from |browser_view|. |is_devtools| will be true (1) if the popup is a DevTools browser. Optionally add |popup_browser_view| to the views hierarchy yourself and return true (1). Otherwise return false (0) and a default ICefWindow will be created for the popup. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnGetChromeToolbarType-ICefBrowserView-TCefChromeToolbarType-"></span><code>procedure <strong>OnGetChromeToolbarType</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: <a href="uCEFTypes.html#TCefChromeToolbarType">TCefChromeToolbarType</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#OnGetChromeToolbarType-ICefBrowserView-TCefChromeToolbarType-">TCefBrowserViewDelegateOwn.OnGetChromeToolbarType</a>.</p><p>
+ Returns the Chrome toolbar type that will be available via ICefBrowserView.GetChromeToolbar(). See that function for related documentation. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnUseFramelessWindowForPictureInPicture-ICefBrowserView-boolean-"></span><code>procedure <strong>OnUseFramelessWindowForPictureInPicture</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#OnUseFramelessWindowForPictureInPicture-ICefBrowserView-boolean-">TCefBrowserViewDelegateOwn.OnUseFramelessWindowForPictureInPicture</a>.</p><p>
+ Return true (1) to create frameless windows for Document picture-in- picture popups. Content in frameless windows should specify draggable regions using &quot;-webkit-app-region: drag&quot; CSS. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnGestureCommand-ICefBrowserView-TCefGestureCommand-boolean-"></span><code>procedure <strong>OnGestureCommand</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; gesture_command: <a href="uCEFTypes.html#TCefGestureCommand">TCefGestureCommand</a>; var aResult : boolean); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#OnGestureCommand-ICefBrowserView-TCefGestureCommand-boolean-">TCefBrowserViewDelegateOwn.OnGestureCommand</a>.</p><p>
+ Called when |browser_view| receives a gesture command. Return true (1) to handle (or disable) a |gesture_command| or false (0) to propagate the gesture to the browser for default handling. With the Chrome runtime these commands can also be handled via cef_command_handler_t::OnChromeCommand. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-ICefBrowserViewDelegateEvents-"></span><code>constructor <strong>Create</strong>(const events: <a href="uCEFInterfaces.ICefBrowserViewDelegateEvents.html">ICefBrowserViewDelegateEvents</a>); reintroduce;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

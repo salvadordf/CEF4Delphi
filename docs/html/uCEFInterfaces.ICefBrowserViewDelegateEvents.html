@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefBrowserViewDelegateEvents</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefBrowserViewDelegateEvents"></span><h1 class="cio">Interface ICefBrowserViewDelegateEvents</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefBrowserViewDelegateEvents = interface(<a class="normal" href="uCEFInterfaces.ICefViewDelegateEvents.html">ICefViewDelegateEvents</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Custom interface used to handle all the ICefBrowserViewDelegate events. </p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefViewDelegateEvents.html">ICefViewDelegateEvents</a></li>
+<li class="thisitem">ICefBrowserViewDelegateEvents</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegateEvents.html#doOnBrowserCreated-ICefBrowserView-ICefBrowser-">doOnBrowserCreated</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegateEvents.html#doOnBrowserDestroyed-ICefBrowserView-ICefBrowser-">doOnBrowserDestroyed</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegateEvents.html#doOnGetDelegateForPopupBrowserView-ICefBrowserView-TCefBrowserSettings-ICefClient-boolean-ICefBrowserViewDelegate-">doOnGetDelegateForPopupBrowserView</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; is_devtools: boolean; var aResult : <a href="uCEFInterfaces.ICefBrowserViewDelegate.html">ICefBrowserViewDelegate</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegateEvents.html#doOnPopupBrowserViewCreated-ICefBrowserView-ICefBrowserView-boolean-boolean-">doOnPopupBrowserViewCreated</a></strong>(const browser_view, popup_browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; is_devtools: boolean; var aResult : boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegateEvents.html#doOnGetChromeToolbarType-ICefBrowserView-TCefChromeToolbarType-">doOnGetChromeToolbarType</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aChromeToolbarType: <a href="uCEFTypes.html#TCefChromeToolbarType">TCefChromeToolbarType</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegateEvents.html#doOnUseFramelessWindowForPictureInPicture-ICefBrowserView-boolean-">doOnUseFramelessWindowForPictureInPicture</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegateEvents.html#doOnGestureCommand-ICefBrowserView-TCefGestureCommand-boolean-">doOnGestureCommand</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; gesture_command: <a href="uCEFTypes.html#TCefGestureCommand">TCefGestureCommand</a>; var aResult : boolean);</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnBrowserCreated-ICefBrowserView-ICefBrowser-"></span><code>procedure <strong>doOnBrowserCreated</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p><h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{AB94B875-63C6-4FEF-BB30-0816402ABA1C}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnBrowserDestroyed-ICefBrowserView-ICefBrowser-"></span><code>procedure <strong>doOnBrowserDestroyed</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnGetDelegateForPopupBrowserView-ICefBrowserView-TCefBrowserSettings-ICefClient-boolean-ICefBrowserViewDelegate-"></span><code>procedure <strong>doOnGetDelegateForPopupBrowserView</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; is_devtools: boolean; var aResult : <a href="uCEFInterfaces.ICefBrowserViewDelegate.html">ICefBrowserViewDelegate</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnPopupBrowserViewCreated-ICefBrowserView-ICefBrowserView-boolean-boolean-"></span><code>procedure <strong>doOnPopupBrowserViewCreated</strong>(const browser_view, popup_browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; is_devtools: boolean; var aResult : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnGetChromeToolbarType-ICefBrowserView-TCefChromeToolbarType-"></span><code>procedure <strong>doOnGetChromeToolbarType</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aChromeToolbarType: <a href="uCEFTypes.html#TCefChromeToolbarType">TCefChromeToolbarType</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnUseFramelessWindowForPictureInPicture-ICefBrowserView-boolean-"></span><code>procedure <strong>doOnUseFramelessWindowForPictureInPicture</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnGestureCommand-ICefBrowserView-TCefGestureCommand-boolean-"></span><code>procedure <strong>doOnGestureCommand</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; gesture_command: <a href="uCEFTypes.html#TCefGestureCommand">TCefGestureCommand</a>; var aResult : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

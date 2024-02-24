@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefButton</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefButton"></span><h1 class="cio">Record TCefButton</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefButton = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ A View representing a button. Depending on the specific type, the button could be implemented by a native control or custom rendered. Methods must be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>Implemented by ICefButton.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_button_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_button_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_button_capi.h (cef_button_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefButton.html#base">base</a></strong>: <a href="uCEFTypes.TCefView.html">TCefView</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefButton.html#as_label_button">as_label_button</a></strong>: function(self: <a href="uCEFTypes.html#PCefButton">PCefButton</a>): <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefButton.html#set_state">set_state</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefButton">PCefButton</a>; state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefButton.html#get_state">get_state</a></strong>: function(self: <a href="uCEFTypes.html#PCefButton">PCefButton</a>): <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefButton.html#set_ink_drop_enabled">set_ink_drop_enabled</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefButton">PCefButton</a>; enabled: Integer); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefButton.html#set_tooltip_text">set_tooltip_text</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefButton">PCefButton</a>; const tooltip_text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefButton.html#set_accessible_name">set_accessible_name</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefButton">PCefButton</a>; const name: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefView.html">TCefView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="as_label_button"></span><code><strong>as_label_button</strong>: function(self: <a href="uCEFTypes.html#PCefButton">PCefButton</a>): <a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_state"></span><code><strong>set_state</strong>: procedure(self: <a href="uCEFTypes.html#PCefButton">PCefButton</a>; state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_state"></span><code><strong>get_state</strong>: function(self: <a href="uCEFTypes.html#PCefButton">PCefButton</a>): <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_ink_drop_enabled"></span><code><strong>set_ink_drop_enabled</strong>: procedure(self: <a href="uCEFTypes.html#PCefButton">PCefButton</a>; enabled: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_tooltip_text"></span><code><strong>set_tooltip_text</strong>: procedure(self: <a href="uCEFTypes.html#PCefButton">PCefButton</a>; const tooltip_text: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_accessible_name"></span><code><strong>set_accessible_name</strong>: procedure(self: <a href="uCEFTypes.html#PCefButton">PCefButton</a>; const name: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

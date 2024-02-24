@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFMenuButtonComponent: Class TCEFMenuButtonComponent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFMenuButtonComponent"></span><h1 class="cio">Class TCEFMenuButtonComponent</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFMenuButtonComponent.html">uCEFMenuButtonComponent</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFMenuButtonComponent = class(<a class="normal" href="uCEFLabelButtonComponent.TCEFLabelButtonComponent.html">TCEFLabelButtonComponent</a>, <a class="normal" href="uCEFInterfaces.ICefMenuButtonDelegateEvents.html">ICefMenuButtonDelegateEvents</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor">TPersistent</li>
+<li class="ancestor">TComponent</li>
+<li class="ancestor"><a class="normal" href="uCEFViewComponent.TCEFViewComponent.html">TCEFViewComponent</a></li>
+<li class="ancestor"><a class="normal" href="uCEFButtonComponent.TCEFButtonComponent.html">TCEFButtonComponent</a></li>
+<li class="ancestor"><a class="normal" href="uCEFLabelButtonComponent.TCEFLabelButtonComponent.html">TCEFLabelButtonComponent</a></li>
+<li class="thisitem">TCEFMenuButtonComponent</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#FMenuButton">FMenuButton</a></strong>: <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#FOnMenuButtonPressed">FOnMenuButtonPressed</a></strong>: TOnMenuButtonPressedEvent;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#DestroyView">DestroyView</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#Initialize">Initialize</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#GetInitialized">GetInitialized</a></strong>: boolean; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#GetAsView">GetAsView</a></strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#GetAsButton">GetAsButton</a></strong>: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#GetAsLabelButton">GetAsLabelButton</a></strong>: <a href="uCEFInterfaces.ICefLabelButton.html">ICefLabelButton</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#GetAsMenuButton">GetAsMenuButton</a></strong>: <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#doOnMenuButtonPressed-ICefMenuButton-TCefPoint-ICefMenuButtonPressedLock-">doOnMenuButtonPressed</a></strong>(const menu_button: <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>; const screen_point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; const button_pressed_lock: <a href="uCEFInterfaces.ICefMenuButtonPressedLock.html">ICefMenuButtonPressedLock</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#doCreateCustomView">doCreateCustomView</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#CreateMenuButton-ustring-">CreateMenuButton</a></strong>(const aText : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#ShowMenu-ICefMenuModel-TCefPoint-TCefMenuAnchorPosition-">ShowMenu</a></strong>(const menu_model: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; const screen_point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; anchor_position: <a href="uCEFTypes.html#TCefMenuAnchorPosition">TCefMenuAnchorPosition</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#TriggerMenu">TriggerMenu</a></strong>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#OnMenuButtonPressed">OnMenuButtonPressed</a></strong>   : TOnMenuButtonPressedEvent     read <a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#FOnMenuButtonPressed">FOnMenuButtonPressed</a>     write <a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#FOnMenuButtonPressed">FOnMenuButtonPressed</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMenuButton"></span><code><strong>FMenuButton</strong>: <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnMenuButtonPressed"></span><code><strong>FOnMenuButtonPressed</strong>: TOnMenuButtonPressedEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefMenuButtonDelegateEvents</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroyView"></span><code>procedure <strong>DestroyView</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Initialize"></span><code>procedure <strong>Initialize</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetInitialized"></span><code>function <strong>GetInitialized</strong>: boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsView"></span><code>function <strong>GetAsView</strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsButton"></span><code>function <strong>GetAsButton</strong>: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsLabelButton"></span><code>function <strong>GetAsLabelButton</strong>: <a href="uCEFInterfaces.ICefLabelButton.html">ICefLabelButton</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAsMenuButton"></span><code>function <strong>GetAsMenuButton</strong>: <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnMenuButtonPressed-ICefMenuButton-TCefPoint-ICefMenuButtonPressedLock-"></span><code>procedure <strong>doOnMenuButtonPressed</strong>(const menu_button: <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>; const screen_point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; const button_pressed_lock: <a href="uCEFInterfaces.ICefMenuButtonPressedLock.html">ICefMenuButtonPressedLock</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefMenuButtonDelegateEvents</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doCreateCustomView"></span><code>procedure <strong>doCreateCustomView</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefViewDelegateEvents</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateMenuButton-ustring-"></span><code>procedure <strong>CreateMenuButton</strong>(const aText : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new MenuButton. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ShowMenu-ICefMenuModel-TCefPoint-TCefMenuAnchorPosition-"></span><code>procedure <strong>ShowMenu</strong>(const menu_model: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; const screen_point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; anchor_position: <a href="uCEFTypes.html#TCefMenuAnchorPosition">TCefMenuAnchorPosition</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Show a menu with contents |menu_model|. |screen_point| specifies the menu position in screen coordinates. |anchor_position| specifies how the menu will be anchored relative to |screen_point|. This function should be called from ICefMenuButtonDelegate.OnMenuButtonPressed(). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TriggerMenu"></span><code>procedure <strong>TriggerMenu</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Show the menu for this button. Results in a call to ICefMenuButtonDelegate.OnMenuButtonPressed(). </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnMenuButtonPressed"></span><code>property <strong>OnMenuButtonPressed</strong>   : TOnMenuButtonPressedEvent     read <a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#FOnMenuButtonPressed">FOnMenuButtonPressed</a>     write <a href="uCEFMenuButtonComponent.TCEFMenuButtonComponent.html#FOnMenuButtonPressed">FOnMenuButtonPressed</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when |button| is pressed. Call ICefMenuButton.ShowMenu() to show a popup menu at |screen_point|. When showing a custom popup such as a window keep a reference to |button_pressed_lock| until the popup is hidden to maintain the pressed button state. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

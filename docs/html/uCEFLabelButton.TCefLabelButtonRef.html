@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFLabelButton: Class TCefLabelButtonRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefLabelButtonRef"></span><h1 class="cio">Class TCefLabelButtonRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFLabelButton.html">uCEFLabelButton</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefLabelButtonRef = class(<a class="normal" href="uCEFButton.TCefButtonRef.html">TCefButtonRef</a>, <a class="normal" href="uCEFInterfaces.ICefLabelButton.html">ICefLabelButton</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ LabelButton is a button with optional text and/or icon. Methods must be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_label_button_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_label_button_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_label_button_capi.h (cef_label_button_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="ancestor"><a class="normal" href="uCEFView.TCefViewRef.html">TCefViewRef</a></li>
+<li class="ancestor"><a class="normal" href="uCEFButton.TCefButtonRef.html">TCefButtonRef</a></li>
+<li class="thisitem">TCefLabelButtonRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFLabelButton.TCefLabelButtonRef.html#AsMenuButton">AsMenuButton</a></strong>: <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFLabelButton.TCefLabelButtonRef.html#SetText-ustring-">SetText</a></strong>(const text_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFLabelButton.TCefLabelButtonRef.html#GetText">GetText</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFLabelButton.TCefLabelButtonRef.html#SetImage-TCefButtonState-ICefImage-">SetImage</a></strong>(button_state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>; const image: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFLabelButton.TCefLabelButtonRef.html#GetImage-TCefButtonState-">GetImage</a></strong>(button_state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>): <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFLabelButton.TCefLabelButtonRef.html#SetTextColor-TCefButtonState-TCefColor-">SetTextColor</a></strong>(for_state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFLabelButton.TCefLabelButtonRef.html#SetEnabledTextColors-TCefColor-">SetEnabledTextColors</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFLabelButton.TCefLabelButtonRef.html#SetFontList-ustring-">SetFontList</a></strong>(const font_list: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFLabelButton.TCefLabelButtonRef.html#SetHorizontalAlignment-TCefHorizontalAlignment-">SetHorizontalAlignment</a></strong>(alignment: <a href="uCEFTypes.html#TCefHorizontalAlignment">TCefHorizontalAlignment</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFLabelButton.TCefLabelButtonRef.html#SetMinimumSize-TCefSize-">SetMinimumSize</a></strong>(const size_: <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFLabelButton.TCefLabelButtonRef.html#SetMaximumSize-TCefSize-">SetMaximumSize</a></strong>(const size_: <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFLabelButton.TCefLabelButtonRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefLabelButton.html">ICefLabelButton</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFLabelButton.TCefLabelButtonRef.html#CreateLabelButton-ICefButtonDelegate-ustring-">CreateLabelButton</a></strong>(const delegate: <a href="uCEFInterfaces.ICefButtonDelegate.html">ICefButtonDelegate</a>; const text: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefLabelButton.html">ICefLabelButton</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="AsMenuButton"></span><code>function <strong>AsMenuButton</strong>: <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns this LabelButton as a MenuButton or NULL if this is not a MenuButton. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetText-ustring-"></span><code>procedure <strong>SetText</strong>(const text_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the text shown on the LabelButton. By default |text| will also be used as the accessible name. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetText"></span><code>function <strong>GetText</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the text shown on the LabelButton. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetImage-TCefButtonState-ICefImage-"></span><code>procedure <strong>SetImage</strong>(button_state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>; const image: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the image shown for |button_state|. When this Button is drawn if no image exists for the current state then the image for CEF_BUTTON_STATE_NORMAL, if any, will be shown. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetImage-TCefButtonState-"></span><code>function <strong>GetImage</strong>(button_state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>): <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the image shown for |button_state|. If no image exists for that state then the image for CEF_BUTTON_STATE_NORMAL will be returned. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetTextColor-TCefButtonState-TCefColor-"></span><code>procedure <strong>SetTextColor</strong>(for_state: <a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a>; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the text color shown for the specified button |for_state| to |color|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetEnabledTextColors-TCefColor-"></span><code>procedure <strong>SetEnabledTextColors</strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the text colors shown for the non-disabled states to |color|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetFontList-ustring-"></span><code>procedure <strong>SetFontList</strong>(const font_list: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the font list. The format is &quot;&lt;FONT_FAMILY_LIST&gt;,[STYLES] &lt;SIZE&gt;&quot;, where: - FONT_FAMILY_LIST is a comma-separated list of font family names, - STYLES is an optional space-separated list of style names (case-sensitive &quot;Bold&quot; and &quot;Italic&quot; are supported), and - SIZE is an integer font size in pixels with the suffix &quot;px&quot;.
+
+<p>Here are examples of valid font description strings: - &quot;Arial, Helvetica, Bold Italic 14px&quot; - &quot;Arial, 14px&quot; </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetHorizontalAlignment-TCefHorizontalAlignment-"></span><code>procedure <strong>SetHorizontalAlignment</strong>(alignment: <a href="uCEFTypes.html#TCefHorizontalAlignment">TCefHorizontalAlignment</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the horizontal alignment; reversed in RTL. Default is CEF_HORIZONTAL_ALIGNMENT_CENTER. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetMinimumSize-TCefSize-"></span><code>procedure <strong>SetMinimumSize</strong>(const size_: <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Reset the minimum size of this LabelButton to |size|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetMaximumSize-TCefSize-"></span><code>procedure <strong>SetMaximumSize</strong>(const size_: <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Reset the maximum size of this LabelButton to |size|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefLabelButton.html">ICefLabelButton</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a ICefLabelButton instance using a PCefLabelButton data pointer. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CreateLabelButton-ICefButtonDelegate-ustring-"></span><code>class function <strong>CreateLabelButton</strong>(const delegate: <a href="uCEFInterfaces.ICefButtonDelegate.html">ICefButtonDelegate</a>; const text: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefLabelButton.html">ICefLabelButton</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new LabelButton. A |delegate| must be provided to handle the button click. |text| will be shown on the LabelButton and used as the default accessible name. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

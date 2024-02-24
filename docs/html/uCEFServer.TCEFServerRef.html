@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFServer: Class TCEFServerRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFServerRef"></span><h1 class="cio">Class TCEFServerRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFServer.html">uCEFServer</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFServerRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefServer.html">ICefServer</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="thisitem">TCEFServerRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFServer.TCEFServerRef.html#GetTaskRunner">GetTaskRunner</a></strong>: <a href="uCEFInterfaces.ICefTaskRunner.html">ICefTaskRunner</a>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServer.TCEFServerRef.html#Shutdown">Shutdown</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFServer.TCEFServerRef.html#IsRunning">IsRunning</a></strong>: boolean; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFServer.TCEFServerRef.html#GetAddress">GetAddress</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFServer.TCEFServerRef.html#HasConnection">HasConnection</a></strong>: boolean; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFServer.TCEFServerRef.html#IsValidConnection-Integer-">IsValidConnection</a></strong>(connection_id: Integer) : boolean; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServer.TCEFServerRef.html#SendHttp200response-Integer-ustring-Pointer-NativeUInt-">SendHttp200response</a></strong>(connection_id: Integer; const content_type: <a href="uCEFTypes.html#ustring">ustring</a>; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServer.TCEFServerRef.html#SendHttp404response-Integer-">SendHttp404response</a></strong>(connection_id: Integer); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServer.TCEFServerRef.html#SendHttp500response-Integer-ustring-">SendHttp500response</a></strong>(connection_id: Integer; const error_message: <a href="uCEFTypes.html#ustring">ustring</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServer.TCEFServerRef.html#SendHttpResponse-Integer-Integer-ustring-int64-ICefStringMultimap-">SendHttpResponse</a></strong>(connection_id, response_code: Integer; const content_type: <a href="uCEFTypes.html#ustring">ustring</a>; content_length: int64; const extra_headers: <a href="uCEFInterfaces.ICefStringMultimap.html">ICefStringMultimap</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServer.TCEFServerRef.html#SendRawData-Integer-Pointer-NativeUInt-">SendRawData</a></strong>(connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServer.TCEFServerRef.html#CloseConnection-Integer-">CloseConnection</a></strong>(connection_id: Integer); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFServer.TCEFServerRef.html#SendWebSocketMessage-Integer-Pointer-NativeUInt-">SendWebSocketMessage</a></strong>(connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFServer.TCEFServerRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetTaskRunner"></span><code>function <strong>GetTaskRunner</strong>: <a href="uCEFInterfaces.ICefTaskRunner.html">ICefTaskRunner</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServer.html#GetTaskRunner">ICefServer.GetTaskRunner</a>.</p><p>
+ Returns the task runner for the dedicated server thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Shutdown"></span><code>procedure <strong>Shutdown</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServer.html#Shutdown">ICefServer.Shutdown</a>.</p><p>
+ Stop the server and shut down the dedicated server thread. See ICefServerHandler.OnServerCreated documentation for a description of server lifespan. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsRunning"></span><code>function <strong>IsRunning</strong>: boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServer.html#IsRunning">ICefServer.IsRunning</a>.</p><p>
+ Returns true (1) if the server is currently running and accepting incoming connections. See ICefServerHandler.OnServerCreated documentation for a description of server lifespan. This function must be called on the dedicated server thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAddress"></span><code>function <strong>GetAddress</strong>: <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServer.html#GetAddress">ICefServer.GetAddress</a>.</p><p>
+ Returns the server address including the port number. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HasConnection"></span><code>function <strong>HasConnection</strong>: boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServer.html#HasConnection">ICefServer.HasConnection</a>.</p><p>
+ Returns true (1) if the server currently has a connection. This function must be called on the dedicated server thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsValidConnection-Integer-"></span><code>function <strong>IsValidConnection</strong>(connection_id: Integer) : boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServer.html#IsValidConnection-Integer-">ICefServer.IsValidConnection</a>.</p><p>
+ Returns true (1) if |connection_id| represents a valid connection. This function must be called on the dedicated server thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SendHttp200response-Integer-ustring-Pointer-NativeUInt-"></span><code>procedure <strong>SendHttp200response</strong>(connection_id: Integer; const content_type: <a href="uCEFTypes.html#ustring">ustring</a>; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServer.html#SendHttp200response-Integer-ustring-Pointer-NativeUInt-">ICefServer.SendHttp200response</a>.</p><p>
+ Send an HTTP 200 &quot;OK&quot; response to the connection identified by |connection_id|. |content_type| is the response content type (e.g. &quot;text/html&quot;), |data| is the response content, and |data_size| is the size of |data| in bytes. The contents of |data| will be copied. The connection will be closed automatically after the response is sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SendHttp404response-Integer-"></span><code>procedure <strong>SendHttp404response</strong>(connection_id: Integer); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServer.html#SendHttp404response-Integer-">ICefServer.SendHttp404response</a>.</p><p>
+ Send an HTTP 404 &quot;Not Found&quot; response to the connection identified by |connection_id|. The connection will be closed automatically after the response is sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SendHttp500response-Integer-ustring-"></span><code>procedure <strong>SendHttp500response</strong>(connection_id: Integer; const error_message: <a href="uCEFTypes.html#ustring">ustring</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServer.html#SendHttp500response-Integer-ustring-">ICefServer.SendHttp500response</a>.</p><p>
+ Send an HTTP 500 &quot;Internal Server Error&quot; response to the connection identified by |connection_id|. |error_message| is the associated error message. The connection will be closed automatically after the response is sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SendHttpResponse-Integer-Integer-ustring-int64-ICefStringMultimap-"></span><code>procedure <strong>SendHttpResponse</strong>(connection_id, response_code: Integer; const content_type: <a href="uCEFTypes.html#ustring">ustring</a>; content_length: int64; const extra_headers: <a href="uCEFInterfaces.ICefStringMultimap.html">ICefStringMultimap</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServer.html#SendHttpResponse-Integer-Integer-ustring-int64-ICefStringMultimap-">ICefServer.SendHttpResponse</a>.</p><p>
+ Send a custom HTTP response to the connection identified by |connection_id|. |response_code| is the HTTP response code sent in the status line (e.g. 200), |content_type| is the response content type sent as the &quot;Content-Type&quot; header (e.g. &quot;text/html&quot;), |content_length| is the expected content length, and |extra_headers| is the map of extra response headers. If |content_length| is &gt;= 0 then the &quot;Content-Length&quot; header will be sent. If |content_length| is 0 then no content is expected and the connection will be closed automatically after the response is sent. If |content_length| is &lt; 0 then no &quot;Content-Length&quot; header will be sent and the client will continue reading until the connection is closed. Use the SendRawData function to send the content, if applicable, and call CloseConnection after all content has been sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SendRawData-Integer-Pointer-NativeUInt-"></span><code>procedure <strong>SendRawData</strong>(connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServer.html#SendRawData-Integer-Pointer-NativeUInt-">ICefServer.SendRawData</a>.</p><p>
+ Send raw data directly to the connection identified by |connection_id|. |data| is the raw data and |data_size| is the size of |data| in bytes. The contents of |data| will be copied. No validation of |data| is performed internally so the client should be careful to send the amount indicated by the &quot;Content-Length&quot; header, if specified. See SendHttpResponse documentation for intended usage. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CloseConnection-Integer-"></span><code>procedure <strong>CloseConnection</strong>(connection_id: Integer); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServer.html#CloseConnection-Integer-">ICefServer.CloseConnection</a>.</p><p>
+ Close the connection identified by |connection_id|. See SendHttpResponse documentation for intended usage. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SendWebSocketMessage-Integer-Pointer-NativeUInt-"></span><code>procedure <strong>SendWebSocketMessage</strong>(connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefServer.html#SendWebSocketMessage-Integer-Pointer-NativeUInt-">ICefServer.SendWebSocketMessage</a>.</p><p>
+ Send a WebSocket message to the connection identified by |connection_id|. |data| is the response content and |data_size| is the size of |data| in bytes. The contents of |data| will be copied. See ICefServerHandler.OnWebSocketRequest documentation for intended usage. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

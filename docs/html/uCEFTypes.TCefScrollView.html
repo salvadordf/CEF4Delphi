@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefScrollView</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefScrollView"></span><h1 class="cio">Record TCefScrollView</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefScrollView = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ A ScrollView will show horizontal and/or vertical scrollbars when necessary based on the size of the attached content view. Methods must be called on the browser process UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>Implemented by ICefScrollView.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_scroll_view_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_scroll_view_capi.h</a>&quot;&gt;CEF source file: /include/capi/views/cef_scroll_view_capi.h (cef_scroll_view_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefScrollView.html#base">base</a></strong>: <a href="uCEFTypes.TCefView.html">TCefView</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefScrollView.html#set_content_view">set_content_view</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>; view: <a href="uCEFTypes.html#PCefView">PCefView</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefScrollView.html#get_content_view">get_content_view</a></strong>: function(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>): <a href="uCEFTypes.html#PCefView">PCefView</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefScrollView.html#get_visible_content_rect">get_visible_content_rect</a></strong>: function(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>): <a href="uCEFTypes.TCefRect.html">TCefRect</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefScrollView.html#has_horizontal_scrollbar">has_horizontal_scrollbar</a></strong>: function(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefScrollView.html#get_horizontal_scrollbar_height">get_horizontal_scrollbar_height</a></strong>: function(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefScrollView.html#has_vertical_scrollbar">has_vertical_scrollbar</a></strong>: function(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefScrollView.html#get_vertical_scrollbar_width">get_vertical_scrollbar_width</a></strong>: function(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>): Integer; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefView.html">TCefView</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="set_content_view"></span><code><strong>set_content_view</strong>: procedure(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>; view: <a href="uCEFTypes.html#PCefView">PCefView</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_content_view"></span><code><strong>get_content_view</strong>: function(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>): <a href="uCEFTypes.html#PCefView">PCefView</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_visible_content_rect"></span><code><strong>get_visible_content_rect</strong>: function(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>): <a href="uCEFTypes.TCefRect.html">TCefRect</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_horizontal_scrollbar"></span><code><strong>has_horizontal_scrollbar</strong>: function(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_horizontal_scrollbar_height"></span><code><strong>get_horizontal_scrollbar_height</strong>: function(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="has_vertical_scrollbar"></span><code><strong>has_vertical_scrollbar</strong>: function(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_vertical_scrollbar_width"></span><code><strong>get_vertical_scrollbar_width</strong>: function(self: <a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

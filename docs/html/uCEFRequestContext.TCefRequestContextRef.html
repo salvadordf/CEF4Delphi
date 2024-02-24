@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFRequestContext: Class TCefRequestContextRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefRequestContextRef"></span><h1 class="cio">Class TCefRequestContextRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFRequestContext.html">uCEFRequestContext</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefRequestContextRef = class(<a class="normal" href="uCEFPreferenceManager.TCefPreferenceManagerRef.html">TCefPreferenceManagerRef</a>, <a class="normal" href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ A request context provides request handling for a set of related browser or URL request objects. A request context can be specified when creating a new browser via the cef_browser_host_t static factory functions or when creating a new URL request via the cef_urlrequest_t static factory functions. Browser objects with different request contexts will never be hosted in the same render process. Browser objects with the same request context may or may not be hosted in the same render process depending on the process model. Browser objects created indirectly via the JavaScript window.open function or targeted links will share the same render process and the same request context as the source browser. When running in single-process mode there is only a single render process (the main process) and so all browsers created in single-process mode will share the same request context. This will be the first request context passed into a cef_browser_host_t static factory function and all other request context objects will be ignored. </p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="ancestor"><a class="normal" href="uCEFPreferenceManager.TCefPreferenceManagerRef.html">TCefPreferenceManagerRef</a></li>
+<li class="thisitem">TCefRequestContextRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#IsSame-ICefRequestContext-">IsSame</a></strong>(const other: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#IsSharingWith-ICefRequestContext-">IsSharingWith</a></strong>(const other: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#IsGlobal">IsGlobal</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#GetHandler">GetHandler</a></strong>: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#GetCachePath">GetCachePath</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#GetCookieManager-ICefCompletionCallback-">GetCookieManager</a></strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>): <a href="uCEFInterfaces.ICefCookieManager.html">ICefCookieManager</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#GetCookieManagerProc-TCefCompletionCallbackProc-">GetCookieManagerProc</a></strong>(const callback: <a href="uCEFInterfaces.html#TCefCompletionCallbackProc">TCefCompletionCallbackProc</a>): <a href="uCEFInterfaces.ICefCookieManager.html">ICefCookieManager</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#RegisterSchemeHandlerFactory-ustring-ustring-ICefSchemeHandlerFactory-">RegisterSchemeHandlerFactory</a></strong>(const schemeName, domainName: <a href="uCEFTypes.html#ustring">ustring</a>; const factory: <a href="uCEFInterfaces.ICefSchemeHandlerFactory.html">ICefSchemeHandlerFactory</a>): Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#ClearSchemeHandlerFactories">ClearSchemeHandlerFactories</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#ClearCertificateExceptions-ICefCompletionCallback-">ClearCertificateExceptions</a></strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#ClearHttpAuthCredentials-ICefCompletionCallback-">ClearHttpAuthCredentials</a></strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#CloseAllConnections-ICefCompletionCallback-">CloseAllConnections</a></strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#ResolveHost-ustring-ICefResolveCallback-">ResolveHost</a></strong>(const origin: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefResolveCallback.html">ICefResolveCallback</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#LoadExtension-ustring-ICefDictionaryValue-ICefExtensionHandler-">LoadExtension</a></strong>(const root_directory: <a href="uCEFTypes.html#ustring">ustring</a>; const manifest: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const handler: <a href="uCEFInterfaces.ICefExtensionHandler.html">ICefExtensionHandler</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#DidLoadExtension-ustring-">DidLoadExtension</a></strong>(const extension_id: <a href="uCEFTypes.html#ustring">ustring</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#HasExtension-ustring-">HasExtension</a></strong>(const extension_id: <a href="uCEFTypes.html#ustring">ustring</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#GetExtensions-TStringList-">GetExtensions</a></strong>(const extension_ids: TStringList): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#GetExtension-ustring-">GetExtension</a></strong>(const extension_id: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#GetMediaRouter-ICefCompletionCallback-">GetMediaRouter</a></strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>): <a href="uCEFInterfaces.ICefMediaRouter.html">ICefMediaRouter</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#GetWebsiteSetting-ustring-ustring-TCefContentSettingTypes-">GetWebsiteSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#SetWebsiteSetting-ustring-ustring-TCefContentSettingTypes-ICefValue-">SetWebsiteSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#GetContentSetting-ustring-ustring-TCefContentSettingTypes-">GetContentSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#SetContentSetting-ustring-ustring-TCefContentSettingTypes-TCefContentSettingValues-">SetContentSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; value: <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; reintroduce;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#Global">Global</a></strong>: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; reintroduce;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#New-PCefRequestContextSettings-ICefRequestContextHandler-">New</a></strong>(const settings: <a href="uCEFTypes.html#PCefRequestContextSettings">PCefRequestContextSettings</a>; const handler: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a> = nil): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#New-ustring-ustring-ustring-boolean-boolean-boolean-ICefRequestContextHandler-">New</a></strong>(const aCache, aAcceptLanguageList, aCookieableSchemesList : <a href="uCEFTypes.html#ustring">ustring</a>; aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences : boolean; const handler: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a> = nil): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#Shared-ICefRequestContext-ICefRequestContextHandler-">Shared</a></strong>(const other: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; const handler: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsSame-ICefRequestContext-"></span><code>function <strong>IsSame</strong>(const other: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this object is pointing to the same context as |that| object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsSharingWith-ICefRequestContext-"></span><code>function <strong>IsSharingWith</strong>(const other: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this object is sharing the same storage as |that| object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsGlobal"></span><code>function <strong>IsGlobal</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this object is the global context. The global context is used by default when creating a browser or URL request with a NULL context argument. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetHandler"></span><code>function <strong>GetHandler</strong>: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the handler for this context if any. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetCachePath"></span><code>function <strong>GetCachePath</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the cache path for this object. If NULL an &quot;incognito mode&quot; in- memory cache is being used. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetCookieManager-ICefCompletionCallback-"></span><code>function <strong>GetCookieManager</strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>): <a href="uCEFInterfaces.ICefCookieManager.html">ICefCookieManager</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the cookie manager for this object. If |callback| is non-NULL it will be executed asnychronously on the UI thread after the manager's storage has been initialized. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetCookieManagerProc-TCefCompletionCallbackProc-"></span><code>function <strong>GetCookieManagerProc</strong>(const callback: <a href="uCEFInterfaces.html#TCefCompletionCallbackProc">TCefCompletionCallbackProc</a>): <a href="uCEFInterfaces.ICefCookieManager.html">ICefCookieManager</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequestContext.html#GetCookieManagerProc-TCefCompletionCallbackProc-">ICefRequestContext.GetCookieManagerProc</a>.</p><p>
+ Returns the cookie manager for this object. If |callback| is non-NULL it will be executed asnychronously on the UI thread after the manager's storage has been initialized. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RegisterSchemeHandlerFactory-ustring-ustring-ICefSchemeHandlerFactory-"></span><code>function <strong>RegisterSchemeHandlerFactory</strong>(const schemeName, domainName: <a href="uCEFTypes.html#ustring">ustring</a>; const factory: <a href="uCEFInterfaces.ICefSchemeHandlerFactory.html">ICefSchemeHandlerFactory</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Register a scheme handler factory for the specified |scheme_name| and optional |domain_name|. An NULL |domain_name| value for a standard scheme will cause the factory to match all domain names. The |domain_name| value will be ignored for non-standard schemes. If |scheme_name| is a built-in scheme and no handler is returned by |factory| then the built-in scheme handler factory will be called. If |scheme_name| is a custom scheme then you must also implement the cef_app_t::on_register_custom_schemes() function in all processes. This function may be called multiple times to change or remove the factory that matches the specified |scheme_name| and optional |domain_name|. Returns false (0) if an error occurs. This function may be called on any thread in the browser process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ClearSchemeHandlerFactories"></span><code>function <strong>ClearSchemeHandlerFactories</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Clear all registered scheme handler factories. Returns false (0) on error. This function may be called on any thread in the browser process. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ClearCertificateExceptions-ICefCompletionCallback-"></span><code>procedure <strong>ClearCertificateExceptions</strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Clears all certificate exceptions that were added as part of handling cef_request_handler_t::on_certificate_error(). If you call this it is recommended that you also call close_all_connections() or you risk not being prompted again for server certificates if you reconnect quickly. If |callback| is non-NULL it will be executed on the UI thread after completion. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ClearHttpAuthCredentials-ICefCompletionCallback-"></span><code>procedure <strong>ClearHttpAuthCredentials</strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Clears all HTTP authentication credentials that were added as part of handling GetAuthCredentials. If |callback| is non-NULL it will be executed on the UI thread after completion. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CloseAllConnections-ICefCompletionCallback-"></span><code>procedure <strong>CloseAllConnections</strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Clears all active and idle connections that Chromium currently has. This is only recommended if you have released all other CEF objects but don't yet want to call cef_shutdown(). If |callback| is non-NULL it will be executed on the UI thread after completion. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ResolveHost-ustring-ICefResolveCallback-"></span><code>procedure <strong>ResolveHost</strong>(const origin: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefResolveCallback.html">ICefResolveCallback</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Attempts to resolve |origin| to a list of associated IP addresses. |callback| will be executed on the UI thread after completion. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="LoadExtension-ustring-ICefDictionaryValue-ICefExtensionHandler-"></span><code>procedure <strong>LoadExtension</strong>(const root_directory: <a href="uCEFTypes.html#ustring">ustring</a>; const manifest: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const handler: <a href="uCEFInterfaces.ICefExtensionHandler.html">ICefExtensionHandler</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Load an extension.
+
+<p>If extension resources will be read from disk using the default load implementation then |root_directory| should be the absolute path to the extension resources directory and |manifest| should be NULL. If extension resources will be provided by the client (e.g. via cef_request_handler_t and/or cef_extension_handler_t) then |root_directory| should be a path component unique to the extension (if not absolute this will be internally prefixed with the PK_DIR_RESOURCES path) and |manifest| should contain the contents that would otherwise be read from the &quot;manifest.json&quot; file on disk.
+
+<p>The loaded extension will be accessible in all contexts sharing the same storage (HasExtension returns true (1)). However, only the context on which this function was called is considered the loader (DidLoadExtension returns true (1)) and only the loader will receive cef_request_context_handler_t callbacks for the extension.
+
+<p>cef_extension_handler_t::OnExtensionLoaded will be called on load success or cef_extension_handler_t::OnExtensionLoadFailed will be called on load failure.
+
+<p>If the extension specifies a background script via the &quot;background&quot; manifest key then cef_extension_handler_t::OnBeforeBackgroundBrowser will be called to create the background browser. See that function for additional information about background scripts.
+
+<p>For visible extension views the client application should evaluate the manifest to determine the correct extension URL to load and then pass that URL to the cef_browser_host_t::CreateBrowser* function after the extension has loaded. For example, the client can look for the &quot;browser_action&quot; manifest key as documented at <a href="https://developer.chrome.com/extensions/browserAction">https://developer.chrome.com/extensions/browserAction</a>. Extension URLs take the form &quot;chrome-<a href="extension://">extension://</a>&lt;extension_id&gt;/&lt;path&gt;&quot;.
+
+<p>Browsers that host extensions differ from normal browsers as follows: - Can access chrome.* JavaScript APIs if allowed by the manifest. Visit <a href="chrome://extensions-support">chrome://extensions-support</a> for the list of extension APIs currently supported by CEF. - Main frame navigation to non-extension content is blocked. - Pinch-zooming is disabled. - CefBrowserHost::GetExtension returns the hosted extension. - CefBrowserHost::IsBackgroundHost returns true for background hosts.
+
+<p>See <a href="https://developer.chrome.com/extensions">https://developer.chrome.com/extensions</a> for extension implementation and usage documentation. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DidLoadExtension-ustring-"></span><code>function <strong>DidLoadExtension</strong>(const extension_id: <a href="uCEFTypes.html#ustring">ustring</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this context was used to load the extension identified by |extension_id|. Other contexts sharing the same storage will also have access to the extension (see HasExtension). This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="HasExtension-ustring-"></span><code>function <strong>HasExtension</strong>(const extension_id: <a href="uCEFTypes.html#ustring">ustring</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this context has access to the extension identified by |extension_id|. This may not be the context that was used to load the extension (see DidLoadExtension). This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetExtensions-TStringList-"></span><code>function <strong>GetExtensions</strong>(const extension_ids: TStringList): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Retrieve the list of all extensions that this context has access to (see HasExtension). |extension_ids| will be populated with the list of extension ID values. Returns true (1) on success. This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetExtension-ustring-"></span><code>function <strong>GetExtension</strong>(const extension_id: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the extension matching |extension_id| or NULL if no matching extension is accessible in this context (see HasExtension). This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetMediaRouter-ICefCompletionCallback-"></span><code>function <strong>GetMediaRouter</strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>): <a href="uCEFInterfaces.ICefMediaRouter.html">ICefMediaRouter</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the MediaRouter object associated with this context. If |callback| is non-NULL it will be executed asnychronously on the UI thread after the manager's context has been initialized. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetWebsiteSetting-ustring-ustring-TCefContentSettingTypes-"></span><code>function <strong>GetWebsiteSetting</strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current value for |content_type| that applies for the specified URLs. If both URLs are NULL the default value will be returned. Returns nullptr if no value is configured. Must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetWebsiteSetting-ustring-ustring-TCefContentSettingTypes-ICefValue-"></span><code>procedure <strong>SetWebsiteSetting</strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the current value for |content_type| for the specified URLs in the default scope. If both URLs are NULL, and the context is not incognito, the default value will be set. Pass nullptr for |value| to remove the default value for this content type.
+
+<p>WARNING: Incorrect usage of this function may cause instability or security issues in Chromium. Make sure that you first understand the potential impact of any changes to |content_type| by reviewing the related source code in Chromium. For example, if you plan to modify CEF_CONTENT_SETTING_TYPE_POPUPS, first review and understand the usage of ContentSettingsType::POPUPS in Chromium: <a href="https://source.chromium.org/search?q=ContentSettingsType::POPUPS">https://source.chromium.org/search?q=ContentSettingsType::POPUPS</a> </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetContentSetting-ustring-ustring-TCefContentSettingTypes-"></span><code>function <strong>GetContentSetting</strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current value for |content_type| that applies for the specified URLs. If both URLs are NULL the default value will be returned. Returns CEF_CONTENT_SETTING_VALUE_DEFAULT if no value is configured. Must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetContentSetting-ustring-ustring-TCefContentSettingTypes-TCefContentSettingValues-"></span><code>procedure <strong>SetContentSetting</strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; value: <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the current value for |content_type| for the specified URLs in the default scope. If both URLs are NULL, and the context is not incognito, the default value will be set. Pass CEF_CONTENT_SETTING_VALUE_DEFAULT for |value| to use the default value for this content type.
+
+<p>WARNING: Incorrect usage of this function may cause instability or security issues in Chromium. Make sure that you first understand the potential impact of any changes to |content_type| by reviewing the related source code in Chromium. For example, if you plan to modify CEF_CONTENT_SETTING_TYPE_POPUPS, first review and understand the usage of ContentSettingsType::POPUPS in Chromium: <a href="https://source.chromium.org/search?q=ContentSettingsType::POPUPS">https://source.chromium.org/search?q=ContentSettingsType::POPUPS</a> </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; reintroduce;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Global"></span><code>class function <strong>Global</strong>: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; reintroduce;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the global context object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="New-PCefRequestContextSettings-ICefRequestContextHandler-"></span><code>class function <strong>New</strong>(const settings: <a href="uCEFTypes.html#PCefRequestContextSettings">PCefRequestContextSettings</a>; const handler: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a> = nil): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Creates a new context object with the specified |settings| and optional |handler|. </p>
+<p>
+ 
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>settings</dt>
+<dd>Pointer to TCefRequestContextSettings.</dd>
+<dt>handler</dt>
+<dd>Optional handler for the request context.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="New-ustring-ustring-ustring-boolean-boolean-boolean-ICefRequestContextHandler-"></span><code>class function <strong>New</strong>(const aCache, aAcceptLanguageList, aCookieableSchemesList : <a href="uCEFTypes.html#ustring">ustring</a>; aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences : boolean; const handler: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a> = nil): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Creates a new context object with the specified settings and optional |handler|. </p>
+<p>
+ 
+
+<p>
+
+<p>
+
+<p>
+
+<p>
+
+<p>
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>aCache</dt>
+<dd>The directory where cache data for this request context will be stored on disk. See TCefRequestContextSettings.cache_path for more information.</dd>
+<dt>aAcceptLanguageList</dt>
+<dd>Comma delimited ordered list of language codes without any whitespace that will be used in the &quot;Accept-Language&quot; HTTP header. See TCefRequestContextSettings.accept_language_list for more information.</dd>
+<dt>aCookieableSchemesList</dt>
+<dd>Comma delimited list of schemes supported by the associated ICefCookieManager. See TCefRequestContextSettings.cookieable_schemes_list for more information.</dd>
+<dt>aCookieableSchemesExcludeDefaults</dt>
+<dd>Setting this parameter to true will disable all loading and saving of cookies. See TCefRequestContextSettings.cookieable_schemes_list for more information.</dd>
+<dt>aPersistSessionCookies</dt>
+<dd>To persist session cookies (cookies without an expiry date or validity interval) by default when using the global cookie manager set this value to true. See TCefRequestContextSettings.persist_session_cookies for more information.</dd>
+<dt>aPersistUserPreferences</dt>
+<dd>To persist user preferences as a JSON file in the cache path directory set this value to true. See TCefRequestContextSettings.persist_user_preferences for more information.</dd>
+<dt>handler</dt>
+<dd>Optional handler for the request context.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Shared-ICefRequestContext-ICefRequestContextHandler-"></span><code>class function <strong>Shared</strong>(const other: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; const handler: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Creates a new context object that shares storage with |other| and uses an optional |handler|. </p>
+<p>
+ 
+
+<p></p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>other</dt>
+<dd>Another ICefRequestContext instance that will share storage with the new ICefRequestContext instance.</dd>
+<dt>handler</dt>
+<dd>Optional handler for the request context.</dd>
+</dl>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

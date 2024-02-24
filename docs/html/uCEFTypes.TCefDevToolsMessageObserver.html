@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefDevToolsMessageObserver</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefDevToolsMessageObserver"></span><h1 class="cio">Record TCefDevToolsMessageObserver</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefDevToolsMessageObserver = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Callback structure for ICefBrowserHost.AddDevToolsMessageObserver. The functions of this structure will be called on the browser process UI thread. </p>
+<p>
+
+
+<p>Implemented by ICefDevToolsMessageObserver.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_devtools_message_observer_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_devtools_message_observer_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_devtools_message_observer_capi.h (cef_dev_tools_message_observer_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDevToolsMessageObserver.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDevToolsMessageObserver.html#on_dev_tools_message">on_dev_tools_message</a></strong>: function(self: <a href="uCEFTypes.html#PCefDevToolsMessageObserver">PCefDevToolsMessageObserver</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const message_: Pointer; message_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDevToolsMessageObserver.html#on_dev_tools_method_result">on_dev_tools_method_result</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefDevToolsMessageObserver">PCefDevToolsMessageObserver</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; message_id, success: Integer; const result: Pointer; result_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDevToolsMessageObserver.html#on_dev_tools_event">on_dev_tools_event</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefDevToolsMessageObserver">PCefDevToolsMessageObserver</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const method: <a href="uCEFTypes.html#PCefString">PCefString</a>; const params: Pointer; params_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDevToolsMessageObserver.html#on_dev_tools_agent_attached">on_dev_tools_agent_attached</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefDevToolsMessageObserver">PCefDevToolsMessageObserver</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefDevToolsMessageObserver.html#on_dev_tools_agent_detached">on_dev_tools_agent_detached</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefDevToolsMessageObserver">PCefDevToolsMessageObserver</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_dev_tools_message"></span><code><strong>on_dev_tools_message</strong>: function(self: <a href="uCEFTypes.html#PCefDevToolsMessageObserver">PCefDevToolsMessageObserver</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const message_: Pointer; message_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_dev_tools_method_result"></span><code><strong>on_dev_tools_method_result</strong>: procedure(self: <a href="uCEFTypes.html#PCefDevToolsMessageObserver">PCefDevToolsMessageObserver</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; message_id, success: Integer; const result: Pointer; result_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_dev_tools_event"></span><code><strong>on_dev_tools_event</strong>: procedure(self: <a href="uCEFTypes.html#PCefDevToolsMessageObserver">PCefDevToolsMessageObserver</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; const method: <a href="uCEFTypes.html#PCefString">PCefString</a>; const params: Pointer; params_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_dev_tools_agent_attached"></span><code><strong>on_dev_tools_agent_attached</strong>: procedure(self: <a href="uCEFTypes.html#PCefDevToolsMessageObserver">PCefDevToolsMessageObserver</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_dev_tools_agent_detached"></span><code><strong>on_dev_tools_agent_detached</strong>: procedure(self: <a href="uCEFTypes.html#PCefDevToolsMessageObserver">PCefDevToolsMessageObserver</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

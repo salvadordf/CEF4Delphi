@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefFrameHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefFrameHandler"></span><h1 class="cio">Interface ICefFrameHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefFrameHandler = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this interface to handle events related to ICefFrame life span. The order of callbacks is:
+
+<p>(1) During initial ICefBrowserHost creation and navigation of the main frame: - ICefFrameHandler.OnFrameCreated =&gt; The initial main frame object has been created. Any commands will be queued until the frame is attached. - ICefFrameHandler.OnMainFrameChanged =&gt; The initial main frame object has been assigned to the browser. - ICefLifeSpanHandler.OnAfterCreated =&gt; The browser is now valid and can be used. - ICefFrameHandler.OnFrameAttached =&gt; The initial main frame object is now connected to its peer in the renderer process. Commands can be routed.
+
+<p>(2) During further ICefBrowserHost navigation/loading of the main frame and/or sub-frames: - ICefFrameHandler.OnFrameCreated =&gt; A new main frame or sub-frame object has been created. Any commands will be queued until the frame is attached. - ICefFrameHandler.OnFrameAttached =&gt; A new main frame or sub-frame object is now connected to its peer in the renderer process. Commands can be routed. - ICefFrameHandler.OnFrameDetached =&gt; An existing main frame or sub- frame object has lost its connection to the renderer process. If multiple objects are detached at the same time then notifications will be sent for any sub-frame objects before the main frame object. Commands can no longer be routed and will be discarded. - ICefFrameHandler.OnMainFrameChanged =&gt; A new main frame object has been assigned to the browser. This will only occur with cross-origin navigation or re-navigation after renderer process termination (due to crashes, etc).
+
+<p>(3) During final ICefBrowserHost destruction of the main frame: - ICefFrameHandler.OnFrameDetached =&gt; Any sub-frame objects have lost their connection to the renderer process. Commands can no longer be routed and will be discarded. - ICefLifeSpanHandler.OnBeforeClose =&gt; The browser has been destroyed. - ICefFrameHandler.OnFrameDetached =&gt; The main frame object have lost its connection to the renderer process. Notifications will be sent for any sub-frame objects before the main frame object. Commands can no longer be routed and will be discarded. - ICefFrameHandler.OnMainFrameChanged =&gt; The final main frame object has been removed from the browser.
+
+<p>Cross-origin navigation and/or loading receives special handling.
+
+<p>When the main frame navigates to a different origin the OnMainFrameChanged callback (2) will be executed with the old and new main frame objects.
+
+<p>When a new sub-frame is loaded in, or an existing sub-frame is navigated to, a different origin from the parent frame, a temporary sub-frame object will first be created in the parent's renderer process. That temporary sub-frame will then be discarded after the real cross-origin sub-frame is created in the new/target renderer process. The client will receive cross-origin navigation callbacks (2) for the transition from the temporary sub-frame to the real sub-frame. The temporary sub-frame will not recieve or execute commands during this transitional period (any sent commands will be discarded).
+
+<p>When a new popup browser is created in a different origin from the parent browser, a temporary main frame object for the popup will first be created in the parent's renderer process. That temporary main frame will then be discarded after the real cross-origin main frame is created in the new/target renderer process. The client will recieve creation and initial navigation callbacks (1) for the temporary main frame, followed by cross- origin navigation callbacks (2) for the transition from the temporary main frame to the real main frame. The temporary main frame may receive and execute commands during this transitional period (any sent commands may be executed, but the behavior is potentially undesirable since they execute in the parent browser's renderer process and not the new/target renderer process).
+
+<p>Callbacks will not be executed for placeholders that may be created during pre-commit navigation for sub-frames that do not yet exist in the renderer process. Placeholders will have ICefFrame.GetIdentifier() == -4.
+
+<p>The functions of this interface will be called on the UI thread unless otherwise indicated. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_frame_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_frame_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_frame_handler_capi.h (cef_frame_handler_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefFrameHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefFrameHandler.html#OnFrameCreated-ICefBrowser-ICefFrame-">OnFrameCreated</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefFrameHandler.html#OnFrameAttached-ICefBrowser-ICefFrame-boolean-">OnFrameAttached</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; reattached: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefFrameHandler.html#OnFrameDetached-ICefBrowser-ICefFrame-">OnFrameDetached</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefFrameHandler.html#OnMainFrameChanged-ICefBrowser-ICefFrame-ICefFrame-">OnMainFrameChanged</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const old_frame, new_frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefFrameHandler.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnFrameCreated-ICefBrowser-ICefFrame-"></span><code>procedure <strong>OnFrameCreated</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when a new frame is created. This will be the first notification that references |frame|. Any commands that require transport to the associated renderer process (LoadRequest, SendProcessMessage, GetSource, etc.) will be queued until OnFrameAttached is called for |frame|. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{B437128C-F7CB-4F75-83CF-A257B98C0B6E}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnFrameAttached-ICefBrowser-ICefFrame-boolean-"></span><code>procedure <strong>OnFrameAttached</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; reattached: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when a frame can begin routing commands to/from the associated renderer process. |reattached| will be true (1) if the frame was re- attached after exiting the BackForwardCache. Any commands that were queued have now been dispatched. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnFrameDetached-ICefBrowser-ICefFrame-"></span><code>procedure <strong>OnFrameDetached</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when a frame loses its connection to the renderer process and will be destroyed. Any pending or future commands will be discarded and ICefFrame.IsValid() will now return false (0) for |frame|. If called after ICefLifeSpanHandler.OnBeforeClose() during browser destruction then ICefBrowser.IsValid() will return false (0) for |browser|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnMainFrameChanged-ICefBrowser-ICefFrame-ICefFrame-"></span><code>procedure <strong>OnMainFrameChanged</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const old_frame, new_frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when the main frame changes due to (a) initial browser creation, (b) final browser destruction, (c) cross-origin navigation or (d) re- navigation after renderer process termination (due to crashes, etc). |old_frame| will be NULL and |new_frame| will be non-NULL when a main frame is assigned to |browser| for the first time. |old_frame| will be non-NULL and |new_frame| will be NULL and when a main frame is removed from |browser| for the last time. Both |old_frame| and |new_frame| will be non-NULL for cross-origin navigations or re-navigation after renderer process termination. This function will be called after on_frame_created() for |new_frame| and/or after OnFrameDetached() for |old_frame|. If called after ICefLifeSpanHandler.OnBeforeClose() during browser destruction then ICefBrowser.IsValid() will return false (0) for |browser|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

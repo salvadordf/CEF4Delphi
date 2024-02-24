@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICEFUrlRequestClientEvents</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICEFUrlRequestClientEvents"></span><h1 class="cio">Interface ICEFUrlRequestClientEvents</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICEFUrlRequestClientEvents = interface(IInterface)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Custom interface used to handle all the TCEFUrlRequestClientComponent events. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{1AA800A7-56A1-43CA-A224-49368F18BDD8}']</dt>
+  <dd></dd>
+</dl>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="thisitem">ICEFUrlRequestClientEvents</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICEFUrlRequestClientEvents.html#doOnRequestComplete-ICefUrlRequest-">doOnRequestComplete</a></strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICEFUrlRequestClientEvents.html#doOnUploadProgress-ICefUrlRequest-Int64-Int64-">doOnUploadProgress</a></strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; current, total: Int64);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICEFUrlRequestClientEvents.html#doOnDownloadProgress-ICefUrlRequest-Int64-Int64-">doOnDownloadProgress</a></strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; current, total: Int64);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICEFUrlRequestClientEvents.html#doOnDownloadData-ICefUrlRequest-Pointer-NativeUInt-">doOnDownloadData</a></strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; data: Pointer; dataLength: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICEFUrlRequestClientEvents.html#doOnGetAuthCredentials-Boolean-ustring-Integer-ustring-ustring-ICefAuthCallback-">doOnGetAuthCredentials</a></strong>(isProxy: Boolean; const host: <a href="uCEFTypes.html#ustring">ustring</a>; port: Integer; const realm, scheme: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefAuthCallback.html">ICefAuthCallback</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICEFUrlRequestClientEvents.html#doOnCreateURLRequest">doOnCreateURLRequest</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICEFUrlRequestClientEvents.html#GetComponentID">GetComponentID</a></strong>: integer;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICEFUrlRequestClientEvents.html#ComponentID">ComponentID</a></strong> : integer read <a href="uCEFInterfaces.ICEFUrlRequestClientEvents.html#GetComponentID">GetComponentID</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnRequestComplete-ICefUrlRequest-"></span><code>procedure <strong>doOnRequestComplete</strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefUrlrequestClient</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnUploadProgress-ICefUrlRequest-Int64-Int64-"></span><code>procedure <strong>doOnUploadProgress</strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; current, total: Int64);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnDownloadProgress-ICefUrlRequest-Int64-Int64-"></span><code>procedure <strong>doOnDownloadProgress</strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; current, total: Int64);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnDownloadData-ICefUrlRequest-Pointer-NativeUInt-"></span><code>procedure <strong>doOnDownloadData</strong>(const request: <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; data: Pointer; dataLength: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnGetAuthCredentials-Boolean-ustring-Integer-ustring-ustring-ICefAuthCallback-"></span><code>function <strong>doOnGetAuthCredentials</strong>(isProxy: Boolean; const host: <a href="uCEFTypes.html#ustring">ustring</a>; port: Integer; const realm, scheme: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefAuthCallback.html">ICefAuthCallback</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnCreateURLRequest"></span><code>procedure <strong>doOnCreateURLRequest</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Custom</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetComponentID"></span><code>function <strong>GetComponentID</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ComponentID"></span><code>property <strong>ComponentID</strong> : integer read <a href="uCEFInterfaces.ICEFUrlRequestClientEvents.html#GetComponentID">GetComponentID</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

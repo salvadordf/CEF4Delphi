@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFRequest: Class TCefRequestRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefRequestRef"></span><h1 class="cio">Class TCefRequestRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFRequest.html">uCEFRequest</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefRequestRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="thisitem">TCefRequestRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequest.TCefRequestRef.html#IsReadOnly">IsReadOnly</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequest.TCefRequestRef.html#GetUrl">GetUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequest.TCefRequestRef.html#GetMethod">GetMethod</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequest.TCefRequestRef.html#GetPostData">GetPostData</a></strong>: <a href="uCEFInterfaces.ICefPostData.html">ICefPostData</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequest.TCefRequestRef.html#GetHeaderMap-ICefStringMultimap-">GetHeaderMap</a></strong>(const HeaderMap: <a href="uCEFInterfaces.ICefStringMultimap.html">ICefStringMultimap</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequest.TCefRequestRef.html#SetUrl-ustring-">SetUrl</a></strong>(const value: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequest.TCefRequestRef.html#SetMethod-ustring-">SetMethod</a></strong>(const value: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequest.TCefRequestRef.html#SetReferrer-ustring-TCefReferrerPolicy-">SetReferrer</a></strong>(const referrerUrl: <a href="uCEFTypes.html#ustring">ustring</a>; policy: <a href="uCEFTypes.html#TCefReferrerPolicy">TCefReferrerPolicy</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequest.TCefRequestRef.html#GetReferrerUrl">GetReferrerUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequest.TCefRequestRef.html#GetReferrerPolicy">GetReferrerPolicy</a></strong>: <a href="uCEFTypes.html#TCefReferrerPolicy">TCefReferrerPolicy</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequest.TCefRequestRef.html#SetPostData-ICefPostData-">SetPostData</a></strong>(const value: <a href="uCEFInterfaces.ICefPostData.html">ICefPostData</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequest.TCefRequestRef.html#SetHeaderMap-ICefStringMultimap-">SetHeaderMap</a></strong>(const HeaderMap: <a href="uCEFInterfaces.ICefStringMultimap.html">ICefStringMultimap</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequest.TCefRequestRef.html#GetHeaderByName-ustring-">GetHeaderByName</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequest.TCefRequestRef.html#SetHeaderByName-ustring-ustring-boolean-">SetHeaderByName</a></strong>(const name, value: <a href="uCEFTypes.html#ustring">ustring</a>; overwrite: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequest.TCefRequestRef.html#GetFlags">GetFlags</a></strong>: <a href="uCEFTypes.html#TCefUrlRequestFlags">TCefUrlRequestFlags</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequest.TCefRequestRef.html#SetFlags-TCefUrlRequestFlags-">SetFlags</a></strong>(flags: <a href="uCEFTypes.html#TCefUrlRequestFlags">TCefUrlRequestFlags</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequest.TCefRequestRef.html#GetFirstPartyForCookies">GetFirstPartyForCookies</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequest.TCefRequestRef.html#SetFirstPartyForCookies-ustring-">SetFirstPartyForCookies</a></strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequest.TCefRequestRef.html#Assign-ustring-ustring-ICefPostData-ICefStringMultimap-">Assign</a></strong>(const url, method: <a href="uCEFTypes.html#ustring">ustring</a>; const postData: <a href="uCEFInterfaces.ICefPostData.html">ICefPostData</a>; const headerMap: <a href="uCEFInterfaces.ICefStringMultimap.html">ICefStringMultimap</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequest.TCefRequestRef.html#GetResourceType">GetResourceType</a></strong>: <a href="uCEFTypes.html#TCefResourceType">TCefResourceType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequest.TCefRequestRef.html#GetTransitionType">GetTransitionType</a></strong>: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequest.TCefRequestRef.html#GetIdentifier">GetIdentifier</a></strong>: UInt64;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFRequest.TCefRequestRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFRequest.TCefRequestRef.html#New">New</a></strong>: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsReadOnly"></span><code>function <strong>IsReadOnly</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#IsReadOnly">ICefRequest.IsReadOnly</a>.</p><p>
+Returns true (1) if this object is read-only.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetUrl"></span><code>function <strong>GetUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#GetUrl">ICefRequest.GetUrl</a>.</p><p>
+Get the fully qualified URL.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetMethod"></span><code>function <strong>GetMethod</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#GetMethod">ICefRequest.GetMethod</a>.</p><p>
+Get the request function type. The value will default to POST if post data is provided and GET otherwise.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetPostData"></span><code>function <strong>GetPostData</strong>: <a href="uCEFInterfaces.ICefPostData.html">ICefPostData</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#GetPostData">ICefRequest.GetPostData</a>.</p><p>
+Get the post data.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetHeaderMap-ICefStringMultimap-"></span><code>procedure <strong>GetHeaderMap</strong>(const HeaderMap: <a href="uCEFInterfaces.ICefStringMultimap.html">ICefStringMultimap</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#GetHeaderMap-ICefStringMultimap-">ICefRequest.GetHeaderMap</a>.</p><p>
+Get the header values. Will not include the Referer value if any.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetUrl-ustring-"></span><code>procedure <strong>SetUrl</strong>(const value: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#SetUrl-ustring-">ICefRequest.SetUrl</a>.</p><p>
+Set the fully qualified URL.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetMethod-ustring-"></span><code>procedure <strong>SetMethod</strong>(const value: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#SetMethod-ustring-">ICefRequest.SetMethod</a>.</p><p>
+Set the request function type.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetReferrer-ustring-TCefReferrerPolicy-"></span><code>procedure <strong>SetReferrer</strong>(const referrerUrl: <a href="uCEFTypes.html#ustring">ustring</a>; policy: <a href="uCEFTypes.html#TCefReferrerPolicy">TCefReferrerPolicy</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#SetReferrer-ustring-TCefReferrerPolicy-">ICefRequest.SetReferrer</a>.</p><p>
+Set the referrer URL and policy. If non-NULL the referrer URL must be fully qualified with an HTTP or HTTPS scheme component. Any username, password or ref component will be removed.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetReferrerUrl"></span><code>function <strong>GetReferrerUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#GetReferrerUrl">ICefRequest.GetReferrerUrl</a>.</p><p>
+Get the referrer URL.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetReferrerPolicy"></span><code>function <strong>GetReferrerPolicy</strong>: <a href="uCEFTypes.html#TCefReferrerPolicy">TCefReferrerPolicy</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#GetReferrerPolicy">ICefRequest.GetReferrerPolicy</a>.</p><p>
+Get the referrer policy.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetPostData-ICefPostData-"></span><code>procedure <strong>SetPostData</strong>(const value: <a href="uCEFInterfaces.ICefPostData.html">ICefPostData</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#SetPostData-ICefPostData-">ICefRequest.SetPostData</a>.</p><p>
+Set the post data.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetHeaderMap-ICefStringMultimap-"></span><code>procedure <strong>SetHeaderMap</strong>(const HeaderMap: <a href="uCEFInterfaces.ICefStringMultimap.html">ICefStringMultimap</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#SetHeaderMap-ICefStringMultimap-">ICefRequest.SetHeaderMap</a>.</p><p>
+Set the header values. If a Referer value exists in the header map it will be removed and ignored.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetHeaderByName-ustring-"></span><code>function <strong>GetHeaderByName</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#GetHeaderByName-ustring-">ICefRequest.GetHeaderByName</a>.</p><p>
+Returns the first header value for |name| or an NULL string if not found. Will not return the Referer value if any. Use GetHeaderMap instead if |name| might have multiple values.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetHeaderByName-ustring-ustring-boolean-"></span><code>procedure <strong>SetHeaderByName</strong>(const name, value: <a href="uCEFTypes.html#ustring">ustring</a>; overwrite: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#SetHeaderByName-ustring-ustring-boolean-">ICefRequest.SetHeaderByName</a>.</p><p>
+Set the header |name| to |value|. If |overwrite| is true (1) any existing values will be replaced with the new value. If |overwrite| is false (0) any existing values will not be overwritten. The Referer value cannot be set using this function.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetFlags"></span><code>function <strong>GetFlags</strong>: <a href="uCEFTypes.html#TCefUrlRequestFlags">TCefUrlRequestFlags</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#GetFlags">ICefRequest.GetFlags</a>.</p><p>
+Get the flags used in combination with ICefUrlRequest. See TCefUrlRequestFlags for supported values.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetFlags-TCefUrlRequestFlags-"></span><code>procedure <strong>SetFlags</strong>(flags: <a href="uCEFTypes.html#TCefUrlRequestFlags">TCefUrlRequestFlags</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#SetFlags-TCefUrlRequestFlags-">ICefRequest.SetFlags</a>.</p><p>
+Set the flags used in combination with ICefUrlRequest. See TCefUrlRequestFlags for supported values.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetFirstPartyForCookies"></span><code>function <strong>GetFirstPartyForCookies</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#GetFirstPartyForCookies">ICefRequest.GetFirstPartyForCookies</a>.</p><p>
+Get the URL to the first party for cookies used in combination with ICefUrlRequest.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetFirstPartyForCookies-ustring-"></span><code>procedure <strong>SetFirstPartyForCookies</strong>(const url: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#SetFirstPartyForCookies-ustring-">ICefRequest.SetFirstPartyForCookies</a>.</p><p>
+Set the URL to the first party for cookies used in combination with ICefUrlRequest.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Assign-ustring-ustring-ICefPostData-ICefStringMultimap-"></span><code>procedure <strong>Assign</strong>(const url, method: <a href="uCEFTypes.html#ustring">ustring</a>; const postData: <a href="uCEFInterfaces.ICefPostData.html">ICefPostData</a>; const headerMap: <a href="uCEFInterfaces.ICefStringMultimap.html">ICefStringMultimap</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#Assign-ustring-ustring-ICefPostData-ICefStringMultimap-">ICefRequest.Assign</a>.</p><p>
+Set all values at one time. This method corresponds to TCefRequest.set_ and cef_request_t.set</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetResourceType"></span><code>function <strong>GetResourceType</strong>: <a href="uCEFTypes.html#TCefResourceType">TCefResourceType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#GetResourceType">ICefRequest.GetResourceType</a>.</p><p>
+Get the resource type for this request. Only available in the browser process.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetTransitionType"></span><code>function <strong>GetTransitionType</strong>: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#GetTransitionType">ICefRequest.GetTransitionType</a>.</p><p>
+Get the transition type for this request. Only available in the browser process and only applies to requests that represent a main frame or sub- frame navigation.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetIdentifier"></span><code>function <strong>GetIdentifier</strong>: UInt64;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequest.html#GetIdentifier">ICefRequest.GetIdentifier</a>.</p><p>
+Returns the globally unique identifier for this request or 0 if not specified. Can be used by ICefResourceRequestHandler implementations in the browser process to track a single request across multiple callbacks.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="New"></span><code>class function <strong>New</strong>: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

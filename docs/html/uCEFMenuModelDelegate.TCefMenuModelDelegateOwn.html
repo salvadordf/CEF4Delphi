@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFMenuModelDelegate: Class TCefMenuModelDelegateOwn</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefMenuModelDelegateOwn"></span><h1 class="cio">Class TCefMenuModelDelegateOwn</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFMenuModelDelegate.html">uCEFMenuModelDelegate</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefMenuModelDelegateOwn = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a>, <a class="normal" href="uCEFInterfaces.ICefMenuModelDelegate.html">ICefMenuModelDelegate</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="thisitem">TCefMenuModelDelegateOwn</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuModelDelegate.TCefMenuModelDelegateOwn.html#ExecuteCommand-ICefMenuModel-Integer-TCefEventFlags-">ExecuteCommand</a></strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; commandId: Integer; eventFlags: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuModelDelegate.TCefMenuModelDelegateOwn.html#MouseOutsideMenu-ICefMenuModel-PCefPoint-">MouseOutsideMenu</a></strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; const screenPoint: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuModelDelegate.TCefMenuModelDelegateOwn.html#UnhandledOpenSubmenu-ICefMenuModel-boolean-">UnhandledOpenSubmenu</a></strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; isRTL: boolean); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuModelDelegate.TCefMenuModelDelegateOwn.html#UnhandledCloseSubmenu-ICefMenuModel-boolean-">UnhandledCloseSubmenu</a></strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; isRTL: boolean); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuModelDelegate.TCefMenuModelDelegateOwn.html#MenuWillShow-ICefMenuModel-">MenuWillShow</a></strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMenuModelDelegate.TCefMenuModelDelegateOwn.html#MenuClosed-ICefMenuModel-">MenuClosed</a></strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFMenuModelDelegate.TCefMenuModelDelegateOwn.html#FormatLabel-ICefMenuModel-ustring-">FormatLabel</a></strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; var label_ : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFMenuModelDelegate.TCefMenuModelDelegateOwn.html#Create">Create</a></strong>; virtual;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ExecuteCommand-ICefMenuModel-Integer-TCefEventFlags-"></span><code>procedure <strong>ExecuteCommand</strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; commandId: Integer; eventFlags: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefMenuModelDelegate.html#ExecuteCommand-ICefMenuModel-Integer-TCefEventFlags-">ICefMenuModelDelegate.ExecuteCommand</a>.</p><p>
+ Perform the action associated with the specified |command_id| and optional |event_flags|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MouseOutsideMenu-ICefMenuModel-PCefPoint-"></span><code>procedure <strong>MouseOutsideMenu</strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; const screenPoint: <a href="uCEFTypes.html#PCefPoint">PCefPoint</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefMenuModelDelegate.html#MouseOutsideMenu-ICefMenuModel-PCefPoint-">ICefMenuModelDelegate.MouseOutsideMenu</a>.</p><p>
+ Called when the user moves the mouse outside the menu and over the owning window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="UnhandledOpenSubmenu-ICefMenuModel-boolean-"></span><code>procedure <strong>UnhandledOpenSubmenu</strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; isRTL: boolean); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefMenuModelDelegate.html#UnhandledOpenSubmenu-ICefMenuModel-boolean-">ICefMenuModelDelegate.UnhandledOpenSubmenu</a>.</p><p>
+ Called on unhandled open submenu keyboard commands. |is_rtl| will be true (1) if the menu is displaying a right-to-left language. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="UnhandledCloseSubmenu-ICefMenuModel-boolean-"></span><code>procedure <strong>UnhandledCloseSubmenu</strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; isRTL: boolean); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefMenuModelDelegate.html#UnhandledCloseSubmenu-ICefMenuModel-boolean-">ICefMenuModelDelegate.UnhandledCloseSubmenu</a>.</p><p>
+ Called on unhandled close submenu keyboard commands. |is_rtl| will be true (1) if the menu is displaying a right-to-left language. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MenuWillShow-ICefMenuModel-"></span><code>procedure <strong>MenuWillShow</strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefMenuModelDelegate.html#MenuWillShow-ICefMenuModel-">ICefMenuModelDelegate.MenuWillShow</a>.</p><p>
+ The menu is about to show. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MenuClosed-ICefMenuModel-"></span><code>procedure <strong>MenuClosed</strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefMenuModelDelegate.html#MenuClosed-ICefMenuModel-">ICefMenuModelDelegate.MenuClosed</a>.</p><p>
+ The menu has closed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FormatLabel-ICefMenuModel-ustring-"></span><code>function <strong>FormatLabel</strong>(const menuModel: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; var label_ : <a href="uCEFTypes.html#ustring">ustring</a>) : boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefMenuModelDelegate.html#FormatLabel-ICefMenuModel-ustring-">ICefMenuModelDelegate.FormatLabel</a>.</p><p>
+ Optionally modify a menu item label. Return true (1) if |label| was modified. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

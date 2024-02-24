@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefDialogHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefDialogHandler"></span><h1 class="cio">Interface ICefDialogHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefDialogHandler = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Implement this interface to handle dialog events. The functions of this interface will be called on the browser process UI thread. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dialog_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_dialog_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_dialog_handler_capi.h (cef_dialog_handler_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefDialogHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDialogHandler.html#OnFileDialog-ICefBrowser-TCefFileDialogMode-ustring-ustring-TStrings-ICefFileDialogCallback-">OnFileDialog</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; mode: <a href="uCEFTypes.html#TCefFileDialogMode">TCefFileDialogMode</a>; const title, defaultFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const acceptFilters: TStrings; const callback: <a href="uCEFInterfaces.ICefFileDialogCallback.html">ICefFileDialogCallback</a>): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefDialogHandler.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnFileDialog-ICefBrowser-TCefFileDialogMode-ustring-ustring-TStrings-ICefFileDialogCallback-"></span><code>function <strong>OnFileDialog</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; mode: <a href="uCEFTypes.html#TCefFileDialogMode">TCefFileDialogMode</a>; const title, defaultFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const acceptFilters: TStrings; const callback: <a href="uCEFInterfaces.ICefFileDialogCallback.html">ICefFileDialogCallback</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called to run a file chooser dialog. |mode| represents the type of dialog to display. |title| to the title to be used for the dialog and may be NULL to show the default title (&quot;Open&quot; or &quot;Save&quot; depending on the mode). |default_file_path| is the path with optional directory and/or file name component that should be initially selected in the dialog. |accept_filters| are used to restrict the selectable file types and may any combination of (a) valid lower-cased MIME types (e.g. &quot;text/*&quot; or &quot;image/*&quot;), (b) individual file extensions (e.g. &quot;.txt&quot; or &quot;.png&quot;), or (c) combined description and file extension delimited using &quot;|&quot; and &quot;;&quot; (e.g. &quot;Image Types|.png;.gif;.jpg&quot;). To display a custom dialog return true (1) and execute |callback| either inline or at a later time. To display the default dialog return false (0). </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{7763F4B2-8BE1-4E80-AC43-8B825850DC67}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

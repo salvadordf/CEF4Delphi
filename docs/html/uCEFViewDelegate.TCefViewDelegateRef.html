@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFViewDelegate: Class TCefViewDelegateRef</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefViewDelegateRef"></span><h1 class="cio">Class TCefViewDelegateRef</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFViewDelegate.html">uCEFViewDelegate</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefViewDelegateRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefViewDelegate.html">ICefViewDelegate</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
+<li class="thisitem">TCefViewDelegateRef</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewDelegate.TCefViewDelegateRef.html#OnGetPreferredSize-ICefView-TCefSize-">OnGetPreferredSize</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewDelegate.TCefViewDelegateRef.html#OnGetMinimumSize-ICefView-TCefSize-">OnGetMinimumSize</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewDelegate.TCefViewDelegateRef.html#OnGetMaximumSize-ICefView-TCefSize-">OnGetMaximumSize</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewDelegate.TCefViewDelegateRef.html#OnGetHeightForWidth-ICefView-Integer-Integer-">OnGetHeightForWidth</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; width: Integer; var aResult: Integer);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewDelegate.TCefViewDelegateRef.html#OnParentViewChanged-ICefView-boolean-ICefView-">OnParentViewChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const parent: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewDelegate.TCefViewDelegateRef.html#OnChildViewChanged-ICefView-boolean-ICefView-">OnChildViewChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const child: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewDelegate.TCefViewDelegateRef.html#OnWindowChanged-ICefView-boolean-">OnWindowChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewDelegate.TCefViewDelegateRef.html#OnLayoutChanged-ICefView-TCefRect-">OnLayoutChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; new_bounds: <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewDelegate.TCefViewDelegateRef.html#OnFocus-ICefView-">OnFocus</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewDelegate.TCefViewDelegateRef.html#OnBlur-ICefView-">OnBlur</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFViewDelegate.TCefViewDelegateRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefViewDelegate.html">ICefViewDelegate</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnGetPreferredSize-ICefView-TCefSize-"></span><code>procedure <strong>OnGetPreferredSize</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefViewDelegate.html#OnGetPreferredSize-ICefView-TCefSize-">ICefViewDelegate.OnGetPreferredSize</a>.</p><p>
+ Return the preferred size for |view|. The Layout will use this information to determine the display size. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnGetMinimumSize-ICefView-TCefSize-"></span><code>procedure <strong>OnGetMinimumSize</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefViewDelegate.html#OnGetMinimumSize-ICefView-TCefSize-">ICefViewDelegate.OnGetMinimumSize</a>.</p><p>
+ Return the minimum size for |view|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnGetMaximumSize-ICefView-TCefSize-"></span><code>procedure <strong>OnGetMaximumSize</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefViewDelegate.html#OnGetMaximumSize-ICefView-TCefSize-">ICefViewDelegate.OnGetMaximumSize</a>.</p><p>
+ Return the maximum size for |view|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnGetHeightForWidth-ICefView-Integer-Integer-"></span><code>procedure <strong>OnGetHeightForWidth</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; width: Integer; var aResult: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefViewDelegate.html#OnGetHeightForWidth-ICefView-Integer-Integer-">ICefViewDelegate.OnGetHeightForWidth</a>.</p><p>
+ Return the height necessary to display |view| with the provided |width|. If not specified the result of get_preferred_size().height will be used by default. Override if |view|'s preferred height depends upon the width (for example, with Labels). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnParentViewChanged-ICefView-boolean-ICefView-"></span><code>procedure <strong>OnParentViewChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const parent: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefViewDelegate.html#OnParentViewChanged-ICefView-boolean-ICefView-">ICefViewDelegate.OnParentViewChanged</a>.</p><p>
+ Called when the parent of |view| has changed. If |view| is being added to |parent| then |added| will be true (1). If |view| is being removed from |parent| then |added| will be false (0). If |view| is being reparented the remove notification will be sent before the add notification. Do not modify the view hierarchy in this callback. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnChildViewChanged-ICefView-boolean-ICefView-"></span><code>procedure <strong>OnChildViewChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const child: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefViewDelegate.html#OnChildViewChanged-ICefView-boolean-ICefView-">ICefViewDelegate.OnChildViewChanged</a>.</p><p>
+ Called when a child of |view| has changed. If |child| is being added to |view| then |added| will be true (1). If |child| is being removed from |view| then |added| will be false (0). If |child| is being reparented the remove notification will be sent to the old parent before the add notification is sent to the new parent. Do not modify the view hierarchy in this callback. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnWindowChanged-ICefView-boolean-"></span><code>procedure <strong>OnWindowChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefViewDelegate.html#OnWindowChanged-ICefView-boolean-">ICefViewDelegate.OnWindowChanged</a>.</p><p>
+ Called when |view| is added or removed from the ICefWindow. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnLayoutChanged-ICefView-TCefRect-"></span><code>procedure <strong>OnLayoutChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; new_bounds: <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefViewDelegate.html#OnLayoutChanged-ICefView-TCefRect-">ICefViewDelegate.OnLayoutChanged</a>.</p><p>
+ Called when the layout of |view| has changed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnFocus-ICefView-"></span><code>procedure <strong>OnFocus</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefViewDelegate.html#OnFocus-ICefView-">ICefViewDelegate.OnFocus</a>.</p><p>
+ Called when |view| gains focus. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnBlur-ICefView-"></span><code>procedure <strong>OnBlur</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefViewDelegate.html#OnBlur-ICefView-">ICefViewDelegate.OnBlur</a>.</p><p>
+ Called when |view| loses focus. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefViewDelegate.html">ICefViewDelegate</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a ICefViewDelegate instance using a PCefViewDelegate data pointer. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

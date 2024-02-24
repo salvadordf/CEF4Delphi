@@ -814,42 +814,29 @@ type
       /// <summary>
       /// Used to navigate to a URL in the specified frame or the main frame.
       /// </summary>
-      procedure   LoadURL(const aURL : ustring; const aFrameName : ustring = ''); overload;
+      procedure   LoadURL(const aURL : ustring; const aFrameName : ustring = ''; const aFrameIdentifier : ustring = ''); overload;
       /// <summary>
       /// Used to navigate to a URL in the specified frame or the main frame.
       /// </summary>
       procedure   LoadURL(const aURL : ustring; const aFrame : ICefFrame); overload;
       /// <summary>
-      /// Used to navigate to a URL in the specified frame or the main frame.
-      /// </summary>
-      procedure   LoadURL(const aURL : ustring; const aFrameIdentifier : int64); overload;
-      /// <summary>
       /// Used to load a DATA URI with the HTML string contents in the specified frame or the main frame.
       /// </summary>
-      procedure   LoadString(const aHTML : ustring; const aFrameName : ustring = ''); overload;
+      procedure   LoadString(const aHTML : ustring; const aFrameName : ustring = ''; const aFrameIdentifier : ustring = ''); overload;
       /// <summary>
       /// Used to load a DATA URI with the HTML string contents in the specified frame or the main frame.
       /// </summary>
       procedure   LoadString(const aHTML : ustring; const aFrame : ICefFrame); overload;
       /// <summary>
-      /// Used to load a DATA URI with the HTML string contents in the specified frame or the main frame.
-      /// </summary>
-      procedure   LoadString(const aHTML : ustring; const aFrameIdentifier : int64); overload;
-      /// <summary>
       /// Used to load a DATA URI with the stream contents in the specified frame or the main frame.
       /// The DATA URI will be configured with the mime type and charset specified in the parameters.
       /// </summary>
-      procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameName : ustring = ''); overload;
+      procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameName : ustring = ''; const aFrameIdentifier : ustring = ''); overload;
       /// <summary>
       /// Used to load a DATA URI with the stream contents in the specified frame or the main frame.
       /// The DATA URI will be configured with the mime type and charset specified in the parameters.
       /// </summary>
       procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrame : ICefFrame); overload;
-      /// <summary>
-      /// Used to load a DATA URI with the stream contents in the specified frame or the main frame.
-      /// The DATA URI will be configured with the mime type and charset specified in the parameters.
-      /// </summary>
-      procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameIdentifier : int64); overload;
       /// <summary>
       /// Load the request represented by the aRequest object.
       /// </summary>
@@ -922,7 +909,7 @@ type
       /// <para>It uses a CefStringVisitor to get the HTML content asynchronously and the
       /// result will be received in the TChromiumCore.OnTextResultAvailable event.</para>
       /// </summary>
-      procedure   RetrieveHTML(const aFrameName : ustring = ''); overload;
+      procedure   RetrieveHTML(const aFrameName : ustring = ''; const aFrameIdentifier : ustring = ''); overload;
       /// <summary>
       /// <para>Retrieve all the HTML content from the specified frame or the main frame.
       /// Set aFrame to nil to get the HTML source from the main frame.</para>
@@ -931,19 +918,12 @@ type
       /// </summary>
       procedure   RetrieveHTML(const aFrame : ICefFrame); overload;
       /// <summary>
-      /// Retrieve all the HTML content from the specified frame or the main frame.
-      /// Set aFrameIdentifier to zero to get the HTML source from the main frame.
-      /// It uses a CefStringVisitor to get the HTML content asynchronously and the
-      /// result will be received in the TChromiumCore.OnTextResultAvailable event.
-      /// </summary>
-      procedure   RetrieveHTML(const aFrameIdentifier : int64); overload;
-      /// <summary>
       /// Retrieve all the text content from the specified frame or the main frame.
       /// Leave aFrameName empty to get the text from the main frame.
       /// It uses a CefStringVisitor to get the text asynchronously and the
       /// result will be received in the TChromiumCore.OnTextResultAvailable event.
       /// </summary>
-      procedure   RetrieveText(const aFrameName : ustring = ''); overload;
+      procedure   RetrieveText(const aFrameName : ustring = ''; const aFrameIdentifier : ustring = ''); overload;
       /// <summary>
       /// Retrieve all the text content from the specified frame or the main frame.
       /// Set aFrame to nil to get the text from the main frame.
@@ -951,13 +931,6 @@ type
       /// result will be received in the TChromiumCore.OnTextResultAvailable event.
       /// </summary>
       procedure   RetrieveText(const aFrame : ICefFrame); overload;
-      /// <summary>
-      /// Retrieve all the text content from the specified frame or the main frame.
-      /// Set aFrameIdentifier to zero to get the text from the main frame.
-      /// It uses a CefStringVisitor to get the text asynchronously and the
-      /// result will be received in the TChromiumCore.OnTextResultAvailable event.
-      /// </summary>
-      procedure   RetrieveText(const aFrameIdentifier : int64); overload;
       /// <summary>
       /// Retrieve a snapshot of current navigation entries asynchronously. The
       /// TChromiumCore.OnNavigationVisitorResultAvailable event will be triggered
@@ -971,31 +944,24 @@ type
       /// <summary>
       /// Returns the identifiers of all existing frames.
       /// </summary>
-      function    GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
+      function    GetFrameIdentifiers(var aFrameIdentifiers : TStrings) : boolean;
       /// <summary>
-      /// Execute a string of JavaScript code in this frame.
+      /// Execute a string of JavaScript code in the specified frame or the main frame.
       /// </summary>
       /// <param name="aCode">JavaScript code.</param>
       /// <param name="aScriptURL">The URL where the script in question can be found, if any. The renderer may request this URL to show the developer the source of the error.</param>
       /// <param name="aFrameName">Name of the frame where the JavaScript code will be executed. This name is generated automatically by Chromium. See ICefBrowser.GetFrameNames.</param>
+      /// <param name="aFrameIdentifier">Identifier of the frame where the JavaScript code will be executed.</param>
       /// <param name="aStartLine">The base line number to use for error reporting.</param>
-      procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrameName : ustring = ''; aStartLine : integer = 0); overload;
+      procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrameName : ustring = ''; const aFrameIdentifier : ustring = ''; aStartLine : integer = 0); overload;
       /// <summary>
-      /// Execute a string of JavaScript code in this frame.
+      /// Execute a string of JavaScript code in the specified frame or the main frame.
       /// </summary>
       /// <param name="aCode">JavaScript code.</param>
       /// <param name="aScriptURL">The URL where the script in question can be found, if any. The renderer may request this URL to show the developer the source of the error.</param>
       /// <param name="aFrame">Frame where the JavaScript code will be executed.</param>
       /// <param name="aStartLine">The base line number to use for error reporting.</param>
       procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrame : ICefFrame; aStartLine : integer = 0); overload;
-      /// <summary>
-      /// Execute a string of JavaScript code in this frame.
-      /// </summary>
-      /// <param name="aCode">JavaScript code.</param>
-      /// <param name="aScriptURL">The URL where the script in question can be found, if any. The renderer may request this URL to show the developer the source of the error.</param>
-      /// <param name="aFrameIdentifier">Frame where the JavaScript code will be executed.</param>
-      /// <param name="aStartLine">The base line number to use for error reporting.</param>
-      procedure   ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrameIdentifier : int64; aStartLine : integer = 0); overload;
       /// <summary>
       /// Used to update the browser preferences using the TChromiumCore property values asynchronously.
       /// </summary>
@@ -1351,7 +1317,7 @@ type
       /// Send an ACK message back from the target process if confirmation is
       /// required.
       /// </summary>
-      procedure   SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage; const aFrameName : ustring = ''); overload;
+      procedure   SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage; const aFrameName : ustring = ''; const aFrameIdentifier : ustring = ''); overload;
       /// <summary>
       /// Send a message to the specified |targetProcess|. Ownership of the message
       /// contents will be transferred and the |ProcMessage| reference will be
@@ -1362,22 +1328,13 @@ type
       /// </summary>
       procedure   SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage; const aFrame : ICefFrame); overload;
       /// <summary>
-      /// Send a message to the specified |targetProcess|. Ownership of the message
-      /// contents will be transferred and the |ProcMessage| reference will be
-      /// invalidated. Message delivery is not guaranteed in all cases (for example,
-      /// if the browser is closing, navigating, or if the target process crashes).
-      /// Send an ACK message back from the target process if confirmation is
-      /// required.
-      /// </summary>
-      procedure   SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage; const aFrameIdentifier : int64); overload;
-      /// <summary>
       /// <para>Create a new URL request that will be treated as originating from this
       /// frame and the associated browser. Use TCustomCefUrlrequestClient.Create instead if
       /// you do not want the request to have this association, in which case it may
       /// be handled differently (see documentation on that function). A request
       /// created with this function may only originate from the browser process,
       /// and will behave as follows:</para>
-      /// </code>
+      /// <code>
       ///   - It may be intercepted by the client via CefResourceRequestHandler or
       ///     CefSchemeHandlerFactory.
       ///   - POST data may only contain a single element of type PDE_TYPE_FILE or
@@ -1386,7 +1343,7 @@ type
       /// <para>The |request| object will be marked as read-only after calling this
       /// function.</para>
       /// </summary>
-      function    CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient; const aFrameName : ustring = ''): ICefUrlRequest; overload;
+      function    CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient; const aFrameName : ustring = ''; const aFrameIdentifier : ustring = ''): ICefUrlRequest; overload;
       /// <summary>
       /// <para>Create a new URL request that will be treated as originating from this
       /// frame and the associated browser. Use TCustomCefUrlrequestClient.Create instead if
@@ -1404,23 +1361,6 @@ type
       /// function.</para>
       /// </summary>
       function    CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient; const aFrame : ICefFrame): ICefUrlRequest; overload;
-      /// <summary>
-      /// <para>Create a new URL request that will be treated as originating from this
-      /// frame and the associated browser. Use TCustomCefUrlrequestClient.Create instead if
-      /// you do not want the request to have this association, in which case it may
-      /// be handled differently (see documentation on that function). A request
-      /// created with this function may only originate from the browser process,
-      /// and will behave as follows:</para>
-      /// <code>
-      ///   - It may be intercepted by the client via CefResourceRequestHandler or
-      ///     CefSchemeHandlerFactory.
-      ///   - POST data may only contain a single element of type PDE_TYPE_FILE or
-      ///     PDE_TYPE_BYTES.
-      /// </code>
-      /// <para>The |request| object will be marked as read-only after calling this
-      /// function.</para>
-      /// </summary>
-      function    CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient; const aFrameIdentifier : int64): ICefUrlRequest; overload;
       /// <summary>
       /// Set whether the browser is focused.
       /// </summary>
@@ -5166,19 +5106,24 @@ begin
   aSettings.windowless_frame_rate := CEF_OSR_FRAMERATE_DEFAULT;  // Use CEF_OSR_SHARED_TEXTURES_FRAMERATE_DEFAULT if the shared textures are enabled.
 end;
 
-// Leave aFrameName empty to load the URL in the main frame
-procedure TChromiumCore.LoadURL(const aURL : ustring; const aFrameName : ustring);
+procedure TChromiumCore.LoadURL(const aURL : ustring; const aFrameName, aFrameIdentifier : ustring);
 var
   TempFrame : ICefFrame;
 begin
   if Initialized then
     begin
+      TempFrame := nil;
       if (length(aFrameName) > 0) then
-        TempFrame := Browser.GetFrame(aFrameName)
-       else
+        TempFrame := Browser.GetFrameByName(aFrameName);
+
+      if (TempFrame = nil) and (length(aFrameIdentifier) > 0) then
+        TempFrame := Browser.GetFrameByIdentifier(aFrameIdentifier);
+
+      if (TempFrame = nil) then
         TempFrame := Browser.MainFrame;
 
-      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.LoadUrl(aURL);
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.LoadUrl(aURL);
     end;
 end;
 
@@ -5188,31 +5133,20 @@ begin
     aFrame.LoadUrl(aURL);
 end;
 
-procedure TChromiumCore.LoadURL(const aURL : ustring; const aFrameIdentifier : int64);
-var
-  TempFrame : ICefFrame;
-begin
-  if Initialized then
-    begin
-      if (aFrameIdentifier <> 0) then
-        TempFrame := Browser.GetFrameByident(aFrameIdentifier)
-       else
-        TempFrame := Browser.MainFrame;
-
-      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.LoadUrl(aURL);
-    end;
-end;
-
-// Leave aFrameName empty to load the URL in the main frame
-procedure TChromiumCore.LoadString(const aHTML : ustring; const aFrameName : ustring);
+procedure TChromiumCore.LoadString(const aHTML : ustring; const aFrameName, aFrameIdentifier : ustring);
 var
   TempFrame : ICefFrame;
 begin
   if Initialized and (length(aHTML) > 0) then
     begin
+      TempFrame := nil;
       if (length(aFrameName) > 0) then
-        TempFrame := Browser.GetFrame(aFrameName)
-       else
+        TempFrame := Browser.GetFrameByName(aFrameName);
+
+      if (TempFrame = nil) and (length(aFrameIdentifier) > 0) then
+        TempFrame := Browser.GetFrameByIdentifier(aFrameIdentifier);
+
+      if (TempFrame = nil) then
         TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then
@@ -5226,32 +5160,21 @@ begin
     aFrame.LoadUrl(CefGetDataURI(aHTML, 'text/html'));
 end;
 
-procedure TChromiumCore.LoadString(const aHTML : ustring; const aFrameIdentifier : int64);
-var
-  TempFrame : ICefFrame;
-begin
-  if Initialized and (length(aHTML) > 0) then
-    begin
-      if (aFrameIdentifier <> 0) then
-        TempFrame := Browser.GetFrameByident(aFrameIdentifier)
-       else
-        TempFrame := Browser.MainFrame;
-
-      if (TempFrame <> nil) and TempFrame.IsValid then
-        TempFrame.LoadUrl(CefGetDataURI(aHTML, 'text/html'));
-    end;
-end;
-
 // Leave aFrameName empty to load the URL in the main frame
-procedure TChromiumCore.LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameName : ustring);
+procedure TChromiumCore.LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameName, aFrameIdentifier : ustring);
 var
   TempFrame : ICefFrame;
 begin
   if Initialized and (aStream <> nil) and (aStream.Size > 0) then
     begin
+      TempFrame := nil;
       if (length(aFrameName) > 0) then
-        TempFrame := Browser.GetFrame(aFrameName)
-       else
+        TempFrame := Browser.GetFrameByName(aFrameName);
+
+      if (TempFrame = nil) and (length(aFrameIdentifier) > 0) then
+        TempFrame := Browser.GetFrameByIdentifier(aFrameIdentifier);
+
+      if (TempFrame = nil) then
         TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then
@@ -5263,22 +5186,6 @@ procedure TChromiumCore.LoadResource(const aStream : TCustomMemoryStream; const 
 begin
   if Initialized and (aStream <> nil) and (aStream.Size > 0) and (aFrame <> nil) and aFrame.IsValid then
     aFrame.LoadUrl(CefGetDataURI(aStream.Memory, aStream.Size, aMimeType, aCharset));
-end;
-
-procedure TChromiumCore.LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameIdentifier : int64);
-var
-  TempFrame : ICefFrame;
-begin
-  if Initialized and (aStream <> nil) and (aStream.Size > 0) then
-    begin
-      if (aFrameIdentifier <> 0) then
-        TempFrame := Browser.GetFrameByident(aFrameIdentifier)
-       else
-        TempFrame := Browser.MainFrame;
-
-      if (TempFrame <> nil) and TempFrame.IsValid then
-        TempFrame.LoadUrl(CefGetDataURI(aStream.Memory, aStream.Size, aMimeType, aCharset));
-    end;
 end;
 
 // WARNING: This function will fail with "bad IPC message" reason
@@ -6537,18 +6444,21 @@ begin
     end;
 end;
 
-// Leave aFrameName empty to get the HTML source from the main frame
-// The TChromiumCore.OnTextResultAvailable event will be triggered with the HTML contents
-procedure TChromiumCore.RetrieveHTML(const aFrameName : ustring);
+procedure TChromiumCore.RetrieveHTML(const aFrameName, aFrameIdentifier : ustring);
 var
   TempFrame   : ICefFrame;
   TempVisitor : ICefStringVisitor;
 begin
   if Initialized then
     begin
+      TempFrame := nil;
       if (length(aFrameName) > 0) then
-        TempFrame := Browser.GetFrame(aFrameName)
-       else
+        TempFrame := Browser.GetFrameByName(aFrameName);
+
+      if (TempFrame = nil) and (length(aFrameIdentifier) > 0) then
+        TempFrame := Browser.GetFrameByIdentifier(aFrameIdentifier);
+
+      if (TempFrame = nil) then
         TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then
@@ -6580,38 +6490,21 @@ begin
     end;
 end;
 
-procedure TChromiumCore.RetrieveHTML(const aFrameIdentifier : int64);
+procedure TChromiumCore.RetrieveText(const aFrameName, aFrameIdentifier : ustring);
 var
   TempFrame   : ICefFrame;
   TempVisitor : ICefStringVisitor;
 begin
   if Initialized then
     begin
-      if (aFrameIdentifier <> 0) then
-        TempFrame := Browser.GetFrameByident(aFrameIdentifier)
-       else
-        TempFrame := Browser.MainFrame;
-
-      if (TempFrame <> nil) and TempFrame.IsValid then
-        try
-          TempVisitor := TCustomCefStringVisitor.Create(self);
-          TempFrame.GetSource(TempVisitor);
-        finally
-          TempVisitor := nil;
-        end;
-    end;
-end;
-
-procedure TChromiumCore.RetrieveText(const aFrameName : ustring);
-var
-  TempFrame   : ICefFrame;
-  TempVisitor : ICefStringVisitor;
-begin
-  if Initialized then
-    begin
+      TempFrame := nil;
       if (length(aFrameName) > 0) then
-        TempFrame := Browser.GetFrame(aFrameName)
-       else
+        TempFrame := Browser.GetFrameByName(aFrameName);
+
+      if (TempFrame = nil) and (length(aFrameIdentifier) > 0) then
+        TempFrame := Browser.GetFrameByIdentifier(aFrameIdentifier);
+
+      if (TempFrame = nil) then
         TempFrame := Browser.MainFrame;
 
       if (TempFrame <> nil) and TempFrame.IsValid then
@@ -6643,28 +6536,6 @@ begin
     end;
 end;
 
-procedure TChromiumCore.RetrieveText(const aFrameIdentifier : int64);
-var
-  TempFrame   : ICefFrame;
-  TempVisitor : ICefStringVisitor;
-begin
-  if Initialized then
-    begin
-      if (aFrameIdentifier <> 0) then
-        TempFrame := Browser.GetFrameByident(aFrameIdentifier)
-       else
-        TempFrame := Browser.MainFrame;
-
-      if (TempFrame <> nil) and TempFrame.IsValid then
-        try
-          TempVisitor := TCustomCefStringVisitor.Create(self);
-          TempFrame.GetText(TempVisitor);
-        finally
-          TempVisitor := nil;
-        end;
-    end;
-end;
-
 procedure TChromiumCore.GetNavigationEntries(currentOnly: Boolean);
 var
   TempVisitor : ICefNavigationEntryVisitor;
@@ -6683,9 +6554,9 @@ begin
   Result := Initialized and Browser.GetFrameNames(aFrameNames);
 end;
 
-function TChromiumCore.GetFrameIdentifiers(var aFrameCount : NativeUInt; var aFrameIdentifierArray : TCefFrameIdentifierArray) : boolean;
+function TChromiumCore.GetFrameIdentifiers(var aFrameIdentifiers : TStrings) : boolean;
 begin
-  Result := Initialized and Browser.GetFrameIdentifiers(aFrameCount, aFrameIdentifierArray);
+  Result := Initialized and Browser.GetFrameIdentifiers(aFrameIdentifiers);
 end;
 
 procedure TChromiumCore.UpdatePreferences;
@@ -7758,16 +7629,21 @@ begin
     FOnTextResultAvailable(self, aText);
 end;
 
-procedure TChromiumCore.ExecuteJavaScript(const aCode, aScriptURL, aFrameName : ustring; aStartLine : integer);
+procedure TChromiumCore.ExecuteJavaScript(const aCode, aScriptURL, aFrameName, aFrameIdentifier : ustring; aStartLine : integer);
 var
   TempFrame : ICefFrame;
 begin
   try
     if Initialized then
       begin
+        TempFrame := nil;
         if (length(aFrameName) > 0) then
-          TempFrame := Browser.GetFrame(aFrameName)
-         else
+          TempFrame := Browser.GetFrameByName(aFrameName);
+
+        if (TempFrame = nil) and (length(aFrameIdentifier) > 0) then
+          TempFrame := Browser.GetFrameByIdentifier(aFrameIdentifier);
+
+        if (TempFrame = nil) then
           TempFrame := Browser.MainFrame;
 
         if (TempFrame <> nil) and TempFrame.IsValid then
@@ -7784,27 +7660,6 @@ begin
   try
     if Initialized and (aFrame <> nil) and aFrame.IsValid then
       aFrame.ExecuteJavaScript(aCode, aScriptURL, aStartLine);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TChromiumCore.ExecuteJavaScript', e) then raise;
-  end;
-end;
-
-procedure TChromiumCore.ExecuteJavaScript(const aCode, aScriptURL : ustring; const aFrameIdentifier : int64; aStartLine : integer = 0);
-var
-  TempFrame : ICefFrame;
-begin
-  try
-    if Initialized then
-      begin
-        if (aFrameIdentifier <> 0) then
-          TempFrame := Browser.GetFrameByident(aFrameIdentifier)
-         else
-          TempFrame := Browser.MainFrame;
-
-        if (TempFrame <> nil) and TempFrame.IsValid then
-          TempFrame.ExecuteJavaScript(aCode, aScriptURL, aStartLine);
-      end;
   except
     on e : exception do
       if CustomExceptionHandler('TChromiumCore.ExecuteJavaScript', e) then raise;
@@ -9515,16 +9370,21 @@ begin
     Browser.Host.SetAccessibilityState(accessibilityState);
 end;
 
-procedure TChromiumCore.SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage; const aFrameName : ustring);
+procedure TChromiumCore.SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage; const aFrameName, aFrameIdentifier : ustring);
 var
   TempFrame : ICefFrame;
 begin
   try
     if Initialized then
       begin
+        TempFrame := nil;
         if (length(aFrameName) > 0) then
-          TempFrame := Browser.GetFrame(aFrameName)
-         else
+          TempFrame := Browser.GetFrameByName(aFrameName);
+
+        if (TempFrame = nil) and (length(aFrameIdentifier) > 0) then
+          TempFrame := Browser.GetFrameByIdentifier(aFrameIdentifier);
+
+        if (TempFrame = nil) then
           TempFrame := Browser.MainFrame;
 
         if (TempFrame <> nil) and TempFrame.IsValid then
@@ -9557,28 +9417,7 @@ begin
   end;
 end;
 
-procedure TChromiumCore.SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage; const aFrameIdentifier : int64);
-var
-  TempFrame : ICefFrame;
-begin
-  try
-    if Initialized then
-      begin
-        if (aFrameIdentifier <> 0) then
-          TempFrame := Browser.GetFrameByident(aFrameIdentifier)
-         else
-          TempFrame := Browser.MainFrame;
-
-        if (TempFrame <> nil) and TempFrame.IsValid then
-          TempFrame.SendProcessMessage(targetProcess, ProcMessage);
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TChromiumCore.SendProcessMessage', e) then raise;
-  end;
-end;
-
-function TChromiumCore.CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient; const aFrameName : ustring): ICefUrlRequest;
+function TChromiumCore.CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient; const aFrameName, aFrameIdentifier : ustring): ICefUrlRequest;
 var
   TempFrame : ICefFrame;
 begin
@@ -9587,9 +9426,14 @@ begin
   try
     if Initialized then
       begin
+        TempFrame := nil;
         if (length(aFrameName) > 0) then
-          TempFrame := Browser.GetFrame(aFrameName)
-         else
+          TempFrame := Browser.GetFrameByName(aFrameName);
+
+        if (TempFrame = nil) and (length(aFrameIdentifier) > 0) then
+          TempFrame := Browser.GetFrameByIdentifier(aFrameIdentifier);
+
+        if (TempFrame = nil) then
           TempFrame := Browser.MainFrame;
 
         if (TempFrame <> nil) and TempFrame.IsValid then
@@ -9619,29 +9463,6 @@ begin
             if (TempFrame <> nil) and TempFrame.IsValid then
               Result := TempFrame.CreateUrlRequest(request, client);
           end;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TChromiumCore.CreateUrlRequest', e) then raise;
-  end;
-end;
-
-function TChromiumCore.CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient; const aFrameIdentifier : int64): ICefUrlRequest;
-var
-  TempFrame : ICefFrame;
-begin
-  Result := nil;
-
-  try
-    if Initialized then
-      begin
-        if (aFrameIdentifier <> 0) then
-          TempFrame := Browser.GetFrameByident(aFrameIdentifier)
-         else
-          TempFrame := Browser.MainFrame;
-
-        if (TempFrame <> nil) and TempFrame.IsValid then
-          Result := TempFrame.CreateUrlRequest(request, client);
       end;
   except
     on e : exception do

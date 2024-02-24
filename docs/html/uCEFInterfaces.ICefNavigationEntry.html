@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefNavigationEntry</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefNavigationEntry"></span><h1 class="cio">Interface ICefNavigationEntry</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefNavigationEntry = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Interface used to represent an entry in navigation history. </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_navigation_entry_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_navigation_entry_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_navigation_entry_capi.h (cef_navigation_entry_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefNavigationEntry</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#IsValid">IsValid</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#GetUrl">GetUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#GetDisplayUrl">GetDisplayUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#GetOriginalUrl">GetOriginalUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#GetTitle">GetTitle</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#GetTransitionType">GetTransitionType</a></strong>: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#HasPostData">HasPostData</a></strong>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#GetCompletionTime">GetCompletionTime</a></strong>: TDateTime;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#GetHttpStatusCode">GetHttpStatusCode</a></strong>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#GetSSLStatus">GetSSLStatus</a></strong>: <a href="uCEFInterfaces.ICefSSLStatus.html">ICefSSLStatus</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#Url">Url</a></strong>              : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetUrl">GetUrl</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#DisplayUrl">DisplayUrl</a></strong>       : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetDisplayUrl">GetDisplayUrl</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#OriginalUrl">OriginalUrl</a></strong>      : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetOriginalUrl">GetOriginalUrl</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#Title">Title</a></strong>            : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetTitle">GetTitle</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#TransitionType">TransitionType</a></strong>   : <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>  read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetTransitionType">GetTransitionType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#CompletionTime">CompletionTime</a></strong>   : TDateTime           read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetCompletionTime">GetCompletionTime</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#HttpStatusCode">HttpStatusCode</a></strong>   : Integer             read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetHttpStatusCode">GetHttpStatusCode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefNavigationEntry.html#SSLStatus">SSLStatus</a></strong>        : <a href="uCEFInterfaces.ICefSSLStatus.html">ICefSSLStatus</a>       read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetSSLStatus">GetSSLStatus</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsValid"></span><code>function <strong>IsValid</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this object is valid. Do not call any other functions if this function returns false (0). </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{D17B4B37-AA45-42D9-B4E4-AAB6FE2AB297}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetUrl"></span><code>function <strong>GetUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the actual URL of the page. For some pages this may be data: URL or similar. Use get_display_url() to return a display-friendly version. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDisplayUrl"></span><code>function <strong>GetDisplayUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a display-friendly version of the URL. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetOriginalUrl"></span><code>function <strong>GetOriginalUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the original URL that was entered by the user before any redirects. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetTitle"></span><code>function <strong>GetTitle</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the title set by the page. This value may be NULL. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetTransitionType"></span><code>function <strong>GetTransitionType</strong>: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the transition type which indicates what the user did to move to this page from the previous page. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasPostData"></span><code>function <strong>HasPostData</strong>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this navigation includes post data. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetCompletionTime"></span><code>function <strong>GetCompletionTime</strong>: TDateTime;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the time for the last known successful navigation completion. A navigation may be completed more than once if the page is reloaded. May be 0 if the navigation has not yet completed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetHttpStatusCode"></span><code>function <strong>GetHttpStatusCode</strong>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the HTTP status code for the last known successful navigation response. May be 0 if the response has not yet been received or if the navigation has not yet completed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSSLStatus"></span><code>function <strong>GetSSLStatus</strong>: <a href="uCEFInterfaces.ICefSSLStatus.html">ICefSSLStatus</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the SSL information for this navigation entry. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Url"></span><code>property <strong>Url</strong>              : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetUrl">GetUrl</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the actual URL of the page. For some pages this may be data: URL or similar. Use get_display_url() to return a display-friendly version. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DisplayUrl"></span><code>property <strong>DisplayUrl</strong>       : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetDisplayUrl">GetDisplayUrl</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a display-friendly version of the URL. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OriginalUrl"></span><code>property <strong>OriginalUrl</strong>      : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetOriginalUrl">GetOriginalUrl</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the original URL that was entered by the user before any redirects. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Title"></span><code>property <strong>Title</strong>            : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetTitle">GetTitle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the title set by the page. This value may be NULL. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TransitionType"></span><code>property <strong>TransitionType</strong>   : <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>  read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetTransitionType">GetTransitionType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the transition type which indicates what the user did to move to this page from the previous page. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CompletionTime"></span><code>property <strong>CompletionTime</strong>   : TDateTime           read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetCompletionTime">GetCompletionTime</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the time for the last known successful navigation completion. A navigation may be completed more than once if the page is reloaded. May be 0 if the navigation has not yet completed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HttpStatusCode"></span><code>property <strong>HttpStatusCode</strong>   : Integer             read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetHttpStatusCode">GetHttpStatusCode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the HTTP status code for the last known successful navigation response. May be 0 if the response has not yet been received or if the navigation has not yet completed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SSLStatus"></span><code>property <strong>SSLStatus</strong>        : <a href="uCEFInterfaces.ICefSSLStatus.html">ICefSSLStatus</a>       read <a href="uCEFInterfaces.ICefNavigationEntry.html#GetSSLStatus">GetSSLStatus</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the SSL information for this navigation entry. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

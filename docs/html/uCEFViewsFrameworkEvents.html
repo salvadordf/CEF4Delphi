@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFViewsFrameworkEvents</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<h1 class="unit">Unit uCEFViewsFrameworkEvents</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section">Classes, Interfaces, Objects and Records</div><div class="one_section">Functions and Procedures</div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div><div class="one_section">Constants</div><div class="one_section">Variables</div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
+<span id="PasDoc-Types"></span><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnGetPreferredSizeEvent-TObject-ICefView-TCefSize-">TOnGetPreferredSizeEvent</a></strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnGetMinimumSizeEvent-TObject-ICefView-TCefSize-">TOnGetMinimumSizeEvent</a></strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnGetMaximumSizeEvent-TObject-ICefView-TCefSize-">TOnGetMaximumSizeEvent</a></strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnGetHeightForWidthEvent-TObject-ICefView-Integer-Integer-">TOnGetHeightForWidthEvent</a></strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; width: Integer; var aResult: Integer) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnParentViewChangedEvent-TObject-ICefView-boolean-ICefView-">TOnParentViewChangedEvent</a></strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const parent: <a href="uCEFInterfaces.ICefView.html">ICefView</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnChildViewChangedEvent-TObject-ICefView-boolean-ICefView-">TOnChildViewChangedEvent</a></strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const child: <a href="uCEFInterfaces.ICefView.html">ICefView</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnWindowChangedEvent-TObject-ICefView-boolean-">TOnWindowChangedEvent</a></strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnLayoutChangedEvent-TObject-ICefView-TCefRect-">TOnLayoutChangedEvent</a></strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; new_bounds: <a href="uCEFTypes.TCefRect.html">TCefRect</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnFocusEvent-TObject-ICefView-">TOnFocusEvent</a></strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnBlurEvent-TObject-ICefView-">TOnBlurEvent</a></strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEventEvent-TObject-ICefTextfield-TCefKeyEvent-boolean-">TOnTextfieldKeyEventEvent</a></strong> = procedure(const Sender: TObject; const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>; const event: <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnAfterUserActionEvent-TObject-ICefTextfield-">TOnAfterUserActionEvent</a></strong> = procedure(const Sender: TObject; const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnBrowserCreatedEvent-TObject-ICefBrowserView-ICefBrowser-">TOnBrowserCreatedEvent</a></strong> = procedure(const Sender: TObject; const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnBrowserDestroyedEvent-TObject-ICefBrowserView-ICefBrowser-">TOnBrowserDestroyedEvent</a></strong> = procedure(const Sender: TObject; const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnGetDelegateForPopupBrowserViewEvent-TObject-ICefBrowserView-TCefBrowserSettings-ICefClient-boolean-ICefBrowserViewDelegate-">TOnGetDelegateForPopupBrowserViewEvent</a></strong> = procedure(const Sender: TObject; const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; is_devtools: boolean; var aResult : <a href="uCEFInterfaces.ICefBrowserViewDelegate.html">ICefBrowserViewDelegate</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnPopupBrowserViewCreatedEvent-TObject-ICefBrowserView-ICefBrowserView-boolean-boolean-">TOnPopupBrowserViewCreatedEvent</a></strong> = procedure(const Sender: TObject; const browser_view, popup_browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; is_devtools: boolean; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnGetChromeToolbarTypeEvent-TObject-ICefBrowserView-TCefChromeToolbarType-">TOnGetChromeToolbarTypeEvent</a></strong> = procedure(const Sender: TObject; const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aChromeToolbarType: <a href="uCEFTypes.html#TCefChromeToolbarType">TCefChromeToolbarType</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnUseFramelessWindowForPictureInPicture-TObject-ICefBrowserView-boolean-">TOnUseFramelessWindowForPictureInPicture</a></strong> = procedure(const Sender: TObject; const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnGestureCommandEvent-TObject-ICefBrowserView-TCefGestureCommand-boolean-">TOnGestureCommandEvent</a></strong> = procedure(const Sender: TObject; const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; gesture_command: <a href="uCEFTypes.html#TCefGestureCommand">TCefGestureCommand</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnButtonPressedEvent-TObject-ICefButton-">TOnButtonPressedEvent</a></strong> = procedure(const Sender: TObject; const button: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnButtonStateChangedEvent-TObject-ICefButton-">TOnButtonStateChangedEvent</a></strong> = procedure(const Sender: TObject; const button: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnMenuButtonPressedEvent-TObject-ICefMenuButton-TCefPoint-ICefMenuButtonPressedLock-">TOnMenuButtonPressedEvent</a></strong> = procedure(const Sender: TObject; const menu_button: <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>; const screen_point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; const button_pressed_lock: <a href="uCEFInterfaces.ICefMenuButtonPressedLock.html">ICefMenuButtonPressedLock</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnWindowCreatedEvent-TObject-ICefWindow-">TOnWindowCreatedEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnWindowClosingEvent-TObject-ICefWindow-">TOnWindowClosingEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnWindowDestroyedEvent-TObject-ICefWindow-">TOnWindowDestroyedEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnWindowActivationChangedEvent-TObject-ICefWindow-boolean-">TOnWindowActivationChangedEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; active: boolean) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnWindowBoundsChangedEvent-TObject-ICefWindow-TCefRect-">TOnWindowBoundsChangedEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const new_bounds: <a href="uCEFTypes.TCefRect.html">TCefRect</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnGetParentWindowEvent-TObject-ICefWindow-boolean-boolean-ICefWindow-">TOnGetParentWindowEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var is_menu, can_activate_menu: boolean; var aResult : <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnIsWindowModalDialogEvent-TObject-ICefWindow-boolean-">TOnIsWindowModalDialogEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnGetInitialBoundsEvent-TObject-ICefWindow-TCefRect-">TOnGetInitialBoundsEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : <a href="uCEFTypes.TCefRect.html">TCefRect</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnGetInitialShowStateEvent-TObject-ICefWindow-TCefShowState-">TOnGetInitialShowStateEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : <a href="uCEFTypes.html#TCefShowState">TCefShowState</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnIsFramelessEvent-TObject-ICefWindow-boolean-">TOnIsFramelessEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnWithStandardWindowButtonsEvent-TObject-ICefWindow-boolean-">TOnWithStandardWindowButtonsEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnGetTitlebarHeightEvent-TObject-ICefWindow-Single-boolean-">TOnGetTitlebarHeightEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var titlebar_height: Single; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnCanResizeEvent-TObject-ICefWindow-boolean-">TOnCanResizeEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnCanMaximizeEvent-TObject-ICefWindow-boolean-">TOnCanMaximizeEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnCanMinimizeEvent-TObject-ICefWindow-boolean-">TOnCanMinimizeEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnCanCloseEvent-TObject-ICefWindow-boolean-">TOnCanCloseEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnAcceleratorEvent-TObject-ICefWindow-Integer-boolean-">TOnAcceleratorEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; command_id: Integer; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnWindowKeyEventEvent-TObject-ICefWindow-TCefKeyEvent-boolean-">TOnWindowKeyEventEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const event: <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFViewsFrameworkEvents.html#TOnWindowFullscreenTransitionEvent-TObject-ICefWindow-boolean-">TOnWindowFullscreenTransitionEvent</a></strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; is_completed: boolean) of object;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnGetPreferredSizeEvent-TObject-ICefView-TCefSize-"></span><code><strong>TOnGetPreferredSizeEvent</strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ICefViewDelegate</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnGetMinimumSizeEvent-TObject-ICefView-TCefSize-"></span><code><strong>TOnGetMinimumSizeEvent</strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnGetMaximumSizeEvent-TObject-ICefView-TCefSize-"></span><code><strong>TOnGetMaximumSizeEvent</strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnGetHeightForWidthEvent-TObject-ICefView-Integer-Integer-"></span><code><strong>TOnGetHeightForWidthEvent</strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; width: Integer; var aResult: Integer) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnParentViewChangedEvent-TObject-ICefView-boolean-ICefView-"></span><code><strong>TOnParentViewChangedEvent</strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const parent: <a href="uCEFInterfaces.ICefView.html">ICefView</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnChildViewChangedEvent-TObject-ICefView-boolean-ICefView-"></span><code><strong>TOnChildViewChangedEvent</strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean; const child: <a href="uCEFInterfaces.ICefView.html">ICefView</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnWindowChangedEvent-TObject-ICefView-boolean-"></span><code><strong>TOnWindowChangedEvent</strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; added: boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnLayoutChangedEvent-TObject-ICefView-TCefRect-"></span><code><strong>TOnLayoutChangedEvent</strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; new_bounds: <a href="uCEFTypes.TCefRect.html">TCefRect</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnFocusEvent-TObject-ICefView-"></span><code><strong>TOnFocusEvent</strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnBlurEvent-TObject-ICefView-"></span><code><strong>TOnBlurEvent</strong> = procedure(const Sender: TObject; const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnTextfieldKeyEventEvent-TObject-ICefTextfield-TCefKeyEvent-boolean-"></span><code><strong>TOnTextfieldKeyEventEvent</strong> = procedure(const Sender: TObject; const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>; const event: <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ICefTextfieldDelegate</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnAfterUserActionEvent-TObject-ICefTextfield-"></span><code><strong>TOnAfterUserActionEvent</strong> = procedure(const Sender: TObject; const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnBrowserCreatedEvent-TObject-ICefBrowserView-ICefBrowser-"></span><code><strong>TOnBrowserCreatedEvent</strong> = procedure(const Sender: TObject; const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ICefPanelDelegate ICefBrowserViewDelegate</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnBrowserDestroyedEvent-TObject-ICefBrowserView-ICefBrowser-"></span><code><strong>TOnBrowserDestroyedEvent</strong> = procedure(const Sender: TObject; const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnGetDelegateForPopupBrowserViewEvent-TObject-ICefBrowserView-TCefBrowserSettings-ICefClient-boolean-ICefBrowserViewDelegate-"></span><code><strong>TOnGetDelegateForPopupBrowserViewEvent</strong> = procedure(const Sender: TObject; const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; is_devtools: boolean; var aResult : <a href="uCEFInterfaces.ICefBrowserViewDelegate.html">ICefBrowserViewDelegate</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnPopupBrowserViewCreatedEvent-TObject-ICefBrowserView-ICefBrowserView-boolean-boolean-"></span><code><strong>TOnPopupBrowserViewCreatedEvent</strong> = procedure(const Sender: TObject; const browser_view, popup_browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; is_devtools: boolean; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnGetChromeToolbarTypeEvent-TObject-ICefBrowserView-TCefChromeToolbarType-"></span><code><strong>TOnGetChromeToolbarTypeEvent</strong> = procedure(const Sender: TObject; const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aChromeToolbarType: <a href="uCEFTypes.html#TCefChromeToolbarType">TCefChromeToolbarType</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnUseFramelessWindowForPictureInPicture-TObject-ICefBrowserView-boolean-"></span><code><strong>TOnUseFramelessWindowForPictureInPicture</strong> = procedure(const Sender: TObject; const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnGestureCommandEvent-TObject-ICefBrowserView-TCefGestureCommand-boolean-"></span><code><strong>TOnGestureCommandEvent</strong> = procedure(const Sender: TObject; const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; gesture_command: <a href="uCEFTypes.html#TCefGestureCommand">TCefGestureCommand</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnButtonPressedEvent-TObject-ICefButton-"></span><code><strong>TOnButtonPressedEvent</strong> = procedure(const Sender: TObject; const button: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ICefButtonDelegate</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnButtonStateChangedEvent-TObject-ICefButton-"></span><code><strong>TOnButtonStateChangedEvent</strong> = procedure(const Sender: TObject; const button: <a href="uCEFInterfaces.ICefButton.html">ICefButton</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnMenuButtonPressedEvent-TObject-ICefMenuButton-TCefPoint-ICefMenuButtonPressedLock-"></span><code><strong>TOnMenuButtonPressedEvent</strong> = procedure(const Sender: TObject; const menu_button: <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>; const screen_point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; const button_pressed_lock: <a href="uCEFInterfaces.ICefMenuButtonPressedLock.html">ICefMenuButtonPressedLock</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ICefMenuButtonDelegate</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnWindowCreatedEvent-TObject-ICefWindow-"></span><code><strong>TOnWindowCreatedEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ICefWindowDelegate</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnWindowClosingEvent-TObject-ICefWindow-"></span><code><strong>TOnWindowClosingEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnWindowDestroyedEvent-TObject-ICefWindow-"></span><code><strong>TOnWindowDestroyedEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnWindowActivationChangedEvent-TObject-ICefWindow-boolean-"></span><code><strong>TOnWindowActivationChangedEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; active: boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnWindowBoundsChangedEvent-TObject-ICefWindow-TCefRect-"></span><code><strong>TOnWindowBoundsChangedEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const new_bounds: <a href="uCEFTypes.TCefRect.html">TCefRect</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnGetParentWindowEvent-TObject-ICefWindow-boolean-boolean-ICefWindow-"></span><code><strong>TOnGetParentWindowEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var is_menu, can_activate_menu: boolean; var aResult : <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnIsWindowModalDialogEvent-TObject-ICefWindow-boolean-"></span><code><strong>TOnIsWindowModalDialogEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnGetInitialBoundsEvent-TObject-ICefWindow-TCefRect-"></span><code><strong>TOnGetInitialBoundsEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : <a href="uCEFTypes.TCefRect.html">TCefRect</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnGetInitialShowStateEvent-TObject-ICefWindow-TCefShowState-"></span><code><strong>TOnGetInitialShowStateEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : <a href="uCEFTypes.html#TCefShowState">TCefShowState</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnIsFramelessEvent-TObject-ICefWindow-boolean-"></span><code><strong>TOnIsFramelessEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnWithStandardWindowButtonsEvent-TObject-ICefWindow-boolean-"></span><code><strong>TOnWithStandardWindowButtonsEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnGetTitlebarHeightEvent-TObject-ICefWindow-Single-boolean-"></span><code><strong>TOnGetTitlebarHeightEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var titlebar_height: Single; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnCanResizeEvent-TObject-ICefWindow-boolean-"></span><code><strong>TOnCanResizeEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnCanMaximizeEvent-TObject-ICefWindow-boolean-"></span><code><strong>TOnCanMaximizeEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnCanMinimizeEvent-TObject-ICefWindow-boolean-"></span><code><strong>TOnCanMinimizeEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnCanCloseEvent-TObject-ICefWindow-boolean-"></span><code><strong>TOnCanCloseEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnAcceleratorEvent-TObject-ICefWindow-Integer-boolean-"></span><code><strong>TOnAcceleratorEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; command_id: Integer; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnWindowKeyEventEvent-TObject-ICefWindow-TCefKeyEvent-boolean-"></span><code><strong>TOnWindowKeyEventEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const event: <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>; var aResult : boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnWindowFullscreenTransitionEvent-TObject-ICefWindow-boolean-"></span><code><strong>TOnWindowFullscreenTransitionEvent</strong> = procedure(const Sender: TObject; const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; is_completed: boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

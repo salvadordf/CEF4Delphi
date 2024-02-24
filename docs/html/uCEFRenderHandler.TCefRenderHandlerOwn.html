@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFRenderHandler: Class TCefRenderHandlerOwn</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefRenderHandlerOwn"></span><h1 class="cio">Class TCefRenderHandlerOwn</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFRenderHandler.html">uCEFRenderHandler</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefRenderHandlerOwn = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a>, <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html">ICefRenderHandler</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="thisitem">TCefRenderHandlerOwn</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#GetAccessibilityHandler-ICefAccessibilityHandler-">GetAccessibilityHandler</a></strong>(var aAccessibilityHandler : <a href="uCEFInterfaces.ICefAccessibilityHandler.html">ICefAccessibilityHandler</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#GetRootScreenRect-ICefBrowser-TCefRect-">GetRootScreenRect</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var rect: <a href="uCEFTypes.TCefRect.html">TCefRect</a>): Boolean; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#GetViewRect-ICefBrowser-TCefRect-">GetViewRect</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var rect: <a href="uCEFTypes.TCefRect.html">TCefRect</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#GetScreenPoint-ICefBrowser-Integer-Integer-Integer-Integer-">GetScreenPoint</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#GetScreenInfo-ICefBrowser-TCefScreenInfo-">GetScreenInfo</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var screenInfo: <a href="uCEFTypes.TCefScreenInfo.html">TCefScreenInfo</a>): Boolean; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#OnPopupShow-ICefBrowser-Boolean-">OnPopupShow</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; show: Boolean); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#OnPopupSize-ICefBrowser-PCefRect-">OnPopupSize</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const rect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#OnPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-Pointer-Integer-Integer-">OnPaint</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; kind: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; const buffer: Pointer; width, height: Integer); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#OnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-Pointer-">OnAcceleratedPaint</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; kind: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; shared_handle: Pointer); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#GetTouchHandleSize-ICefBrowser-TCefHorizontalAlignment-TCefSize-">GetTouchHandleSize</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; orientation: <a href="uCEFTypes.html#TCefHorizontalAlignment">TCefHorizontalAlignment</a>; var size: <a href="uCEFTypes.TCefSize.html">TCefSize</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#OnTouchHandleStateChanged-ICefBrowser-TCefTouchHandleState-">OnTouchHandleStateChanged</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const state: <a href="uCEFTypes.TCefTouchHandleState.html">TCefTouchHandleState</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#OnStartDragging-ICefBrowser-ICefDragData-TCefDragOperations-Integer-Integer-">OnStartDragging</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const dragData: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>; x, y: Integer): Boolean; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#OnUpdateDragCursor-ICefBrowser-TCefDragOperation-">OnUpdateDragCursor</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; operation: <a href="uCEFTypes.html#TCefDragOperation">TCefDragOperation</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#OnScrollOffsetChanged-ICefBrowser-Double-Double-">OnScrollOffsetChanged</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; x, y: Double); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#OnIMECompositionRangeChanged-ICefBrowser-PCefRange-NativeUInt-PCefRect-">OnIMECompositionRangeChanged</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const selected_range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>; character_boundsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const character_bounds: <a href="uCEFTypes.html#PCefRect">PCefRect</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#OnTextSelectionChanged-ICefBrowser-ustring-PCefRange-">OnTextSelectionChanged</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const selected_text: <a href="uCEFTypes.html#ustring">ustring</a>; const selected_range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#OnVirtualKeyboardRequested-ICefBrowser-TCefTextInpuMode-">OnVirtualKeyboardRequested</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; input_mode: <a href="uCEFTypes.html#TCefTextInpuMode">TCefTextInpuMode</a>); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#RemoveReferences">RemoveReferences</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFRenderHandler.TCefRenderHandlerOwn.html#Create">Create</a></strong>; virtual;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetAccessibilityHandler-ICefAccessibilityHandler-"></span><code>procedure <strong>GetAccessibilityHandler</strong>(var aAccessibilityHandler : <a href="uCEFInterfaces.ICefAccessibilityHandler.html">ICefAccessibilityHandler</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#GetAccessibilityHandler-ICefAccessibilityHandler-">ICefRenderHandler.GetAccessibilityHandler</a>.</p><p>
+ Return the handler for accessibility notifications. If no handler is provided the default implementation will be used. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetRootScreenRect-ICefBrowser-TCefRect-"></span><code>function <strong>GetRootScreenRect</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var rect: <a href="uCEFTypes.TCefRect.html">TCefRect</a>): Boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#GetRootScreenRect-ICefBrowser-TCefRect-">ICefRenderHandler.GetRootScreenRect</a>.</p><p>
+ Called to retrieve the root window rectangle in screen DIP coordinates. Return true (1) if the rectangle was provided. If this function returns false (0) the rectangle from GetViewRect will be used. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetViewRect-ICefBrowser-TCefRect-"></span><code>procedure <strong>GetViewRect</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var rect: <a href="uCEFTypes.TCefRect.html">TCefRect</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#GetViewRect-ICefBrowser-TCefRect-">ICefRenderHandler.GetViewRect</a>.</p><p>
+ Called to retrieve the view rectangle in screen DIP coordinates. This function must always provide a non-NULL rectangle. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetScreenPoint-ICefBrowser-Integer-Integer-Integer-Integer-"></span><code>function <strong>GetScreenPoint</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#GetScreenPoint-ICefBrowser-Integer-Integer-Integer-Integer-">ICefRenderHandler.GetScreenPoint</a>.</p><p>
+ Called to retrieve the translation from view DIP coordinates to screen coordinates. Windows/Linux should provide screen device (pixel) coordinates and MacOS should provide screen DIP coordinates. Return true (1) if the requested coordinates were provided. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetScreenInfo-ICefBrowser-TCefScreenInfo-"></span><code>function <strong>GetScreenInfo</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var screenInfo: <a href="uCEFTypes.TCefScreenInfo.html">TCefScreenInfo</a>): Boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#GetScreenInfo-ICefBrowser-TCefScreenInfo-">ICefRenderHandler.GetScreenInfo</a>.</p><p>
+ Called to allow the client to fill in the CefScreenInfo object with appropriate values. Return true (1) if the |screen_info| structure has been modified.
+
+<p>If the screen info rectangle is left NULL the rectangle from GetViewRect will be used. If the rectangle is still NULL or invalid popups may not be drawn correctly. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnPopupShow-ICefBrowser-Boolean-"></span><code>procedure <strong>OnPopupShow</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; show: Boolean); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnPopupShow-ICefBrowser-Boolean-">ICefRenderHandler.OnPopupShow</a>.</p><p>
+ Called when the browser wants to show or hide the popup widget. The popup should be shown if |show| is true (1) and hidden if |show| is false (0). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnPopupSize-ICefBrowser-PCefRect-"></span><code>procedure <strong>OnPopupSize</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const rect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnPopupSize-ICefBrowser-PCefRect-">ICefRenderHandler.OnPopupSize</a>.</p><p>
+ Called when the browser wants to move or resize the popup widget. |rect| contains the new location and size in view coordinates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-Pointer-Integer-Integer-"></span><code>procedure <strong>OnPaint</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; kind: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; const buffer: Pointer; width, height: Integer); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-Pointer-Integer-Integer-">ICefRenderHandler.OnPaint</a>.</p><p>
+ Called when an element should be painted. Pixel values passed to this function are scaled relative to view coordinates based on the value of TCefScreenInfo.device_scale_factor returned from GetScreenInfo. |type| indicates whether the element is the view or the popup widget. |buffer| contains the pixel data for the whole image. |dirtyRects| contains the set of rectangles in pixel coordinates that need to be repainted. |buffer| will be |width|*|height|*4 bytes in size and represents a BGRA image with an upper-left origin. This function is only called when TCefWindowInfo.shared_texture_enabled is set to false (0). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-Pointer-"></span><code>procedure <strong>OnAcceleratedPaint</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; kind: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; shared_handle: Pointer); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-Pointer-">ICefRenderHandler.OnAcceleratedPaint</a>.</p><p>
+ Called when an element has been rendered to the shared texture handle. |type| indicates whether the element is the view or the popup widget. |dirtyRects| contains the set of rectangles in pixel coordinates that need to be repainted. |shared_handle| is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource function. This function is only called when TCefWindowInfo.shared_texture_enabled is set to true (1), and is currently only supported on Windows. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetTouchHandleSize-ICefBrowser-TCefHorizontalAlignment-TCefSize-"></span><code>procedure <strong>GetTouchHandleSize</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; orientation: <a href="uCEFTypes.html#TCefHorizontalAlignment">TCefHorizontalAlignment</a>; var size: <a href="uCEFTypes.TCefSize.html">TCefSize</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#GetTouchHandleSize-ICefBrowser-TCefHorizontalAlignment-TCefSize-">ICefRenderHandler.GetTouchHandleSize</a>.</p><p>
+ Called to retrieve the size of the touch handle for the specified |orientation|. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnTouchHandleStateChanged-ICefBrowser-TCefTouchHandleState-"></span><code>procedure <strong>OnTouchHandleStateChanged</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const state: <a href="uCEFTypes.TCefTouchHandleState.html">TCefTouchHandleState</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnTouchHandleStateChanged-ICefBrowser-TCefTouchHandleState-">ICefRenderHandler.OnTouchHandleStateChanged</a>.</p><p>
+ Called when touch handle state is updated. The client is responsible for rendering the touch handles. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnStartDragging-ICefBrowser-ICefDragData-TCefDragOperations-Integer-Integer-"></span><code>function <strong>OnStartDragging</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const dragData: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>; x, y: Integer): Boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnStartDragging-ICefBrowser-ICefDragData-TCefDragOperations-Integer-Integer-">ICefRenderHandler.OnStartDragging</a>.</p><p>
+ Called when the user starts dragging content in the web view. Contextual information about the dragged content is supplied by |drag_data|. (|x|, |y|) is the drag start location in screen coordinates. OS APIs that run a system message loop may be used within the StartDragging call.
+
+<p>Return false (0) to abort the drag operation. Don't call any of ICefBrowserHost.DragSource*Ended* functions after returning false (0).
+
+<p>Return true (1) to handle the drag operation. Call ICefBrowserHost.DragSourceEndedAt and DragSourceSystemDragEnded either synchronously or asynchronously to inform the web view that the drag operation has ended. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnUpdateDragCursor-ICefBrowser-TCefDragOperation-"></span><code>procedure <strong>OnUpdateDragCursor</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; operation: <a href="uCEFTypes.html#TCefDragOperation">TCefDragOperation</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnUpdateDragCursor-ICefBrowser-TCefDragOperation-">ICefRenderHandler.OnUpdateDragCursor</a>.</p><p>
+ Called when the web view wants to update the mouse cursor during a drag &amp; drop operation. |operation| describes the allowed operation (none, move, copy, link). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnScrollOffsetChanged-ICefBrowser-Double-Double-"></span><code>procedure <strong>OnScrollOffsetChanged</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; x, y: Double); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnScrollOffsetChanged-ICefBrowser-Double-Double-">ICefRenderHandler.OnScrollOffsetChanged</a>.</p><p>
+ Called when the scroll offset has changed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnIMECompositionRangeChanged-ICefBrowser-PCefRange-NativeUInt-PCefRect-"></span><code>procedure <strong>OnIMECompositionRangeChanged</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const selected_range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>; character_boundsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const character_bounds: <a href="uCEFTypes.html#PCefRect">PCefRect</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnIMECompositionRangeChanged-ICefBrowser-PCefRange-NativeUInt-PCefRect-">ICefRenderHandler.OnIMECompositionRangeChanged</a>.</p><p>
+ Called when the IME composition range has changed. |selected_range| is the range of characters that have been selected. |character_bounds| is the bounds of each character in view coordinates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnTextSelectionChanged-ICefBrowser-ustring-PCefRange-"></span><code>procedure <strong>OnTextSelectionChanged</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const selected_text: <a href="uCEFTypes.html#ustring">ustring</a>; const selected_range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnTextSelectionChanged-ICefBrowser-ustring-PCefRange-">ICefRenderHandler.OnTextSelectionChanged</a>.</p><p>
+ Called when text selection has changed for the specified |browser|. |selected_text| is the currently selected text and |selected_range| is the character range. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnVirtualKeyboardRequested-ICefBrowser-TCefTextInpuMode-"></span><code>procedure <strong>OnVirtualKeyboardRequested</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; input_mode: <a href="uCEFTypes.html#TCefTextInpuMode">TCefTextInpuMode</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnVirtualKeyboardRequested-ICefBrowser-TCefTextInpuMode-">ICefRenderHandler.OnVirtualKeyboardRequested</a>.</p><p>
+ Called when an on-screen keyboard should be shown or hidden for the specified |browser|. |input_mode| specifies what kind of keyboard should be opened. If |input_mode| is CEF_TEXT_INPUT_MODE_NONE, any existing keyboard for this browser should be hidden. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#RemoveReferences">ICefRenderHandler.RemoveReferences</a>.</p><p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFLoadHandler: Class TCustomRenderLoadHandler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCustomRenderLoadHandler"></span><h1 class="cio">Class TCustomRenderLoadHandler</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFLoadHandler.html">uCEFLoadHandler</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCustomRenderLoadHandler = class(<a class="normal" href="uCEFLoadHandler.TCefLoadHandlerOwn.html">TCefLoadHandlerOwn</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="ancestor"><a class="normal" href="uCEFLoadHandler.TCefLoadHandlerOwn.html">TCefLoadHandlerOwn</a></li>
+<li class="thisitem">TCustomRenderLoadHandler</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFLoadHandler.TCustomRenderLoadHandler.html#FCefApp">FCefApp</a></strong>: <a href="uCEFApplicationCore.TCefApplicationCore.html">TCefApplicationCore</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFLoadHandler.TCustomRenderLoadHandler.html#OnLoadingStateChange-ICefBrowser-Boolean-Boolean-Boolean-">OnLoadingStateChange</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; isLoading, canGoBack, canGoForward: Boolean); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFLoadHandler.TCustomRenderLoadHandler.html#OnLoadStart-ICefBrowser-ICefFrame-TCefTransitionType-">OnLoadStart</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; transitionType: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFLoadHandler.TCustomRenderLoadHandler.html#OnLoadEnd-ICefBrowser-ICefFrame-Integer-">OnLoadEnd</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; httpStatusCode: Integer); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFLoadHandler.TCustomRenderLoadHandler.html#OnLoadError-ICefBrowser-ICefFrame-TCefErrorCode-ustring-ustring-">OnLoadError</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; errorCode: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorCode</a>; const errorText, failedUrl: <a href="uCEFTypes.html#ustring">ustring</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFLoadHandler.TCustomRenderLoadHandler.html#RemoveReferences">RemoveReferences</a></strong>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFLoadHandler.TCustomRenderLoadHandler.html#Create-TCefApplicationCore-">Create</a></strong>(const aCefApp : <a href="uCEFApplicationCore.TCefApplicationCore.html">TCefApplicationCore</a>); reintroduce; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFLoadHandler.TCustomRenderLoadHandler.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FCefApp"></span><code><strong>FCefApp</strong>: <a href="uCEFApplicationCore.TCefApplicationCore.html">TCefApplicationCore</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnLoadingStateChange-ICefBrowser-Boolean-Boolean-Boolean-"></span><code>procedure <strong>OnLoadingStateChange</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; isLoading, canGoBack, canGoForward: Boolean); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefLoadHandler.html#OnLoadingStateChange-ICefBrowser-Boolean-Boolean-Boolean-">ICefLoadHandler.OnLoadingStateChange</a>.</p><p>
+ Called when the loading state has changed. This callback will be executed twice &ndash; once when loading is initiated either programmatically or by user action, and once when loading is terminated due to completion, cancellation of failure. It will be called before any calls to OnLoadStart and after all calls to OnLoadError and/or OnLoadEnd. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnLoadStart-ICefBrowser-ICefFrame-TCefTransitionType-"></span><code>procedure <strong>OnLoadStart</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; transitionType: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefLoadHandler.html#OnLoadStart-ICefBrowser-ICefFrame-TCefTransitionType-">ICefLoadHandler.OnLoadStart</a>.</p><p>
+ Called after a navigation has been committed and before the browser begins loading contents in the frame. The |frame| value will never be NULL &ndash; call the IsMain() function to check if this frame is the main frame. |transition_type| provides information about the source of the navigation and an accurate value is only available in the browser process. Multiple frames may be loading at the same time. Sub-frames may start or continue loading after the main frame load has ended. This function will not be called for same page navigations (fragments, history state, etc.) or for navigations that fail or are canceled before commit. For notification of overall browser load status use OnLoadingStateChange instead. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnLoadEnd-ICefBrowser-ICefFrame-Integer-"></span><code>procedure <strong>OnLoadEnd</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; httpStatusCode: Integer); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefLoadHandler.html#OnLoadEnd-ICefBrowser-ICefFrame-Integer-">ICefLoadHandler.OnLoadEnd</a>.</p><p>
+ Called when the browser is done loading a frame. The |frame| value will never be NULL &ndash; call the IsMain() function to check if this frame is the main frame. Multiple frames may be loading at the same time. Sub-frames may start or continue loading after the main frame load has ended. This function will not be called for same page navigations (fragments, history state, etc.) or for navigations that fail or are canceled before commit. For notification of overall browser load status use OnLoadingStateChange instead. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnLoadError-ICefBrowser-ICefFrame-TCefErrorCode-ustring-ustring-"></span><code>procedure <strong>OnLoadError</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; errorCode: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorCode</a>; const errorText, failedUrl: <a href="uCEFTypes.html#ustring">ustring</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefLoadHandler.html#RemoveReferences">ICefLoadHandler.RemoveReferences</a>.</p><p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create-TCefApplicationCore-"></span><code>constructor <strong>Create</strong>(const aCefApp : <a href="uCEFApplicationCore.TCefApplicationCore.html">TCefApplicationCore</a>); reintroduce; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>
