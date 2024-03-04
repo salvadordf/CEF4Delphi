@@ -1,0 +1,106 @@
+object MainForm: TMainForm
+  Left = 0
+  Height = 624
+  Top = 0
+  Width = 1038
+  Caption = 'Initializing browser. Please wait...'
+  ClientHeight = 624
+  ClientWidth = 1038
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '3.2.0.0'
+  object Splitter1: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 3
+    Top = 493
+    Width = 1038
+    Align = alBottom
+    ResizeAnchor = akBottom
+  end
+  object AddressPnl: TPanel
+    Left = 0
+    Height = 30
+    Top = 0
+    Width = 1038
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 30
+    ClientWidth = 1038
+    Enabled = False
+    ParentBackground = False
+    TabOrder = 0
+    object AddressEdt: TEdit
+      Left = 0
+      Height = 30
+      Top = 0
+      Width = 1007
+      Align = alClient
+      TabOrder = 0
+      Text = 'http://www.google.com'
+    end
+    object GoBtn: TButton
+      Left = 1007
+      Height = 30
+      Top = 0
+      Width = 31
+      Align = alRight
+      Caption = 'Go'
+      TabOrder = 1
+      OnClick = GoBtnClick
+    end
+  end
+  object CEFWindowParent1: TCEFWindowParent
+    Left = 0
+    Height = 463
+    Top = 30
+    Width = 1038
+    Align = alClient
+    TabOrder = 1
+  end
+  object LogMemo: TMemo
+    Left = 0
+    Height = 128
+    Top = 496
+    Width = 1038
+    Align = alBottom
+    Lines.Strings = (
+      ''
+    )
+    ReadOnly = True
+    ScrollBars = ssBoth
+    TabOrder = 2
+    WordWrap = False
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = Timer1Timer
+    Left = 56
+    Top = 88
+  end
+  object Chromium1: TChromium
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnClose = Chromium1Close
+    OnOpenUrlFromTab = Chromium1OpenUrlFromTab
+    OnDevToolsMethodResult = Chromium1DevToolsMethodResult
+    OnDevToolsRawEvent = Chromium1DevToolsRawEvent
+    Left = 56
+    Top = 152
+  end
+  object Timer2: TTimer
+    Interval = 500
+    OnTimer = Timer2Timer
+    Left = 56
+    Top = 224
+  end
+end
