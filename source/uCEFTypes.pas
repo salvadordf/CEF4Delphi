@@ -958,6 +958,14 @@ type
   TCefProxyScheme = (psHTTP, psSOCKS4, psSOCKS5);
 
   /// <summary>
+  /// Event type used by TChromiumCore.SimulateKeyEvent
+  /// </summary>
+  TSimulatedCefKeyEventType = (ketKeyDown,
+                               ketKeyUp,
+                               ketRawKeyDown,
+                               ketChar);
+
+  /// <summary>
   /// Storage types used by the Storage.clearDataForOrigin DevTools method in TChromiumCore.ClearDataForOrigin.
   /// </summary>
   TCefClearDataStorageTypes = (cdstAppCache,
