@@ -11,21 +11,24 @@ uses
   uCEFWinControl, uCEFChromiumEvents;
 
 const
-  MINIBROWSER_SHOWDEVTOOLS    = WM_APP + $101;
-  MINIBROWSER_HIDEDEVTOOLS    = WM_APP + $102;
-  MINIBROWSER_COPYHTML        = WM_APP + $103;
-  MINIBROWSER_SHOWRESPONSE    = WM_APP + $104;
-  MINIBROWSER_COPYFRAMEIDS    = WM_APP + $105;
-  MINIBROWSER_COPYFRAMENAMES  = WM_APP + $106;
-  MINIBROWSER_SAVEPREFERENCES = WM_APP + $107;
-  MINIBROWSER_COPYALLTEXT     = WM_APP + $108;
-  MINIBROWSER_TAKESNAPSHOT    = WM_APP + $109;
-  MINIBROWSER_SHOWNAVIGATION  = WM_APP + $10A;   
-  MINIBROWSER_COOKIESFLUSHED  = WM_APP + $10B;
-  MINIBROWSER_PDFPRINT_END    = WM_APP + $10C;
-  MINIBROWSER_PREFS_AVLBL     = WM_APP + $10D;  
-  MINIBROWSER_DTDATA_AVLBL    = WM_APP + $10E;  
-  MINIBROWSER_MEDIAACCESSRQST = WM_APP + $10F;
+  MINIBROWSER_SHOWDEVTOOLS     = WM_APP + $101;
+  MINIBROWSER_HIDEDEVTOOLS     = WM_APP + $102;
+  MINIBROWSER_COPYHTML         = WM_APP + $103;
+  MINIBROWSER_SHOWRESPONSE     = WM_APP + $104;
+  MINIBROWSER_COPYFRAMEIDS     = WM_APP + $105;
+  MINIBROWSER_COPYFRAMENAMES   = WM_APP + $106;
+  MINIBROWSER_SAVEPREFERENCES  = WM_APP + $107;
+  MINIBROWSER_COPYALLTEXT      = WM_APP + $108;
+  MINIBROWSER_TAKESNAPSHOT     = WM_APP + $109;
+  MINIBROWSER_SHOWNAVIGATION   = WM_APP + $10A;
+  MINIBROWSER_COOKIESFLUSHED   = WM_APP + $10B;
+  MINIBROWSER_PDFPRINT_END     = WM_APP + $10C;
+  MINIBROWSER_PREFS_AVLBL      = WM_APP + $10D;
+  MINIBROWSER_DTDATA_AVLBL     = WM_APP + $10E;
+  MINIBROWSER_SHOWFILEDLG      = WM_APP + $10F;
+  MINIBROWSER_SELECTCERT       = WM_APP + $110;
+  MINIBROWSER_MEDIAACCESSRQST  = WM_APP + $111;
+  MINIBROWSER_SHOWBROWSERINFO  = WM_APP + $112;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -46,12 +49,21 @@ const
   MINIBROWSER_CONTEXTMENU_INCZOOM         = MENU_ID_USER_FIRST + 15;
   MINIBROWSER_CONTEXTMENU_DECZOOM         = MENU_ID_USER_FIRST + 16;
   MINIBROWSER_CONTEXTMENU_RESETZOOM       = MENU_ID_USER_FIRST + 17;   
-  MINIBROWSER_CONTEXTMENU_EXITFULLSCREEN  = MENU_ID_USER_FIRST + 18;
+  MINIBROWSER_CONTEXTMENU_EXITFULLSCREEN  = MENU_ID_USER_FIRST + 18;   
+  MINIBROWSER_CONTEXTMENU_BROWSERINFO     = MENU_ID_USER_FIRST + 19;
 
-  DEVTOOLS_SCREENSHOT_MSGID       = 1;
-  DEVTOOLS_MHTML_MSGID            = 2;
+  DEVTOOLS_SCREENSHOT_MSGID       = 1001;
+  DEVTOOLS_MHTML_MSGID            = 1002;
+  DEVTOOLS_BROWSERINFO_MSGID      = 1003;
 
-type
+type      
+  TBrowserInfo = record
+    protocolVersion : string;
+    product         : string;
+    revision        : string;
+    userAgent       : string;
+    jsVersion       : string;
+  end;
 
   { TMiniBrowserFrm }
 
@@ -229,7 +241,8 @@ type
     FNavigation         : TStringList;
     FShutdownReason     : string;
     FHasShutdownReason  : boolean;
-    FAllowDownloads     : boolean;       
+    FAllowDownloads     : boolean;
+    FBrowserInfo        : TBrowserInfo;
 
     FMediaAccessCallback  : ICefMediaAccessCallback;
     FRequestingOrigin     : string;
@@ -250,6 +263,7 @@ type
 
     procedure HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
     procedure HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);
+    procedure HandleBrowserInfo(const aResult : ICefValue);
 
     procedure InspectRequest(const aRequest : ICefRequest);
     procedure InspectResponse(const aResponse : ICefResponse);
@@ -270,7 +284,8 @@ type
     procedure PrintPDFEndMsg(var aMessage : TMessage); message MINIBROWSER_PDFPRINT_END;
     procedure PreferencesAvailableMsg(var aMessage : TMessage); message MINIBROWSER_PREFS_AVLBL;        
     procedure DevToolsDataAvailableMsg(var aMessage : TMessage); message MINIBROWSER_DTDATA_AVLBL;      
-    procedure MediaAccessRequestMsg(var aMessage : TMessage); message MINIBROWSER_MEDIAACCESSRQST;
+    procedure MediaAccessRequestMsg(var aMessage : TMessage); message MINIBROWSER_MEDIAACCESSRQST; 
+    procedure ShowBrowserInfoMsg(var aMessage : TMessage); message MINIBROWSER_SHOWBROWSERINFO;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -476,7 +491,8 @@ begin
       model.AddSeparator;
       model.AddItem(MINIBROWSER_CONTEXTMENU_JSWRITEDOC,      'Modify HTML document');
       model.AddItem(MINIBROWSER_CONTEXTMENU_JSPRINTDOC,      'Print using Javascript');
-      model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWRESPONSE,    'Show server headers');
+      model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWRESPONSE,    'Show server headers');  
+      model.AddItem(MINIBROWSER_CONTEXTMENU_BROWSERINFO,     'Browser information...');
 
       if DevTools.Visible then
         model.AddItem(MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS, 'Hide DevTools')
@@ -592,6 +608,26 @@ begin
       PostMessage(Handle, CEF_DESTROY, 0, 0);
       aAction := cbaDelay;
     end;
+end;     
+
+procedure TMiniBrowserFrm.HandleBrowserInfo(const aResult : ICefValue);
+var
+  TempDict : ICefDictionaryValue;
+begin
+  if (aResult = nil) then exit;
+
+  TempDict := aResult.GetDictionary;
+
+  if (TempDict <> nil) and (TempDict.GetSize > 0) then
+    begin
+      FBrowserInfo.protocolVersion := TempDict.GetValue('protocolVersion').GetString;
+      FBrowserInfo.product         := TempDict.GetValue('product').GetString;
+      FBrowserInfo.revision        := TempDict.GetValue('revision').GetString;
+      FBrowserInfo.userAgent       := TempDict.GetValue('userAgent').GetString;
+      FBrowserInfo.jsVersion       := TempDict.GetValue('jsVersion').GetString;
+
+      PostMessage(Handle, MINIBROWSER_SHOWBROWSERINFO, 0, 0);
+    end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1ContextMenuCommand(Sender: TObject;
@@ -674,7 +710,13 @@ begin
         Chromium1.ResetZoomCommand;  
 
       MINIBROWSER_CONTEXTMENU_EXITFULLSCREEN :
-        Chromium1.ExitFullscreen(True);
+        Chromium1.ExitFullscreen(True);     
+
+      MINIBROWSER_CONTEXTMENU_BROWSERINFO :
+        begin
+          FPendingMsgID := DEVTOOLS_BROWSERINFO_MSGID;
+          Chromium1.ExecuteDevToolsMethod(0, 'Browser.getVersion', nil);
+        end;
     end
    else
     case commandId of
@@ -1154,19 +1196,28 @@ begin
 
   if success then
     begin
-      TempResult        := 1;
-      FDevToolsMsgValue := '';
-
-      if (result <> nil) then
+      if (FPendingMsgID = DEVTOOLS_BROWSERINFO_MSGID) then
         begin
-          TempDict := result.GetDictionary;
+          HandleBrowserInfo(result);
+          FPendingMsgID := 0;
+          exit;
+        end
+       else
+        begin
+          TempResult        := 1;
+          FDevToolsMsgValue := '';
 
-          if (TempDict <> nil) and (TempDict.GetSize > 0) then
+          if (result <> nil) then
             begin
-              TempValue := TempDict.GetValue('data');
+              TempDict := result.GetDictionary;
 
-              if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
-                FDevToolsMsgValue := TempValue.GetString;
+              if (TempDict <> nil) and (TempDict.GetSize > 0) then
+                begin
+                  TempValue := TempDict.GetValue('data');
+
+                  if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
+                    FDevToolsMsgValue := TempValue.GetString;
+                end;
             end;
         end;
     end
@@ -1317,6 +1368,20 @@ begin
     TempPermissions.Free;
     FMediaAccessCallback := nil;
   end;
+end; 
+
+procedure TMiniBrowserFrm.ShowBrowserInfoMsg(var aMessage : TMessage);
+var
+  TempInfo : string;
+begin
+  TempInfo := 'protocolVersion: ' + FBrowserInfo.protocolVersion + CRLF +
+              'product: '         + FBrowserInfo.product         + CRLF +
+              'revision: '        + FBrowserInfo.revision        + CRLF +
+              'userAgent: '       + FBrowserInfo.userAgent       + CRLF +
+              'jsVersion: '       + FBrowserInfo.jsVersion       + CRLF + CRLF +
+              'GetDefaultCEFUserAgent: ' + GetDefaultCEFUserAgent;
+
+  showmessage(TempInfo);
 end;
 
 procedure TMiniBrowserFrm.Chromium1DownloadImageFinished(Sender: TObject;

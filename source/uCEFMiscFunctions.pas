@@ -747,6 +747,17 @@ function CefZipDirectory(const srcDir, destFile: ustring; includeHiddenFiles: Bo
 /// background.
 /// </summary>
 procedure CefLoadCRLSetsFile(const path : ustring);
+/// <summary>
+/// <para>Return a user-agent string.</para>
+/// <para>This function tries to replicate the BuildUserAgentFromOSAndProduct
+/// function in Chromium but it's safer to call the 'Browser.getVersion'
+/// DevTools method.</para>
+/// </summary>
+/// <remarks>
+/// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/common/user_agent.cc">Chromium source file: content/common/user_agent.cc (BuildUserAgentFromOSAndProduct)</see></para>
+/// <para><see href="https://chromedevtools.github.io/devtools-protocol/tot/Browser/#method-getVersion">See the Browser.getVersion article.</see></para>
+/// </remarks>
+function  GetDefaultCEFUserAgent : string;
 
 {$IFDEF MSWINDOWS}
 function  CefIsKeyDown(aWparam : WPARAM) : boolean;
@@ -760,9 +771,10 @@ procedure DropEffectToDragOperation(aEffect : Longint; var aAllowedOps : TCefDra
 procedure DragOperationToDropEffect(const aDragOperations : TCefDragOperations; var aEffect: Longint);
 
 function  GetWindowsMajorMinorVersion(var wMajorVersion, wMinorVersion : DWORD) : boolean;
+function  GetIsWow64Process2(var aProcessMachine, aNativeMachine : WORD) : boolean;
+function  IsWowProcess: boolean;
 function  RunningWindows10OrNewer : boolean;
 function  GetDPIForHandle(aHandle : HWND; var aDPI : UINT) : boolean;
-function  GetDefaultCEFUserAgent : string;
 {$IFDEF DELPHI14_UP}
 function  TouchPointToPoint(aHandle : HWND; const TouchPoint: TTouchInput): TPoint;
 function  GetDigitizerStatus(var aDigitizerStatus : TDigitizerStatus; aDPI : cardinal = 0) : boolean;
@@ -2759,6 +2771,45 @@ begin
     end;
 end;
 
+function GetDefaultCEFUserAgent : string;
+var
+  TempOS : string;
+  TempMajorVer, TempMinorVer : DWORD;
+begin
+  // See GetUserAgentPlatform() and BuildOSCpuInfo() in
+  // https://source.chromium.org/chromium/chromium/src/+/main:content/common/user_agent.cc
+  {$IFDEF MSWINDOWS}
+  TempOS := 'Windows NT ';
+
+  if GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) then
+    TempOS := TempOS + inttostr(TempMajorVer) + '.' + inttostr(TempMinorVer)
+   else
+    TempOS := TempOS + '10.0'; // oldest Windows version supported by Chromium
+
+  if IsWowProcess then
+    TempOS := TempOS + '; WOW64'
+   else
+    {$IFDEF TARGET_64BITS}
+    TempOS := TempOS + '; Win64; x64';
+    {$ELSE}
+    TempOS := TempOS + '; Win32; x86';
+    {$ENDIF};
+  {$ENDIF}
+
+  {$IFDEF MACOSX}
+  TempOS := 'Macintosh; Intel Mac OS X 10_15_7';
+  {$ENDIF}
+
+  {$IFDEF LINUX}
+  TempOS := 'X11; Linux ' + {$IFDEF TARGET_64BITS}'x86_64'{$ELSE}'i686'{$ENDIF};
+  {$ENDIF}
+
+  Result  := 'Mozilla/5.0' + ' (' + TempOS + ') ' +
+             'AppleWebKit/537.36 (KHTML, like Gecko) ' +
+             'Chrome/' + inttostr(CEF_CHROMEELF_VERSION_MAJOR) + '.0.0.0 ' +
+             'Safari/537.36';
+end;
+
 {$IFDEF MSWINDOWS}
 function CefIsKeyDown(aWparam : WPARAM) : boolean;
 begin
@@ -2960,6 +3011,51 @@ begin
   end;
 end;
 
+function GetIsWow64Process2(var aProcessMachine, aNativeMachine : WORD) : boolean;
+type
+  TIsWow64Process2Func = function(hProcess: THandle; ProcessMachine, NativeMachine : PWORD): BOOL; stdcall;
+var
+  TempHandle : THandle;
+  TempIsWow64Process2Func : TIsWow64Process2Func;
+begin
+  Result          := False;
+  aProcessMachine := 0;
+  aNativeMachine  := 0;
+
+  try
+    TempHandle := LoadLibrary(Kernel32DLL);
+
+    if (TempHandle <> 0) then
+      try
+        {$IFDEF FPC}Pointer({$ENDIF}TempIsWow64Process2Func{$IFDEF FPC}){$ENDIF} := GetProcAddress(TempHandle, 'IsWow64Process2');
+
+        Result := assigned(TempIsWow64Process2Func) and
+                  TempIsWow64Process2Func(GetCurrentProcess(), @aProcessMachine, @aNativeMachine);
+      finally
+        FreeLibrary(TempHandle);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('GetIsWow64Process2', e) then raise;
+  end;
+end;
+
+function IsWowProcess: boolean;
+const
+  IMAGE_FILE_MACHINE_I386  = $014C;
+  IMAGE_FILE_MACHINE_AMD64 = $8664;
+var
+  Temp64bit : BOOL;
+  TempProcessMachine, TempNativeMachine : WORD;
+begin
+  if GetIsWow64Process2(TempProcessMachine, TempNativeMachine) then
+    Result := (TempProcessMachine = IMAGE_FILE_MACHINE_I386) and
+              (TempNativeMachine  = IMAGE_FILE_MACHINE_AMD64)
+   else
+    Result := ProcessUnderWow64(GetCurrentProcess(), @Temp64bit) and
+              Temp64bit;
+end;
+
 // GetDpiForWindow is only available in Windows 10 (version 1607) or newer
 function GetDPIForHandle(aHandle : HWND; var aDPI : UINT) : boolean;
 type
@@ -2999,36 +3095,6 @@ var
   TempMajorVer, TempMinorVer : DWORD;
 begin
   Result := GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and (TempMajorVer >= 10);
-end;
-
-function GetDefaultCEFUserAgent : string;
-var
-  TempOS, TempChromiumVersion : string;
-  TempMajorVer, TempMinorVer : DWORD;
-  Temp64bit : BOOL;
-begin
-  if GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and
-     (TempMajorVer >= 4) then
-    TempOS := 'Windows NT'
-   else
-    TempOS := 'Windows';
-
-  TempOS := TempOS + ' ' + inttostr(TempMajorVer) + '.' + inttostr(TempMinorVer);
-
-  if ProcessUnderWow64(GetCurrentProcess(), @Temp64bit) and Temp64bit then
-    TempOS := TempOS + '; WOW64';
-
-  if (GlobalCEFApp <> nil) then
-    TempChromiumVersion := GlobalCEFApp.ChromeVersion
-   else
-    TempChromiumVersion := inttostr(CEF_CHROMEELF_VERSION_MAJOR)   + '.' +
-                           inttostr(CEF_CHROMEELF_VERSION_MINOR)   + '.' +
-                           inttostr(CEF_CHROMEELF_VERSION_RELEASE) + '.' +
-                           inttostr(CEF_CHROMEELF_VERSION_BUILD);
-
-  Result  := 'Mozilla/5.0' + ' (' + TempOS + ') ' +
-             'AppleWebKit/537.36 (KHTML, like Gecko) ' +
-             'Chrome/' + TempChromiumVersion + ' Safari/537.36';
 end;
 
 {$IFDEF DELPHI14_UP}

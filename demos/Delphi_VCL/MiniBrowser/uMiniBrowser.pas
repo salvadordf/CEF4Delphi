@@ -37,6 +37,7 @@ const
   MINIBROWSER_SHOWFILEDLG      = WM_APP + $10F;
   MINIBROWSER_SELECTCERT       = WM_APP + $110;
   MINIBROWSER_MEDIAACCESSRQST  = WM_APP + $111;
+  MINIBROWSER_SHOWBROWSERINFO  = WM_APP + $112;
 
   MINIBROWSER_HOMEPAGE = 'https://www.google.com';
 
@@ -58,11 +59,21 @@ const
   MINIBROWSER_CONTEXTMENU_DECZOOM         = MENU_ID_USER_FIRST + 16;
   MINIBROWSER_CONTEXTMENU_RESETZOOM       = MENU_ID_USER_FIRST + 17;
   MINIBROWSER_CONTEXTMENU_EXITFULLSCREEN  = MENU_ID_USER_FIRST + 18;
+  MINIBROWSER_CONTEXTMENU_BROWSERINFO     = MENU_ID_USER_FIRST + 19;
 
-  DEVTOOLS_SCREENSHOT_MSGID       = 1;
-  DEVTOOLS_MHTML_MSGID            = 2;
+  DEVTOOLS_SCREENSHOT_MSGID       = 1001;
+  DEVTOOLS_MHTML_MSGID            = 1002;
+  DEVTOOLS_BROWSERINFO_MSGID      = 1003;
 
 type
+  TBrowserInfo = record
+    protocolVersion : string;
+    product         : string;
+    revision        : string;
+    userAgent       : string;
+    jsVersion       : string;
+  end;
+
   TMiniBrowserFrm = class(TForm)
     NavControlPnl: TPanel;
     NavButtonPnl: TPanel;
@@ -203,6 +214,7 @@ type
     FCertificates        : TCefX509CertificateArray;
     FAllowDownloads      : boolean;
     FJSException         : integer;
+    FBrowserInfo         : TBrowserInfo;
 
     FMediaAccessCallback  : ICefMediaAccessCallback;
     FRequestingOrigin     : string;
@@ -227,6 +239,7 @@ type
 
     procedure HandleKeyUp(const aMsg : TMsg; var aHandled : boolean);
     procedure HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);
+    procedure HandleBrowserInfo(const aResult : ICefValue);
 
     procedure InspectRequest(const aRequest : ICefRequest);
     procedure InspectResponse(const aResponse : ICefResponse);
@@ -254,6 +267,7 @@ type
     procedure ShowFileDialogMsg(var aMessage : TMessage); message MINIBROWSER_SHOWFILEDLG;
     procedure SelectCertificateMsg(var aMessage : TMessage); message MINIBROWSER_SELECTCERT;
     procedure MediaAccessRequestMsg(var aMessage : TMessage); message MINIBROWSER_MEDIAACCESSRQST;
+    procedure ShowBrowserInfoMsg(var aMessage : TMessage); message MINIBROWSER_SHOWBROWSERINFO;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -401,6 +415,7 @@ begin
       model.AddItem(MINIBROWSER_CONTEXTMENU_JSWRITEDOC,      'Modify HTML document');
       model.AddItem(MINIBROWSER_CONTEXTMENU_JSPRINTDOC,      'Print using Javascript');
       model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWRESPONSE,    'Show server headers');
+      model.AddItem(MINIBROWSER_CONTEXTMENU_BROWSERINFO,     'Browser information...');
 
       if DevTools.Visible then
         model.AddItem(MINIBROWSER_CONTEXTMENU_HIDEDEVTOOLS, 'Hide DevTools')
@@ -618,6 +633,12 @@ begin
 
       MINIBROWSER_CONTEXTMENU_EXITFULLSCREEN :
         Chromium1.ExitFullscreen(True);
+
+      MINIBROWSER_CONTEXTMENU_BROWSERINFO :
+        begin
+          FPendingMsgID := DEVTOOLS_BROWSERINFO_MSGID;
+          Chromium1.ExecuteDevToolsMethod(0, 'Browser.getVersion', nil);
+        end;
     end
    else
     case commandId of
@@ -1148,6 +1169,20 @@ begin
   end;
 end;
 
+procedure TMiniBrowserFrm.ShowBrowserInfoMsg(var aMessage : TMessage);
+var
+  TempInfo : string;
+begin
+  TempInfo := 'protocolVersion: ' + FBrowserInfo.protocolVersion + CRLF +
+              'product: '         + FBrowserInfo.product         + CRLF +
+              'revision: '        + FBrowserInfo.revision        + CRLF +
+              'userAgent: '       + FBrowserInfo.userAgent       + CRLF +
+              'jsVersion: '       + FBrowserInfo.jsVersion       + CRLF + CRLF +
+              'GetDefaultCEFUserAgent: ' + GetDefaultCEFUserAgent;
+
+  showmessage(TempInfo);
+end;
+
 procedure TMiniBrowserFrm.Chromium1ResolvedHostAvailable(Sender: TObject;
   result: TCefErrorCode; const resolvedIps: TStrings);
 begin
@@ -1505,6 +1540,26 @@ begin
   Chromium1.ExecuteDevToolsMethod(0, 'Page.captureScreenshot', nil);
 end;
 
+procedure TMiniBrowserFrm.HandleBrowserInfo(const aResult : ICefValue);
+var
+  TempDict : ICefDictionaryValue;
+begin
+  if (aResult = nil) then exit;
+
+  TempDict := aResult.GetDictionary;
+
+  if (TempDict <> nil) and (TempDict.GetSize > 0) then
+    begin
+      FBrowserInfo.protocolVersion := TempDict.GetValue('protocolVersion').GetString;
+      FBrowserInfo.product         := TempDict.GetValue('product').GetString;
+      FBrowserInfo.revision        := TempDict.GetValue('revision').GetString;
+      FBrowserInfo.userAgent       := TempDict.GetValue('userAgent').GetString;
+      FBrowserInfo.jsVersion       := TempDict.GetValue('jsVersion').GetString;
+
+      PostMessage(Handle, MINIBROWSER_SHOWBROWSERINFO, 0, 0);
+    end;
+end;
+
 procedure TMiniBrowserFrm.Chromium1DevToolsMethodResult(      Sender     : TObject;
                                                         const browser    : ICefBrowser;
                                                               message_id : Integer;
@@ -1522,19 +1577,28 @@ begin
 
   if success then
     begin
-      TempResult        := 1;
-      FDevToolsMsgValue := '';
-
-      if (result <> nil) then
+      if (FPendingMsgID = DEVTOOLS_BROWSERINFO_MSGID) then
         begin
-          TempDict := result.GetDictionary;
+          HandleBrowserInfo(result);
+          FPendingMsgID := 0;
+          exit;
+        end
+       else
+        begin
+          TempResult        := 1;
+          FDevToolsMsgValue := '';
 
-          if (TempDict <> nil) and (TempDict.GetSize > 0) then
+          if (result <> nil) then
             begin
-              TempValue := TempDict.GetValue('data');
+              TempDict := result.GetDictionary;
 
-              if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
-                FDevToolsMsgValue := TempValue.GetString;
+              if (TempDict <> nil) and (TempDict.GetSize > 0) then
+                begin
+                  TempValue := TempDict.GetValue('data');
+
+                  if (TempValue <> nil) and (TempValue.GetType = VTYPE_STRING) then
+                    FDevToolsMsgValue := TempValue.GetString;
+                end;
             end;
         end;
     end
