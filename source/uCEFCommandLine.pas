@@ -154,7 +154,11 @@ begin
               TempValue := TempStrMap.Value[i];
 
               if (length(TempKey) > 0) and (length(TempValue) > 0) then
+                {$IFDEF DELPHI7_UP}
                 switches.Add(TempKey + switches.NameValueSeparator + TempValue)
+                {$ELSE}
+                switches.Add(TempKey + uCEFTypes.TCefNameValueSeparator + TempValue)
+                {$ENDIF}
                else
                 if (length(TempKey) > 0) then
                   switches.Add(TempKey)

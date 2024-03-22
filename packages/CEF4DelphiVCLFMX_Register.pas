@@ -41,8 +41,10 @@ unit CEF4DelphiVCLFMX_Register;
 
 {$I ..\source\cef.inc}
 
+{$IFDEF DELPHI7_UP}
 // Disable this DEFINE if your Delphi installation can't find ToolsAPI.pas or designide.dcp
 {$DEFINE ADDSPLASHSCREENLOGO}
+{$ENDIF}
 
 interface
 
@@ -51,10 +53,15 @@ procedure Register;
 implementation
 
 uses
-  System.Classes, Winapi.Windows, System.SysUtils, {$IFDEF ADDSPLASHSCREENLOGO}ToolsApi,{$ENDIF}
+  {$IFNDEF DELPHI7_UP}
+  Classes, Windows, SysUtils,
+  {$ELSE}
+  System.Classes, Winapi.Windows, System.SysUtils,
+  uCEFFMXBufferPanel, uCEFFMXChromium, uCEFFMXWorkScheduler,
+  {$ENDIF}
+  {$IFDEF ADDSPLASHSCREENLOGO}ToolsApi,{$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
-  uCEFWorkScheduler, uCEFFMXBufferPanel, uCEFFMXChromium, uCEFFMXWorkScheduler,
-  uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent,
+  uCEFWorkScheduler, uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent,
   uCEFSentinel, uCEFBrowserViewComponent, uCEFLabelButtonComponent,
   uCEFMenuButtonComponent, uCEFPanelComponent, uCEFTextfieldComponent,
   uCEFScrollViewComponent, uCEFWindowComponent;
@@ -88,10 +95,13 @@ procedure Register;
 begin
   RegisterComponents('Chromium',
                      [TChromium, TCEFWindowParent, TChromiumWindow,
-                      TBufferPanel, TFMXBufferPanel, TFMXChromium,
-                      TFMXWorkScheduler, TCEFWorkScheduler,
+                      TBufferPanel, TCEFWorkScheduler,
                       TCEFServerComponent, TCEFLinkedWindowParent,
                       TCEFUrlRequestClientComponent,
+                      {$IFDEF DELPHI7_UP}
+                      TFMXBufferPanel, TFMXChromium,
+                      TFMXWorkScheduler,
+                      {$ENDIF}
                       TCEFSentinel]);
 
   RegisterComponents('Chromium Views Framework',

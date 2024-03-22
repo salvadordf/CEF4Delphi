@@ -14,6 +14,9 @@ unit uCEFOLEDragAndDrop;
 interface
 
 uses
+  {$IFNDEF DELPHI7_UP}
+   uCEFTypes,
+  {$ENDIF}
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ShlObj, WinApi.ActiveX,{$ENDIF} System.Classes, System.Math;
   {$ELSE}

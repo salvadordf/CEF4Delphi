@@ -20,6 +20,10 @@ uses
   {$ENDIF}
 
 type
+  {$IFNDEF DELPHI7_UP}
+  PPAnsiChar    = Array of PChar;
+  {$ENDIF}
+
   TCEFArgCopy = class
     protected
       FArgCCopy : longint;
@@ -38,9 +42,9 @@ type
   end;
 
 implementation
-
+{$IFDEF DELPHI7_UP}
 {$POINTERMATH ON}
-
+{$ENDIF}
 constructor TCEFArgCopy.Create;
 begin
   inherited Create;
@@ -106,7 +110,7 @@ begin
               FArgVCopy[i] := System.AnsiStrings.AnsiStrAlloc(length(aArgv[i]) + 1);
               System.AnsiStrings.StrCopy(FArgVCopy[i], aArgv[i]);
             {$ELSE}
-              FArgVCopy[i] := {$IFDEF DELPHI16_UP}System.{$ENDIF}SysUtils.AnsiStrAlloc(length(aArgv[i]) + 1);
+              FArgVCopy[i] := {$IFDEF DELPHI16_UP}System.{$ENDIF}SysUtils.{$IFDEF DELPHI7_UP}Ansi{$ENDIF}StrAlloc(length(aArgv[i]) + 1);
               {$IFDEF DELPHI16_UP}System.{$ENDIF}SysUtils.StrCopy(FArgVCopy[i], aArgv[i]);
             {$ENDIF}
           {$ENDIF}

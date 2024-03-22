@@ -12,6 +12,7 @@ unit uCEFTypes;
 interface
 
 uses
+  {$IFDEF DEPHI7_UP}System.{$ENDIF}Classes,
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}
       WinApi.Windows,
@@ -20,11 +21,22 @@ uses
     {$ENDIF}
     System.Math;
   {$ELSE}
-    {$IFDEF FPC}{$IFDEF LINUX}xlib, ctypes,{$ENDIF}{$ENDIF}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Math;
+    {$IFDEF FPC}
+       {$IFDEF LINUX}xlib, ctypes,{$ENDIF}{$ENDIF}
+       {$IFDEF MSWINDOWS}Windows,{$ENDIF} Math;
   {$ENDIF}
 
+{$IFNDEF DEPHI7_UP}
+const
+  TCefNameValueSeparator = '=';
+{$ENDIF}
+
 type
+
+  {$IFNDEF DEPHI7_UP}
+     uint64 = type int64;
+  {$ENDIF}
+
   PCefStringWide = ^TCefStringWide;
   PCefDictionaryValue = ^TCefDictionaryValue;
   PCefListValue = ^TCefListValue;

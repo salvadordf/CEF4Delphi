@@ -1,0 +1,26 @@
+#------------------------------------------------------------------------------
+VERSION = BWS.01
+#------------------------------------------------------------------------------
+!ifndef ROOT
+ROOT = $(MAKEDIR)\..
+!endif
+#------------------------------------------------------------------------------
+MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+DCC = $(ROOT)\bin\dcc32.exe $**
+BRCC = $(ROOT)\bin\brcc32.exe $**
+#------------------------------------------------------------------------------
+PROJECTS = CEF4Delphi.bpl CEF4Delphi_designtime.bpl CEF4DelphiVCLRTL.bpl
+#------------------------------------------------------------------------------
+default: $(PROJECTS)
+#------------------------------------------------------------------------------
+
+CEF4Delphi.bpl: CEF4Delphi.dpk
+  $(DCC)
+
+CEF4Delphi_designtime.bpl: CEF4Delphi_designtime.dpk
+  $(DCC)
+
+CEF4DelphiVCLRTL.bpl: CEF4DelphiVCLRTL.dpk
+  $(DCC)
+
+

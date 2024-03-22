@@ -1,6 +1,7 @@
 package CEF4Delphi_designtime;
 
 {$R *.res}
+{$I ..\source\cef.inc}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
@@ -23,18 +24,22 @@ package CEF4Delphi_designtime;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'CEF4Delphi'}
 {$DESIGNONLY}
 {$IMPLICITBUILD ON}
+{$IFNDEF DELPHI7_UP}
+{$DEFINE DEBUG}
+{$ENDIF}
 
 requires
   rtl,
   vcl,
   designide,
-  CEF4DelphiVCLRTL,
-  CEF4DelphiFMXRTL;
+  {$IFDEF DELPHI7_UP}
+  CEF4DelphiFMXRTL,
+  {$ENDIF}
+  CEF4DelphiVCLRTL;
 
 contains
   CEF4DelphiVCLFMX_Register in 'CEF4DelphiVCLFMX_Register.pas';

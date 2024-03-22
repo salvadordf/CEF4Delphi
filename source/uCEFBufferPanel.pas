@@ -353,7 +353,9 @@ type
       property BevelKind;
       property Ctl3D;
       property Locked;
+      {$IFDEF DELPHI7_UP}
       property ParentBackground;
+      {$ENDIF}
       property ParentCtl3D;
       property OnCanResize;
       {$ENDIF}

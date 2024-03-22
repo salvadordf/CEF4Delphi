@@ -106,7 +106,11 @@ begin
               TempValue := TempStrMap.Value[i];
 
               if (length(TempKey) > 0) and (length(TempValue) > 0) then
+                {$IFDEF DELPHI7_UP}
                 attrList.Add(TempKey + attrList.NameValueSeparator + TempValue)
+                {$ELSE}
+                attrList.Add(TempKey + uCEFTypes.TCefNameValueSeparator + TempValue)
+                {$ENDIF}
                else
                 if (length(TempKey) > 0) then
                   attrList.Add(TempKey)
