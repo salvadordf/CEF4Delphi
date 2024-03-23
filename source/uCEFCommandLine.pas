@@ -154,7 +154,11 @@ begin
               TempValue := TempStrMap.Value[i];
 
               if (length(TempKey) > 0) and (length(TempValue) > 0) then
+                {$IFDEF VER140}
+                switches.Add(TempKey + '=' + TempValue)  // Only for Delphi 6
+                {$ELSE}
                 switches.Add(TempKey + switches.NameValueSeparator + TempValue)
+                {$ENDIF}
                else
                 if (length(TempKey) > 0) then
                   switches.Add(TempKey)

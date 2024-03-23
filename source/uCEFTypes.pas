@@ -733,6 +733,10 @@ type
     /// </summary>
     ustring     = type WideString;
     rbstring    = type AnsiString;
+    {$IFNDEF DELPHI7_UP}
+    uint64     = type int64;
+    PPAnsiChar = array of PChar;
+    {$ENDIF}
   {$ELSE}
     /// <summary>
     /// String type used by CEF. ustring was created to use the same type in Delphi and Lazarus.

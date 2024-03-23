@@ -15,10 +15,11 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ShlObj, WinApi.ActiveX,{$ENDIF} System.Classes, System.Math;
+    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ShlObj, WinApi.ActiveX,{$ENDIF} System.Classes, System.Math,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, ShlObj, ActiveX,{$ENDIF} Classes, Math;
+    {$IFDEF MSWINDOWS}Windows, ShlObj, ActiveX,{$ENDIF} Classes, Math,
   {$ENDIF}
+  uCEFTypes;
 
 const
   CUSTOM_ARRAY_LENGTH = 25;

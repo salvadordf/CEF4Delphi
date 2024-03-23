@@ -106,7 +106,11 @@ begin
               TempValue := TempStrMap.Value[i];
 
               if (length(TempKey) > 0) and (length(TempValue) > 0) then
+                {$IFDEF VER140}
+                attrList.Add(TempKey + '=' + TempValue)  // Only for Delphi 6
+                {$ELSE}
                 attrList.Add(TempKey + attrList.NameValueSeparator + TempValue)
+                {$ENDIF}
                else
                 if (length(TempKey) > 0) then
                   attrList.Add(TempKey)

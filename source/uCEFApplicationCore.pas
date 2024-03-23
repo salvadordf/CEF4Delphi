@@ -3154,7 +3154,11 @@ end;
 procedure TCefApplicationCore.AddCustomCommandLineSwitches(var aKeys, aValues : TStringList);
 var
   i : integer;
+  {$IFDEF VER140}
+  TempDecimalSeparator : char;  // Only for Delphi 6
+  {$ELSE}
   TempFormatSettings : TFormatSettings;
+  {$ENDIF}
 begin
   if FEnableMediaStream then
     ReplaceSwitch(aKeys, aValues, '--enable-media-stream');
@@ -3298,15 +3302,23 @@ begin
     begin
       {$IFDEF FPC}
       TempFormatSettings.DecimalSeparator := '.';
+      ReplaceSwitch(aKeys, aValues, '--force-device-scale-factor', FloatToStr(FForcedDeviceScaleFactor, TempFormatSettings));
       {$ELSE}
-        {$IFDEF DELPHI24_UP}
-        TempFormatSettings := TFormatSettings.Create('en-US');
+        {$IFDEF DELPHI7_UP}
+          {$IFDEF DELPHI24_UP}
+          TempFormatSettings := TFormatSettings.Create('en-US');
+          {$ELSE}
+          GetLocaleFormatSettings(GetThreadLocale, TempFormatSettings);
+          TempFormatSettings.DecimalSeparator := '.';
+          {$ENDIF}
+          ReplaceSwitch(aKeys, aValues, '--force-device-scale-factor', FloatToStr(FForcedDeviceScaleFactor, TempFormatSettings));
         {$ELSE}
-        GetLocaleFormatSettings(GetThreadLocale, TempFormatSettings);
-        TempFormatSettings.DecimalSeparator := '.';
+          TempDecimalSeparator := DecimalSeparator;
+          DecimalSeparator     := '.';
+          ReplaceSwitch(aKeys, aValues, '--force-device-scale-factor', FloatToStr(FForcedDeviceScaleFactor));
+          DecimalSeparator     := TempDecimalSeparator;
         {$ENDIF}
       {$ENDIF}
-      ReplaceSwitch(aKeys, aValues, '--force-device-scale-factor', FloatToStr(FForcedDeviceScaleFactor, TempFormatSettings));
     end;
 
   if FDisableZygote then
