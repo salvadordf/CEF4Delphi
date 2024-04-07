@@ -1569,6 +1569,7 @@ type
     DOM_FORM_CONTROL_TYPE_BUTTON_SUBMIT,
     DOM_FORM_CONTROL_TYPE_BUTTON_RESET,
     DOM_FORM_CONTROL_TYPE_BUTTON_SELECT_LIST,
+    DOM_FORM_CONTROL_TYPE_BUTTON_POPOVER,
     DOM_FORM_CONTROL_TYPE_FIELDSET,
     DOM_FORM_CONTROL_TYPE_INPUT_BUTTON,
     DOM_FORM_CONTROL_TYPE_INPUT_CHECKBOX,
@@ -4486,6 +4487,20 @@ type
     /// Content settings for access to printers for the Web Printing API.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_WEB_PRINTING,
+    /// <summary>
+    /// Content setting used to indicate whether entering HTML Fullscreen
+    /// automatically (i.e. without transient activation) should be enabled.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_AUTOMATIC_FULLSCREEN,
+    /// <summary>
+    /// Content settings used to indicate that a web app is allowed to prompt the
+    /// user for the installation of sub apps.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_SUB_APP_INSTALLATION_PROMPTS,
+    /// <summary>
+    /// Whether an application can enumerate audio output device.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_SPEAKER_SELECTION,
     CEF_CONTENT_SETTING_TYPE_NUM_TYPES
   );
 

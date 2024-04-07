@@ -15374,6 +15374,30 @@
 <param name="Local" value="uCEFConstants.html#CRLF">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_URLS_URL">
+<param name="Local" value="uCEFConstants.html#CEF_URLS_URL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_VERSION_URL">
+<param name="Local" value="uCEFConstants.html#CEF_VERSION_URL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_FLAGS_URL">
+<param name="Local" value="uCEFConstants.html#CEF_FLAGS_URL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_SETTINGS_URL">
+<param name="Local" value="uCEFConstants.html#CEF_SETTINGS_URL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_DOWNLOADS_URL">
+<param name="Local" value="uCEFConstants.html#CEF_DOWNLOADS_URL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EXTENSIONS_URL">
+<param name="Local" value="uCEFConstants.html#CEF_EXTENSIONS_URL">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="CEF_IMAGE_FILE_MACHINE_I386">
 <param name="Local" value="uCEFConstants.html#CEF_IMAGE_FILE_MACHINE_I386">
 </object>
@@ -32134,6 +32158,10 @@
 <param name="Local" value="uCEFMiscFunctions.html#CefLoadCRLSetsFile">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="GetDefaultCEFUserAgent">
+<param name="Local" value="uCEFMiscFunctions.html#GetDefaultCEFUserAgent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="CefIsKeyDown">
 <param name="Local" value="uCEFMiscFunctions.html#CefIsKeyDown">
 </object>
@@ -32170,16 +32198,20 @@
 <param name="Local" value="uCEFMiscFunctions.html#GetWindowsMajorMinorVersion">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="GetIsWow64Process2">
+<param name="Local" value="uCEFMiscFunctions.html#GetIsWow64Process2">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IsWowProcess">
+<param name="Local" value="uCEFMiscFunctions.html#IsWowProcess">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="RunningWindows10OrNewer">
 <param name="Local" value="uCEFMiscFunctions.html#RunningWindows10OrNewer">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetDPIForHandle">
 <param name="Local" value="uCEFMiscFunctions.html#GetDPIForHandle">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="GetDefaultCEFUserAgent">
-<param name="Local" value="uCEFMiscFunctions.html#GetDefaultCEFUserAgent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="DeviceToLogical">

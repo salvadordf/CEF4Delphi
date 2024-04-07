@@ -183,14 +183,14 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list2">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefGetDataURI-pointer-integer-ustring-ustring-">CefGetDataURI</a></td>
-<td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
-<td class="itemdesc"><p> Returns a URI with a DATA scheme encoding |aData| as a base64 string. </p></td>
-</tr>
-<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefGetDataURI-ustring-ustring-">CefGetDataURI</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Returns a URI with a DATA scheme using |aString| as the URI's data. </p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefGetDataURI-pointer-integer-ustring-ustring-">CefGetDataURI</a></td>
+<td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
+<td class="itemdesc"><p> Returns a URI with a DATA scheme encoding |aData| as a base64 string. </p></td>
 </tr>
 <tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefGetExtensionsForMimeType-ustring-TStringList-">CefGetExtensionsForMimeType</a></td>
@@ -334,14 +334,14 @@
 <td class="itemdesc"><p> Sets or clears a specific key-value pair from the crash metadata. </p></td>
 </tr>
 <tr class="list">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefString-PCefString-">CefString</a></td>
-<td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
-<td class="itemdesc"><p>Converts PCefString to ustring.</p></td>
-</tr>
-<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefString-ustring-">CefString</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>Converts ustring to TCefString.</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefString-PCefString-">CefString</a></td>
+<td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
+<td class="itemdesc"><p>Converts PCefString to ustring.</p></td>
 </tr>
 <tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefStringAlloc-ustring-">CefStringAlloc</a></td>
@@ -564,7 +564,7 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-TPoint-double-">DeviceToLogical</a></td>
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-TCEFMouseEvent-double-">DeviceToLogical</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
@@ -584,7 +584,7 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-TCEFMouseEvent-double-">DeviceToLogical</a></td>
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-TPoint-double-">DeviceToLogical</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
@@ -629,12 +629,12 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list2">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetCefMouseModifiers-WPARAM-">GetCefMouseModifiers</a></td>
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetCefMouseModifiers">GetCefMouseModifiers</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetCefMouseModifiers">GetCefMouseModifiers</a></td>
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetCefMouseModifiers-WPARAM-">GetCefMouseModifiers</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
@@ -646,7 +646,13 @@
 <tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetDefaultCEFUserAgent">GetDefaultCEFUserAgent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
-<td class="itemdesc"><p>&nbsp;</p></td>
+<td class="itemdesc"><p>
+
+<p>Return a user-agent string.
+
+<p>This function tries to replicate the BuildUserAgentFromOSAndProduct function in Chromium but it's safer to call the 'Browser.getVersion' DevTools method.
+
+<p></p></td>
 </tr>
 <tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetDeviceScaleFactor">GetDeviceScaleFactor</a></td>
@@ -684,62 +690,72 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetIsWow64Process2-WORD-WORD-">GetIsWow64Process2</a></td>
+<td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetModulePath">GetModulePath</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Retrieves the fully qualified path for the current module. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetRealWindowsVersion-cardinal-cardinal-">GetRealWindowsVersion</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetRegistryWindowsVersion-cardinal-cardinal-">GetRegistryWindowsVersion</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetScreenDPI">GetScreenDPI</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetTimeIntervalMilliseconds-TCefTime-">GetTimeIntervalMilliseconds</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Returns the time interval between now and from_ in milliseconds. This funcion should only be used by TCEFTimerWorkScheduler. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetWindowsMajorMinorVersion-DWORD-DWORD-">GetWindowsMajorMinorVersion</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#InitializeCefTime-TCefTime-">InitializeCefTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Initialize a TCefTime variable. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#InitializeWindowHandle-TCefWindowHandle-">InitializeWindowHandle</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#Is32BitProcess">Is32BitProcess</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#IsCEFSubprocess">IsCEFSubprocess</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Returns true if the command line switch has a &quot;type&quot; value. </p></td>
 </tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#IsWowProcess">IsWowProcess</a></td>
+<td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
 <tr class="list">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#LogicalToDevice-integer-double-">LogicalToDevice</a></td>
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#LogicalToDevice-TCEFRect-double-">LogicalToDevice</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list2">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#LogicalToDevice-TCEFRect-double-">LogicalToDevice</a></td>
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#LogicalToDevice-integer-double-">LogicalToDevice</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>

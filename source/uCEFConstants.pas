@@ -2597,6 +2597,13 @@ const
   CEF4DELPHI_URL = 'https://github.com/salvadordf/CEF4Delphi';
   CRLF           = #13 + #10;
 
+  CEF_URLS_URL              = 'chrome://chrome-urls';
+  CEF_VERSION_URL           = 'chrome://version';
+  CEF_FLAGS_URL             = 'chrome://flags';
+  CEF_SETTINGS_URL          = 'chrome://settings';
+  CEF_DOWNLOADS_URL         = 'chrome://downloads';
+  CEF_EXTENSIONS_URL        = 'chrome://extensions';
+
   // These contants are declared in the "Windows" unit but
   // some old Delphi versions don't have them.
   // We have to add "CEF_" to be compatible with C++ Builder.

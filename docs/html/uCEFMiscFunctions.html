@@ -394,40 +394,46 @@
 <td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefLoadCRLSetsFile-ustring-">CefLoadCRLSetsFile</a></strong>(const path : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
 <tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetDefaultCEFUserAgent">GetDefaultCEFUserAgent</a></strong>: string;</code></td>
+</tr>
+<tr class="list2">
 <td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefIsKeyDown-WPARAM-">CefIsKeyDown</a></strong>(aWparam : WPARAM) : boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefIsKeyToggled-WPARAM-">CefIsKeyToggled</a></strong>(aWparam : WPARAM) : boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetCefMouseModifiers">GetCefMouseModifiers</a></strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>; overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetCefMouseModifiers-WPARAM-">GetCefMouseModifiers</a></strong>(awparam : WPARAM) : <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>; overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetCefKeyboardModifiers-WPARAM-LPARAM-">GetCefKeyboardModifiers</a></strong>(aWparam : WPARAM; aLparam : LPARAM) : <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefCheckAltGrPressed-WPARAM-TCefKeyEvent-">CefCheckAltGrPressed</a></strong>(aWparam : WPARAM; var aEvent : <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#DropEffectToDragOperation-Longint-TCefDragOperations-">DropEffectToDragOperation</a></strong>(aEffect : Longint; var aAllowedOps : <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#DragOperationToDropEffect-TCefDragOperations-Longint-">DragOperationToDropEffect</a></strong>(const aDragOperations : <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>; var aEffect: Longint);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetWindowsMajorMinorVersion-DWORD-DWORD-">GetWindowsMajorMinorVersion</a></strong>(var wMajorVersion, wMinorVersion : DWORD) : boolean;</code></td>
 </tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetIsWow64Process2-WORD-WORD-">GetIsWow64Process2</a></strong>(var aProcessMachine, aNativeMachine : WORD) : boolean;</code></td>
+</tr>
 <tr class="list2">
-<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#RunningWindows10OrNewer">RunningWindows10OrNewer</a></strong>: boolean;</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#IsWowProcess">IsWowProcess</a></strong>: boolean;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetDPIForHandle-HWND-UINT-">GetDPIForHandle</a></strong>(aHandle : HWND; var aDPI : UINT) : boolean;</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#RunningWindows10OrNewer">RunningWindows10OrNewer</a></strong>: boolean;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetDefaultCEFUserAgent">GetDefaultCEFUserAgent</a></strong>: string;</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#GetDPIForHandle-HWND-UINT-">GetDPIForHandle</a></strong>(aHandle : HWND; var aDPI : UINT) : boolean;</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#DeviceToLogical-integer-double-">DeviceToLogical</a></strong>(aValue : integer; const aDeviceScaleFactor : double) : integer; overload;</code></td>
@@ -1668,6 +1674,27 @@ Converts PCefString to ustring.</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="itemcode"><span id="GetDefaultCEFUserAgent"></span><code>function <strong>GetDefaultCEFUserAgent</strong>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+
+
+<p>Return a user-agent string.
+
+<p>This function tries to replicate the BuildUserAgentFromOSAndProduct function in Chromium but it's safer to call the 'Browser.getVersion' DevTools method.
+
+<p></p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:content/common/user_agent.cc&quot;&gt;Chromium source file: content/common/user_agent.cc (BuildUserAgentFromOSAndProduct))
+
+<p>&lt;see href=&quot;<a href="https://chromedevtools.github.io/devtools-protocol/tot/Browser/#method-getVersion">https://chromedevtools.github.io/devtools-protocol/tot/Browser/#method-getVersion</a>&quot;&gt;See the Browser.getVersion article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="itemcode"><span id="CefIsKeyDown-WPARAM-"></span><code>function <strong>CefIsKeyDown</strong>(aWparam : WPARAM) : boolean;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -1731,6 +1758,20 @@ Converts PCefString to ustring.</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="itemcode"><span id="GetIsWow64Process2-WORD-WORD-"></span><code>function <strong>GetIsWow64Process2</strong>(var aProcessMachine, aNativeMachine : WORD) : boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IsWowProcess"></span><code>function <strong>IsWowProcess</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="itemcode"><span id="RunningWindows10OrNewer"></span><code>function <strong>RunningWindows10OrNewer</strong>: boolean;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -1739,13 +1780,6 @@ Converts PCefString to ustring.</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="itemcode"><span id="GetDPIForHandle-HWND-UINT-"></span><code>function <strong>GetDPIForHandle</strong>(aHandle : HWND; var aDPI : UINT) : boolean;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="GetDefaultCEFUserAgent"></span><code>function <strong>GetDefaultCEFUserAgent</strong>: string;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
