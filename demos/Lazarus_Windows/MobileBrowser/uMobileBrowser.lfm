@@ -14,7 +14,7 @@ object Form1: TForm1
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '3.2.0.0'
   object Splitter1: TSplitter
     Left = 739
     Height = 624
@@ -33,6 +33,7 @@ object Form1: TForm1
     BevelOuter = bvNone
     ClientHeight = 624
     ClientWidth = 294
+    ParentBackground = False
     TabOrder = 0
     object LogMem: TMemo
       Left = 0
@@ -42,7 +43,7 @@ object Form1: TForm1
       Align = alClient
       ReadOnly = True
       ScrollBars = ssBoth
-      TabOrder = 0
+      TabOrder = 3
     end
     object Panel3: TPanel
       Left = 0
@@ -53,7 +54,8 @@ object Form1: TForm1
       BevelOuter = bvNone
       ClientHeight = 58
       ClientWidth = 294
-      TabOrder = 1
+      ParentBackground = False
+      TabOrder = 0
       object CanEmulateBtn: TButton
         Left = 0
         Height = 25
@@ -61,8 +63,8 @@ object Form1: TForm1
         Width = 294
         Align = alTop
         Caption = 'Can emulate'
-        OnClick = CanEmulateBtnClick
         TabOrder = 0
+        OnClick = CanEmulateBtnClick
       end
       object ClearDeviceMetricsOverrideBtn: TButton
         Left = 0
@@ -71,8 +73,8 @@ object Form1: TForm1
         Width = 294
         Align = alBottom
         Caption = 'Clear device metrics override'
-        OnClick = ClearDeviceMetricsOverrideBtnClick
         TabOrder = 1
+        OnClick = ClearDeviceMetricsOverrideBtnClick
       end
     end
     object Panel4: TPanel
@@ -84,7 +86,8 @@ object Form1: TForm1
       BevelOuter = bvNone
       ClientHeight = 97
       ClientWidth = 294
-      TabOrder = 2
+      ParentBackground = False
+      TabOrder = 1
       object GroupBox1: TGroupBox
         Left = 0
         Height = 73
@@ -94,6 +97,7 @@ object Form1: TForm1
         Caption = ' User agent '
         ClientHeight = 55
         ClientWidth = 290
+        ParentBackground = False
         TabOrder = 0
         object UserAgentCb: TComboBox
           Left = 0
@@ -135,19 +139,19 @@ object Form1: TForm1
           Width = 290
           Align = alBottom
           Caption = 'Override user agent'
-          OnClick = OverrideUserAgentBtnClick
           TabOrder = 1
+          OnClick = OverrideUserAgentBtnClick
         end
       end
       object EmulateTouchChk: TCheckBox
         Left = 0
-        Height = 19
-        Top = 78
+        Height = 17
+        Top = 80
         Width = 294
         Align = alBottom
         Caption = 'Emulate Touch'
-        OnClick = EmulateTouchChkClick
         TabOrder = 1
+        OnClick = EmulateTouchChkClick
       end
     end
     object Panel5: TPanel
@@ -159,7 +163,8 @@ object Form1: TForm1
       BevelOuter = bvNone
       ClientHeight = 205
       ClientWidth = 294
-      TabOrder = 3
+      ParentBackground = False
+      TabOrder = 2
       object GroupBox2: TGroupBox
         Left = 0
         Height = 205
@@ -169,6 +174,7 @@ object Form1: TForm1
         Caption = ' Emulate device metrics '
         ClientHeight = 187
         ClientWidth = 290
+        ParentBackground = False
         TabOrder = 0
         object Panel6: TPanel
           Left = 0
@@ -179,7 +185,8 @@ object Form1: TForm1
           BevelOuter = bvNone
           ClientHeight = 27
           ClientWidth = 290
-          TabOrder = 0
+          ParentBackground = False
+          TabOrder = 1
           object Label1: TLabel
             Left = 0
             Height = 27
@@ -209,7 +216,8 @@ object Form1: TForm1
           BevelOuter = bvNone
           ClientHeight = 27
           ClientWidth = 290
-          TabOrder = 1
+          ParentBackground = False
+          TabOrder = 0
           object Label2: TLabel
             Left = 0
             Height = 27
@@ -237,8 +245,8 @@ object Form1: TForm1
           Width = 290
           Align = alBottom
           Caption = 'Override device metrics'
+          TabOrder = 5
           OnClick = OverrideDeviceMetricsBtnClick
-          TabOrder = 2
         end
         object Panel8: TPanel
           Left = 0
@@ -249,7 +257,8 @@ object Form1: TForm1
           BevelOuter = bvNone
           ClientHeight = 27
           ClientWidth = 290
-          TabOrder = 3
+          ParentBackground = False
+          TabOrder = 2
           object Label3: TLabel
             Left = 0
             Height = 27
@@ -266,6 +275,7 @@ object Form1: TForm1
             Top = 0
             Width = 215
             Align = alClient
+            EnableSets = False
             MaxLength = 4
             TabOrder = 0
             EditMask = '#.##;1;0'
@@ -282,7 +292,8 @@ object Form1: TForm1
           BevelOuter = bvNone
           ClientHeight = 27
           ClientWidth = 290
-          TabOrder = 4
+          ParentBackground = False
+          TabOrder = 3
           object Label4: TLabel
             Left = 0
             Height = 27
@@ -321,7 +332,8 @@ object Form1: TForm1
           BevelOuter = bvNone
           ClientHeight = 27
           ClientWidth = 290
-          TabOrder = 5
+          ParentBackground = False
+          TabOrder = 4
           object Label5: TLabel
             Left = 0
             Height = 27
@@ -354,6 +366,7 @@ object Form1: TForm1
     BevelOuter = bvNone
     ClientHeight = 624
     ClientWidth = 739
+    ParentBackground = False
     TabOrder = 1
     object AddressPnl: TPanel
       Left = 0
@@ -365,6 +378,7 @@ object Form1: TForm1
       ClientHeight = 20
       ClientWidth = 739
       Enabled = False
+      ParentBackground = False
       TabOrder = 0
       object AddressEdt: TEdit
         Left = 0
@@ -382,8 +396,8 @@ object Form1: TForm1
         Width = 31
         Align = alRight
         Caption = 'Go'
-        OnClick = GoBtnClick
         TabOrder = 1
+        OnClick = GoBtnClick
       end
     end
     object CEFWindowParent1: TCEFWindowParent

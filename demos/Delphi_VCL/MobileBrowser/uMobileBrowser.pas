@@ -53,6 +53,9 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure CanEmulateBtnClick(Sender: TObject);
     procedure OverrideUserAgentBtnClick(Sender: TObject);
+    procedure EmulateTouchChkClick(Sender: TObject);
+    procedure ClearDeviceMetricsOverrideBtnClick(Sender: TObject);
+    procedure OverrideDeviceMetricsBtnClick(Sender: TObject);
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -64,9 +67,6 @@ type
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
     procedure Chromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
     procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: Integer; success: Boolean; const result: ICefValue);
-    procedure EmulateTouchChkClick(Sender: TObject);
-    procedure ClearDeviceMetricsOverrideBtnClick(Sender: TObject);
-    procedure OverrideDeviceMetricsBtnClick(Sender: TObject);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -102,7 +102,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uCEFApplication, uCefMiscFunctions;
+  uCEFApplication, uCefMiscFunctions, uCEFListValue;
 
 // This demo allows you to emulate a mobile browser using the "Emulation" namespace of the DevTools.
 // It's necesary to reload the browser after using the controls in the right panel.
@@ -294,10 +294,42 @@ end;
 procedure TForm1.OverrideUserAgentBtnClick(Sender: TObject);
 var
   TempParams : ICefDictionaryValue;
+  TempMetadataDict, TempBrandDict, TempFullVersionDict: ICefDictionaryValue;
+  TempBrandsArray, TempFullVersionListArray: ICefListValue;
 begin
   try
     TempParams := TCefDictionaryValueRef.New;
+
+    TempMetadataDict := TCefDictionaryValueRef.New;
+    TempBrandsArray := TCefListValueRef.New;
+    TempFullVersionListArray := TCefListValueRef.New;
+
+    TempBrandsArray.SetSize(1);
+    TempBrandDict := TCefDictionaryValueRef.New;
+    TempBrandDict.SetString('brand', 'Chromium');
+    TempBrandDict.SetString('version', '91');
+    TempBrandsArray.SetDictionary(0, TempBrandDict);
+
+
+    TempFullVersionListArray.SetSize(1);
+    TempFullVersionDict := TCefDictionaryValueRef.New;
+    TempFullVersionDict.SetString('brand', 'Chromium'); //Not:A
+    TempFullVersionDict.SetString('version', '91.0.4472.114');
+    TempFullVersionListArray.SetDictionary(0, TempFullVersionDict);
+
+    TempMetadataDict.SetList('brands', TempBrandsArray);
+    TempMetadataDict.SetList('fullVersionList', TempFullVersionListArray);
+    TempMetadataDict.SetString('platform', 'Android'); //or Windows
+    TempMetadataDict.SetString('platformVersion', '12');
+    TempMetadataDict.SetString('architecture', 'arm');
+    TempMetadataDict.SetString('model', 'SM-F916N');
+    TempMetadataDict.SetBool('mobile', true);
+    TempMetadataDict.SetString('bitness', '32');
+
     TempParams.SetString('userAgent', UserAgentCb.Text);
+    // Setting the userAgentMetadata value is optional and can be omited.
+    // All the values in TempMetadataDict are just an example and they should be customized for each use case.
+    TempParams.SetDictionary('userAgentMetadata', TempMetadataDict);
 
     FPendingMsgID := DEVTOOLS_SETUSERAGENTOVERRIDE_MSGID;
     Chromium1.ExecuteDevToolsMethod(0, 'Emulation.setUserAgentOverride', TempParams);
