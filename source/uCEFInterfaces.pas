@@ -1683,161 +1683,161 @@ type
   /// </remarks>
   ICefRequest = interface(ICefBaseRefCounted)
     ['{FB4718D3-7D13-4979-9F4C-D7F6C0EC592A}']
-    ///
+    /// <summary>
     /// Returns true (1) if this object is read-only.
-    ///
+    /// </summary>
     function  IsReadOnly: Boolean;
-    ///
+    /// <summary>
     /// Get the fully qualified URL.
-    ///
+    /// </summary>
     function  GetUrl: ustring;
-    ///
+    /// <summary>
     /// Set the fully qualified URL.
-    ///
+    /// </summary>
     procedure SetUrl(const value: ustring);
-    ///
+    /// <summary>
     /// Get the request function type. The value will default to POST if post data
     /// is provided and GET otherwise.
-    ///
+    /// </summary>
     function  GetMethod: ustring;
-    ///
+    /// <summary>
     /// Set the request function type.
-    ///
+    /// </summary>
     procedure SetMethod(const value: ustring);
-    ///
+    /// <summary>
     /// Set the referrer URL and policy. If non-NULL the referrer URL must be
     /// fully qualified with an HTTP or HTTPS scheme component. Any username,
     /// password or ref component will be removed.
-    ///
+    /// </summary>
     procedure SetReferrer(const referrerUrl: ustring; policy: TCefReferrerPolicy);
-    ///
+    /// <summary>
     /// Get the referrer URL.
-    ///
+    /// </summary>
     function  GetReferrerUrl: ustring;
-    ///
+    /// <summary>
     /// Get the referrer policy.
-    ///
+    /// </summary>
     function  GetReferrerPolicy: TCefReferrerPolicy;
-    ///
+    /// <summary>
     /// Get the post data.
-    ///
+    /// </summary>
     function  GetPostData: ICefPostData;
-    ///
+    /// <summary>
     /// Set the post data.
-    ///
+    /// </summary>
     procedure SetPostData(const value: ICefPostData);
-    ///
+    /// <summary>
     /// Get the header values. Will not include the Referer value if any.
-    ///
+    /// </summary>
     procedure GetHeaderMap(const HeaderMap: ICefStringMultimap);
-    ///
+    /// <summary>
     /// Set the header values. If a Referer value exists in the header map it will
     /// be removed and ignored.
-    ///
+    /// </summary>
     procedure SetHeaderMap(const HeaderMap: ICefStringMultimap);
-    ///
+    /// <summary>
     /// Returns the first header value for |name| or an NULL string if not found.
     /// Will not return the Referer value if any. Use GetHeaderMap instead if
     /// |name| might have multiple values.
-    ///
+    /// </summary>
     function  GetHeaderByName(const name: ustring): ustring;
-    ///
+    /// <summary>
     /// Set the header |name| to |value|. If |overwrite| is true (1) any existing
     /// values will be replaced with the new value. If |overwrite| is false (0)
     /// any existing values will not be overwritten. The Referer value cannot be
     /// set using this function.
-    ///
+    /// </summary>
     procedure SetHeaderByName(const name, value: ustring; overwrite: boolean);
-    ///
+    /// <summary>
     /// Get the flags used in combination with ICefUrlRequest. See
     /// TCefUrlRequestFlags for supported values.
-    ///
+    /// </summary>
     function  GetFlags: TCefUrlRequestFlags;
-    ///
+    /// <summary>
     /// Set the flags used in combination with ICefUrlRequest.  See
     /// TCefUrlRequestFlags for supported values.
-    ///
+    /// </summary>
     procedure SetFlags(flags: TCefUrlRequestFlags);
-    ///
+    /// <summary>
     /// Get the URL to the first party for cookies used in combination with
     /// ICefUrlRequest.
-    ///
+    /// </summary>
     function  GetFirstPartyForCookies: ustring;
-    ///
+    /// <summary>
     /// Set the URL to the first party for cookies used in combination with
     /// ICefUrlRequest.
-    ///
+    /// </summary>
     procedure SetFirstPartyForCookies(const url: ustring);
-    ///
+    /// <summary>
     /// Set all values at one time. This method corresponds to TCefRequest.set_ and cef_request_t.set
-    ///
+    /// </summary>
     procedure Assign(const url, method: ustring; const postData: ICefPostData; const headerMap: ICefStringMultimap);
-    ///
+    /// <summary>
     /// Get the resource type for this request. Only available in the browser
     /// process.
-    ///
+    /// </summary>
     function  GetResourceType: TCefResourceType;
-    ///
+    /// <summary>
     /// Get the transition type for this request. Only available in the browser
     /// process and only applies to requests that represent a main frame or sub-
     /// frame navigation.
-    ///
+    /// </summary>
     function  GetTransitionType: TCefTransitionType;
-    ///
+    /// <summary>
     /// Returns the globally unique identifier for this request or 0 if not
     /// specified. Can be used by ICefResourceRequestHandler implementations
     /// in the browser process to track a single request across multiple
     /// callbacks.
-    ///
+    /// </summary>
     function  GetIdentifier: UInt64;
-    ///
+    /// <summary>
     /// Get the fully qualified URL.
-    ///
+    /// </summary>
     property Url                  : ustring               read GetUrl                    write SetUrl;
-    ///
+    /// <summary>
     /// Get the request function type. The value will default to POST if post data
     /// is provided and GET otherwise.
-    ///
+    /// </summary>
     property Method               : ustring               read GetMethod                 write SetMethod;
-    ///
+    /// <summary>
     /// Get the referrer URL.
-    ///
+    /// </summary>
     property ReferrerUrl          : ustring               read GetReferrerUrl;
-    ///
+    /// <summary>
     /// Get the referrer policy.
-    ///
+    /// </summary>
     property ReferrerPolicy       : TCefReferrerPolicy    read GetReferrerPolicy;
-    ///
+    /// <summary>
     /// Get the post data.
-    ///
+    /// </summary>
     property PostData             : ICefPostData          read GetPostData               write SetPostData;
-    ///
+    /// <summary>
     /// Get the flags used in combination with ICefUrlRequest. See
     /// TCefUrlRequestFlags for supported values.
-    ///
+    /// </summary>
     property Flags                : TCefUrlRequestFlags   read GetFlags                  write SetFlags;
-    ///
+    /// <summary>
     /// Get the URL to the first party for cookies used in combination with
     /// ICefUrlRequest.
-    ///
+    /// </summary>
     property FirstPartyForCookies : ustring               read GetFirstPartyForCookies   write SetFirstPartyForCookies;
-    ///
+    ///  <summary>
     /// Get the resource type for this request. Only available in the browser
     /// process.
-    ///
+    ///  </summary>
     property ResourceType         : TCefResourceType      read GetResourceType;
-    ///
+    /// <summary>
     /// Get the transition type for this request. Only available in the browser
     /// process and only applies to requests that represent a main frame or sub-
     /// frame navigation.
-    ///
+    /// </summary>
     property TransitionType       : TCefTransitionType    read GetTransitionType;
-    ///
+    /// <summary>
     /// Returns the globally unique identifier for this request or 0 if not
     /// specified. Can be used by ICefResourceRequestHandler implementations
     /// in the browser process to track a single request across multiple
     /// callbacks.
-    ///
+    /// </summary>
     property Identifier           : UInt64                read GetIdentifier;
   end;
 

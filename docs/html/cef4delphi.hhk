@@ -14460,23 +14460,23 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TBrowserKeyEvent">
-<param name="Local" value="uCEFOsrBrowserWindow.html#TBrowserKeyEvent-TObject-Word-TShiftState-Boolean-">
+<param name="Local" value="uCEFOsrBrowserWindow.html#TBrowserKeyEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TBrowserMouseEvent">
-<param name="Local" value="uCEFOsrBrowserWindow.html#TBrowserMouseEvent-TObject-TMouseButton-TShiftState-Integer-Integer-Boolean-">
+<param name="Local" value="uCEFOsrBrowserWindow.html#TBrowserMouseEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TBrowserMouseMoveEvent">
-<param name="Local" value="uCEFOsrBrowserWindow.html#TBrowserMouseMoveEvent-TObject-TShiftState-Integer-Integer-Boolean-">
+<param name="Local" value="uCEFOsrBrowserWindow.html#TBrowserMouseMoveEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TBrowserMouseWheelEvent">
-<param name="Local" value="uCEFOsrBrowserWindow.html#TBrowserMouseWheelEvent-TObject-TShiftState-Integer-TPoint-Boolean-">
+<param name="Local" value="uCEFOsrBrowserWindow.html#TBrowserMouseWheelEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TBrowserUTF8KeyPressEvent">
-<param name="Local" value="uCEFOsrBrowserWindow.html#TBrowserUTF8KeyPressEvent-TObject-TUTF8Char-Boolean-">
+<param name="Local" value="uCEFOsrBrowserWindow.html#TBrowserUTF8KeyPressEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TBrowserWindow">
@@ -20604,7 +20604,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefCookieVisitorProc">
-<param name="Local" value="uCEFInterfaces.html#TCefCookieVisitorProc-ustring-ustring-ustring-ustring-Boolean-Boolean-Boolean-TDateTime-TDateTime-TDateTime-Integer-Integer-TCefCookieSameSite-TCefCookiePriority-Boolean-">
+<param name="Local" value="uCEFInterfaces.html#TCefCookieVisitorProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefCreateCustomViewTask">
@@ -21178,7 +21178,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefDeleteCookiesCallbackProc">
-<param name="Local" value="uCEFInterfaces.html#TCefDeleteCookiesCallbackProc-Integer-">
+<param name="Local" value="uCEFInterfaces.html#TCefDeleteCookiesCallbackProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefDevToolsMessageObserver">
@@ -22178,15 +22178,15 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefDomVisitorProc">
-<param name="Local" value="uCEFInterfaces.html#TCefDomVisitorProc-ICefDomDocument-">
+<param name="Local" value="uCEFInterfaces.html#TCefDomVisitorProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefDomVisitorProc2">
-<param name="Local" value="uCEFInterfaces.html#TCefDomVisitorProc2-ICefBrowser-ICefFrame-ICefDomDocument-">
+<param name="Local" value="uCEFInterfaces.html#TCefDomVisitorProc2">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefDomVisitorProc3">
-<param name="Local" value="uCEFInterfaces.html#TCefDomVisitorProc3-ICefBrowser-ICefFrame-ICefDomDocument-ustring-">
+<param name="Local" value="uCEFInterfaces.html#TCefDomVisitorProc3">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefDownloadHandler">
@@ -22958,7 +22958,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefEndTracingCallbackProc">
-<param name="Local" value="uCEFInterfaces.html#TCefEndTracingCallbackProc-ustring-">
+<param name="Local" value="uCEFInterfaces.html#TCefEndTracingCallbackProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefErrorCode">
@@ -25540,7 +25540,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefMediaRouteCreateCallbackProc">
-<param name="Local" value="uCEFInterfaces.html#TCefMediaRouteCreateCallbackProc-TCefMediaRouterCreateResult-ustring-ICefMediaRoute-">
+<param name="Local" value="uCEFInterfaces.html#TCefMediaRouteCreateCallbackProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefMediaRouteInfo">
@@ -25740,7 +25740,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefMediaSinkDeviceInfoCallbackProc">
-<param name="Local" value="uCEFInterfaces.html#TCefMediaSinkDeviceInfoCallbackProc-ustring-integer-ustring-">
+<param name="Local" value="uCEFInterfaces.html#TCefMediaSinkDeviceInfoCallbackProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefMediaSinkIconType">
@@ -26736,7 +26736,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefNavigationEntryVisitorProc">
-<param name="Local" value="uCEFInterfaces.html#TCefNavigationEntryVisitorProc-ICefNavigationEntry-Boolean-Integer-Integer-">
+<param name="Local" value="uCEFInterfaces.html#TCefNavigationEntryVisitorProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefNavigationType">
@@ -30126,7 +30126,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefRunFileDialogCallbackProc">
-<param name="Local" value="uCEFInterfaces.html#TCefRunFileDialogCallbackProc-TStrings-">
+<param name="Local" value="uCEFInterfaces.html#TCefRunFileDialogCallbackProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefRunQuickMenuCallback">
@@ -31006,7 +31006,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefSetCookieCallbackProc">
-<param name="Local" value="uCEFInterfaces.html#TCefSetCookieCallbackProc-Boolean-">
+<param name="Local" value="uCEFInterfaces.html#TCefSetCookieCallbackProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefSettings">
@@ -31690,7 +31690,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefStringVisitorProc">
-<param name="Local" value="uCEFInterfaces.html#TCefStringVisitorProc-ustring-">
+<param name="Local" value="uCEFInterfaces.html#TCefStringVisitorProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefStringWide">
@@ -33126,7 +33126,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefV8AccessorGetterProc">
-<param name="Local" value="uCEFInterfaces.html#TCefV8AccessorGetterProc-ustring-ICefv8Value-ICefv8Value-ustring-">
+<param name="Local" value="uCEFInterfaces.html#TCefV8AccessorGetterProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefV8AccessorOwn">
@@ -33146,7 +33146,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefV8AccessorSetterProc">
-<param name="Local" value="uCEFInterfaces.html#TCefV8AccessorSetterProc-ustring-ICefv8Value-ICefv8Value-ustring-">
+<param name="Local" value="uCEFInterfaces.html#TCefV8AccessorSetterProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefv8ArrayBufferReleaseCallback">
@@ -33174,7 +33174,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefv8ArrayBufferReleaseCallbackProc">
-<param name="Local" value="uCEFInterfaces.html#TCefv8ArrayBufferReleaseCallbackProc-Pointer-">
+<param name="Local" value="uCEFInterfaces.html#TCefv8ArrayBufferReleaseCallbackProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefv8ArrayBufferReleaseCallbackRef">
@@ -33426,11 +33426,11 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefV8InterceptorGetterByIndexProc">
-<param name="Local" value="uCEFInterfaces.html#TCefV8InterceptorGetterByIndexProc-integer-ICefv8Value-ICefv8Value-ustring-">
+<param name="Local" value="uCEFInterfaces.html#TCefV8InterceptorGetterByIndexProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefV8InterceptorGetterByNameProc">
-<param name="Local" value="uCEFInterfaces.html#TCefV8InterceptorGetterByNameProc-ustring-ICefv8Value-ICefv8Value-ustring-">
+<param name="Local" value="uCEFInterfaces.html#TCefV8InterceptorGetterByNameProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefV8InterceptorOwn">
@@ -33458,11 +33458,11 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefV8InterceptorSetterByIndexProc">
-<param name="Local" value="uCEFInterfaces.html#TCefV8InterceptorSetterByIndexProc-integer-ICefv8Value-ICefv8Value-ustring-">
+<param name="Local" value="uCEFInterfaces.html#TCefV8InterceptorSetterByIndexProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefV8InterceptorSetterByNameProc">
-<param name="Local" value="uCEFInterfaces.html#TCefV8InterceptorSetterByNameProc-ustring-ICefv8Value-ICefv8Value-ustring-">
+<param name="Local" value="uCEFInterfaces.html#TCefV8InterceptorSetterByNameProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefV8PropertyAttributes">
@@ -35410,7 +35410,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefWebPluginIsUnstableProc">
-<param name="Local" value="uCEFInterfaces.html#TCefWebPluginIsUnstableProc-ustring-Boolean-">
+<param name="Local" value="uCEFInterfaces.html#TCefWebPluginIsUnstableProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefWebRTCHandlingPolicy">
@@ -43762,19 +43762,19 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TDialogKeyEvent">
-<param name="Local" value="uCEFFMXBufferPanel.html#TDialogKeyEvent-TObject-Word-TShiftState-">
+<param name="Local" value="uCEFFMXBufferPanel.html#TDialogKeyEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TDragEnterEvent">
-<param name="Local" value="uCEFDragAndDropMgr.html#TDragEnterEvent-TObject-ICefDragData-Longint-TPoint-Longint-">
+<param name="Local" value="uCEFDragAndDropMgr.html#TDragEnterEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TDragOverEvent">
-<param name="Local" value="uCEFDragAndDropMgr.html#TDragOverEvent-TObject-Longint-TPoint-Longint-">
+<param name="Local" value="uCEFDragAndDropMgr.html#TDragOverEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TDropEvent">
-<param name="Local" value="uCEFDragAndDropMgr.html#TDropEvent-TObject-Longint-TPoint-Longint-">
+<param name="Local" value="uCEFDragAndDropMgr.html#TDropEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TEmbeddedChromium">
@@ -44680,207 +44680,207 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAcceleratedPaint">
-<param name="Local" value="uCEFChromiumEvents.html#TOnAcceleratedPaint-TObject-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-Pointer-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnAcceleratedPaint">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAcceleratorEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnAcceleratorEvent-TObject-ICefWindow-Integer-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnAcceleratorEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAccessibilityEvent">
-<param name="Local" value="uCEFAccessibilityHandler.html#TOnAccessibilityEvent-TObject-ICefValue-">
+<param name="Local" value="uCEFAccessibilityHandler.html#TOnAccessibilityEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAddressChange">
-<param name="Local" value="uCEFChromiumEvents.html#TOnAddressChange-TObject-ICefBrowser-ICefFrame-ustring-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnAddressChange">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAfterCreated">
-<param name="Local" value="uCEFChromiumEvents.html#TOnAfterCreated-TObject-ICefBrowser-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnAfterCreated">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAfterUserActionEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnAfterUserActionEvent-TObject-ICefTextfield-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnAfterUserActionEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAllowEvent">
-<param name="Local" value="uCEFTimerWorkScheduler.html#TOnAllowEvent-TObject-boolean-">
+<param name="Local" value="uCEFTimerWorkScheduler.html#TOnAllowEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAlreadyRunningAppRelaunchEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnAlreadyRunningAppRelaunchEvent-ICefCommandLine-ustring-boolean-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnAlreadyRunningAppRelaunchEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAudioStreamErrorEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnAudioStreamErrorEvent-TObject-ICefBrowser-ustring-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnAudioStreamErrorEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAudioStreamPacketEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnAudioStreamPacketEvent-TObject-ICefBrowser-PPSingle-integer-int64-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnAudioStreamPacketEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAudioStreamStartedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnAudioStreamStartedEvent-TObject-ICefBrowser-TCefAudioParameters-integer-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnAudioStreamStartedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAudioStreamStoppedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnAudioStreamStoppedEvent-TObject-ICefBrowser-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnAudioStreamStoppedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAutoResize">
-<param name="Local" value="uCEFChromiumEvents.html#TOnAutoResize-TObject-ICefBrowser-PCefSize-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnAutoResize">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBeforeBackgroundBrowserEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeBackgroundBrowserEvent-TObject-ICefExtension-ustring-ICefClient-TCefBrowserSettings-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeBackgroundBrowserEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBeforeBrowse">
-<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeBrowse-TObject-ICefBrowser-ICefFrame-ICefRequest-Boolean-Boolean-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeBrowse">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBeforeBrowserEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeBrowserEvent-TObject-ICefExtension-ICefBrowser-ICefBrowser-Integer-ustring-boolean-TCefWindowInfo-ICefClient-TCefBrowserSettings-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeBrowserEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBeforeChildProcessLaunchEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnBeforeChildProcessLaunchEvent-ICefCommandLine-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnBeforeChildProcessLaunchEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBeforeClose">
-<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeClose-TObject-ICefBrowser-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeClose">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBeforeContextMenu">
-<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeContextMenu-TObject-ICefBrowser-ICefFrame-ICefContextMenuParams-ICefMenuModel-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeContextMenu">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBeforeDevToolsPopup">
-<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeDevToolsPopup-TObject-ICefBrowser-TCefWindowInfo-ICefClient-TCefBrowserSettings-ICefDictionaryValue-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeDevToolsPopup">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBeforeDownload">
-<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeDownload-TObject-ICefBrowser-ICefDownloadItem-ustring-ICefBeforeDownloadCallback-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeDownload">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBeforePopup">
-<param name="Local" value="uCEFChromiumEvents.html#TOnBeforePopup-TObject-ICefBrowser-ICefFrame-ustring-ustring-TCefWindowOpenDisposition-Boolean-TCefPopupFeatures-TCefWindowInfo-ICefClient-TCefBrowserSettings-ICefDictionaryValue-Boolean-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnBeforePopup">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBeforeResourceLoad">
-<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeResourceLoad-TObject-ICefBrowser-ICefFrame-ICefRequest-ICefCallback-TCefReturnValue-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeResourceLoad">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBeforeUnloadDialog">
-<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeUnloadDialog-TObject-ICefBrowser-ustring-Boolean-ICefJsDialogCallback-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnBeforeUnloadDialog">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBlurEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnBlurEvent-TObject-ICefView-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnBlurEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBrowserCreatedEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnBrowserCreatedEvent-ICefBrowser-ICefDictionaryValue-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnBrowserCreatedEvent">
 </object>
 <ul>
 <li><object type="text/sitemap">
 <param name="Name" value="uCEFApplicationEvents Unit">
-<param name="Local" value="uCEFApplicationEvents.html#TOnBrowserCreatedEvent-ICefBrowser-ICefDictionaryValue-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnBrowserCreatedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="uCEFViewsFrameworkEvents Unit">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnBrowserCreatedEvent-TObject-ICefBrowserView-ICefBrowser-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnBrowserCreatedEvent">
 </object>
 </ul>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBrowserDestroyedEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnBrowserDestroyedEvent-ICefBrowser-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnBrowserDestroyedEvent">
 </object>
 <ul>
 <li><object type="text/sitemap">
 <param name="Name" value="uCEFApplicationEvents Unit">
-<param name="Local" value="uCEFApplicationEvents.html#TOnBrowserDestroyedEvent-ICefBrowser-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnBrowserDestroyedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="uCEFViewsFrameworkEvents Unit">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnBrowserDestroyedEvent-TObject-ICefBrowserView-ICefBrowser-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnBrowserDestroyedEvent">
 </object>
 </ul>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnButtonPressedEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnButtonPressedEvent-TObject-ICefButton-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnButtonPressedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnButtonStateChangedEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnButtonStateChangedEvent-TObject-ICefButton-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnButtonStateChangedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCanAccessBrowserEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnCanAccessBrowserEvent-TObject-ICefExtension-ICefBrowser-boolean-ICefBrowser-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnCanAccessBrowserEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCanCloseEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnCanCloseEvent-TObject-ICefWindow-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnCanCloseEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCanDownloadEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnCanDownloadEvent-TObject-ICefBrowser-ustring-ustring-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnCanDownloadEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCanMaximizeEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnCanMaximizeEvent-TObject-ICefWindow-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnCanMaximizeEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCanMinimizeEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnCanMinimizeEvent-TObject-ICefWindow-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnCanMinimizeEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCanResizeEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnCanResizeEvent-TObject-ICefWindow-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnCanResizeEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCanSaveCookie">
-<param name="Local" value="uCEFChromiumEvents.html#TOnCanSaveCookie-TObject-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-PCefCookie-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnCanSaveCookie">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCanSendCookie">
-<param name="Local" value="uCEFChromiumEvents.html#TOnCanSendCookie-TObject-ICefBrowser-ICefFrame-ICefRequest-PCefCookie-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnCanSendCookie">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCertificateError">
-<param name="Local" value="uCEFChromiumEvents.html#TOnCertificateError-TObject-ICefBrowser-TCefErrorcode-ustring-ICefSslInfo-ICefCallback-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnCertificateError">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnChildViewChangedEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnChildViewChangedEvent-TObject-ICefView-boolean-ICefView-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnChildViewChangedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnChromeCommandEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnChromeCommandEvent-TObject-ICefBrowser-integer-TCefWindowOpenDisposition-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnChromeCommandEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnClientConnected">
-<param name="Local" value="uCEFServerEvents.html#TOnClientConnected-TObject-ICefServer-Integer-">
+<param name="Local" value="uCEFServerEvents.html#TOnClientConnected">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnClientDisconnected">
-<param name="Local" value="uCEFServerEvents.html#TOnClientDisconnected-TObject-ICefServer-Integer-">
+<param name="Local" value="uCEFServerEvents.html#TOnClientDisconnected">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnClose">
-<param name="Local" value="uCEFChromiumEvents.html#TOnClose-TObject-ICefBrowser-TCefCloseBrowserAction-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnClose">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCompMsgEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnCompMsgEvent-TObject-TMessage-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnCompMsgEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnConsoleMessage">
-<param name="Local" value="uCEFChromiumEvents.html#TOnConsoleMessage-TObject-ICefBrowser-TCefLogSeverity-ustring-ustring-Integer-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnConsoleMessage">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnContextCreatedEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnContextCreatedEvent-ICefBrowser-ICefFrame-ICefv8Context-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnContextCreatedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnContextInitializedEvent">
@@ -44888,657 +44888,657 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnContextMenuCommand">
-<param name="Local" value="uCEFChromiumEvents.html#TOnContextMenuCommand-TObject-ICefBrowser-ICefFrame-ICefContextMenuParams-Integer-TCefEventFlags-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnContextMenuCommand">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnContextMenuDismissed">
-<param name="Local" value="uCEFChromiumEvents.html#TOnContextMenuDismissed-TObject-ICefBrowser-ICefFrame-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnContextMenuDismissed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnContextReleasedEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnContextReleasedEvent-ICefBrowser-ICefFrame-ICefv8Context-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnContextReleasedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCookiesDeletedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnCookiesDeletedEvent-TObject-integer-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnCookiesDeletedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCookieSet">
-<param name="Local" value="uCEFChromiumEvents.html#TOnCookieSet-TObject-boolean-integer-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnCookieSet">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCookiesVisited">
-<param name="Local" value="uCEFChromiumEvents.html#TOnCookiesVisited-TObject-ustring-ustring-ustring-ustring-Boolean-Boolean-Boolean-TDateTime-TDateTime-TDateTime-Integer-Integer-Integer-TCefCookieSameSite-TCefCookiePriority-Boolean-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnCookiesVisited">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCookieVisitorDestroyed">
-<param name="Local" value="uCEFChromiumEvents.html#TOnCookieVisitorDestroyed-TObject-integer-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnCookieVisitorDestroyed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCursorChange">
-<param name="Local" value="uCEFChromiumEvents.html#TOnCursorChange-TObject-ICefBrowser-TCefCursorHandle-TCefCursorType-PCefCursorInfo-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnCursorChange">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDevToolsAgentAttachedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsAgentAttachedEvent-TObject-ICefBrowser-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsAgentAttachedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDevToolsAgentDetachedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsAgentDetachedEvent-TObject-ICefBrowser-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsAgentDetachedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDevToolsEventEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsEventEvent-TObject-ICefBrowser-ustring-ICefValue-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsEventEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDevToolsEventRawEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsEventRawEvent-TObject-ICefBrowser-ustring-Pointer-NativeUInt-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsEventRawEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDevToolsMessageEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsMessageEvent-TObject-ICefBrowser-ICefValue-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsMessageEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDevToolsMethodRawResultEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsMethodRawResultEvent-TObject-ICefBrowser-integer-boolean-Pointer-NativeUInt-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsMethodRawResultEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDevToolsMethodResultEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsMethodResultEvent-TObject-ICefBrowser-integer-boolean-ICefValue-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsMethodResultEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDevToolsRawMessageEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsRawMessageEvent-TObject-ICefBrowser-Pointer-NativeUInt-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDevToolsRawMessageEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDialogClosed">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDialogClosed-TObject-ICefBrowser-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDialogClosed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDismissPermissionPromptEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDismissPermissionPromptEvent-TObject-ICefBrowser-uint64-TCefPermissionRequestResult-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDismissPermissionPromptEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDocumentAvailableInMainFrame">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDocumentAvailableInMainFrame-Tobject-ICefBrowser-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDocumentAvailableInMainFrame">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDownloadData">
-<param name="Local" value="uCEFUrlRequestClientEvents.html#TOnDownloadData-TObject-ICefUrlRequest-Pointer-NativeUInt-">
+<param name="Local" value="uCEFUrlRequestClientEvents.html#TOnDownloadData">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDownloadImageFinishedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDownloadImageFinishedEvent-TObject-ustring-Integer-ICefImage-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDownloadImageFinishedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDownloadImageFinishedProc">
-<param name="Local" value="uCEFInterfaces.html#TOnDownloadImageFinishedProc-ustring-Integer-ICefImage-">
+<param name="Local" value="uCEFInterfaces.html#TOnDownloadImageFinishedProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDownloadProgress">
-<param name="Local" value="uCEFUrlRequestClientEvents.html#TOnDownloadProgress-TObject-ICefUrlRequest-Int64-Int64-">
+<param name="Local" value="uCEFUrlRequestClientEvents.html#TOnDownloadProgress">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDownloadUpdated">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDownloadUpdated-TObject-ICefBrowser-ICefDownloadItem-ICefDownloadItemCallback-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDownloadUpdated">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDragEnter">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDragEnter-TObject-ICefBrowser-ICefDragData-TCefDragOperations-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDragEnter">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnDraggableRegionsChanged">
-<param name="Local" value="uCEFChromiumEvents.html#TOnDraggableRegionsChanged-TObject-ICefBrowser-ICefFrame-NativeUInt-PCefDraggableRegionArray-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnDraggableRegionsChanged">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnExecuteTaskOnCefThread">
-<param name="Local" value="uCEFChromiumEvents.html#TOnExecuteTaskOnCefThread-TObject-cardinal-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnExecuteTaskOnCefThread">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnExtensionLoadedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnExtensionLoadedEvent-TObject-ICefExtension-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnExtensionLoadedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnExtensionLoadFailedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnExtensionLoadFailedEvent-TObject-TCefErrorcode-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnExtensionLoadFailedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnExtensionUnloadedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnExtensionUnloadedEvent-TObject-ICefExtension-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnExtensionUnloadedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnFavIconUrlChange">
-<param name="Local" value="uCEFChromiumEvents.html#TOnFavIconUrlChange-TObject-ICefBrowser-TStrings-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnFavIconUrlChange">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnFileDialog">
-<param name="Local" value="uCEFChromiumEvents.html#TOnFileDialog-TObject-ICefBrowser-TCefFileDialogMode-ustring-ustring-TStrings-ICefFileDialogCallback-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnFileDialog">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnFilterEvent">
-<param name="Local" value="uCEFResponseFilter.html#TOnFilterEvent-TObject-Pointer-NativeUInt-NativeUInt-Pointer-NativeUInt-NativeUInt-TCefResponseFilterStatus-">
+<param name="Local" value="uCEFResponseFilter.html#TOnFilterEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnFindResult">
-<param name="Local" value="uCEFChromiumEvents.html#TOnFindResult-TObject-ICefBrowser-Integer-Integer-PCefRect-Integer-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnFindResult">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnFocusedNodeChangedEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnFocusedNodeChangedEvent-ICefBrowser-ICefFrame-ICefDomNode-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnFocusedNodeChangedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnFocusEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnFocusEvent-TObject-ICefView-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnFocusEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnFrameAttached">
-<param name="Local" value="uCEFChromiumEvents.html#TOnFrameAttached-TObject-ICefBrowser-ICefFrame-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnFrameAttached">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnFrameCreated">
-<param name="Local" value="uCEFChromiumEvents.html#TOnFrameCreated-TObject-ICefBrowser-ICefFrame-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnFrameCreated">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnFrameDetached">
-<param name="Local" value="uCEFChromiumEvents.html#TOnFrameDetached-TObject-ICefBrowser-ICefFrame-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnFrameDetached">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnFullScreenModeChange">
-<param name="Local" value="uCEFChromiumEvents.html#TOnFullScreenModeChange-TObject-ICefBrowser-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnFullScreenModeChange">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGestureCommandEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGestureCommandEvent-TObject-ICefBrowserView-TCefGestureCommand-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGestureCommandEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetAccessibilityHandler">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetAccessibilityHandler-TObject-ICefAccessibilityHandler-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetAccessibilityHandler">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetActiveBrowserEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetActiveBrowserEvent-TObject-ICefExtension-ICefBrowser-boolean-ICefBrowser-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetActiveBrowserEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetAudioParametersEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetAudioParametersEvent-TObject-ICefBrowser-TCefAudioParameters-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetAudioParametersEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetAuthCredentials">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetAuthCredentials-TObject-ICefBrowser-ustring-Boolean-ustring-Integer-ustring-ustring-ICefAuthCallback-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetAuthCredentials">
 </object>
 <ul>
 <li><object type="text/sitemap">
 <param name="Name" value="uCEFChromiumEvents Unit">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetAuthCredentials-TObject-ICefBrowser-ustring-Boolean-ustring-Integer-ustring-ustring-ICefAuthCallback-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetAuthCredentials">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="uCEFUrlRequestClientEvents Unit">
-<param name="Local" value="uCEFUrlRequestClientEvents.html#TOnGetAuthCredentials-TObject-Boolean-ustring-Integer-ustring-ustring-ICefAuthCallback-Boolean-">
+<param name="Local" value="uCEFUrlRequestClientEvents.html#TOnGetAuthCredentials">
 </object>
 </ul>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetChromeToolbarTypeEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetChromeToolbarTypeEvent-TObject-ICefBrowserView-TCefChromeToolbarType-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetChromeToolbarTypeEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetDataResourceEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnGetDataResourceEvent-Integer-Pointer-NativeUInt-Boolean-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnGetDataResourceEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetDataResourceForScaleEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnGetDataResourceForScaleEvent-Integer-TCefScaleFactor-Pointer-NativeUInt-Boolean-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnGetDataResourceForScaleEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetDefaultClientEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnGetDefaultClientEvent-ICefClient-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnGetDefaultClientEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetDefaultRequestContextHandlerEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnGetDefaultRequestContextHandlerEvent-ICefRequestContextHandler-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnGetDefaultRequestContextHandlerEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetDelegateForPopupBrowserViewEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetDelegateForPopupBrowserViewEvent-TObject-ICefBrowserView-TCefBrowserSettings-ICefClient-boolean-ICefBrowserViewDelegate-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetDelegateForPopupBrowserViewEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetExtensionResourceEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetExtensionResourceEvent-TObject-ICefExtension-ICefBrowser-ustring-ICefGetExtensionResourceCallback-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetExtensionResourceEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetHeightForWidthEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetHeightForWidthEvent-TObject-ICefView-Integer-Integer-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetHeightForWidthEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetInitialBoundsEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetInitialBoundsEvent-TObject-ICefWindow-TCefRect-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetInitialBoundsEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetInitialShowStateEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetInitialShowStateEvent-TObject-ICefWindow-TCefShowState-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetInitialShowStateEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetLocalizedStringEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnGetLocalizedStringEvent-Integer-ustring-Boolean-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnGetLocalizedStringEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetMaximumSizeEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetMaximumSizeEvent-TObject-ICefView-TCefSize-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetMaximumSizeEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetMinimumSizeEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetMinimumSizeEvent-TObject-ICefView-TCefSize-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetMinimumSizeEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetParentWindowEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetParentWindowEvent-TObject-ICefWindow-boolean-boolean-ICefWindow-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetParentWindowEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetPDFPaperSizeEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetPDFPaperSizeEvent-TObject-ICefBrowser-Integer-TCefSize-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetPDFPaperSizeEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetPreferredSizeEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetPreferredSizeEvent-TObject-ICefView-TCefSize-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetPreferredSizeEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetResourceHandler">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetResourceHandler-TObject-ICefBrowser-ICefFrame-ICefRequest-ICefResourceHandler-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetResourceHandler">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetResourceRequestHandler">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetResourceRequestHandler-TObject-ICefBrowser-ICefFrame-ICefRequest-boolean-boolean-ustring-boolean-ICefResourceRequestHandler-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetResourceRequestHandler">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetResourceResponseFilter">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetResourceResponseFilter-TObject-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-ICefResponseFilter-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetResourceResponseFilter">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetRootScreenRect">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetRootScreenRect-TObject-ICefBrowser-TCefRect-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetRootScreenRect">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetScreenInfo">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetScreenInfo-TObject-ICefBrowser-TCefScreenInfo-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetScreenInfo">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetScreenPoint">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetScreenPoint-TObject-ICefBrowser-Integer-Integer-Integer-Integer-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetScreenPoint">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetTitlebarHeightEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetTitlebarHeightEvent-TObject-ICefWindow-Single-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetTitlebarHeightEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetTouchHandleSize">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetTouchHandleSize-TObject-ICefBrowser-TCefHorizontalAlignment-TCefSize-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetTouchHandleSize">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetViewRect">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGetViewRect-TObject-ICefBrowser-TCefRect-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetViewRect">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGotFocus">
-<param name="Local" value="uCEFChromiumEvents.html#TOnGotFocus-TObject-ICefBrowser-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGotFocus">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnHandledMessageEvent">
-<param name="Local" value="uCEFBufferPanel.html#TOnHandledMessageEvent-TObject-TMessage-boolean-">
+<param name="Local" value="uCEFBufferPanel.html#TOnHandledMessageEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnHttpRequest">
-<param name="Local" value="uCEFServerEvents.html#TOnHttpRequest-TObject-ICefServer-Integer-ustring-ICefRequest-">
+<param name="Local" value="uCEFServerEvents.html#TOnHttpRequest">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnIMECommitTextEvent">
-<param name="Local" value="uCEFBufferPanel.html#TOnIMECommitTextEvent-TObject-ustring-PCefRange-integer-">
+<param name="Local" value="uCEFBufferPanel.html#TOnIMECommitTextEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnIMECompositionRangeChanged">
-<param name="Local" value="uCEFChromiumEvents.html#TOnIMECompositionRangeChanged-TObject-ICefBrowser-PCefRange-NativeUInt-PCefRect-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnIMECompositionRangeChanged">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnIMESetCompositionEvent">
-<param name="Local" value="uCEFBufferPanel.html#TOnIMESetCompositionEvent-TObject-ustring-TCefCompositionUnderlineDynArray-TCefRange-TCefRange-">
+<param name="Local" value="uCEFBufferPanel.html#TOnIMESetCompositionEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnInitFilterEvent">
-<param name="Local" value="uCEFResponseFilter.html#TOnInitFilterEvent-TObject-boolean-">
+<param name="Local" value="uCEFResponseFilter.html#TOnInitFilterEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnIsChromeAppMenuItemEnabledEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnIsChromeAppMenuItemEnabledEvent-TObject-ICefBrowser-integer-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnIsChromeAppMenuItemEnabledEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnIsChromeAppMenuItemVisibleEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnIsChromeAppMenuItemVisibleEvent-TObject-ICefBrowser-integer-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnIsChromeAppMenuItemVisibleEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnIsChromePageActionIconVisibleEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnIsChromePageActionIconVisibleEvent-TObject-TCefChromePageActionIconType-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnIsChromePageActionIconVisibleEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnIsChromeToolbarButtonVisibleEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnIsChromeToolbarButtonVisibleEvent-TObject-TCefChromeToolbarButtonType-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnIsChromeToolbarButtonVisibleEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnIsFramelessEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnIsFramelessEvent-TObject-ICefWindow-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnIsFramelessEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnIsWindowModalDialogEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnIsWindowModalDialogEvent-TObject-ICefWindow-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnIsWindowModalDialogEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnJsdialog">
-<param name="Local" value="uCEFChromiumEvents.html#TOnJsdialog-TObject-ICefBrowser-ustring-TCefJsDialogType-ustring-ustring-ICefJsDialogCallback-Boolean-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnJsdialog">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnKeyEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnKeyEvent-TObject-ICefBrowser-PCefKeyEvent-TCefEventHandle-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnKeyEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnLayoutChangedEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnLayoutChangedEvent-TObject-ICefView-TCefRect-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnLayoutChangedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnLoadEnd">
-<param name="Local" value="uCEFChromiumEvents.html#TOnLoadEnd-TObject-ICefBrowser-ICefFrame-Integer-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnLoadEnd">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnLoadError">
-<param name="Local" value="uCEFChromiumEvents.html#TOnLoadError-TObject-ICefBrowser-ICefFrame-TCefErrorCode-ustring-ustring-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnLoadError">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnLoadingProgressChange">
-<param name="Local" value="uCEFChromiumEvents.html#TOnLoadingProgressChange-TObject-ICefBrowser-double-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnLoadingProgressChange">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnLoadingStateChange">
-<param name="Local" value="uCEFChromiumEvents.html#TOnLoadingStateChange-TObject-ICefBrowser-Boolean-Boolean-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnLoadingStateChange">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnLoadStart">
-<param name="Local" value="uCEFChromiumEvents.html#TOnLoadStart-TObject-ICefBrowser-ICefFrame-TCefTransitionType-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnLoadStart">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnMainFrameChanged">
-<param name="Local" value="uCEFChromiumEvents.html#TOnMainFrameChanged-TObject-ICefBrowser-ICefFrame-ICefFrame-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnMainFrameChanged">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnMediaAccessChange">
-<param name="Local" value="uCEFChromiumEvents.html#TOnMediaAccessChange-TObject-ICefBrowser-boolean-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnMediaAccessChange">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnMediaRouteCreateFinishedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnMediaRouteCreateFinishedEvent-TObject-TCefMediaRouterCreateResult-ustring-ICefMediaRoute-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnMediaRouteCreateFinishedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnMediaSinkDeviceInfoEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnMediaSinkDeviceInfoEvent-TObject-ustring-integer-ustring-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnMediaSinkDeviceInfoEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnMenuButtonPressedEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnMenuButtonPressedEvent-TObject-ICefMenuButton-TCefPoint-ICefMenuButtonPressedLock-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnMenuButtonPressedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnNavigationVisitorResultAvailableEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnNavigationVisitorResultAvailableEvent-TObject-ICefNavigationEntry-Boolean-Integer-Integer-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnNavigationVisitorResultAvailableEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnOpenUrlFromTab">
-<param name="Local" value="uCEFChromiumEvents.html#TOnOpenUrlFromTab-TObject-ICefBrowser-ICefFrame-ustring-TCefWindowOpenDisposition-Boolean-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnOpenUrlFromTab">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPaint">
-<param name="Local" value="uCEFChromiumEvents.html#TOnPaint-TObject-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-Pointer-Integer-Integer-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPaint">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnParentViewChangedEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnParentViewChangedEvent-TObject-ICefView-boolean-ICefView-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnParentViewChangedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPdfPrintFinishedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnPdfPrintFinishedEvent-TObject-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPdfPrintFinishedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPdfPrintFinishedProc">
-<param name="Local" value="uCEFInterfaces.html#TOnPdfPrintFinishedProc-ustring-Boolean-">
+<param name="Local" value="uCEFInterfaces.html#TOnPdfPrintFinishedProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPopupBrowserViewCreatedEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnPopupBrowserViewCreatedEvent-TObject-ICefBrowserView-ICefBrowserView-boolean-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnPopupBrowserViewCreatedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPopupShow">
-<param name="Local" value="uCEFChromiumEvents.html#TOnPopupShow-TObject-ICefBrowser-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPopupShow">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPopupSize">
-<param name="Local" value="uCEFChromiumEvents.html#TOnPopupSize-TObject-ICefBrowser-PCefRect-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPopupSize">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPrefsAvailableEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnPrefsAvailableEvent-TObject-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPrefsAvailableEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPreKeyEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnPreKeyEvent-TObject-ICefBrowser-PCefKeyEvent-TCefEventHandle-Boolean-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPreKeyEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPrintDialogEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnPrintDialogEvent-TObject-ICefBrowser-boolean-ICefPrintDialogCallback-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPrintDialogEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPrintJobEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnPrintJobEvent-TObject-ICefBrowser-ustring-ustring-ICefPrintJobCallback-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPrintJobEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPrintResetEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnPrintResetEvent-TObject-ICefBrowser-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPrintResetEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPrintSettingsEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnPrintSettingsEvent-TObject-ICefBrowser-ICefPrintSettings-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPrintSettingsEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPrintStartEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnPrintStartEvent-TObject-ICefBrowser-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPrintStartEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnProcessMessageReceived">
-<param name="Local" value="uCEFChromiumEvents.html#TOnProcessMessageReceived-TObject-ICefBrowser-ICefFrame-TCefProcessId-ICefProcessMessage-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnProcessMessageReceived">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnProcessMessageReceivedEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnProcessMessageReceivedEvent-ICefBrowser-ICefFrame-TCefProcessId-ICefProcessMessage-boolean-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnProcessMessageReceivedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnProtocolExecution">
-<param name="Local" value="uCEFChromiumEvents.html#TOnProtocolExecution-TObject-ICefBrowser-ICefFrame-ICefRequest-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnProtocolExecution">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnPulseEvent">
-<param name="Local" value="uCEFWorkSchedulerQueueThread.html#TOnPulseEvent-TObject-integer-">
+<param name="Local" value="uCEFWorkSchedulerQueueThread.html#TOnPulseEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnQuickMenuCommandEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnQuickMenuCommandEvent-TObject-ICefBrowser-ICefFrame-integer-TCefEventFlags-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnQuickMenuCommandEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnQuickMenuDismissedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnQuickMenuDismissedEvent-TObject-ICefBrowser-ICefFrame-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnQuickMenuDismissedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRegisterCustomPreferencesEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnRegisterCustomPreferencesEvent-TCefPreferencesType-TCefPreferenceRegistrarRef-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnRegisterCustomPreferencesEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRegisterCustomSchemesEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnRegisterCustomSchemesEvent-TCefSchemeRegistrarRef-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnRegisterCustomSchemesEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRenderLoadEnd">
-<param name="Local" value="uCEFApplicationEvents.html#TOnRenderLoadEnd-ICefBrowser-ICefFrame-Integer-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnRenderLoadEnd">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRenderLoadError">
-<param name="Local" value="uCEFApplicationEvents.html#TOnRenderLoadError-ICefBrowser-ICefFrame-TCefErrorCode-ustring-ustring-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnRenderLoadError">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRenderLoadingStateChange">
-<param name="Local" value="uCEFApplicationEvents.html#TOnRenderLoadingStateChange-ICefBrowser-Boolean-Boolean-Boolean-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnRenderLoadingStateChange">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRenderLoadStart">
-<param name="Local" value="uCEFApplicationEvents.html#TOnRenderLoadStart-ICefBrowser-ICefFrame-TCefTransitionType-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnRenderLoadStart">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRenderProcessTerminated">
-<param name="Local" value="uCEFChromiumEvents.html#TOnRenderProcessTerminated-TObject-ICefBrowser-TCefTerminationStatus-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnRenderProcessTerminated">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRenderViewReady">
-<param name="Local" value="uCEFChromiumEvents.html#TOnRenderViewReady-Tobject-ICefBrowser-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnRenderViewReady">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRequestComplete">
-<param name="Local" value="uCEFUrlRequestClientEvents.html#TOnRequestComplete-TObject-ICefUrlRequest-">
+<param name="Local" value="uCEFUrlRequestClientEvents.html#TOnRequestComplete">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRequestContextInitialized">
-<param name="Local" value="uCEFChromiumEvents.html#TOnRequestContextInitialized-TObject-ICefRequestContext-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnRequestContextInitialized">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRequestMediaAccessPermissionEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnRequestMediaAccessPermissionEvent-TObject-ICefBrowser-ICefFrame-ustring-cardinal-ICefMediaAccessCallback-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnRequestMediaAccessPermissionEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnResetDialogState">
-<param name="Local" value="uCEFChromiumEvents.html#TOnResetDialogState-TObject-ICefBrowser-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnResetDialogState">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnResolvedIPsAvailableEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnResolvedIPsAvailableEvent-TObject-TCefErrorCode-TStrings-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnResolvedIPsAvailableEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnResourceLoadComplete">
-<param name="Local" value="uCEFChromiumEvents.html#TOnResourceLoadComplete-TObject-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-TCefUrlRequestStatus-Int64-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnResourceLoadComplete">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnResourceRedirect">
-<param name="Local" value="uCEFChromiumEvents.html#TOnResourceRedirect-TObject-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-ustring-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnResourceRedirect">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnResourceResponse">
-<param name="Local" value="uCEFChromiumEvents.html#TOnResourceResponse-TObject-ICefBrowser-ICefFrame-ICefRequest-ICefResponse-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnResourceResponse">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRouteMessageReceivedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnRouteMessageReceivedEvent-TObject-ICefMediaRoute-ustring-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnRouteMessageReceivedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRoutesEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnRoutesEvent-TObject-TCefMediaRouteArray-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnRoutesEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRouteStateChangedEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnRouteStateChangedEvent-TObject-ICefMediaRoute-TCefMediaRouteConnectionState-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnRouteStateChangedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRunContextMenu">
-<param name="Local" value="uCEFChromiumEvents.html#TOnRunContextMenu-TObject-ICefBrowser-ICefFrame-ICefContextMenuParams-ICefMenuModel-ICefRunContextMenuCallback-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnRunContextMenu">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnRunQuickMenuEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnRunQuickMenuEvent-TObject-ICefBrowser-ICefFrame-TCefPoint-TCefSize-TCefQuickMenuEditStateFlags-ICefRunQuickMenuCallback-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnRunQuickMenuEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnScheduleMessagePumpWorkEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnScheduleMessagePumpWorkEvent-Int64-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnScheduleMessagePumpWorkEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnScrollOffsetChanged">
-<param name="Local" value="uCEFChromiumEvents.html#TOnScrollOffsetChanged-TObject-ICefBrowser-Double-Double-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnScrollOffsetChanged">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnSelectClientCertificate">
-<param name="Local" value="uCEFChromiumEvents.html#TOnSelectClientCertificate-TObject-ICefBrowser-boolean-ustring-integer-NativeUInt-TCefX509CertificateArray-ICefSelectClientCertificateCallback-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnSelectClientCertificate">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnServerCreated">
-<param name="Local" value="uCEFServerEvents.html#TOnServerCreated-TObject-ICefServer-">
+<param name="Local" value="uCEFServerEvents.html#TOnServerCreated">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnServerDestroyed">
-<param name="Local" value="uCEFServerEvents.html#TOnServerDestroyed-TObject-ICefServer-">
+<param name="Local" value="uCEFServerEvents.html#TOnServerDestroyed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnSetFocus">
-<param name="Local" value="uCEFChromiumEvents.html#TOnSetFocus-TObject-ICefBrowser-TCefFocusSource-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnSetFocus">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnShowPermissionPromptEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnShowPermissionPromptEvent-TObject-ICefBrowser-uint64-ustring-cardinal-ICefPermissionPromptCallback-boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnShowPermissionPromptEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnSinksEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnSinksEvent-TObject-TCefMediaSinkArray-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnSinksEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnStartDragging">
-<param name="Local" value="uCEFChromiumEvents.html#TOnStartDragging-TObject-ICefBrowser-ICefDragData-TCefDragOperations-Integer-Integer-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnStartDragging">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnStatusMessage">
-<param name="Local" value="uCEFChromiumEvents.html#TOnStatusMessage-TObject-ICefBrowser-ustring-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnStatusMessage">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnTakeFocus">
-<param name="Local" value="uCEFChromiumEvents.html#TOnTakeFocus-TObject-ICefBrowser-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnTakeFocus">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnTextfieldKeyEventEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEventEvent-TObject-ICefTextfield-TCefKeyEvent-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEventEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnTextResultAvailableEvent">
-<param name="Local" value="uCEFChromiumEvents.html#TOnTextResultAvailableEvent-TObject-ustring-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnTextResultAvailableEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnTextSelectionChanged">
-<param name="Local" value="uCEFChromiumEvents.html#TOnTextSelectionChanged-TObject-ICefBrowser-ustring-PCefRange-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnTextSelectionChanged">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnTitleChange">
-<param name="Local" value="uCEFChromiumEvents.html#TOnTitleChange-TObject-ICefBrowser-ustring-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnTitleChange">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnTooltip">
-<param name="Local" value="uCEFChromiumEvents.html#TOnTooltip-TObject-ICefBrowser-ustring-Boolean-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnTooltip">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnTouchHandleStateChanged">
-<param name="Local" value="uCEFChromiumEvents.html#TOnTouchHandleStateChanged-TObject-ICefBrowser-TCefTouchHandleState-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnTouchHandleStateChanged">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnUncaughtExceptionEvent">
-<param name="Local" value="uCEFApplicationEvents.html#TOnUncaughtExceptionEvent-ICefBrowser-ICefFrame-ICefv8Context-ICefV8Exception-ICefV8StackTrace-">
+<param name="Local" value="uCEFApplicationEvents.html#TOnUncaughtExceptionEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnUpdateDragCursor">
-<param name="Local" value="uCEFChromiumEvents.html#TOnUpdateDragCursor-TObject-ICefBrowser-TCefDragOperation-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnUpdateDragCursor">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnUploadProgress">
-<param name="Local" value="uCEFUrlRequestClientEvents.html#TOnUploadProgress-TObject-ICefUrlRequest-Int64-Int64-">
+<param name="Local" value="uCEFUrlRequestClientEvents.html#TOnUploadProgress">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnUseFramelessWindowForPictureInPicture">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnUseFramelessWindowForPictureInPicture-TObject-ICefBrowserView-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnUseFramelessWindowForPictureInPicture">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnVirtualKeyboardRequested">
-<param name="Local" value="uCEFChromiumEvents.html#TOnVirtualKeyboardRequested-TObject-ICefBrowser-TCefTextInpuMode-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnVirtualKeyboardRequested">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnWebKitInitializedEvent">
@@ -45546,55 +45546,55 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnWebSocketConnected">
-<param name="Local" value="uCEFServerEvents.html#TOnWebSocketConnected-TObject-ICefServer-Integer-">
+<param name="Local" value="uCEFServerEvents.html#TOnWebSocketConnected">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnWebSocketMessage">
-<param name="Local" value="uCEFServerEvents.html#TOnWebSocketMessage-TObject-ICefServer-Integer-Pointer-NativeUInt-">
+<param name="Local" value="uCEFServerEvents.html#TOnWebSocketMessage">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnWebSocketRequest">
-<param name="Local" value="uCEFServerEvents.html#TOnWebSocketRequest-TObject-ICefServer-Integer-ustring-ICefRequest-ICefCallback-">
+<param name="Local" value="uCEFServerEvents.html#TOnWebSocketRequest">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnWindowActivationChangedEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowActivationChangedEvent-TObject-ICefWindow-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowActivationChangedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnWindowBoundsChangedEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowBoundsChangedEvent-TObject-ICefWindow-TCefRect-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowBoundsChangedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnWindowChangedEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowChangedEvent-TObject-ICefView-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowChangedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnWindowClosingEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowClosingEvent-TObject-ICefWindow-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowClosingEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnWindowCreatedEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowCreatedEvent-TObject-ICefWindow-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowCreatedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnWindowDestroyedEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowDestroyedEvent-TObject-ICefWindow-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowDestroyedEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnWindowFullscreenTransitionEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowFullscreenTransitionEvent-TObject-ICefWindow-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowFullscreenTransitionEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnWindowKeyEventEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowKeyEventEvent-TObject-ICefWindow-TCefKeyEvent-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWindowKeyEventEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnWithStandardWindowButtonsEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWithStandardWindowButtonsEvent-TObject-ICefWindow-boolean-">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnWithStandardWindowButtonsEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnZoomPctAvailable">
-<param name="Local" value="uCEFChromiumEvents.html#TOnZoomPctAvailable-TObject-double-">
+<param name="Local" value="uCEFChromiumEvents.html#TOnZoomPctAvailable">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOsrBrowserWindow">

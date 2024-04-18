@@ -16,80 +16,80 @@
 <span id="PasDoc-Types"></span><h3 class="summary">Types</h3>
 <table class="summary wide_list">
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnRegisterCustomSchemesEvent-TCefSchemeRegistrarRef-">TOnRegisterCustomSchemesEvent</a></strong> = procedure(const registrar: <a href="uCEFSchemeRegistrar.TCefSchemeRegistrarRef.html">TCefSchemeRegistrarRef</a>) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnRegisterCustomSchemesEvent">TOnRegisterCustomSchemesEvent</a></strong> = procedure(const registrar: <a href="uCEFSchemeRegistrar.TCefSchemeRegistrarRef.html">TCefSchemeRegistrarRef</a>) ;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnRegisterCustomPreferencesEvent-TCefPreferencesType-TCefPreferenceRegistrarRef-">TOnRegisterCustomPreferencesEvent</a></strong> = procedure(type_: <a href="uCEFTypes.html#TCefPreferencesType">TCefPreferencesType</a>; const registrar: <a href="uCEFPreferenceRegistrar.TCefPreferenceRegistrarRef.html">TCefPreferenceRegistrarRef</a>) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnRegisterCustomPreferencesEvent">TOnRegisterCustomPreferencesEvent</a></strong> = procedure(type_: <a href="uCEFTypes.html#TCefPreferencesType">TCefPreferencesType</a>; const registrar: <a href="uCEFPreferenceRegistrar.TCefPreferenceRegistrarRef.html">TCefPreferenceRegistrarRef</a>) ;</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnContextInitializedEvent">TOnContextInitializedEvent</a></strong> = procedure() ;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnBeforeChildProcessLaunchEvent-ICefCommandLine-">TOnBeforeChildProcessLaunchEvent</a></strong> = procedure(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnBeforeChildProcessLaunchEvent">TOnBeforeChildProcessLaunchEvent</a></strong> = procedure(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>) ;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnAlreadyRunningAppRelaunchEvent-ICefCommandLine-ustring-boolean-">TOnAlreadyRunningAppRelaunchEvent</a></strong> = procedure(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>; const current_directory: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: boolean) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnAlreadyRunningAppRelaunchEvent">TOnAlreadyRunningAppRelaunchEvent</a></strong> = procedure(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>; const current_directory: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: boolean) ;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnScheduleMessagePumpWorkEvent-Int64-">TOnScheduleMessagePumpWorkEvent</a></strong> = procedure(const delayMs: Int64) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnScheduleMessagePumpWorkEvent">TOnScheduleMessagePumpWorkEvent</a></strong> = procedure(const delayMs: Int64) ;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnGetDefaultClientEvent-ICefClient-">TOnGetDefaultClientEvent</a></strong> = procedure(var aClient : <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnGetDefaultClientEvent">TOnGetDefaultClientEvent</a></strong> = procedure(var aClient : <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>) ;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnGetDefaultRequestContextHandlerEvent-ICefRequestContextHandler-">TOnGetDefaultRequestContextHandlerEvent</a></strong> = procedure(var aRequestContextHandler : <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnGetDefaultRequestContextHandlerEvent">TOnGetDefaultRequestContextHandlerEvent</a></strong> = procedure(var aRequestContextHandler : <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>) ;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnGetLocalizedStringEvent-Integer-ustring-Boolean-">TOnGetLocalizedStringEvent</a></strong> = procedure(stringId: Integer; out stringVal: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult : Boolean) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnGetLocalizedStringEvent">TOnGetLocalizedStringEvent</a></strong> = procedure(stringId: Integer; out stringVal: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult : Boolean) ;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnGetDataResourceEvent-Integer-Pointer-NativeUInt-Boolean-">TOnGetDataResourceEvent</a></strong> = procedure(resourceId: Integer; out data: Pointer; out dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var aResult : Boolean) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnGetDataResourceEvent">TOnGetDataResourceEvent</a></strong> = procedure(resourceId: Integer; out data: Pointer; out dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var aResult : Boolean) ;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnGetDataResourceForScaleEvent-Integer-TCefScaleFactor-Pointer-NativeUInt-Boolean-">TOnGetDataResourceForScaleEvent</a></strong> = procedure(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>; out data: Pointer; out dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var aResult : Boolean) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnGetDataResourceForScaleEvent">TOnGetDataResourceForScaleEvent</a></strong> = procedure(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>; out data: Pointer; out dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var aResult : Boolean) ;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnWebKitInitializedEvent">TOnWebKitInitializedEvent</a></strong> = procedure() ;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnBrowserCreatedEvent-ICefBrowser-ICefDictionaryValue-">TOnBrowserCreatedEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnBrowserCreatedEvent">TOnBrowserCreatedEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>) ;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnBrowserDestroyedEvent-ICefBrowser-">TOnBrowserDestroyedEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnBrowserDestroyedEvent">TOnBrowserDestroyedEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) ;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnContextCreatedEvent-ICefBrowser-ICefFrame-ICefv8Context-">TOnContextCreatedEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnContextCreatedEvent">TOnContextCreatedEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>) ;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnContextReleasedEvent-ICefBrowser-ICefFrame-ICefv8Context-">TOnContextReleasedEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnContextReleasedEvent">TOnContextReleasedEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>) ;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnUncaughtExceptionEvent-ICefBrowser-ICefFrame-ICefv8Context-ICefV8Exception-ICefV8StackTrace-">TOnUncaughtExceptionEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>; const exception: <a href="uCEFInterfaces.ICefV8Exception.html">ICefV8Exception</a>; const stackTrace: <a href="uCEFInterfaces.ICefV8StackTrace.html">ICefV8StackTrace</a>) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnUncaughtExceptionEvent">TOnUncaughtExceptionEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>; const exception: <a href="uCEFInterfaces.ICefV8Exception.html">ICefV8Exception</a>; const stackTrace: <a href="uCEFInterfaces.ICefV8StackTrace.html">ICefV8StackTrace</a>) ;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnFocusedNodeChangedEvent-ICefBrowser-ICefFrame-ICefDomNode-">TOnFocusedNodeChangedEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const node: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnFocusedNodeChangedEvent">TOnFocusedNodeChangedEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const node: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>) ;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnProcessMessageReceivedEvent-ICefBrowser-ICefFrame-TCefProcessId-ICefProcessMessage-boolean-">TOnProcessMessageReceivedEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; sourceProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const message: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; var aHandled : boolean) of object ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnProcessMessageReceivedEvent">TOnProcessMessageReceivedEvent</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; sourceProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const message: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; var aHandled : boolean) of object ;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnRenderLoadingStateChange-ICefBrowser-Boolean-Boolean-Boolean-">TOnRenderLoadingStateChange</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; isLoading, canGoBack, canGoForward: Boolean) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnRenderLoadingStateChange">TOnRenderLoadingStateChange</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; isLoading, canGoBack, canGoForward: Boolean) ;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnRenderLoadStart-ICefBrowser-ICefFrame-TCefTransitionType-">TOnRenderLoadStart</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; transitionType: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnRenderLoadStart">TOnRenderLoadStart</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; transitionType: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>) ;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnRenderLoadEnd-ICefBrowser-ICefFrame-Integer-">TOnRenderLoadEnd</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; httpStatusCode: Integer) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnRenderLoadEnd">TOnRenderLoadEnd</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; httpStatusCode: Integer) ;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnRenderLoadError-ICefBrowser-ICefFrame-TCefErrorCode-ustring-ustring-">TOnRenderLoadError</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; errorCode: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorCode</a>; const errorText, failedUrl: <a href="uCEFTypes.html#ustring">ustring</a>) ;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationEvents.html#TOnRenderLoadError">TOnRenderLoadError</a></strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; errorCode: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorCode</a>; const errorText, failedUrl: <a href="uCEFTypes.html#ustring">ustring</a>) ;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Types</h3>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnRegisterCustomSchemesEvent-TCefSchemeRegistrarRef-"></span><code><strong>TOnRegisterCustomSchemesEvent</strong> = procedure(const registrar: <a href="uCEFSchemeRegistrar.TCefSchemeRegistrarRef.html">TCefSchemeRegistrarRef</a>) ;</code></td>
+<td class="itemcode"><span id="TOnRegisterCustomSchemesEvent"></span><code><strong>TOnRegisterCustomSchemesEvent</strong> = procedure(const registrar: <a href="uCEFSchemeRegistrar.TCefSchemeRegistrarRef.html">TCefSchemeRegistrarRef</a>) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
@@ -98,7 +98,7 @@ ICefApp</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnRegisterCustomPreferencesEvent-TCefPreferencesType-TCefPreferenceRegistrarRef-"></span><code><strong>TOnRegisterCustomPreferencesEvent</strong> = procedure(type_: <a href="uCEFTypes.html#TCefPreferencesType">TCefPreferencesType</a>; const registrar: <a href="uCEFPreferenceRegistrar.TCefPreferenceRegistrarRef.html">TCefPreferenceRegistrarRef</a>) ;</code></td>
+<td class="itemcode"><span id="TOnRegisterCustomPreferencesEvent"></span><code><strong>TOnRegisterCustomPreferencesEvent</strong> = procedure(type_: <a href="uCEFTypes.html#TCefPreferencesType">TCefPreferencesType</a>; const registrar: <a href="uCEFPreferenceRegistrar.TCefPreferenceRegistrarRef.html">TCefPreferenceRegistrarRef</a>) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
@@ -114,42 +114,42 @@ ICefBrowserProcessHandler</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnBeforeChildProcessLaunchEvent-ICefCommandLine-"></span><code><strong>TOnBeforeChildProcessLaunchEvent</strong> = procedure(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>) ;</code></td>
+<td class="itemcode"><span id="TOnBeforeChildProcessLaunchEvent"></span><code><strong>TOnBeforeChildProcessLaunchEvent</strong> = procedure(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnAlreadyRunningAppRelaunchEvent-ICefCommandLine-ustring-boolean-"></span><code><strong>TOnAlreadyRunningAppRelaunchEvent</strong> = procedure(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>; const current_directory: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: boolean) ;</code></td>
+<td class="itemcode"><span id="TOnAlreadyRunningAppRelaunchEvent"></span><code><strong>TOnAlreadyRunningAppRelaunchEvent</strong> = procedure(const commandLine: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>; const current_directory: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: boolean) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnScheduleMessagePumpWorkEvent-Int64-"></span><code><strong>TOnScheduleMessagePumpWorkEvent</strong> = procedure(const delayMs: Int64) ;</code></td>
+<td class="itemcode"><span id="TOnScheduleMessagePumpWorkEvent"></span><code><strong>TOnScheduleMessagePumpWorkEvent</strong> = procedure(const delayMs: Int64) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnGetDefaultClientEvent-ICefClient-"></span><code><strong>TOnGetDefaultClientEvent</strong> = procedure(var aClient : <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>) ;</code></td>
+<td class="itemcode"><span id="TOnGetDefaultClientEvent"></span><code><strong>TOnGetDefaultClientEvent</strong> = procedure(var aClient : <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnGetDefaultRequestContextHandlerEvent-ICefRequestContextHandler-"></span><code><strong>TOnGetDefaultRequestContextHandlerEvent</strong> = procedure(var aRequestContextHandler : <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>) ;</code></td>
+<td class="itemcode"><span id="TOnGetDefaultRequestContextHandlerEvent"></span><code><strong>TOnGetDefaultRequestContextHandlerEvent</strong> = procedure(var aRequestContextHandler : <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnGetLocalizedStringEvent-Integer-ustring-Boolean-"></span><code><strong>TOnGetLocalizedStringEvent</strong> = procedure(stringId: Integer; out stringVal: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult : Boolean) ;</code></td>
+<td class="itemcode"><span id="TOnGetLocalizedStringEvent"></span><code><strong>TOnGetLocalizedStringEvent</strong> = procedure(stringId: Integer; out stringVal: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult : Boolean) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
@@ -158,14 +158,14 @@ ICefResourceBundleHandler</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnGetDataResourceEvent-Integer-Pointer-NativeUInt-Boolean-"></span><code><strong>TOnGetDataResourceEvent</strong> = procedure(resourceId: Integer; out data: Pointer; out dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var aResult : Boolean) ;</code></td>
+<td class="itemcode"><span id="TOnGetDataResourceEvent"></span><code><strong>TOnGetDataResourceEvent</strong> = procedure(resourceId: Integer; out data: Pointer; out dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var aResult : Boolean) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnGetDataResourceForScaleEvent-Integer-TCefScaleFactor-Pointer-NativeUInt-Boolean-"></span><code><strong>TOnGetDataResourceForScaleEvent</strong> = procedure(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>; out data: Pointer; out dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var aResult : Boolean) ;</code></td>
+<td class="itemcode"><span id="TOnGetDataResourceForScaleEvent"></span><code><strong>TOnGetDataResourceForScaleEvent</strong> = procedure(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>; out data: Pointer; out dataSize: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var aResult : Boolean) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -181,56 +181,56 @@ ICefRenderProcessHandler</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnBrowserCreatedEvent-ICefBrowser-ICefDictionaryValue-"></span><code><strong>TOnBrowserCreatedEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>) ;</code></td>
+<td class="itemcode"><span id="TOnBrowserCreatedEvent"></span><code><strong>TOnBrowserCreatedEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnBrowserDestroyedEvent-ICefBrowser-"></span><code><strong>TOnBrowserDestroyedEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) ;</code></td>
+<td class="itemcode"><span id="TOnBrowserDestroyedEvent"></span><code><strong>TOnBrowserDestroyedEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnContextCreatedEvent-ICefBrowser-ICefFrame-ICefv8Context-"></span><code><strong>TOnContextCreatedEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>) ;</code></td>
+<td class="itemcode"><span id="TOnContextCreatedEvent"></span><code><strong>TOnContextCreatedEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnContextReleasedEvent-ICefBrowser-ICefFrame-ICefv8Context-"></span><code><strong>TOnContextReleasedEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>) ;</code></td>
+<td class="itemcode"><span id="TOnContextReleasedEvent"></span><code><strong>TOnContextReleasedEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnUncaughtExceptionEvent-ICefBrowser-ICefFrame-ICefv8Context-ICefV8Exception-ICefV8StackTrace-"></span><code><strong>TOnUncaughtExceptionEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>; const exception: <a href="uCEFInterfaces.ICefV8Exception.html">ICefV8Exception</a>; const stackTrace: <a href="uCEFInterfaces.ICefV8StackTrace.html">ICefV8StackTrace</a>) ;</code></td>
+<td class="itemcode"><span id="TOnUncaughtExceptionEvent"></span><code><strong>TOnUncaughtExceptionEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const context: <a href="uCEFInterfaces.ICefv8Context.html">ICefv8Context</a>; const exception: <a href="uCEFInterfaces.ICefV8Exception.html">ICefV8Exception</a>; const stackTrace: <a href="uCEFInterfaces.ICefV8StackTrace.html">ICefV8StackTrace</a>) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnFocusedNodeChangedEvent-ICefBrowser-ICefFrame-ICefDomNode-"></span><code><strong>TOnFocusedNodeChangedEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const node: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>) ;</code></td>
+<td class="itemcode"><span id="TOnFocusedNodeChangedEvent"></span><code><strong>TOnFocusedNodeChangedEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const node: <a href="uCEFInterfaces.ICefDomNode.html">ICefDomNode</a>) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnProcessMessageReceivedEvent-ICefBrowser-ICefFrame-TCefProcessId-ICefProcessMessage-boolean-"></span><code><strong>TOnProcessMessageReceivedEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; sourceProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const message: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; var aHandled : boolean) of object ;</code></td>
+<td class="itemcode"><span id="TOnProcessMessageReceivedEvent"></span><code><strong>TOnProcessMessageReceivedEvent</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; sourceProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const message: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; var aHandled : boolean) of object ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnRenderLoadingStateChange-ICefBrowser-Boolean-Boolean-Boolean-"></span><code><strong>TOnRenderLoadingStateChange</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; isLoading, canGoBack, canGoForward: Boolean) ;</code></td>
+<td class="itemcode"><span id="TOnRenderLoadingStateChange"></span><code><strong>TOnRenderLoadingStateChange</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; isLoading, canGoBack, canGoForward: Boolean) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
@@ -239,21 +239,21 @@ ICefLoadHandler</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnRenderLoadStart-ICefBrowser-ICefFrame-TCefTransitionType-"></span><code><strong>TOnRenderLoadStart</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; transitionType: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>) ;</code></td>
+<td class="itemcode"><span id="TOnRenderLoadStart"></span><code><strong>TOnRenderLoadStart</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; transitionType: <a href="uCEFTypes.html#TCefTransitionType">TCefTransitionType</a>) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnRenderLoadEnd-ICefBrowser-ICefFrame-Integer-"></span><code><strong>TOnRenderLoadEnd</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; httpStatusCode: Integer) ;</code></td>
+<td class="itemcode"><span id="TOnRenderLoadEnd"></span><code><strong>TOnRenderLoadEnd</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; httpStatusCode: Integer) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnRenderLoadError-ICefBrowser-ICefFrame-TCefErrorCode-ustring-ustring-"></span><code><strong>TOnRenderLoadError</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; errorCode: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorCode</a>; const errorText, failedUrl: <a href="uCEFTypes.html#ustring">ustring</a>) ;</code></td>
+<td class="itemcode"><span id="TOnRenderLoadError"></span><code><strong>TOnRenderLoadError</strong> = procedure(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; errorCode: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorCode</a>; const errorText, failedUrl: <a href="uCEFTypes.html#ustring">ustring</a>) ;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
