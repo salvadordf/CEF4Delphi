@@ -18,7 +18,15 @@
 <p class="declaration">
 <code>type TCefResponseFilterOwn = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a>, <a class="normal" href="uCEFInterfaces.ICefResponseFilter.html">ICefResponseFilter</a>)</code></p>
 <h2 class="description">Description</h2>
-<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<p>
+ Owned class implementing a resource filter. </p>
+<p>
+
+
+<p>The functions of this interface will be called on the browser process IO thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_response_filter_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_response_filter_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_response_filter_capi.h (cef_response_filter_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
 <ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
 <li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
 <li class="thisitem">TCefResponseFilterOwn</li></ul><h2 class="overview">Overview</h2>
@@ -45,7 +53,9 @@
 <td class="itemcode"><span id="InitFilter"></span><code>function <strong>InitFilter</strong>: Boolean; virtual; abstract;</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+ Initialize the response filter. Will only be called a single time. The filter will not be installed if this function returns false (0). </p>
+</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -53,7 +63,44 @@
 <td class="itemcode"><span id="Filter-Pointer-NativeUInt-NativeUInt-Pointer-NativeUInt-NativeUInt-"></span><code>function <strong>Filter</strong>(data_in: Pointer; data_in_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var data_in_read: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; data_out: Pointer; data_out_size : <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var data_out_written: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#TCefResponseFilterStatus">TCefResponseFilterStatus</a>; virtual; abstract;</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+
+
+<p>Called to filter a chunk of data. Expected usage is as follows:
+
+<p></p>
+
+<pre class="preformatted">
+1. Read input data from |data_in| and set |data_in_read| to the number of
+   bytes that were read up to a maximum of |data_in_size|. |data_in| will
+   be NULL if |data_in_size| is zero.
+2. Write filtered output data to |data_out| and set |data_out_written| to
+   the number of bytes that were written up to a maximum of
+   |data_out_size|. If no output data was written then all data must be
+   read from |data_in| (user must set |data_in_read| = |data_in_size|).
+3. Return RESPONSE_FILTER_DONE if all output data was written or
+   RESPONSE_FILTER_NEED_MORE_DATA if output data is still pending.</pre>
+
+<p>
+
+<p>This function will be called repeatedly until the input buffer has been fully read (user sets |data_in_read| = |data_in_size|) and there is no more input data to filter (the resource response is complete). This function may then be called an additional time with an NULL input buffer if the user filled the output buffer (set |data_out_written| = |data_out_size|) and returned RESPONSE_FILTER_NEED_MORE_DATA to indicate that output data is still pending.
+
+<p>Calls to this function will stop when one of the following conditions is met:
+
+<p></p>
+
+<pre class="preformatted">
+1. There is no more input data to filter (the resource response is
+   complete) and the user sets |data_out_written| = 0 or returns
+   RESPONSE_FILTER_DONE to indicate that all data has been written, or;
+2. The user returns RESPONSE_FILTER_ERROR to indicate an error.</pre>
+
+<p>
+
+<p>Do not keep a reference to the buffers passed to this function.
+
+<p></p>
+</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
