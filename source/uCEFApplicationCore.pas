@@ -48,6 +48,11 @@ const
   CHROMEELF_DLL  = '';
   {$ENDIF}
 
+  {$IFDEF ANDROID}
+  LIBCEF_DLL     = '';
+  CHROMEELF_DLL  = '';
+  {$ENDIF}
+
   // for InitLibLocationFromArgs
   LIBCEF_PAK         = 'cef.pak';
   LIBCEF_LOCALE_DIR  = 'locales';

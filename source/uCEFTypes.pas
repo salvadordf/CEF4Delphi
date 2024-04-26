@@ -325,13 +325,37 @@ type
     /// </remarks>
     TCefCursorHandle = type LongWord;
     {$ENDIF}
+    /// <summary>
+    /// Native event handle.
+    /// </summary>
+    /// <remarks>
+    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_event_handle_t)</see></para>
+    /// </remarks>
+    TCefEventHandle = type PXEvent;
+  {$ENDIF}
+
+  {$IFDEF ANDROID}
+  /// <summary>
+  /// Native Window handle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_window_handle_t)</see></para>
+  /// </remarks>
+  TCefWindowHandle = type UIntPtr;
+  /// <summary>
+  /// Native Cursor handle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_cursor_handle_t)</see></para>
+  /// </remarks>
+  TCefCursorHandle = type UIntPtr;
   /// <summary>
   /// Native event handle.
   /// </summary>
   /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_event_handle_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_event_handle_t)</see></para>
   /// </remarks>
-  TCefEventHandle = type PXEvent;
+  TCefEventHandle  = type UIntPtr;
   {$ENDIF}
 
   /// <summary>

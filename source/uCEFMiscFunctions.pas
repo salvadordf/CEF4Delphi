@@ -311,6 +311,12 @@ procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWind
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 {$ENDIF}
 
+{$IFDEF ANDROID}
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
+{$ENDIF}
+
 {$IFDEF MSWINDOWS}
 function ProcessUnderWow64(hProcess: THandle; Wow64Process: PBOOL): BOOL; stdcall; external Kernel32DLL name 'IsWow64Process';
 function PathIsRelativeAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeA';
@@ -1462,6 +1468,23 @@ begin
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
   aWindowInfo.window                       := 0;
+end;
+{$ENDIF}
+
+{$IFDEF ANDROID}
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aExStyle : DWORD);
+begin
+  //
+end;
+
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aExStyle : DWORD);
+begin
+  //
+end;
+
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aExStyle : DWORD);
+begin
+  //
 end;
 {$ENDIF}
 

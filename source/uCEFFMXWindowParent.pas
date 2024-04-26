@@ -70,7 +70,7 @@ implementation
 // It's also necessary to call "Reparent" to add this component as a child component to your form.
 
 uses
-  System.SysUtils, FMX.Platform, FMX.Platform.Win,
+  System.SysUtils, FMX.Platform, {$IFDEF MSWINDOWS}FMX.Platform.Win,{$ENDIF}
   uCEFApplicationCore;
 
 {$IFDEF DELPHI17_UP}
@@ -159,8 +159,9 @@ end;
 procedure TFMXWindowParent.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited Notification(AComponent, Operation);
-
+  {$IFDEF MSWINDOWS}
   if (Operation = opRemove) and (AComponent = FChromium) then FChromium := nil;
+  {$ENDIF}
 end;
 
 
