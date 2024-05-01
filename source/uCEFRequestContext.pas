@@ -264,6 +264,33 @@ type
       /// </summary>
       procedure SetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; value: TCefContentSettingValues);
 
+      /// <summary>
+      /// Sets the Chrome color scheme for all browsers that share this request
+      /// context. |variant| values of SYSTEM, LIGHT and DARK change the underlying
+      /// color mode (e.g. light vs dark). Other |variant| values determine how
+      /// |user_color| will be applied in the current color mode. If |user_color| is
+      /// transparent (0) the default color will be used.
+      /// </summary>
+      procedure SetChromeColorScheme(variant: TCefColorVariant; user_color: TCefColor);
+
+      /// <summary>
+      /// Returns the current Chrome color scheme mode (SYSTEM, LIGHT or DARK). Must
+      /// be called on the browser process UI thread.
+      /// </summary>
+      function GetChromeColorSchemeMode: TCefColorVariant;
+
+      /// <summary>
+      /// Returns the current Chrome color scheme color, or transparent (0) for the
+      /// default color. Must be called on the browser process UI thread.
+      /// </summary>
+      function GetChromeColorSchemeColor: TCefColor;
+
+      /// <summary>
+      /// Returns the current Chrome color scheme variant. Must be called on the
+      /// browser process UI thread.
+      /// </summary>
+      function GetChromeColorSchemeVariant: TCefColorVariant;
+
     public
       class function UnWrap(data: Pointer): ICefRequestContext; reintroduce;
       /// <summary>
@@ -507,6 +534,26 @@ begin
   TempRequestingURL := CefString(requesting_url);
   TempTopLevelURL   := CefString(top_level_url);
   PCefRequestContext(FData)^.set_content_setting(PCefRequestContext(FData), @TempRequestingURL, @TempTopLevelURL, content_type, value);
+end;
+
+procedure TCefRequestContextRef.SetChromeColorScheme(variant: TCefColorVariant; user_color: TCefColor);
+begin
+  PCefRequestContext(FData)^.set_chrome_color_scheme(PCefRequestContext(FData), variant, user_color);
+end;
+
+function TCefRequestContextRef.GetChromeColorSchemeMode: TCefColorVariant;
+begin
+  Result := PCefRequestContext(FData)^.get_chrome_color_scheme_mode(PCefRequestContext(FData));
+end;
+
+function TCefRequestContextRef.GetChromeColorSchemeColor: TCefColor;
+begin
+  Result := PCefRequestContext(FData)^.get_chrome_color_scheme_color(PCefRequestContext(FData));
+end;
+
+function TCefRequestContextRef.GetChromeColorSchemeVariant: TCefColorVariant;
+begin
+  Result := PCefRequestContext(FData)^.get_chrome_color_scheme_variant(PCefRequestContext(FData));
 end;
 
 function TCefRequestContextRef.RegisterSchemeHandlerFactory(const schemeName : ustring;

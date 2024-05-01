@@ -83,6 +83,7 @@ type
   PCefRunContextMenuCallback = ^TCefRunContextMenuCallback;
   PCefDialogHandler = ^TCefDialogHandler;
   PCefFileDialogCallback = ^TCefFileDialogCallback;
+  PCefUnresponsiveProcessCallback = ^TCefUnresponsiveProcessCallback;
   PCefDisplayHandler = ^TCefDisplayHandler;
   PCefDownloadHandler = ^TCefDownloadHandler;
   PCefDownloadItem = ^TCefDownloadItem;
@@ -219,7 +220,45 @@ type
   PCefMediaSinkDeviceInfoCallback = ^TCefMediaSinkDeviceInfoCallback;
   PCefMediaSource = ^TCefMediaSource;
   PCefMediaSinkDeviceInfo = ^TCefMediaSinkDeviceInfo;
+  PCefAcceleratedPaintInfo = ^TCefAcceleratedPaintInfo;
 
+{$IFDEF FPC}
+  NativeInt   = PtrInt;
+  NativeUInt  = PtrUInt;
+  PNativeInt  = ^NativeInt;
+  PNativeUInt = ^NativeUInt;
+  /// <summary>
+  /// String type used by CEF. ustring was created to use the same type in Delphi and Lazarus.
+  /// </summary>
+  ustring     = type UnicodeString;
+  rbstring    = type AnsiString;
+{$ELSE}
+  {$IFNDEF DELPHI12_UP}
+    NativeUInt  = Cardinal;
+    PNativeUInt = ^NativeUInt;
+    NativeInt   = Integer;
+    uint16      = Word;
+    /// <summary>
+    /// String type used by CEF. ustring was created to use the same type in Delphi and Lazarus.
+    /// </summary>
+    ustring     = type WideString;
+    rbstring    = type AnsiString;
+    {$IFNDEF DELPHI7_UP}
+    uint64     = type int64;
+    PPAnsiChar = array of PChar;
+    {$ENDIF}
+  {$ELSE}
+    /// <summary>
+    /// String type used by CEF. ustring was created to use the same type in Delphi and Lazarus.
+    /// </summary>
+    ustring     = type string;
+    rbstring    = type RawByteString;
+    {$IFNDEF DELPHI15_UP}
+      NativeUInt  = Cardinal;
+      PNativeUInt = ^NativeUInt;
+    {$ENDIF}
+  {$ENDIF}
+{$ENDIF}
 
   {$IFDEF MSWINDOWS}
   /// <summary>
@@ -243,95 +282,74 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_event_handle_t)</see></para>
   /// </remarks>
   TCefEventHandle  = type PMsg;
+  {$IFNDEF FPC}
+  /// <summary>
+  /// Missing HANDLE declaration.
+  /// </summary>
+  HANDLE           = type NativeUInt;
+  {$ENDIF}
+  /// <summary>
+  /// Native texture handle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_shared_texture_handle_t)</see></para>
+  /// </remarks>
+  TCefSharedTextureHandle  = type HANDLE;
   {$ENDIF}
 
   {$IFDEF MACOSX}
-    {$IFDEF FPC}
-    /// <summary>
-    /// Native Window handle.
-    /// </summary>
-    /// <remarks>
-    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_window_handle_t)</see></para>
-    /// </remarks>
-    TCefWindowHandle = type PtrUInt;
-    /// <summary>
-    /// Native Cursor handle.
-    /// </summary>
-    /// <remarks>
-    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_cursor_handle_t)</see></para>
-    /// </remarks>
-    TCefCursorHandle = type PtrUInt;
-    /// <summary>
-    /// Native event handle.
-    /// </summary>
-    /// <remarks>
-    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_event_handle_t)</see></para>
-    /// </remarks>
-    TCefEventHandle  = type PtrUInt;
-    {$ELSE}
-    /// <summary>
-    /// Native Window handle.
-    /// </summary>
-    /// <remarks>
-    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_window_handle_t)</see></para>
-    /// </remarks>
-    TCefWindowHandle = type Pointer;
-    /// <summary>
-    /// Native Cursor handle.
-    /// </summary>
-    /// <remarks>
-    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_cursor_handle_t)</see></para>
-    /// </remarks>
-    TCefCursorHandle = type Pointer;
-    /// <summary>
-    /// Native event handle.
-    /// </summary>
-    /// <remarks>
-    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_event_handle_t)</see></para>
-    /// </remarks>
-    TCefEventHandle  = type Pointer;
-    {$ENDIF}
+  /// <summary>
+  /// Native Window handle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_window_handle_t)</see></para>
+  /// </remarks>
+  TCefWindowHandle = type {$IFDEF FPC}PtrUInt{$ELSE}Pointer{$ENDIF};
+  /// <summary>
+  /// Native Cursor handle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_cursor_handle_t)</see></para>
+  /// </remarks>
+  TCefCursorHandle = type {$IFDEF FPC}PtrUInt{$ELSE}Pointer{$ENDIF};
+  /// <summary>
+  /// Native event handle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_event_handle_t)</see></para>
+  /// </remarks>
+  TCefEventHandle  = type {$IFDEF FPC}PtrUInt{$ELSE}Pointer{$ENDIF};
+  /// <summary>
+  /// Native texture handle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_mac.h (cef_shared_texture_handle_t)</see></para>
+  /// </remarks>
+  TCefSharedTextureHandle  = {$IFDEF FPC}type PtrUInt{$ELSE}Pointer{$ENDIF};
   {$ENDIF}
 
   {$IFDEF LINUX}
-    {$IFDEF FPC}
-    /// <summary>
-    /// Native Window handle.
-    /// </summary>
-    /// <remarks>
-    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_window_handle_t)</see></para>
-    /// </remarks>
-    TCefWindowHandle = type culong;
-    /// <summary>
-    /// Native Cursor handle.
-    /// </summary>
-    /// <remarks>
-    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_cursor_handle_t)</see></para>
-    /// </remarks>
-    TCefCursorHandle = type culong;
-    {$ELSE}
-    /// <summary>
-    /// Native Window handle.
-    /// </summary>
-    /// <remarks>
-    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_window_handle_t)</see></para>
-    /// </remarks>
-    TCefWindowHandle = type LongWord;
-    /// <summary>
-    /// Native Cursor handle.
-    /// </summary>
-    /// <remarks>
-    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_cursor_handle_t)</see></para>
-    /// </remarks>
-    TCefCursorHandle = type LongWord;
-    {$ENDIF}
-    /// <summary>
-    /// Native event handle.
-    /// </summary>
-    /// <remarks>
-    /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_event_handle_t)</see></para>
-    /// </remarks>
-    TCefEventHandle = type PXEvent;
+  /// <summary>
+  /// Native Window handle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_window_handle_t)</see></para>
+  /// </remarks>
+  TCefWindowHandle = type {$IFDEF FPC}culong{$ELSE}LongWord{$ENDIF};
+  /// <summary>
+  /// Native Cursor handle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_cursor_handle_t)</see></para>
+  /// </remarks>
+  TCefCursorHandle = type {$IFDEF FPC}culong{$ELSE}LongWord{$ENDIF};
+  /// <summary>
+  /// Native event handle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_event_handle_t)</see></para>
+  /// </remarks>
+  TCefEventHandle = type PXEvent;
   {$ENDIF}
 
   {$IFDEF ANDROID}
@@ -357,6 +375,107 @@ type
   /// </remarks>
   TCefEventHandle  = type UIntPtr;
   {$ENDIF}
+
+  /// <summary>
+  /// Describes how to interpret the components of a pixel.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_color.h">CEF source file: /include/internal/cef_types_color.h (cef_color_type_t)</see></para>
+  /// </remarks>
+  TCefColorType = (
+    /// <summary>
+    /// RGBA with 8 bits per pixel (32bits total).
+    /// </summary>
+    CEF_COLOR_TYPE_RGBA_8888,
+    /// <summary>
+    /// BGRA with 8 bits per pixel (32bits total).
+    /// </summary>
+    CEF_COLOR_TYPE_BGRA_8888
+  );
+
+  {$IFDEF LINUX}
+  /// <summary>
+  /// Structure containing the plane information of the shared texture.
+  /// Sync with native_pixmap_handle.h
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_accelerated_paint_native_pixmap_plane_t)</see></para>
+  /// </remarks>
+  TCefAcceleratedPaintNativePixmapPlaneInfo = record
+    /// <summary>
+    /// The strides in bytes to be used when accessing the buffers via
+    /// a memory mapping. One per plane per entry.
+    /// </summary>
+    stride  : Cardinal;
+    /// <summary>
+    /// The offsets in bytes to be used when accessing the buffers via
+    /// a memory mapping. One per plane per entry.
+    /// </summary>
+    offset  : uint64;
+    /// <summary>
+    /// Size in bytes of the plane is necessary to map the buffers.
+    /// </summary>
+    size    : uint64;
+    /// <summary>
+    /// File descriptor for the underlying memory object (usually dmabuf).
+    /// </summary>
+    fd      : integer;
+  end;
+  {$ENDIF}
+
+  /// <summary>
+  /// Structure containing shared texture information for the OnAcceleratedPaint
+  /// callback. Resources will be released to the underlying pool for reuse when
+  /// the callback returns from client code.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_accelerated_paint_info_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_accelerated_paint_info_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_accelerated_paint_info_t)</see></para>
+  /// </remarks>
+  TCefAcceleratedPaintInfo = record
+    {$IFDEF MSWINDOWS}
+    /// <summary>
+    /// Handle for the shared texture. The shared texture is instantiated
+    /// without a keyed mutex.
+    /// </summary>
+    shared_texture_handle   : TCefSharedTextureHandle;
+    /// <summary>
+    /// The pixel format of the texture.
+    /// </summary>
+    format                  : TCefColorType;
+    {$ENDIF}
+
+    {$IFDEF MACOSX}
+    /// <summary>
+    /// Handle for the shared texture IOSurface.
+    /// </summary>
+    shared_texture_io_surface : TCefSharedTextureHandle;
+    /// <summary>
+    /// The pixel format of the texture.
+    /// </summary>
+    format                    : TCefColorType;
+    {$ENDIF}
+
+    {$IFDEF LINUX}
+    /// <summary>
+    /// Planes of the shared texture, usually file descriptors of dmabufs.
+    /// </summary>
+    planes                  : array [0..pred(CEF_KACCELERATEDPAINTMAXPLANES)] of TCefAcceleratedPaintNativePixmapPlaneInfo;
+    /// <summary>
+    /// Plane count.
+    /// </summary>
+    plane_count             : integer;
+    /// <summary>
+    /// Modifier could be used with EGL driver.
+    /// </summary>
+    modifier                : uint64;
+    /// <summary>
+    /// The pixel format of the texture.
+    /// </summary>
+    format                  : TCefColorType;
+    {$ENDIF}
+  end;
 
   /// <summary>
   /// Platform thread ID.
@@ -736,43 +855,20 @@ type
   /// </remarks>
   TCefLogItems                     = type Cardinal;
 
-{$IFDEF FPC}
-  NativeInt   = PtrInt;
-  NativeUInt  = PtrUInt;
-  PNativeInt  = ^NativeInt;
-  PNativeUInt = ^NativeUInt;
   /// <summary>
-  /// String type used by CEF. ustring was created to use the same type in Delphi and Lazarus.
+  /// Process result codes. This is not a comprehensive list, as result codes
+  /// might also include platform-specific crash values (Posix signal or Windows
+  /// hardware exception), or internal-only implementation values.
   /// </summary>
-  ustring     = type UnicodeString;
-  rbstring    = type AnsiString;
-{$ELSE}
-  {$IFNDEF DELPHI12_UP}
-    NativeUInt  = Cardinal;
-    PNativeUInt = ^NativeUInt;
-    NativeInt   = Integer;
-    uint16      = Word;
-    /// <summary>
-    /// String type used by CEF. ustring was created to use the same type in Delphi and Lazarus.
-    /// </summary>
-    ustring     = type WideString;
-    rbstring    = type AnsiString;
-    {$IFNDEF DELPHI7_UP}
-    uint64     = type int64;
-    PPAnsiChar = array of PChar;
-    {$ENDIF}
-  {$ELSE}
-    /// <summary>
-    /// String type used by CEF. ustring was created to use the same type in Delphi and Lazarus.
-    /// </summary>
-    ustring     = type string;
-    rbstring    = type RawByteString;
-    {$IFNDEF DELPHI15_UP}
-      NativeUInt  = Cardinal;
-      PNativeUInt = ^NativeUInt;
-    {$ENDIF}
-  {$ENDIF}
-{$ENDIF}
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/result_codes.h">See Chromium's content::ResultCode type.</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// </remarks>
+  TCefResultCode                   = type Integer;
+
 
   /// <summary>
   /// Array of byte. Needed only for backwards compatibility with old Delphi versions.
@@ -1882,48 +1978,49 @@ type
     CEF_CHANNEL_LAYOUT_5_0_BACK = 11,
     /// <summary>Front L, Front R, Front C, LFE, Back L, Back R</summary>
     CEF_CHANNEL_LAYOUT_5_1_BACK = 12,
-    /// <summary>Front L, Front R, Front C, Side L, Side R, Back L, Back R</summary>
+    /// <summary>Front L, Front R, Front C, Back L, Back R, Side L, Side R</summary>
     CEF_CHANNEL_LAYOUT_7_0 = 13,
-    /// <summary>Front L, Front R, Front C, LFE, Side L, Side R, Back L, Back R</summary>
+    /// <summary>Front L, Front R, Front C, LFE, Back L, Back R, Side L, Side R</summary>
     CEF_CHANNEL_LAYOUT_7_1 = 14,
-    /// <summary>Front L, Front R, Front C, LFE, Side L, Side R, Front LofC, Front RofC</summary>
+    /// <summary>Front L, Front R, Front C, LFE, Front LofC, Front RofC, Side L, Side R</summary>
     CEF_CHANNEL_LAYOUT_7_1_WIDE = 15,
-    /// <summary>Stereo L, Stereo R</summary>
+    /// <summary>Front L, Front R</summary>
     CEF_CHANNEL_LAYOUT_STEREO_DOWNMIX = 16,
-    /// <summary>Stereo L, Stereo R, LFE</summary>
+    /// <summary>Front L, Front R, LFE</summary>
     CEF_CHANNEL_LAYOUT_2POINT1 = 17,
-    /// <summary>Stereo L, Stereo R, Front C, LFE</summary>
+    /// <summary>Front L, Front R, Front C, LFE</summary>
     CEF_CHANNEL_LAYOUT_3_1 = 18,
-    /// <summary>Stereo L, Stereo R, Front C, Rear C, LFE</summary>
+    /// <summary>Front L, Front R, Front C, LFE, Back C</summary>
     CEF_CHANNEL_LAYOUT_4_1 = 19,
-    /// <summary>Stereo L, Stereo R, Front C, Side L, Side R, Back C</summary>
+    /// <summary>Front L, Front R, Front C, Back C, Side L, Side R</summary>
     CEF_CHANNEL_LAYOUT_6_0 = 20,
-    /// <summary>Stereo L, Stereo R, Side L, Side R, Front LofC, Front RofC</summary>
+    /// <summary>Front L, Front R, Front LofC, Front RofC, Side L, Side R</summary>
     CEF_CHANNEL_LAYOUT_6_0_FRONT = 21,
-    /// <summary>Stereo L, Stereo R, Front C, Rear L, Rear R, Rear C</summary>
+    /// <summary>Front L, Front R, Front C, Back L, Back R, Back C</summary>
     CEF_CHANNEL_LAYOUT_HEXAGONAL = 22,
-    /// <summary>Stereo L, Stereo R, Front C, LFE, Side L, Side R, Rear Center</summary>
+    /// <summary>Front L, Front R, Front C, LFE, Back C, Side L, Side R</summary>
     CEF_CHANNEL_LAYOUT_6_1 = 23,
-    /// <summary>Stereo L, Stereo R, Front C, LFE, Back L, Back R, Rear Center</summary>
+    /// <summary>Front L, Front R, Front C, LFE, Back L, Back R, Back C</summary>
     CEF_CHANNEL_LAYOUT_6_1_BACK = 24,
-    /// <summary>Stereo L, Stereo R, Side L, Side R, Front LofC, Front RofC, LFE</summary>
+    /// <summary>Front L, Front R, LFE, Front LofC, Front RofC, Side L, Side R</summary>
     CEF_CHANNEL_LAYOUT_6_1_FRONT = 25,
-    /// <summary>Front L, Front R, Front C, Side L, Side R, Front LofC, Front RofC</summary>
+    /// <summary>Front L, Front R, Front C, Front LofC, Front RofC, Side L, Side R</summary>
     CEF_CHANNEL_LAYOUT_7_0_FRONT = 26,
     /// <summary>Front L, Front R, Front C, LFE, Back L, Back R, Front LofC, Front RofC</summary>
     CEF_CHANNEL_LAYOUT_7_1_WIDE_BACK = 27,
-    /// <summary>Front L, Front R, Front C, Side L, Side R, Rear L, Back R, Back C.</summary>
+    /// <summary>Front L, Front R, Front C, Back L, Back R, Back C, Side L, Side R</summary>
     CEF_CHANNEL_LAYOUT_OCTAGONAL = 28,
     /// <summary>Channels are not explicitly mapped to speakers.</summary>
     CEF_CHANNEL_LAYOUT_DISCRETE = 29,
     /// <summary>
+    /// Deprecated, but keeping the enum value for UMA consistency.
     /// Front L, Front R, Front C. Front C contains the keyboard mic audio. This
     /// layout is only intended for input for WebRTC. The Front C channel
     /// is stripped away in the WebRTC audio input pipeline and never seen outside
     /// of that.
     /// </summary>
     CEF_CHANNEL_LAYOUT_STEREO_AND_KEYBOARD_MIC = 30,
-    /// <summary>Front L, Front R, Side L, Side R, LFE</summary>
+    /// <summary>Front L, Front R, LFE, Side L, Side R</summary>
     CEF_CHANNEL_LAYOUT_4_1_QUAD_SIDE = 31,
     /// <summary>
     /// Actual channel layout is specified in the bitstream and the actual channel
@@ -1937,8 +2034,12 @@ type
     /// Will be represented as six channels (5.1) due to eight channel limit
     /// kMaxConcurrentChannels
     /// </summary>
-    CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX = 33
-    {* CEF_CHANNEL_LAYOUT_MAX = CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX *}
+    CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX = 33,
+    /// <summary>Front C, LFE</summary>
+    CEF_CHANNEL_LAYOUT_1_1 = 34,
+    /// <summary>Front L, Front R, LFE, Back C</summary>
+    CEF_CHANNEL_LAYOUT_3_1_BACK = 35
+    {* CEF_CHANNEL_LAYOUT_MAX = CEF_CHANNEL_LAYOUT_3_1_BACK *}
   );
 
   /// <summary>
@@ -2276,7 +2377,15 @@ type
     /// <summary>
     /// Out of memory. Some platforms may use TS_PROCESS_CRASHED instead.
     /// </summary>
-    TS_PROCESS_OOM
+    TS_PROCESS_OOM,
+    /// <summary>
+    /// Child process never launched.
+    /// </summary>
+    TS_LAUNCH_FAILED,
+    /// <summary>
+    /// On Windows, the OS terminated the process due to code integrity failure.
+    /// </summary>
+    TS_INTEGRITY_FAILURE
   );
 
   /// <summary>
@@ -2363,23 +2472,6 @@ type
   );
 
   /// <summary>
-  /// Describes how to interpret the components of a pixel.
-  /// </summary>
-  /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_color_type_t)</see></para>
-  /// </remarks>
-  TCefColorType = (
-    /// <summary>
-    /// RGBA with 8 bits per pixel (32bits total).
-    /// </summary>
-    CEF_COLOR_TYPE_RGBA_8888,
-    /// <summary>
-    /// BGRA with 8 bits per pixel (32bits total).
-    /// </summary>
-    CEF_COLOR_TYPE_BGRA_8888
-  );
-
-  /// <summary>
   /// Describes how to interpret the alpha component of a pixel.
   /// </summary>
   /// <remarks>
@@ -2415,51 +2507,29 @@ type
   );
 
   /// <summary>
-  /// Specifies where along the main axis the CefBoxLayout child views should be
-  /// laid out.
+  /// Specifies where along the axis the CefBoxLayout child views should be laid
+  /// out. Should be kept in sync with Chromium's views::LayoutAlignment type.
   /// </summary>
   /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_main_axis_alignment_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_axis_alignment_t)</see></para>
   /// </remarks>
-  TCefMainAxisAlignment = (
+  TCefAxisAlignment = (
     /// <summary>
-    /// Child views will be left-aligned.
+    /// Child views will be left/top-aligned.
     /// </summary>
-    CEF_MAIN_AXIS_ALIGNMENT_START,
+    CEF_AXIS_ALIGNMENT_START,
     /// <summary>
     /// Child views will be center-aligned.
     /// </summary>
-    CEF_MAIN_AXIS_ALIGNMENT_CENTER,
+    CEF_AXIS_ALIGNMENT_CENTER,
     /// <summary>
-    /// Child views will be right-aligned.
+    /// Child views will be right/bottom-aligned.
     /// </summary>
-    CEF_MAIN_AXIS_ALIGNMENT_END
-  );
-
-  /// <summary>
-  /// Specifies where along the main axis the CefBoxLayout child views should be
-  /// laid out.
-  /// </summary>
-  /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_cross_axis_alignment_t)</see></para>
-  /// </remarks>
-  TCefCrossAxisAlignment = (
+    CEF_AXIS_ALIGNMENT_END,
     /// <summary>
     /// Child views will be stretched to fit.
     /// </summary>
-    CEF_CROSS_AXIS_ALIGNMENT_STRETCH,
-    /// <summary>
-    /// Child views will be left-aligned.
-    /// </summary>
-    CEF_CROSS_AXIS_ALIGNMENT_START,
-    /// <summary>
-    /// Child views will be center-aligned.
-    /// </summary>
-    CEF_CROSS_AXIS_ALIGNMENT_CENTER,
-    /// <summary>
-    /// Child views will be right-aligned.
-    /// </summary>
-    CEF_CROSS_AXIS_ALIGNMENT_END
+    CEF_AXIS_ALIGNMENT_STRETCH
   );
 
   /// <summary>
@@ -2758,6 +2828,23 @@ type
   );
 
   /// <summary>
+  /// Specifies the color variants supported by
+  /// ICefRequestContext.SetChromeThemeColor.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_color_variant_t)</see></para>
+  /// </remarks>
+  TCefColorVariant = (
+    CEF_COLOR_VARIANT_SYSTEM,
+    CEF_COLOR_VARIANT_LIGHT,
+    CEF_COLOR_VARIANT_DARK,
+    CEF_COLOR_VARIANT_TONAL_SPOT,
+    CEF_COLOR_VARIANT_NEUTRAL,
+    CEF_COLOR_VARIANT_VIBRANT,
+    CEF_COLOR_VARIANT_EXPRESSIVE
+  );
+
+  /// <summary>
   /// Specifies the gesture commands.
   /// </summary>
   /// <remarks>
@@ -2991,11 +3078,11 @@ type
     /// <summary>
     /// Specifies where along the main axis the child views should be laid out.
     /// </summary>
-    main_axis_alignment              : TCefMainAxisAlignment;
+    main_axis_alignment              : TCefAxisAlignment;
     /// <summary>
     /// Specifies where along the cross axis the child views should be laid out.
     /// </summary>
-    cross_axis_alignment             : TCefCrossAxisAlignment;
+    cross_axis_alignment             : TCefAxisAlignment;
     /// <summary>
     /// Minimum cross axis size.
     /// </summary>
@@ -3312,6 +3399,8 @@ type
   /// </summary>
   /// <remarks>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">CEF source file: /include/internal/cef_types_win.h (cef_window_info_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_mac.h">CEF source file: /include/internal/cef_types_mac.h (cef_window_info_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_window_info_t)</see></para>
   /// </remarks>
   TCefWindowInfo = record
     {$IFDEF MSWINDOWS}
@@ -4525,7 +4614,20 @@ type
     /// Whether an application can enumerate audio output device.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_SPEAKER_SELECTION,
-    CEF_CONTENT_SETTING_TYPE_NUM_TYPES
+    /// <summary>
+    /// Content settings for access to the Direct Sockets API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_DIRECT_SOCKETS,
+    /// <summary>
+    /// Keyboard Lock API allows a site to capture keyboard inputs that would
+    /// otherwise be handled by the OS or the browser.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_KEYBOARD_LOCK,
+    /// <summary>
+    /// Pointer Lock API allows a site to hide the cursor and have exclusive
+    /// access to mouse inputs.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_POINTER_LOCK
   );
 
   /// <summary>
@@ -4693,6 +4795,19 @@ type
     base   : TCefBaseRefCounted;
     cont   : procedure(self: PCefFileDialogCallback; file_paths: TCefStringList); stdcall;
     cancel : procedure(self: PCefFileDialogCallback); stdcall;
+  end;
+
+  /// <summary>
+  /// Callback structure for asynchronous handling of an unresponsive process.
+  /// </summary>
+  /// <remarks>
+  /// <para>Implemented by ICefUnresponsiveProcessCallback.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_unresponsive_process_callback_capi.h">CEF source file: /include/capi/cef_unresponsive_process_callback_capi.h (cef_unresponsive_process_callback_t)</see></para>
+  /// </remarks>
+  TCefUnresponsiveProcessCallback = record
+    base      : TCefBaseRefCounted;
+    wait      : procedure(self: PCefUnresponsiveProcessCallback); stdcall;
+    terminate : procedure(self: PCefUnresponsiveProcessCallback); stdcall;
   end;
 
   /// <summary>
@@ -5102,7 +5217,7 @@ type
     on_popup_show                     : procedure(self: PCefRenderHandler; browser: PCefBrowser; show: Integer); stdcall;
     on_popup_size                     : procedure(self: PCefRenderHandler; browser: PCefBrowser; const rect: PCefRect); stdcall;
     on_paint                          : procedure(self: PCefRenderHandler; browser: PCefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); stdcall;
-    on_accelerated_paint              : procedure(self: PCefRenderHandler; browser: PCefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer); stdcall;
+    on_accelerated_paint              : procedure(self: PCefRenderHandler; browser: PCefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const info: PCefAcceleratedPaintInfo); stdcall;
     get_touch_handle_size             : procedure(self: PCefRenderHandler; browser: PCefBrowser; orientation: TCefHorizontalAlignment; size: PCefSize); stdcall;
     on_touch_handle_state_changed     : procedure(self: PCefRenderHandler; browser: PCefBrowser; const state: PCefTouchHandleState); stdcall;
     start_dragging                    : function(self: PCefRenderHandler; browser: PCefBrowser; drag_data: PCefDragData; allowed_ops: TCefDragOperations; x, y: Integer): Integer; stdcall;
@@ -5520,7 +5635,9 @@ type
     on_certificate_error                : function(self: PCefRequestHandler; browser: PCefBrowser; cert_error: TCefErrorcode; const request_url: PCefString; ssl_info: PCefSslInfo; callback: PCefCallback): Integer; stdcall;
     on_select_client_certificate        : function(self: PCefRequestHandler; browser: PCefBrowser; isProxy: integer; const host: PCefString; port: integer; certificatesCount: NativeUInt; const certificates: PPCefX509Certificate; callback: PCefSelectClientCertificateCallback): integer; stdcall;
     on_render_view_ready                : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
-    on_render_process_terminated        : procedure(self: PCefRequestHandler; browser: PCefBrowser; status: TCefTerminationStatus); stdcall;
+    on_render_process_unresponsive      : function(self: PCefRequestHandler; browser: PCefBrowser; callback: PCefUnresponsiveProcessCallback): integer; stdcall;
+    on_render_process_responsive        : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
+    on_render_process_terminated        : procedure(self: PCefRequestHandler; browser: PCefBrowser; status: TCefTerminationStatus; error_code: integer; const error_string: PCefString); stdcall;
     on_document_available_in_main_frame : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
   end;
 
@@ -5807,6 +5924,10 @@ type
     set_website_setting             : procedure(self: PCefRequestContext; const requesting_url, top_level_url: PCefString; content_type: TCefContentSettingTypes; value: PCefValue); stdcall;
     get_content_setting             : function(self: PCefRequestContext; const requesting_url, top_level_url: PCefString; content_type: TCefContentSettingTypes): TCefContentSettingValues; stdcall;
     set_content_setting             : procedure(self: PCefRequestContext; const requesting_url, top_level_url: PCefString; content_type: TCefContentSettingTypes; value: TCefContentSettingValues); stdcall;
+    set_chrome_color_scheme         : procedure(self: PCefRequestContext; variant: TCefColorVariant; user_color: TCefColor); stdcall;
+    get_chrome_color_scheme_mode    : function(self: PCefRequestContext): TCefColorVariant; stdcall;
+    get_chrome_color_scheme_color   : function(self: PCefRequestContext): TCefColor; stdcall;
+    get_chrome_color_scheme_variant : function(self: PCefRequestContext): TCefColorVariant; stdcall;
   end;
 
   /// <summary>
@@ -7134,6 +7255,7 @@ type
     exit_fullscreen                   : procedure(self: PCefBrowserHost; will_cause_resize: integer); stdcall;
     can_execute_chrome_command        : function(self: PCefBrowserHost; command_id: integer): integer; stdcall;
     execute_chrome_command            : procedure(self: PCefBrowserHost; command_id: integer; disposition: TCefWindowOpenDisposition); stdcall;
+    is_render_process_unresponsive    : function(self: PCefBrowserHost): integer; stdcall;
   end;
 
   /// <summary>
@@ -7476,6 +7598,7 @@ type
     request_focus               : procedure(self: PCefView); stdcall;
     set_background_color        : procedure(self: PCefView; color: TCefColor); stdcall;
     get_background_color        : function(self: PCefView): TCefColor; stdcall;
+    get_theme_color             : function(self: PCefView; color_id: integer): TCefColor; stdcall;
     convert_point_to_screen     : function(self: PCefView; point: PCefPoint): Integer; stdcall;
     convert_point_from_screen   : function(self: PCefView; point: PCefPoint): Integer; stdcall;
     convert_point_to_window     : function(self: PCefView; point: PCefPoint): Integer; stdcall;
@@ -7506,6 +7629,7 @@ type
     on_layout_changed           : procedure(self: PCefViewDelegate; view: PCefView; const new_bounds: PCefRect); stdcall;
     on_focus                    : procedure(self: PCefViewDelegate; view: PCefView); stdcall;
     on_blur                     : procedure(self: PCefViewDelegate; view: PCefView); stdcall;
+    on_theme_changed            : procedure(self: PCefViewDelegate; view: PCefView); stdcall;
   end;
 
   /// <summary>
@@ -7810,6 +7934,8 @@ type
     set_accelerator                  : procedure(self: PCefWindow; command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed, high_priority: Integer); stdcall;
     remove_accelerator               : procedure(self: PCefWindow; command_id: Integer); stdcall;
     remove_all_accelerators          : procedure(self: PCefWindow); stdcall;
+    set_theme_color                  : procedure(self: PCefWindow; color_id: integer; color: TCefColor); stdcall;
+    theme_changed                    : procedure(self: PCefWindow); stdcall;
   end;
 
   /// <summary>
@@ -7836,12 +7962,14 @@ type
     is_frameless                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     with_standard_window_buttons     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     get_titlebar_height              : function(self: PCefWindowDelegate; window: PCefWindow; titlebar_height: PSingle): Integer; stdcall;
+    accepts_first_mouse              : function(self: PCefWindowDelegate; window: PCefWindow): TCefState; stdcall;
     can_resize                       : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     can_maximize                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     can_minimize                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     can_close                        : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     on_accelerator                   : function(self: PCefWindowDelegate; window: PCefWindow; command_id: Integer): Integer; stdcall;
     on_key_event                     : function(self: PCefWindowDelegate; window: PCefWindow; const event: PCefKeyEvent): Integer; stdcall;
+    on_theme_colors_changed          : procedure(self: PCefWindowDelegate; window: PCefWindow; chrome_theme: Integer); stdcall;
   end;
 
 implementation

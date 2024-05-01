@@ -292,6 +292,39 @@ type
       /// </summary>
       procedure RemoveAllAccelerators;
 
+      /// <summary>
+      /// <para>Override a standard theme color or add a custom color associated with
+      /// |color_id|. See cef_color_ids.h for standard ID values. Recommended usage
+      /// is as follows:</para>
+      /// <code>
+      /// 1. Customize the default native/OS theme by calling SetThemeColor before
+      ///    showing the first Window. When done setting colors call
+      ///    ICefWindow.ThemeChanged to trigger ICefViewDelegate.OnThemeChanged
+      ///    notifications.
+      /// 2. Customize the current native/OS or Chrome theme after it changes by
+      ///    calling SetThemeColor from the ICefWindowDelegate.OnThemeColorsChanged
+      ///    callback. ICefViewDelegate.OnThemeChanged notifications will then be
+      ///    triggered automatically.
+      /// </code>
+      /// <para>The configured color will be available immediately via
+      /// ICefView.GetThemeColor and will be applied to each View in this
+      /// Window's component hierarchy when ICefViewDelegate.OnThemeChanged is
+      /// called. See OnThemeColorsChanged documentation for additional details.</para>
+      /// <para>Clients wishing to add custom colors should use |color_id| values >=
+      /// CEF_ChromeColorsEnd.</para>
+      /// </summary>
+      procedure SetThemeColor(color_id: integer; color: TCefColor);
+
+      /// <summary>
+      /// <para>Trigger cef_view_delegate_t::OnThemeChanged callbacks for each View in
+      /// this Window's component hierarchy. Unlike a native/OS or Chrome theme
+      /// change this function does not reset theme colors to standard values and
+      /// does not result in a call to ICefWindowDelegate.OnThemeColorsChanged.</para>
+      /// <para>Do not call this function from ICefViewDelegate.OnThemeColorsChanged
+      /// or ICefViewDelegate.OnThemeChanged.</para>
+      /// </summary>
+      procedure ThemeChanged;
+
     public
       /// <summary>
       /// Returns a ICefWindow instance using a PCefWindow data pointer.
@@ -523,6 +556,16 @@ end;
 procedure TCefWindowRef.RemoveAllAccelerators;
 begin
   PCefWindow(FData)^.remove_all_accelerators(PCefWindow(FData));
+end;
+
+procedure TCefWindowRef.SetThemeColor(color_id: integer; color: TCefColor);
+begin
+  PCefWindow(FData)^.set_theme_color(PCefWindow(FData), color_id, color);
+end;
+
+procedure TCefWindowRef.ThemeChanged;
+begin
+  PCefWindow(FData)^.theme_changed(PCefWindow(FData));
 end;
 
 class function TCefWindowRef.UnWrap(data: Pointer): ICefWindow;

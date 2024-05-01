@@ -36,6 +36,7 @@ type
       FOnLayoutChanged           : TOnLayoutChangedEvent;
       FOnFocus                   : TOnFocusEvent;
       FOnBlur                    : TOnBlurEvent;
+      FOnThemeChanged            : TOnThemeChangedEvent;
 
       FComponentID               : integer;
 
@@ -98,6 +99,7 @@ type
       procedure doOnLayoutChanged(const view: ICefView; new_bounds: TCefRect); virtual;
       procedure doOnFocus(const view: ICefView); virtual;
       procedure doOnBlur(const view: ICefView); virtual;
+      procedure doOnThemeChanged(const view: ICefView); virtual;
       procedure doCreateCustomView; virtual;
 
     public
@@ -131,6 +133,13 @@ type
       /// focused View.
       /// </summary>
       procedure   RequestFocus;
+      /// <summary>
+      /// Returns the current theme color associated with |color_id|, or the
+      /// placeholder color (red) if unset. See cef_color_ids.h for standard ID
+      /// values. Standard colors can be overridden and custom colors can be added
+      /// using ICefWindow.SetThemeColor.
+      /// </summary>
+      function    GetThemeColor(color_id: integer): TCefColor;
       /// <summary>
       /// Convert |point| from this View's coordinate system to DIP screen
       /// coordinates. This View must belong to a Window when calling this function.
@@ -286,7 +295,11 @@ type
       /// </summary>
       property AccessibilityFocusable         : boolean                    read GetIsAccessibilityFocusable;
       /// <summary>
-      /// Returns the background color for this View.
+      /// Returns the background color for this View. If the background color is
+      /// unset then the current `GetThemeColor(CEF_ColorPrimaryBackground)` value
+      /// will be returned. If this View belongs to an overlay (created with
+      /// ICefWindow.AddOverlayView), and the background color is unset, then a
+      /// value of transparent (0) will be returned.
       /// </summary>
       property BackgroundColor                : TCefColor                  read GetBackgroundColor             write SetBackgroundColor;
       /// <summary>
@@ -382,6 +395,24 @@ type
       /// Called when |view| loses focus.
       /// </summary>
       property OnBlur                         : TOnBlurEvent               read FOnBlur                        write FOnBlur;
+      /// <summary>
+      /// <para>Called when the theme for |view| has changed, after the new theme colors
+      /// have already been applied. Views are notified via the component hierarchy
+      /// in depth-first reverse order (children before parents).</para>
+      /// <para>This will be called in the following cases:</para>
+      /// <code>
+      /// 1. When |view|, or a parent of |view|, is added to a Window.
+      /// 2. When the native/OS or Chrome theme changes for the Window that contains
+      ///    |view|. See ICefWindowDelegate.OnThemeColorsChanged documentation.
+      /// 3. When the client explicitly calls ICefWindow.ThemeChanged on the
+      ///    Window that contains |view|.
+      /// </code>
+      /// <para>Optionally use this callback to override the new per-View theme colors by
+      /// calling ICefView.SetBackgroundColor or the appropriate component-
+      /// specific function. See ICefWindow.SetThemeColor documentation for how
+      /// to customize additional Window theme colors.</para>
+      /// <summary>
+      property OnThemeChanged                 : TOnThemeChangedEvent       read FOnThemeChanged                write FOnThemeChanged;
   end;
 
 // *********************************************************
@@ -454,6 +485,7 @@ begin
   FOnLayoutChanged     := nil;
   FOnFocus             := nil;
   FOnBlur              := nil;
+  FOnThemeChanged      := nil;
 end;
 
 procedure TCEFViewComponent.CreateView;
@@ -854,6 +886,14 @@ begin
     Result := 0;
 end;
 
+function TCEFViewComponent.GetThemeColor(color_id: integer): TCefColor;
+begin
+  if Initialized then
+    Result := AsView.GetThemeColor(color_id)
+   else
+    Result := 0;
+end;
+
 function TCEFViewComponent.ConvertPointToScreen(var point: TCefPoint): boolean;
 begin
   Result := Initialized and AsView.ConvertPointToScreen(point);
@@ -952,6 +992,12 @@ procedure TCEFViewComponent.doOnBlur(const view: ICefView);
 begin
   if assigned(FOnBlur) then
     FOnBlur(self, view);
+end;
+
+procedure TCEFViewComponent.doOnThemeChanged(const view: ICefView);
+begin
+  if assigned(FOnThemeChanged) then
+    FOnThemeChanged(self, view);
 end;
 
 procedure TCEFViewComponent.doCreateCustomView;

@@ -248,13 +248,25 @@ type
       /// </summary>
       procedure RequestFocus;
       /// <summary>
-      /// Sets the background color for this View.
+      /// Sets the background color for this View. The background color will be
+      /// automatically reset when ICefViewDelegate.OnThemeChanged is called.
       /// </summary>
       procedure SetBackgroundColor(color: TCefColor);
       /// <summary>
-      /// Returns the background color for this View.
+      /// Returns the background color for this View. If the background color is
+      /// unset then the current `GetThemeColor(CEF_ColorPrimaryBackground)` value
+      /// will be returned. If this View belongs to an overlay (created with
+      /// ICefWindow.AddOverlayView), and the background color is unset, then a
+      /// value of transparent (0) will be returned.
       /// </summary>
       function  GetBackgroundColor : TCefColor;
+      /// <summary>
+      /// Returns the current theme color associated with |color_id|, or the
+      /// placeholder color (red) if unset. See cef_color_ids.h for standard ID
+      /// values. Standard colors can be overridden and custom colors can be added
+      /// using ICefWindow.SetThemeColor.
+      /// </summary>
+      function  GetThemeColor(color_id: integer): TCefColor;
       /// <summary>
       /// Convert |point| from this View's coordinate system to DIP screen
       /// coordinates. This View must belong to a Window when calling this function.
@@ -530,6 +542,11 @@ end;
 function TCefViewRef.GetBackgroundColor : TCefColor;
 begin
   Result := PCefView(FData)^.get_background_color(PCefView(FData));
+end;
+
+function TCefViewRef.GetThemeColor(color_id: integer): TCefColor;
+begin
+  Result := PCefView(FData)^.get_theme_color(PCefView(FData), color_id);
 end;
 
 function TCefViewRef.ConvertPointToScreen(var point: TCefPoint): boolean;

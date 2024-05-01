@@ -35,7 +35,7 @@ uses
 
 procedure TCefFileDialogCallbackRef.Cancel;
 begin
-  PCefFileDialogCallback(FData)^.cancel(FData);
+  PCefFileDialogCallback(FData)^.cancel(PCefFileDialogCallback(FData));
 end;
 
 procedure TCefFileDialogCallbackRef.Cont(const filePaths: TStrings);

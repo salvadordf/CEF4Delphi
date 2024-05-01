@@ -35,6 +35,7 @@ type
       FOnWindowDestroyed            : TOnWindowDestroyedEvent;
       FOnWindowActivationChanged    : TOnWindowActivationChangedEvent;
       FOnWindowBoundsChanged        : TOnWindowBoundsChangedEvent;
+      FOnWindowFullscreenTransition : TOnWindowFullscreenTransitionEvent;
       FOnGetParentWindow            : TOnGetParentWindowEvent;
       FOnIsWindowModalDialog        : TOnIsWindowModalDialogEvent;
       FOnGetInitialBounds           : TOnGetInitialBoundsEvent;
@@ -42,13 +43,14 @@ type
       FOnIsFrameless                : TOnIsFramelessEvent;
       FOnWithStandardWindowButtons  : TOnWithStandardWindowButtonsEvent;
       FOnGetTitlebarHeight          : TOnGetTitlebarHeightEvent;
+      FOnAcceptsFirstMouse          : TOnAcceptsFirstMouseEvent;
       FOnCanResize                  : TOnCanResizeEvent;
       FOnCanMaximize                : TOnCanMaximizeEvent;
       FOnCanMinimize                : TOnCanMinimizeEvent;
       FOnCanClose                   : TOnCanCloseEvent;
       FOnAccelerator                : TOnAcceleratorEvent;
       FOnKeyEvent                   : TOnWindowKeyEventEvent;
-      FOnWindowFullscreenTransition : TOnWindowFullscreenTransitionEvent;
+      FOnThemeColorsChanged         : TOnThemeColorsChangedEvent;
 
       procedure DestroyView; override;
       procedure Initialize; override;
@@ -82,6 +84,7 @@ type
       procedure doOnWindowDestroyed(const window_: ICefWindow);
       procedure doOnWindowActivationChanged(const window_: ICefWindow; active: boolean);
       procedure doOnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
+      procedure doOnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
       procedure doOnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
       procedure doOnIsWindowModalDialog(const window_: ICefWindow; var aResult : boolean);
       procedure doOnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
@@ -89,13 +92,14 @@ type
       procedure doOnIsFrameless(const window_: ICefWindow; var aResult : boolean);
       procedure doOnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
       procedure doOnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
+      procedure doOnAcceptsFirstMouse(const window_: ICefWindow; var aResult: TCefState);
       procedure doOnCanResize(const window_: ICefWindow; var aResult : boolean);
       procedure doOnCanMaximize(const window_: ICefWindow; var aResult : boolean);
       procedure doOnCanMinimize(const window_: ICefWindow; var aResult : boolean);
       procedure doOnCanClose(const window_: ICefWindow; var aResult : boolean);
       procedure doOnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
       procedure doOnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
-      procedure doOnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+      procedure doOnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
 
       // ICefViewDelegateEvents
       procedure doCreateCustomView; override;
@@ -331,6 +335,16 @@ type
       /// </summary>
       property OnWindowBoundsChanged        : TOnWindowBoundsChangedEvent        read FOnWindowBoundsChanged        write FOnWindowBoundsChanged;
       /// <summary>
+      /// Called when |window| is transitioning to or from fullscreen mode. On MacOS
+      /// the transition occurs asynchronously with |is_competed| set to false (0)
+      /// when the transition starts and true (1) after the transition completes. On
+      /// other platforms the transition occurs synchronously with |is_completed|
+      /// set to true (1) after the transition completes. With the Alloy runtime you
+      /// must also implement ICefDisplayHandler.OnFullscreenModeChange to
+      /// handle fullscreen transitions initiated by browser content.
+      /// </summary>
+      property OnWindowFullscreenTransition : TOnWindowFullscreenTransitionEvent read FOnWindowFullscreenTransition write FOnWindowFullscreenTransition;
+      /// <summary>
       /// Return the parent for |window| or NULL if the |window| does not have a
       /// parent. Windows with parents will not get a taskbar button. Set |is_menu|
       /// to true (1) if |window| will be displayed as a menu, in which case it will
@@ -382,6 +396,16 @@ type
       /// </summary>
       property OnGetTitlebarHeight          : TOnGetTitlebarHeightEvent          read FOnGetTitlebarHeight          write FOnGetTitlebarHeight;
       /// <summary>
+      /// <para>Return whether the view should accept the initial mouse-down event,
+      /// allowing it to respond to click-through behavior. If STATE_ENABLED is
+      /// returned, the view will be sent a mouseDown: message for an initial mouse-
+      /// down event, activating the view with one click, instead of clicking first
+      /// to make the window active and then clicking the view.</para>
+      /// <para>This function is only supported on macOS. For more details, refer to the
+      /// documentation of acceptsFirstMouse.</para>
+      /// </summary>
+      property OnAcceptsFirstMouse          : TOnAcceptsFirstMouseEvent          read FOnAcceptsFirstMouse          write FOnAcceptsFirstMouse;
+      /// <summary>
       /// Return true (1) if |window| can be resized.
       /// </summary>
       property OnCanResize                  : TOnCanResizeEvent                  read FOnCanResize                  write FOnCanResize;
@@ -411,15 +435,34 @@ type
       /// </summary>
       property OnKeyEvent                   : TOnWindowKeyEventEvent             read FOnKeyEvent                   write FOnKeyEvent;
       /// <summary>
-      /// Called when |window| is transitioning to or from fullscreen mode. On MacOS
-      /// the transition occurs asynchronously with |is_competed| set to false (0)
-      /// when the transition starts and true (1) after the transition completes. On
-      /// other platforms the transition occurs synchronously with |is_completed|
-      /// set to true (1) after the transition completes. With the Alloy runtime you
-      /// must also implement ICefDisplayHandler.OnFullscreenModeChange to
-      /// handle fullscreen transitions initiated by browser content.
+      /// <para>Called after the native/OS or Chrome theme for |window| has changed.
+      /// |chrome_theme| will be true (1) if the notification is for a Chrome theme.</para>
+      /// <para>Native/OS theme colors are configured globally and do not need to be
+      /// customized for each Window individually. An example of a native/OS theme
+      /// change that triggers this callback is when the user switches between dark
+      /// and light mode during application lifespan. Native/OS theme changes can be
+      /// disabled by passing the `--force-dark-mode` or `--force-light-mode`
+      /// command-line flag.</para>
+      /// <para>Chrome theme colors will be applied and this callback will be triggered
+      /// if/when a BrowserView is added to the Window's component hierarchy. Chrome
+      /// theme colors can be configured on a per-RequestContext basis using
+      /// ICefRequestContext.SetChromeColorScheme or (Chrome runtime only) by
+      /// visiting chrome://settings/manageProfile. Any theme changes using those
+      /// mechanisms will also trigger this callback. Chrome theme colors will be
+      /// persisted and restored from disk cache with the Chrome runtime, and with
+      /// the Alloy runtime if persist_user_preferences is set to true (1) via
+      /// CefSettings or ICefRequestContext Settings.</para>
+      /// <para>This callback is not triggered on Window creation so clients that wish to
+      /// customize the initial native/OS theme must call
+      /// ICefWindow.SetThemeColor and ICefWindow.ThemeChanged before showing
+      /// the first Window.</para>
+      /// <para>Theme colors will be reset to standard values before this callback is
+      /// called for the first affected Window. Call ICefWindow.SetThemeColor
+      /// from inside this callback to override a standard color or add a custom
+      /// color. ICefViewDelegate.OnThemeChanged will be called after this
+      /// callback for the complete |window| component hierarchy.</para>
       /// </summary>
-      property OnWindowFullscreenTransition : TOnWindowFullscreenTransitionEvent read FOnWindowFullscreenTransition write FOnWindowFullscreenTransition;
+      property OnThemeColorsChanged         : TOnThemeColorsChangedEvent         read FOnThemeColorsChanged         write FOnThemeColorsChanged;
   end;
 
 {$IFDEF FPC}
@@ -469,6 +512,7 @@ begin
   FOnWindowDestroyed            := nil;
   FOnWindowActivationChanged    := nil;
   FOnWindowBoundsChanged        := nil;
+  FOnWindowFullscreenTransition := nil;
   FOnGetParentWindow            := nil;
   FOnIsWindowModalDialog        := nil;
   FOnGetInitialBounds           := nil;
@@ -476,13 +520,13 @@ begin
   FOnIsFrameless                := nil;
   FOnWithStandardWindowButtons  := nil;
   FOnGetTitlebarHeight          := nil;
+  FOnAcceptsFirstMouse          := nil;
   FOnCanResize                  := nil;
   FOnCanMaximize                := nil;
   FOnCanMinimize                := nil;
   FOnCanClose                   := nil;
   FOnAccelerator                := nil;
   FOnKeyEvent                   := nil;
-  FOnWindowFullscreenTransition := nil;
 end;
 
 procedure TCEFWindowComponent.CreateTopLevelWindow;
@@ -573,6 +617,12 @@ begin
     FOnWindowBoundsChanged(self, window_, new_bounds);
 end;
 
+procedure TCEFWindowComponent.doOnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+begin
+  if assigned(FOnWindowFullscreenTransition) then
+    FOnWindowFullscreenTransition(self, window_, is_completed);
+end;
+
 procedure TCEFWindowComponent.doOnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
 begin
   if assigned(FOnGetParentWindow) then
@@ -615,6 +665,12 @@ begin
     FOnGetTitlebarHeight(self, window_, titlebar_height, aResult);
 end;
 
+procedure TCEFWindowComponent.doOnAcceptsFirstMouse(const window_: ICefWindow; var aResult: TCefState);
+begin
+  if assigned(FOnAcceptsFirstMouse) then
+    FOnAcceptsFirstMouse(self, window_, aResult);
+end;
+
 procedure TCEFWindowComponent.doOnCanResize(const window_: ICefWindow; var aResult : boolean);
 begin
   if assigned(FOnCanResize) then
@@ -651,10 +707,10 @@ begin
     FOnKeyEvent(self, window_, event, aResult);
 end;
 
-procedure TCEFWindowComponent.doOnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+procedure TCEFWindowComponent.doOnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
 begin
-  if assigned(FOnWindowFullscreenTransition) then
-    FOnWindowFullscreenTransition(self, window_, is_completed);
+  if assigned(FOnThemeColorsChanged) then
+    FOnThemeColorsChanged(self, window_, chrome_theme);
 end;
 
 procedure TCEFWindowComponent.Show;

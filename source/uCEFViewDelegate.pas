@@ -32,6 +32,7 @@ type
       procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
       procedure OnFocus(const view: ICefView);
       procedure OnBlur(const view: ICefView);
+      procedure OnThemeChanged(const view: ICefView);
 
     public
       /// <summary>
@@ -105,6 +106,24 @@ type
       /// </summary>
       procedure OnBlur(const view: ICefView); virtual;
       /// <summary>
+      /// <para>Called when the theme for |view| has changed, after the new theme colors
+      /// have already been applied. Views are notified via the component hierarchy
+      /// in depth-first reverse order (children before parents).</para>
+      /// <para>This will be called in the following cases:</para>
+      /// <code>
+      /// 1. When |view|, or a parent of |view|, is added to a Window.
+      /// 2. When the native/OS or Chrome theme changes for the Window that contains
+      ///    |view|. See ICefWindowDelegate.OnThemeColorsChanged documentation.
+      /// 3. When the client explicitly calls ICefWindow.ThemeChanged on the
+      ///    Window that contains |view|.
+      /// </code>
+      /// <para>Optionally use this callback to override the new per-View theme colors by
+      /// calling ICefView.SetBackgroundColor or the appropriate component-
+      /// specific function. See ICefWindow.SetThemeColor documentation for how
+      /// to customize additional Window theme colors.</para>
+      /// <summary>
+      procedure OnThemeChanged(const view: ICefView); virtual;
+      /// <summary>
       /// Links the methods in the internal CEF record data pointer with the methods in this class.
       /// </summary>
       procedure InitializeCEFMethods; virtual;
@@ -130,6 +149,7 @@ type
       procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); override;
       procedure OnFocus(const view: ICefView); override;
       procedure OnBlur(const view: ICefView); override;
+      procedure OnThemeChanged(const view: ICefView); override;
 
     public
       /// <summary>
@@ -211,6 +231,12 @@ procedure TCefViewDelegateRef.OnBlur(const view: ICefView);
 begin
   PCefViewDelegate(FData)^.on_blur(PCefViewDelegate(FData),
                                    CefGetData(view));
+end;
+
+procedure TCefViewDelegateRef.OnThemeChanged(const view: ICefView);
+begin
+  PCefViewDelegate(FData)^.on_theme_changed(PCefViewDelegate(FData),
+                                            CefGetData(view));
 end;
 
 class function TCefViewDelegateRef.UnWrap(data: Pointer): ICefViewDelegate;
@@ -360,6 +386,16 @@ begin
     TCefViewDelegateOwn(TempObject).OnBlur(TCefViewRef.UnWrap(view));
 end;
 
+procedure cef_view_delegate_on_theme_changed(self: PCefViewDelegate; view: PCefView); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
+    TCefViewDelegateOwn(TempObject).OnThemeChanged(TCefViewRef.UnWrap(view));
+end;
+
 constructor TCefViewDelegateOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefViewDelegate));
@@ -391,6 +427,7 @@ begin
       on_layout_changed       := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_layout_changed;
       on_focus                := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_focus;
       on_blur                 := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_blur;
+      on_theme_changed        := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_theme_changed;
     end;
 end;
 
@@ -443,6 +480,11 @@ begin
 end;
 
 procedure TCefViewDelegateOwn.OnBlur(const view: ICefView);
+begin
+  //
+end;
+
+procedure TCefViewDelegateOwn.OnThemeChanged(const view: ICefView);
 begin
   //
 end;
@@ -581,6 +623,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomViewDelegate.OnBlur', e) then raise;
+  end;
+end;
+
+procedure TCustomViewDelegate.OnThemeChanged(const view: ICefView);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefViewDelegateEvents(FEvents).doOnThemeChanged(view);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomViewDelegate.OnThemeChanged', e) then raise;
   end;
 end;
 

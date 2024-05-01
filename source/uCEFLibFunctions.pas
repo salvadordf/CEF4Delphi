@@ -38,6 +38,7 @@ var
 
   // /include/capi/cef_app_capi.h
   cef_initialize             : function(const args: PCefMainArgs; const settings: PCefSettings; application: PCefApp; windows_sandbox_info: Pointer): Integer; cdecl;
+  cef_get_exit_code          : function : integer; cdecl;
   cef_shutdown               : procedure; cdecl;
   cef_execute_process        : function(const args: PCefMainArgs; application: PCefApp; windows_sandbox_info: Pointer): Integer; cdecl;
   cef_do_message_loop_work   : procedure; cdecl;

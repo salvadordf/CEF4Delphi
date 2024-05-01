@@ -160,6 +160,7 @@ type
       FRemoteAllowOrigins                : ustring;
       FAutoAcceptCamAndMicCapture        : boolean;
       FUIColorMode                       : TCefUIColorMode;
+      FDisableHangMonitor                : boolean;
 
 
       // Fields used during the CEF initialization
@@ -263,6 +264,7 @@ type
       function  GetApiHashUniversal : ustring;
       function  GetApiHashPlatform : ustring;
       function  GetApiHashCommit : ustring;
+      function  GetExitCode : TCefResultCode;
       {$IFDEF LINUX}
       function  GetXDisplay : PXDisplay;
       function  GetArgc : longint;
@@ -1232,6 +1234,13 @@ type
       /// </remarks>
       property UIColorMode                       : TCefUIColorMode                          read FUIColorMode                       write FUIColorMode;
       /// <summary>
+      /// Suppresses hang monitor dialogs in renderer processes. This may allow slow unload handlers on a page to prevent the tab from closing, but the Task Manager can be used to terminate the offending process in this case.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --disable-hang-monitor</see></para>
+      /// </remarks>
+      property DisableHangMonitor                : boolean                                  read FDisableHangMonitor                write FDisableHangMonitor;
+      /// <summary>
       /// Ignores certificate-related errors.
       /// </summary>
       /// <remarks>
@@ -1408,6 +1417,16 @@ type
       ///	Calls cef_api_hash to get the commit hash.
       /// </summary>
       property ApiHashCommit                     : ustring                                  read GetApiHashCommit;
+      /// <summary>
+      /// This property can optionally be read on the main application thread after
+      /// CefInitialize to retrieve the initialization exit code. When CefInitialize
+      /// returns true (1) the exit code will be 0 (CEF_RESULT_CODE_NORMAL_EXIT).
+      /// Otherwise, see TCefResultCode for possible exit code values including
+      /// browser process initialization errors and normal early exit conditions (such
+      /// as CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED for process singleton
+      /// relaunch behavior).
+      /// </summary>
+      property ExitCode                          : TCefResultCode                           read GetExitCode;
       /// <summary>
       /// Last error message that is usually shown when CEF finds a problem at initialization.
       /// </summary>
@@ -1886,6 +1905,7 @@ begin
   FRemoteAllowOrigins                := '';
   FAutoAcceptCamAndMicCapture        := False;
   FUIColorMode                       := uicmSystemDefault;
+  FDisableHangMonitor                := False;
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
@@ -3361,6 +3381,9 @@ begin
     uicmForceLight : ReplaceSwitch(aKeys, aValues, '--force-light-mode');
   end;
 
+  if FDisableHangMonitor then
+    ReplaceSwitch(aKeys, aValues, '--disable-hang-monitor');
+
   if FNetLogEnabled then
     begin
       ReplaceSwitch(aKeys, aValues, '--log-net-log', FNetLogFile);
@@ -3658,6 +3681,14 @@ begin
     Result := ustring(AnsiString(TempHash));
 end;
 
+function TCefApplicationCore.GetExitCode : TCefResultCode;
+begin
+  if FLibLoaded then
+    Result := cef_get_exit_code()
+   else
+    Result := CEF_RESULT_CODE_NORMAL_EXIT;
+end;
+
 {$IFDEF LINUX}
 function TCefApplicationCore.GetXDisplay : PXDisplay;
 begin
@@ -3823,6 +3854,7 @@ end;
 function TCefApplicationCore.Load_cef_app_capi_h : boolean;
 begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_initialize{$IFDEF FPC}){$ENDIF}             := GetProcAddress(FLibHandle, 'cef_initialize');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_get_exit_code{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_get_exit_code');
   {$IFDEF FPC}Pointer({$ENDIF}cef_shutdown{$IFDEF FPC}){$ENDIF}               := GetProcAddress(FLibHandle, 'cef_shutdown');
   {$IFDEF FPC}Pointer({$ENDIF}cef_execute_process{$IFDEF FPC}){$ENDIF}        := GetProcAddress(FLibHandle, 'cef_execute_process');
   {$IFDEF FPC}Pointer({$ENDIF}cef_do_message_loop_work{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_do_message_loop_work');
@@ -3830,6 +3862,7 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_quit_message_loop{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_quit_message_loop');
 
   Result := assigned(cef_initialize) and
+            assigned(cef_get_exit_code) and
             assigned(cef_shutdown) and
             assigned(cef_execute_process) and
             assigned(cef_do_message_loop_work) and

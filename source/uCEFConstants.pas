@@ -2115,9 +2115,9 @@ const
   CEF_PERMISSION_TYPE_DISK_QUOTA                 = 1 shl 7;
   CEF_PERMISSION_TYPE_LOCAL_FONTS                = 1 shl 8;
   CEF_PERMISSION_TYPE_GEOLOCATION                = 1 shl 9;
-  CEF_PERMISSION_TYPE_IDLE_DETECTION             = 1 shl 10;
-  CEF_PERMISSION_TYPE_MIC_STREAM                 = 1 shl 11;
-  CEF_PERMISSION_TYPE_MIDI                       = 1 shl 12;
+  CEF_PERMISSION_TYPE_IDENTITY_PROVIDER          = 1 shl 10;
+  CEF_PERMISSION_TYPE_IDLE_DETECTION             = 1 shl 11;
+  CEF_PERMISSION_TYPE_MIC_STREAM                 = 1 shl 12;
   CEF_PERMISSION_TYPE_MIDI_SYSEX                 = 1 shl 13;
   CEF_PERMISSION_TYPE_MULTIPLE_DOWNLOADS         = 1 shl 14;
   CEF_PERMISSION_TYPE_NOTIFICATIONS              = 1 shl 15;
@@ -2464,6 +2464,540 @@ const
   LOG_ITEMS_FLAG_TICK_COUNT = 1 shl 4;
 
 
+
+  /// <summary>
+  /// Normal exit code.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/result_codes.h">See Chromium's content::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_NORMAL_EXIT = 0;
+
+  /// <summary>
+  /// Process was killed by user or system.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/result_codes.h">See Chromium's content::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_KILLED = 1;
+
+  /// <summary>
+  /// Process hung.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/result_codes.h">See Chromium's content::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_HUNG = 2;
+
+  /// <summary>
+  /// A bad message caused the process termination.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/result_codes.h">See Chromium's content::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_KILLED_BAD_MESSAGE = 3;
+
+  /// <summary>
+  /// The GPU process exited because initialization failed.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/result_codes.h">See Chromium's content::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_GPU_DEAD_ON_ARRIVAL = 4;
+
+  /// <summary>
+  /// First Chrome result code.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_CHROME_FIRST = 5;
+
+  /// <summary>
+  /// An invalid command line url was given.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_INVALID_CMDLINE_URL = CEF_RESULT_CODE_CHROME_FIRST;
+
+  /// <summary>
+  /// The process is of an unknown type.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_BAD_PROCESS_TYPE = 6;
+
+  /// <summary>
+  /// A critical chrome file is missing.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_MISSING_DATA = 7;
+
+  /// <summary>
+  /// Failed to make Chrome default browser (not used?).
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_SHELL_INTEGRATION_FAILED = 8;
+
+  /// <summary>
+  /// Machine level install exists.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_MACHINE_LEVEL_INSTALL_EXISTS = 9;
+
+  /// <summary>
+  /// Uninstall detected another chrome instance.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_UNINSTALL_CHROME_ALIVE = 10;
+
+  /// <summary>
+  /// The user changed their mind.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_UNINSTALL_USER_CANCEL = 11;
+
+  /// <summary>
+  /// Delete profile as well during uninstall.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_UNINSTALL_DELETE_PROFILE = 12;
+
+  /// <summary>
+  /// Command line parameter is not supported.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_UNSUPPORTED_PARAM = 13;
+
+  /// <summary>
+  /// Browser import hung and was killed.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_IMPORTER_HUNG = 14;
+
+  /// <summary>
+  /// Trying to restart the browser we crashed.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_RESPAWN_FAILED = 15;
+
+  /// <summary>
+  /// Generic code used to communicate some
+  /// simple outcome back to the process that launched us. This is used for
+  /// experiments and the actual meaning depends on the experiment.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_NORMAL_EXIT_EXP1 = 16;
+
+  /// <summary>
+  /// Generic code used to communicate some
+  /// simple outcome back to the process that launched us. This is used for
+  /// experiments and the actual meaning depends on the experiment.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_NORMAL_EXIT_EXP2 = 17;
+
+  /// <summary>
+  /// Generic code used to communicate some
+  /// simple outcome back to the process that launched us. This is used for
+  /// experiments and the actual meaning depends on the experiment.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_NORMAL_EXIT_EXP3 = 18;
+
+  /// <summary>
+  /// Generic code used to communicate some
+  /// simple outcome back to the process that launched us. This is used for
+  /// experiments and the actual meaning depends on the experiment.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_NORMAL_EXIT_EXP4 = 19;
+
+  /// <summary>
+  /// For experiments this return code means that the user canceled causes the
+  /// did_run "dr" signal to be reset soi this chrome run does not count as
+  /// active chrome usage.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_NORMAL_EXIT_CANCEL = 20;
+
+  /// <summary>
+  /// The profile was in use on another host.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_PROFILE_IN_USE = 21;
+
+  /// <summary>
+  /// Failed to pack an extension via the cmd line.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_PACK_EXTENSION_ERROR = 22;
+
+  /// <summary>
+  /// Failed to silently uninstall an extension.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_UNINSTALL_EXTENSION_ERROR = 23;
+
+
+  /// <summary>
+  /// The browser process exited early by passing the command line to another
+  /// running browser.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED = 24;
+
+  /// <summary>
+  /// A dummy value we should not use. See crbug.com/152285.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_NOTUSED_1 = 25;
+
+  /// <summary>
+  /// Failed to install an item from the webstore when the
+  /// kInstallEphemeralAppFromWebstore command line flag was present.
+  /// As this flag is no longer supported, this return code should never be
+  /// returned.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_INSTALL_FROM_WEBSTORE_ERROR_2 = 26;
+
+  /// <summary>
+  /// A dummy value we should not use. See crbug.com/152285.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_NOTUSED_2 = 27;
+
+  /// <summary>
+  /// Returned when the user has not yet accepted the EULA.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_EULA_REFUSED = 28;
+
+  /// <summary>
+  /// Failed to migrate user data directory for side-by-side package support
+  /// (Linux-only).
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_SXS_MIGRATION_FAILED_NOT_USED = 29;
+
+  /// <summary>
+  /// The action is not allowed by a policy.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_ACTION_DISALLOWED_BY_POLICY = 30;
+
+  /// <summary>
+  /// A browser process was sandboxed. This should never happen.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_INVALID_SANDBOX_STATE = 31;
+
+  /// <summary>
+  /// Cloud policy enrollment is failed or given up by user.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED = 32;
+
+  /// <summary>
+  /// Chrome was downgraded since the last launch. Perform downgrade processing
+  /// and relaunch.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_DOWNGRADE_AND_RELAUNCH = 33;
+
+  /// <summary>
+  /// The GPU process was terminated due to context lost.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST = 34;
+
+  /// <summary>
+  /// Chrome detected that there was a new version waiting to launch and renamed
+  /// the files and launched the new version. This result code is never returned
+  /// from the main process, but is instead used as a signal for early
+  /// termination of browser. See `IsNormalResultCode` below.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_NORMAL_EXIT_UPGRADE_RELAUNCHED = 35;
+
+  /// <summary>
+  /// An early startup command was executed and the browser must exit.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS = 36;
+
+  /// <summary>
+  /// The browser process exited because system resource are exhausted. The
+  /// system state can't be recovered and will be unstable.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED = 37;
+
+  /// <summary>
+  /// The Lacros process exited because the post-login parameters received
+  /// from Ash are either empty or invalid (Lacros-only).
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_INVALID_POST_LOGIN_PARAMS = 38;
+
+  /// <summary>
+  /// Last Chrome result code.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_CHROME_LAST = 39;
+
+  /// <summary>
+  /// First Sandbox result code.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_SANDBOX_FATAL_FIRST = 7006;
+
+  /// <summary>
+  /// Windows sandbox could not set the integrity level.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY = CEF_RESULT_CODE_SANDBOX_FATAL_FIRST;
+
+  /// <summary>
+  /// Windows sandbox could not lower the token.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN = 7007;
+
+  /// <summary>
+  /// Windows sandbox failed to flush registry handles.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES = 7008;
+
+  /// <summary>
+  /// Windows sandbox failed to forbid HCKU caching.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_SANDBOX_FATAL_CACHEDISABLE = 7009;
+
+  /// <summary>
+  /// Windows sandbox failed to close pending handles.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_SANDBOX_FATAL_CLOSEHANDLES = 7010;
+
+  /// <summary>
+  /// Windows sandbox could not set the mitigation policy.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_SANDBOX_FATAL_MITIGATION = 7011;
+
+  /// <summary>
+  /// Windows sandbox exceeded the job memory limit.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_SANDBOX_FATAL_MEMORY_EXCEEDED = 7012;
+
+  /// <summary>
+  /// Windows sandbox failed to warmup.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP = 7013;
+
+  /// <summary>
+  /// Last Sandbox result code.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_SANDBOX_FATAL_LAST = 7014;
+
+
 {*
 ******************************************************
 ****************** OTHER CONSTANTS *******************
@@ -2663,6 +3197,16 @@ const
   {$IF NOT DECLARED(pfidLinux)}
   pfidLinux = pidLinux64;
   {$IFEND}
+
+  {$IFDEF LINUX}
+  /// <summary>
+  /// Maximum number of accelerated paint planes used in TCefAcceleratedPaintInfo.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (kAcceleratedPaintMaxPlanes)</see></para>
+  /// </remarks>
+  CEF_KACCELERATEDPAINTMAXPLANES = 4;
+  {$ENDIF}
 
 implementation
 

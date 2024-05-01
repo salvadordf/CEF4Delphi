@@ -77,6 +77,7 @@ type
       procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); override;
       procedure OnFocus(const view: ICefView); override;
       procedure OnBlur(const view: ICefView); override;
+      procedure OnThemeChanged(const view: ICefView); override;
 
       // ICefButtonDelegate
       procedure OnButtonPressed(const button: ICefButton); override;
@@ -298,6 +299,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomButtonDelegate.OnBlur', e) then raise;
+  end;
+end;
+
+procedure TCustomButtonDelegate.OnThemeChanged(const view: ICefView);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefButtonDelegateEvents(FEvents).doOnThemeChanged(view);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomButtonDelegate.OnThemeChanged', e) then raise;
   end;
 end;
 

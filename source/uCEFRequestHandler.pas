@@ -24,7 +24,9 @@ type
       function  OnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean; virtual;
       function  OnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; virtual;
       procedure OnRenderViewReady(const browser: ICefBrowser); virtual;
-      procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); virtual;
+      function  OnRenderProcessUnresponsive(const browser: ICefBrowser; const callback: ICefUnresponsiveProcessCallback): boolean; virtual;
+      procedure OnRenderProcessResponsive(const browser: ICefBrowser); virtual;
+      procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus; error_code: integer; const error_string: ustring); virtual;
       procedure OnDocumentAvailableInMainFrame(const browser: ICefBrowser); virtual;
 
       procedure RemoveReferences; virtual;
@@ -44,7 +46,9 @@ type
       function  OnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean; override;
       function  OnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; override;
       procedure OnRenderViewReady(const browser: ICefBrowser); override;
-      procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); override;
+      function  OnRenderProcessUnresponsive(const browser: ICefBrowser; const callback: ICefUnresponsiveProcessCallback): boolean; override;
+      procedure OnRenderProcessResponsive(const browser: ICefBrowser); override;
+      procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus; error_code: integer; const error_string: ustring); override;
       procedure OnDocumentAvailableInMainFrame(const browser: ICefBrowser); override;
 
     public
@@ -63,7 +67,7 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCEFCallback,
   uCEFResponse, uCEFAuthCallback, uCEFSslInfo, uCEFSelectClientCertificateCallback, uCEFX509Certificate,
-  uCEFApplicationCore;
+  uCEFApplicationCore, uCEFUnresponsiveProcessCallback;
 
 function cef_request_handler_on_before_browse(self         : PCefRequestHandler;
                                               browser      : PCefBrowser;
@@ -198,9 +202,35 @@ begin
     TCefRequestHandlerOwn(TempObject).OnRenderViewReady(TCefBrowserRef.UnWrap(browser));
 end;
 
-procedure cef_request_handler_on_render_process_terminated(self    : PCefRequestHandler;
-                                                           browser : PCefBrowser;
-                                                           status  : TCefTerminationStatus); stdcall;
+function cef_request_handler_on_render_process_unresponsive(self     : PCefRequestHandler;
+                                                            browser  : PCefBrowser;
+                                                            callback : PCefUnresponsiveProcessCallback): integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    Result := Ord(TCefRequestHandlerOwn(TempObject).OnRenderProcessUnresponsive(TCefBrowserRef.UnWrap(browser),
+                                                                                TCefUnresponsiveProcessCallbackRef.UnWrap(callback)));
+end;
+
+procedure cef_request_handler_on_render_process_responsive(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
+    TCefRequestHandlerOwn(TempObject).OnRenderProcessResponsive(TCefBrowserRef.UnWrap(browser));
+end;
+
+procedure cef_request_handler_on_render_process_terminated(      self         : PCefRequestHandler;
+                                                                 browser      : PCefBrowser;
+                                                                 status       : TCefTerminationStatus;
+                                                                 error_code   : integer;
+                                                           const error_string : PCefString); stdcall;
 var
   TempObject : TObject;
 begin
@@ -208,7 +238,9 @@ begin
 
   if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
     TCefRequestHandlerOwn(TempObject).OnRenderProcessTerminated(TCefBrowserRef.UnWrap(browser),
-                                                                status);
+                                                                status,
+                                                                error_code,
+                                                                CefString(error_string));
 end;
 
 procedure cef_request_handler_on_document_available_in_main_frame(self    : PCefRequestHandler;
@@ -295,6 +327,8 @@ begin
       on_certificate_error                := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_certificate_error;
       on_select_client_certificate        := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_select_client_certificate;
       on_render_view_ready                := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_render_view_ready;
+      on_render_process_unresponsive      := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_render_process_unresponsive;
+      on_render_process_responsive        := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_render_process_responsive;
       on_render_process_terminated        := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_render_process_terminated;
       on_document_available_in_main_frame := {$IFDEF FPC}@{$ENDIF}cef_request_handler_on_document_available_in_main_frame;
     end;
@@ -362,13 +396,25 @@ begin
   aResourceRequestHandler := nil;
 end;
 
-procedure TCefRequestHandlerOwn.OnRenderProcessTerminated(const browser : ICefBrowser;
-                                                                status  : TCefTerminationStatus);
+procedure TCefRequestHandlerOwn.OnRenderProcessTerminated(const browser      : ICefBrowser;
+                                                                status       : TCefTerminationStatus;
+                                                                error_code   : integer;
+                                                          const error_string : ustring);
 begin
   //
 end;
 
 procedure TCefRequestHandlerOwn.OnDocumentAvailableInMainFrame(const browser: ICefBrowser);
+begin
+  //
+end;
+
+function TCefRequestHandlerOwn.OnRenderProcessUnresponsive(const browser: ICefBrowser; const callback: ICefUnresponsiveProcessCallback): boolean;
+begin
+  Result := False;
+end;
+
+procedure TCefRequestHandlerOwn.OnRenderProcessResponsive(const browser: ICefBrowser);
 begin
   //
 end;
@@ -498,22 +544,39 @@ begin
     Result := inherited OnSelectClientCertificate(browser, isProxy, host, port, certificatesCount, certificates, callback);
 end;
 
-procedure TCustomRequestHandler.OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
+procedure TCustomRequestHandler.OnRenderViewReady(const browser: ICefBrowser);
 begin
   if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doOnRenderProcessTerminated(browser, status);
+    IChromiumEvents(FEvents).doOnRenderViewReady(browser);
+end;
+
+function TCustomRequestHandler.OnRenderProcessUnresponsive(const browser: ICefBrowser; const callback: ICefUnresponsiveProcessCallback): boolean;
+begin
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnRenderProcessUnresponsive(browser, callback)
+   else
+    Result := inherited OnRenderProcessUnresponsive(browser, callback);
+end;
+
+procedure TCustomRequestHandler.OnRenderProcessResponsive(const browser: ICefBrowser);
+begin
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnRenderProcessResponsive(browser);
+end;
+
+procedure TCustomRequestHandler.OnRenderProcessTerminated(const browser      : ICefBrowser;
+                                                                status       : TCefTerminationStatus;
+                                                                error_code   : integer;
+                                                          const error_string : ustring);
+begin
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnRenderProcessTerminated(browser, status, error_code, error_string);
 end;
 
 procedure TCustomRequestHandler.OnDocumentAvailableInMainFrame(const browser: ICefBrowser);
 begin
   if (FEvents <> nil) then
     IChromiumEvents(FEvents).doOnDocumentAvailableInMainFrame(browser);
-end;
-
-procedure TCustomRequestHandler.OnRenderViewReady(const browser: ICefBrowser);
-begin
-  if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doOnRenderViewReady(browser);
 end;
 
 end.

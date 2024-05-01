@@ -197,6 +197,8 @@ type
       FOnCertificateError                  : TOnCertificateError;
       FOnSelectClientCertificate           : TOnSelectClientCertificate;
       FOnRenderViewReady                   : TOnRenderViewReady;
+      FOnRenderProcessUnresponsive         : TOnRenderProcessUnresponsive;
+      FOnRenderProcessResponsive           : TOnRenderProcessResponsive;
       FOnRenderProcessTerminated           : TOnRenderProcessTerminated;
       FOnGetResourceRequestHandler_ReqHdlr : TOnGetResourceRequestHandler;
       FOnDocumentAvailableInMainFrame      : TOnDocumentAvailableInMainFrame;
@@ -362,8 +364,12 @@ type
       function  GetFrameCount : NativeUInt;
       function  GetRequestContextCache : ustring;
       function  GetRequestContextIsGlobal : boolean;
+      function  GetChromeColorSchemeMode: TCefColorVariant;
+      function  GetChromeColorSchemeColor: TCefColor;
+      function  GetChromeColorSchemeVariant: TCefColorVariant;
       function  GetAudioMuted : boolean;
       function  GetFullscreen : boolean;
+      function  GetIsRenderProcessUnresponsive : boolean;
       function  GetParentFormHandle : TCefWindowHandle; virtual;
       function  GetRequestContext : ICefRequestContext;
       function  GetMediaRouter : ICefMediaRouter;
@@ -561,7 +567,9 @@ type
       function  doOnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean; virtual;
       function  doOnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean; virtual;
       procedure doOnRenderViewReady(const browser: ICefBrowser); virtual;
-      procedure doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); virtual;
+      function  doOnRenderProcessUnresponsive(const browser: ICefBrowser; const callback: ICefUnresponsiveProcessCallback): boolean; virtual;
+      procedure doOnRenderProcessResponsive(const browser: ICefBrowser); virtual;
+      procedure doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus; error_code: integer; const error_string: ustring); virtual;
       procedure doOnDocumentAvailableInMainFrame(const browser: ICefBrowser); virtual;
 
       // ICefResourceRequestHandler
@@ -589,7 +597,7 @@ type
       procedure doOnPopupShow(const browser: ICefBrowser; show: Boolean); virtual;
       procedure doOnPopupSize(const browser: ICefBrowser; const rect: PCefRect); virtual;
       procedure doOnPaint(const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); virtual;
-      procedure doOnAcceleratedPaint(const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer); virtual;
+      procedure doOnAcceleratedPaint(const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const info: PCefAcceleratedPaintInfo); virtual;
       procedure doGetTouchHandleSize(const browser: ICefBrowser; orientation: TCefHorizontalAlignment; var size: TCefSize); virtual;
       procedure doOnTouchHandleStateChanged(const browser: ICefBrowser; const state: TCefTouchHandleState); virtual;
       function  doOnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean; virtual;
@@ -697,6 +705,7 @@ type
       procedure doSetAudioMuted(aValue : boolean); virtual;
       procedure doToggleAudioMuted; virtual;
       procedure doEnableFocus; virtual;
+
       function  MustCreateAudioHandler : boolean; virtual;
       function  MustCreateCommandHandler : boolean; virtual;
       function  MustCreateDevToolsMessageObserver : boolean; virtual;
@@ -1680,6 +1689,14 @@ type
       /// </summary>
       procedure   SetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; value: TCefContentSettingValues);
       /// <summary>
+      /// Sets the Chrome color scheme for all browsers that share this request
+      /// context. |variant| values of SYSTEM, LIGHT and DARK change the underlying
+      /// color mode (e.g. light vs dark). Other |variant| values determine how
+      /// |user_color| will be applied in the current color mode. If |user_color| is
+      /// transparent (0) the default color will be used.
+      /// </summary>
+      procedure   SetChromeColorScheme(variant: TCefColorVariant; user_color: TCefColor);
+      /// <summary>
       /// First URL loaded by the browser after its creation.
       /// </summary>
       property  DefaultUrl                    : ustring                      read FDefaultUrl                  write SetDefaultUrl;
@@ -1848,6 +1865,21 @@ type
       /// </summary>
       property  RequestContextIsGlobal        : boolean                      read GetRequestContextIsGlobal;
       /// <summary>
+      /// Returns the current Chrome color scheme mode (SYSTEM, LIGHT or DARK). Must
+      /// be called on the browser process UI thread.
+      /// </summary>
+      property  ChromeColorSchemeMode         : TCefColorVariant             read GetChromeColorSchemeMode;
+      /// <summary>
+      /// Returns the current Chrome color scheme color, or transparent (0) for the
+      /// default color. Must be called on the browser process UI thread.
+      /// </summary>
+      property  ChromeColorSchemeColor        : TCefColor                    read GetChromeColorSchemeColor;
+      /// <summary>
+      /// Returns the current Chrome color scheme variant. Must be called on the
+      /// browser process UI thread.
+      /// </summary>
+      property  ChromeColorSchemeVariant      : TCefColorVariant             read GetChromeColorSchemeVariant;
+      /// <summary>
       /// Returns the URL of the main frame.
       /// </summary>
       property  DocumentURL                   : ustring                      read GetDocumentURL;
@@ -1952,6 +1984,17 @@ type
       /// can only be called on the UI thread.
       /// </summary>
       property  Fullscreen                    : boolean                      read GetFullscreen;
+      /// <summary>
+      /// Returns true (1) if the render process associated with this browser is
+      /// currently unresponsive as indicated by a lack of input event processing
+      /// for at least 15 seconds. To receive associated state change notifications
+      /// and optionally handle an unresponsive render process implement
+      /// ICefRequestHandler.OnRenderProcessUnresponsive.
+      /// </summary>
+      /// <remarks>
+      /// <para>This property can only be read on the CEF UI thread.</para>
+      /// </remarks>
+      property  IsRenderProcessUnresponsive   : boolean                      read GetIsRenderProcessUnresponsive;
       /// <summary>
       /// Forces the Google safesearch in the browser preferences.
       /// </summary>
@@ -2841,8 +2884,46 @@ type
       /// </remarks>
       property OnRenderViewReady                   : TOnRenderViewReady                read FOnRenderViewReady                   write FOnRenderViewReady;
       /// <summary>
+      /// Called on the browser process UI thread when the render process is
+      /// unresponsive as indicated by a lack of input event processing for at least
+      /// 15 seconds. Return false (0) for the default behavior which is an
+      /// indefinite wait with the Alloy runtime or display of the "Page
+      /// unresponsive" dialog with the Chrome runtime. Return true (1) and don't
+      /// execute the callback for an indefinite wait without display of the Chrome
+      /// runtime dialog. Return true (1) and call
+      /// ICefUnresponsiveProcessCallback.Wait either in this function or at a
+      /// later time to reset the wait timer, potentially triggering another call to
+      /// this function if the process remains unresponsive. Return true (1) and
+      /// call ICefUnresponsiveProcessCallback.Terminate either in this
+      /// function or at a later time to terminate the unresponsive process,
+      /// resulting in a call to OnRenderProcessTerminated.
+      /// OnRenderProcessResponsive will be called if the process becomes responsive
+      /// after this function is called. This functionality depends on the hang
+      /// monitor which can be disabled by passing the `--disable-hang-monitor`
+      /// command-line flag or setting GlobalCEFApp.DisableHangMonitor to True.
+      /// </summary>
+      /// <remarks>
+      /// <para>This event will be called on the browser process CEF UI thread.</para>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_handler_capi.h">CEF source file: /include/capi/cef_request_handler_capi.h (cef_request_handler_t)</see></para>
+      /// </remarks>
+      property OnRenderProcessUnresponsive         : TOnRenderProcessUnresponsive      read FOnRenderProcessUnresponsive         write FOnRenderProcessUnresponsive;
+      /// <summary>
+      /// Called on the browser process UI thread when the render process becomes
+      /// responsive after previously being unresponsive. See documentation on
+      /// OnRenderProcessUnresponsive.
+      /// </summary>
+      /// <remarks>
+      /// <para>This event will be called on the browser process CEF UI thread.</para>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_handler_capi.h">CEF source file: /include/capi/cef_request_handler_capi.h (cef_request_handler_t)</see></para>
+      /// </remarks>
+      property OnRenderProcessResponsive           : TOnRenderProcessResponsive        read FOnRenderProcessResponsive           write FOnRenderProcessResponsive;
+      /// <summary>
       /// Called on the browser process UI thread when the render process terminates
-      /// unexpectedly. |status| indicates how the process terminated.
+      /// unexpectedly. |status| indicates how the process terminated. |error_code|
+      /// and |error_string| represent the error that would be displayed in Chrome's
+      /// "Aw, Snap!" view. Possible |error_code| values include TCefResultCode
+      /// non-normal exit values and platform-specific crash values (for example, a
+      /// Posix signal or Windows hardware exception).
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -3120,13 +3201,21 @@ type
       /// </remarks>
       property OnPaint                          : TOnPaint                          read FOnPaint                          write FOnPaint;
       /// <summary>
-      /// Called when an element has been rendered to the shared texture handle.
+      /// <para>Called when an element has been rendered to the shared texture handle.
       /// |type| indicates whether the element is the view or the popup widget.
       /// |dirtyRects| contains the set of rectangles in pixel coordinates that need
-      /// to be repainted. |shared_handle| is the handle for a D3D11 Texture2D that
-      /// can be accessed via ID3D11Device using the OpenSharedResource function.
-      /// This function is only called when TCefWindowInfo.shared_texture_enabled
-      /// is set to true (1), and is currently only supported on Windows.
+      /// to be repainted. |info| contains the shared handle; on Windows it is a
+      /// HANDLE to a texture that can be opened with D3D11 OpenSharedResource, on
+      /// macOS it is an IOSurface pointer that can be opened with Metal or OpenGL,
+      /// and on Linux it contains several planes, each with an fd to the underlying
+      /// system native buffer.</para>
+      /// <para>The underlying implementation uses a pool to deliver frames. As a result,
+      /// the handle may differ every frame depending on how many frames are in-
+      /// progress. The handle's resource cannot be cached and cannot be accessed
+      /// outside of this callback. It should be reopened each time this callback is
+      /// executed and the contents should be copied to a texture owned by the
+      /// client application. The contents of |info| will be released back to the
+      /// pool after this callback returns.</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -4495,6 +4584,8 @@ begin
   FOnCertificateError                  := nil;
   FOnSelectClientCertificate           := nil;
   FOnRenderViewReady                   := nil;
+  FOnRenderProcessUnresponsive         := nil;
+  FOnRenderProcessResponsive           := nil;
   FOnRenderProcessTerminated           := nil;
   FOnGetResourceRequestHandler_ReqHdlr := nil;
   FOnDocumentAvailableInMainFrame      := nil;
@@ -5508,6 +5599,30 @@ begin
   Result := Initialized and Browser.host.RequestContext.IsGlobal;
 end;
 
+function TChromiumCore.GetChromeColorSchemeMode: TCefColorVariant;
+begin
+  if Initialized then
+    Result := Browser.host.RequestContext.ChromeColorSchemeMode
+   else
+    Result := CEF_COLOR_VARIANT_SYSTEM;
+end;
+
+function TChromiumCore.GetChromeColorSchemeColor: TCefColor;
+begin
+  if Initialized then
+    Result := Browser.host.RequestContext.ChromeColorSchemeColor
+   else
+    Result := 0;
+end;
+
+function TChromiumCore.GetChromeColorSchemeVariant: TCefColorVariant;
+begin
+  if Initialized then
+    Result := Browser.host.RequestContext.ChromeColorSchemeVariant
+   else
+    Result := CEF_COLOR_VARIANT_SYSTEM;
+end;
+
 function TChromiumCore.GetAudioMuted : boolean;
 begin
   Result := Initialized and Browser.host.IsAudioMuted;
@@ -5516,6 +5631,11 @@ end;
 function TChromiumCore.GetFullscreen : boolean;
 begin
   Result := Initialized and Browser.host.IsFullscreen;
+end;
+
+function TChromiumCore.GetIsRenderProcessUnresponsive : boolean;
+begin
+  Result := Initialized and Browser.host.IsRenderProcessUnresponsive;
 end;
 
 function TChromiumCore.GetParentFormHandle : TCefWindowHandle;
@@ -8980,10 +9100,10 @@ procedure TChromiumCore.doOnAcceleratedPaint(const browser         : ICefBrowser
                                                    type_           : TCefPaintElementType;
                                                    dirtyRectsCount : NativeUInt;
                                              const dirtyRects      : PCefRectArray;
-                                                   shared_handle   : Pointer);
+                                             const info            : PCefAcceleratedPaintInfo);
 begin
   if assigned(FOnAcceleratedPaint) then
-    FOnAcceleratedPaint(Self, browser, type_, dirtyRectsCount, dirtyRects, shared_handle);
+    FOnAcceleratedPaint(Self, browser, type_, dirtyRectsCount, dirtyRects, info);
 end;
 
 procedure TChromiumCore.doGetTouchHandleSize(const browser: ICefBrowser; orientation: TCefHorizontalAlignment; var size: TCefSize);
@@ -9055,10 +9175,10 @@ begin
     FOnProtocolExecution(Self, browser, frame, request, allowOsExecution);
 end;
 
-procedure TChromiumCore.doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
+procedure TChromiumCore.doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus; error_code: integer; const error_string: ustring);
 begin
   if assigned(FOnRenderProcessTerminated) then
-    FOnRenderProcessTerminated(Self, browser, status);
+    FOnRenderProcessTerminated(Self, browser, status, error_code, error_string);
 end;
 
 procedure TChromiumCore.doOnDocumentAvailableInMainFrame(const browser: ICefBrowser);
@@ -9144,6 +9264,20 @@ begin
 
   if assigned(FOnRenderViewReady) then
     FOnRenderViewReady(Self, browser);
+end;
+
+function TChromiumCore.doOnRenderProcessUnresponsive(const browser: ICefBrowser; const callback: ICefUnresponsiveProcessCallback): boolean;
+begin
+  Result := False;
+
+  if assigned(FOnRenderProcessUnresponsive) then
+    FOnRenderProcessUnresponsive(Self, browser, callback, Result);
+end;
+
+procedure TChromiumCore.doOnRenderProcessResponsive(const browser: ICefBrowser);
+begin
+  if assigned(FOnRenderProcessUnresponsive) then
+    FOnRenderProcessResponsive(Self, browser);
 end;
 
 procedure TChromiumCore.doOnResetDialogState(const browser: ICefBrowser);
@@ -9839,6 +9973,19 @@ begin
 
       if (TempContext <> nil) then
         TempContext.SetContentSetting(requesting_url, top_level_url, content_type, value);
+    end;
+end;
+
+procedure TChromiumCore.SetChromeColorScheme(variant: TCefColorVariant; user_color: TCefColor);
+var
+  TempContext : ICefRequestContext;
+begin
+  if Initialized then
+    begin
+      TempContext := Browser.Host.RequestContext;
+
+      if (TempContext <> nil) then
+        TempContext.SetChromeColorScheme(variant, user_color);
     end;
 end;
 

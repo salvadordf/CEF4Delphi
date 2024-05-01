@@ -40,6 +40,7 @@ type
   ICefTask = interface;
   ICefTaskRunner = interface;
   ICefFileDialogCallback = interface;
+  ICefUnresponsiveProcessCallback = interface;
   ICefPrintHandler = interface;
   ICefPrintDialogCallback = interface;
   ICefPrintJobCallback = interface;
@@ -382,7 +383,9 @@ type
     function  doOnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): Boolean;
     function  doOnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean;
     procedure doOnRenderViewReady(const browser: ICefBrowser);
-    procedure doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
+    function  doOnRenderProcessUnresponsive(const browser: ICefBrowser; const callback: ICefUnresponsiveProcessCallback): boolean;
+    procedure doOnRenderProcessResponsive(const browser: ICefBrowser);
+    procedure doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus; error_code: integer; const error_string: ustring);
     procedure doOnDocumentAvailableInMainFrame(const browser: ICefBrowser);
 
     // ICefResourceRequestHandler
@@ -410,7 +413,7 @@ type
     procedure doOnPopupShow(const browser: ICefBrowser; show: Boolean);
     procedure doOnPopupSize(const browser: ICefBrowser; const rect: PCefRect);
     procedure doOnPaint(const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
-    procedure doOnAcceleratedPaint(const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer);
+    procedure doOnAcceleratedPaint(const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const info: PCefAcceleratedPaintInfo);
     procedure doGetTouchHandleSize(const browser: ICefBrowser; orientation: TCefHorizontalAlignment; var size: TCefSize);
     procedure doOnTouchHandleStateChanged(const browser: ICefBrowser; const state: TCefTouchHandleState);
     function  doOnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean;
@@ -594,6 +597,7 @@ type
     procedure doOnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
     procedure doOnFocus(const view: ICefView);
     procedure doOnBlur(const view: ICefView);
+    procedure doOnThemeChanged(const view: ICefView);
 
     // Custom
     procedure doCreateCustomView;
@@ -659,6 +663,7 @@ type
     procedure doOnWindowDestroyed(const window_: ICefWindow);
     procedure doOnWindowActivationChanged(const window_: ICefWindow; active: boolean);
     procedure doOnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
+    procedure doOnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
     procedure doOnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
     procedure doOnIsWindowModalDialog(const window_: ICefWindow; var aResult : boolean);
     procedure doOnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
@@ -666,13 +671,14 @@ type
     procedure doOnIsFrameless(const window_: ICefWindow; var aResult : boolean);
     procedure doOnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
     procedure doOnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
+    procedure doOnAcceptsFirstMouse(const window_: ICefWindow; var aResult: TCefState);
     procedure doOnCanResize(const window_: ICefWindow; var aResult : boolean);
     procedure doOnCanMaximize(const window_: ICefWindow; var aResult : boolean);
     procedure doOnCanMinimize(const window_: ICefWindow; var aResult : boolean);
     procedure doOnCanClose(const window_: ICefWindow; var aResult : boolean);
     procedure doOnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
     procedure doOnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
-    procedure doOnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+    procedure doOnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
   end;
 
   {*
@@ -1349,6 +1355,17 @@ type
     /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/app/chrome_command_ids.h">The command_id values are also available in chrome/app/chrome_command_ids.h</see></para>
     /// </remarks>
     procedure ExecuteChromeCommand(command_id: integer; disposition: TCefWindowOpenDisposition);
+    /// <summary>
+    /// Returns true (1) if the render process associated with this browser is
+    /// currently unresponsive as indicated by a lack of input event processing
+    /// for at least 15 seconds. To receive associated state change notifications
+    /// and optionally handle an unresponsive render process implement
+    /// ICefRequestHandler.OnRenderProcessUnresponsive.
+    /// </summary>
+    /// <remarks>
+    /// <para>This function can only be called on the CEF UI thread.</para>
+    /// </remarks>
+    function IsRenderProcessUnresponsive : boolean;
     /// <summary>
     /// Returns the hosted browser object.
     /// </summary>
@@ -6758,10 +6775,40 @@ type
     /// </summary>
     procedure OnRenderViewReady(const browser: ICefBrowser);
     /// <summary>
-    /// Called on the browser process UI thread when the render process terminates
-    /// unexpectedly. |status| indicates how the process terminated.
+    /// Called on the browser process UI thread when the render process is
+    /// unresponsive as indicated by a lack of input event processing for at least
+    /// 15 seconds. Return false (0) for the default behavior which is an
+    /// indefinite wait with the Alloy runtime or display of the "Page
+    /// unresponsive" dialog with the Chrome runtime. Return true (1) and don't
+    /// execute the callback for an indefinite wait without display of the Chrome
+    /// runtime dialog. Return true (1) and call
+    /// ICefUnresponsiveProcessCallback.Wait either in this function or at a
+    /// later time to reset the wait timer, potentially triggering another call to
+    /// this function if the process remains unresponsive. Return true (1) and
+    /// call ICefUnresponsiveProcessCallback.Terminate either in this
+    /// function or at a later time to terminate the unresponsive process,
+    /// resulting in a call to OnRenderProcessTerminated.
+    /// OnRenderProcessResponsive will be called if the process becomes responsive
+    /// after this function is called. This functionality depends on the hang
+    /// monitor which can be disabled by passing the `--disable-hang-monitor`
+    /// command-line flag or setting GlobalCEFApp.DisableHangMonitor to True.
     /// </summary>
-    procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
+    function  OnRenderProcessUnresponsive(const browser: ICefBrowser; const callback: ICefUnresponsiveProcessCallback): boolean;
+    /// <summary>
+    /// Called on the browser process UI thread when the render process becomes
+    /// responsive after previously being unresponsive. See documentation on
+    /// OnRenderProcessUnresponsive.
+    /// </summary>
+    procedure OnRenderProcessResponsive(const browser: ICefBrowser);
+    /// <summary>
+    /// Called on the browser process UI thread when the render process terminates
+    /// unexpectedly. |status| indicates how the process terminated. |error_code|
+    /// and |error_string| represent the error that would be displayed in Chrome's
+    /// "Aw, Snap!" view. Possible |error_code| values include TCefResultCode
+    /// non-normal exit values and platform-specific crash values (for example, a
+    /// Posix signal or Windows hardware exception).
+    /// </summary>
+    procedure OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus; error_code: integer; const error_string: ustring);
     /// <summary>
     /// Called on the browser process UI thread when the window.document object of
     /// the main frame has been created.
@@ -7403,15 +7450,23 @@ type
     /// </summary>
     procedure OnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer);
     /// <summary>
-    /// Called when an element has been rendered to the shared texture handle.
+    /// <para>Called when an element has been rendered to the shared texture handle.
     /// |type| indicates whether the element is the view or the popup widget.
     /// |dirtyRects| contains the set of rectangles in pixel coordinates that need
-    /// to be repainted. |shared_handle| is the handle for a D3D11 Texture2D that
-    /// can be accessed via ID3D11Device using the OpenSharedResource function.
-    /// This function is only called when TCefWindowInfo.shared_texture_enabled
-    /// is set to true (1), and is currently only supported on Windows.
+    /// to be repainted. |info| contains the shared handle; on Windows it is a
+    /// HANDLE to a texture that can be opened with D3D11 OpenSharedResource, on
+    /// macOS it is an IOSurface pointer that can be opened with Metal or OpenGL,
+    /// and on Linux it contains several planes, each with an fd to the underlying
+    /// system native buffer.</para>
+    /// <para>The underlying implementation uses a pool to deliver frames. As a result,
+    /// the handle may differ every frame depending on how many frames are in-
+    /// progress. The handle's resource cannot be cached and cannot be accessed
+    /// outside of this callback. It should be reopened each time this callback is
+    /// executed and the contents should be copied to a texture owned by the
+    /// client application. The contents of |info| will be released back to the
+    /// pool after this callback returns.</para>
     /// </summary>
-    procedure OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer);
+    procedure OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const info: PCefAcceleratedPaintInfo);
     /// <summary>
     /// Called to retrieve the size of the touch handle for the specified
     /// |orientation|.
@@ -7742,6 +7797,25 @@ type
     /// Cancel the file selection.
     /// </summary>
     procedure Cancel;
+  end;
+
+  /// <summary>
+  /// Callback structure for asynchronous handling of an unresponsive process.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefUnresponsiveProcessCallback">Implements TCefUnresponsiveProcessCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_unresponsive_process_callback_capi.h">CEF source file: /include/capi/cef_unresponsive_process_callback_capi.h (cef_unresponsive_process_callback_t)</see></para>
+  /// </remarks>
+  ICefUnresponsiveProcessCallback = interface(ICefBaseRefCounted)
+    ['{3E4F2B66-5AAF-4906-B946-C114D0E43C13}']
+    /// <summary>
+    /// Reset the timeout for the unresponsive process.
+    /// </summary>
+    procedure Wait;
+    /// <summary>
+    /// Terminate the unresponsive process.
+    /// </summary>
+    procedure Terminate;
   end;
 
   /// <summary>
@@ -8273,16 +8347,54 @@ type
     /// </summary>
     procedure SetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; value: TCefContentSettingValues);
     /// <summary>
+    /// Sets the Chrome color scheme for all browsers that share this request
+    /// context. |variant| values of SYSTEM, LIGHT and DARK change the underlying
+    /// color mode (e.g. light vs dark). Other |variant| values determine how
+    /// |user_color| will be applied in the current color mode. If |user_color| is
+    /// transparent (0) the default color will be used.
+    /// </summary>
+    procedure SetChromeColorScheme(variant: TCefColorVariant; user_color: TCefColor);
+    /// <summary>
+    /// Returns the current Chrome color scheme mode (SYSTEM, LIGHT or DARK). Must
+    /// be called on the browser process UI thread.
+    /// </summary>
+    function GetChromeColorSchemeMode: TCefColorVariant;
+    /// <summary>
+    /// Returns the current Chrome color scheme color, or transparent (0) for the
+    /// default color. Must be called on the browser process UI thread.
+    /// </summary>
+    function GetChromeColorSchemeColor: TCefColor;
+    /// <summary>
+    /// Returns the current Chrome color scheme variant. Must be called on the
+    /// browser process UI thread.
+    /// </summary>
+    function GetChromeColorSchemeVariant: TCefColorVariant;
+    /// <summary>
     /// Returns the cache path for this object. If NULL an "incognito mode" in-
     /// memory cache is being used.
     /// </summary>
-    property  CachePath        : ustring         read GetCachePath;
+    property  CachePath                : ustring          read GetCachePath;
     /// <summary>
     /// Returns true (1) if this object is the global context. The global context
     /// is used by default when creating a browser or URL request with a NULL
     /// context argument.
     /// </summary>
-    property  IsGlobalContext  : boolean         read IsGlobal;
+    property  IsGlobalContext          : boolean          read IsGlobal;
+    /// <summary>
+    /// Returns the current Chrome color scheme mode (SYSTEM, LIGHT or DARK). Must
+    /// be called on the browser process UI thread.
+    /// </summary>
+    property  ChromeColorSchemeMode    : TCefColorVariant read GetChromeColorSchemeMode;
+    /// <summary>
+    /// Returns the current Chrome color scheme color, or transparent (0) for the
+    /// default color. Must be called on the browser process UI thread.
+    /// </summary>
+    property  ChromeColorSchemeColor   : TCefColor        read GetChromeColorSchemeColor;
+    /// <summary>
+    /// Returns the current Chrome color scheme variant. Must be called on the
+    /// browser process UI thread.
+    /// </summary>
+    property  ChromeColorSchemeVariant : TCefColorVariant read GetChromeColorSchemeVariant;
   end;
 
   /// <summary>
@@ -9889,13 +10001,25 @@ type
     /// </summary>
     procedure RequestFocus;
     /// <summary>
-    /// Sets the background color for this View.
+    /// Sets the background color for this View. The background color will be
+    /// automatically reset when ICefViewDelegate.OnThemeChanged is called.
     /// </summary>
     procedure SetBackgroundColor(color: TCefColor);
     /// <summary>
-    /// Returns the background color for this View.
+    /// Returns the background color for this View. If the background color is
+    /// unset then the current `GetThemeColor(CEF_ColorPrimaryBackground)` value
+    /// will be returned. If this View belongs to an overlay (created with
+    /// ICefWindow.AddOverlayView), and the background color is unset, then a
+    /// value of transparent (0) will be returned.
     /// </summary>
     function  GetBackgroundColor : TCefColor;
+    /// <summary>
+    /// Returns the current theme color associated with |color_id|, or the
+    /// placeholder color (red) if unset. See cef_color_ids.h for standard ID
+    /// values. Standard colors can be overridden and custom colors can be added
+    /// using ICefWindow.SetThemeColor.
+    /// </summary>
+    function  GetThemeColor(color_id: integer): TCefColor;
     /// <summary>
     /// Convert |point| from this View's coordinate system to DIP screen
     /// coordinates. This View must belong to a Window when calling this function.
@@ -10012,7 +10136,11 @@ type
     /// </summary>
     property AccessibilityFocusable : boolean          read IsAccessibilityFocusable;
     /// <summary>
-    /// Returns the background color for this View.
+    /// Returns the background color for this View. If the background color is
+    /// unset then the current `GetThemeColor(CEF_ColorPrimaryBackground)` value
+    /// will be returned. If this View belongs to an overlay (created with
+    /// ICefWindow.AddOverlayView), and the background color is unset, then a
+    /// value of transparent (0) will be returned.
     /// </summary>
     property BackgroundColor        : TCefColor        read GetBackgroundColor         write SetBackgroundColor;
     /// <summary>
@@ -10115,6 +10243,24 @@ type
     /// Called when |view| loses focus.
     /// </summary>
     procedure OnBlur(const view: ICefView);
+    /// <summary>
+    /// <para>Called when the theme for |view| has changed, after the new theme colors
+    /// have already been applied. Views are notified via the component hierarchy
+    /// in depth-first reverse order (children before parents).</para>
+    /// <para>This will be called in the following cases:</para>
+    /// <code>
+    /// 1. When |view|, or a parent of |view|, is added to a Window.
+    /// 2. When the native/OS or Chrome theme changes for the Window that contains
+    ///    |view|. See ICefWindowDelegate.OnThemeColorsChanged documentation.
+    /// 3. When the client explicitly calls ICefWindow.ThemeChanged on the
+    ///    Window that contains |view|.
+    /// </code>
+    /// <para>Optionally use this callback to override the new per-View theme colors by
+    /// calling ICefView.SetBackgroundColor or the appropriate component-
+    /// specific function. See ICefWindow.SetThemeColor documentation for how
+    /// to customize additional Window theme colors.</para>
+    /// <summary>
+    procedure OnThemeChanged(const view: ICefView);
   end;
 
   /// <summary>
@@ -11008,6 +11154,38 @@ type
     /// </summary>
     procedure RemoveAllAccelerators;
     /// <summary>
+    /// <para>Override a standard theme color or add a custom color associated with
+    /// |color_id|. See cef_color_ids.h for standard ID values. Recommended usage
+    /// is as follows:</para>
+    /// <code>
+    /// 1. Customize the default native/OS theme by calling SetThemeColor before
+    ///    showing the first Window. When done setting colors call
+    ///    ICefWindow.ThemeChanged to trigger ICefViewDelegate.OnThemeChanged
+    ///    notifications.
+    /// 2. Customize the current native/OS or Chrome theme after it changes by
+    ///    calling SetThemeColor from the ICefWindowDelegate.OnThemeColorsChanged
+    ///    callback. ICefViewDelegate.OnThemeChanged notifications will then be
+    ///    triggered automatically.
+    /// </code>
+    /// <para>The configured color will be available immediately via
+    /// ICefView.GetThemeColor and will be applied to each View in this
+    /// Window's component hierarchy when ICefViewDelegate.OnThemeChanged is
+    /// called. See OnThemeColorsChanged documentation for additional details.</para>
+    /// <para>Clients wishing to add custom colors should use |color_id| values >=
+    /// CEF_ChromeColorsEnd.</para>
+    /// </summary>
+    procedure SetThemeColor(color_id: integer; color: TCefColor);
+    /// <summary>
+    /// <para>Trigger cef_view_delegate_t::OnThemeChanged callbacks for each View in
+    /// this Window's component hierarchy. Unlike a native/OS or Chrome theme
+    /// change this function does not reset theme colors to standard values and
+    /// does not result in a call to ICefWindowDelegate.OnThemeColorsChanged.</para>
+    /// <para>Do not call this function from ICefWindowDelegate.OnThemeColorsChanged
+    /// or ICefViewDelegate.OnThemeChanged.</para>
+    /// </summary>
+    procedure ThemeChanged;
+
+    /// <summary>
     /// Get the Window title.
     /// </summary>
     property Title                    : ustring            read GetTitle                     write SetTitle;
@@ -11131,6 +11309,16 @@ type
     /// </summary>
     procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
     /// <summary>
+    /// <para>Return whether the view should accept the initial mouse-down event,
+    /// allowing it to respond to click-through behavior. If STATE_ENABLED is
+    /// returned, the view will be sent a mouseDown: message for an initial mouse-
+    /// down event, activating the view with one click, instead of clicking first
+    /// to make the window active and then clicking the view.</para>
+    /// <para>This function is only supported on macOS. For more details, refer to the
+    /// documentation of acceptsFirstMouse.</para>
+    /// </summary>
+    procedure OnAcceptsFirstMouse(const window_: ICefWindow; var aResult: TCefState);
+    /// <summary>
     /// Return true (1) if |window| can be resized.
     /// </summary>
     procedure OnCanResize(const window_: ICefWindow; var aResult : boolean);
@@ -11159,6 +11347,35 @@ type
     /// true (1) if the keyboard event was handled or false (0) otherwise.
     /// </summary>
     procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+    /// <summary>
+    /// <para>Called after the native/OS or Chrome theme for |window| has changed.
+    /// |chrome_theme| will be true (1) if the notification is for a Chrome theme.</para>
+    /// <para>Native/OS theme colors are configured globally and do not need to be
+    /// customized for each Window individually. An example of a native/OS theme
+    /// change that triggers this callback is when the user switches between dark
+    /// and light mode during application lifespan. Native/OS theme changes can be
+    /// disabled by passing the `--force-dark-mode` or `--force-light-mode`
+    /// command-line flag.</para>
+    /// <para>Chrome theme colors will be applied and this callback will be triggered
+    /// if/when a BrowserView is added to the Window's component hierarchy. Chrome
+    /// theme colors can be configured on a per-RequestContext basis using
+    /// ICefRequestContext.SetChromeColorScheme or (Chrome runtime only) by
+    /// visiting chrome://settings/manageProfile. Any theme changes using those
+    /// mechanisms will also trigger this callback. Chrome theme colors will be
+    /// persisted and restored from disk cache with the Chrome runtime, and with
+    /// the Alloy runtime if persist_user_preferences is set to true (1) via
+    /// CefSettings or ICefRequestContext Settings.</para>
+    /// <para>This callback is not triggered on Window creation so clients that wish to
+    /// customize the initial native/OS theme must call
+    /// ICefWindow.SetThemeColor and ICefWindow.ThemeChanged before showing
+    /// the first Window.</para>
+    /// <para>Theme colors will be reset to standard values before this callback is
+    /// called for the first affected Window. Call ICefWindow.SetThemeColor
+    /// from inside this callback to override a standard color or add a custom
+    /// color. ICefViewDelegate.OnThemeChanged will be called after this
+    /// callback for the complete |window| component hierarchy.</para>
+    /// </summary>
+    procedure OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
   end;
 
 implementation

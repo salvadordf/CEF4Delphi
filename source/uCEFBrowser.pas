@@ -120,6 +120,7 @@ type
       procedure ExitFullscreen(will_cause_resize: boolean);
       function  CanExecuteChromeCommand(command_id: integer): boolean;
       procedure ExecuteChromeCommand(command_id: integer; disposition: TCefWindowOpenDisposition);
+      function  IsRenderProcessUnresponsive : boolean;
 
     public
       class function UnWrap(data: Pointer): ICefBrowserHost;
@@ -371,6 +372,11 @@ end;
 procedure TCefBrowserHostRef.ExecuteChromeCommand(command_id: integer; disposition: TCefWindowOpenDisposition);
 begin
   PCefBrowserHost(FData)^.execute_chrome_command(PCefBrowserHost(FData), command_id, disposition);
+end;
+
+function TCefBrowserHostRef.IsRenderProcessUnresponsive : boolean;
+begin
+  Result := PCefBrowserHost(FData)^.is_render_process_unresponsive(PCefBrowserHost(FData)) <> 0;
 end;
 
 procedure TCefBrowserHostRef.DragTargetDragEnter(const dragData: ICefDragData; const event: PCefMouseEvent; allowedOps: TCefDragOperations);

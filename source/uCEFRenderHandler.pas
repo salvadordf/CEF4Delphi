@@ -25,7 +25,7 @@ type
       procedure OnPopupShow(const browser: ICefBrowser; show: Boolean); virtual;
       procedure OnPopupSize(const browser: ICefBrowser; const rect: PCefRect); virtual;
       procedure OnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); virtual;
-      procedure OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer); virtual;
+      procedure OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const info: PCefAcceleratedPaintInfo); virtual;
       procedure GetTouchHandleSize(const browser: ICefBrowser; orientation: TCefHorizontalAlignment; var size: TCefSize); virtual;
       procedure OnTouchHandleStateChanged(const browser: ICefBrowser; const state: TCefTouchHandleState); virtual;
       function  OnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean; virtual;
@@ -52,7 +52,7 @@ type
       procedure OnPopupShow(const browser: ICefBrowser; show: Boolean); override;
       procedure OnPopupSize(const browser: ICefBrowser; const rect: PCefRect); override;
       procedure OnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer); override;
-      procedure OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer); override;
+      procedure OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const info: PCefAcceleratedPaintInfo); override;
       procedure GetTouchHandleSize(const browser: ICefBrowser; orientation: TCefHorizontalAlignment; var size: TCefSize); override;
       procedure OnTouchHandleStateChanged(const browser: ICefBrowser; const state: TCefTouchHandleState); override;
       function  GetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean; override;
@@ -215,7 +215,7 @@ procedure cef_render_handler_on_accelerated_paint(      self             : PCefR
                                                         kind             : TCefPaintElementType;
                                                         dirtyRectsCount  : NativeUInt;
                                                   const dirtyRects       : PCefRectArray;
-                                                        shared_handle    : Pointer); stdcall;
+                                                  const info             : PCefAcceleratedPaintInfo); stdcall;
 var
   TempObject : TObject;
 begin
@@ -226,7 +226,7 @@ begin
                                                         kind,
                                                         dirtyRectsCount,
                                                         dirtyRects,
-                                                        shared_handle);
+                                                        info);
 end;
 
 function cef_render_handler_start_dragging(self        : PCefRenderHandler;
@@ -412,7 +412,7 @@ begin
   //
 end;
 
-procedure TCefRenderHandlerOwn.OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer);
+procedure TCefRenderHandlerOwn.OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const info: PCefAcceleratedPaintInfo);
 begin
   //
 end;
@@ -553,10 +553,10 @@ procedure TCustomRenderHandler.OnAcceleratedPaint(const browser         : ICefBr
                                                         kind            : TCefPaintElementType;
                                                         dirtyRectsCount : NativeUInt;
                                                   const dirtyRects      : PCefRectArray;
-                                                        shared_handle   : Pointer);
+                                                  const info            : PCefAcceleratedPaintInfo);
 begin
   if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doOnAcceleratedPaint(browser, kind, dirtyRectsCount, dirtyRects, shared_handle);
+    IChromiumEvents(FEvents).doOnAcceleratedPaint(browser, kind, dirtyRectsCount, dirtyRects, info);
 end;
 
 procedure TCustomRenderHandler.GetTouchHandleSize(const browser: ICefBrowser; orientation: TCefHorizontalAlignment; var size: TCefSize);

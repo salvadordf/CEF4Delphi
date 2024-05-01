@@ -80,6 +80,7 @@ type
       procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); override;
       procedure OnFocus(const view: ICefView); override;
       procedure OnBlur(const view: ICefView); override;
+      procedure OnThemeChanged(const view: ICefView); override;
 
       // ICefTextfieldDelegate
       procedure OnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean); override;
@@ -309,6 +310,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomTextfieldDelegate.OnBlur', e) then raise;
+  end;
+end;
+
+procedure TCustomTextfieldDelegate.OnThemeChanged(const view: ICefView);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefTextfieldDelegateEvents(FEvents).doOnThemeChanged(view);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomTextfieldDelegate.OnThemeChanged', e) then raise;
   end;
 end;
 
