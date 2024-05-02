@@ -14,6 +14,7 @@
       <Title Value="MobileBrowser"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
     </General>
     <BuildModes>
       <Item Name="Default" Default="True"/>

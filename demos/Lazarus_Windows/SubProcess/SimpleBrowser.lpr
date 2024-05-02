@@ -18,6 +18,8 @@ uses
 // {$SetPEFlags $20}
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
+{$R *.res}
+
 begin
   // This demo has the GlobalCEFApp creation, initialization and destruction in uCEFLoader.pas
   // Read the code comments in uCEFLoader.pas for more details.

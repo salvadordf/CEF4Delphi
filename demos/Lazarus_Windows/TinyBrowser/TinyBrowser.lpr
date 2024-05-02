@@ -9,6 +9,8 @@ uses
 
 {.$R *.res}
 
+{$R *.res}
+
 begin
   CreateGlobalCEFApp;
 

@@ -15,6 +15,8 @@ uses
 // CEF needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags $20}
 
+{$R *.res}
+
 begin
   // GlobalCEFApp creation and initialization moved to a different unit to fix the memory leak described in the bug #89
   // https://github.com/salvadordf/CEF4Delphi/issues/89

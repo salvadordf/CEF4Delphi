@@ -17,6 +17,8 @@ uses
 
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
+{$R *.res}
+
 begin
   // GlobalCEFApp creation and initialization moved to a different unit to fix the memory leak described in the bug #89
   // https://github.com/salvadordf/CEF4Delphi/issues/89

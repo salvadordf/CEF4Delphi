@@ -15,6 +15,7 @@
       <Title Value="SimpleBrowser"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
     </General>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>

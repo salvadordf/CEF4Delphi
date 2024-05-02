@@ -15,6 +15,8 @@ uses
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 
+{$R *.res}
+
 begin
   CreateGlobalCEFApp;
 

@@ -30,6 +30,8 @@ begin
   context.Global.SetValueByKey('myval', TempValue, V8_PROPERTY_ATTRIBUTE_NONE);
 end;
 
+{$R *.res}
+
 begin
   GlobalCEFApp                  := TCefApplicationCore.Create;
   GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;      

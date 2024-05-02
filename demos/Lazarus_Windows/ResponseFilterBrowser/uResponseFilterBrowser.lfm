@@ -1,7 +1,7 @@
 object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
-  Left = 0
+  Left = 328
   Height = 710
-  Top = 0
+  Top = 183
   Width = 1054
   Caption = 'Initializing browser. Please wait...'
   ClientHeight = 710
@@ -15,7 +15,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.0.0.3'
+  LCLVersion = '3.2.0.0'
   object Splitter1: TSplitter
     Cursor = crVSplit
     Left = 0
@@ -39,7 +39,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     TabOrder = 0
     object AddressEdt: TEdit
       Left = 3
-      Height = 21
+      Height = 22
       Top = 3
       Width = 735
       Anchors = [akTop, akLeft, akRight]
@@ -69,7 +69,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       end
       object RscNameEdt: TEdit
         Left = 174
-        Height = 21
+        Height = 22
         Top = 0
         Width = 122
         TabOrder = 1
@@ -77,7 +77,7 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       end
       object CopyScriptBtn: TRadioButton
         Left = 72
-        Height = 17
+        Height = 18
         Top = 0
         Width = 79
         Caption = 'Copy script :'
@@ -87,15 +87,15 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
       end
       object ReplaceLogoBtn: TRadioButton
         Left = 72
-        Height = 17
+        Height = 18
         Top = 19
-        Width = 79
+        Width = 81
         Caption = 'Replace logo'
         TabOrder = 3
       end
       object ReplaceTextBtn: TRadioButton
         Left = 72
-        Height = 17
+        Height = 18
         Top = 38
         Width = 79
         Caption = 'Replace text'

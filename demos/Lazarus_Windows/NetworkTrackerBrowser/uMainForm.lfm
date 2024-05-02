@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 0
+  Left = 220
   Height = 624
-  Top = 0
+  Top = 164
   Width = 1038
   Caption = 'Initializing browser. Please wait...'
   ClientHeight = 624

@@ -21,6 +21,8 @@ uses
   {$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
 {$ENDIF}
 
+{$R *.res}
+
 begin
   CreateGlobalCEFApp;
 

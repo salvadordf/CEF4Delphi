@@ -13,6 +13,8 @@ uses
   {$SetPEFlags $20}
 {$ENDIF}
 
+{$R *.res}
+
 begin
   GlobalCEFApp                            := TCefApplicationCore.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;

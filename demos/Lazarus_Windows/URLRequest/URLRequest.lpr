@@ -21,6 +21,8 @@ uses
 // If you don't add this flag the rederer process will crash when you try to load large images.
 {$SetPEFlags $20}
 
+{$R *.res}
+
 begin
   CreateGlobalCEFApp;
 

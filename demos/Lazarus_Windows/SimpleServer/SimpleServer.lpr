@@ -15,6 +15,8 @@ uses
 
 {.$R *.res}
 
+{$R *.res}
+
 begin
   GlobalCEFApp := TCefApplication.Create;    
   GlobalCEFApp.SetCurrentDir       := True;

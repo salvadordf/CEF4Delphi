@@ -1,7 +1,7 @@
 object WebpageSnapshotFrm: TWebpageSnapshotFrm
-  Left = 0
+  Left = 401
   Height = 486
-  Top = 0
+  Top = 249
   Width = 711
   Caption = 'Web page snapshot'
   ClientHeight = 486
@@ -13,7 +13,7 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '2.0.10.0'
+  LCLVersion = '3.2.0.0'
   object Image1: TImage
     Left = 0
     Height = 438
@@ -44,6 +44,7 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
     BevelOuter = bvNone
     ClientHeight = 25
     ClientWidth = 711
+    ParentBackground = False
     TabOrder = 1
     object GoBtn: TButton
       Left = 636
@@ -52,8 +53,8 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
       Width = 75
       Align = alRight
       Caption = 'Go'
-      OnClick = GoBtnClick
       TabOrder = 0
+      OnClick = GoBtnClick
     end
     object AddressEdt: TEdit
       Left = 0

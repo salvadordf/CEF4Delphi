@@ -12,6 +12,8 @@ uses
 // to use up to 3GB of RAM.
 {$SetPEFlags $20}
 
+{$R *.res}
+
 begin
   GlobalCEFApp                  := TCefApplicationCore.Create;  
   GlobalCEFApp.SetCurrentDir    := True;

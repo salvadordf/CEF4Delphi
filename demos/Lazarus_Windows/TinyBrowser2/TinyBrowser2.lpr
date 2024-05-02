@@ -14,6 +14,8 @@ uses
   {$SetPEFlags $20}
 {$ENDIF}
 
+{$R *.res}
+
 begin
   CreateGlobalCEFApp;
 
