@@ -118,11 +118,11 @@ object MiniBrowserFrm: TMiniBrowserFrm
       TabOrder = 1
       object URLCbx: TComboBox
         Left = 0
-        Height = 21
+        Height = 22
         Top = 3
         Width = 978
         Anchors = [akTop, akLeft, akRight, akBottom]
-        ItemHeight = 13
+        ItemHeight = 14
         ItemIndex = 0
         Items.Strings = (
           'https://www.google.com'
