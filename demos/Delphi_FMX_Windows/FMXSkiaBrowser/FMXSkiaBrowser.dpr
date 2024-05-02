@@ -6,7 +6,7 @@ uses
   {$ENDIF }
   FMX.Forms,
   FMX.Types,
-  Skia.FMX,     // This unit comes from the Skia4Delphi project
+  FMX.Skia,     // This unit comes from the Skia4Delphi project
   uCEFApplication,
   uCEFFMXWorkScheduler,
   uMainForm in 'uMainForm.pas' {MainForm},

@@ -12,7 +12,7 @@ uses
   uCEFFMXChromium, uCEFFMXBufferPanel, uCEFFMXWorkScheduler,
   uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFChromiumCore,
   // The following units come from the Skia4Delphi project
-  Skia, Skia.FMX, Skia.FMX.Graphics;
+  Skia, FMX.Skia;
 
 
 type
