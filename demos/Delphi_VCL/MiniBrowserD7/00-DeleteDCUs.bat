@@ -1,6 +1,5 @@
 del /s /q *.dcu
 del /s /q *.exe
-del /s /q *.res
 del /s /q *.rsm
 del /s /q *.log
 del /s /q *.dsk

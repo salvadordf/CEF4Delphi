@@ -9,6 +9,9 @@ uses
 
 
 {$R *.res}
+{$R 'Win7UAC.res'}
+// Manifest made by Wellington Torrejais da Silva
+// https://gist.github.com/hotsoft-desenv2/5f722f1c44ed3abfc4f3d5d62ed644eb
 
 // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
 {$SetPEFlags $20}
