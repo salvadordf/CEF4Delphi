@@ -163,6 +163,8 @@ type
       {$ENDIF}
       {$IFDEF DELPHI18_UP}
       property TabStop;
+      {$ENDIF}
+      {$IFDEF DELPHI21_UP}
       property Size;
       {$ENDIF}
       {$IFDEF DELPHI25_UP}
