@@ -24,7 +24,7 @@ uses
 {$IFDEF LINUX}
 procedure GdkEventKeyToCEFKeyEvent(GdkEvent: PGdkEventKey; var aCEFKeyEvent : TCEFKeyEvent);
 function  KeyboardCodeFromXKeysym(keysym : uint32) : integer;
-{$IFDEF LCLGTK2 or (LCLGTK3 and (LCL_FULLVERSION<3000000))}
+{$IFDEF LINUXFMX or LCLGTK2 or (LCLGTK3 and (LCL_FULLVERSION<3000000))}
 function  GetCefStateModifiers(state : uint32) : integer;
 {$ENDIF}
 {$IFDEF LCLGTK3 and (LCL_FULLVERSION>3000000)}
@@ -453,7 +453,7 @@ begin
   end;
 end;
 
-{$IFDEF LCLGTK2 or (LCLGTK3 and (LCL_FULLVERSION<3000000))}
+{$IFDEF LINUXFMX or LCLGTK2 or (LCLGTK3 and (LCL_FULLVERSION<3000000))}
 function GetCefStateModifiers(state : uint32) : integer;
 begin
   Result := EVENTFLAG_NONE;
