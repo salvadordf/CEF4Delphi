@@ -62,7 +62,7 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCustomRenderHandler.html#OnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-Pointer-">OnAcceleratedPaint</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; kind: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; shared_handle: Pointer); override;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRenderHandler.TCustomRenderHandler.html#OnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-PCefAcceleratedPaintInfo-">OnAcceleratedPaint</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; kind: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; const info: <a href="uCEFTypes.html#PCefAcceleratedPaintInfo">PCefAcceleratedPaintInfo</a>); override;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
@@ -197,11 +197,17 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><span id="OnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-Pointer-"></span><code>procedure <strong>OnAcceleratedPaint</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; kind: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; shared_handle: Pointer); override;</code></td>
+<td class="itemcode"><span id="OnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-PCefAcceleratedPaintInfo-"></span><code>procedure <strong>OnAcceleratedPaint</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; kind: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; const info: <a href="uCEFTypes.html#PCefAcceleratedPaintInfo">PCefAcceleratedPaintInfo</a>); override;</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-Pointer-">ICefRenderHandler.OnAcceleratedPaint</a>.</p><p>
- Called when an element has been rendered to the shared texture handle. |type| indicates whether the element is the view or the popup widget. |dirtyRects| contains the set of rectangles in pixel coordinates that need to be repainted. |shared_handle| is the handle for a D3D11 Texture2D that can be accessed via ID3D11Device using the OpenSharedResource function. This function is only called when TCefWindowInfo.shared_texture_enabled is set to true (1), and is currently only supported on Windows. </p>
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-PCefAcceleratedPaintInfo-">ICefRenderHandler.OnAcceleratedPaint</a>.</p><p>
+
+
+<p>Called when an element has been rendered to the shared texture handle. |type| indicates whether the element is the view or the popup widget. |dirtyRects| contains the set of rectangles in pixel coordinates that need to be repainted. |info| contains the shared handle; on Windows it is a HANDLE to a texture that can be opened with D3D11 OpenSharedResource, on macOS it is an IOSurface pointer that can be opened with Metal or OpenGL, and on Linux it contains several planes, each with an fd to the underlying system native buffer.
+
+<p>The underlying implementation uses a pool to deliver frames. As a result, the handle may differ every frame depending on how many frames are in- progress. The handle's resource cannot be cached and cannot be accessed outside of this callback. It should be reopened each time this callback is executed and the contents should be copied to a texture owned by the client application. The contents of |info| will be released back to the pool after this callback returns.
+
+<p></p>
 </td></tr>
 </table>
 <table class="detail wide_list">

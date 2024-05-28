@@ -108,6 +108,7 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
+  GlobalCEFApp.ChromeRuntime        := True;
   //GlobalCEFApp.LogFile          := 'cef.log';
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
@@ -131,6 +132,10 @@ begin
           FClosingMainForm := True;
           Visible          := False;
           Chromium1.CloseBrowser(True);
+
+          // Workaround for the missing TChormium.OnClose event when "Chrome runtime" is enabled.
+          if GlobalCEFApp.ChromeRuntime then
+            CEFWindowParent1.Free;
         end;
     end;
 end;

@@ -186,6 +186,18 @@
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#RemoveAllAccelerators">RemoveAllAccelerators</a></strong>;</code></td>
 </tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#SetThemeColor-integer-TCefColor-">SetThemeColor</a></strong>(color_id: integer; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindow.html#ThemeChanged">ThemeChanged</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefWindow.html#GetRuntimeStyle">GetRuntimeStyle</a></strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
+</tr>
 </table>
 <span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
 <table class="summary wide_list">
@@ -212,6 +224,10 @@
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefWindow.html#WindowHandle">WindowHandle</a></strong>             : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>   read <a href="uCEFInterfaces.ICefWindow.html#GetWindowHandle">GetWindowHandle</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefWindow.html#RuntimeStyle">RuntimeStyle</a></strong>             : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>   read <a href="uCEFInterfaces.ICefWindow.html#GetRuntimeStyle">GetRuntimeStyle</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -613,6 +629,64 @@
  Remove all keyboard accelerators. </p>
 </td></tr>
 </table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetThemeColor-integer-TCefColor-"></span><code>procedure <strong>SetThemeColor</strong>(color_id: integer; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Override a standard theme color or add a custom color associated with |color_id|. See cef_color_ids.h for standard ID values. Recommended usage is as follows:
+
+<p></p>
+
+<pre class="preformatted">
+1. Customize the default native/OS theme by calling SetThemeColor before
+   showing the first Window. When done setting colors call
+   ICefWindow.ThemeChanged to trigger ICefViewDelegate.OnThemeChanged
+   notifications.
+2. Customize the current native/OS or Chrome theme after it changes by
+   calling SetThemeColor from the ICefWindowDelegate.OnThemeColorsChanged
+   callback. ICefViewDelegate.OnThemeChanged notifications will then be
+   triggered automatically.</pre>
+
+<p>
+
+<p>The configured color will be available immediately via ICefView.GetThemeColor and will be applied to each View in this Window's component hierarchy when ICefViewDelegate.OnThemeChanged is called. See OnThemeColorsChanged documentation for additional details.
+
+<p>Clients wishing to add custom colors should use |color_id| values &gt;= CEF_ChromeColorsEnd.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ThemeChanged"></span><code>procedure <strong>ThemeChanged</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Trigger ICefViewDelegate.OnThemeChanged callbacks for each View in this Window's component hierarchy. Unlike a native/OS or Chrome theme change this function does not reset theme colors to standard values and does not result in a call to ICefWindowDelegate.OnThemeColorsChanged.
+
+<p>Do not call this function from ICefWindowDelegate.OnThemeColorsChanged or ICefViewDelegate.OnThemeChanged.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetRuntimeStyle"></span><code>function <strong>GetRuntimeStyle</strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the runtime style for this Window (ALLOY or CHROME). See TCefRuntimeStyle documentation for details. </p>
+</td></tr>
+</table>
 <h3 class="detail">Properties</h3>
 <table class="detail wide_list">
 <tr class="list">
@@ -672,6 +746,16 @@
 <tr><td colspan="2">
 <p>
  Retrieve the platform window handle for this Window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RuntimeStyle"></span><code>property <strong>RuntimeStyle</strong>             : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>   read <a href="uCEFInterfaces.ICefWindow.html#GetRuntimeStyle">GetRuntimeStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the runtime style for this Window (ALLOY or CHROME). See TCefRuntimeStyle documentation for details. </p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>

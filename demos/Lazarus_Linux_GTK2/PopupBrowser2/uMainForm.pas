@@ -41,7 +41,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
-    procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);          
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);   
@@ -129,6 +129,8 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.OnContextInitialized := @GlobalCEFApp_OnContextInitialized;
+  GlobalCEFApp.SetCurrentDir        := True;
+  GlobalCEFApp.ChromeRuntime        := True;
 end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -149,6 +151,9 @@ begin
         begin
           FClosingMainForm := True;
           Chromium1.CloseBrowser(True);
+
+          if GlobalCEFApp.ChromeRuntime then
+            CEFLinkedWindowParent1.Free;
         end;
     end;
 end;
@@ -195,11 +200,11 @@ procedure TMainForm.Chromium1BeforePopup(Sender : TObject;
   var Result: Boolean);
 begin
   case targetDisposition of
-    WOD_NEW_FOREGROUND_TAB,
-    WOD_NEW_BACKGROUND_TAB,
-    WOD_NEW_WINDOW : Result := True;  // For simplicity, this demo blocks new tabs and new windows.
+    CEF_WOD_NEW_FOREGROUND_TAB,
+    CEF_WOD_NEW_BACKGROUND_TAB,
+    CEF_WOD_NEW_WINDOW : Result := True;  // For simplicity, this demo blocks new tabs and new windows.
 
-    WOD_NEW_POPUP  : Result := not(CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures));
+    CEF_WOD_NEW_POPUP  : Result := not(CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures));
 
     else Result := False;
   end;

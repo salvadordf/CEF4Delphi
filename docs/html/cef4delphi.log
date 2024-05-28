@@ -325,6 +325,7 @@ uCEFInterfaces.ICefUrlRequest.html
 uCEFInterfaces.ICefUrlrequestClient.html
 uCEFInterfaces.ICefEndTracingCallback.html
 uCEFInterfaces.ICefFileDialogCallback.html
+uCEFInterfaces.ICefUnresponsiveProcessCallback.html
 uCEFInterfaces.ICefDragData.html
 uCEFInterfaces.ICefDragHandler.html
 uCEFInterfaces.ICefFindHandler.html
@@ -656,6 +657,7 @@ uCEFThread.TCefThreadRef.html
 uCEFTimerWorkScheduler.html
 uCEFTimerWorkScheduler.TCEFTimerWorkScheduler.html
 uCEFTypes.html
+uCEFTypes.TCefAcceleratedPaintInfo.html
 uCEFTypes.TMyMemoryStatusEx.html
 uCEFTypes.TOSVersionInfoEx.html
 uCEFTypes.TCefStringWide.html
@@ -700,6 +702,7 @@ uCEFTypes.TCefSSLStatus.html
 uCEFTypes.TCefSelectClientCertificateCallback.html
 uCEFTypes.TCefRunContextMenuCallback.html
 uCEFTypes.TCefFileDialogCallback.html
+uCEFTypes.TCefUnresponsiveProcessCallback.html
 uCEFTypes.TCefDialogHandler.html
 uCEFTypes.TCefDisplayHandler.html
 uCEFTypes.TCefDownloadHandler.html
@@ -842,6 +845,8 @@ uCEFTypes.TCefMenuButtonPressedLock.html
 uCEFTypes.TCefMenuButtonDelegate.html
 uCEFTypes.TCefWindow.html
 uCEFTypes.TCefWindowDelegate.html
+uCEFUnresponsiveProcessCallback.html
+uCEFUnresponsiveProcessCallback.TCefUnresponsiveProcessCallbackRef.html
 uCEFUrlRequest.html
 uCEFUrlRequest.TCefUrlRequestRef.html
 uCEFUrlrequestClient.html
@@ -897,6 +902,8 @@ uCEFWindowDelegate.html
 uCEFWindowDelegate.TCefWindowDelegateRef.html
 uCEFWindowDelegate.TCefWindowDelegateOwn.html
 uCEFWindowDelegate.TCustomWindowDelegate.html
+uCEFWindowInfoWrapper.html
+uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html
 uCEFWindowParent.html
 uCEFWindowParent.TCEFWindowParent.html
 uCEFWorkScheduler.html
@@ -926,11 +933,11 @@ automated.gif
 pasdoc.css
 
 Compile time: 0 minutes, 15 seconds
-16,138	Topics
-137,730	Local links
+16,483	Topics
+140,686	Local links
 35	Internet links
 5	Graphics
 
 
-Created c:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\docs\cef4delphi.chm, 3,522,122 bytes
-Compression decreased file by 22,975,919 bytes.
+Created c:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\docs\cef4delphi.chm, 3,628,912 bytes
+Compression decreased file by 23,518,661 bytes.

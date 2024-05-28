@@ -305,6 +305,14 @@
 <td class="itemcode"><code>procedure <strong><a href="uCEFBrowser.TCefBrowserHostRef.html#ExecuteChromeCommand-integer-TCefWindowOpenDisposition-">ExecuteChromeCommand</a></strong>(command_id: integer; disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>);</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBrowser.TCefBrowserHostRef.html#IsRenderProcessUnresponsive">IsRenderProcessUnresponsive</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBrowser.TCefBrowserHostRef.html#GetRuntimeStyle">GetRuntimeStyle</a></strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFBrowser.TCefBrowserHostRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefBrowserHost.html">ICefBrowserHost</a>;</code></td>
 </tr>
@@ -952,7 +960,9 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#GetExtension">ICefBrowserHost.GetExtension</a>.</p><p>
- Returns the extension hosted in this browser or NULL if no extension is hosted. See ICefRequestContext.LoadExtension for details. </p>
+ Returns the extension hosted in this browser or NULL if no extension is hosted. See ICefRequestContext.LoadExtension for details. 
+
+<p>WARNING: This API is deprecated and will be removed in ~M127.</p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -962,7 +972,9 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#IsBackgroundHost">ICefBrowserHost.IsBackgroundHost</a>.</p><p>
- Returns true (1) if this browser is hosting an extension background script. Background hosts do not have a window and are not displayable. See ICefRequestContext.LoadExtension for details. </p>
+ Returns true (1) if this browser is hosting an extension background script. Background hosts do not have a window and are not displayable. See ICefRequestContext.LoadExtension for details. 
+
+<p>WARNING: This API is deprecated and will be removed in ~M127.</p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -1031,6 +1043,30 @@
 <p><a class="normal" href="uCEFConstants.html">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</a>
 
 <p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/app/chrome_command_ids.h&quot;&gt;The command_id values are also available in chrome/app/chrome_command_ids.h)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="IsRenderProcessUnresponsive"></span><code>function <strong>IsRenderProcessUnresponsive</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#IsRenderProcessUnresponsive">ICefBrowserHost.IsRenderProcessUnresponsive</a>.</p><p>
+ Returns true (1) if the render process associated with this browser is currently unresponsive as indicated by a lack of input event processing for at least 15 seconds. To receive associated state change notifications and optionally handle an unresponsive render process implement ICefRequestHandler.OnRenderProcessUnresponsive. 
+
+<p>This function can only be called on the CEF UI thread.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetRuntimeStyle"></span><code>function <strong>GetRuntimeStyle</strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#GetRuntimeStyle">ICefBrowserHost.GetRuntimeStyle</a>.</p><p>
+ Returns the runtime style for this browser (ALLOY or CHROME). See TCefRuntimeStyle documentation for details. 
+
+<p>This function can only be called on the CEF UI thread.</p>
 </td></tr>
 </table>
 <table class="detail wide_list">

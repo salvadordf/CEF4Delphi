@@ -508,202 +508,206 @@
 <td class="itemdesc"> Callback interface for asynchronous continuation of file dialog requests. </td>
 </tr>
 <tr class="list2">
+<td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefUnresponsiveProcessCallback.html"><code>ICefUnresponsiveProcessCallback</code></a></td>
+<td class="itemdesc"> Callback structure for asynchronous handling of an unresponsive process. </td>
+</tr>
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefDragData.html"><code>ICefDragData</code></a></td>
 <td class="itemdesc"> Interface used to represent drag data. The functions of this interface may be called on any thread. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefDragHandler.html"><code>ICefDragHandler</code></a></td>
 <td class="itemdesc"> Implement this interface to handle events related to dragging. The functions of this interface will be called on the UI thread. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefFindHandler.html"><code>ICefFindHandler</code></a></td>
 <td class="itemdesc"> Implement this interface to handle events related to find results. The functions of this interface will be called on the UI thread. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefRequestContextHandler.html"><code>ICefRequestContextHandler</code></a></td>
 <td class="itemdesc"> Implement this interface to provide handler implementations. The handler instance will not be released until all objects related to the context have been destroyed. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefResolveCallback.html"><code>ICefResolveCallback</code></a></td>
 <td class="itemdesc"> Callback interface for ICefRequestContext.ResolveHost. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefPreferenceManager.html"><code>ICefPreferenceManager</code></a></td>
 <td class="itemdesc"> Manage access to preferences. Many built-in preferences are registered by Chromium. Custom preferences can be registered in ICefBrowserProcessHandler.OnRegisterCustomPreferences. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefRequestContext.html"><code>ICefRequestContext</code></a></td>
 <td class="itemdesc"> A request context provides request handling for a set of related browser or URL request objects. A request context can be specified when creating a new browser via the ICefBrowserHost static factory functions or when creating a new URL request via the ICefUrlRequest static factory functions. Browser objects with different request contexts will never be hosted in the same render process. Browser objects with the same request context may or may not be hosted in the same render process depending on the process model. Browser objects created indirectly via the JavaScript window.open function or targeted links will share the same render process and the same request context as the source browser. When running in single-process mode there is only a single render process (the main process) and so all browsers created in single-process mode will share the same request context. This will be the first request context passed into a ICefBrowserHost static factory function and all other request context objects will be ignored. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefPrintSettings.html"><code>ICefPrintSettings</code></a></td>
 <td class="itemdesc"> Interface representing print settings. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefPrintDialogCallback.html"><code>ICefPrintDialogCallback</code></a></td>
 <td class="itemdesc"> Callback interface for asynchronous continuation of print dialog requests. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefPrintJobCallback.html"><code>ICefPrintJobCallback</code></a></td>
 <td class="itemdesc"> Callback interface for asynchronous continuation of print job requests. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefPrintHandler.html"><code>ICefPrintHandler</code></a></td>
 <td class="itemdesc"> Implement this interface to handle printing on Linux. Each browser will have only one print job in progress at a time. The functions of this interface will be called on the browser process UI thread. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefNavigationEntry.html"><code>ICefNavigationEntry</code></a></td>
 <td class="itemdesc"> Interface used to represent an entry in navigation history. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefX509CertPrincipal.html"><code>ICefX509CertPrincipal</code></a></td>
 <td class="itemdesc"> Interface representing the issuer or subject field of an X.509 certificate. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefX509Certificate.html"><code>ICefX509Certificate</code></a></td>
 <td class="itemdesc"> Interface representing a X.509 certificate. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefSslInfo.html"><code>ICefSslInfo</code></a></td>
 <td class="itemdesc"> Interface representing SSL information. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefSSLStatus.html"><code>ICefSSLStatus</code></a></td>
 <td class="itemdesc"> Interface representing the SSL information for a navigation entry. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefSelectClientCertificateCallback.html"><code>ICefSelectClientCertificateCallback</code></a></td>
 <td class="itemdesc"> Callback interface used to select a client certificate for authentication. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefResourceBundle.html"><code>ICefResourceBundle</code></a></td>
 <td class="itemdesc"> Interface used for retrieving resources from the resource bundle (*.pak) files loaded by CEF during startup or via the ICefResourceBundleHandler returned from ICefApp.GetResourceBundleHandler. See TCefSettings for additional options related to resource bundle loading. The functions of this interface may be called on any thread unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefImage.html"><code>ICefImage</code></a></td>
 <td class="itemdesc"> Container for a single image represented at different scale factors. All image representations should be the same size in density independent pixel (DIP) units. For example, if the image at scale factor 1.0 is 100x100 pixels then the image at scale factor 2.0 should be 200x200 pixels &ndash; both images will display with a DIP size of 100x100 units. The functions of this interface can be called on any browser process thread. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMenuModelDelegate.html"><code>ICefMenuModelDelegate</code></a></td>
 <td class="itemdesc"> Implement this interface to handle menu model events. The functions of this interface will be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefServer.html"><code>ICefServer</code></a></td>
 <td class="itemdesc"> Interface representing a server that supports HTTP and WebSocket requests. Server capacity is limited and is intended to handle only a small number of simultaneous connections (e.g. for communicating between applications on localhost). The functions of this interface are safe to call from any thread in the brower process unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefServerHandler.html"><code>ICefServerHandler</code></a></td>
 <td class="itemdesc"> Implement this interface to handle HTTP server requests. A new thread will be created for each ICefServer.CreateServer call (the &quot;dedicated server thread&quot;), and the functions of this interface will be called on that thread. It is therefore recommended to use a different ICefServerHandler instance for each ICefServer.CreateServer call to avoid thread safety issues in the ICefServerHandler implementation. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMediaAccessCallback.html"><code>ICefMediaAccessCallback</code></a></td>
 <td class="itemdesc"> Callback interface used for asynchronous continuation of media access permission requests. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMediaAccessHandler.html"><code>ICefMediaAccessHandler</code></a></td>
 <td class="itemdesc"> Implement this interface to handle events related to media access permission requests. The functions of this interface will be called on the browser process UI thread. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefPermissionPromptCallback.html"><code>ICefPermissionPromptCallback</code></a></td>
 <td class="itemdesc"> Callback interface used for asynchronous continuation of permission prompts. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefPermissionHandler.html"><code>ICefPermissionHandler</code></a></td>
 <td class="itemdesc"> Implement this interface to handle events related to permission requests. The functions of this interface will be called on the browser process UI thread. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefSharedMemoryRegion.html"><code>ICefSharedMemoryRegion</code></a></td>
 <td class="itemdesc"> Interface that wraps platform-dependent share memory region mapping. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefSharedProcessMessageBuilder.html"><code>ICefSharedProcessMessageBuilder</code></a></td>
 <td class="itemdesc"> Interface that builds a ICefProcessMessage containing a shared memory region. This interface is not thread-safe but may be used exclusively on a different thread from the one which constructed it. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefDisplay.html"><code>ICefDisplay</code></a></td>
 <td class="itemdesc"> This interface typically, but not always, corresponds to a physical display connected to the system. A fake Display may exist on a headless system, or a Display may correspond to a remote, virtual display. All size and position values are in density independent pixel (DIP) coordinates unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefLayout.html"><code>ICefLayout</code></a></td>
 <td class="itemdesc"> A Layout handles the sizing of the children of a Panel according to implementation-specific heuristics. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefBoxLayout.html"><code>ICefBoxLayout</code></a></td>
 <td class="itemdesc"> A Layout manager that arranges child views vertically or horizontally in a side-by-side fashion with spacing around and between the child views. The child views are always sized according to their preferred size. If the host's bounds provide insufficient space, child views will be clamped. Excess space will not be distributed. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefFillLayout.html"><code>ICefFillLayout</code></a></td>
 <td class="itemdesc"> A simple Layout that causes the associated Panel's one child to be sized to match the bounds of its parent. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefOverlayController.html"><code>ICefOverlayController</code></a></td>
 <td class="itemdesc"> Controller for an overlay that contains a contents View added via ICefWindow.AddOverlayView. Methods exposed by this controller should be called in preference to functions of the same name exposed by the contents View unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefView.html"><code>ICefView</code></a></td>
 <td class="itemdesc"> A View is a rectangle within the views View hierarchy. It is the base interface for all Views. All size and position values are in density independent pixels (DIP) unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefViewDelegate.html"><code>ICefViewDelegate</code></a></td>
 <td class="itemdesc"> Implement this interface to handle view events. All size and position values are in density independent pixels (DIP) unless otherwise indicated. The functions of this interface will be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefTextfield.html"><code>ICefTextfield</code></a></td>
 <td class="itemdesc"> A Textfield supports editing of text. This control is custom rendered with no platform-specific code. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefTextfieldDelegate.html"><code>ICefTextfieldDelegate</code></a></td>
 <td class="itemdesc"> Implement this interface to handle Textfield events. The functions of this interface will be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefScrollView.html"><code>ICefScrollView</code></a></td>
 <td class="itemdesc"> A ScrollView will show horizontal and/or vertical scrollbars when necessary based on the size of the attached content view. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefPanel.html"><code>ICefPanel</code></a></td>
 <td class="itemdesc"> A Panel is a container in the views hierarchy that can contain other Views as children. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefPanelDelegate.html"><code>ICefPanelDelegate</code></a></td>
 <td class="itemdesc"> Implement this interface to handle Panel events. The functions of this interface will be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefBrowserView.html"><code>ICefBrowserView</code></a></td>
 <td class="itemdesc"> A View hosting a ICefBrowser instance. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefBrowserViewDelegate.html"><code>ICefBrowserViewDelegate</code></a></td>
 <td class="itemdesc"> Implement this interface to handle BrowserView events. The functions of this interface will be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefButton.html"><code>ICefButton</code></a></td>
 <td class="itemdesc"> A View representing a button. Depending on the specific type, the button could be implemented by a native control or custom rendered. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefButtonDelegate.html"><code>ICefButtonDelegate</code></a></td>
 <td class="itemdesc"> Implement this interface to handle Button events. The functions of this interface will be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefLabelButton.html"><code>ICefLabelButton</code></a></td>
 <td class="itemdesc"> LabelButton is a button with optional text and/or icon. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMenuButton.html"><code>ICefMenuButton</code></a></td>
 <td class="itemdesc"> MenuButton is a button with optional text, icon and/or menu marker that shows a menu when clicked with the left mouse button. All size and position values are in density independent pixels (DIP) unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMenuButtonPressedLock.html"><code>ICefMenuButtonPressedLock</code></a></td>
 <td class="itemdesc"> MenuButton pressed lock is released when this object is destroyed. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMenuButtonDelegate.html"><code>ICefMenuButtonDelegate</code></a></td>
 <td class="itemdesc"> Implement this interface to handle MenuButton events. The functions of this interface will be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefWindow.html"><code>ICefWindow</code></a></td>
 <td class="itemdesc"> A Window is a top-level Window/widget in the Views hierarchy. By default it will have a non-client area with title bar, icon and buttons that supports moving and resizing. All size and position values are in density independent pixels (DIP) unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefWindowDelegate.html"><code>ICefWindowDelegate</code></a></td>
 <td class="itemdesc"> Implement this interface to handle window events. The functions of this interface will be called on the browser process UI thread unless otherwise indicated. </td>
 </tr>

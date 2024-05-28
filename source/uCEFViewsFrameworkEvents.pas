@@ -47,6 +47,7 @@ type
   TOnGetChromeToolbarTypeEvent             = procedure(const Sender: TObject; const browser_view: ICefBrowserView; var aChromeToolbarType: TCefChromeToolbarType) of object;
   TOnUseFramelessWindowForPictureInPicture = procedure(const Sender: TObject; const browser_view: ICefBrowserView; var aResult : boolean) of object;
   TOnGestureCommandEvent                   = procedure(const Sender: TObject; const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean) of object;
+  TOnGetBrowserRuntimeStyleEvent           = procedure(const Sender: TObject; var aResult : TCefRuntimeStyle) of object;
 
   // ICefButtonDelegate
   TOnButtonPressedEvent      = procedure(const Sender: TObject; const button: ICefButton) of object;
@@ -77,6 +78,7 @@ type
   TOnAcceleratorEvent                = procedure(const Sender: TObject; const window_: ICefWindow; command_id: Integer; var aResult : boolean) of object;
   TOnWindowKeyEventEvent             = procedure(const Sender: TObject; const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean) of object;
   TOnThemeColorsChangedEvent         = procedure(const Sender: TObject; const window_: ICefWindow; chrome_theme: Integer) of object;
+  TOnGetWindowRuntimeStyleEvent      = procedure(const Sender: TObject; var aResult : TCefRuntimeStyle) of object;
 
 implementation
 

@@ -29,6 +29,7 @@ type
       procedure OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult: TCefChromeToolbarType);
       procedure OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
       procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
+      procedure OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
 
     public
       /// <summary>
@@ -99,6 +100,11 @@ type
       /// </summary>
       procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean); virtual;
       /// <summary>
+      /// Optionally change the runtime style for this BrowserView. See
+      /// TCefRuntimeStyle documentation for details.
+      /// </summary>
+      procedure OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle); virtual;
+      /// <summary>
       /// Links the methods in the internal CEF record data pointer with the methods in this class.
       /// </summary>
       procedure InitializeCEFMethods; override;
@@ -136,6 +142,7 @@ type
       procedure OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult: TCefChromeToolbarType); override;
       procedure OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean); override;
       procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean); override;
+      procedure OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle); override;
 
     public
       constructor Create(const events: ICefBrowserViewDelegateEvents); reintroduce;
@@ -210,6 +217,11 @@ begin
   aResult := (PCefBrowserViewDelegate(FData)^.on_gesture_command(PCefBrowserViewDelegate(FData),
                                                                  CefGetData(browser_view),
                                                                  gesture_command) <> 0);
+end;
+
+procedure TCefBrowserViewDelegateRef.OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
+begin
+  aResult := PCefBrowserViewDelegate(FData)^.get_browser_runtime_style(PCefBrowserViewDelegate(FData));
 end;
 
 class function TCefBrowserViewDelegateRef.UnWrap(data: Pointer): ICefBrowserViewDelegate;
@@ -340,6 +352,17 @@ begin
   Result := ord(TempResult);
 end;
 
+function cef_browserview_delegate_get_browser_runtime_style(self: PCefBrowserViewDelegate): TCefRuntimeStyle; stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+  Result     := CEF_RUNTIME_STYLE_DEFAULT;
+
+  if (TempObject <> nil) and (TempObject is TCefBrowserViewDelegateOwn) then
+    TCefBrowserViewDelegateOwn(TempObject).OnGetBrowserRuntimeStyle(Result);
+end;
+
 constructor TCefBrowserViewDelegateOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefBrowserViewDelegate));
@@ -360,6 +383,7 @@ begin
       get_chrome_toolbar_type                     := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_chrome_toolbar_type;
       use_frameless_window_for_picture_in_picture := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_use_frameless_window_for_picture_in_picture;
       on_gesture_command                          := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_gesture_command;
+      get_browser_runtime_style                   := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_browser_runtime_style;
     end;
 end;
 
@@ -398,6 +422,10 @@ begin
   aResult := False;
 end;
 
+procedure TCefBrowserViewDelegateOwn.OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
+begin
+  aResult := CEF_RUNTIME_STYLE_DEFAULT;
+end;
 
 // **************************************************************
 // **************** TCustomBrowserViewDelegate ******************
@@ -623,6 +651,19 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomBrowserViewDelegate.OnGestureCommand', e) then raise;
+  end;
+end;
+
+procedure TCustomBrowserViewDelegate.OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
+begin
+  aResult := CEF_RUNTIME_STYLE_DEFAULT;
+
+  try
+    if (FEvents <> nil) then
+      ICefBrowserViewDelegateEvents(FEvents).doOnGetBrowserRuntimeStyle(aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomBrowserViewDelegate.OnGetBrowserRuntimeStyle', e) then raise;
   end;
 end;
 

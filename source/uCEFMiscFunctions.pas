@@ -79,7 +79,8 @@ function  CefString(const str: PCefString): ustring; overload;
 function  CefUserFreeString(const str: ustring): PCefStringUserFree;
 procedure CefStringFree(const str: PCefString);
 function  CefStringFreeAndGet(const str: PCefStringUserFree): ustring;
-procedure CefStringSet(const str: PCefString; const value: ustring);
+procedure CefStringSet(const str: PCefString; const value: ustring); overload;
+procedure CefStringSet(const aDstStr, aSrcStr: TCefString); overload;
 procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 
 /// <summary>
@@ -294,27 +295,27 @@ function cef_string_utf16_copy(const src: PChar16; src_len: NativeUInt; output: 
 function cef_string_copy(const src: PCefChar; src_len: NativeUInt; output: PCefString): Integer;
 
 {$IFDEF MSWINDOWS}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
 {$ENDIF}
 
 {$IFDEF MACOSX}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aHidden : boolean = False);
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False);
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False);
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aHidden : boolean = False); deprecated;
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False); deprecated;
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False); deprecated;
 {$ENDIF}
 
 {$IFDEF LINUX}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = '');
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''); deprecated;
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''); deprecated;
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''); deprecated;
 {$ENDIF}
 
 {$IFDEF ANDROID}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
@@ -833,7 +834,7 @@ uses
   {$IFDEF LINUX}{$IFDEF FMX}uCEFLinuxFunctions, Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
   {$IFDEF MACOSX}{$IFDEF FPC}CocoaAll,{$ELSE}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
   uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFValue,
-  uCEFBinaryValue, uCEFStringList;
+  uCEFBinaryValue, uCEFStringList, uCEFWindowInfoWrapper;
 
 function CefColorGetA(color: TCefColor): Byte;
 begin
@@ -957,6 +958,12 @@ procedure CefStringSet(const str: PCefString; const value: ustring);
 begin
   if (str <> nil) and (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     cef_string_utf16_set(PWideChar(value), Length(value), str, Ord(True));
+end;
+
+procedure CefStringSet(const aDstStr, aSrcStr: TCefString);
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    cef_string_utf16_set(aSrcStr.str, aSrcStr.length, @aDstStr, Ord(True));
 end;
 
 procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
@@ -1302,172 +1309,65 @@ end;
 {$IFDEF MSWINDOWS}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aExStyle : DWORD);
 begin
-  aWindowInfo.ex_style                     := aExStyle;
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.style                        := WS_CHILD or WS_VISIBLE or WS_CLIPCHILDREN or WS_CLIPSIBLINGS or WS_TABSTOP;
-  aWindowInfo.bounds.x                     := aRect.left;
-  aWindowInfo.bounds.y                     := aRect.top;
-  aWindowInfo.bounds.width                 := aRect.right  - aRect.left;
-  aWindowInfo.bounds.height                := aRect.bottom - aRect.top;
-  aWindowInfo.parent_window                := aParent;
-  aWindowInfo.menu                         := 0;
-  aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  aWindowInfo.window                       := 0;
+  TCEFWindowInfoWrapper.AsChild(aWindowInfo, aParent, aRect);
+  aWindowInfo.ex_style    := aExStyle;
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aExStyle : DWORD);
 begin
-  aWindowInfo.ex_style                     := aExStyle;
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.style                        := WS_OVERLAPPEDWINDOW or WS_CLIPCHILDREN or WS_CLIPSIBLINGS or WS_VISIBLE;
-  aWindowInfo.bounds.x                     := integer(CW_USEDEFAULT);
-  aWindowInfo.bounds.y                     := integer(CW_USEDEFAULT);
-  aWindowInfo.bounds.width                 := integer(CW_USEDEFAULT);
-  aWindowInfo.bounds.height                := integer(CW_USEDEFAULT);
-  aWindowInfo.parent_window                := aParent;
-  aWindowInfo.menu                         := 0;
-  aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  aWindowInfo.window                       := 0;
+  TCEFWindowInfoWrapper.AsPopup(aWindowInfo, aParent, aWindowName);
+  aWindowInfo.ex_style := aExStyle;
 end;
 
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aExStyle : DWORD);
 begin
-  aWindowInfo.ex_style                     := aExStyle;
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.style                        := 0;
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
-  aWindowInfo.parent_window                := aParent;
-  aWindowInfo.menu                         := 0;
-  aWindowInfo.windowless_rendering_enabled := ord(True);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  aWindowInfo.window                       := 0;
+  TCEFWindowInfoWrapper.AsWindowless(aWindowInfo, aParent);
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 {$ENDIF}
 
 {$IFDEF MACOSX}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aHidden : boolean);
 begin
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := aRect.left;
-  aWindowInfo.bounds.y                     := aRect.top;
-  aWindowInfo.bounds.width                 := aRect.right  - aRect.left;
-  aWindowInfo.bounds.height                := aRect.bottom - aRect.top;
-  aWindowInfo.hidden                       := Ord(aHidden);
-  aWindowInfo.parent_view                  := aParent;
-  aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  {$IFDEF FPC}
-  aWindowInfo.view                         := 0;
-  {$ELSE}
-  aWindowInfo.view                         := nil;
-  {$ENDIF}
+  TCEFWindowInfoWrapper.AsChild(aWindowInfo, aParent, aRect);
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
 begin
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
-  aWindowInfo.hidden                       := Ord(aHidden);
-  aWindowInfo.parent_view                  := aParent;
-  aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  {$IFDEF FPC}
-  aWindowInfo.view                         := 0;
-  {$ELSE}
-  aWindowInfo.view                         := nil;
-  {$ENDIF}
+  // WindowInfoAsPopUp only exists for Windows. The macos version of cefclient
+  // calls WindowInfoAsChild with aParent set to NULL to create a popup window.
+  TCEFWindowInfoWrapper.AsChild(aWindowInfo, aParent, Rect(0, 0, 0, 0));
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
 begin
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
-  aWindowInfo.hidden                       := Ord(aHidden);
-  aWindowInfo.parent_view                  := aParent;
-  aWindowInfo.windowless_rendering_enabled := ord(True);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  {$IFDEF FPC}
-  aWindowInfo.view                         := 0;
-  {$ELSE}
-  aWindowInfo.view                         := nil;
-  {$ENDIF}
+  TCEFWindowInfoWrapper.AsWindowless(aWindowInfo, aParent);
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 {$ENDIF}
 
 {$IFDEF LINUX}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = '');
-var
-  TempParent : TCefWindowHandle;
 begin
-  TempParent := aParent;
-  {$IFDEF FPC}
-    {$IFDEF LCLGTK2}
-    if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
-      TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
-    {$ENDIF}
-    {$IFDEF LCLGTK3}
-    if ValidCefWindowHandle(aParent) then
-      TempParent := gdk_x11_window_get_xid(TGtk3Container(aParent).Widget^.window);
-    {$ENDIF}
-  {$ENDIF}
-
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := aRect.left;
-  aWindowInfo.bounds.y                     := aRect.top;
-  aWindowInfo.bounds.width                 := aRect.right  - aRect.left;
-  aWindowInfo.bounds.height                := aRect.bottom - aRect.top;
-  aWindowInfo.parent_window                := TempParent;
-  aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  aWindowInfo.window                       := 0;
+  TCEFWindowInfoWrapper.AsChild(aWindowInfo, aParent, aRect);
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 
-// WindowInfoAsPopUp only exists for Windows. The Linux version of cefclient
-// calls WindowInfoAsChild with aParent set to NULL to create a popup window.
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
-  aWindowInfo.parent_window                := aParent;
-  aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  aWindowInfo.window                       := 0;
+  // WindowInfoAsPopUp only exists for Windows. The Linux version of cefclient
+  // calls WindowInfoAsChild with aParent set to NULL to create a popup window.
+  TCEFWindowInfoWrapper.AsChild(aWindowInfo, aParent, Rect(0, 0, 0, 0));
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
-  aWindowInfo.parent_window                := aParent;
-  aWindowInfo.windowless_rendering_enabled := ord(True);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  aWindowInfo.window                       := 0;
+  TCEFWindowInfoWrapper.AsWindowless(aWindowInfo, aParent);
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 {$ENDIF}
 
@@ -2801,7 +2701,9 @@ end;
 function GetDefaultCEFUserAgent : string;
 var
   TempOS : string;
+  {$IFDEF MSWINDOWS}
   TempMajorVer, TempMinorVer : DWORD;
+  {$ENDIF}
 begin
   // See GetUserAgentPlatform() and BuildOSCpuInfo() in
   // https://source.chromium.org/chromium/chromium/src/+/main:content/common/user_agent.cc

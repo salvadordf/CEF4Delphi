@@ -51,6 +51,7 @@ type
       FOnAccelerator                : TOnAcceleratorEvent;
       FOnKeyEvent                   : TOnWindowKeyEventEvent;
       FOnThemeColorsChanged         : TOnThemeColorsChangedEvent;
+      FOnGetWindowRuntimeStyle      : TOnGetWindowRuntimeStyleEvent;
 
       procedure DestroyView; override;
       procedure Initialize; override;
@@ -71,6 +72,7 @@ type
       function  GetDisplay : ICefDisplay;
       function  GetClientAreaBoundsInScreen : TCefRect;
       function  GetWindowHandle : TCefWindowHandle;
+      function  GetRuntimeStyle : TCefRuntimeStyle;
 
       procedure SetAlwaysOnTop(on_top: boolean);
       procedure SetFullscreen(fullscreen: boolean);
@@ -100,6 +102,7 @@ type
       procedure doOnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
       procedure doOnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
       procedure doOnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
+      procedure doOnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
 
       // ICefViewDelegateEvents
       procedure doCreateCustomView; override;
@@ -256,6 +259,37 @@ type
       /// </summary>
       procedure RemoveAllAccelerators;
       /// <summary>
+      /// <para>Override a standard theme color or add a custom color associated with
+      /// |color_id|. See cef_color_ids.h for standard ID values. Recommended usage
+      /// is as follows:</para>
+      /// <code>
+      /// 1. Customize the default native/OS theme by calling SetThemeColor before
+      ///    showing the first Window. When done setting colors call
+      ///    ICefWindow.ThemeChanged to trigger ICefViewDelegate.OnThemeChanged
+      ///    notifications.
+      /// 2. Customize the current native/OS or Chrome theme after it changes by
+      ///    calling SetThemeColor from the ICefWindowDelegate.OnThemeColorsChanged
+      ///    callback. ICefViewDelegate.OnThemeChanged notifications will then be
+      ///    triggered automatically.
+      /// </code>
+      /// <para>The configured color will be available immediately via
+      /// ICefView.GetThemeColor and will be applied to each View in this
+      /// Window's component hierarchy when ICefViewDelegate.OnThemeChanged is
+      /// called. See OnThemeColorsChanged documentation for additional details.</para>
+      /// <para>Clients wishing to add custom colors should use |color_id| values >=
+      /// CEF_ChromeColorsEnd.</para>
+      /// </summary>
+      procedure SetThemeColor(color_id: integer; color: TCefColor);
+      /// <summary>
+      /// <para>Trigger ICefViewDelegate.OnThemeChanged callbacks for each View in
+      /// this Window's component hierarchy. Unlike a native/OS or Chrome theme
+      /// change this function does not reset theme colors to standard values and
+      /// does not result in a call to ICefWindowDelegate.OnThemeColorsChanged.</para>
+      /// <para>Do not call this function from ICefWindowDelegate.OnThemeColorsChanged
+      /// or ICefViewDelegate.OnThemeChanged.</para>
+      /// </summary>
+      procedure ThemeChanged;
+      /// <summary>
       /// Get the Window title.
       /// </summary>
       property Title                    : ustring            read GetTitle                     write SetTitle;
@@ -309,6 +343,11 @@ type
       /// Returns true (1) if the Window is minimized.
       /// </summary>
       property IsMinimized              : boolean            read GetIsMinimized;
+      /// <summary>
+      /// Returns the runtime style for this Window (ALLOY or CHROME). See
+      /// TCefRuntimeStyle documentation for details.
+      /// </summary>
+      property RuntimeStyle             : TCefRuntimeStyle   read GetRuntimeStyle;
 
     published
       /// <summary>
@@ -463,6 +502,11 @@ type
       /// callback for the complete |window| component hierarchy.</para>
       /// </summary>
       property OnThemeColorsChanged         : TOnThemeColorsChangedEvent         read FOnThemeColorsChanged         write FOnThemeColorsChanged;
+      /// <summary>
+      /// Optionally change the runtime style for this Window. See
+      /// TCefRuntimeStyle documentation for details.
+      /// </summary>
+      property OnGetWindowRuntimeStyle      : TOnGetWindowRuntimeStyleEvent      read FOnGetWindowRuntimeStyle      write FOnGetWindowRuntimeStyle;
   end;
 
 {$IFDEF FPC}
@@ -527,6 +571,8 @@ begin
   FOnCanClose                   := nil;
   FOnAccelerator                := nil;
   FOnKeyEvent                   := nil;
+  FOnThemeColorsChanged         := nil;
+  FOnGetWindowRuntimeStyle      := nil;
 end;
 
 procedure TCEFWindowComponent.CreateTopLevelWindow;
@@ -711,6 +757,14 @@ procedure TCEFWindowComponent.doOnThemeColorsChanged(const window_: ICefWindow; 
 begin
   if assigned(FOnThemeColorsChanged) then
     FOnThemeColorsChanged(self, window_, chrome_theme);
+end;
+
+procedure TCEFWindowComponent.doOnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
+begin
+  aResult := CEF_RUNTIME_STYLE_DEFAULT;
+
+  if assigned(FOnGetWindowRuntimeStyle) then
+    FOnGetWindowRuntimeStyle(self, aResult);
 end;
 
 procedure TCEFWindowComponent.Show;
@@ -904,6 +958,14 @@ begin
   Result := TempHandle;
 end;
 
+function TCEFWindowComponent.GetRuntimeStyle : TCefRuntimeStyle;
+begin
+  if Initialized then
+    Result := FWindow.RuntimeStyle
+   else
+    Result := CEF_RUNTIME_STYLE_DEFAULT;
+end;
+
 procedure TCEFWindowComponent.SendKeyPress(key_code: Integer; event_flags: cardinal);
 begin
   if Initialized then FWindow.SendKeyPress(key_code, event_flags);
@@ -932,6 +994,16 @@ end;
 procedure TCEFWindowComponent.RemoveAllAccelerators;
 begin
   if Initialized then FWindow.RemoveAllAccelerators;
+end;
+
+procedure TCEFWindowComponent.SetThemeColor(color_id: integer; color: TCefColor);
+begin
+  if Initialized then FWindow.SetThemeColor(color_id, color);
+end;
+
+procedure TCEFWindowComponent.ThemeChanged;
+begin
+  if Initialized then FWindow.ThemeChanged;
 end;
 
 {$IFDEF FPC}

@@ -20,180 +20,188 @@
 <th class="itemdesc">Description</th>
 </tr>
 <tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefAcceleratedPaintInfo.html"><code>TCefAcceleratedPaintInfo</code></a></td>
+<td class="itemdesc"> Structure containing shared texture information for the OnAcceleratedPaint callback. Resources will be released to the underlying pool for reuse when the callback returns from client code. </td>
+</tr>
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TMyMemoryStatusEx.html"><code>TMyMemoryStatusEx</code></a></td>
 <td class="itemdesc"> Record used with GetGlobalMemoryStatusEx to get the memory status. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TOSVersionInfoEx.html"><code>TOSVersionInfoEx</code></a></td>
 <td class="itemdesc"> Record used with RtlGetVersion to get the Windows version information. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefStringWide.html"><code>TCefStringWide</code></a></td>
 <td class="itemdesc"> CEF wide string type definition. Whomever allocates |str| is responsible for providing an appropriate |dtor| implementation that will free the string in the same memory space. When reusing an existing string structure make sure to call |dtor| for the old value before assigning new |str| and |dtor| values. Static strings will have a NULL |dtor| value. Using the below functions if you want this managed for you. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefStringUtf8.html"><code>TCefStringUtf8</code></a></td>
 <td class="itemdesc"> CEF utf8 string type definition. Whomever allocates |str| is responsible for providing an appropriate |dtor| implementation that will free the string in the same memory space. When reusing an existing string structure make sure to call |dtor| for the old value before assigning new |str| and |dtor| values. Static strings will have a NULL |dtor| value. Using the below functions if you want this managed for you. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefStringUtf16.html"><code>TCefStringUtf16</code></a></td>
 <td class="itemdesc"> CEF utf16 string type definition. Whomever allocates |str| is responsible for providing an appropriate |dtor| implementation that will free the string in the same memory space. When reusing an existing string structure make sure to call |dtor| for the old value before assigning new |str| and |dtor| values. Static strings will have a NULL |dtor| value. Using the below functions if you want this managed for you. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TFileVersionInfo.html"><code>TFileVersionInfo</code></a></td>
 <td class="itemdesc"> Record used by GetDLLVersion to get the DLL version information </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefMainArgs.html"><code>TCefMainArgs</code></a></td>
 <td class="itemdesc"> Structure representing CefExecuteProcess arguments. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefRect.html"><code>TCefRect</code></a></td>
 <td class="itemdesc"> Structure representing a rectangle. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefPoint.html"><code>TCefPoint</code></a></td>
 <td class="itemdesc"> Structure representing a point. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefSize.html"><code>TCefSize</code></a></td>
 <td class="itemdesc"> Structure representing a size. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefRange.html"><code>TCefRange</code></a></td>
 <td class="itemdesc"> Structure representing a range. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefCursorInfo.html"><code>TCefCursorInfo</code></a></td>
 <td class="itemdesc"> Structure representing cursor information. |buffer| will be |size.width|*|size.height|*4 bytes in size and represents a BGRA image with an upper-left origin. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefUrlParts.html"><code>TCefUrlParts</code></a></td>
 <td class="itemdesc"> URL component parts. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TUrlParts.html"><code>TUrlParts</code></a></td>
 <td class="itemdesc"> String version of TCefUrlParts </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefInsets.html"><code>TCefInsets</code></a></td>
 <td class="itemdesc"> Structure representing insets. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefTouchHandleState.html"><code>TCefTouchHandleState</code></a></td>
 <td class="itemdesc"> Touch handle state. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefCompositionUnderline.html"><code>TCefCompositionUnderline</code></a></td>
 <td class="itemdesc"> Structure representing IME composition underline information. This is a thin wrapper around Blink's WebCompositionUnderline class and should be kept in sync with that. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefTime.html"><code>TCefTime</code></a></td>
 <td class="itemdesc"> Time information. Values should always be in UTC. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefBoxLayoutSettings.html"><code>TCefBoxLayoutSettings</code></a></td>
 <td class="itemdesc"> Initialization settings. Specify NULL or 0 to get the recommended default values. Many of these and other settings can also configured using command- line switches. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefSettings.html"><code>TCefSettings</code></a></td>
 <td class="itemdesc"> Initialization settings. Specify NULL or 0 to get the recommended default values. Many of these and other settings can also configured using command- line switches. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefWindowInfo.html"><code>TCefWindowInfo</code></a></td>
 <td class="itemdesc"> Structure representing window information. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefDraggableRegion.html"><code>TCefDraggableRegion</code></a></td>
 <td class="itemdesc"> Structure representing a draggable region. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefKeyEvent.html"><code>TCefKeyEvent</code></a></td>
 <td class="itemdesc"> Structure representing keyboard event information. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefPopupFeatures.html"><code>TCefPopupFeatures</code></a></td>
 <td class="itemdesc"> Popup window features. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefBrowserSettings.html"><code>TCefBrowserSettings</code></a></td>
 <td class="itemdesc"> Browser initialization settings. Specify NULL or 0 to get the recommended default values. The consequences of using custom values may not be well tested. Many of these and other settings can also configured using command- line switches. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefScreenInfo.html"><code>TCefScreenInfo</code></a></td>
 <td class="itemdesc"> Screen information used when window rendering is disabled. This structure is passed as a parameter to ICefRenderHandler.GetScreenInfo and should be filled in by the client. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefRequestContextSettings.html"><code>TCefRequestContextSettings</code></a></td>
 <td class="itemdesc"> Request context initialization settings. Specify NULL or 0 to get the recommended default values. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefCookie.html"><code>TCefCookie</code></a></td>
 <td class="itemdesc"> Cookie information. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCookie.html"><code>TCookie</code></a></td>
 <td class="itemdesc"> Cookie information. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefPdfPrintSettings.html"><code>TCefPdfPrintSettings</code></a></td>
 <td class="itemdesc"> Structure representing PDF print settings. These values match the parameters supported by the DevTools Page.printToPDF function. See <a href="https://chromedevtools.github.io/devtools-protocol/tot/Page/#method-printToPDF">https://chromedevtools.github.io/devtools-protocol/tot/Page/#method-printToPDF</a> </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefMouseEvent.html"><code>TCefMouseEvent</code></a></td>
 <td class="itemdesc"> Structure representing mouse event information. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefTouchEvent.html"><code>TCefTouchEvent</code></a></td>
 <td class="itemdesc"> Structure representing touch event information. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefAudioParameters.html"><code>TCefAudioParameters</code></a></td>
 <td class="itemdesc"> Structure representing the audio parameters for setting up the audio handler. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefMediaSinkDeviceInfo.html"><code>TCefMediaSinkDeviceInfo</code></a></td>
 <td class="itemdesc"> Device information for a MediaSink object. handler. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefBaseRefCounted.html"><code>TCefBaseRefCounted</code></a></td>
 <td class="itemdesc"> All ref-counted framework structures must include this structure first. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefBaseScoped.html"><code>TCefBaseScoped</code></a></td>
 <td class="itemdesc"> All scoped framework structures must include this structure first. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefStreamWriter.html"><code>TCefStreamWriter</code></a></td>
 <td class="itemdesc"> Structure used to write data to a stream. The functions of this structure may be called on any thread. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefX509CertPrincipal.html"><code>TCefX509CertPrincipal</code></a></td>
 <td class="itemdesc"> Structure representing the issuer or subject field of an X.509 certificate. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefX509Certificate.html"><code>TCefX509Certificate</code></a></td>
 <td class="itemdesc"> Structure representing a X.509 certificate. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefSslInfo.html"><code>TCefSslInfo</code></a></td>
 <td class="itemdesc"> Structure representing SSL information. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefSSLStatus.html"><code>TCefSSLStatus</code></a></td>
 <td class="itemdesc"> Structure representing the SSL information for a navigation entry. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefSelectClientCertificateCallback.html"><code>TCefSelectClientCertificateCallback</code></a></td>
 <td class="itemdesc"> Callback structure used to select a client certificate for authentication. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefRunContextMenuCallback.html"><code>TCefRunContextMenuCallback</code></a></td>
 <td class="itemdesc"> Callback structure used for continuation of custom context menu display. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefFileDialogCallback.html"><code>TCefFileDialogCallback</code></a></td>
 <td class="itemdesc"> Callback structure for asynchronous continuation of file dialog requests. </td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefUnresponsiveProcessCallback.html"><code>TCefUnresponsiveProcessCallback</code></a></td>
+<td class="itemdesc"> Callback structure for asynchronous handling of an unresponsive process. </td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="uCEFTypes.TCefDialogHandler.html"><code>TCefDialogHandler</code></a></td>
@@ -961,412 +969,436 @@
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefFileDialogCallback">PCefFileDialogCallback</a></strong> = &circ;<a href="uCEFTypes.TCefFileDialogCallback.html">TCefFileDialogCallback</a>;</code></td>
 </tr>
 <tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefUnresponsiveProcessCallback">PCefUnresponsiveProcessCallback</a></strong> = &circ;<a href="uCEFTypes.TCefUnresponsiveProcessCallback.html">TCefUnresponsiveProcessCallback</a>;</code></td>
+</tr>
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefDisplayHandler">PCefDisplayHandler</a></strong> = &circ;<a href="uCEFTypes.TCefDisplayHandler.html">TCefDisplayHandler</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefDownloadHandler">PCefDownloadHandler</a></strong> = &circ;<a href="uCEFTypes.TCefDownloadHandler.html">TCefDownloadHandler</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefDownloadItem">PCefDownloadItem</a></strong> = &circ;<a href="uCEFTypes.TCefDownloadItem.html">TCefDownloadItem</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefBeforeDownloadCallback">PCefBeforeDownloadCallback</a></strong> = &circ;<a href="uCEFTypes.TCefBeforeDownloadCallback.html">TCefBeforeDownloadCallback</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefDownloadItemCallback">PCefDownloadItemCallback</a></strong> = &circ;<a href="uCEFTypes.TCefDownloadItemCallback.html">TCefDownloadItemCallback</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefDragHandler">PCefDragHandler</a></strong> = &circ;<a href="uCEFTypes.TCefDragHandler.html">TCefDragHandler</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefDragData">PCefDragData</a></strong> = &circ;<a href="uCEFTypes.TCefDragData.html">TCefDragData</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefDraggableRegionArray">PCefDraggableRegionArray</a></strong> = &circ;<a href="uCEFTypes.html#TCefDraggableRegionArray">TCefDraggableRegionArray</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefDraggableRegion">PCefDraggableRegion</a></strong> = &circ;<a href="uCEFTypes.TCefDraggableRegion.html">TCefDraggableRegion</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefRect">PCefRect</a></strong> = &circ;<a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefPoint">PCefPoint</a></strong> = &circ;<a href="uCEFTypes.TCefPoint.html">TCefPoint</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefSize">PCefSize</a></strong> = &circ;<a href="uCEFTypes.TCefSize.html">TCefSize</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a></strong> = &circ;<a href="uCEFTypes.html#TCefRectArray">TCefRectArray</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefRange">PCefRange</a></strong> = &circ;<a href="uCEFTypes.TCefRange.html">TCefRange</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefStreamWriter">PCefStreamWriter</a></strong> = &circ;<a href="uCEFTypes.TCefStreamWriter.html">TCefStreamWriter</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefFindHandler">PCefFindHandler</a></strong> = &circ;<a href="uCEFTypes.TCefFindHandler.html">TCefFindHandler</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefFocusHandler">PCefFocusHandler</a></strong> = &circ;<a href="uCEFTypes.TCefFocusHandler.html">TCefFocusHandler</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefJsDialogHandler">PCefJsDialogHandler</a></strong> = &circ;<a href="uCEFTypes.TCefJsDialogHandler.html">TCefJsDialogHandler</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefJsDialogCallback">PCefJsDialogCallback</a></strong> = &circ;<a href="uCEFTypes.TCefJsDialogCallback.html">TCefJsDialogCallback</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefKeyboardHandler">PCefKeyboardHandler</a></strong> = &circ;<a href="uCEFTypes.TCefKeyboardHandler.html">TCefKeyboardHandler</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefKeyEvent">PCefKeyEvent</a></strong> = &circ;<a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefLifeSpanHandler">PCefLifeSpanHandler</a></strong> = &circ;<a href="uCEFTypes.TCefLifeSpanHandler.html">TCefLifeSpanHandler</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefGetExtensionResourceCallback">PCefGetExtensionResourceCallback</a></strong> = &circ;<a href="uCEFTypes.TCefGetExtensionResourceCallback.html">TCefGetExtensionResourceCallback</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefExtensionHandler">PCefExtensionHandler</a></strong> = &circ;<a href="uCEFTypes.TCefExtensionHandler.html">TCefExtensionHandler</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefAudioHandler">PCefAudioHandler</a></strong> = &circ;<a href="uCEFTypes.TCefAudioHandler.html">TCefAudioHandler</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefAudioParameters">PCefAudioParameters</a></strong> = &circ;<a href="uCEFTypes.TCefAudioParameters.html">TCefAudioParameters</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefExtension">PCefExtension</a></strong> = &circ;<a href="uCEFTypes.TCefExtension.html">TCefExtension</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefPopupFeatures">PCefPopupFeatures</a></strong> = &circ;<a href="uCEFTypes.TCefPopupFeatures.html">TCefPopupFeatures</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefBrowserSettings">PCefBrowserSettings</a></strong> = &circ;<a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefLoadHandler">PCefLoadHandler</a></strong> = &circ;<a href="uCEFTypes.TCefLoadHandler.html">TCefLoadHandler</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefRenderHandler">PCefRenderHandler</a></strong> = &circ;<a href="uCEFTypes.TCefRenderHandler.html">TCefRenderHandler</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefScreenInfo">PCefScreenInfo</a></strong> = &circ;<a href="uCEFTypes.TCefScreenInfo.html">TCefScreenInfo</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefRenderProcessHandler">PCefRenderProcessHandler</a></strong> = &circ;<a href="uCEFTypes.TCefRenderProcessHandler.html">TCefRenderProcessHandler</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefCursorInfo">PCefCursorInfo</a></strong> = &circ;<a href="uCEFTypes.TCefCursorInfo.html">TCefCursorInfo</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefThread">PCefThread</a></strong> = &circ;<a href="uCEFTypes.TCefThread.html">TCefThread</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefWaitableEvent">PCefWaitableEvent</a></strong> = &circ;<a href="uCEFTypes.TCefWaitableEvent.html">TCefWaitableEvent</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefV8StackTrace">PCefV8StackTrace</a></strong> = &circ;<a href="uCEFTypes.TCefV8StackTrace.html">TCefV8StackTrace</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefV8StackFrame">PCefV8StackFrame</a></strong> = &circ;<a href="uCEFTypes.TCefV8StackFrame.html">TCefV8StackFrame</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefProcessMessage">PCefProcessMessage</a></strong> = &circ;<a href="uCEFTypes.TCefProcessMessage.html">TCefProcessMessage</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a></strong> = &circ;<a href="uCEFTypes.TCefRequestHandler.html">TCefRequestHandler</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMediaAccessCallback">PCefMediaAccessCallback</a></strong> = &circ;<a href="uCEFTypes.TCefMediaAccessCallback.html">TCefMediaAccessCallback</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMediaAccessHandler">PCefMediaAccessHandler</a></strong> = &circ;<a href="uCEFTypes.TCefMediaAccessHandler.html">TCefMediaAccessHandler</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefPermissionHandler">PCefPermissionHandler</a></strong> = &circ;<a href="uCEFTypes.TCefPermissionHandler.html">TCefPermissionHandler</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefSharedMemoryRegion">PCefSharedMemoryRegion</a></strong> = &circ;<a href="uCEFTypes.TCefSharedMemoryRegion.html">TCefSharedMemoryRegion</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefSharedProcessMessageBuilder">PCefSharedProcessMessageBuilder</a></strong> = &circ;<a href="uCEFTypes.TCefSharedProcessMessageBuilder.html">TCefSharedProcessMessageBuilder</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefPermissionPromptCallback">PCefPermissionPromptCallback</a></strong> = &circ;<a href="uCEFTypes.TCefPermissionPromptCallback.html">TCefPermissionPromptCallback</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefResourceSkipCallback">PCefResourceSkipCallback</a></strong> = &circ;<a href="uCEFTypes.TCefResourceSkipCallback.html">TCefResourceSkipCallback</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefResourceReadCallback">PCefResourceReadCallback</a></strong> = &circ;<a href="uCEFTypes.TCefResourceReadCallback.html">TCefResourceReadCallback</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefResourceHandler">PCefResourceHandler</a></strong> = &circ;<a href="uCEFTypes.TCefResourceHandler.html">TCefResourceHandler</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefResourceRequestHandler">PCefResourceRequestHandler</a></strong> = &circ;<a href="uCEFTypes.TCefResourceRequestHandler.html">TCefResourceRequestHandler</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefCookieAccessFilter">PCefCookieAccessFilter</a></strong> = &circ;<a href="uCEFTypes.TCefCookieAccessFilter.html">TCefCookieAccessFilter</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefResponse">PCefResponse</a></strong> = &circ;<a href="uCEFTypes.TCefResponse.html">TCefResponse</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefResponseFilter">PCefResponseFilter</a></strong> = &circ;<a href="uCEFTypes.TCefResponseFilter.html">TCefResponseFilter</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefAuthCallback">PCefAuthCallback</a></strong> = &circ;<a href="uCEFTypes.TCefAuthCallback.html">TCefAuthCallback</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefSslInfo">PCefSslInfo</a></strong> = &circ;<a href="uCEFTypes.TCefSslInfo.html">TCefSslInfo</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefSSLStatus">PCefSSLStatus</a></strong> = &circ;<a href="uCEFTypes.TCefSSLStatus.html">TCefSSLStatus</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefSelectClientCertificateCallback">PCefSelectClientCertificateCallback</a></strong> = &circ;<a href="uCEFTypes.TCefSelectClientCertificateCallback.html">TCefSelectClientCertificateCallback</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefCallback">PCefCallback</a></strong> = &circ;<a href="uCEFTypes.TCefCallback.html">TCefCallback</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefCookie">PCefCookie</a></strong> = &circ;<a href="uCEFTypes.TCefCookie.html">TCefCookie</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a></strong> = &circ;<a href="uCEFTypes.TCefRequestContext.html">TCefRequestContext</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefRequestContextHandler">PCefRequestContextHandler</a></strong> = &circ;<a href="uCEFTypes.TCefRequestContextHandler.html">TCefRequestContextHandler</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefCompletionCallback">PCefCompletionCallback</a></strong> = &circ;<a href="uCEFTypes.TCefCompletionCallback.html">TCefCompletionCallback</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefCookieManager">PCefCookieManager</a></strong> = &circ;<a href="uCEFTypes.TCefCookieManager.html">TCefCookieManager</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefSchemeHandlerFactory">PCefSchemeHandlerFactory</a></strong> = &circ;<a href="uCEFTypes.TCefSchemeHandlerFactory.html">TCefSchemeHandlerFactory</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefResolveCallback">PCefResolveCallback</a></strong> = &circ;<a href="uCEFTypes.TCefResolveCallback.html">TCefResolveCallback</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefCookieVisitor">PCefCookieVisitor</a></strong> = &circ;<a href="uCEFTypes.TCefCookieVisitor.html">TCefCookieVisitor</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefSetCookieCallback">PCefSetCookieCallback</a></strong> = &circ;<a href="uCEFTypes.TCefSetCookieCallback.html">TCefSetCookieCallback</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefDeleteCookiesCallback">PCefDeleteCookiesCallback</a></strong> = &circ;<a href="uCEFTypes.TCefDeleteCookiesCallback.html">TCefDeleteCookiesCallback</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefRunFileDialogCallback">PCefRunFileDialogCallback</a></strong> = &circ;<a href="uCEFTypes.TCefRunFileDialogCallback.html">TCefRunFileDialogCallback</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefDownloadImageCallback">PCefDownloadImageCallback</a></strong> = &circ;<a href="uCEFTypes.TCefDownloadImageCallback.html">TCefDownloadImageCallback</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefImage">PCefImage</a></strong> = &circ;<a href="uCEFTypes.TCefImage.html">TCefImage</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefPdfPrintSettings">PCefPdfPrintSettings</a></strong> = &circ;<a href="uCEFTypes.TCefPdfPrintSettings.html">TCefPdfPrintSettings</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefPdfPrintCallback">PCefPdfPrintCallback</a></strong> = &circ;<a href="uCEFTypes.TCefPdfPrintCallback.html">TCefPdfPrintCallback</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefNavigationEntryVisitor">PCefNavigationEntryVisitor</a></strong> = &circ;<a href="uCEFTypes.TCefNavigationEntryVisitor.html">TCefNavigationEntryVisitor</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefNavigationEntry">PCefNavigationEntry</a></strong> = &circ;<a href="uCEFTypes.TCefNavigationEntry.html">TCefNavigationEntry</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a></strong> = &circ;<a href="uCEFTypes.TCefMouseEvent.html">TCefMouseEvent</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefTouchEvent">PCefTouchEvent</a></strong> = &circ;<a href="uCEFTypes.TCefTouchEvent.html">TCefTouchEvent</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefTouchHandleState">PCefTouchHandleState</a></strong> = &circ;<a href="uCEFTypes.TCefTouchHandleState.html">TCefTouchHandleState</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefPrintSettings">PCefPrintSettings</a></strong> = &circ;<a href="uCEFTypes.TCefPrintSettings.html">TCefPrintSettings</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefPrintDialogCallback">PCefPrintDialogCallback</a></strong> = &circ;<a href="uCEFTypes.TCefPrintDialogCallback.html">TCefPrintDialogCallback</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefPrintJobCallback">PCefPrintJobCallback</a></strong> = &circ;<a href="uCEFTypes.TCefPrintJobCallback.html">TCefPrintJobCallback</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefUrlParts">PCefUrlParts</a></strong> = &circ;<a href="uCEFTypes.TCefUrlParts.html">TCefUrlParts</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefStreamReader">PCefStreamReader</a></strong> = &circ;<a href="uCEFTypes.TCefStreamReader.html">TCefStreamReader</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefReadHandler">PCefReadHandler</a></strong> = &circ;<a href="uCEFTypes.TCefReadHandler.html">TCefReadHandler</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefWriteHandler">PCefWriteHandler</a></strong> = &circ;<a href="uCEFTypes.TCefWriteHandler.html">TCefWriteHandler</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefV8Accessor">PCefV8Accessor</a></strong> = &circ;<a href="uCEFTypes.TCefV8Accessor.html">TCefV8Accessor</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefXmlReader">PCefXmlReader</a></strong> = &circ;<a href="uCEFTypes.TCefXmlReader.html">TCefXmlReader</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefZipReader">PCefZipReader</a></strong> = &circ;<a href="uCEFTypes.TCefZipReader.html">TCefZipReader</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefUrlRequestClient">PCefUrlRequestClient</a></strong> = &circ;<a href="uCEFTypes.TCefUrlrequestClient.html">TCefUrlRequestClient</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefUrlRequest">PCefUrlRequest</a></strong> = &circ;<a href="uCEFTypes.TCefUrlRequest.html">TCefUrlRequest</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefTaskRunner">PCefTaskRunner</a></strong> = &circ;<a href="uCEFTypes.TCefTaskRunner.html">TCefTaskRunner</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefEndTracingCallback">PCefEndTracingCallback</a></strong> = &circ;<a href="uCEFTypes.TCefEndTracingCallback.html">TCefEndTracingCallback</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefRequestContextSettings">PCefRequestContextSettings</a></strong> = &circ;<a href="uCEFTypes.TCefRequestContextSettings.html">TCefRequestContextSettings</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefResourceBundle">PCefResourceBundle</a></strong> = &circ;<a href="uCEFTypes.TCefResourceBundle.html">TCefResourceBundle</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMenuModelDelegate">PCefMenuModelDelegate</a></strong> = &circ;<a href="uCEFTypes.TCefMenuModelDelegate.html">TCefMenuModelDelegate</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefInsets">PCefInsets</a></strong> = &circ;<a href="uCEFTypes.TCefInsets.html">TCefInsets</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefCompositionUnderline">PCefCompositionUnderline</a></strong> = &circ;<a href="uCEFTypes.TCefCompositionUnderline.html">TCefCompositionUnderline</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefX509CertPrincipal">PCefX509CertPrincipal</a></strong> = &circ;<a href="uCEFTypes.TCefX509CertPrincipal.html">TCefX509CertPrincipal</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefX509Certificate">PCefX509Certificate</a></strong> = &circ;<a href="uCEFTypes.TCefX509Certificate.html">TCefX509Certificate</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PPCefX509Certificate">PPCefX509Certificate</a></strong> = &circ;<a href="uCEFTypes.html#PCefX509Certificate">PCefX509Certificate</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefDisplay">PCefDisplay</a></strong> = &circ;<a href="uCEFTypes.TCefDisplay.html">TCefDisplay</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PPCefDisplay">PPCefDisplay</a></strong> = &circ;<a href="uCEFTypes.html#PCefDisplay">PCefDisplay</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefLayout">PCefLayout</a></strong> = &circ;<a href="uCEFTypes.TCefLayout.html">TCefLayout</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefBoxLayout">PCefBoxLayout</a></strong> = &circ;<a href="uCEFTypes.TCefBoxLayout.html">TCefBoxLayout</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefFillLayout">PCefFillLayout</a></strong> = &circ;<a href="uCEFTypes.TCefFillLayout.html">TCefFillLayout</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefOverlayController">PCefOverlayController</a></strong> = &circ;<a href="uCEFTypes.TCefOverlayController.html">TCefOverlayController</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefView">PCefView</a></strong> = &circ;<a href="uCEFTypes.TCefView.html">TCefView</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefViewDelegate">PCefViewDelegate</a></strong> = &circ;<a href="uCEFTypes.TCefViewDelegate.html">TCefViewDelegate</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefTextfield">PCefTextfield</a></strong> = &circ;<a href="uCEFTypes.TCefTextfield.html">TCefTextfield</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefTextfieldDelegate">PCefTextfieldDelegate</a></strong> = &circ;<a href="uCEFTypes.TCefTextfieldDelegate.html">TCefTextfieldDelegate</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefScrollView">PCefScrollView</a></strong> = &circ;<a href="uCEFTypes.TCefScrollView.html">TCefScrollView</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefPanel">PCefPanel</a></strong> = &circ;<a href="uCEFTypes.TCefPanel.html">TCefPanel</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefPanelDelegate">PCefPanelDelegate</a></strong> = &circ;<a href="uCEFTypes.TCefPanelDelegate.html">TCefPanelDelegate</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefBrowserView">PCefBrowserView</a></strong> = &circ;<a href="uCEFTypes.TCefBrowserView.html">TCefBrowserView</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefBrowserViewDelegate">PCefBrowserViewDelegate</a></strong> = &circ;<a href="uCEFTypes.TCefBrowserViewDelegate.html">TCefBrowserViewDelegate</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefButton">PCefButton</a></strong> = &circ;<a href="uCEFTypes.TCefButton.html">TCefButton</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefButtonDelegate">PCefButtonDelegate</a></strong> = &circ;<a href="uCEFTypes.TCefButtonDelegate.html">TCefButtonDelegate</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefLabelButton">PCefLabelButton</a></strong> = &circ;<a href="uCEFTypes.TCefLabelButton.html">TCefLabelButton</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMenuButton">PCefMenuButton</a></strong> = &circ;<a href="uCEFTypes.TCefMenuButton.html">TCefMenuButton</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMenuButtonPressedLock">PCefMenuButtonPressedLock</a></strong> = &circ;<a href="uCEFTypes.TCefMenuButtonPressedLock.html">TCefMenuButtonPressedLock</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMenuButtonDelegate">PCefMenuButtonDelegate</a></strong> = &circ;<a href="uCEFTypes.TCefMenuButtonDelegate.html">TCefMenuButtonDelegate</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefWindow">PCefWindow</a></strong> = &circ;<a href="uCEFTypes.TCefWindow.html">TCefWindow</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a></strong> = &circ;<a href="uCEFTypes.TCefWindowDelegate.html">TCefWindowDelegate</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefBoxLayoutSettings">PCefBoxLayoutSettings</a></strong> = &circ;<a href="uCEFTypes.TCefBoxLayoutSettings.html">TCefBoxLayoutSettings</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefRegistration">PCefRegistration</a></strong> = &circ;<a href="uCEFTypes.TCefRegistration.html">TCefRegistration</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefDevToolsMessageObserver">PCefDevToolsMessageObserver</a></strong> = &circ;<a href="uCEFTypes.TCefDevToolsMessageObserver.html">TCefDevToolsMessageObserver</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMediaRouter">PCefMediaRouter</a></strong> = &circ;<a href="uCEFTypes.TCefMediaRouter.html">TCefMediaRouter</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMediaRoute">PCefMediaRoute</a></strong> = &circ;<a href="uCEFTypes.TCefMediaRoute.html">TCefMediaRoute</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PPCefMediaRoute">PPCefMediaRoute</a></strong> = &circ;<a href="uCEFTypes.html#PCefMediaRoute">PCefMediaRoute</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMediaRouteCreateCallback">PCefMediaRouteCreateCallback</a></strong> = &circ;<a href="uCEFTypes.TCefMediaRouteCreateCallback.html">TCefMediaRouteCreateCallback</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMediaObserver">PCefMediaObserver</a></strong> = &circ;<a href="uCEFTypes.TCefMediaObserver.html">TCefMediaObserver</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMediaSink">PCefMediaSink</a></strong> = &circ;<a href="uCEFTypes.TCefMediaSink.html">TCefMediaSink</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PPCefMediaSink">PPCefMediaSink</a></strong> = &circ;<a href="uCEFTypes.html#PCefMediaSink">PCefMediaSink</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMediaSinkDeviceInfoCallback">PCefMediaSinkDeviceInfoCallback</a></strong> = &circ;<a href="uCEFTypes.TCefMediaSinkDeviceInfoCallback.html">TCefMediaSinkDeviceInfoCallback</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMediaSource">PCefMediaSource</a></strong> = &circ;<a href="uCEFTypes.TCefMediaSource.html">TCefMediaSource</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefMediaSinkDeviceInfo">PCefMediaSinkDeviceInfo</a></strong> = &circ;<a href="uCEFTypes.TCefMediaSinkDeviceInfo.html">TCefMediaSinkDeviceInfo</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefAcceleratedPaintInfo">PCefAcceleratedPaintInfo</a></strong> = &circ;<a href="uCEFTypes.TCefAcceleratedPaintInfo.html">TCefAcceleratedPaintInfo</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#NativeInt">NativeInt</a></strong>   = PtrInt;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#NativeUInt">NativeUInt</a></strong>  = PtrUInt;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#PNativeInt">PNativeInt</a></strong>  = &circ;<a href="uCEFTypes.html#NativeInt">NativeInt</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#PNativeUInt">PNativeUInt</a></strong> = &circ;<a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#ustring">ustring</a></strong>     = type UnicodeString;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#rbstring">rbstring</a></strong>    = type AnsiString;</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a></strong> = type HWND;</code></td>
@@ -1376,6 +1408,12 @@
 </tr>
 <tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefEventHandle">TCefEventHandle</a></strong>  = type PMsg;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefSharedTextureHandle">TCefSharedTextureHandle</a></strong>  = type HANDLE;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefColorType">TCefColorType</a></strong> = (...);</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefPlatformThreadId">TCefPlatformThreadId</a></strong>             = DWORD;</code></td>
@@ -1498,235 +1536,217 @@
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefLogItems">TCefLogItems</a></strong>                     = type Cardinal;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFTypes.html#NativeInt">NativeInt</a></strong>   = PtrInt;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefResultCode">TCefResultCode</a></strong>                   = type Integer;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFTypes.html#NativeUInt">NativeUInt</a></strong>  = PtrUInt;</code></td>
-</tr>
-<tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFTypes.html#PNativeInt">PNativeInt</a></strong>  = &circ;<a href="uCEFTypes.html#NativeInt">NativeInt</a>;</code></td>
-</tr>
-<tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFTypes.html#PNativeUInt">PNativeUInt</a></strong> = &circ;<a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
-</tr>
-<tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFTypes.html#ustring">ustring</a></strong>     = type UnicodeString;</code></td>
-</tr>
-<tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFTypes.html#rbstring">rbstring</a></strong>    = type AnsiString;</code></td>
-</tr>
-<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefCustomByteArray">TCefCustomByteArray</a></strong> = array of byte;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#LPMEMORYSTATUSEX">LPMEMORYSTATUSEX</a></strong> = &circ;<a href="uCEFTypes.TMyMemoryStatusEx.html">TMyMemoryStatusEx</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PPSingle">PPSingle</a></strong> = &circ;PSingle;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#Char16">Char16</a></strong>  = WideChar;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PChar16">PChar16</a></strong> = PWideChar;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefString">TCefString</a></strong> = <a href="uCEFTypes.TCefStringUtf16.html">TCefStringUtf16</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefString">PCefString</a></strong> = <a href="uCEFTypes.html#PCefStringUtf16">PCefStringUtf16</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefStringUserFreeWide">TCefStringUserFreeWide</a></strong>  = type <a href="uCEFTypes.TCefStringWide.html">TCefStringWide</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefStringUserFreeUtf8">TCefStringUserFreeUtf8</a></strong>  = type <a href="uCEFTypes.TCefStringUtf8.html">TCefStringUtf8</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefStringUserFreeUtf16">TCefStringUserFreeUtf16</a></strong> = type <a href="uCEFTypes.TCefStringUtf16.html">TCefStringUtf16</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefChar">TCefChar</a></strong> = <a href="uCEFTypes.html#Char16">Char16</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefChar">PCefChar</a></strong> = <a href="uCEFTypes.html#PChar16">PChar16</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefStringUserFree">TCefStringUserFree</a></strong> = <a href="uCEFTypes.html#TCefStringUserFreeUtf16">TCefStringUserFreeUtf16</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefStringUserFree">PCefStringUserFree</a></strong> = <a href="uCEFTypes.html#PCefStringUserFreeUtf16">PCefStringUserFreeUtf16</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefCloseBrowserAction">TCefCloseBrowserAction</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefProcessType">TCefProcessType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefCookiePref">TCefCookiePref</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefBrowserNavigation">TCefBrowserNavigation</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefAplicationStatus">TCefAplicationStatus</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefUIColorMode">TCefUIColorMode</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefProxyScheme">TCefProxyScheme</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TSimulatedCefKeyEventType">TSimulatedCefKeyEventType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefClearDataStorageTypes">TCefClearDataStorageTypes</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefAutoplayPolicy">TCefAutoplayPolicy</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefWebRTCHandlingPolicy">TCefWebRTCHandlingPolicy</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefNetLogCaptureMode">TCefNetLogCaptureMode</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefBatterySaverModeState">TCefBatterySaverModeState</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefHighEfficiencyModeState">TCefHighEfficiencyModeState</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCEFDialogType">TCEFDialogType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefMediaType">TCefMediaType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefRectArray">TCefRectArray</a></strong>    = array[0..(High(Integer) div SizeOf(<a href="uCEFTypes.TCefRect.html">TCefRect</a>))-1] of <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefRectDynArray">TCefRectDynArray</a></strong> = array of <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefRangeArray">TCefRangeArray</a></strong> = array of <a href="uCEFTypes.TCefRange.html">TCefRange</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefState">TCefState</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefValueType">TCefValueType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefMediaRouteConnectionState">TCefMediaRouteConnectionState</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefMediaSinkIconType">TCefMediaSinkIconType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefReferrerPolicy">TCefReferrerPolicy</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefPostDataElementType">TCefPostDataElementType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefResourceType">TCefResourceType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefDomDocumentType">TCefDomDocumentType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefDomNodeType">TCefDomNodeType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefDomFormControlType">TCefDomFormControlType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefContextMenuMediaType">TCefContextMenuMediaType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefMenuItemType">TCefMenuItemType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefFocusSource">TCefFocusSource</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefJsDialogType">TCefJsDialogType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefKeyEventType">TCefKeyEventType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefTextInpuMode">TCefTextInpuMode</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefTouchEeventType">TCefTouchEeventType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefPointerType">TCefPointerType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefChannelLayout">TCefChannelLayout</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefCookieSameSite">TCefCookieSameSite</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefCursorType">TCefCursorType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefNavigationType">TCefNavigationType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefThreadPriority">TCefThreadPriority</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefMessageLoopType">TCefMessageLoopType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefCOMInitMode">TCefCOMInitMode</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefMouseButtonType">TCefMouseButtonType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefReturnValue">TCefReturnValue</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefUrlRequestStatus">TCefUrlRequestStatus</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefPathKey">TCefPathKey</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefStorageType">TCefStorageType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefResponseFilterStatus">TCefResponseFilterStatus</a></strong> = (...);</code></td>
-</tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefColorType">TCefColorType</a></strong> = (...);</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefResponseFilterStatus">TCefResponseFilterStatus</a></strong> = (...);</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefAlphaType">TCefAlphaType</a></strong> = (...);</code></td>
@@ -1735,55 +1755,55 @@
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefTextStyle">TCefTextStyle</a></strong> = (...);</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefMainAxisAlignment">TCefMainAxisAlignment</a></strong> = (...);</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefAxisAlignment">TCefAxisAlignment</a></strong> = (...);</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefCrossAxisAlignment">TCefCrossAxisAlignment</a></strong> = (...);</code></td>
-</tr>
-<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefPdfPrintMarginType">TCefPdfPrintMarginType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefColorModel">TCefColorModel</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefJsonParserOptions">TCefJsonParserOptions</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefXmlEncodingType">TCefXmlEncodingType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefXmlNodeType">TCefXmlNodeType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefDomEventPhase">TCefDomEventPhase</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefButtonState">TCefButtonState</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefHorizontalAlignment">TCefHorizontalAlignment</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefMenuAnchorPosition">TCefMenuAnchorPosition</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefMenuColorType">TCefMenuColorType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefCompositionUnderlineStyle">TCefCompositionUnderlineStyle</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefPermissionRequestResult">TCefPermissionRequestResult</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefPreferencesType">TCefPreferencesType</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefGestureCommand">TCefGestureCommand</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefZoomCommand">TCefZoomCommand</a></strong> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a></strong> = (...);</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefTestCertType">TCefTestCertType</a></strong> = (...);</code></td>
@@ -1801,15 +1821,18 @@
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a></strong> = type int64;</code></td>
 </tr>
 <tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a></strong> = (...);</code></td>
+</tr>
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefDraggableRegionArray">TCefDraggableRegionArray</a></strong> = array[0..(High(Integer) div SizeOf(<a href="uCEFTypes.TCefDraggableRegion.html">TCefDraggableRegion</a>))-1]  of <a href="uCEFTypes.TCefDraggableRegion.html">TCefDraggableRegion</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a></strong> = (...);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a></strong> = (...);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#PCefV8ValueArray">PCefV8ValueArray</a></strong> = array[0..(High(Integer) div SizeOf(Pointer)) - 1] of <a href="uCEFTypes.html#PCefv8Value">PCefV8Value</a>;</code></td>
 </tr>
 </table>
@@ -2217,6 +2240,13 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="itemcode"><span id="PCefFileDialogCallback"></span><code><strong>PCefFileDialogCallback</strong> = &circ;<a href="uCEFTypes.TCefFileDialogCallback.html">TCefFileDialogCallback</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PCefUnresponsiveProcessCallback"></span><code><strong>PCefUnresponsiveProcessCallback</strong> = &circ;<a href="uCEFTypes.TCefUnresponsiveProcessCallback.html">TCefUnresponsiveProcessCallback</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -3175,6 +3205,57 @@
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="itemcode"><span id="PCefAcceleratedPaintInfo"></span><code><strong>PCefAcceleratedPaintInfo</strong> = &circ;<a href="uCEFTypes.TCefAcceleratedPaintInfo.html">TCefAcceleratedPaintInfo</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NativeInt"></span><code><strong>NativeInt</strong>   = PtrInt;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="NativeUInt"></span><code><strong>NativeUInt</strong>  = PtrUInt;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PNativeInt"></span><code><strong>PNativeInt</strong>  = &circ;<a href="uCEFTypes.html#NativeInt">NativeInt</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="PNativeUInt"></span><code><strong>PNativeUInt</strong> = &circ;<a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ustring"></span><code><strong>ustring</strong>     = type UnicodeString;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ String type used by CEF. ustring was created to use the same type in Delphi and Lazarus. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="rbstring"></span><code><strong>rbstring</strong>    = type AnsiString;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="itemcode"><span id="TCefWindowHandle"></span><code><strong>TCefWindowHandle</strong> = type HWND;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -3210,6 +3291,39 @@
 
 
 <p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h</a>&quot;&gt;CEF source file: /include/internal/cef_types_win.h (cef_event_handle_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TCefSharedTextureHandle"></span><code><strong>TCefSharedTextureHandle</strong>  = type HANDLE;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Native texture handle. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_win.h</a>&quot;&gt;CEF source file: /include/internal/cef_types_win.h (cef_shared_texture_handle_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TCefColorType"></span><code><strong>TCefColorType</strong> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Describes how to interpret the components of a pixel. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_color.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_color.h</a>&quot;&gt;CEF source file: /include/internal/cef_types_color.h (cef_color_type_t))</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="CEF_COLOR_TYPE_RGBA_8888">CEF_COLOR_TYPE_RGBA_8888</span>:  RGBA with 8 bits per pixel (32bits total). </li>
+<li>
+<span id="CEF_COLOR_TYPE_BGRA_8888">CEF_COLOR_TYPE_BGRA_8888</span>:  BGRA with 8 bits per pixel (32bits total). </li>
+</ul>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -3812,47 +3926,24 @@ Ranges:
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="NativeInt"></span><code><strong>NativeInt</strong>   = PtrInt;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="NativeUInt"></span><code><strong>NativeUInt</strong>  = PtrUInt;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="PNativeInt"></span><code><strong>PNativeInt</strong>  = &circ;<a href="uCEFTypes.html#NativeInt">NativeInt</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="PNativeUInt"></span><code><strong>PNativeUInt</strong> = &circ;<a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="ustring"></span><code><strong>ustring</strong>     = type UnicodeString;</code></td>
+<td class="itemcode"><span id="TCefResultCode"></span><code><strong>TCefResultCode</strong>                   = type Integer;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
- String type used by CEF. ustring was created to use the same type in Delphi and Lazarus. </p>
+ Process result codes. This is not a comprehensive list, as result codes might also include platform-specific crash values (Posix signal or Windows hardware exception), or internal-only implementation values. </p>
+<p>
+
+
+<p>See the uCEFConstants unit for all possible values.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:content/public/common/result_codes.h&quot;&gt;See Chromium's content::ResultCode type.)
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:sandbox/win/src/sandbox_types.h&quot;&gt;See sandbox::TerminationCodes type.)</p>
 </td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="rbstring"></span><code><strong>rbstring</strong>    = type AnsiString;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
@@ -5078,47 +5169,51 @@ Ranges:
 <li>
 <span id="CEF_CHANNEL_LAYOUT_5_1_BACK">CEF_CHANNEL_LAYOUT_5_1_BACK = 12</span>: Front L, Front R, Front C, LFE, Back L, Back R</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_7_0">CEF_CHANNEL_LAYOUT_7_0 = 13</span>: Front L, Front R, Front C, Side L, Side R, Back L, Back R</li>
+<span id="CEF_CHANNEL_LAYOUT_7_0">CEF_CHANNEL_LAYOUT_7_0 = 13</span>: Front L, Front R, Front C, Back L, Back R, Side L, Side R</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_7_1">CEF_CHANNEL_LAYOUT_7_1 = 14</span>: Front L, Front R, Front C, LFE, Side L, Side R, Back L, Back R</li>
+<span id="CEF_CHANNEL_LAYOUT_7_1">CEF_CHANNEL_LAYOUT_7_1 = 14</span>: Front L, Front R, Front C, LFE, Back L, Back R, Side L, Side R</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_7_1_WIDE">CEF_CHANNEL_LAYOUT_7_1_WIDE = 15</span>: Front L, Front R, Front C, LFE, Side L, Side R, Front LofC, Front RofC</li>
+<span id="CEF_CHANNEL_LAYOUT_7_1_WIDE">CEF_CHANNEL_LAYOUT_7_1_WIDE = 15</span>: Front L, Front R, Front C, LFE, Front LofC, Front RofC, Side L, Side R</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_STEREO_DOWNMIX">CEF_CHANNEL_LAYOUT_STEREO_DOWNMIX = 16</span>: Stereo L, Stereo R</li>
+<span id="CEF_CHANNEL_LAYOUT_STEREO_DOWNMIX">CEF_CHANNEL_LAYOUT_STEREO_DOWNMIX = 16</span>: Front L, Front R</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_2POINT1">CEF_CHANNEL_LAYOUT_2POINT1 = 17</span>: Stereo L, Stereo R, LFE</li>
+<span id="CEF_CHANNEL_LAYOUT_2POINT1">CEF_CHANNEL_LAYOUT_2POINT1 = 17</span>: Front L, Front R, LFE</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_3_1">CEF_CHANNEL_LAYOUT_3_1 = 18</span>: Stereo L, Stereo R, Front C, LFE</li>
+<span id="CEF_CHANNEL_LAYOUT_3_1">CEF_CHANNEL_LAYOUT_3_1 = 18</span>: Front L, Front R, Front C, LFE</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_4_1">CEF_CHANNEL_LAYOUT_4_1 = 19</span>: Stereo L, Stereo R, Front C, Rear C, LFE</li>
+<span id="CEF_CHANNEL_LAYOUT_4_1">CEF_CHANNEL_LAYOUT_4_1 = 19</span>: Front L, Front R, Front C, LFE, Back C</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_6_0">CEF_CHANNEL_LAYOUT_6_0 = 20</span>: Stereo L, Stereo R, Front C, Side L, Side R, Back C</li>
+<span id="CEF_CHANNEL_LAYOUT_6_0">CEF_CHANNEL_LAYOUT_6_0 = 20</span>: Front L, Front R, Front C, Back C, Side L, Side R</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_6_0_FRONT">CEF_CHANNEL_LAYOUT_6_0_FRONT = 21</span>: Stereo L, Stereo R, Side L, Side R, Front LofC, Front RofC</li>
+<span id="CEF_CHANNEL_LAYOUT_6_0_FRONT">CEF_CHANNEL_LAYOUT_6_0_FRONT = 21</span>: Front L, Front R, Front LofC, Front RofC, Side L, Side R</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_HEXAGONAL">CEF_CHANNEL_LAYOUT_HEXAGONAL = 22</span>: Stereo L, Stereo R, Front C, Rear L, Rear R, Rear C</li>
+<span id="CEF_CHANNEL_LAYOUT_HEXAGONAL">CEF_CHANNEL_LAYOUT_HEXAGONAL = 22</span>: Front L, Front R, Front C, Back L, Back R, Back C</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_6_1">CEF_CHANNEL_LAYOUT_6_1 = 23</span>: Stereo L, Stereo R, Front C, LFE, Side L, Side R, Rear Center</li>
+<span id="CEF_CHANNEL_LAYOUT_6_1">CEF_CHANNEL_LAYOUT_6_1 = 23</span>: Front L, Front R, Front C, LFE, Back C, Side L, Side R</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_6_1_BACK">CEF_CHANNEL_LAYOUT_6_1_BACK = 24</span>: Stereo L, Stereo R, Front C, LFE, Back L, Back R, Rear Center</li>
+<span id="CEF_CHANNEL_LAYOUT_6_1_BACK">CEF_CHANNEL_LAYOUT_6_1_BACK = 24</span>: Front L, Front R, Front C, LFE, Back L, Back R, Back C</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_6_1_FRONT">CEF_CHANNEL_LAYOUT_6_1_FRONT = 25</span>: Stereo L, Stereo R, Side L, Side R, Front LofC, Front RofC, LFE</li>
+<span id="CEF_CHANNEL_LAYOUT_6_1_FRONT">CEF_CHANNEL_LAYOUT_6_1_FRONT = 25</span>: Front L, Front R, LFE, Front LofC, Front RofC, Side L, Side R</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_7_0_FRONT">CEF_CHANNEL_LAYOUT_7_0_FRONT = 26</span>: Front L, Front R, Front C, Side L, Side R, Front LofC, Front RofC</li>
+<span id="CEF_CHANNEL_LAYOUT_7_0_FRONT">CEF_CHANNEL_LAYOUT_7_0_FRONT = 26</span>: Front L, Front R, Front C, Front LofC, Front RofC, Side L, Side R</li>
 <li>
 <span id="CEF_CHANNEL_LAYOUT_7_1_WIDE_BACK">CEF_CHANNEL_LAYOUT_7_1_WIDE_BACK = 27</span>: Front L, Front R, Front C, LFE, Back L, Back R, Front LofC, Front RofC</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_OCTAGONAL">CEF_CHANNEL_LAYOUT_OCTAGONAL = 28</span>: Front L, Front R, Front C, Side L, Side R, Rear L, Back R, Back C.</li>
+<span id="CEF_CHANNEL_LAYOUT_OCTAGONAL">CEF_CHANNEL_LAYOUT_OCTAGONAL = 28</span>: Front L, Front R, Front C, Back L, Back R, Back C, Side L, Side R</li>
 <li>
 <span id="CEF_CHANNEL_LAYOUT_DISCRETE">CEF_CHANNEL_LAYOUT_DISCRETE = 29</span>: Channels are not explicitly mapped to speakers.</li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_STEREO_AND_KEYBOARD_MIC">CEF_CHANNEL_LAYOUT_STEREO_AND_KEYBOARD_MIC = 30</span>:  Front L, Front R, Front C. Front C contains the keyboard mic audio. This layout is only intended for input for WebRTC. The Front C channel is stripped away in the WebRTC audio input pipeline and never seen outside of that. </li>
+<span id="CEF_CHANNEL_LAYOUT_STEREO_AND_KEYBOARD_MIC">CEF_CHANNEL_LAYOUT_STEREO_AND_KEYBOARD_MIC = 30</span>:  Deprecated, but keeping the enum value for UMA consistency. Front L, Front R, Front C. Front C contains the keyboard mic audio. This layout is only intended for input for WebRTC. The Front C channel is stripped away in the WebRTC audio input pipeline and never seen outside of that. </li>
 <li>
-<span id="CEF_CHANNEL_LAYOUT_4_1_QUAD_SIDE">CEF_CHANNEL_LAYOUT_4_1_QUAD_SIDE = 31</span>: Front L, Front R, Side L, Side R, LFE</li>
+<span id="CEF_CHANNEL_LAYOUT_4_1_QUAD_SIDE">CEF_CHANNEL_LAYOUT_4_1_QUAD_SIDE = 31</span>: Front L, Front R, LFE, Side L, Side R</li>
 <li>
 <span id="CEF_CHANNEL_LAYOUT_BITSTREAM">CEF_CHANNEL_LAYOUT_BITSTREAM = 32</span>:  Actual channel layout is specified in the bitstream and the actual channel count is unknown at Chromium media pipeline level (useful for audio pass-through mode). </li>
 <li>
 <span id="CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX">CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX = 33</span>:  Front L, Front R, Front C, LFE, Side L, Side R, Front Height L, Front Height R, Rear Height L, Rear Height R Will be represented as six channels (5.1) due to eight channel limit kMaxConcurrentChannels </li>
+<li>
+<span id="CEF_CHANNEL_LAYOUT_1_1">CEF_CHANNEL_LAYOUT_1_1 = 34</span>: Front C, LFE</li>
+<li>
+<span id="CEF_CHANNEL_LAYOUT_3_1_BACK">CEF_CHANNEL_LAYOUT_3_1_BACK = 35</span>: Front L, Front R, LFE, Back C</li>
 </ul>
 </td></tr>
 </table>
@@ -5519,6 +5614,10 @@ Ranges:
 <span id="TS_PROCESS_CRASHED">TS_PROCESS_CRASHED</span>:  Segmentation fault. </li>
 <li>
 <span id="TS_PROCESS_OOM">TS_PROCESS_OOM</span>:  Out of memory. Some platforms may use TS_PROCESS_CRASHED instead. </li>
+<li>
+<span id="TS_LAUNCH_FAILED">TS_LAUNCH_FAILED</span>:  Child process never launched. </li>
+<li>
+<span id="TS_INTEGRITY_FAILURE">TS_INTEGRITY_FAILURE</span>:  On Windows, the OS terminated the process due to code integrity failure. </li>
 </ul>
 </td></tr>
 </table>
@@ -5600,26 +5699,6 @@ Ranges:
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TCefColorType"></span><code><strong>TCefColorType</strong> = (...);</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
- Describes how to interpret the components of a pixel. </p>
-<p>
-
-
-<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_color_type_t))</p>
-<h6 class="description_section">Values</h6>
-<ul>
-<li>
-<span id="CEF_COLOR_TYPE_RGBA_8888">CEF_COLOR_TYPE_RGBA_8888</span>:  RGBA with 8 bits per pixel (32bits total). </li>
-<li>
-<span id="CEF_COLOR_TYPE_BGRA_8888">CEF_COLOR_TYPE_BGRA_8888</span>:  BGRA with 8 bits per pixel (32bits total). </li>
-</ul>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
 <td class="itemcode"><span id="TCefAlphaType"></span><code><strong>TCefAlphaType</strong> = (...);</code></td>
 </tr>
 <tr><td colspan="1">
@@ -5668,47 +5747,25 @@ Ranges:
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TCefMainAxisAlignment"></span><code><strong>TCefMainAxisAlignment</strong> = (...);</code></td>
+<td class="itemcode"><span id="TCefAxisAlignment"></span><code><strong>TCefAxisAlignment</strong> = (...);</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
- Specifies where along the main axis the CefBoxLayout child views should be laid out. </p>
+ Specifies where along the axis the CefBoxLayout child views should be laid out. Should be kept in sync with Chromium's views::LayoutAlignment type. </p>
 <p>
 
 
-<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_main_axis_alignment_t))</p>
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_axis_alignment_t))</p>
 <h6 class="description_section">Values</h6>
 <ul>
 <li>
-<span id="CEF_MAIN_AXIS_ALIGNMENT_START">CEF_MAIN_AXIS_ALIGNMENT_START</span>:  Child views will be left-aligned. </li>
+<span id="CEF_AXIS_ALIGNMENT_START">CEF_AXIS_ALIGNMENT_START</span>:  Child views will be left/top-aligned. </li>
 <li>
-<span id="CEF_MAIN_AXIS_ALIGNMENT_CENTER">CEF_MAIN_AXIS_ALIGNMENT_CENTER</span>:  Child views will be center-aligned. </li>
+<span id="CEF_AXIS_ALIGNMENT_CENTER">CEF_AXIS_ALIGNMENT_CENTER</span>:  Child views will be center-aligned. </li>
 <li>
-<span id="CEF_MAIN_AXIS_ALIGNMENT_END">CEF_MAIN_AXIS_ALIGNMENT_END</span>:  Child views will be right-aligned. </li>
-</ul>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="TCefCrossAxisAlignment"></span><code><strong>TCefCrossAxisAlignment</strong> = (...);</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
- Specifies where along the main axis the CefBoxLayout child views should be laid out. </p>
-<p>
-
-
-<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_cross_axis_alignment_t))</p>
-<h6 class="description_section">Values</h6>
-<ul>
+<span id="CEF_AXIS_ALIGNMENT_END">CEF_AXIS_ALIGNMENT_END</span>:  Child views will be right/bottom-aligned. </li>
 <li>
-<span id="CEF_CROSS_AXIS_ALIGNMENT_STRETCH">CEF_CROSS_AXIS_ALIGNMENT_STRETCH</span>:  Child views will be stretched to fit. </li>
-<li>
-<span id="CEF_CROSS_AXIS_ALIGNMENT_START">CEF_CROSS_AXIS_ALIGNMENT_START</span>:  Child views will be left-aligned. </li>
-<li>
-<span id="CEF_CROSS_AXIS_ALIGNMENT_CENTER">CEF_CROSS_AXIS_ALIGNMENT_CENTER</span>:  Child views will be center-aligned. </li>
-<li>
-<span id="CEF_CROSS_AXIS_ALIGNMENT_END">CEF_CROSS_AXIS_ALIGNMENT_END</span>:  Child views will be right-aligned. </li>
+<span id="CEF_AXIS_ALIGNMENT_STRETCH">CEF_AXIS_ALIGNMENT_STRETCH</span>:  Child views will be stretched to fit. </li>
 </ul>
 </td></tr>
 </table>
@@ -6110,6 +6167,36 @@ Ranges:
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="itemcode"><span id="TCefColorVariant"></span><code><strong>TCefColorVariant</strong> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Specifies the color variants supported by ICefRequestContext.SetChromeThemeColor. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_color_variant_t))</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="CEF_COLOR_VARIANT_SYSTEM">CEF_COLOR_VARIANT_SYSTEM</span></li>
+<li>
+<span id="CEF_COLOR_VARIANT_LIGHT">CEF_COLOR_VARIANT_LIGHT</span></li>
+<li>
+<span id="CEF_COLOR_VARIANT_DARK">CEF_COLOR_VARIANT_DARK</span></li>
+<li>
+<span id="CEF_COLOR_VARIANT_TONAL_SPOT">CEF_COLOR_VARIANT_TONAL_SPOT</span></li>
+<li>
+<span id="CEF_COLOR_VARIANT_NEUTRAL">CEF_COLOR_VARIANT_NEUTRAL</span></li>
+<li>
+<span id="CEF_COLOR_VARIANT_VIBRANT">CEF_COLOR_VARIANT_VIBRANT</span></li>
+<li>
+<span id="CEF_COLOR_VARIANT_EXPRESSIVE">CEF_COLOR_VARIANT_EXPRESSIVE</span></li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="itemcode"><span id="TCefTestCertType"></span><code><strong>TCefTestCertType</strong> = (...);</code></td>
 </tr>
 <tr><td colspan="1">
@@ -6246,6 +6333,36 @@ Ranges:
 
 
 <p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h</a>&quot;&gt;CEF source file: /include/internal/cef_time.h (cef_basetime_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TCefRuntimeStyle"></span><code><strong>TCefRuntimeStyle</strong> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+
+
+<p>CEF supports both a Chrome runtime (based on the Chrome UI layer) and an Alloy runtime (based on the Chromium content layer). The Chrome runtime provides the full Chrome UI and browser functionality whereas the Alloy runtime provides less default browser functionality but adds additional client callbacks and support for windowless (off-screen) rendering. For additional comparative details on runtime types see <a href="https://bitbucket.org/chromiumembedded/cef/wiki/Architecture.md#markdown-header-cef3">https://bitbucket.org/chromiumembedded/cef/wiki/Architecture.md#markdown-header-cef3</a>
+
+<p>Each runtime is composed of a bootstrap component and a style component. The bootstrap component is configured via CefSettings.chrome_runtime and cannot be changed after CefInitialize. The style component is individually configured for each window/browser at creation time and, in combination with the Chrome bootstrap, different styles can be mixed during runtime.
+
+<p>Windowless rendering will always use Alloy style. Windowed rendering with a default window or client-provided parent window can configure the style via CefWindowInfo.runtime_style. Windowed rendering with the Views framework can configure the style via CefWindowDelegate::GetWindowRuntimeStyle and CefBrowserViewDelegate::GetBrowserRuntimeStyle. Alloy style Windows with the Views framework can host only Alloy style BrowserViews but Chrome style Windows can host both style BrowserViews. Additionally, a Chrome style Window can host at most one Chrome style BrowserView but potentially multiple Alloy style BrowserViews. See CefWindowInfo.runtime_style documentation for any additional platform-specific limitations.
+
+<p></p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_runtime.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_runtime.h</a>&quot;&gt;CEF source file: /include/internal/cef_types_runtime.h (cef_runtime_style_t))</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="CEF_RUNTIME_STYLE_DEFAULT">CEF_RUNTIME_STYLE_DEFAULT</span>:  Use the default runtime style. The default style will match the CefSettings.chrome_runtime value in most cases. See above documentation for exceptions. </li>
+<li>
+<span id="CEF_RUNTIME_STYLE_CHROME">CEF_RUNTIME_STYLE_CHROME</span>:  Use the Chrome runtime style. Only supported with the Chrome runtime. </li>
+<li>
+<span id="CEF_RUNTIME_STYLE_ALLOY">CEF_RUNTIME_STYLE_ALLOY</span>:  Use the Alloy runtime style. Supported with both the Alloy and Chrome runtime. </li>
+</ul>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -6463,6 +6580,16 @@ Ranges:
 <li>
 <span id="CEF_CONTENT_SETTING_TYPE_TOP_LEVEL_TPCD_TRIAL">CEF_CONTENT_SETTING_TYPE_TOP_LEVEL_TPCD_TRIAL</span>:  Content Setting for 3PC accesses granted via top-level 3PC deprecation trial. Similar to TPCD_TRIAL, but applicable at the page-level for the lifetime of the page that served the token, rather than being specific to a requesting-origin/top-level-site combination and persistent. </li>
 <li>
+<span id="CEF_CONTENT_SETTING_TOP_LEVEL_TPCD_ORIGIN_TRIAL">CEF_CONTENT_SETTING_TOP_LEVEL_TPCD_ORIGIN_TRIAL</span>: 
+
+<p>Content Setting for a first-party origin trial that allows websites to enable third-party cookie deprecation.
+
+<p>ALLOW (default): no effect (e.g. third-party cookies allowed, if not blocked otherwise).
+
+<p>BLOCK: third-party cookies blocked, but 3PCD mitigations enabled.
+
+<p></li>
+<li>
 <span id="CEF_CONTENT_SETTING_TYPE_AUTO_PICTURE_IN_PICTURE">CEF_CONTENT_SETTING_TYPE_AUTO_PICTURE_IN_PICTURE</span>:  Content setting used to indicate whether entering picture-in-picture automatically should be enabled. </li>
 <li>
 <span id="CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_ACCESS_EXTENDED_PERMISSION">CEF_CONTENT_SETTING_TYPE_FILE_SYSTEM_ACCESS_EXTENDED_PERMISSION</span>:  Whether user has opted into keeping file/directory permissions persistent between visits for a given origin. When enabled, permission metadata stored under |FILE_SYSTEM_ACCESS_CHOOSER_DATA| can auto-grant incoming permission request. </li>
@@ -6483,7 +6610,23 @@ Ranges:
 <li>
 <span id="CEF_CONTENT_SETTING_TYPE_SPEAKER_SELECTION">CEF_CONTENT_SETTING_TYPE_SPEAKER_SELECTION</span>:  Whether an application can enumerate audio output device. </li>
 <li>
-<span id="CEF_CONTENT_SETTING_TYPE_NUM_TYPES">CEF_CONTENT_SETTING_TYPE_NUM_TYPES</span></li>
+<span id="CEF_CONTENT_SETTING_TYPE_DIRECT_SOCKETS">CEF_CONTENT_SETTING_TYPE_DIRECT_SOCKETS</span>:  Content settings for access to the Direct Sockets API. </li>
+<li>
+<span id="CEF_CONTENT_SETTING_TYPE_KEYBOARD_LOCK">CEF_CONTENT_SETTING_TYPE_KEYBOARD_LOCK</span>:  Keyboard Lock API allows a site to capture keyboard inputs that would otherwise be handled by the OS or the browser. </li>
+<li>
+<span id="CEF_CONTENT_SETTING_TYPE_POINTER_LOCK">CEF_CONTENT_SETTING_TYPE_POINTER_LOCK</span>:  Pointer Lock API allows a site to hide the cursor and have exclusive access to mouse inputs. </li>
+<li>
+<span id="REVOKED_ABUSIVE_NOTIFICATION_PERMISSIONS">REVOKED_ABUSIVE_NOTIFICATION_PERMISSIONS</span>:  Website setting which is used for UnusedSitePermissionsService to store auto-revoked notification permissions from abusive sites. </li>
+<li>
+<span id="TRACKING_PROTECTION">TRACKING_PROTECTION</span>: 
+
+<p>Content setting that controls tracking protection status per site.
+
+<p>BLOCK: Protections enabled. This is the default state.
+
+<p>ALLOW: Protections disabled.
+
+<p></li>
 </ul>
 </td></tr>
 </table>

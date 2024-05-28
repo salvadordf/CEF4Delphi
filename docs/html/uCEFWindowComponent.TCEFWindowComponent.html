@@ -57,31 +57,39 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetParentWindow">FOnGetParentWindow</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetParentWindowEvent">TOnGetParentWindowEvent</a>;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowFullscreenTransition">FOnWindowFullscreenTransition</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnWindowFullscreenTransitionEvent">TOnWindowFullscreenTransitionEvent</a>;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetParentWindow">FOnGetParentWindow</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetParentWindowEvent">TOnGetParentWindowEvent</a>;</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnIsWindowModalDialog">FOnIsWindowModalDialog</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnIsWindowModalDialogEvent">TOnIsWindowModalDialogEvent</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetInitialBounds">FOnGetInitialBounds</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetInitialBoundsEvent">TOnGetInitialBoundsEvent</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetInitialShowState">FOnGetInitialShowState</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetInitialShowStateEvent">TOnGetInitialShowStateEvent</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnIsFrameless">FOnIsFrameless</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnIsFramelessEvent">TOnIsFramelessEvent</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWithStandardWindowButtons">FOnWithStandardWindowButtons</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnWithStandardWindowButtonsEvent">TOnWithStandardWindowButtonsEvent</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetTitlebarHeight">FOnGetTitlebarHeight</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetTitlebarHeightEvent">TOnGetTitlebarHeightEvent</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnAcceptsFirstMouse">FOnAcceptsFirstMouse</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnAcceptsFirstMouseEvent">TOnAcceptsFirstMouseEvent</a>;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
@@ -109,7 +117,11 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowFullscreenTransition">FOnWindowFullscreenTransition</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnWindowFullscreenTransitionEvent">TOnWindowFullscreenTransitionEvent</a>;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnThemeColorsChanged">FOnThemeColorsChanged</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnThemeColorsChangedEvent">TOnThemeColorsChangedEvent</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetWindowRuntimeStyle">FOnGetWindowRuntimeStyle</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetWindowRuntimeStyleEvent">TOnGetWindowRuntimeStyleEvent</a>;</code></td>
 </tr>
 </table>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
@@ -188,43 +200,51 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#SetAlwaysOnTop-boolean-">SetAlwaysOnTop</a></strong>(on_top: boolean);</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#GetRuntimeStyle">GetRuntimeStyle</a></strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#SetAlwaysOnTop-boolean-">SetAlwaysOnTop</a></strong>(on_top: boolean);</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#SetFullscreen-boolean-">SetFullscreen</a></strong>(fullscreen: boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#SetTitle-ustring-">SetTitle</a></strong>(const title_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#SetWindowIcon-ICefImage-">SetWindowIcon</a></strong>(const image: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#SetWindowAppIcon-ICefImage-">SetWindowAppIcon</a></strong>(const image: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnWindowCreated-ICefWindow-">doOnWindowCreated</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnWindowClosing-ICefWindow-">doOnWindowClosing</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnWindowDestroyed-ICefWindow-">doOnWindowDestroyed</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnWindowActivationChanged-ICefWindow-boolean-">doOnWindowActivationChanged</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; active: boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnWindowBoundsChanged-ICefWindow-TCefRect-">doOnWindowBoundsChanged</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const new_bounds: <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnWindowFullscreenTransition-ICefWindow-boolean-">doOnWindowFullscreenTransition</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; is_completed: boolean);</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
@@ -256,31 +276,39 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnCanResize-ICefWindow-boolean-">doOnCanResize</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnAcceptsFirstMouse-ICefWindow-TCefState-">doOnAcceptsFirstMouse</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult: <a href="uCEFTypes.html#TCefState">TCefState</a>);</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnCanResize-ICefWindow-boolean-">doOnCanResize</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnCanMaximize-ICefWindow-boolean-">doOnCanMaximize</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnCanMinimize-ICefWindow-boolean-">doOnCanMinimize</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnCanClose-ICefWindow-boolean-">doOnCanClose</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnAccelerator-ICefWindow-Integer-boolean-">doOnAccelerator</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; command_id: Integer; var aResult : boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnKeyEvent-ICefWindow-TCefKeyEvent-boolean-">doOnKeyEvent</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const event: <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>; var aResult : boolean);</code></td>
 </tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnThemeColorsChanged-ICefWindow-Integer-">doOnThemeColorsChanged</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; chrome_theme: Integer);</code></td>
+</tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnWindowFullscreenTransition-ICefWindow-boolean-">doOnWindowFullscreenTransition</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; is_completed: boolean);</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnGetWindowRuntimeStyle-TCefRuntimeStyle-">doOnGetWindowRuntimeStyle</a></strong>(var aResult: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
@@ -374,6 +402,14 @@
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#RemoveAllAccelerators">RemoveAllAccelerators</a></strong>;</code></td>
 </tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#SetThemeColor-integer-TCefColor-">SetThemeColor</a></strong>(color_id: integer; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#ThemeChanged">ThemeChanged</a></strong>;</code></td>
+</tr>
 </table>
 <span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
 <table class="summary wide_list">
@@ -426,24 +462,32 @@
 <td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#IsMinimized">IsMinimized</a></strong>              : boolean            read <a href="uCEFWindowComponent.TCEFWindowComponent.html#GetIsMinimized">GetIsMinimized</a>;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#RuntimeStyle">RuntimeStyle</a></strong>             : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>   read <a href="uCEFWindowComponent.TCEFWindowComponent.html#GetRuntimeStyle">GetRuntimeStyle</a>;</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnWindowCreated">OnWindowCreated</a></strong>              : <a href="uCEFViewsFrameworkEvents.html#TOnWindowCreatedEvent">TOnWindowCreatedEvent</a>              read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowCreated">FOnWindowCreated</a>              write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowCreated">FOnWindowCreated</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnWindowClosing">OnWindowClosing</a></strong>              : <a href="uCEFViewsFrameworkEvents.html#TOnWindowClosingEvent">TOnWindowClosingEvent</a>              read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowClosing">FOnWindowClosing</a>              write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowClosing">FOnWindowClosing</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnWindowDestroyed">OnWindowDestroyed</a></strong>            : <a href="uCEFViewsFrameworkEvents.html#TOnWindowDestroyedEvent">TOnWindowDestroyedEvent</a>            read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowDestroyed">FOnWindowDestroyed</a>            write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowDestroyed">FOnWindowDestroyed</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnWindowActivationChanged">OnWindowActivationChanged</a></strong>    : <a href="uCEFViewsFrameworkEvents.html#TOnWindowActivationChangedEvent">TOnWindowActivationChangedEvent</a>    read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowActivationChanged">FOnWindowActivationChanged</a>    write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowActivationChanged">FOnWindowActivationChanged</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnWindowBoundsChanged">OnWindowBoundsChanged</a></strong>        : <a href="uCEFViewsFrameworkEvents.html#TOnWindowBoundsChangedEvent">TOnWindowBoundsChangedEvent</a>        read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowBoundsChanged">FOnWindowBoundsChanged</a>        write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowBoundsChanged">FOnWindowBoundsChanged</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnWindowFullscreenTransition">OnWindowFullscreenTransition</a></strong> : <a href="uCEFViewsFrameworkEvents.html#TOnWindowFullscreenTransitionEvent">TOnWindowFullscreenTransitionEvent</a> read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowFullscreenTransition">FOnWindowFullscreenTransition</a> write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowFullscreenTransition">FOnWindowFullscreenTransition</a>;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
@@ -475,31 +519,39 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
-<td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnCanResize">OnCanResize</a></strong>                  : <a href="uCEFViewsFrameworkEvents.html#TOnCanResizeEvent">TOnCanResizeEvent</a>                  read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnCanResize">FOnCanResize</a>                  write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnCanResize">FOnCanResize</a>;</code></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnAcceptsFirstMouse">OnAcceptsFirstMouse</a></strong>          : <a href="uCEFViewsFrameworkEvents.html#TOnAcceptsFirstMouseEvent">TOnAcceptsFirstMouseEvent</a>          read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnAcceptsFirstMouse">FOnAcceptsFirstMouse</a>          write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnAcceptsFirstMouse">FOnAcceptsFirstMouse</a>;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnCanResize">OnCanResize</a></strong>                  : <a href="uCEFViewsFrameworkEvents.html#TOnCanResizeEvent">TOnCanResizeEvent</a>                  read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnCanResize">FOnCanResize</a>                  write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnCanResize">FOnCanResize</a>;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnCanMaximize">OnCanMaximize</a></strong>                : <a href="uCEFViewsFrameworkEvents.html#TOnCanMaximizeEvent">TOnCanMaximizeEvent</a>                read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnCanMaximize">FOnCanMaximize</a>                write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnCanMaximize">FOnCanMaximize</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnCanMinimize">OnCanMinimize</a></strong>                : <a href="uCEFViewsFrameworkEvents.html#TOnCanMinimizeEvent">TOnCanMinimizeEvent</a>                read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnCanMinimize">FOnCanMinimize</a>                write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnCanMinimize">FOnCanMinimize</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnCanClose">OnCanClose</a></strong>                   : <a href="uCEFViewsFrameworkEvents.html#TOnCanCloseEvent">TOnCanCloseEvent</a>                   read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnCanClose">FOnCanClose</a>                   write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnCanClose">FOnCanClose</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnAccelerator">OnAccelerator</a></strong>                : <a href="uCEFViewsFrameworkEvents.html#TOnAcceleratorEvent">TOnAcceleratorEvent</a>                read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnAccelerator">FOnAccelerator</a>                write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnAccelerator">FOnAccelerator</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnKeyEvent">OnKeyEvent</a></strong>                   : <a href="uCEFViewsFrameworkEvents.html#TOnWindowKeyEventEvent">TOnWindowKeyEventEvent</a>             read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnKeyEvent">FOnKeyEvent</a>                   write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnKeyEvent">FOnKeyEvent</a>;</code></td>
 </tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnThemeColorsChanged">OnThemeColorsChanged</a></strong>         : <a href="uCEFViewsFrameworkEvents.html#TOnThemeColorsChangedEvent">TOnThemeColorsChangedEvent</a>         read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnThemeColorsChanged">FOnThemeColorsChanged</a>         write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnThemeColorsChanged">FOnThemeColorsChanged</a>;</code></td>
+</tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
-<td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnWindowFullscreenTransition">OnWindowFullscreenTransition</a></strong> : <a href="uCEFViewsFrameworkEvents.html#TOnWindowFullscreenTransitionEvent">TOnWindowFullscreenTransitionEvent</a> read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowFullscreenTransition">FOnWindowFullscreenTransition</a> write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowFullscreenTransition">FOnWindowFullscreenTransition</a>;</code></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnGetWindowRuntimeStyle">OnGetWindowRuntimeStyle</a></strong>      : <a href="uCEFViewsFrameworkEvents.html#TOnGetWindowRuntimeStyleEvent">TOnGetWindowRuntimeStyleEvent</a>      read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetWindowRuntimeStyle">FOnGetWindowRuntimeStyle</a>      write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetWindowRuntimeStyle">FOnGetWindowRuntimeStyle</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -565,6 +617,14 @@ ICefWindowDelegateEvents</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnWindowFullscreenTransition"></span><code><strong>FOnWindowFullscreenTransition</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnWindowFullscreenTransitionEvent">TOnWindowFullscreenTransitionEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="FOnGetParentWindow"></span><code><strong>FOnGetParentWindow</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetParentWindowEvent">TOnGetParentWindowEvent</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -621,6 +681,14 @@ ICefWindowDelegateEvents</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnAcceptsFirstMouse"></span><code><strong>FOnAcceptsFirstMouse</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnAcceptsFirstMouseEvent">TOnAcceptsFirstMouseEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="FOnCanResize"></span><code><strong>FOnCanResize</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnCanResizeEvent">TOnCanResizeEvent</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -669,7 +737,15 @@ ICefWindowDelegateEvents</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><span id="FOnWindowFullscreenTransition"></span><code><strong>FOnWindowFullscreenTransition</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnWindowFullscreenTransitionEvent">TOnWindowFullscreenTransitionEvent</a>;</code></td>
+<td class="itemcode"><span id="FOnThemeColorsChanged"></span><code><strong>FOnThemeColorsChanged</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnThemeColorsChangedEvent">TOnThemeColorsChangedEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnGetWindowRuntimeStyle"></span><code><strong>FOnGetWindowRuntimeStyle</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetWindowRuntimeStyleEvent">TOnGetWindowRuntimeStyleEvent</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -822,6 +898,14 @@ ICefWindowDelegateEvents</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetRuntimeStyle"></span><code>function <strong>GetRuntimeStyle</strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="SetAlwaysOnTop-boolean-"></span><code>procedure <strong>SetAlwaysOnTop</strong>(on_top: boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -904,6 +988,14 @@ ICefWindowDelegateEvents</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnWindowFullscreenTransition-ICefWindow-boolean-"></span><code>procedure <strong>doOnWindowFullscreenTransition</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; is_completed: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="doOnGetParentWindow-ICefWindow-boolean-boolean-ICefWindow-"></span><code>procedure <strong>doOnGetParentWindow</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var is_menu, can_activate_menu: boolean; var aResult : <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -960,6 +1052,14 @@ ICefWindowDelegateEvents</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnAcceptsFirstMouse-ICefWindow-TCefState-"></span><code>procedure <strong>doOnAcceptsFirstMouse</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult: <a href="uCEFTypes.html#TCefState">TCefState</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="doOnCanResize-ICefWindow-boolean-"></span><code>procedure <strong>doOnCanResize</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -1008,7 +1108,15 @@ ICefWindowDelegateEvents</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><span id="doOnWindowFullscreenTransition-ICefWindow-boolean-"></span><code>procedure <strong>doOnWindowFullscreenTransition</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; is_completed: boolean);</code></td>
+<td class="itemcode"><span id="doOnThemeColorsChanged-ICefWindow-Integer-"></span><code>procedure <strong>doOnThemeColorsChanged</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; chrome_theme: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnGetWindowRuntimeStyle-TCefRuntimeStyle-"></span><code>procedure <strong>doOnGetWindowRuntimeStyle</strong>(var aResult: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -1285,6 +1393,54 @@ ICefViewDelegateEvents</p>
  Remove all keyboard accelerators. </p>
 </td></tr>
 </table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetThemeColor-integer-TCefColor-"></span><code>procedure <strong>SetThemeColor</strong>(color_id: integer; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Override a standard theme color or add a custom color associated with |color_id|. See cef_color_ids.h for standard ID values. Recommended usage is as follows:
+
+<p></p>
+
+<pre class="preformatted">
+1. Customize the default native/OS theme by calling SetThemeColor before
+   showing the first Window. When done setting colors call
+   ICefWindow.ThemeChanged to trigger ICefViewDelegate.OnThemeChanged
+   notifications.
+2. Customize the current native/OS or Chrome theme after it changes by
+   calling SetThemeColor from the ICefWindowDelegate.OnThemeColorsChanged
+   callback. ICefViewDelegate.OnThemeChanged notifications will then be
+   triggered automatically.</pre>
+
+<p>
+
+<p>The configured color will be available immediately via ICefView.GetThemeColor and will be applied to each View in this Window's component hierarchy when ICefViewDelegate.OnThemeChanged is called. See OnThemeColorsChanged documentation for additional details.
+
+<p>Clients wishing to add custom colors should use |color_id| values &gt;= CEF_ChromeColorsEnd.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ThemeChanged"></span><code>procedure <strong>ThemeChanged</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Trigger ICefViewDelegate.OnThemeChanged callbacks for each View in this Window's component hierarchy. Unlike a native/OS or Chrome theme change this function does not reset theme colors to standard values and does not result in a call to ICefWindowDelegate.OnThemeColorsChanged.
+
+<p>Do not call this function from ICefWindowDelegate.OnThemeColorsChanged or ICefViewDelegate.OnThemeChanged.
+
+<p></p>
+</td></tr>
+</table>
 <h3 class="detail">Properties</h3>
 <table class="detail wide_list">
 <tr class="list">
@@ -1408,6 +1564,16 @@ ICefViewDelegateEvents</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RuntimeStyle"></span><code>property <strong>RuntimeStyle</strong>             : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>   read <a href="uCEFWindowComponent.TCEFWindowComponent.html#GetRuntimeStyle">GetRuntimeStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the runtime style for this Window (ALLOY or CHROME). See TCefRuntimeStyle documentation for details. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><span id="OnWindowCreated"></span><code>property <strong>OnWindowCreated</strong>              : <a href="uCEFViewsFrameworkEvents.html#TOnWindowCreatedEvent">TOnWindowCreatedEvent</a>              read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowCreated">FOnWindowCreated</a>              write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowCreated">FOnWindowCreated</a>;</code></td>
 </tr>
@@ -1454,6 +1620,16 @@ ICefViewDelegateEvents</p>
 <tr><td colspan="2">
 <p>
  Called when |window| bounds have changed. |new_bounds| will be in DIP screen coordinates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnWindowFullscreenTransition"></span><code>property <strong>OnWindowFullscreenTransition</strong> : <a href="uCEFViewsFrameworkEvents.html#TOnWindowFullscreenTransitionEvent">TOnWindowFullscreenTransitionEvent</a> read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowFullscreenTransition">FOnWindowFullscreenTransition</a> write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowFullscreenTransition">FOnWindowFullscreenTransition</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when |window| is transitioning to or from fullscreen mode. On MacOS the transition occurs asynchronously with |is_competed| set to false (0) when the transition starts and true (1) after the transition completes. On other platforms the transition occurs synchronously with |is_completed| set to true (1) after the transition completes. With the Alloy runtime you must also implement ICefDisplayHandler.OnFullscreenModeChange to handle fullscreen transitions initiated by browser content. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -1529,6 +1705,22 @@ ICefViewDelegateEvents</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnAcceptsFirstMouse"></span><code>property <strong>OnAcceptsFirstMouse</strong>          : <a href="uCEFViewsFrameworkEvents.html#TOnAcceptsFirstMouseEvent">TOnAcceptsFirstMouseEvent</a>          read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnAcceptsFirstMouse">FOnAcceptsFirstMouse</a>          write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnAcceptsFirstMouse">FOnAcceptsFirstMouse</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Return whether the view should accept the initial mouse-down event, allowing it to respond to click-through behavior. If STATE_ENABLED is returned, the view will be sent a mouseDown: message for an initial mouse- down event, activating the view with one click, instead of clicking first to make the window active and then clicking the view.
+
+<p>This function is only supported on macOS. For more details, refer to the documentation of acceptsFirstMouse.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><span id="OnCanResize"></span><code>property <strong>OnCanResize</strong>                  : <a href="uCEFViewsFrameworkEvents.html#TOnCanResizeEvent">TOnCanResizeEvent</a>                  read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnCanResize">FOnCanResize</a>                  write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnCanResize">FOnCanResize</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -1589,11 +1781,33 @@ ICefViewDelegateEvents</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
-<td class="itemcode"><span id="OnWindowFullscreenTransition"></span><code>property <strong>OnWindowFullscreenTransition</strong> : <a href="uCEFViewsFrameworkEvents.html#TOnWindowFullscreenTransitionEvent">TOnWindowFullscreenTransitionEvent</a> read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowFullscreenTransition">FOnWindowFullscreenTransition</a> write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnWindowFullscreenTransition">FOnWindowFullscreenTransition</a>;</code></td>
+<td class="itemcode"><span id="OnThemeColorsChanged"></span><code>property <strong>OnThemeColorsChanged</strong>         : <a href="uCEFViewsFrameworkEvents.html#TOnThemeColorsChangedEvent">TOnThemeColorsChangedEvent</a>         read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnThemeColorsChanged">FOnThemeColorsChanged</a>         write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnThemeColorsChanged">FOnThemeColorsChanged</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
- Called when |window| is transitioning to or from fullscreen mode. On MacOS the transition occurs asynchronously with |is_competed| set to false (0) when the transition starts and true (1) after the transition completes. On other platforms the transition occurs synchronously with |is_completed| set to true (1) after the transition completes. With the Alloy runtime you must also implement ICefDisplayHandler.OnFullscreenModeChange to handle fullscreen transitions initiated by browser content. </p>
+
+
+<p>Called after the native/OS or Chrome theme for |window| has changed. |chrome_theme| will be true (1) if the notification is for a Chrome theme.
+
+<p>Native/OS theme colors are configured globally and do not need to be customized for each Window individually. An example of a native/OS theme change that triggers this callback is when the user switches between dark and light mode during application lifespan. Native/OS theme changes can be disabled by passing the `&ndash;force-dark-mode` or `&ndash;force-light-mode` command-line flag.
+
+<p>Chrome theme colors will be applied and this callback will be triggered if/when a BrowserView is added to the Window's component hierarchy. Chrome theme colors can be configured on a per-RequestContext basis using ICefRequestContext.SetChromeColorScheme or (Chrome runtime only) by visiting <a href="chrome://settings/manageProfile">chrome://settings/manageProfile</a>. Any theme changes using those mechanisms will also trigger this callback. Chrome theme colors will be persisted and restored from disk cache with the Chrome runtime, and with the Alloy runtime if persist_user_preferences is set to true (1) via CefSettings or ICefRequestContext Settings.
+
+<p>This callback is not triggered on Window creation so clients that wish to customize the initial native/OS theme must call ICefWindow.SetThemeColor and ICefWindow.ThemeChanged before showing the first Window.
+
+<p>Theme colors will be reset to standard values before this callback is called for the first affected Window. Call ICefWindow.SetThemeColor from inside this callback to override a standard color or add a custom color. ICefViewDelegate.OnThemeChanged will be called after this callback for the complete |window| component hierarchy.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnGetWindowRuntimeStyle"></span><code>property <strong>OnGetWindowRuntimeStyle</strong>      : <a href="uCEFViewsFrameworkEvents.html#TOnGetWindowRuntimeStyleEvent">TOnGetWindowRuntimeStyleEvent</a>      read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetWindowRuntimeStyle">FOnGetWindowRuntimeStyle</a>      write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetWindowRuntimeStyle">FOnGetWindowRuntimeStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Optionally change the runtime style for this Window. See TCefRuntimeStyle documentation for details. </p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>

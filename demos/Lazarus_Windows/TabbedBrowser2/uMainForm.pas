@@ -160,7 +160,7 @@ begin
   GlobalCEFApp.EnablePrintPreview   := True;
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;   
   GlobalCEFApp.SetCurrentDir        := True;
-  //GlobalCEFApp.ChromeRuntime        := True;
+  GlobalCEFApp.ChromeRuntime        := True;
 end;
 
 procedure TMainForm.EnableButtonPnl;

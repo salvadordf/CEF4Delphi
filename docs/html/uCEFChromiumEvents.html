@@ -103,7 +103,7 @@
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnCanDownloadEvent">TOnCanDownloadEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const url, request_method: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: boolean) of object;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnBeforeDownload">TOnBeforeDownload</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>) of object;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnBeforeDownload">TOnBeforeDownload</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>; var aResult : boolean) of object;</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDownloadUpdated">TOnDownloadUpdated</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const callback: <a href="uCEFInterfaces.ICefDownloadItemCallback.html">ICefDownloadItemCallback</a>) of object;</code></td>
@@ -154,7 +154,13 @@
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRenderViewReady">TOnRenderViewReady</a></strong> = procedure(Sender: Tobject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRenderProcessTerminated">TOnRenderProcessTerminated</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>) of object;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRenderProcessUnresponsive">TOnRenderProcessUnresponsive</a></strong> = procedure(Sender: Tobject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const callback: <a href="uCEFInterfaces.ICefUnresponsiveProcessCallback.html">ICefUnresponsiveProcessCallback</a>; var aResult: boolean) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRenderProcessResponsive">TOnRenderProcessResponsive</a></strong> = procedure(Sender: Tobject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRenderProcessTerminated">TOnRenderProcessTerminated</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>; error_code: integer; const error_string: <a href="uCEFTypes.html#ustring">ustring</a>) of object;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetResourceRequestHandler">TOnGetResourceRequestHandler</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; is_navigation, is_download: boolean; const request_initiator: <a href="uCEFTypes.html#ustring">ustring</a>; var disable_default_handling: boolean; var aExternalResourceRequestHandler : <a href="uCEFInterfaces.ICefResourceRequestHandler.html">ICefResourceRequestHandler</a>) of object;</code></td>
@@ -217,7 +223,7 @@
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPaint">TOnPaint</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; const buffer: Pointer; width, height: Integer) of Object;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnAcceleratedPaint">TOnAcceleratedPaint</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; shared_handle: Pointer) of Object;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnAcceleratedPaint">TOnAcceleratedPaint</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; const info: <a href="uCEFTypes.html#PCefAcceleratedPaintInfo">PCefAcceleratedPaintInfo</a>) of Object;</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetTouchHandleSize">TOnGetTouchHandleSize</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; orientation: <a href="uCEFTypes.html#TCefHorizontalAlignment">TCefHorizontalAlignment</a>; var size: <a href="uCEFTypes.TCefSize.html">TCefSize</a>) of Object;</code></td>
@@ -651,7 +657,7 @@ ICefDownloadHandler</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnBeforeDownload"></span><code><strong>TOnBeforeDownload</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>) of object;</code></td>
+<td class="itemcode"><span id="TOnBeforeDownload"></span><code><strong>TOnBeforeDownload</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>; var aResult : boolean) of object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -776,7 +782,21 @@ ICefRequestHandler</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnRenderProcessTerminated"></span><code><strong>TOnRenderProcessTerminated</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>) of object;</code></td>
+<td class="itemcode"><span id="TOnRenderProcessUnresponsive"></span><code><strong>TOnRenderProcessUnresponsive</strong> = procedure(Sender: Tobject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const callback: <a href="uCEFInterfaces.ICefUnresponsiveProcessCallback.html">ICefUnresponsiveProcessCallback</a>; var aResult: boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnRenderProcessResponsive"></span><code><strong>TOnRenderProcessResponsive</strong> = procedure(Sender: Tobject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnRenderProcessTerminated"></span><code><strong>TOnRenderProcessTerminated</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>; error_code: integer; const error_string: <a href="uCEFTypes.html#ustring">ustring</a>) of object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -931,7 +951,7 @@ ICefRenderHandler</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnAcceleratedPaint"></span><code><strong>TOnAcceleratedPaint</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; shared_handle: Pointer) of Object;</code></td>
+<td class="itemcode"><span id="TOnAcceleratedPaint"></span><code><strong>TOnAcceleratedPaint</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; const info: <a href="uCEFTypes.html#PCefAcceleratedPaintInfo">PCefAcceleratedPaintInfo</a>) of Object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>

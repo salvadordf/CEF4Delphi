@@ -316,7 +316,7 @@ type
       procedure SetThemeColor(color_id: integer; color: TCefColor);
 
       /// <summary>
-      /// <para>Trigger cef_view_delegate_t::OnThemeChanged callbacks for each View in
+      /// <para>Trigger ICefViewDelegate.OnThemeChanged callbacks for each View in
       /// this Window's component hierarchy. Unlike a native/OS or Chrome theme
       /// change this function does not reset theme colors to standard values and
       /// does not result in a call to ICefWindowDelegate.OnThemeColorsChanged.</para>
@@ -324,6 +324,12 @@ type
       /// or ICefViewDelegate.OnThemeChanged.</para>
       /// </summary>
       procedure ThemeChanged;
+
+      /// <summary>
+      /// Returns the runtime style for this Window (ALLOY or CHROME). See
+      /// TCefRuntimeStyle documentation for details.
+      /// </summary>
+      function  GetRuntimeStyle: TCefRuntimeStyle;
 
     public
       /// <summary>
@@ -566,6 +572,11 @@ end;
 procedure TCefWindowRef.ThemeChanged;
 begin
   PCefWindow(FData)^.theme_changed(PCefWindow(FData));
+end;
+
+function TCefWindowRef.GetRuntimeStyle: TCefRuntimeStyle;
+begin
+  Result := PCefWindow(FData)^.get_runtime_style(PCefWindow(FData));
 end;
 
 class function TCefWindowRef.UnWrap(data: Pointer): ICefWindow;

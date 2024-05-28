@@ -2695,13 +2695,13 @@
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_GEOLOCATION">CEF_PERMISSION_TYPE_GEOLOCATION</a></strong>                = 1 shl 9;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_IDLE_DETECTION">CEF_PERMISSION_TYPE_IDLE_DETECTION</a></strong>             = 1 shl 10;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_IDENTITY_PROVIDER">CEF_PERMISSION_TYPE_IDENTITY_PROVIDER</a></strong>          = 1 shl 10;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_MIC_STREAM">CEF_PERMISSION_TYPE_MIC_STREAM</a></strong>                 = 1 shl 11;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_IDLE_DETECTION">CEF_PERMISSION_TYPE_IDLE_DETECTION</a></strong>             = 1 shl 11;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_MIDI">CEF_PERMISSION_TYPE_MIDI</a></strong>                       = 1 shl 12;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_MIC_STREAM">CEF_PERMISSION_TYPE_MIC_STREAM</a></strong>                 = 1 shl 12;</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_MIDI_SYSEX">CEF_PERMISSION_TYPE_MIDI_SYSEX</a></strong>                 = 1 shl 13;</code></td>
@@ -2848,279 +2848,432 @@
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#LOG_ITEMS_FLAG_TICK_COUNT">LOG_ITEMS_FLAG_TICK_COUNT</a></strong> = 1 shl 4;</code></td>
 </tr>
 <tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT">CEF_RESULT_CODE_NORMAL_EXIT</a></strong> = 0;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_KILLED">CEF_RESULT_CODE_KILLED</a></strong> = 1;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_HUNG">CEF_RESULT_CODE_HUNG</a></strong> = 2;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_KILLED_BAD_MESSAGE">CEF_RESULT_CODE_KILLED_BAD_MESSAGE</a></strong> = 3;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_GPU_DEAD_ON_ARRIVAL">CEF_RESULT_CODE_GPU_DEAD_ON_ARRIVAL</a></strong> = 4;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_CHROME_FIRST">CEF_RESULT_CODE_CHROME_FIRST</a></strong> = 5;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_INVALID_CMDLINE_URL">CEF_RESULT_CODE_INVALID_CMDLINE_URL</a></strong> = <a href="uCEFConstants.html#CEF_RESULT_CODE_CHROME_FIRST">CEF_RESULT_CODE_CHROME_FIRST</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_BAD_PROCESS_TYPE">CEF_RESULT_CODE_BAD_PROCESS_TYPE</a></strong> = 6;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_MISSING_DATA">CEF_RESULT_CODE_MISSING_DATA</a></strong> = 7;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_SHELL_INTEGRATION_FAILED">CEF_RESULT_CODE_SHELL_INTEGRATION_FAILED</a></strong> = 8;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_MACHINE_LEVEL_INSTALL_EXISTS">CEF_RESULT_CODE_MACHINE_LEVEL_INSTALL_EXISTS</a></strong> = 9;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_UNINSTALL_CHROME_ALIVE">CEF_RESULT_CODE_UNINSTALL_CHROME_ALIVE</a></strong> = 10;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_UNINSTALL_USER_CANCEL">CEF_RESULT_CODE_UNINSTALL_USER_CANCEL</a></strong> = 11;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_UNINSTALL_DELETE_PROFILE">CEF_RESULT_CODE_UNINSTALL_DELETE_PROFILE</a></strong> = 12;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_UNSUPPORTED_PARAM">CEF_RESULT_CODE_UNSUPPORTED_PARAM</a></strong> = 13;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_IMPORTER_HUNG">CEF_RESULT_CODE_IMPORTER_HUNG</a></strong> = 14;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_RESPAWN_FAILED">CEF_RESULT_CODE_RESPAWN_FAILED</a></strong> = 15;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_EXP1">CEF_RESULT_CODE_NORMAL_EXIT_EXP1</a></strong> = 16;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_EXP2">CEF_RESULT_CODE_NORMAL_EXIT_EXP2</a></strong> = 17;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_EXP3">CEF_RESULT_CODE_NORMAL_EXIT_EXP3</a></strong> = 18;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_EXP4">CEF_RESULT_CODE_NORMAL_EXIT_EXP4</a></strong> = 19;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_CANCEL">CEF_RESULT_CODE_NORMAL_EXIT_CANCEL</a></strong> = 20;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_PROFILE_IN_USE">CEF_RESULT_CODE_PROFILE_IN_USE</a></strong> = 21;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_PACK_EXTENSION_ERROR">CEF_RESULT_CODE_PACK_EXTENSION_ERROR</a></strong> = 22;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_UNINSTALL_EXTENSION_ERROR">CEF_RESULT_CODE_UNINSTALL_EXTENSION_ERROR</a></strong> = 23;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED">CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED</a></strong> = 24;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_NOTUSED_1">CEF_RESULT_CODE_NOTUSED_1</a></strong> = 25;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_INSTALL_FROM_WEBSTORE_ERROR_2">CEF_RESULT_CODE_INSTALL_FROM_WEBSTORE_ERROR_2</a></strong> = 26;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_NOTUSED_2">CEF_RESULT_CODE_NOTUSED_2</a></strong> = 27;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_EULA_REFUSED">CEF_RESULT_CODE_EULA_REFUSED</a></strong> = 28;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_SXS_MIGRATION_FAILED_NOT_USED">CEF_RESULT_CODE_SXS_MIGRATION_FAILED_NOT_USED</a></strong> = 29;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_ACTION_DISALLOWED_BY_POLICY">CEF_RESULT_CODE_ACTION_DISALLOWED_BY_POLICY</a></strong> = 30;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_INVALID_SANDBOX_STATE">CEF_RESULT_CODE_INVALID_SANDBOX_STATE</a></strong> = 31;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED">CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED</a></strong> = 32;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_DOWNGRADE_AND_RELAUNCH">CEF_RESULT_CODE_DOWNGRADE_AND_RELAUNCH</a></strong> = 33;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST">CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST</a></strong> = 34;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_UPGRADE_RELAUNCHED">CEF_RESULT_CODE_NORMAL_EXIT_UPGRADE_RELAUNCHED</a></strong> = 35;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS">CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS</a></strong> = 36;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED">CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED</a></strong> = 37;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_INVALID_POST_LOGIN_PARAMS">CEF_RESULT_CODE_INVALID_POST_LOGIN_PARAMS</a></strong> = 38;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_CHROME_LAST">CEF_RESULT_CODE_CHROME_LAST</a></strong> = 39;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_FIRST">CEF_RESULT_CODE_SANDBOX_FATAL_FIRST</a></strong> = 7006;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY">CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY</a></strong> = <a href="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_FIRST">CEF_RESULT_CODE_SANDBOX_FATAL_FIRST</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN">CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN</a></strong> = 7007;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES">CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES</a></strong> = 7008;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_CACHEDISABLE">CEF_RESULT_CODE_SANDBOX_FATAL_CACHEDISABLE</a></strong> = 7009;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_CLOSEHANDLES">CEF_RESULT_CODE_SANDBOX_FATAL_CLOSEHANDLES</a></strong> = 7010;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_MITIGATION">CEF_RESULT_CODE_SANDBOX_FATAL_MITIGATION</a></strong> = 7011;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_MEMORY_EXCEEDED">CEF_RESULT_CODE_SANDBOX_FATAL_MEMORY_EXCEEDED</a></strong> = 7012;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP">CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP</a></strong> = 7013;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_LAST">CEF_RESULT_CODE_SANDBOX_FATAL_LAST</a></strong> = 7014;</code></td>
+</tr>
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ABOUTBLANK_URI">ABOUTBLANK_URI</a></strong> = 'about:blank';</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#DEVTOOLS_WINDOWNAME">DEVTOOLS_WINDOWNAME</a></strong> = 'DevTools';</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PROXYTYPE_DIRECT">CEF_PROXYTYPE_DIRECT</a></strong>        = 0;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PROXYTYPE_AUTODETECT">CEF_PROXYTYPE_AUTODETECT</a></strong>    = 1;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PROXYTYPE_SYSTEM">CEF_PROXYTYPE_SYSTEM</a></strong>        = 2;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PROXYTYPE_FIXED_SERVERS">CEF_PROXYTYPE_FIXED_SERVERS</a></strong> = 3;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PROXYTYPE_PAC_SCRIPT">CEF_PROXYTYPE_PAC_SCRIPT</a></strong>    = 4;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_LOG_SEVERITY_VERBOSE">CEF_LOG_SEVERITY_VERBOSE</a></strong> = -1;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_LOG_SEVERITY_INFO">CEF_LOG_SEVERITY_INFO</a></strong>    = 0;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_LOG_SEVERITY_WARNING">CEF_LOG_SEVERITY_WARNING</a></strong> = 1;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_LOG_SEVERITY_ERROR">CEF_LOG_SEVERITY_ERROR</a></strong>   = 2;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_LOG_SEVERITY_FATAL">CEF_LOG_SEVERITY_FATAL</a></strong>   = 3;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE">CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE</a></strong> = 32;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_MAX_CONNECTIONS_PER_PROXY_MIN_VALUE">CEF_MAX_CONNECTIONS_PER_PROXY_MIN_VALUE</a></strong>     = 7;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_MAX_CONNECTIONS_PER_PROXY_MAX_VALUE">CEF_MAX_CONNECTIONS_PER_PROXY_MAX_VALUE</a></strong>     = 99;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_COOKIE_PREF_DEFAULT">CEF_COOKIE_PREF_DEFAULT</a></strong> = 0;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_COOKIE_PREF_ALLOW">CEF_COOKIE_PREF_ALLOW</a></strong>   = 1;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_COOKIE_PREF_BLOCK">CEF_COOKIE_PREF_BLOCK</a></strong>   = 2;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_DEFAULT_ENABLEFOCUSDELAY">CEF_DEFAULT_ENABLEFOCUSDELAY</a></strong> = 500;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#YOUTUBE_RESTRICT_OFF">YOUTUBE_RESTRICT_OFF</a></strong>      = 0;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#YOUTUBE_RESTRICT_MODERATE">YOUTUBE_RESTRICT_MODERATE</a></strong> = 1;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#YOUTUBE_RESTRICT_STRICT">YOUTUBE_RESTRICT_STRICT</a></strong>   = 2;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_25">ZOOM_STEP_25</a></strong>  = 0;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_33">ZOOM_STEP_33</a></strong>  = 1;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_50">ZOOM_STEP_50</a></strong>  = 2;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_67">ZOOM_STEP_67</a></strong>  = 3;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_75">ZOOM_STEP_75</a></strong>  = 4;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_90">ZOOM_STEP_90</a></strong>  = 5;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_100">ZOOM_STEP_100</a></strong> = 6;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_110">ZOOM_STEP_110</a></strong> = 7;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_125">ZOOM_STEP_125</a></strong> = 8;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_150">ZOOM_STEP_150</a></strong> = 9;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_175">ZOOM_STEP_175</a></strong> = 10;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_200">ZOOM_STEP_200</a></strong> = 11;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_250">ZOOM_STEP_250</a></strong> = 12;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_300">ZOOM_STEP_300</a></strong> = 13;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_400">ZOOM_STEP_400</a></strong> = 14;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_500">ZOOM_STEP_500</a></strong> = 15;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_UNK">ZOOM_STEP_UNK</a></strong> = 16;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_MIN">ZOOM_STEP_MIN</a></strong> = <a href="uCEFConstants.html#ZOOM_STEP_25">ZOOM_STEP_25</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_MAX">ZOOM_STEP_MAX</a></strong> = <a href="uCEFConstants.html#ZOOM_STEP_500">ZOOM_STEP_500</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_STEP_DEF">ZOOM_STEP_DEF</a></strong> = <a href="uCEFConstants.html#ZOOM_STEP_100">ZOOM_STEP_100</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZOOM_PCT_DELTA">ZOOM_PCT_DELTA</a></strong> = 5;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ZoomStepValues">ZoomStepValues</a></strong> : array[ZOOM_STEP_MIN..ZOOM_STEP_MAX] of integer = (25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PREFERENCES_SAVED">CEF_PREFERENCES_SAVED</a></strong>  = WM_APP + $A00;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_DOONCLOSE">CEF_DOONCLOSE</a></strong>          = WM_APP + $A01;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_STARTDRAGGING">CEF_STARTDRAGGING</a></strong>      = WM_APP + $A02;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_AFTERCREATED">CEF_AFTERCREATED</a></strong>       = WM_APP + $A03;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PENDINGRESIZE">CEF_PENDINGRESIZE</a></strong>      = WM_APP + $A04;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PUMPHAVEWORK">CEF_PUMPHAVEWORK</a></strong>       = WM_APP + $A05;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_DESTROY">CEF_DESTROY</a></strong>            = WM_APP + $A06;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_DOONBEFORECLOSE">CEF_DOONBEFORECLOSE</a></strong>    = WM_APP + $A07;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PENDINGINVALIDATE">CEF_PENDINGINVALIDATE</a></strong>  = WM_APP + $A08;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_IMERANGECHANGED">CEF_IMERANGECHANGED</a></strong>    = WM_APP + $A09;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_SENTINEL_START">CEF_SENTINEL_START</a></strong>     = WM_APP + $A0A;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_SENTINEL_DOCLOSE">CEF_SENTINEL_DOCLOSE</a></strong>   = WM_APP + $A0B;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_BEFORECLOSE">CEF_BEFORECLOSE</a></strong>        = WM_APP + $A0C;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_INVALIDATE">CEF_INVALIDATE</a></strong>         = WM_APP + $A0D;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_FOCUSENABLED">CEF_FOCUSENABLED</a></strong>       = WM_APP + $A0E;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#WM_TOUCH">WM_TOUCH</a></strong>                 = $0240;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#WM_POINTERUPDATE">WM_POINTERUPDATE</a></strong>         = $0245;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#WM_POINTERDOWN">WM_POINTERDOWN</a></strong>           = $0246;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#WM_POINTERUP">WM_POINTERUP</a></strong>             = $0247;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_OSR_FRAMERATE_DEFAULT">CEF_OSR_FRAMERATE_DEFAULT</a></strong>                  = 30;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_OSR_SHARED_TEXTURES_FRAMERATE_DEFAULT">CEF_OSR_SHARED_TEXTURES_FRAMERATE_DEFAULT</a></strong>  = 60;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_TIMER_MINIMUM">CEF_TIMER_MINIMUM</a></strong>            = $0000000A;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_TIMER_MAXIMUM">CEF_TIMER_MAXIMUM</a></strong>            = $7FFFFFFF;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_TIMER_MAXDELAY">CEF_TIMER_MAXDELAY</a></strong>           = 1000 div <a href="uCEFConstants.html#CEF_OSR_FRAMERATE_DEFAULT">CEF_OSR_FRAMERATE_DEFAULT</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_TIMER_DEPLETEWORK_CYCLES">CEF_TIMER_DEPLETEWORK_CYCLES</a></strong> = 10;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_TIMER_DEPLETEWORK_DELAY">CEF_TIMER_DEPLETEWORK_DELAY</a></strong>  = 50;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF4DELPHI_URL">CEF4DELPHI_URL</a></strong> = 'https://github.com/salvadordf/CEF4Delphi';</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CRLF">CRLF</a></strong>           = #13 + #10;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_URLS_URL">CEF_URLS_URL</a></strong>              = 'chrome://chrome-urls';</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_VERSION_URL">CEF_VERSION_URL</a></strong>           = 'chrome://version';</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_FLAGS_URL">CEF_FLAGS_URL</a></strong>             = 'chrome://flags';</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_SETTINGS_URL">CEF_SETTINGS_URL</a></strong>          = 'chrome://settings';</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_DOWNLOADS_URL">CEF_DOWNLOADS_URL</a></strong>         = 'chrome://downloads';</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_EXTENSIONS_URL">CEF_EXTENSIONS_URL</a></strong>        = 'chrome://extensions';</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_IMAGE_FILE_MACHINE_I386">CEF_IMAGE_FILE_MACHINE_I386</a></strong>  = $014C;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_IMAGE_FILE_MACHINE_AMD64">CEF_IMAGE_FILE_MACHINE_AMD64</a></strong> = $8664;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#USER_DEFAULT_SCREEN_DPI">USER_DEFAULT_SCREEN_DPI</a></strong> = 96;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CHROMIUM_NONBROWSERSHUTDOWNPRIORITY">CHROMIUM_NONBROWSERSHUTDOWNPRIORITY</a></strong> = $280;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#INFINITE">INFINITE</a></strong> = Cardinal($FFFFFFFF);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pidWin32">pidWin32</a></strong> = 0;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pidWin64">pidWin64</a></strong> = 0;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pfidWindows">pfidWindows</a></strong> = <a href="uCEFConstants.html#pidWin32">pidWin32</a> or <a href="uCEFConstants.html#pidWin64">pidWin64</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pidOSX32">pidOSX32</a></strong> = 0;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pidOSX64">pidOSX64</a></strong> = 0;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pidOSXArm64">pidOSXArm64</a></strong> = 0;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pfidOSX">pfidOSX</a></strong> = <a href="uCEFConstants.html#pidOSX32">pidOSX32</a> or <a href="uCEFConstants.html#pidOSX64">pidOSX64</a> or <a href="uCEFConstants.html#pidOSXArm64">pidOSXArm64</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pidLinux64">pidLinux64</a></strong> = 0;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pfidLinux">pfidLinux</a></strong> = <a href="uCEFConstants.html#pidLinux64">pidLinux64</a>;</code></td>
 </tr>
 </table>
@@ -10242,11 +10395,9 @@ Custom menu items originating from the renderer process.</p>
 <p>
 
 
-<p>TCefShowState values.
+<p>TCefShowState value.
 
-<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_show_state_t))
-
-<p></p>
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_show_state_t))</p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -10256,6 +10407,12 @@ Custom menu items originating from the renderer process.</p>
 <tr><td colspan="1">
 <p>
  Show the window as minimized. </p>
+<p>
+
+
+<p>TCefShowState value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_show_state_t))</p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -10265,6 +10422,12 @@ Custom menu items originating from the renderer process.</p>
 <tr><td colspan="1">
 <p>
  Show the window as maximized. </p>
+<p>
+
+
+<p>TCefShowState value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_show_state_t))</p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -10274,6 +10437,12 @@ Custom menu items originating from the renderer process.</p>
 <tr><td colspan="1">
 <p>
  Show the window as fullscreen. </p>
+<p>
+
+
+<p>TCefShowState value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_show_state_t))</p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -10283,6 +10452,12 @@ Custom menu items originating from the renderer process.</p>
 <tr><td colspan="1">
 <p>
  Show the window as hidden (no dock thumbnail). Only supported on MacOS.. </p>
+<p>
+
+
+<p>TCefShowState value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_show_state_t))</p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -10533,21 +10708,21 @@ Custom menu items originating from the renderer process.</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CEF_PERMISSION_TYPE_IDLE_DETECTION"></span><code><strong>CEF_PERMISSION_TYPE_IDLE_DETECTION</strong>             = 1 shl 10;</code></td>
+<td class="itemcode"><span id="CEF_PERMISSION_TYPE_IDENTITY_PROVIDER"></span><code><strong>CEF_PERMISSION_TYPE_IDENTITY_PROVIDER</strong>          = 1 shl 10;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CEF_PERMISSION_TYPE_MIC_STREAM"></span><code><strong>CEF_PERMISSION_TYPE_MIC_STREAM</strong>                 = 1 shl 11;</code></td>
+<td class="itemcode"><span id="CEF_PERMISSION_TYPE_IDLE_DETECTION"></span><code><strong>CEF_PERMISSION_TYPE_IDLE_DETECTION</strong>             = 1 shl 11;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CEF_PERMISSION_TYPE_MIDI"></span><code><strong>CEF_PERMISSION_TYPE_MIDI</strong>                       = 1 shl 12;</code></td>
+<td class="itemcode"><span id="CEF_PERMISSION_TYPE_MIC_STREAM"></span><code><strong>CEF_PERMISSION_TYPE_MIC_STREAM</strong>                 = 1 shl 12;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -11198,6 +11373,873 @@ Custom menu items originating from the renderer process.</p>
 <p>TCefLogItems value.
 
 <p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_log_items_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_NORMAL_EXIT"></span><code><strong>CEF_RESULT_CODE_NORMAL_EXIT</strong> = 0;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Normal exit code. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:content/public/common/result_codes.h&quot;&gt;See Chromium's content::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_KILLED"></span><code><strong>CEF_RESULT_CODE_KILLED</strong> = 1;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Process was killed by user or system. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:content/public/common/result_codes.h&quot;&gt;See Chromium's content::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_HUNG"></span><code><strong>CEF_RESULT_CODE_HUNG</strong> = 2;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Process hung. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:content/public/common/result_codes.h&quot;&gt;See Chromium's content::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_KILLED_BAD_MESSAGE"></span><code><strong>CEF_RESULT_CODE_KILLED_BAD_MESSAGE</strong> = 3;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ A bad message caused the process termination. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:content/public/common/result_codes.h&quot;&gt;See Chromium's content::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_GPU_DEAD_ON_ARRIVAL"></span><code><strong>CEF_RESULT_CODE_GPU_DEAD_ON_ARRIVAL</strong> = 4;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ The GPU process exited because initialization failed. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:content/public/common/result_codes.h&quot;&gt;See Chromium's content::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_CHROME_FIRST"></span><code><strong>CEF_RESULT_CODE_CHROME_FIRST</strong> = 5;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ First Chrome result code. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_INVALID_CMDLINE_URL"></span><code><strong>CEF_RESULT_CODE_INVALID_CMDLINE_URL</strong> = <a href="uCEFConstants.html#CEF_RESULT_CODE_CHROME_FIRST">CEF_RESULT_CODE_CHROME_FIRST</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ An invalid command line url was given. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_BAD_PROCESS_TYPE"></span><code><strong>CEF_RESULT_CODE_BAD_PROCESS_TYPE</strong> = 6;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ The process is of an unknown type. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_MISSING_DATA"></span><code><strong>CEF_RESULT_CODE_MISSING_DATA</strong> = 7;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ A critical chrome file is missing. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_SHELL_INTEGRATION_FAILED"></span><code><strong>CEF_RESULT_CODE_SHELL_INTEGRATION_FAILED</strong> = 8;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Failed to make Chrome default browser (not used?). </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_MACHINE_LEVEL_INSTALL_EXISTS"></span><code><strong>CEF_RESULT_CODE_MACHINE_LEVEL_INSTALL_EXISTS</strong> = 9;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Machine level install exists. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_UNINSTALL_CHROME_ALIVE"></span><code><strong>CEF_RESULT_CODE_UNINSTALL_CHROME_ALIVE</strong> = 10;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Uninstall detected another chrome instance. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_UNINSTALL_USER_CANCEL"></span><code><strong>CEF_RESULT_CODE_UNINSTALL_USER_CANCEL</strong> = 11;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ The user changed their mind. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_UNINSTALL_DELETE_PROFILE"></span><code><strong>CEF_RESULT_CODE_UNINSTALL_DELETE_PROFILE</strong> = 12;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Delete profile as well during uninstall. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_UNSUPPORTED_PARAM"></span><code><strong>CEF_RESULT_CODE_UNSUPPORTED_PARAM</strong> = 13;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Command line parameter is not supported. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_IMPORTER_HUNG"></span><code><strong>CEF_RESULT_CODE_IMPORTER_HUNG</strong> = 14;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Browser import hung and was killed. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_RESPAWN_FAILED"></span><code><strong>CEF_RESULT_CODE_RESPAWN_FAILED</strong> = 15;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Trying to restart the browser we crashed. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_NORMAL_EXIT_EXP1"></span><code><strong>CEF_RESULT_CODE_NORMAL_EXIT_EXP1</strong> = 16;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Generic code used to communicate some simple outcome back to the process that launched us. This is used for experiments and the actual meaning depends on the experiment. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_NORMAL_EXIT_EXP2"></span><code><strong>CEF_RESULT_CODE_NORMAL_EXIT_EXP2</strong> = 17;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Generic code used to communicate some simple outcome back to the process that launched us. This is used for experiments and the actual meaning depends on the experiment. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_NORMAL_EXIT_EXP3"></span><code><strong>CEF_RESULT_CODE_NORMAL_EXIT_EXP3</strong> = 18;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Generic code used to communicate some simple outcome back to the process that launched us. This is used for experiments and the actual meaning depends on the experiment. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_NORMAL_EXIT_EXP4"></span><code><strong>CEF_RESULT_CODE_NORMAL_EXIT_EXP4</strong> = 19;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Generic code used to communicate some simple outcome back to the process that launched us. This is used for experiments and the actual meaning depends on the experiment. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_NORMAL_EXIT_CANCEL"></span><code><strong>CEF_RESULT_CODE_NORMAL_EXIT_CANCEL</strong> = 20;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ For experiments this return code means that the user canceled causes the did_run &quot;dr&quot; signal to be reset soi this chrome run does not count as active chrome usage. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_PROFILE_IN_USE"></span><code><strong>CEF_RESULT_CODE_PROFILE_IN_USE</strong> = 21;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ The profile was in use on another host. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_PACK_EXTENSION_ERROR"></span><code><strong>CEF_RESULT_CODE_PACK_EXTENSION_ERROR</strong> = 22;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Failed to pack an extension via the cmd line. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_UNINSTALL_EXTENSION_ERROR"></span><code><strong>CEF_RESULT_CODE_UNINSTALL_EXTENSION_ERROR</strong> = 23;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Failed to silently uninstall an extension. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED"></span><code><strong>CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED</strong> = 24;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ The browser process exited early by passing the command line to another running browser. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_NOTUSED_1"></span><code><strong>CEF_RESULT_CODE_NOTUSED_1</strong> = 25;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ A dummy value we should not use. See crbug.com/152285. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_INSTALL_FROM_WEBSTORE_ERROR_2"></span><code><strong>CEF_RESULT_CODE_INSTALL_FROM_WEBSTORE_ERROR_2</strong> = 26;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Failed to install an item from the webstore when the kInstallEphemeralAppFromWebstore command line flag was present. As this flag is no longer supported, this return code should never be returned. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_NOTUSED_2"></span><code><strong>CEF_RESULT_CODE_NOTUSED_2</strong> = 27;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ A dummy value we should not use. See crbug.com/152285. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_EULA_REFUSED"></span><code><strong>CEF_RESULT_CODE_EULA_REFUSED</strong> = 28;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returned when the user has not yet accepted the EULA. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_SXS_MIGRATION_FAILED_NOT_USED"></span><code><strong>CEF_RESULT_CODE_SXS_MIGRATION_FAILED_NOT_USED</strong> = 29;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Failed to migrate user data directory for side-by-side package support (Linux-only). </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_ACTION_DISALLOWED_BY_POLICY"></span><code><strong>CEF_RESULT_CODE_ACTION_DISALLOWED_BY_POLICY</strong> = 30;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ The action is not allowed by a policy. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_INVALID_SANDBOX_STATE"></span><code><strong>CEF_RESULT_CODE_INVALID_SANDBOX_STATE</strong> = 31;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ A browser process was sandboxed. This should never happen. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED"></span><code><strong>CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED</strong> = 32;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Cloud policy enrollment is failed or given up by user. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_DOWNGRADE_AND_RELAUNCH"></span><code><strong>CEF_RESULT_CODE_DOWNGRADE_AND_RELAUNCH</strong> = 33;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Chrome was downgraded since the last launch. Perform downgrade processing and relaunch. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST"></span><code><strong>CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST</strong> = 34;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ The GPU process was terminated due to context lost. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_NORMAL_EXIT_UPGRADE_RELAUNCHED"></span><code><strong>CEF_RESULT_CODE_NORMAL_EXIT_UPGRADE_RELAUNCHED</strong> = 35;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Chrome detected that there was a new version waiting to launch and renamed the files and launched the new version. This result code is never returned from the main process, but is instead used as a signal for early termination of browser. See `IsNormalResultCode` below. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS"></span><code><strong>CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS</strong> = 36;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ An early startup command was executed and the browser must exit. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED"></span><code><strong>CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED</strong> = 37;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ The browser process exited because system resource are exhausted. The system state can't be recovered and will be unstable. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_INVALID_POST_LOGIN_PARAMS"></span><code><strong>CEF_RESULT_CODE_INVALID_POST_LOGIN_PARAMS</strong> = 38;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ The Lacros process exited because the post-login parameters received from Ash are either empty or invalid (Lacros-only). </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_CHROME_LAST"></span><code><strong>CEF_RESULT_CODE_CHROME_LAST</strong> = 39;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Last Chrome result code. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/common/chrome_result_codes.h&quot;&gt;See chrome::ResultCode type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_SANDBOX_FATAL_FIRST"></span><code><strong>CEF_RESULT_CODE_SANDBOX_FATAL_FIRST</strong> = 7006;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ First Sandbox result code. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:sandbox/win/src/sandbox_types.h&quot;&gt;See sandbox::TerminationCodes type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY"></span><code><strong>CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY</strong> = <a href="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_FIRST">CEF_RESULT_CODE_SANDBOX_FATAL_FIRST</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Windows sandbox could not set the integrity level. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:sandbox/win/src/sandbox_types.h&quot;&gt;See sandbox::TerminationCodes type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN"></span><code><strong>CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN</strong> = 7007;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Windows sandbox could not lower the token. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:sandbox/win/src/sandbox_types.h&quot;&gt;See sandbox::TerminationCodes type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES"></span><code><strong>CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES</strong> = 7008;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Windows sandbox failed to flush registry handles. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:sandbox/win/src/sandbox_types.h&quot;&gt;See sandbox::TerminationCodes type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_SANDBOX_FATAL_CACHEDISABLE"></span><code><strong>CEF_RESULT_CODE_SANDBOX_FATAL_CACHEDISABLE</strong> = 7009;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Windows sandbox failed to forbid HCKU caching. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:sandbox/win/src/sandbox_types.h&quot;&gt;See sandbox::TerminationCodes type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_SANDBOX_FATAL_CLOSEHANDLES"></span><code><strong>CEF_RESULT_CODE_SANDBOX_FATAL_CLOSEHANDLES</strong> = 7010;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Windows sandbox failed to close pending handles. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:sandbox/win/src/sandbox_types.h&quot;&gt;See sandbox::TerminationCodes type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_SANDBOX_FATAL_MITIGATION"></span><code><strong>CEF_RESULT_CODE_SANDBOX_FATAL_MITIGATION</strong> = 7011;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Windows sandbox could not set the mitigation policy. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:sandbox/win/src/sandbox_types.h&quot;&gt;See sandbox::TerminationCodes type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_SANDBOX_FATAL_MEMORY_EXCEEDED"></span><code><strong>CEF_RESULT_CODE_SANDBOX_FATAL_MEMORY_EXCEEDED</strong> = 7012;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Windows sandbox exceeded the job memory limit. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:sandbox/win/src/sandbox_types.h&quot;&gt;See sandbox::TerminationCodes type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP"></span><code><strong>CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP</strong> = 7013;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Windows sandbox failed to warmup. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:sandbox/win/src/sandbox_types.h&quot;&gt;See sandbox::TerminationCodes type.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_RESULT_CODE_SANDBOX_FATAL_LAST"></span><code><strong>CEF_RESULT_CODE_SANDBOX_FATAL_LAST</strong> = 7014;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Last Sandbox result code. </p>
+<p>
+
+
+<p>TCefResultCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:sandbox/win/src/sandbox_types.h&quot;&gt;See sandbox::TerminationCodes type.)</p>
 </td></tr>
 </table>
 <table class="detail wide_list">

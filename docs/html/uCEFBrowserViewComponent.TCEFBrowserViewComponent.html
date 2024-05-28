@@ -64,6 +64,10 @@
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGestureCommand">FOnGestureCommand</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGestureCommandEvent">TOnGestureCommandEvent</a>;</code></td>
 </tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGetBrowserRuntimeStyle">FOnGetBrowserRuntimeStyle</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetBrowserRuntimeStyleEvent">TOnGetBrowserRuntimeStyleEvent</a>;</code></td>
+</tr>
 </table>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
@@ -93,31 +97,39 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnBrowserCreated-ICefBrowserView-ICefBrowser-">doOnBrowserCreated</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#GetRuntimeStyle">GetRuntimeStyle</a></strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnBrowserCreated-ICefBrowserView-ICefBrowser-">doOnBrowserCreated</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnBrowserDestroyed-ICefBrowserView-ICefBrowser-">doOnBrowserDestroyed</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnGetDelegateForPopupBrowserView-ICefBrowserView-TCefBrowserSettings-ICefClient-boolean-ICefBrowserViewDelegate-">doOnGetDelegateForPopupBrowserView</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; is_devtools: boolean; var aResult : <a href="uCEFInterfaces.ICefBrowserViewDelegate.html">ICefBrowserViewDelegate</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnPopupBrowserViewCreated-ICefBrowserView-ICefBrowserView-boolean-boolean-">doOnPopupBrowserViewCreated</a></strong>(const browser_view, popup_browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; is_devtools: boolean; var aResult : boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnGetChromeToolbarType-ICefBrowserView-TCefChromeToolbarType-">doOnGetChromeToolbarType</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aChromeToolbarType: <a href="uCEFTypes.html#TCefChromeToolbarType">TCefChromeToolbarType</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnUseFramelessWindowForPictureInPicture-ICefBrowserView-boolean-">doOnUseFramelessWindowForPictureInPicture</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnGestureCommand-ICefBrowserView-TCefGestureCommand-boolean-">doOnGestureCommand</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; gesture_command: <a href="uCEFTypes.html#TCefGestureCommand">TCefGestureCommand</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnGetBrowserRuntimeStyle-TCefRuntimeStyle-">doOnGetBrowserRuntimeStyle</a></strong>(var aResult : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -143,32 +155,40 @@
 <td class="itemcode"><code>property <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#BrowserView">BrowserView</a></strong>                              : <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>                           read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FBrowserView">FBrowserView</a>;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#RuntimeStyle">RuntimeStyle</a></strong>                             : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>                          read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#GetRuntimeStyle">GetRuntimeStyle</a>;</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#OnBrowserCreated">OnBrowserCreated</a></strong>                         : <a href="uCEFViewsFrameworkEvents.html#TOnBrowserCreatedEvent">TOnBrowserCreatedEvent</a>                    read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnBrowserCreated">FOnBrowserCreated</a>                         write <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnBrowserCreated">FOnBrowserCreated</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#OnBrowserDestroyed">OnBrowserDestroyed</a></strong>                       : <a href="uCEFViewsFrameworkEvents.html#TOnBrowserDestroyedEvent">TOnBrowserDestroyedEvent</a>                  read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnBrowserDestroyed">FOnBrowserDestroyed</a>                       write <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnBrowserDestroyed">FOnBrowserDestroyed</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#OnGetDelegateForPopupBrowserView">OnGetDelegateForPopupBrowserView</a></strong>         : <a href="uCEFViewsFrameworkEvents.html#TOnGetDelegateForPopupBrowserViewEvent">TOnGetDelegateForPopupBrowserViewEvent</a>    read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGetDelegateForPopupBrowserView">FOnGetDelegateForPopupBrowserView</a>         write <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGetDelegateForPopupBrowserView">FOnGetDelegateForPopupBrowserView</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#OnPopupBrowserViewCreated">OnPopupBrowserViewCreated</a></strong>                : <a href="uCEFViewsFrameworkEvents.html#TOnPopupBrowserViewCreatedEvent">TOnPopupBrowserViewCreatedEvent</a>           read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnPopupBrowserViewCreated">FOnPopupBrowserViewCreated</a>                write <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnPopupBrowserViewCreated">FOnPopupBrowserViewCreated</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#OnGetChromeToolbarType">OnGetChromeToolbarType</a></strong>                   : <a href="uCEFViewsFrameworkEvents.html#TOnGetChromeToolbarTypeEvent">TOnGetChromeToolbarTypeEvent</a>              read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGetChromeToolbarType">FOnGetChromeToolbarType</a>                   write <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGetChromeToolbarType">FOnGetChromeToolbarType</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#OnUseFramelessWindowForPictureInPicture">OnUseFramelessWindowForPictureInPicture</a></strong>  : <a href="uCEFViewsFrameworkEvents.html#TOnUseFramelessWindowForPictureInPicture">TOnUseFramelessWindowForPictureInPicture</a>  read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnUseFramelessWindowForPictureInPicture">FOnUseFramelessWindowForPictureInPicture</a>  write <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnUseFramelessWindowForPictureInPicture">FOnUseFramelessWindowForPictureInPicture</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#OnGestureCommand">OnGestureCommand</a></strong>                         : <a href="uCEFViewsFrameworkEvents.html#TOnGestureCommandEvent">TOnGestureCommandEvent</a>                    read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGestureCommand">FOnGestureCommand</a>                         write <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGestureCommand">FOnGestureCommand</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#OnGetBrowserRuntimeStyle">OnGetBrowserRuntimeStyle</a></strong>                 : <a href="uCEFViewsFrameworkEvents.html#TOnGetBrowserRuntimeStyleEvent">TOnGetBrowserRuntimeStyleEvent</a>            read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGetBrowserRuntimeStyle">FOnGetBrowserRuntimeStyle</a>                 write <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGetBrowserRuntimeStyle">FOnGetBrowserRuntimeStyle</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -247,6 +267,14 @@ ICefBrowserViewDelegateEvents</p>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnGetBrowserRuntimeStyle"></span><code><strong>FOnGetBrowserRuntimeStyle</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetBrowserRuntimeStyleEvent">TOnGetBrowserRuntimeStyleEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
 <h3 class="detail">Methods</h3>
 <table class="detail wide_list">
 <tr class="list">
@@ -292,6 +320,14 @@ ICefBrowserViewDelegateEvents</p>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="GetBrowser"></span><code>function <strong>GetBrowser</strong>: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetRuntimeStyle"></span><code>function <strong>GetRuntimeStyle</strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -356,6 +392,14 @@ ICefBrowserViewDelegateEvents</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnGetBrowserRuntimeStyle-TCefRuntimeStyle-"></span><code>procedure <strong>doOnGetBrowserRuntimeStyle</strong>(var aResult : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><span id="CreateBrowserView-ICefClient-ustring-TCefBrowserSettings-ICefDictionaryValue-ICefRequestContext-"></span><code>function <strong>CreateBrowserView</strong>(const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; const url: <a href="uCEFTypes.html#ustring">ustring</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const request_context: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>): boolean;</code></td>
 </tr>
@@ -403,6 +447,16 @@ ICefBrowserViewDelegateEvents</p>
 <tr><td colspan="2">
 <p>
  ICefBrowserView assiciated to this component. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RuntimeStyle"></span><code>property <strong>RuntimeStyle</strong>                             : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>                          read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#GetRuntimeStyle">GetRuntimeStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the runtime style for this BrowserView (ALLOY or CHROME). See TCefRuntimeStyle documentation for details. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -473,6 +527,16 @@ ICefBrowserViewDelegateEvents</p>
 <tr><td colspan="2">
 <p>
  Called when |browser_view| receives a gesture command. Return true (1) to handle (or disable) a |gesture_command| or false (0) to propagate the gesture to the browser for default handling. With the Chrome runtime these commands can also be handled via cef_command_handler_t::OnChromeCommand. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnGetBrowserRuntimeStyle"></span><code>property <strong>OnGetBrowserRuntimeStyle</strong>                 : <a href="uCEFViewsFrameworkEvents.html#TOnGetBrowserRuntimeStyleEvent">TOnGetBrowserRuntimeStyleEvent</a>            read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGetBrowserRuntimeStyle">FOnGetBrowserRuntimeStyle</a>                 write <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGetBrowserRuntimeStyle">FOnGetBrowserRuntimeStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Optionally change the runtime style for this BrowserView. See TCefRuntimeStyle documentation for details. </p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>

@@ -24,14 +24,14 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);  
+    procedure FormShow(Sender: TObject);
 
-    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);     
     procedure Chromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
-    procedure FormShow(Sender: TObject);
+    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
 
   protected
     FCanClose          : boolean;
@@ -64,7 +64,7 @@ implementation
 
 uses
   Math,
-  uCEFMiscFunctions, uCEFApplication, uMainForm;
+  uCEFMiscFunctions, uCEFApplication, uCEFWindowInfoWrapper, uMainForm;
 
 // Destruction steps
 // =================
@@ -98,7 +98,7 @@ begin
       if (FPopupFeatures.widthset  <> 0) then TempRect.Right  := max(FPopupFeatures.width,  100);
       if (FPopupFeatures.heightset <> 0) then TempRect.Bottom := max(FPopupFeatures.height, 100);
 
-      WindowInfoAsChild(windowInfo, CEFLinkedWindowParent1.Handle, TempRect, '');
+      TCEFWindowInfoWrapper.AsChild(windowInfo, CEFLinkedWindowParent1.Handle, TempRect);
     end
    else
     Result := False;
@@ -164,6 +164,9 @@ begin
       FClosing := True;
       Visible  := False;
       Chromium1.CloseBrowser(True);
+
+      if GlobalCEFApp.ChromeRuntime then
+        CEFLinkedWindowParent1.Free;
     end;
 end;
 
@@ -176,11 +179,11 @@ procedure TChildForm.Chromium1BeforePopup(Sender: TObject;
   var noJavascriptAccess: Boolean; var Result: Boolean);
 begin
   case targetDisposition of
-    WOD_NEW_FOREGROUND_TAB,
-    WOD_NEW_BACKGROUND_TAB,
-    WOD_NEW_WINDOW : Result := True;  // For simplicity, this demo blocks new tabs and new windows.
+    CEF_WOD_NEW_FOREGROUND_TAB,
+    CEF_WOD_NEW_BACKGROUND_TAB,
+    CEF_WOD_NEW_WINDOW : Result := True;  // For simplicity, this demo blocks new tabs and new windows.
 
-    WOD_NEW_POPUP : Result := not(TMainForm(Owner).CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures));
+    CEF_WOD_NEW_POPUP : Result := not(TMainForm(Owner).CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures));
 
     else Result := False;
   end;

@@ -3396,6 +3396,53 @@ type
   end;
 
   /// <summary>
+  /// <para>CEF supports both a Chrome runtime (based on the Chrome UI layer) and an
+  /// Alloy runtime (based on the Chromium content layer). The Chrome runtime
+  /// provides the full Chrome UI and browser functionality whereas the Alloy
+  /// runtime provides less default browser functionality but adds additional
+  /// client callbacks and support for windowless (off-screen) rendering. For
+  /// additional comparative details on runtime types see
+  /// https://bitbucket.org/chromiumembedded/cef/wiki/Architecture.md#markdown-header-cef3</para>
+  ///
+  /// <para>Each runtime is composed of a bootstrap component and a style component. The
+  /// bootstrap component is configured via CefSettings.chrome_runtime and cannot
+  /// be changed after CefInitialize. The style component is individually
+  /// configured for each window/browser at creation time and, in combination with
+  /// the Chrome bootstrap, different styles can be mixed during runtime.</para>
+  ///
+  /// <para>Windowless rendering will always use Alloy style. Windowed rendering with a
+  /// default window or client-provided parent window can configure the style via
+  /// CefWindowInfo.runtime_style. Windowed rendering with the Views framework can
+  /// configure the style via CefWindowDelegate::GetWindowRuntimeStyle and
+  /// CefBrowserViewDelegate::GetBrowserRuntimeStyle. Alloy style Windows with the
+  /// Views framework can host only Alloy style BrowserViews but Chrome style
+  /// Windows can host both style BrowserViews. Additionally, a Chrome style
+  /// Window can host at most one Chrome style BrowserView but potentially
+  /// multiple Alloy style BrowserViews. See CefWindowInfo.runtime_style
+  /// documentation for any additional platform-specific limitations.</para>
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_runtime.h">CEF source file: /include/internal/cef_types_runtime.h (cef_runtime_style_t)</see></para>
+  /// </remarks>
+  TCefRuntimeStyle = (
+    /// <summary>
+    /// Use the default runtime style. The default style will match the
+    /// CefSettings.chrome_runtime value in most cases. See above documentation
+    /// for exceptions.
+    /// </summary>
+    CEF_RUNTIME_STYLE_DEFAULT,
+    /// <summary>
+    /// Use the Chrome runtime style. Only supported with the Chrome runtime.
+    /// </summary>
+    CEF_RUNTIME_STYLE_CHROME,
+    /// <summary>
+    /// Use the Alloy runtime style. Supported with both the Alloy and Chrome
+    /// runtime.
+    /// </summary>
+    CEF_RUNTIME_STYLE_ALLOY
+  );
+
+  /// <summary>
   /// Structure representing window information.
   /// </summary>
   /// <remarks>
@@ -3442,6 +3489,12 @@ type
     /// Handle for the new browser window. Only used with windowed rendering.
     /// </summary>
     window                        : TCefWindowHandle;
+    /// <summary>
+    /// Optionally change the runtime style. Alloy style will always be used if
+    /// |windowless_rendering_enabled| is true. See TCefRuntimeStyle
+    /// documentation for details.
+    /// </summary>
+    runtime_style                 : TCefRuntimeStyle;
     {$ENDIF}
     {$IFDEF MACOSX}
     window_name                   : TCefString;
@@ -3486,6 +3539,12 @@ type
     /// rendering.
     /// </summary>
     view                          : TCefWindowHandle;
+    /// <summary>
+    /// Optionally change the runtime style. Alloy style will always be used if
+    /// |windowless_rendering_enabled| is true or if |parent_view| is provided.
+    /// See TCefRuntimeStyle documentation for details.
+    /// </summary>
+    runtime_style                 : TCefRuntimeStyle;
     {$ENDIF}
     {$IFDEF LINUX}
     /// <summary>
@@ -3533,6 +3592,12 @@ type
     /// Pointer for the new browser window. Only used with windowed rendering.
     /// </summary>
     window                        : TCefWindowHandle;
+    /// <summary>
+    /// Optionally change the runtime style. Alloy style will always be used if
+    /// |windowless_rendering_enabled| is true. See TCefRuntimeStyle
+    /// documentation for details.
+    /// </summary>
+    runtime_style                 : TCefRuntimeStyle;
     {$ENDIF}
   end;
 
@@ -4569,6 +4634,14 @@ type
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_TOP_LEVEL_TPCD_TRIAL,
     /// <summary>
+    /// <para>Content Setting for a first-party origin trial that allows websites to
+    /// enable third-party cookie deprecation.</para>
+    /// <para>ALLOW (default): no effect (e.g. third-party cookies allowed, if
+    /// not blocked otherwise).</para>
+    /// <para>BLOCK: third-party cookies blocked, but 3PCD mitigations enabled.</para>
+    /// </summary>
+    CEF_CONTENT_SETTING_TOP_LEVEL_TPCD_ORIGIN_TRIAL,
+    /// <summary>
     /// Content setting used to indicate whether entering picture-in-picture
     /// automatically should be enabled.
     /// </summary>
@@ -4628,7 +4701,18 @@ type
     /// Pointer Lock API allows a site to hide the cursor and have exclusive
     /// access to mouse inputs.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_POINTER_LOCK
+    CEF_CONTENT_SETTING_TYPE_POINTER_LOCK,
+    /// <summary>
+    /// Website setting which is used for UnusedSitePermissionsService to store
+    /// auto-revoked notification permissions from abusive sites.
+    /// </summary>
+    REVOKED_ABUSIVE_NOTIFICATION_PERMISSIONS,
+    /// <summary>
+    /// <para>Content setting that controls tracking protection status per site.</para>
+    /// <para>BLOCK: Protections enabled. This is the default state.</para>
+    /// <para>ALLOW: Protections disabled.</para>
+    /// </summary>
+    TRACKING_PROTECTION
   );
 
   /// <summary>
@@ -4858,7 +4942,7 @@ type
   TCefDownloadHandler = record
     base                : TCefBaseRefCounted;
     can_download        : function(self: PCefDownloadHandler; browser: PCefBrowser; const url, request_method: PCefString): integer; stdcall;
-    on_before_download  : procedure(self: PCefDownloadHandler; browser: PCefBrowser; download_item: PCefDownloadItem; const suggested_name: PCefString; callback: PCefBeforeDownloadCallback); stdcall;
+    on_before_download  : function(self: PCefDownloadHandler; browser: PCefBrowser; download_item: PCefDownloadItem; const suggested_name: PCefString; callback: PCefBeforeDownloadCallback): Integer; stdcall;
     on_download_updated : procedure(self: PCefDownloadHandler; browser: PCefBrowser; download_item: PCefDownloadItem; callback: PCefDownloadItemCallback); stdcall;
   end;
 
@@ -5132,6 +5216,7 @@ type
   /// loading.
   /// </summary>
   /// <remarks>
+  /// <para>WARNING: This API is deprecated and will be removed in ~M127.</para>
   /// <para>Implemented by ICefExtensionHandler.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)</see></para>
   /// </remarks>
@@ -5168,6 +5253,7 @@ type
   /// otherwise indicated.
   /// </summary>
   /// <remarks>
+  /// <para>WARNING: This API is deprecated and will be removed in ~M127.</para>
   /// <para>Implemented by ICefExtension.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_capi.h">CEF source file: /include/capi/cef_extension_capi.h (cef_extension_t)</see></para>
   /// </remarks>
@@ -6089,7 +6175,7 @@ type
     get_height              : function(self: PCefImage): NativeUInt; stdcall;
     has_representation      : function(self: PCefImage; scale_factor: Single): Integer; stdcall;
     remove_representation   : function(self: PCefImage; scale_factor: Single): Integer; stdcall;
-    get_representation_info : function(self: PCefImage; scale_factor: Single; actual_scale_factor: PSingle; pixel_width, pixel_height: PInteger): Integer; stdcall;
+    get_representation_info : function(self: PCefImage; scale_factor: Single; actual_scale_factor: System.PSingle; pixel_width, pixel_height: PInteger): Integer; stdcall;
     get_as_bitmap           : function(self: PCefImage; scale_factor: Single; color_type: TCefColorType; alpha_type: TCefAlphaType; pixel_width, pixel_height: PInteger): PCefBinaryValue; stdcall;
     get_as_png              : function(self: PCefImage; scale_factor: Single; with_transparency: Integer; pixel_width, pixel_height: PInteger): PCefBinaryValue; stdcall;
     get_as_jpeg             : function(self: PCefImage; scale_factor: Single; quality: Integer; pixel_width, pixel_height: PInteger): PCefBinaryValue; stdcall;
@@ -7257,6 +7343,7 @@ type
     can_execute_chrome_command        : function(self: PCefBrowserHost; command_id: integer): integer; stdcall;
     execute_chrome_command            : procedure(self: PCefBrowserHost; command_id: integer; disposition: TCefWindowOpenDisposition); stdcall;
     is_render_process_unresponsive    : function(self: PCefBrowserHost): integer; stdcall;
+    get_runtime_style                 : function(self: PCefBrowserHost): TCefRuntimeStyle; stdcall;
   end;
 
   /// <summary>
@@ -7763,6 +7850,7 @@ type
     get_browser                     : function(self: PCefBrowserView): PCefBrowser; stdcall;
     get_chrome_toolbar              : function(self: PCefBrowserView): PCefView; stdcall;
     set_prefer_accelerators         : procedure(self: PCefBrowserView; prefer_accelerators: Integer); stdcall;
+    get_runtime_style               : function(self: PCefBrowserView): TCefRuntimeStyle; stdcall;
   end;
 
   /// <summary>
@@ -7783,6 +7871,7 @@ type
     get_chrome_toolbar_type                     : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): TCefChromeToolbarType; stdcall;
     use_frameless_window_for_picture_in_picture : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): integer; stdcall;
     on_gesture_command                          : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; gesture_command: TCefGestureCommand): Integer; stdcall;
+    get_browser_runtime_style                   : function(self: PCefBrowserViewDelegate): TCefRuntimeStyle; stdcall;
   end;
 
   /// <summary>
@@ -7937,6 +8026,7 @@ type
     remove_all_accelerators          : procedure(self: PCefWindow); stdcall;
     set_theme_color                  : procedure(self: PCefWindow; color_id: integer; color: TCefColor); stdcall;
     theme_changed                    : procedure(self: PCefWindow); stdcall;
+    get_runtime_style                : function(self: PCefWindow): TCefRuntimeStyle; stdcall;
   end;
 
   /// <summary>
@@ -7962,7 +8052,7 @@ type
     get_initial_show_state           : function(self: PCefWindowDelegate; window: PCefWindow): TCefShowState; stdcall;
     is_frameless                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     with_standard_window_buttons     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
-    get_titlebar_height              : function(self: PCefWindowDelegate; window: PCefWindow; titlebar_height: PSingle): Integer; stdcall;
+    get_titlebar_height              : function(self: PCefWindowDelegate; window: PCefWindow; titlebar_height: System.PSingle): Integer; stdcall;
     accepts_first_mouse              : function(self: PCefWindowDelegate; window: PCefWindow): TCefState; stdcall;
     can_resize                       : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     can_maximize                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
@@ -7971,6 +8061,7 @@ type
     on_accelerator                   : function(self: PCefWindowDelegate; window: PCefWindow; command_id: Integer): Integer; stdcall;
     on_key_event                     : function(self: PCefWindowDelegate; window: PCefWindow; const event: PCefKeyEvent): Integer; stdcall;
     on_theme_colors_changed          : procedure(self: PCefWindowDelegate; window: PCefWindow; chrome_theme: Integer); stdcall;
+    get_window_runtime_style         : function(self: PCefWindowDelegate): TCefRuntimeStyle; stdcall;
   end;
 
 implementation

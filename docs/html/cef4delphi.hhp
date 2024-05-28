@@ -338,6 +338,7 @@ uCEFInterfaces.ICefUrlRequest.html
 uCEFInterfaces.ICefUrlrequestClient.html
 uCEFInterfaces.ICefEndTracingCallback.html
 uCEFInterfaces.ICefFileDialogCallback.html
+uCEFInterfaces.ICefUnresponsiveProcessCallback.html
 uCEFInterfaces.ICefDragData.html
 uCEFInterfaces.ICefDragHandler.html
 uCEFInterfaces.ICefFindHandler.html
@@ -669,6 +670,7 @@ uCEFThread.TCefThreadRef.html
 uCEFTimerWorkScheduler.html
 uCEFTimerWorkScheduler.TCEFTimerWorkScheduler.html
 uCEFTypes.html
+uCEFTypes.TCefAcceleratedPaintInfo.html
 uCEFTypes.TMyMemoryStatusEx.html
 uCEFTypes.TOSVersionInfoEx.html
 uCEFTypes.TCefStringWide.html
@@ -713,6 +715,7 @@ uCEFTypes.TCefSSLStatus.html
 uCEFTypes.TCefSelectClientCertificateCallback.html
 uCEFTypes.TCefRunContextMenuCallback.html
 uCEFTypes.TCefFileDialogCallback.html
+uCEFTypes.TCefUnresponsiveProcessCallback.html
 uCEFTypes.TCefDialogHandler.html
 uCEFTypes.TCefDisplayHandler.html
 uCEFTypes.TCefDownloadHandler.html
@@ -855,6 +858,8 @@ uCEFTypes.TCefMenuButtonPressedLock.html
 uCEFTypes.TCefMenuButtonDelegate.html
 uCEFTypes.TCefWindow.html
 uCEFTypes.TCefWindowDelegate.html
+uCEFUnresponsiveProcessCallback.html
+uCEFUnresponsiveProcessCallback.TCefUnresponsiveProcessCallbackRef.html
 uCEFUrlRequest.html
 uCEFUrlRequest.TCefUrlRequestRef.html
 uCEFUrlrequestClient.html
@@ -910,6 +915,8 @@ uCEFWindowDelegate.html
 uCEFWindowDelegate.TCefWindowDelegateRef.html
 uCEFWindowDelegate.TCefWindowDelegateOwn.html
 uCEFWindowDelegate.TCustomWindowDelegate.html
+uCEFWindowInfoWrapper.html
+uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html
 uCEFWindowParent.html
 uCEFWindowParent.TCEFWindowParent.html
 uCEFWorkScheduler.html

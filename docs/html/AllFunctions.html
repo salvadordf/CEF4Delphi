@@ -183,14 +183,14 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list2">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefGetDataURI-ustring-ustring-">CefGetDataURI</a></td>
-<td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
-<td class="itemdesc"><p> Returns a URI with a DATA scheme using |aString| as the URI's data. </p></td>
-</tr>
-<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefGetDataURI-pointer-integer-ustring-ustring-">CefGetDataURI</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Returns a URI with a DATA scheme encoding |aData| as a base64 string. </p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefGetDataURI-ustring-ustring-">CefGetDataURI</a></td>
+<td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
+<td class="itemdesc"><p> Returns a URI with a DATA scheme using |aString| as the URI's data. </p></td>
 </tr>
 <tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefGetExtensionsForMimeType-ustring-TStringList-">CefGetExtensionsForMimeType</a></td>
@@ -334,14 +334,14 @@
 <td class="itemdesc"><p> Sets or clears a specific key-value pair from the crash metadata. </p></td>
 </tr>
 <tr class="list">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefString-ustring-">CefString</a></td>
-<td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
-<td class="itemdesc"><p>Converts ustring to TCefString.</p></td>
-</tr>
-<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefString-PCefString-">CefString</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>Converts PCefString to ustring.</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefString-ustring-">CefString</a></td>
+<td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
+<td class="itemdesc"><p>Converts ustring to TCefString.</p></td>
 </tr>
 <tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefStringAlloc-ustring-">CefStringAlloc</a></td>
@@ -374,276 +374,281 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefStringSet-TCefString-TCefString-">CefStringSet</a></td>
+<td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefTimeDelta-TCefTime-TCefTime-">CefTimeDelta</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Retrieve the delta in milliseconds between two time values. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefTimeNow">CefTimeNow</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Retrieve the current system time in a TCefTime type. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefTimeToDateTime-TCefTime-">CefTimeToDateTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Converts a TCefTime value to TDateTime. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefTimeToDouble-TCefTime-">CefTimeToDouble</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Converts TCefTime to a double which is the number of seconds since epoch (Jan 1, 1970). Webkit uses this format to represent time. A value of 0 means &quot;not initialized&quot;. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefTimeToSystemTime-TCefTime-">CefTimeToSystemTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Converts a TCefTime value to TSystemTime. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefTimeToUnixTime-TCefTime-">CefTimeToUnixTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Converts cef_time_t to time_t. time_t is almost always an integral value holding the number of seconds (not counting leap seconds) since 00:00, Jan 1 1970 UTC, corresponding to POSIX time. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefUriDecode-ustring-Boolean-TCefUriUnescapeRule-">CefUriDecode</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Unescapes |text| and returns the result. Unescaping consists of looking for the exact pattern &quot;%XX&quot; where each X is a hex digit and converting to the character with the numerical value of those digits (e.g. &quot;i%20=%203%3b&quot; unescapes to &quot;i = 3;&quot;). If |convert_to_utf8| is true (1) this function will attempt to interpret the initial decoded result as UTF-8. If the result is convertable into UTF-8 it will be returned as converted. Otherwise the initial decoded result will be returned. The |unescape_rule| parameter supports further customization the decoding process. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefUriEncode-ustring-Boolean-">CefUriEncode</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Escapes characters in |text| which are unsuitable for use as a query parameter value. Everything except alphanumerics and -_.!~*'() will be converted to &quot;%XX&quot;. If |use_plus| is true (1) spaces will change to &quot;+&quot;. The result is basically the same as encodeURIComponent in Javacript. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefUserFreeString-ustring-">CefUserFreeString</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CefZipDirectory-ustring-ustring-Boolean-">CefZipDirectory</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Writes the contents of |srcDir| into a zip archive at |destFile|. If |includeHiddenFiles| is true (1) files starting with &quot;.&quot; will be included. Returns true (1) on success. Calling this function on the browser process UI or IO threads is not allowed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#cef_string_copy-PCefChar-NativeUInt-PCefString-">cef_string_copy</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#cef_string_utf16_copy-PChar16-NativeUInt-PCefStringUtf16-">cef_string_utf16_copy</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#cef_string_utf8_copy-PAnsiChar-NativeUInt-PCefStringUtf8-">cef_string_utf8_copy</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#cef_string_wide_copy-PWideChar-NativeUInt-PCefStringWide-">cef_string_wide_copy</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CetTimeFromCefBaseTime-TCefBaseTime-">CetTimeFromCefBaseTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Converts TCefBaseTime to TCefTime. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CetTimeToCefBaseTime-TCefTime-">CetTimeToCefBaseTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Converts TCefTime to TCefBaseTime. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CheckDLLs-string-string-">CheckDLLs</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CheckDLLVersion-ustring-uint16-uint16-uint16-uint16-">CheckDLLVersion</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CheckFilesExist-TStringList-string-">CheckFilesExist</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CheckLocales-string-string-string-">CheckLocales</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CheckRealWindowsVersion-cardinal-cardinal-">CheckRealWindowsVersion</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CheckResources-string-string-">CheckResources</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CheckSubprocessPath-string-string-">CheckSubprocessPath</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CustomAbsolutePath-string-boolean-">CustomAbsolutePath</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Returns the absolute path version of aPath. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CustomExceptionHandler-string-exception-">CustomExceptionHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CustomPathCanonicalize-string-string-">CustomPathCanonicalize</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Simplifies a path by removing navigation elements such as &quot;.&quot; and &quot;..&quot; to produce a direct, well-formed path. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CustomPathIsRelative-string-">CustomPathIsRelative</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Returns true if aPath is a relative path. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CustomPathIsUNC-string-">CustomPathIsUNC</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Determines if aPath is a valid Universal Naming Convention (UNC) path, as opposed to a path based on a drive letter. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#CustomPathIsURL-string-">CustomPathIsURL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Tests aPath to determine if it conforms to a valid URL format. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DateTimeToCefBaseTime-TDateTime-">DateTimeToCefBaseTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Converts a TDateTime value to TCefBaseTime. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DateTimeToCefTime-TDateTime-">DateTimeToCefTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Converts a TDateTime value to TCefTime. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeleteDirContents-string-TStringList-">DeleteDirContents</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeleteFileList-TStringList-">DeleteFileList</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplication.html#DestroyGlobalCEFApp">DestroyGlobalCEFApp</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplication.html">uCEFApplication</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationCore.html#DestroyGlobalCEFApp">DestroyGlobalCEFApp</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationCore.html">uCEFApplicationCore</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTimerWorkScheduler.html#DestroyGlobalCEFTimerWorkScheduler">DestroyGlobalCEFTimerWorkScheduler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTimerWorkScheduler.html">uCEFTimerWorkScheduler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFWorkScheduler.html#DestroyGlobalCEFWorkScheduler">DestroyGlobalCEFWorkScheduler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWorkScheduler.html">uCEFWorkScheduler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFFMXWorkScheduler.html#DestroyGlobalFMXWorkScheduler">DestroyGlobalFMXWorkScheduler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFFMXWorkScheduler.html">uCEFFMXWorkScheduler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-TCEFMouseEvent-double-">DeviceToLogical</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-single-double-">DeviceToLogical</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-integer-double-">DeviceToLogical</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-TCefTouchEvent-double-">DeviceToLogical</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-TPoint-double-">DeviceToLogical</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DoubleTimeNow">DoubleTimeNow</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Retrieve the current system time in a double type. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DoubleToCefTime-double-">DoubleToCefTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Converts TCefTime from a double which is the number of seconds since epoch (Jan 1, 1970). Webkit uses this format to represent time. A value of 0 means &quot;not initialized&quot;. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DragOperationToDropEffect-TCefDragOperations-Longint-">DragOperationToDropEffect</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DropEffectToDragOperation-Longint-TCefDragOperations-">DropEffectToDragOperation</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#FileVersionInfoToString-TFileVersionInfo-">FileVersionInfoToString</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#FixCefTime-TCefTime-">FixCefTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Returns a new TCefTime with a valid time in case the original has errors. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetAbsoluteDirPath-string-string-">GetAbsoluteDirPath</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetCefKeyboardModifiers-WPARAM-LPARAM-">GetCefKeyboardModifiers</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetCefMouseModifiers">GetCefMouseModifiers</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetCefMouseModifiers-WPARAM-">GetCefMouseModifiers</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetCommandLineSwitchValue-string-ustring-">GetCommandLineSwitchValue</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Returns a command line switch value if it exists. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetDefaultCEFUserAgent">GetDefaultCEFUserAgent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>
@@ -654,327 +659,327 @@
 
 <p></p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetDeviceScaleFactor">GetDeviceScaleFactor</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetDLLHeaderMachine-ustring-integer-">GetDLLHeaderMachine</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetDLLVersion-ustring-TFileVersionInfo-">GetDLLVersion</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetDPIForHandle-HWND-UINT-">GetDPIForHandle</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetExtendedFileVersion-ustring-">GetExtendedFileVersion</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetFileTypeDescription-ustring-">GetFileTypeDescription</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetGlobalMemoryStatusEx-LPMEMORYSTATUSEX-">GetGlobalMemoryStatusEx</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetIsWow64Process2-WORD-WORD-">GetIsWow64Process2</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetModulePath">GetModulePath</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Retrieves the fully qualified path for the current module. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetRealWindowsVersion-cardinal-cardinal-">GetRealWindowsVersion</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetRegistryWindowsVersion-cardinal-cardinal-">GetRegistryWindowsVersion</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetScreenDPI">GetScreenDPI</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetTimeIntervalMilliseconds-TCefTime-">GetTimeIntervalMilliseconds</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Returns the time interval between now and from_ in milliseconds. This funcion should only be used by TCEFTimerWorkScheduler. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GetWindowsMajorMinorVersion-DWORD-DWORD-">GetWindowsMajorMinorVersion</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#InitializeCefTime-TCefTime-">InitializeCefTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Initialize a TCefTime variable. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#InitializeWindowHandle-TCefWindowHandle-">InitializeWindowHandle</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#Is32BitProcess">Is32BitProcess</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#IsCEFSubprocess">IsCEFSubprocess</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Returns true if the command line switch has a &quot;type&quot; value. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#IsWowProcess">IsWowProcess</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#LogicalToDevice-TCEFRect-double-">LogicalToDevice</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#LogicalToDevice-integer-double-">LogicalToDevice</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#MoveFileList-TStringList-string-string-">MoveFileList</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#NetApiBufferFree-Pointer-">NetApiBufferFree</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#NetServerGetInfo-LPWSTR-DWORD-Pointer-">NetServerGetInfo</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#OutputDebugMessage-string-">OutputDebugMessage</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#OutputLastErrorMessage">OutputLastErrorMessage</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#PathCanonicalizeAnsi-LPSTR-LPCSTR-">PathCanonicalizeAnsi</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#PathCanonicalizeUnicode-LPWSTR-LPCWSTR-">PathCanonicalizeUnicode</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#PathIsRelativeAnsi-LPCSTR-">PathIsRelativeAnsi</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#PathIsRelativeUnicode-LPCWSTR-">PathIsRelativeUnicode</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#PathIsUNCAnsi-LPCSTR-">PathIsUNCAnsi</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#PathIsUNCUnicode-LPCWSTR-">PathIsUNCUnicode</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#PathIsURLAnsi-LPCSTR-">PathIsURLAnsi</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#PathIsURLUnicode-LPCWSTR-">PathIsURLUnicode</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#ProcessUnderWow64-THandle-PBOOL-">ProcessUnderWow64</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFBrowserViewComponent.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFBrowserViewComponent.html">uCEFBrowserViewComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFBrowserWindow.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFBrowserWindow.html">uCEFBrowserWindow</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFBufferPanel.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFBufferPanel.html">uCEFBufferPanel</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromium.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromium.html">uCEFChromium</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumWindow.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumWindow.html">uCEFChromiumWindow</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFLabelButtonComponent.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFLabelButtonComponent.html">uCEFLabelButtonComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFLinkedWindowParent.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFLinkedWindowParent.html">uCEFLinkedWindowParent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMenuButtonComponent.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMenuButtonComponent.html">uCEFMenuButtonComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFOsrBrowserWindow.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOsrBrowserWindow.html">uCEFOsrBrowserWindow</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFPanelComponent.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFPanelComponent.html">uCEFPanelComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFScrollViewComponent.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFScrollViewComponent.html">uCEFScrollViewComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFSentinel.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFSentinel.html">uCEFSentinel</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFServerComponent.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServerComponent.html">uCEFServerComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTextfieldComponent.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTextfieldComponent.html">uCEFTextfieldComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFUrlRequestClientComponent.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFUrlRequestClientComponent.html">uCEFUrlRequestClientComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFWindowComponent.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWindowComponent.html">uCEFWindowComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFWindowParent.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWindowParent.html">uCEFWindowParent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFWorkScheduler.html#Register">Register</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWorkScheduler.html">uCEFWorkScheduler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#RunningWindows10OrNewer">RunningWindows10OrNewer</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#SetWindowLongPtr-HWND-Integer-LongInt-">SetWindowLongPtr</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#ShutdownBlockReasonCreate-HWND-LPCWSTR-">ShutdownBlockReasonCreate</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#ShutdownBlockReasonDestroy-HWND-">ShutdownBlockReasonDestroy</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#SplitLongString-string-">SplitLongString</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#SystemTimeToCefTime-TSystemTime-">SystemTimeToCefTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Converts a TSystemTime value to TCefTime. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#UInt64ToFileVersionInfo-uint64-TFileVersionInfo-">UInt64ToFileVersionInfo</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#UnixTimeToCefTime-int64-">UnixTimeToCefTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Converts cef_time_t from time_t. time_t is almost always an integral value holding the number of seconds (not counting leap seconds) since 00:00, Jan 1 1970 UTC, corresponding to POSIX time. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#ValidCefWindowHandle-TCefWindowHandle-">ValidCefWindowHandle</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#WindowInfoAsChild-TCefWindowInfo-TCefWindowHandle-TRect-ustring-DWORD-">WindowInfoAsChild</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#WindowInfoAsPopUp-TCefWindowInfo-TCefWindowHandle-ustring-DWORD-">WindowInfoAsPopUp</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#WindowInfoAsWindowless-TCefWindowInfo-TCefWindowHandle-ustring-DWORD-">WindowInfoAsWindowless</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>

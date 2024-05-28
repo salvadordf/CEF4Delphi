@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFWindowInfoWrapper: Class TCEFWindowInfoWrapper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFWindowInfoWrapper"></span><h1 class="cio">Class TCEFWindowInfoWrapper</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFWindowInfoWrapper.html">uCEFWindowInfoWrapper</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFWindowInfoWrapper = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Wrapper class used to initialize a TCEFWindowInfo record. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_win.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_win.h</a>&quot;&gt;CEF source file: /include/internal/cef_win.h (CefWindowInfo))
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_mac.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_mac.h</a>&quot;&gt;CEF source file: /include/internal/cef_mac.h (CefWindowInfo))
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_linux.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_linux.h</a>&quot;&gt;CEF source file: /include/internal/cef_linux.h (CefWindowInfo))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TCEFWindowInfoWrapper</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#FWindowInfo">FWindowInfo</a></strong>: <a href="uCEFTypes.TCefWindowInfo.html">TCEFWindowInfo</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetWindowName">GetWindowName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetBounds">GetBounds</a></strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetParentWindow">GetParentWindow</a></strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetWindowlessRenderingEnabled">GetWindowlessRenderingEnabled</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetSharedTextureEnabled">GetSharedTextureEnabled</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetExternalBeginFrameEnabled">GetExternalBeginFrameEnabled</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetWindow">GetWindow</a></strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetRuntimeStyle">GetRuntimeStyle</a></strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetExStyle">GetExStyle</a></strong>: DWORD;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetStyle">GetStyle</a></strong>: DWORD;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetMenu">GetMenu</a></strong>: HMENU;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetWindowName-ustring-">SetWindowName</a></strong>(const aValue : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetBounds-TCefRect-">SetBounds</a></strong>(const aValue : <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetParentWindow-TCefWindowHandle-">SetParentWindow</a></strong>(aValue : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetWindowlessRenderingEnabled-boolean-">SetWindowlessRenderingEnabled</a></strong>(aValue : boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetSharedTextureEnabled-boolean-">SetSharedTextureEnabled</a></strong>(aValue : boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetExternalBeginFrameEnabled-boolean-">SetExternalBeginFrameEnabled</a></strong>(aValue : boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetWindow-TCefWindowHandle-">SetWindow</a></strong>(aValue : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetRuntimeStyle-TCefRuntimeStyle-">SetRuntimeStyle</a></strong>(aValue : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetExStyle-DWORD-">SetExStyle</a></strong>(aValue : DWORD);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetStyle-DWORD-">SetStyle</a></strong>(aValue : DWORD);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetMenu-HMENU-">SetMenu</a></strong>(aValue : HMENU);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#Create">Create</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#CopyFromWindowInfo-TCEFWindowInfo-">CopyFromWindowInfo</a></strong>(const aSrcWindowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCEFWindowInfo</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#AsChild-TCEFWindowInfo-TCefWindowHandle-TRect-">AsChild</a></strong>(var aWindowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCEFWindowInfo</a>; aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; aWindowBounds : TRect);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetAsChild-TCefWindowHandle-TRect-">SetAsChild</a></strong>(aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; aWindowBounds : TRect);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#AsPopup-TCEFWindowInfo-TCefWindowHandle-ustring-">AsPopup</a></strong>(var aWindowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCEFWindowInfo</a>; aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetAsPopup-TCefWindowHandle-ustring-">SetAsPopup</a></strong>(aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#AsWindowless-TCEFWindowInfo-TCefWindowHandle-">AsWindowless</a></strong>(var aWindowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCEFWindowInfo</a>; aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetAsWindowless-TCefWindowHandle-">SetAsWindowless</a></strong>(aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#WindowInfoRecord">WindowInfoRecord</a></strong>              : <a href="uCEFTypes.TCefWindowInfo.html">TCEFWindowInfo</a>      read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#FWindowInfo">FWindowInfo</a>                     write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#FWindowInfo">FWindowInfo</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#WindowName">WindowName</a></strong>                    : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetWindowName">GetWindowName</a>                   write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetWindowName-ustring-">SetWindowName</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#Bounds">Bounds</a></strong>                        : <a href="uCEFTypes.TCefRect.html">TCefRect</a>            read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetBounds">GetBounds</a>                       write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetBounds-TCefRect-">SetBounds</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#WindowlessRenderingEnabled">WindowlessRenderingEnabled</a></strong>    : boolean             read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetWindowlessRenderingEnabled">GetWindowlessRenderingEnabled</a>   write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetWindowlessRenderingEnabled-boolean-">SetWindowlessRenderingEnabled</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SharedTextureEnabled">SharedTextureEnabled</a></strong>          : boolean             read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetSharedTextureEnabled">GetSharedTextureEnabled</a>         write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetSharedTextureEnabled-boolean-">SetSharedTextureEnabled</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#ExternalBeginFrameEnabled">ExternalBeginFrameEnabled</a></strong>     : boolean             read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetExternalBeginFrameEnabled">GetExternalBeginFrameEnabled</a>    write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetExternalBeginFrameEnabled-boolean-">SetExternalBeginFrameEnabled</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#RuntimeStyle">RuntimeStyle</a></strong>                  : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>    read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetRuntimeStyle">GetRuntimeStyle</a>                 write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetRuntimeStyle-TCefRuntimeStyle-">SetRuntimeStyle</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#ExStyle">ExStyle</a></strong>                       : DWORD               read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetExStyle">GetExStyle</a>                      write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetExStyle-DWORD-">SetExStyle</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#Style">Style</a></strong>                         : DWORD               read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetStyle">GetStyle</a>                        write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetStyle-DWORD-">SetStyle</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#Menu">Menu</a></strong>                          : HMENU               read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetMenu">GetMenu</a>                         write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetMenu-HMENU-">SetMenu</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#ParentWindow">ParentWindow</a></strong>                  : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>    read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetParentWindow">GetParentWindow</a>                 write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetParentWindow-TCefWindowHandle-">SetParentWindow</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#Window">Window</a></strong>                        : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>    read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetWindow">GetWindow</a>                       write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetWindow-TCefWindowHandle-">SetWindow</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FWindowInfo"></span><code><strong>FWindowInfo</strong>: <a href="uCEFTypes.TCefWindowInfo.html">TCEFWindowInfo</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetWindowName"></span><code>function <strong>GetWindowName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetBounds"></span><code>function <strong>GetBounds</strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetParentWindow"></span><code>function <strong>GetParentWindow</strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetWindowlessRenderingEnabled"></span><code>function <strong>GetWindowlessRenderingEnabled</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetSharedTextureEnabled"></span><code>function <strong>GetSharedTextureEnabled</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetExternalBeginFrameEnabled"></span><code>function <strong>GetExternalBeginFrameEnabled</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetWindow"></span><code>function <strong>GetWindow</strong>: <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetRuntimeStyle"></span><code>function <strong>GetRuntimeStyle</strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetExStyle"></span><code>function <strong>GetExStyle</strong>: DWORD;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetStyle"></span><code>function <strong>GetStyle</strong>: DWORD;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetMenu"></span><code>function <strong>GetMenu</strong>: HMENU;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetWindowName-ustring-"></span><code>procedure <strong>SetWindowName</strong>(const aValue : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetBounds-TCefRect-"></span><code>procedure <strong>SetBounds</strong>(const aValue : <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetParentWindow-TCefWindowHandle-"></span><code>procedure <strong>SetParentWindow</strong>(aValue : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetWindowlessRenderingEnabled-boolean-"></span><code>procedure <strong>SetWindowlessRenderingEnabled</strong>(aValue : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetSharedTextureEnabled-boolean-"></span><code>procedure <strong>SetSharedTextureEnabled</strong>(aValue : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetExternalBeginFrameEnabled-boolean-"></span><code>procedure <strong>SetExternalBeginFrameEnabled</strong>(aValue : boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetWindow-TCefWindowHandle-"></span><code>procedure <strong>SetWindow</strong>(aValue : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetRuntimeStyle-TCefRuntimeStyle-"></span><code>procedure <strong>SetRuntimeStyle</strong>(aValue : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetExStyle-DWORD-"></span><code>procedure <strong>SetExStyle</strong>(aValue : DWORD);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetStyle-DWORD-"></span><code>procedure <strong>SetStyle</strong>(aValue : DWORD);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetMenu-HMENU-"></span><code>procedure <strong>SetMenu</strong>(aValue : HMENU);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CopyFromWindowInfo-TCEFWindowInfo-"></span><code>procedure <strong>CopyFromWindowInfo</strong>(const aSrcWindowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCEFWindowInfo</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Copy the information from an external TCEFWindowInfo instance </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsChild-TCEFWindowInfo-TCefWindowHandle-TRect-"></span><code>class procedure <strong>AsChild</strong>(var aWindowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCEFWindowInfo</a>; aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; aWindowBounds : TRect);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create the browser as a child window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetAsChild-TCefWindowHandle-TRect-"></span><code>procedure <strong>SetAsChild</strong>(aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; aWindowBounds : TRect);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create the browser as a child window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsPopup-TCEFWindowInfo-TCefWindowHandle-ustring-"></span><code>class procedure <strong>AsPopup</strong>(var aWindowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCEFWindowInfo</a>; aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create the browser as a popup window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetAsPopup-TCefWindowHandle-ustring-"></span><code>procedure <strong>SetAsPopup</strong>(aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create the browser as a popup window. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsWindowless-TCEFWindowInfo-TCefWindowHandle-"></span><code>class procedure <strong>AsWindowless</strong>(var aWindowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCEFWindowInfo</a>; aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create the browser using windowless (off-screen) rendering. No window will be created for the browser and all rendering will occur via the ICefRenderHandler interface. The |parent| value will be used to identify monitor info and to act as the parent window for dialogs, context menus, etc. If |parent| is not provided then the main screen monitor will be used and some functionality that requires a parent window may not function correctly. In order to create windowless browsers the TCefSettings.windowless_rendering_enabled value must be set to true. Transparent painting is enabled by default but can be disabled by setting ICefBrowserSettings.background_color to an opaque value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetAsWindowless-TCefWindowHandle-"></span><code>procedure <strong>SetAsWindowless</strong>(aParent : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create the browser using windowless (off-screen) rendering. No window will be created for the browser and all rendering will occur via the ICefRenderHandler interface. The |parent| value will be used to identify monitor info and to act as the parent window for dialogs, context menus, etc. If |parent| is not provided then the main screen monitor will be used and some functionality that requires a parent window may not function correctly. In order to create windowless browsers the TCefSettings.windowless_rendering_enabled value must be set to true. Transparent painting is enabled by default but can be disabled by setting ICefBrowserSettings.background_color to an opaque value. </p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="WindowInfoRecord"></span><code>property <strong>WindowInfoRecord</strong>              : <a href="uCEFTypes.TCefWindowInfo.html">TCEFWindowInfo</a>      read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#FWindowInfo">FWindowInfo</a>                     write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#FWindowInfo">FWindowInfo</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Internal TCEFWindowInfo instance </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="WindowName"></span><code>property <strong>WindowName</strong>                    : <a href="uCEFTypes.html#ustring">ustring</a>             read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetWindowName">GetWindowName</a>                   write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetWindowName-ustring-">SetWindowName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The initial title of the window, to be set when the window is created. Some layout managers (e.g., Compiz) can look at the window title in order to decide where to place the window when it is created. When this attribute is not empty, the window title will be set before the window is mapped to the dispay. Otherwise the title will be initially empty. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Bounds"></span><code>property <strong>Bounds</strong>                        : <a href="uCEFTypes.TCefRect.html">TCefRect</a>            read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetBounds">GetBounds</a>                       write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetBounds-TCefRect-">SetBounds</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Initial window bounds. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="WindowlessRenderingEnabled"></span><code>property <strong>WindowlessRenderingEnabled</strong>    : boolean             read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetWindowlessRenderingEnabled">GetWindowlessRenderingEnabled</a>   write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetWindowlessRenderingEnabled-boolean-">SetWindowlessRenderingEnabled</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to true (1) to create the browser using windowless (off-screen) rendering. No window will be created for the browser and all rendering will occur via the ICefRenderHandler interface. The |parent_window| value will be used to identify monitor info and to act as the parent window for dialogs, context menus, etc. If |parent_window| is not provided then the main screen monitor will be used and some functionality that requires a parent window may not function correctly. In order to create windowless browsers the TCefSettings.windowless_rendering_enabled value must be set to true. Transparent painting is enabled by default but can be disabled by setting TCefBrowserSettings.background_color to an opaque value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SharedTextureEnabled"></span><code>property <strong>SharedTextureEnabled</strong>          : boolean             read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetSharedTextureEnabled">GetSharedTextureEnabled</a>         write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetSharedTextureEnabled-boolean-">SetSharedTextureEnabled</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to true (1) to enable shared textures for windowless rendering. Only valid if windowless_rendering_enabled above is also set to true. Currently only supported on Windows (D3D11). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ExternalBeginFrameEnabled"></span><code>property <strong>ExternalBeginFrameEnabled</strong>     : boolean             read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetExternalBeginFrameEnabled">GetExternalBeginFrameEnabled</a>    write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetExternalBeginFrameEnabled-boolean-">SetExternalBeginFrameEnabled</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to true (1) to enable the ability to issue BeginFrame requests from the client application by calling ICefBrowserHost.SendExternalBeginFrame. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RuntimeStyle"></span><code>property <strong>RuntimeStyle</strong>                  : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>    read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetRuntimeStyle">GetRuntimeStyle</a>                 write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetRuntimeStyle-TCefRuntimeStyle-">SetRuntimeStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Optionally change the runtime style. Alloy style will always be used if |windowless_rendering_enabled| is true. See TCefRuntimeStyle documentation for details. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ExStyle"></span><code>property <strong>ExStyle</strong>                       : DWORD               read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetExStyle">GetExStyle</a>                      write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetExStyle-DWORD-">SetExStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Standard parameters required by CreateWindowEx(). Used as the dwExStyle parameter in CreateWindowEx. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowexw">https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowexw</a>&quot;&gt;Read the CreateWindowExW article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Style"></span><code>property <strong>Style</strong>                         : DWORD               read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetStyle">GetStyle</a>                        write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetStyle-DWORD-">SetStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Used as the dwStyle parameter in CreateWindowEx. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowexw">https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowexw</a>&quot;&gt;Read the CreateWindowExW article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Menu"></span><code>property <strong>Menu</strong>                          : HMENU               read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetMenu">GetMenu</a>                         write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetMenu-HMENU-">SetMenu</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Used as the hMenu parameter in CreateWindowEx. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowexw">https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowexw</a>&quot;&gt;Read the CreateWindowExW article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ParentWindow"></span><code>property <strong>ParentWindow</strong>                  : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>    read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetParentWindow">GetParentWindow</a>                 write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetParentWindow-TCefWindowHandle-">SetParentWindow</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Used as the hWndParent parameter in CreateWindowEx. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowexw">https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowexw</a>&quot;&gt;Read the CreateWindowExW article.)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Window"></span><code>property <strong>Window</strong>                        : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>    read <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#GetWindow">GetWindow</a>                       write <a href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html#SetWindow-TCefWindowHandle-">SetWindow</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Handle for the new browser window. Only used with windowed rendering. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

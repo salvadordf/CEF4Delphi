@@ -44,14 +44,18 @@
 <td class="itemcode"><code>procedure <strong><a href="uCEFBrowserView.TCefBrowserViewRef.html#SetPreferAccelerators-boolean-">SetPreferAccelerators</a></strong>(prefer_accelerators: boolean);</code></td>
 </tr>
 <tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="uCEFBrowserView.TCefBrowserViewRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>;</code></td>
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBrowserView.TCefBrowserViewRef.html#GetRuntimeStyle">GetRuntimeStyle</a></strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="uCEFBrowserView.TCefBrowserViewRef.html#CreateBrowserView-ICefClient-ustring-TCefBrowserSettings-ICefDictionaryValue-ICefRequestContext-ICefBrowserViewDelegate-">CreateBrowserView</a></strong>(const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; const url: <a href="uCEFTypes.html#ustring">ustring</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const request_context: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; const delegate: <a href="uCEFInterfaces.ICefBrowserViewDelegate.html">ICefBrowserViewDelegate</a>): <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>;</code></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFBrowserView.TCefBrowserViewRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFBrowserView.TCefBrowserViewRef.html#CreateBrowserView-ICefClient-ustring-TCefBrowserSettings-ICefDictionaryValue-ICefRequestContext-ICefBrowserViewDelegate-">CreateBrowserView</a></strong>(const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; const url: <a href="uCEFTypes.html#ustring">ustring</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const request_context: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; const delegate: <a href="uCEFInterfaces.ICefBrowserViewDelegate.html">ICefBrowserViewDelegate</a>): <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFBrowserView.TCefBrowserViewRef.html#GetForBrowser-ICefBrowser-">GetForBrowser</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>): <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>;</code></td>
 </tr>
@@ -86,6 +90,16 @@
 <tr><td colspan="2">
 <p>
  Sets whether accelerators registered with ICefWindow.SetAccelerator are triggered before or after the event is sent to the ICefBrowser. If |prefer_accelerators| is true (1) then the matching accelerator will be triggered immediately and the event will not be sent to the ICefBrowser. If |prefer_accelerators| is false (0) then the matching accelerator will only be triggered if the event is not handled by web content or by ICefKeyboardHandler. The default value is false (0). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetRuntimeStyle"></span><code>function <strong>GetRuntimeStyle</strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the runtime style for this BrowserView (ALLOY or CHROME). See TCefRuntimeStyle documentation for details. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

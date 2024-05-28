@@ -88,27 +88,39 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegate.html#OnCanResize-ICefWindow-boolean-">OnCanResize</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegate.html#OnAcceptsFirstMouse-ICefWindow-TCefState-">OnAcceptsFirstMouse</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult: <a href="uCEFTypes.html#TCefState">TCefState</a>);</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegate.html#OnCanResize-ICefWindow-boolean-">OnCanResize</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegate.html#OnCanMaximize-ICefWindow-boolean-">OnCanMaximize</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegate.html#OnCanMinimize-ICefWindow-boolean-">OnCanMinimize</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegate.html#OnCanClose-ICefWindow-boolean-">OnCanClose</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegate.html#OnAccelerator-ICefWindow-Integer-boolean-">OnAccelerator</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; command_id: Integer; var aResult : boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegate.html#OnKeyEvent-ICefWindow-TCefKeyEvent-boolean-">OnKeyEvent</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const event: <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegate.html#OnThemeColorsChanged-ICefWindow-Integer-">OnThemeColorsChanged</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; chrome_theme: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefWindowDelegate.html#OnGetWindowRuntimeStyle-TCefRuntimeStyle-">OnGetWindowRuntimeStyle</a></strong>(var aResult: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -251,6 +263,22 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnAcceptsFirstMouse-ICefWindow-TCefState-"></span><code>procedure <strong>OnAcceptsFirstMouse</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult: <a href="uCEFTypes.html#TCefState">TCefState</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Return whether the view should accept the initial mouse-down event, allowing it to respond to click-through behavior. If STATE_ENABLED is returned, the view will be sent a mouseDown: message for an initial mouse- down event, activating the view with one click, instead of clicking first to make the window active and then clicking the view.
+
+<p>This function is only supported on macOS. For more details, refer to the documentation of acceptsFirstMouse.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><span id="OnCanResize-ICefWindow-boolean-"></span><code>procedure <strong>OnCanResize</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -306,6 +334,38 @@
 <tr><td colspan="2">
 <p>
  Called after all other controls in the window have had a chance to handle the event. |event| contains information about the keyboard event. Return true (1) if the keyboard event was handled or false (0) otherwise. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnThemeColorsChanged-ICefWindow-Integer-"></span><code>procedure <strong>OnThemeColorsChanged</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; chrome_theme: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Called after the native/OS or Chrome theme for |window| has changed. |chrome_theme| will be true (1) if the notification is for a Chrome theme.
+
+<p>Native/OS theme colors are configured globally and do not need to be customized for each Window individually. An example of a native/OS theme change that triggers this callback is when the user switches between dark and light mode during application lifespan. Native/OS theme changes can be disabled by passing the `&ndash;force-dark-mode` or `&ndash;force-light-mode` command-line flag.
+
+<p>Chrome theme colors will be applied and this callback will be triggered if/when a BrowserView is added to the Window's component hierarchy. Chrome theme colors can be configured on a per-RequestContext basis using ICefRequestContext.SetChromeColorScheme or (Chrome runtime only) by visiting <a href="chrome://settings/manageProfile">chrome://settings/manageProfile</a>. Any theme changes using those mechanisms will also trigger this callback. Chrome theme colors will be persisted and restored from disk cache with the Chrome runtime, and with the Alloy runtime if persist_user_preferences is set to true (1) via CefSettings or ICefRequestContext Settings.
+
+<p>This callback is not triggered on Window creation so clients that wish to customize the initial native/OS theme must call ICefWindow.SetThemeColor and ICefWindow.ThemeChanged before showing the first Window.
+
+<p>Theme colors will be reset to standard values before this callback is called for the first affected Window. Call ICefWindow.SetThemeColor from inside this callback to override a standard color or add a custom color. ICefViewDelegate.OnThemeChanged will be called after this callback for the complete |window| component hierarchy.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnGetWindowRuntimeStyle-TCefRuntimeStyle-"></span><code>procedure <strong>OnGetWindowRuntimeStyle</strong>(var aResult: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Optionally change the runtime style for this Window. See TCefRuntimeStyle documentation for details. </p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>

@@ -67,6 +67,10 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFViewComponent.TCEFViewComponent.html#FOnThemeChanged">FOnThemeChanged</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnThemeChangedEvent">TOnThemeChangedEvent</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFViewComponent.TCEFViewComponent.html#FComponentID">FComponentID</a></strong>: integer;</code></td>
 </tr>
 </table>
@@ -294,39 +298,47 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doCreateCustomView">doCreateCustomView</a></strong>; virtual;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doOnThemeChanged-ICefView-">doOnThemeChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); virtual;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#doCreateCustomView">doCreateCustomView</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>constructor <strong><a href="uCEFViewComponent.TCEFViewComponent.html#Create-TComponent-">Create</a></strong>(AOwner: TComponent); override;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#AfterConstruction">AfterConstruction</a></strong>; override;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#BeforeDestruction">BeforeDestruction</a></strong>; override;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#ToStringEx-boolean-">ToStringEx</a></strong>(include_children: boolean): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#IsSame-ICefView-">IsSame</a></strong>(const that: <a href="uCEFInterfaces.ICefView.html">ICefView</a>): boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#SizeToPreferredSize">SizeToPreferredSize</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#InvalidateLayout">InvalidateLayout</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFViewComponent.TCEFViewComponent.html#RequestFocus">RequestFocus</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFViewComponent.TCEFViewComponent.html#GetThemeColor-integer-">GetThemeColor</a></strong>(color_id: integer): <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -519,6 +531,10 @@
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#OnBlur">OnBlur</a></strong>                         : <a href="uCEFViewsFrameworkEvents.html#TOnBlurEvent">TOnBlurEvent</a>               read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnBlur">FOnBlur</a>                        write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnBlur">FOnBlur</a>;</code></td>
 </tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFViewComponent.TCEFViewComponent.html#OnThemeChanged">OnThemeChanged</a></strong>                 : <a href="uCEFViewsFrameworkEvents.html#TOnThemeChangedEvent">TOnThemeChangedEvent</a>       read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnThemeChanged">FOnThemeChanged</a>                write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnThemeChanged">FOnThemeChanged</a>;</code></td>
+</tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Fields</h3>
@@ -600,6 +616,14 @@ ICefViewDelegateEvents</p>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="FOnBlur"></span><code><strong>FOnBlur</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnBlurEvent">TOnBlurEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnThemeChanged"></span><code><strong>FOnThemeChanged</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnThemeChangedEvent">TOnThemeChangedEvent</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -1058,6 +1082,14 @@ ICefViewDelegateEvents</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnThemeChanged-ICefView-"></span><code>procedure <strong>doOnThemeChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="doCreateCustomView"></span><code>procedure <strong>doCreateCustomView</strong>; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -1137,6 +1169,16 @@ Custom</p>
 <tr><td colspan="2">
 <p>
  Request keyboard focus. If this View is focusable it will become the focused View. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetThemeColor-integer-"></span><code>function <strong>GetThemeColor</strong>(color_id: integer): <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current theme color associated with |color_id|, or the placeholder color (red) if unset. See cef_color_ids.h for standard ID values. Standard colors can be overridden and custom colors can be added using ICefWindow.SetThemeColor. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -1427,7 +1469,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Returns the background color for this View. </p>
+ Returns the background color for this View. If the background color is unset then the current `GetThemeColor(CEF_ColorPrimaryBackground)` value will be returned. If this View belongs to an overlay (created with ICefWindow.AddOverlayView), and the background color is unset, then a value of transparent (0) will be returned. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -1608,6 +1650,35 @@ Custom</p>
 <tr><td colspan="2">
 <p>
  Called when |view| loses focus. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnThemeChanged"></span><code>property <strong>OnThemeChanged</strong>                 : <a href="uCEFViewsFrameworkEvents.html#TOnThemeChangedEvent">TOnThemeChangedEvent</a>       read <a href="uCEFViewComponent.TCEFViewComponent.html#FOnThemeChanged">FOnThemeChanged</a>                write <a href="uCEFViewComponent.TCEFViewComponent.html#FOnThemeChanged">FOnThemeChanged</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+(
+
+<p>Called when the theme for |view| has changed, after the new theme colors have already been applied. Views are notified via the component hierarchy in depth-first reverse order (children before parents).
+
+<p>This will be called in the following cases:
+
+<p></p>
+
+<pre class="preformatted">
+1. When |view|, or a parent of |view|, is added to a Window.
+2. When the native/OS or Chrome theme changes for the Window that contains
+   |view|. See ICefWindowDelegate.OnThemeColorsChanged documentation.
+3. When the client explicitly calls ICefWindow.ThemeChanged on the
+   Window that contains |view|.</pre>
+
+<p>
+
+<p>Optionally use this callback to override the new per-View theme colors by calling ICefView.SetBackgroundColor or the appropriate component- specific function. See ICefWindow.SetThemeColor documentation for how to customize additional Window theme colors.
+
+<p>(</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>

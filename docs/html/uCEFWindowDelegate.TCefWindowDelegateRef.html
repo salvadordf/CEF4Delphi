@@ -48,31 +48,39 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnGetParentWindow-ICefWindow-boolean-boolean-ICefWindow-">OnGetParentWindow</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var is_menu, can_activate_menu: boolean; var aResult : <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnWindowFullscreenTransition-ICefWindow-boolean-">OnWindowFullscreenTransition</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; is_completed: boolean);</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnGetParentWindow-ICefWindow-boolean-boolean-ICefWindow-">OnGetParentWindow</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var is_menu, can_activate_menu: boolean; var aResult : <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>);</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnIsWindowModalDialog-ICefWindow-boolean-">OnIsWindowModalDialog</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult: boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnGetInitialBounds-ICefWindow-TCefRect-">OnGetInitialBounds</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : <a href="uCEFTypes.TCefRect.html">TCefRect</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnGetInitialShowState-ICefWindow-TCefShowState-">OnGetInitialShowState</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : <a href="uCEFTypes.html#TCefShowState">TCefShowState</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnIsFrameless-ICefWindow-boolean-">OnIsFrameless</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnWithStandardWindowButtons-ICefWindow-boolean-">OnWithStandardWindowButtons</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnGetTitlebarHeight-ICefWindow-Single-boolean-">OnGetTitlebarHeight</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var titlebar_height: Single; var aResult : boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnAcceptsFirstMouse-ICefWindow-TCefState-">OnAcceptsFirstMouse</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult: <a href="uCEFTypes.html#TCefState">TCefState</a>);</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
@@ -100,9 +108,13 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnWindowFullscreenTransition-ICefWindow-boolean-">OnWindowFullscreenTransition</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; is_completed: boolean);</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnThemeColorsChanged-ICefWindow-Integer-">OnThemeColorsChanged</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; chrome_theme: Integer);</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnGetWindowRuntimeStyle-TCefRuntimeStyle-">OnGetWindowRuntimeStyle</a></strong>(var aResult: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFWindowDelegate.TCefWindowDelegateRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefWindowDelegate.html">ICefWindowDelegate</a>;</code></td>
 </tr>
@@ -157,6 +169,16 @@
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefWindowDelegate.html#OnWindowBoundsChanged-ICefWindow-TCefRect-">ICefWindowDelegate.OnWindowBoundsChanged</a>.</p><p>
  Called when |window| bounds have changed. |new_bounds| will be in DIP screen coordinates. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnWindowFullscreenTransition-ICefWindow-boolean-"></span><code>procedure <strong>OnWindowFullscreenTransition</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; is_completed: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefWindowDelegate.html#OnWindowFullscreenTransition-ICefWindow-boolean-">ICefWindowDelegate.OnWindowFullscreenTransition</a>.</p><p>
+ Called when |window| is transitioning to or from fullscreen mode. On MacOS the transition occurs asynchronously with |is_competed| set to false (0) when the transition starts and true (1) after the transition completes. On other platforms the transition occurs synchronously with |is_completed| set to true (1) after the transition completes. With the Alloy runtime you must also implement ICefDisplayHandler.OnFullscreenModeChange to handle fullscreen transitions initiated by browser content. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -232,6 +254,22 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnAcceptsFirstMouse-ICefWindow-TCefState-"></span><code>procedure <strong>OnAcceptsFirstMouse</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult: <a href="uCEFTypes.html#TCefState">TCefState</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefWindowDelegate.html#OnAcceptsFirstMouse-ICefWindow-TCefState-">ICefWindowDelegate.OnAcceptsFirstMouse</a>.</p><p>
+
+
+<p>Return whether the view should accept the initial mouse-down event, allowing it to respond to click-through behavior. If STATE_ENABLED is returned, the view will be sent a mouseDown: message for an initial mouse- down event, activating the view with one click, instead of clicking first to make the window active and then clicking the view.
+
+<p>This function is only supported on macOS. For more details, refer to the documentation of acceptsFirstMouse.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="OnCanResize-ICefWindow-boolean-"></span><code>procedure <strong>OnCanResize</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var aResult : boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -292,11 +330,33 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><span id="OnWindowFullscreenTransition-ICefWindow-boolean-"></span><code>procedure <strong>OnWindowFullscreenTransition</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; is_completed: boolean);</code></td>
+<td class="itemcode"><span id="OnThemeColorsChanged-ICefWindow-Integer-"></span><code>procedure <strong>OnThemeColorsChanged</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; chrome_theme: Integer);</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefWindowDelegate.html#OnWindowFullscreenTransition-ICefWindow-boolean-">ICefWindowDelegate.OnWindowFullscreenTransition</a>.</p><p>
- Called when |window| is transitioning to or from fullscreen mode. On MacOS the transition occurs asynchronously with |is_competed| set to false (0) when the transition starts and true (1) after the transition completes. On other platforms the transition occurs synchronously with |is_completed| set to true (1) after the transition completes. With the Alloy runtime you must also implement ICefDisplayHandler.OnFullscreenModeChange to handle fullscreen transitions initiated by browser content. </p>
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefWindowDelegate.html#OnThemeColorsChanged-ICefWindow-Integer-">ICefWindowDelegate.OnThemeColorsChanged</a>.</p><p>
+
+
+<p>Called after the native/OS or Chrome theme for |window| has changed. |chrome_theme| will be true (1) if the notification is for a Chrome theme.
+
+<p>Native/OS theme colors are configured globally and do not need to be customized for each Window individually. An example of a native/OS theme change that triggers this callback is when the user switches between dark and light mode during application lifespan. Native/OS theme changes can be disabled by passing the `&ndash;force-dark-mode` or `&ndash;force-light-mode` command-line flag.
+
+<p>Chrome theme colors will be applied and this callback will be triggered if/when a BrowserView is added to the Window's component hierarchy. Chrome theme colors can be configured on a per-RequestContext basis using ICefRequestContext.SetChromeColorScheme or (Chrome runtime only) by visiting <a href="chrome://settings/manageProfile">chrome://settings/manageProfile</a>. Any theme changes using those mechanisms will also trigger this callback. Chrome theme colors will be persisted and restored from disk cache with the Chrome runtime, and with the Alloy runtime if persist_user_preferences is set to true (1) via CefSettings or ICefRequestContext Settings.
+
+<p>This callback is not triggered on Window creation so clients that wish to customize the initial native/OS theme must call ICefWindow.SetThemeColor and ICefWindow.ThemeChanged before showing the first Window.
+
+<p>Theme colors will be reset to standard values before this callback is called for the first affected Window. Call ICefWindow.SetThemeColor from inside this callback to override a standard color or add a custom color. ICefViewDelegate.OnThemeChanged will be called after this callback for the complete |window| component hierarchy.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnGetWindowRuntimeStyle-TCefRuntimeStyle-"></span><code>procedure <strong>OnGetWindowRuntimeStyle</strong>(var aResult: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefWindowDelegate.html#OnGetWindowRuntimeStyle-TCefRuntimeStyle-">ICefWindowDelegate.OnGetWindowRuntimeStyle</a>.</p><p>
+ Optionally change the runtime style for this Window. See TCefRuntimeStyle documentation for details. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

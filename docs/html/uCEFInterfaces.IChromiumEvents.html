@@ -152,7 +152,7 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnBeforeDownload-ICefBrowser-ICefDownloadItem-ustring-ICefBeforeDownloadCallback-">doOnBeforeDownload</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>);</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnBeforeDownload-ICefBrowser-ICefDownloadItem-ustring-ICefBeforeDownloadCallback-">doOnBeforeDownload</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>): boolean;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -224,7 +224,15 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnRenderProcessTerminated-ICefBrowser-TCefTerminationStatus-">doOnRenderProcessTerminated</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>);</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnRenderProcessUnresponsive-ICefBrowser-ICefUnresponsiveProcessCallback-">doOnRenderProcessUnresponsive</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const callback: <a href="uCEFInterfaces.ICefUnresponsiveProcessCallback.html">ICefUnresponsiveProcessCallback</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnRenderProcessResponsive-ICefBrowser-">doOnRenderProcessResponsive</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnRenderProcessTerminated-ICefBrowser-TCefTerminationStatus-integer-ustring-">doOnRenderProcessTerminated</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>; error_code: integer; const error_string: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -304,7 +312,7 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-Pointer-">doOnAcceleratedPaint</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; shared_handle: Pointer);</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-PCefAcceleratedPaintInfo-">doOnAcceleratedPaint</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; const info: <a href="uCEFTypes.html#PCefAcceleratedPaintInfo">PCefAcceleratedPaintInfo</a>);</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -989,7 +997,7 @@ ICefDownloadHandler</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="doOnBeforeDownload-ICefBrowser-ICefDownloadItem-ustring-ICefBeforeDownloadCallback-"></span><code>procedure <strong>doOnBeforeDownload</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>);</code></td>
+<td class="itemcode"><span id="doOnBeforeDownload-ICefBrowser-ICefDownloadItem-ustring-ICefBeforeDownloadCallback-"></span><code>function <strong>doOnBeforeDownload</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -1139,7 +1147,23 @@ ICefRequestHandler</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="doOnRenderProcessTerminated-ICefBrowser-TCefTerminationStatus-"></span><code>procedure <strong>doOnRenderProcessTerminated</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>);</code></td>
+<td class="itemcode"><span id="doOnRenderProcessUnresponsive-ICefBrowser-ICefUnresponsiveProcessCallback-"></span><code>function <strong>doOnRenderProcessUnresponsive</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const callback: <a href="uCEFInterfaces.ICefUnresponsiveProcessCallback.html">ICefUnresponsiveProcessCallback</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnRenderProcessResponsive-ICefBrowser-"></span><code>procedure <strong>doOnRenderProcessResponsive</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnRenderProcessTerminated-ICefBrowser-TCefTerminationStatus-integer-ustring-"></span><code>procedure <strong>doOnRenderProcessTerminated</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>; error_code: integer; const error_string: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -1307,7 +1331,7 @@ ICefRenderHandler</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="doOnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-Pointer-"></span><code>procedure <strong>doOnAcceleratedPaint</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; shared_handle: Pointer);</code></td>
+<td class="itemcode"><span id="doOnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-PCefAcceleratedPaintInfo-"></span><code>procedure <strong>doOnAcceleratedPaint</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; const info: <a href="uCEFTypes.html#PCefAcceleratedPaintInfo">PCefAcceleratedPaintInfo</a>);</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>

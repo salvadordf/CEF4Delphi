@@ -63,7 +63,15 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#on_render_process_terminated">on_render_process_terminated</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>); stdcall;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#on_render_process_unresponsive">on_render_process_unresponsive</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; callback: <a href="uCEFTypes.html#PCefUnresponsiveProcessCallback">PCefUnresponsiveProcessCallback</a>): integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#on_render_process_responsive">on_render_process_responsive</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestHandler.html#on_render_process_terminated">on_render_process_terminated</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>; error_code: integer; const error_string: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -139,7 +147,23 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="on_render_process_terminated"></span><code><strong>on_render_process_terminated</strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>); stdcall;</code></td>
+<td class="itemcode"><span id="on_render_process_unresponsive"></span><code><strong>on_render_process_unresponsive</strong>: function(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; callback: <a href="uCEFTypes.html#PCefUnresponsiveProcessCallback">PCefUnresponsiveProcessCallback</a>): integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_render_process_responsive"></span><code><strong>on_render_process_responsive</strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_render_process_terminated"></span><code><strong>on_render_process_terminated</strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestHandler">PCefRequestHandler</a>; browser: <a href="uCEFTypes.html#PCefBrowser">PCefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>; error_code: integer; const error_string: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>

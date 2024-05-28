@@ -236,7 +236,8 @@ contains
   uCEFApplicationEvents in '..\source\uCEFApplicationEvents.pas',
   uCEFBrowserBitmap in '..\source\uCEFBrowserBitmap.pas',
   uCEFComponentIdList in '..\source\uCEFComponentIdList.pas',
-  uCEFUnresponsiveProcessCallback in '..\source\uCEFUnresponsiveProcessCallback.pas';
+  uCEFUnresponsiveProcessCallback in '..\source\uCEFUnresponsiveProcessCallback.pas',
+  uCEFWindowInfoWrapper in '..\source\uCEFWindowInfoWrapper.pas';
 
 end.
 

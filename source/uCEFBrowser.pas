@@ -121,6 +121,7 @@ type
       function  CanExecuteChromeCommand(command_id: integer): boolean;
       procedure ExecuteChromeCommand(command_id: integer; disposition: TCefWindowOpenDisposition);
       function  IsRenderProcessUnresponsive : boolean;
+      function  GetRuntimeStyle : TCefRuntimeStyle;
 
     public
       class function UnWrap(data: Pointer): ICefBrowserHost;
@@ -377,6 +378,11 @@ end;
 function TCefBrowserHostRef.IsRenderProcessUnresponsive : boolean;
 begin
   Result := PCefBrowserHost(FData)^.is_render_process_unresponsive(PCefBrowserHost(FData)) <> 0;
+end;
+
+function TCefBrowserHostRef.GetRuntimeStyle : TCefRuntimeStyle;
+begin
+  Result := PCefBrowserHost(FData)^.get_runtime_style(PCefBrowserHost(FData));
 end;
 
 procedure TCefBrowserHostRef.DragTargetDragEnter(const dragData: ICefDragData; const event: PCefMouseEvent; allowedOps: TCefDragOperations);

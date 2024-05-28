@@ -175,6 +175,8 @@ type
       ///
       /// See https://developer.chrome.com/extensions for extension implementation
       /// and usage documentation.
+      ///
+      /// WARNING: This function is deprecated and will be removed in ~M127.
       /// </summary>
       procedure LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
 
@@ -183,6 +185,8 @@ type
       /// by |extension_id|. Other contexts sharing the same storage will also have
       /// access to the extension (see HasExtension). This function must be called
       /// on the browser process UI thread.
+      ///
+      /// WARNING: This function is deprecated and will be removed in ~M127.
       /// </summary>
       function  DidLoadExtension(const extension_id: ustring): boolean;
 
@@ -191,6 +195,8 @@ type
       /// |extension_id|. This may not be the context that was used to load the
       /// extension (see DidLoadExtension). This function must be called on the
       /// browser process UI thread.
+      ///
+      /// WARNING: This function is deprecated and will be removed in ~M127.
       /// </summary>
       function  HasExtension(const extension_id: ustring): boolean;
 
@@ -199,6 +205,8 @@ type
       /// HasExtension). |extension_ids| will be populated with the list of
       /// extension ID values. Returns true (1) on success. This function must be
       /// called on the browser process UI thread.
+      ///
+      /// WARNING: This function is deprecated and will be removed in ~M127.
       /// </summary>
       function  GetExtensions(const extension_ids: TStringList): boolean;
 
@@ -206,6 +214,8 @@ type
       /// Returns the extension matching |extension_id| or NULL if no matching
       /// extension is accessible in this context (see HasExtension). This function
       /// must be called on the browser process UI thread.
+      ///
+      /// WARNING: This function is deprecated and will be removed in ~M127.
       /// </summary>
       function  GetExtension(const extension_id: ustring): ICefExtension;
 

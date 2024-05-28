@@ -30,7 +30,7 @@ uses
   {$IFDEF MSWINDOWS}uCEFDragAndDropMgr,{$ENDIF}
   {$IFDEF LINUX}uCEFLinuxTypes, uCEFLinuxFunctions,{$ENDIF}
   uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions,
-  uCEFBrowserViewComponent;
+  uCEFBrowserViewComponent, uCEFWindowInfoWrapper;
 
 type
   TBrowserInfoList = class;
@@ -90,9 +90,9 @@ type
       FOffline                  : boolean;
       FYouTubeRestrict          : integer;
       FPrintingEnabled          : boolean;
-      FWindowInfo               : TCefWindowInfo;
+      FWindowInfo               : TCEFWindowInfoWrapper;
       FBrowserSettings          : TCefBrowserSettings;
-      FDevWindowInfo            : TCefWindowInfo;
+      FDevWindowInfo            : TCEFWindowInfoWrapper;
       FDevBrowserSettings       : TCefBrowserSettings;
       FDragOperations           : TCefDragOperations;
       {$IFDEF MSWINDOWS}
@@ -106,7 +106,6 @@ type
       FAcceptLanguageList       : ustring;
       FAcceptCookies            : TCefCookiePref;
       FBlock3rdPartyCookies     : boolean;
-      FDefaultWindowInfoExStyle : DWORD;
       FQuicAllowed              : boolean;
       FJavascriptEnabled        : boolean;
       FLoadImagesAutomatically  : boolean;
@@ -115,7 +114,7 @@ type
       FCanFocus                 : boolean;
       FEnableFocusDelayMs       : cardinal;
       FComponentID              : integer;
-
+      FDownloadBubble           : TCefState;
       {$IFDEF LINUX}
       FXDisplay                 : PXDisplay;
       {$ENDIF}
@@ -360,6 +359,7 @@ type
       function  GetFrameIsFocused : boolean;
       function  GetInitialized : boolean;
       function  GetVisibleNavigationEntry : ICefNavigationEntry;
+      function  GetRuntimeStyle : TCefRuntimeStyle;
       function  GetHasValidMainFrame : boolean;
       function  GetFrameCount : NativeUInt;
       function  GetRequestContextCache : ustring;
@@ -379,6 +379,10 @@ type
       function  GetBrowserCount : integer;
       function  GetBrowserIdByIndex(aIndex : integer) : integer;
       function  GetComponentID : integer;
+      function  GetCefWindowInfo : TCefWindowInfo;
+      {$IFDEF MSWINDOWS}
+      function  GetWindowInfoExStyle : DWORD;
+      {$ENDIF}
       {$IFDEF LINUX}
       function  GetXDisplay : PXDisplay;
       {$ENDIF}
@@ -424,6 +428,10 @@ type
       procedure SetBatterySaverModeState(aValue : TCefBatterySaverModeState);
       procedure SetHighEfficiencyModeState(aValue : TCefHighEfficiencyModeState);
       procedure SetDefaultUrl(const aValue : ustring);
+      procedure SetRuntimeStyle(aValue : TCefRuntimeStyle);
+      {$IFDEF MSWINDOWS}
+      procedure SetWindowInfoExStyle(aValue : DWORD);
+      {$ENDIF}
 
       function  CreateBrowserHost(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): boolean;
       function  CreateBrowserHostSync(aWindowInfo : PCefWindowInfo; const aURL : ustring; const aSettings : PCefBrowserSettings; const aExtraInfo : ICefDictionaryValue; const aContext : ICefRequestContext): Boolean;
@@ -543,7 +551,7 @@ type
 
       // ICefDownloadHandler
       function  doOnCanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean;
-      procedure doOnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); virtual;
+      function  doOnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback): boolean; virtual;
       procedure doOnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback); virtual;
 
       // ICefJsDialogHandler
@@ -1612,40 +1620,55 @@ type
       ///    supported by CEF.
       ///  - Main frame navigation to non-extension content is blocked.
       ///  - Pinch-zooming is disabled.
-      ///  - CefBrowserHost::GetExtension returns the hosted extension.
-      ///  - CefBrowserHost::IsBackgroundHost returns true for background hosts.
+      ///  - ICefBrowserHost.GetExtension returns the hosted extension.
+      ///  - ICefBrowserHost.IsBackgroundHost returns true for background hosts.
       /// </code>
       /// <para>See https://developer.chrome.com/extensions for extension implementation
       /// and usage documentation.</para>
       /// </summary>
-      function    LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue = nil; const handler: ICefExtensionHandler = nil; const requestContext : ICefRequestContext = nil) : boolean;
+      /// <remarks>
+      /// <para>WARNING: This function is deprecated and will be removed in ~M127.</para>
+      /// </remarks>
+      function    LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue = nil; const handler: ICefExtensionHandler = nil; const requestContext : ICefRequestContext = nil) : boolean; deprecated;
       /// <summary>
-      /// Returns true (1) if this context was used to load the extension identified
+      /// <para>Returns true (1) if this context was used to load the extension identified
       /// by |extension_id|. Other contexts sharing the same storage will also have
       /// access to the extension (see HasExtension). This function must be called
-      /// on the browser process UI thread.
+      /// on the browser process UI thread.</para>
       /// </summary>
-      function    DidLoadExtension(const extension_id: ustring): boolean;
+      /// <remarks>
+      /// <para>WARNING: This function is deprecated and will be removed in ~M127.</para>
+      /// </remarks>
+      function    DidLoadExtension(const extension_id: ustring): boolean; deprecated;
       /// <summary>
-      /// Returns true (1) if this context has access to the extension identified by
+      /// <para>Returns true (1) if this context has access to the extension identified by
       /// |extension_id|. This may not be the context that was used to load the
       /// extension (see DidLoadExtension). This function must be called on the
-      /// browser process UI thread.
+      /// browser process UI thread.</para>
       /// </summary>
-      function    HasExtension(const extension_id: ustring): boolean;
+      /// <remarks>
+      /// <para>WARNING: This function is deprecated and will be removed in ~M127.</para>
+      /// </remarks>
+      function    HasExtension(const extension_id: ustring): boolean; deprecated;
       /// <summary>
       /// Retrieve the list of all extensions that this context has access to (see
       /// HasExtension). |extension_ids| will be populated with the list of
       /// extension ID values. Returns true (1) on success. This function must be
-      /// called on the browser process UI thread.
+      /// called on the browser process UI thread.</para>
       /// </summary>
-      function    GetExtensions(const extension_ids: TStringList): boolean;
+      /// <remarks>
+      /// <para>WARNING: This function is deprecated and will be removed in ~M127.</para>
+      /// </remarks>
+      function    GetExtensions(const extension_ids: TStringList): boolean; deprecated;
       /// <summary>
-      /// Returns the extension matching |extension_id| or NULL if no matching
+      /// <para>Returns the extension matching |extension_id| or NULL if no matching
       /// extension is accessible in this context (see HasExtension). This function
-      /// must be called on the browser process UI thread.
+      /// must be called on the browser process UI thread.</para>
       /// </summary>
-      function    GetExtension(const extension_id: ustring): ICefExtension;
+      /// <remarks>
+      /// <para>WARNING: This function is deprecated and will be removed in ~M127.</para>
+      /// </remarks>
+      function    GetExtension(const extension_id: ustring): ICefExtension; deprecated;
       /// <summary>
       /// Returns the current value for |content_type| that applies for the
       /// specified URLs. If both URLs are NULL the default value will be returned.
@@ -1752,12 +1775,22 @@ type
       /// <summary>
       /// Returns the TCefWindowInfo record used when the browser was created.
       /// </summary>
-      property  CefWindowInfo                 : TCefWindowInfo               read FWindowInfo;
+      property  CefWindowInfo                 : TCefWindowInfo               read GetCefWindowInfo;
       /// <summary>
-      /// Returns the current visible navigation entry for this browser. This
-      /// property can only be read on the UI thread.
+      /// Returns the current visible navigation entry for this browser.
       /// </summary>
+      /// <remarks>
+      /// <para>This property can only be used on the CEF UI thread.</para>
+      /// </remarks>
       property  VisibleNavigationEntry        : ICefNavigationEntry          read GetVisibleNavigationEntry;
+      /// <summary>
+      /// Returns the runtime style for this browser (ALLOY or CHROME). See
+      /// TCefRuntimeStyle documentation for details.
+      /// </summary>
+      /// <remarks>
+      /// <para>This property can only be read on the CEF UI thread.</para>
+      /// </remarks>
+      property RuntimeStyle                   : TCefRuntimeStyle             read GetRuntimeStyle              write SetRuntimeStyle;
       /// <summary>
       /// Returns a ICefRequestContext instance used by the selected browser.
       /// </summary>
@@ -2023,10 +2056,12 @@ type
       /// Enables the multi-browser mode that allows TChromiumCore to handle several browsers with one component. These browsers are usually the main browser, popup windows and new tabs.
       /// </summary>
       property  MultiBrowserMode              : boolean                      read FMultiBrowserMode            write SetMultiBrowserMode;
+      {$IFDEF MSWINDOWS}
       /// <summary>
       /// Default ExStyle value used to initialize the browser. A value of WS_EX_NOACTIVATE can be used as a workaround for some focus issues in CEF.
       /// </summary>
-      property  DefaultWindowInfoExStyle      : DWORD                        read FDefaultWindowInfoExStyle    write FDefaultWindowInfoExStyle;
+      property  DefaultWindowInfoExStyle      : DWORD                        read GetWindowInfoExStyle         write SetWindowInfoExStyle;
+      {$ENDIF}
       /// <summary>
       /// Uses the Network.emulateNetworkConditions DevTool method to set the browser in offline mode.
       /// </summary>
@@ -2113,6 +2148,10 @@ type
       /// Sets the maximum connections per proxy value in the browser preferences (experimental).
       /// </summary>
       property  MaxConnectionsPerProxy        : integer                      read FMaxConnectionsPerProxy      write SetMaxConnectionsPerProxy;
+      /// <summary>
+      /// Enable the file download bubble when using the Chrome runtime.
+      /// </summary>
+      property DownloadBubble                 : TCefState                    read FDownloadBubble              write FDownloadBubble;
 
     published
       /// <summary>
@@ -2538,10 +2577,11 @@ type
       property OnCanDownload                    : TOnCanDownloadEvent               read FOnCanDownload                    write FOnCanDownload;
       /// <summary>
       /// Called before a download begins. |suggested_name| is the suggested name
-      /// for the download file. By default the download will be canceled. Execute
-      /// |callback| either asynchronously or in this function to continue the
-      /// download if desired. Do not keep a reference to |download_item| outside of
-      /// this function.
+      /// for the download file. Set aResult to true (1) and execute |callback| either
+      /// asynchronously or in this function to continue or cancel the download.
+      /// Set aResult to false (0) to proceed with default handling (cancel with Alloy
+      /// style, download shelf with Chrome style). Do not keep a reference to
+      /// |download_item| outside of this function.
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -3608,6 +3648,7 @@ type
       /// will be the error code.
       /// </summary>
       /// <remarks>
+      /// <para>WARNING: This function is deprecated and will be removed in ~M127.</para>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)</see></para>
       /// </remarks>
@@ -3617,6 +3658,7 @@ type
       /// |extension| is the loaded extension.
       /// </summary>
       /// <remarks>
+      /// <para>WARNING: This function is deprecated and will be removed in ~M127.</para>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)</see></para>
       /// </remarks>
@@ -3625,6 +3667,7 @@ type
       /// Called after the ICefExtension.Unload request has completed.
       /// </summary>
       /// <remarks>
+      /// <para>WARNING: This function is deprecated and will be removed in ~M127.</para>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)</see></para>
       /// </remarks>
@@ -3645,6 +3688,7 @@ type
       /// for more information about extension background script usage.
       /// </summary>
       /// <remarks>
+      /// <para>WARNING: This function is deprecated and will be removed in ~M127.</para>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)</see></para>
       /// </remarks>
@@ -3665,6 +3709,7 @@ type
       /// will be ignored if |active_browser| is wrapped in a ICefBrowserView.
       /// </summary>
       /// <remarks>
+      /// <para>WARNING: This function is deprecated and will be removed in ~M127.</para>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)</see></para>
       /// </remarks>
@@ -3679,6 +3724,7 @@ type
       /// enabled, in which case |include_incognito| will be true (1).
       /// </summary>
       /// <remarks>
+      /// <para>WARNING: This function is deprecated and will be removed in ~M127.</para>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)</see></para>
       /// </remarks>
@@ -3692,6 +3738,7 @@ type
       /// enabled, in which case |include_incognito| will be true (1).
       /// </summary>
       /// <remarks>
+      /// <para>WARNING: This function is deprecated and will be removed in ~M127.</para>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)</see></para>
       /// </remarks>
@@ -3708,6 +3755,7 @@ type
       /// this function.
       /// </summary>
       /// <remarks>
+      /// <para>WARNING: This function is deprecated and will be removed in ~M127.</para>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)</see></para>
       /// </remarks>
@@ -4080,6 +4128,7 @@ begin
   FCanFocus                := False;
   FEnableFocusDelayMs      := CEF_DEFAULT_ENABLEFOCUSDELAY;
   FComponentID             := 0;
+  FDownloadBubble          := STATE_DEFAULT;
   {$IFDEF LINUX}
   FXDisplay                := nil;
   {$ENDIF}
@@ -4088,18 +4137,6 @@ begin
     FHyperlinkAuditing := GlobalCEFApp.HyperlinkAuditing
    else
     FHyperlinkAuditing := True;
-
-  //
-  // Some focus issues in CEF seem to be fixed when you use WS_EX_NOACTIVATE in
-  // FDefaultWindowInfoExStyle to initialize the browser with that ExStyle but
-  // it may cause side effects. Read these links for more information :
-  // https://www.briskbard.com/forum/viewtopic.php?f=10&t=723
-  // https://bitbucket.org/chromiumembedded/cef/issues/1856/branch-2526-cef-activates-browser-window
-  //
-  // It's necessary to set this property before the CreateBrowser call.
-  //
-  FDefaultWindowInfoExStyle := 0;
-  //FDefaultWindowInfoExStyle := WS_EX_NOACTIVATE;
 
   {$IFDEF MSWINDOWS}
   FOldBrowserCompWndPrc   := nil;
@@ -4134,8 +4171,8 @@ begin
   FProxyByPassList        := '';
   FMaxConnectionsPerProxy := CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE;
 
-  FillChar(FWindowInfo,    SizeOf(TCefWindowInfo), 0);
-  FillChar(FDevWindowInfo, SizeOf(TCefWindowInfo), 0);
+  FWindowInfo    := nil;
+  FDevWindowInfo := nil;
 
   InitializeSettings(FBrowserSettings);
   InitializeSettings(FDevBrowserSettings);
@@ -4168,6 +4205,8 @@ begin
 
       DestroyAllBrowsers;
 
+      if (FWindowInfo      <> nil) then FreeAndNil(FWindowInfo);
+      if (FDevWindowInfo   <> nil) then FreeAndNil(FDevWindowInfo);
       if (FFontOptions     <> nil) then FreeAndNil(FFontOptions);
       if (FOptions         <> nil) then FreeAndNil(FOptions);
       if (FPDFPrintOptions <> nil) then FreeAndNil(FPDFPrintOptions);
@@ -4464,6 +4503,9 @@ procedure TChromiumCore.AfterConstruction;
 begin
   inherited AfterConstruction;
 
+  FWindowInfo    := TCEFWindowInfoWrapper.Create;
+  FDevWindowInfo := TCEFWindowInfoWrapper.Create;
+
   CreateOptionsClasses;
   CreateSyncObjects;
   {$IFDEF MSWINDOWS}
@@ -4753,8 +4795,13 @@ begin
         begin
           GetSettings(FBrowserSettings);
 
+
           if aForceAsPopup then
-            WindowInfoAsPopUp(FWindowInfo, aParentHandle, aWindowName)
+            begin
+              {$IFDEF MSWINDOWS}
+              FWindowInfo.SetAsPopup(aParentHandle, aWindowName);
+              {$ENDIF}
+            end
            else
             InitializeWindowInfo(aParentHandle, aParentRect, aWindowName);
 
@@ -4771,9 +4818,9 @@ begin
           TempNewContext := TCefRequestContextRef.Shared(TempOldContext, FReqContextHandler);
 
           if GlobalCEFApp.MultiThreadedMessageLoop then
-            Result := CreateBrowserHost(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aExtraInfo, TempNewContext)
+            Result := CreateBrowserHost(@FWindowInfo.WindowInfoRecord, FDefaultUrl, @FBrowserSettings, aExtraInfo, TempNewContext)
            else
-            Result := CreateBrowserHostSync(@FWindowInfo, FDefaultUrl, @FBrowserSettings, aExtraInfo, TempNewContext);
+            Result := CreateBrowserHostSync(@FWindowInfo.WindowInfoRecord, FDefaultUrl, @FBrowserSettings, aExtraInfo, TempNewContext);
         end;
     except
       on e : exception do
@@ -4840,34 +4887,35 @@ procedure TChromiumCore.InitializeWindowInfo(      aParentHandle : TCefWindowHan
                                                    aParentRect   : TRect;
                                              const aWindowName   : ustring);
 begin
-  {$IFDEF MSWINDOWS}
   if FIsOSR then
-    WindowInfoAsWindowless(FWindowInfo, ParentFormHandle, aWindowName)
+    FWindowInfo.SetAsWindowless(ParentFormHandle)
    else
-    WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect, aWindowName, FDefaultWindowInfoExStyle);
-  {$ELSE}
-  if FIsOSR then
-    WindowInfoAsWindowless(FWindowInfo, aParentHandle)
-   else
-    WindowInfoAsChild(FWindowInfo, aParentHandle, aParentRect);
-  {$ENDIF}
+    begin
+      FWindowInfo.SetAsChild(aParentHandle, aParentRect);
+      FWindowInfo.WindowName := aWindowName;
+    end;
 end;
 
 procedure TChromiumCore.DefaultInitializeDevToolsWindowInfo(      aDevToolsWnd : TCefWindowHandle;
                                                             const aClientRect  : TRect;
                                                             const aWindowName  : ustring);
 begin
-  if (ValidCefWindowHandle(aDevToolsWnd)) then
   {$IFDEF MSWINDOWS}
-    WindowInfoAsChild(FDevWindowInfo, aDevToolsWnd, aClientRect, aWindowName)
+  if (ValidCefWindowHandle(aDevToolsWnd)) then
+    begin
+      FDevWindowInfo.SetAsChild(aDevToolsWnd, aClientRect);
+      FDevWindowInfo.WindowName := aWindowName;
+    end
    else
-    WindowInfoAsPopUp(FDevWindowInfo, WindowHandle, DEVTOOLS_WINDOWNAME);
-  {$ELSE}
-    WindowInfoAsChild(FDevWindowInfo, aDevToolsWnd, aClientRect)
-   else
-    // WindowInfoAsPopUp only exists for Windows. The Linux version of cefclient
-    // calls WindowInfoAsChild with aParent set to NULL to create a popup window.
-    WindowInfoAsPopUp(FDevWindowInfo, aDevToolsWnd);
+    FDevWindowInfo.SetAsPopup(WindowHandle, aWindowName);
+  {$ENDIF}
+  {$IFDEF MACOSX}
+   FDevWindowInfo.SetAsChild(aDevToolsWnd, aClientRect);
+   FDevWindowInfo.WindowName := aWindowName;
+  {$ENDIF}
+  {$IFDEF LINUX}
+   FDevWindowInfo.SetAsChild(aDevToolsWnd, aClientRect);
+   FDevWindowInfo.WindowName := aWindowName;
   {$ENDIF}
 end;
 
@@ -5454,6 +5502,17 @@ begin
     Result := nil;
 end;
 
+function TChromiumCore.GetRuntimeStyle : TCefRuntimeStyle;
+begin
+  if Initialized then
+    Result := Browser.Host.GetRuntimeStyle
+   else
+    if assigned(FWindowInfo) then
+      Result := FWindowInfo.RuntimeStyle
+     else
+      Result := CEF_RUNTIME_STYLE_DEFAULT;
+end;
+
 function TChromiumCore.GetBrowser : ICefBrowser;
 begin
   Result := nil;
@@ -5533,6 +5592,21 @@ function TChromiumCore.GetComponentID : integer;
 begin
   Result := FComponentID;
 end;
+
+function TChromiumCore.GetCefWindowInfo : TCefWindowInfo;
+begin
+  Result := FWindowInfo.WindowInfoRecord;
+end;
+
+{$IFDEF MSWINDOWS}
+function TChromiumCore.GetWindowInfoExStyle : DWORD;
+begin
+  if (FWindowInfo <> nil) then
+    Result := FWindowInfo.ExStyle
+   else
+    Result := 0;
+end;
+{$ENDIF}
 
 {$IFDEF LINUX}
 function TChromiumCore.GetXDisplay : PXDisplay;
@@ -5701,6 +5775,26 @@ begin
   // https://github.com/salvadordf/CEF4Delphi/issues/404
   if (Length(FDefaultUrl) = 0) then
     FDefaultUrl := ABOUTBLANK_URI;
+end;
+
+{$IFDEF MSWINDOWS}
+procedure TChromiumCore.SetWindowInfoExStyle(aValue : DWORD);
+begin
+  if assigned(FWindowInfo) then
+    FWindowInfo.ExStyle := aValue;
+
+  if assigned(FDevWindowInfo) then
+    FDevWindowInfo.ExStyle := aValue;
+end;
+{$ENDIF}
+
+procedure TChromiumCore.SetRuntimeStyle(aValue : TCefRuntimeStyle);
+begin
+  if assigned(FWindowInfo) then
+    FWindowInfo.RuntimeStyle := aValue;
+
+  if assigned(FDevWindowInfo) then
+    FDevWindowInfo.RuntimeStyle := aValue;
 end;
 
 procedure TChromiumCore.SetAudioMuted(aValue : boolean);
@@ -6959,6 +7053,9 @@ begin
   if (FBatterySaverModeState <> bsmsDefault) then
     UpdatePreference(aBrowser, 'performance_tuning.battery_saver_mode.state', integer(FBatterySaverModeState));
 
+  if (FDownloadBubble <> STATE_DEFAULT) then
+    UpdatePreference(aBrowser, 'download_bubble_enabled', (FDownloadBubble = STATE_ENABLED));
+
   if assigned(FOnPrefsUpdated) then
     FOnPrefsUpdated(self);
 end;
@@ -7887,8 +7984,7 @@ begin
               DefaultInitializeDevToolsWindowInfo(TempHandle, Rect(0, 0, 0, 0), '');
             end
            else
-            if (aWindowInfo <> @FDevWindowInfo) then
-              FDevWindowInfo := aWindowInfo^;
+            FDevWindowInfo.CopyFromWindowInfo(aWindowInfo^);
 
           TempClient := TCustomClientHandler.Create(Self, True);
 
@@ -7902,7 +7998,7 @@ begin
            else
             TempPPoint := nil;
 
-          Browser.Host.ShowDevTools(@FDevWindowInfo, TempClient, @FDevBrowserSettings, TempPPoint);
+          Browser.Host.ShowDevTools(@FDevWindowInfo.WindowInfoRecord, TempClient, @FDevBrowserSettings, TempPPoint);
         end;
     except
       on e : exception do
@@ -8256,13 +8352,15 @@ begin
     FOnCanDownload(Self, browser, url, request_method, Result);
 end;
 
-procedure TChromiumCore.doOnBeforeDownload(const browser       : ICefBrowser;
+function  TChromiumCore.doOnBeforeDownload(const browser       : ICefBrowser;
                                            const downloadItem  : ICefDownloadItem;
                                            const suggestedName : ustring;
-                                           const callback      : ICefBeforeDownloadCallback);
+                                           const callback      : ICefBeforeDownloadCallback): boolean;
 begin
+  Result := False;
+
   if assigned(FOnBeforeDownload) then
-    FOnBeforeDownload(Self, browser, downloadItem, suggestedName, callback);
+    FOnBeforeDownload(Self, browser, downloadItem, suggestedName, callback, Result);
 end;
 
 function TChromiumCore.doOnBeforePopup(const browser            : ICefBrowser;

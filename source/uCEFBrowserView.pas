@@ -53,6 +53,11 @@ type
       /// ICefKeyboardHandler. The default value is false (0).
       /// </summary>
       procedure SetPreferAccelerators(prefer_accelerators: boolean);
+      /// <summary>
+      /// Returns the runtime style for this BrowserView (ALLOY or CHROME). See
+      /// TCefRuntimeStyle documentation for details.
+      /// </summary>
+      function GetRuntimeStyle : TCefRuntimeStyle;
 
     public
       /// <summary>
@@ -92,6 +97,11 @@ procedure TCefBrowserViewRef.SetPreferAccelerators(prefer_accelerators: boolean)
 begin
   PCefBrowserView(FData)^.set_prefer_accelerators(PCefBrowserView(FData),
                                                   ord(prefer_accelerators));
+end;
+
+function TCefBrowserViewRef.GetRuntimeStyle : TCefRuntimeStyle;
+begin
+  Result := PCefBrowserView(FData)^.get_runtime_style(PCefBrowserView(FData));
 end;
 
 class function TCefBrowserViewRef.UnWrap(data: Pointer): ICefBrowserView;

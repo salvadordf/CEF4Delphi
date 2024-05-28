@@ -318,6 +318,8 @@
         <DCCReference Include="..\source\uCEFApplicationEvents.pas"/>
         <DCCReference Include="..\source\uCEFBrowserBitmap.pas"/>
         <DCCReference Include="..\source\uCEFComponentIdList.pas"/>
+        <DCCReference Include="..\source\uCEFUnresponsiveProcessCallback.pas"/>
+        <DCCReference Include="..\source\uCEFWindowInfoWrapper.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -348,14 +350,14 @@
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule"/>
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
                 <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\22.0\Bpl\CEF4DelphiVCLRTL.bpl" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\22.0\Bpl\CEF4DelphiVCLRTL.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\22.0\Bpl\CEF4DelphiVCLRTL.bpl" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\22.0\Bpl\Win64\CEF4DelphiVCLRTL.bpl" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\23.0\Bpl\CEF4DelphiVCLRTL.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>CEF4DelphiVCLRTL.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\22.0\Bpl\CEF4DelphiVCLRTL.bpl" Configuration="Release" Class="ProjectOutput"/>
-                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\22.0\Bpl\Win64\CEF4DelphiVCLRTL.bpl" Configuration="Release" Class="ProjectOutput"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="OSX32">
                         <Operation>1</Operation>

@@ -77,13 +77,17 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldDelegate.TCustomTextfieldDelegate.html#OnKeyEvent-ICefTextfield-TCefKeyEvent-boolean-">OnKeyEvent</a></strong>(const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>; const event: <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>; var aResult : boolean); override;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldDelegate.TCustomTextfieldDelegate.html#OnThemeChanged-ICefView-">OnThemeChanged</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); override;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldDelegate.TCustomTextfieldDelegate.html#OnAfterUserAction-ICefTextfield-">OnAfterUserAction</a></strong>(const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>); override;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldDelegate.TCustomTextfieldDelegate.html#OnKeyEvent-ICefTextfield-TCefKeyEvent-boolean-">OnKeyEvent</a></strong>(const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>; const event: <a href="uCEFTypes.TCefKeyEvent.html">TCefKeyEvent</a>; var aResult : boolean); override;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldDelegate.TCustomTextfieldDelegate.html#OnAfterUserAction-ICefTextfield-">OnAfterUserAction</a></strong>(const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>); override;</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>constructor <strong><a href="uCEFTextfieldDelegate.TCustomTextfieldDelegate.html#Create-ICefTextfieldDelegateEvents-">Create</a></strong>(const events: <a href="uCEFInterfaces.ICefTextfieldDelegateEvents.html">ICefTextfieldDelegateEvents</a>); reintroduce;</code></td>
 </tr>
@@ -197,6 +201,35 @@ ICefViewDelegate</p>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html#OnBlur-ICefView-">TCefViewDelegateOwn.OnBlur</a>.</p><p>
  Called when |view| loses focus. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnThemeChanged-ICefView-"></span><code>procedure <strong>OnThemeChanged</strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html#OnThemeChanged-ICefView-">TCefViewDelegateOwn.OnThemeChanged</a>.</p><p>
+(
+
+<p>Called when the theme for |view| has changed, after the new theme colors have already been applied. Views are notified via the component hierarchy in depth-first reverse order (children before parents).
+
+<p>This will be called in the following cases:
+
+<p></p>
+
+<pre class="preformatted">
+1. When |view|, or a parent of |view|, is added to a Window.
+2. When the native/OS or Chrome theme changes for the Window that contains
+   |view|. See ICefWindowDelegate.OnThemeColorsChanged documentation.
+3. When the client explicitly calls ICefWindow.ThemeChanged on the
+   Window that contains |view|.</pre>
+
+<p>
+
+<p>Optionally use this callback to override the new per-View theme colors by calling ICefView.SetBackgroundColor or the appropriate component- specific function. See ICefWindow.SetThemeColor documentation for how to customize additional Window theme colors.
+
+<p>(</p>
 </td></tr>
 </table>
 <table class="detail wide_list">

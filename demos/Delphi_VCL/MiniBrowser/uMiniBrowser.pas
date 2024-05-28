@@ -76,6 +76,7 @@ type
     revision        : string;
     userAgent       : string;
     jsVersion       : string;
+    RuntimeStyle    : string;
   end;
 
   TMiniBrowserFrm = class(TForm)
@@ -151,7 +152,7 @@ type
     procedure Chromium1PdfPrintFinished(Sender: TObject; aResultOK: Boolean);
     procedure Chromium1ResourceResponse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: Boolean);
     procedure Chromium1PrefsAvailable(Sender: TObject; aResultOK: Boolean);
-    procedure Chromium1BeforeDownload(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
+    procedure Chromium1BeforeDownload(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback; var aResult : boolean);
     procedure Chromium1DownloadUpdated(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback);
     procedure Chromium1BeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback; out Result: TCefReturnValue);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
@@ -294,7 +295,8 @@ implementation
 
 uses
   uPreferences, uCefStringMultimap, uCEFMiscFunctions, uSimpleTextViewer,
-  uCEFClient, uFindFrm, uCEFDictionaryValue, uDirectorySelector, uSelectCertForm;
+  uCEFClient, uFindFrm, uCEFDictionaryValue, uDirectorySelector, uSelectCertForm,
+  uCEFWindowInfoWrapper;
 
 // Destruction steps
 // =================
@@ -325,7 +327,7 @@ begin
   GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
   GlobalCEFApp.UncaughtExceptionStackSize := 50;
   GlobalCEFApp.OnUncaughtException        := GlobalCEFApp_OnUncaughtException;
-  //GlobalCEFApp.ChromeRuntime       := True;
+  GlobalCEFApp.ChromeRuntime              := True;
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
@@ -492,7 +494,7 @@ end;
 procedure TMiniBrowserFrm.Chromium1BeforeDownload(Sender: TObject;
   const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
   const suggestedName: ustring;
-  const callback: ICefBeforeDownloadCallback);
+  const callback: ICefBeforeDownloadCallback; var aResult : boolean);
 var
   TempMyDocuments, TempFullPath, TempName : string;
 begin
@@ -513,6 +515,7 @@ begin
    else
     TempFullPath := TempName;
 
+  aResult := True;
   callback.cont(TempFullPath, True);
 end;
 
@@ -576,9 +579,7 @@ procedure TMiniBrowserFrm.Chromium1ContextMenuCommand(Sender: TObject;
   eventFlags: TCefEventFlags; out Result: Boolean);
 var
   TempParam : WParam;
-  TempInfo : TCefWindowInfo;
-  TempClient : ICefClient;
-  TempSettings : TCefBrowserSettings;
+  TempPoint : TPoint;
 begin
   Result := False;
 
@@ -670,13 +671,10 @@ begin
    else
     case commandId of
       MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS :
-        try
-          WindowInfoAsPopUp(TempInfo, browser.Host.WindowHandle, 'DevTools');
-          TempClient := TCustomClientHandler.Create(Chromium1, True);
-          FillChar(TempSettings, SizeOf(TCefBrowserSettings), 0);
-          browser.Host.ShowDevTools(@TempInfo, TempClient, @TempSettings, nil);
-        finally
-          TempClient := nil
+        begin
+          TempPoint.x := params.XCoord;
+          TempPoint.y := params.YCoord;
+          ShowDevTools(TempPoint);
         end;
     end;
 end;
@@ -1204,7 +1202,8 @@ begin
               'product: '         + FBrowserInfo.product         + CRLF +
               'revision: '        + FBrowserInfo.revision        + CRLF +
               'userAgent: '       + FBrowserInfo.userAgent       + CRLF +
-              'jsVersion: '       + FBrowserInfo.jsVersion       + CRLF + CRLF +
+              'jsVersion: '       + FBrowserInfo.jsVersion       + CRLF +
+              'RuntimeStyle: '    + FBrowserInfo.RuntimeStyle    + CRLF + CRLF +
               'GetDefaultCEFUserAgent: ' + GetDefaultCEFUserAgent;
 
   showmessage(TempInfo);
@@ -1465,6 +1464,8 @@ begin
   // used when you call any method or property in TChromium.
   Chromium1.MultiBrowserMode := True;
   Chromium1.DefaultURL       := MINIBROWSER_HOMEPAGE;
+  //Chromium1.RuntimeStyle     := CEF_RUNTIME_STYLE_ALLOY;
+  //Chromium1.RuntimeStyle     := CEF_RUNTIME_STYLE_CHROME;
 end;
 
 procedure TMiniBrowserFrm.FormDestroy(Sender: TObject);
@@ -1582,6 +1583,12 @@ begin
       FBrowserInfo.revision        := TempDict.GetValue('revision').GetString;
       FBrowserInfo.userAgent       := TempDict.GetValue('userAgent').GetString;
       FBrowserInfo.jsVersion       := TempDict.GetValue('jsVersion').GetString;
+
+      case Chromium1.RuntimeStyle of
+        CEF_RUNTIME_STYLE_CHROME : FBrowserInfo.RuntimeStyle := 'Chrome';
+        CEF_RUNTIME_STYLE_ALLOY  : FBrowserInfo.RuntimeStyle := 'Alloy';
+        else                       FBrowserInfo.RuntimeStyle := 'Default';
+      end;
 
       PostMessage(Handle, MINIBROWSER_SHOWBROWSERINFO, 0, 0);
     end;

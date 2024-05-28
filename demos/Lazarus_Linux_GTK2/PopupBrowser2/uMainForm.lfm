@@ -15,7 +15,7 @@ object MainForm: TMainForm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.0.10.0'
+  LCLVersion = '3.2.0.0'
   object AddressPnl: TPanel
     Left = 0
     Height = 21
@@ -26,6 +26,7 @@ object MainForm: TMainForm
     ClientHeight = 21
     ClientWidth = 1038
     Enabled = False
+    ParentBackground = False
     TabOrder = 0
     object AddressEdt: TEdit
       Left = 0
@@ -43,8 +44,8 @@ object MainForm: TMainForm
       Width = 31
       Align = alRight
       Caption = 'Go'
-      OnClick = GoBtnClick
       TabOrder = 1
+      OnClick = GoBtnClick
     end
   end
   object CEFLinkedWindowParent1: TCEFLinkedWindowParent

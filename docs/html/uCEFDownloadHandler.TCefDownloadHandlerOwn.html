@@ -30,7 +30,7 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFDownloadHandler.TCefDownloadHandlerOwn.html#OnBeforeDownload-ICefBrowser-ICefDownloadItem-ustring-ICefBeforeDownloadCallback-">OnBeforeDownload</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>); virtual;</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDownloadHandler.TCefDownloadHandlerOwn.html#OnBeforeDownload-ICefBrowser-ICefDownloadItem-ustring-ICefBeforeDownloadCallback-">OnBeforeDownload</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>): boolean; virtual;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
@@ -60,11 +60,11 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><span id="OnBeforeDownload-ICefBrowser-ICefDownloadItem-ustring-ICefBeforeDownloadCallback-"></span><code>procedure <strong>OnBeforeDownload</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>); virtual;</code></td>
+<td class="itemcode"><span id="OnBeforeDownload-ICefBrowser-ICefDownloadItem-ustring-ICefBeforeDownloadCallback-"></span><code>function <strong>OnBeforeDownload</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const downloadItem: <a href="uCEFInterfaces.ICefDownloadItem.html">ICefDownloadItem</a>; const suggestedName: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefBeforeDownloadCallback.html">ICefBeforeDownloadCallback</a>): boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDownloadHandler.html#OnBeforeDownload-ICefBrowser-ICefDownloadItem-ustring-ICefBeforeDownloadCallback-">ICefDownloadHandler.OnBeforeDownload</a>.</p><p>
- Called before a download begins. |suggested_name| is the suggested name for the download file. By default the download will be canceled. Execute |callback| either asynchronously or in this function to continue the download if desired. Do not keep a reference to |download_item| outside of this function. </p>
+ Called before a download begins. |suggested_name| is the suggested name for the download file. Return true (1) and execute |callback| either asynchronously or in this function to continue or cancel the download. Return false (0) to proceed with default handling (cancel with Alloy style, download shelf with Chrome style). Do not keep a reference to |download_item| outside of this function. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

@@ -308,6 +308,14 @@
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserHost.html#ExecuteChromeCommand-integer-TCefWindowOpenDisposition-">ExecuteChromeCommand</a></strong>(command_id: integer; disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>);</code></td>
 </tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#IsRenderProcessUnresponsive">IsRenderProcessUnresponsive</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserHost.html#GetRuntimeStyle">GetRuntimeStyle</a></strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
+</tr>
 </table>
 <span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
 <table class="summary wide_list">
@@ -338,6 +346,10 @@
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowserHost.html#VisibleNavigationEntry">VisibleNavigationEntry</a></strong>     : <a href="uCEFInterfaces.ICefNavigationEntry.html">ICefNavigationEntry</a>      read <a href="uCEFInterfaces.ICefBrowserHost.html#GetVisibleNavigationEntry">GetVisibleNavigationEntry</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowserHost.html#RuntimeStyle">RuntimeStyle</a></strong>               : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>         read <a href="uCEFInterfaces.ICefBrowserHost.html#GetRuntimeStyle">GetRuntimeStyle</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -981,6 +993,10 @@
 <tr><td colspan="2">
 <p>
  Returns the extension hosted in this browser or NULL if no extension is hosted. See ICefRequestContext.LoadExtension for details. </p>
+<p>
+
+
+<p>WARNING: This API is deprecated and will be removed in ~M127.</p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -991,6 +1007,10 @@
 <tr><td colspan="2">
 <p>
  Returns true (1) if this browser is hosting an extension background script. Background hosts do not have a window and are not displayable. See ICefRequestContext.LoadExtension for details. </p>
+<p>
+
+
+<p>WARNING: This API is deprecated and will be removed in ~M127.</p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -1065,6 +1085,34 @@
 <p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:chrome/app/chrome_command_ids.h&quot;&gt;The command_id values are also available in chrome/app/chrome_command_ids.h)</p>
 </td></tr>
 </table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsRenderProcessUnresponsive"></span><code>function <strong>IsRenderProcessUnresponsive</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the render process associated with this browser is currently unresponsive as indicated by a lack of input event processing for at least 15 seconds. To receive associated state change notifications and optionally handle an unresponsive render process implement ICefRequestHandler.OnRenderProcessUnresponsive. </p>
+<p>
+
+
+<p>This function can only be called on the CEF UI thread.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetRuntimeStyle"></span><code>function <strong>GetRuntimeStyle</strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the runtime style for this browser (ALLOY or CHROME). See TCefRuntimeStyle documentation for details. </p>
+<p>
+
+
+<p>This function can only be called on the CEF UI thread.</p>
+</td></tr>
+</table>
 <h3 class="detail">Properties</h3>
 <table class="detail wide_list">
 <tr class="list">
@@ -1113,7 +1161,11 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Get the default zoom level. This value will be 0.0 by default but can be configured with the Chrome runtime. This function can only be called on the UI thread. </p>
+ Get the default zoom level. This value will be 0.0 by default but can be configured with the Chrome runtime. </p>
+<p>
+
+
+<p>This property can only be used on the CEF UI thread.</p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -1134,6 +1186,20 @@
 <tr><td colspan="2">
 <p>
  Retrieve a snapshot of current navigation entries as values sent to the specified visitor. If |current_only| is true (1) only the current navigation entry will be sent, otherwise all navigation entries will be sent. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RuntimeStyle"></span><code>property <strong>RuntimeStyle</strong>               : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>         read <a href="uCEFInterfaces.ICefBrowserHost.html#GetRuntimeStyle">GetRuntimeStyle</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the runtime style for this browser (ALLOY or CHROME). See TCefRuntimeStyle documentation for details. </p>
+<p>
+
+
+<p>This property can only be used on the CEF UI thread.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>

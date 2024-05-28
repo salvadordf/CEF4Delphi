@@ -59,7 +59,9 @@
       <Unit4>
         <Filename Value="uChildForm.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="ChildForm"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit4>
     </Units>
   </ProjectOptions>

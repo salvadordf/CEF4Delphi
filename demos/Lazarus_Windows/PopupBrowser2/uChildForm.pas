@@ -55,7 +55,7 @@ implementation
 
 uses
   Math,
-  uCEFMiscFunctions, uCEFApplication, uMainForm;
+  uCEFMiscFunctions, uCEFApplication, uCEFWindowInfoWrapper, uMainForm;
 
 // Destruction steps
 // =================
@@ -90,7 +90,7 @@ begin
       if (FPopupFeatures.widthset  <> 0) then TempRect.Right  := max(FPopupFeatures.width,  100);
       if (FPopupFeatures.heightset <> 0) then TempRect.Bottom := max(FPopupFeatures.height, 100);
 
-      WindowInfoAsChild(windowInfo, CEFWindowParent1.Handle, TempRect, '');
+      TCEFWindowInfoWrapper.AsChild(windowInfo, CEFWindowParent1.Handle, TempRect);
     end
    else
     Result := False;
@@ -188,7 +188,11 @@ begin
     begin
       FClosing := True;
       Visible  := False;
-      Chromium1.CloseBrowser(True);
+      Chromium1.CloseBrowser(True);             
+
+      // Workaround for the missing TChormium.OnClose event when "Chrome runtime" is enabled.
+      if GlobalCEFApp.ChromeRuntime then
+        CEFWindowParent1.Free;
     end;
 end;
 

@@ -18,7 +18,7 @@ type
   TCefDownloadHandlerOwn = class(TCefBaseRefCountedOwn, ICefDownloadHandler)
     protected
       function  CanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean; virtual;
-      procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); virtual;
+      function  OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback): boolean; virtual;
       procedure OnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback); virtual;
 
       procedure RemoveReferences; virtual;
@@ -32,7 +32,7 @@ type
       FEvents : Pointer;
 
       function  CanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean; override;
-      procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); override;
+      function  OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback): boolean; override;
       procedure OnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback); override;
 
       procedure RemoveReferences; override;
@@ -64,21 +64,22 @@ begin
                                                                  CefString(request_method)));
 end;
 
-procedure cef_download_handler_on_before_download(      self           : PCefDownloadHandler;
+function  cef_download_handler_on_before_download(      self           : PCefDownloadHandler;
                                                         browser        : PCefBrowser;
                                                         download_item  : PCefDownloadItem;
                                                   const suggested_name : PCefString;
-                                                        callback       : PCefBeforeDownloadCallback); stdcall;
+                                                        callback       : PCefBeforeDownloadCallback): Integer; stdcall;
 var
   TempObject : TObject;
 begin
+  Result     := Ord(False);
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefDownloadHandlerOwn) then
-    TCefDownloadHandlerOwn(TempObject).OnBeforeDownload(TCefBrowserRef.UnWrap(browser),
-                                                        TCefDownLoadItemRef.UnWrap(download_item),
-                                                        CefString(suggested_name),
-                                                        TCefBeforeDownloadCallbackRef.UnWrap(callback));
+    Result := Ord(TCefDownloadHandlerOwn(TempObject).OnBeforeDownload(TCefBrowserRef.UnWrap(browser),
+                                                                      TCefDownLoadItemRef.UnWrap(download_item),
+                                                                      CefString(suggested_name),
+                                                                      TCefBeforeDownloadCallbackRef.UnWrap(callback)));
 end;
 
 procedure cef_download_handler_on_download_updated(self          : PCefDownloadHandler;
@@ -113,12 +114,12 @@ begin
   Result := True;
 end;
 
-procedure TCefDownloadHandlerOwn.OnBeforeDownload(const browser       : ICefBrowser;
+function  TCefDownloadHandlerOwn.OnBeforeDownload(const browser       : ICefBrowser;
                                                   const downloadItem  : ICefDownloadItem;
                                                   const suggestedName : ustring;
-                                                  const callback      : ICefBeforeDownloadCallback);
+                                                  const callback      : ICefBeforeDownloadCallback): boolean;
 begin
-
+  Result := False;
 end;
 
 procedure TCefDownloadHandlerOwn.OnDownloadUpdated(const browser      : ICefBrowser;
@@ -164,13 +165,13 @@ begin
     Result := IChromiumEvents(FEvents).doOnCanDownload(browser, url, request_method);
 end;
 
-procedure TCustomDownloadHandler.OnBeforeDownload(const browser       : ICefBrowser;
+function  TCustomDownloadHandler.OnBeforeDownload(const browser       : ICefBrowser;
                                                   const downloadItem  : ICefDownloadItem;
                                                   const suggestedName : ustring;
-                                                  const callback      : ICefBeforeDownloadCallback);
+                                                  const callback      : ICefBeforeDownloadCallback): boolean;
 begin
-  if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doOnBeforeDownload(browser, downloadItem, suggestedName, callback);
+  Result := (FEvents <> nil) and
+            IChromiumEvents(FEvents).doOnBeforeDownload(browser, downloadItem, suggestedName, callback);
 end;
 
 procedure TCustomDownloadHandler.OnDownloadUpdated(const browser      : ICefBrowser;

@@ -126,7 +126,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uCEFApplication, uCEFMiscFunctions, uBrowserTab;
+  uCEFApplication, uCEFMiscFunctions, uCEFWindowInfoWrapper, uBrowserTab;
 
 // The TChromium events are executed in a CEF thread and we should only update the
 // GUI controls in the main application thread.
@@ -286,6 +286,7 @@ begin
       NavControlPnl.Enabled := False;
       Chromium1.CloseBrowser(True);      
 
+      // Workaround for the missing TChormium.OnClose event when "Chrome runtime" is enabled.
       if GlobalCEFApp.ChromeRuntime then
         CEFWindowParent1.Free;
     end;
@@ -497,7 +498,7 @@ begin
       Result   := True;
       TempRect := CEFWindowParent1.ClientRect;
 
-      WindowInfoAsChild(windowInfo, CEFWindowParent1.Handle, TempRect, '');
+      TCEFWindowInfoWrapper.AsChild(windowInfo, CEFWindowParent1.Handle, TempRect);
     end
    else
     Result := False;

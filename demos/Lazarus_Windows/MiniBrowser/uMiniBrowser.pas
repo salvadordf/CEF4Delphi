@@ -329,6 +329,7 @@ begin
   GlobalCEFApp.EnablePrintPreview  := True;          
   GlobalCEFApp.EnableGPU           := True;
   GlobalCEFApp.SetCurrentDir       := True;
+  GlobalCEFApp.ChromeRuntime       := True;
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
@@ -1140,7 +1141,11 @@ begin
 
       // if TChromium.MultiBrowserMode is enabled then we have to close all
       // stored browsers and not only the main browser.
-      Chromium1.CloseAllBrowsers;
+      Chromium1.CloseAllBrowsers;      
+
+      // Workaround for the missing TChormium.OnClose event when "Chrome runtime" is enabled.
+      if GlobalCEFApp.ChromeRuntime then
+        CEFWindowParent1.Free;
     end;
 end;
 

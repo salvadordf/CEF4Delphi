@@ -166,7 +166,7 @@ begin
   if Initialized then
     begin
       InitializeDevToolsWindowInfo(aDevTools);
-      inherited ShowDevTools(inspectElementAt, @FDevWindowInfo);
+      inherited ShowDevTools(inspectElementAt, @FDevWindowInfo.WindowInfoRecord);
     end;
 end;
 

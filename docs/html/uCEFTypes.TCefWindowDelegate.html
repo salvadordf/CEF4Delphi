@@ -83,31 +83,43 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowDelegate.html#get_titlebar_height">get_titlebar_height</a></strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; titlebar_height: PSingle): Integer; stdcall;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowDelegate.html#get_titlebar_height">get_titlebar_height</a></strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; titlebar_height: System.PSingle): Integer; stdcall;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowDelegate.html#accepts_first_mouse">accepts_first_mouse</a></strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>): <a href="uCEFTypes.html#TCefState">TCefState</a>; stdcall;</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowDelegate.html#can_resize">can_resize</a></strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>): Integer; stdcall;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowDelegate.html#can_maximize">can_maximize</a></strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>): Integer; stdcall;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowDelegate.html#can_minimize">can_minimize</a></strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>): Integer; stdcall;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowDelegate.html#can_close">can_close</a></strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>): Integer; stdcall;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowDelegate.html#on_accelerator">on_accelerator</a></strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; command_id: Integer): Integer; stdcall;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowDelegate.html#on_key_event">on_key_event</a></strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; const event: <a href="uCEFTypes.html#PCefKeyEvent">PCefKeyEvent</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowDelegate.html#on_theme_colors_changed">on_theme_colors_changed</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; chrome_theme: Integer); stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWindowDelegate.html#get_window_runtime_style">get_window_runtime_style</a></strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>): <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>; stdcall;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -219,7 +231,15 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="get_titlebar_height"></span><code><strong>get_titlebar_height</strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; titlebar_height: PSingle): Integer; stdcall;</code></td>
+<td class="itemcode"><span id="get_titlebar_height"></span><code><strong>get_titlebar_height</strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; titlebar_height: System.PSingle): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="accepts_first_mouse"></span><code><strong>accepts_first_mouse</strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>): <a href="uCEFTypes.html#TCefState">TCefState</a>; stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -268,6 +288,22 @@
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><span id="on_key_event"></span><code><strong>on_key_event</strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; const event: <a href="uCEFTypes.html#PCefKeyEvent">PCefKeyEvent</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="on_theme_colors_changed"></span><code><strong>on_theme_colors_changed</strong>: procedure(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>; window: <a href="uCEFTypes.html#PCefWindow">PCefWindow</a>; chrome_theme: Integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_window_runtime_style"></span><code><strong>get_window_runtime_style</strong>: function(self: <a href="uCEFTypes.html#PCefWindowDelegate">PCefWindowDelegate</a>): <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>; stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>

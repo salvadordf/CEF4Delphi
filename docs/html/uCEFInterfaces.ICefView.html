@@ -210,25 +210,29 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointToScreen-TCefPoint-">ConvertPointToScreen</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetThemeColor-integer-">GetThemeColor</a></strong>(color_id: integer): <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointToScreen-TCefPoint-">ConvertPointToScreen</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointFromScreen-TCefPoint-">ConvertPointFromScreen</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointToWindow-TCefPoint-">ConvertPointToWindow</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointFromWindow-TCefPoint-">ConvertPointFromWindow</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointToView-ICefView-TCefPoint-">ConvertPointToView</a></strong>(const view : <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointFromView-ICefView-TCefPoint-">ConvertPointFromView</a></strong>(const view : <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
 </tr>
@@ -758,7 +762,7 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Sets the background color for this View. </p>
+ Sets the background color for this View. The background color will be automatically reset when ICefViewDelegate.OnThemeChanged is called. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -768,7 +772,17 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Returns the background color for this View. </p>
+ Returns the background color for this View. If the background color is unset then the current `GetThemeColor(CEF_ColorPrimaryBackground)` value will be returned. If this View belongs to an overlay (created with ICefWindow.AddOverlayView), and the background color is unset, then a value of transparent (0) will be returned. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetThemeColor-integer-"></span><code>function <strong>GetThemeColor</strong>(color_id: integer): <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current theme color associated with |color_id|, or the placeholder color (red) if unset. See cef_color_ids.h for standard ID values. Standard colors can be overridden and custom colors can be added using ICefWindow.SetThemeColor. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -979,7 +993,7 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Returns the background color for this View. </p>
+ Returns the background color for this View. If the background color is unset then the current `GetThemeColor(CEF_ColorPrimaryBackground)` value will be returned. If this View belongs to an overlay (created with ICefWindow.AddOverlayView), and the background color is unset, then a value of transparent (0) will be returned. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

@@ -125,16 +125,44 @@
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefRequestContext.html#SetContentSetting-ustring-ustring-TCefContentSettingTypes-TCefContentSettingValues-">SetContentSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; value: <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>);</code></td>
 </tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefRequestContext.html#SetChromeColorScheme-TCefColorVariant-TCefColor-">SetChromeColorScheme</a></strong>(variant: <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>; user_color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefRequestContext.html#GetChromeColorSchemeMode">GetChromeColorSchemeMode</a></strong>: <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefRequestContext.html#GetChromeColorSchemeColor">GetChromeColorSchemeColor</a></strong>: <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefRequestContext.html#GetChromeColorSchemeVariant">GetChromeColorSchemeVariant</a></strong>: <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>;</code></td>
+</tr>
 </table>
 <span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
 <table class="summary wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefRequestContext.html#CachePath">CachePath</a></strong>        : <a href="uCEFTypes.html#ustring">ustring</a>         read <a href="uCEFInterfaces.ICefRequestContext.html#GetCachePath">GetCachePath</a>;</code></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefRequestContext.html#CachePath">CachePath</a></strong>                : <a href="uCEFTypes.html#ustring">ustring</a>          read <a href="uCEFInterfaces.ICefRequestContext.html#GetCachePath">GetCachePath</a>;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefRequestContext.html#IsGlobalContext">IsGlobalContext</a></strong>  : boolean         read <a href="uCEFInterfaces.ICefRequestContext.html#IsGlobal">IsGlobal</a>;</code></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefRequestContext.html#IsGlobalContext">IsGlobalContext</a></strong>          : boolean          read <a href="uCEFInterfaces.ICefRequestContext.html#IsGlobal">IsGlobal</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefRequestContext.html#ChromeColorSchemeMode">ChromeColorSchemeMode</a></strong>    : <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a> read <a href="uCEFInterfaces.ICefRequestContext.html#GetChromeColorSchemeMode">GetChromeColorSchemeMode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefRequestContext.html#ChromeColorSchemeColor">ChromeColorSchemeColor</a></strong>   : <a href="uCEFTypes.html#TCefColor">TCefColor</a>        read <a href="uCEFInterfaces.ICefRequestContext.html#GetChromeColorSchemeColor">GetChromeColorSchemeColor</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefRequestContext.html#ChromeColorSchemeVariant">ChromeColorSchemeVariant</a></strong> : <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a> read <a href="uCEFInterfaces.ICefRequestContext.html#GetChromeColorSchemeVariant">GetChromeColorSchemeVariant</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -295,7 +323,9 @@
 
 <p>Browsers that host extensions differ from normal browsers as follows: - Can access chrome.* JavaScript APIs if allowed by the manifest. Visit <a href="chrome://extensions-support">chrome://extensions-support</a> for the list of extension APIs currently supported by CEF. - Main frame navigation to non-extension content is blocked. - Pinch-zooming is disabled. - CefBrowserHost::GetExtension returns the hosted extension. - CefBrowserHost::IsBackgroundHost returns true for background hosts.
 
-<p>See <a href="https://developer.chrome.com/extensions">https://developer.chrome.com/extensions</a> for extension implementation and usage documentation. </p>
+<p>See <a href="https://developer.chrome.com/extensions">https://developer.chrome.com/extensions</a> for extension implementation and usage documentation.
+
+<p>WARNING: This function is deprecated and will be removed in ~M127. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -305,7 +335,9 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Returns true (1) if this context was used to load the extension identified by |extension_id|. Other contexts sharing the same storage will also have access to the extension (see HasExtension). This function must be called on the browser process UI thread. </p>
+ Returns true (1) if this context was used to load the extension identified by |extension_id|. Other contexts sharing the same storage will also have access to the extension (see HasExtension). This function must be called on the browser process UI thread.
+
+<p>WARNING: This function is deprecated and will be removed in ~M127. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -315,7 +347,9 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Returns true (1) if this context has access to the extension identified by |extension_id|. This may not be the context that was used to load the extension (see DidLoadExtension). This function must be called on the browser process UI thread. </p>
+ Returns true (1) if this context has access to the extension identified by |extension_id|. This may not be the context that was used to load the extension (see DidLoadExtension). This function must be called on the browser process UI thread.
+
+<p>WARNING: This function is deprecated and will be removed in ~M127. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -325,7 +359,9 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Retrieve the list of all extensions that this context has access to (see HasExtension). |extension_ids| will be populated with the list of extension ID values. Returns true (1) on success. This function must be called on the browser process UI thread. </p>
+ Retrieve the list of all extensions that this context has access to (see HasExtension). |extension_ids| will be populated with the list of extension ID values. Returns true (1) on success. This function must be called on the browser process UI thread.
+
+<p>WARNING: This function is deprecated and will be removed in ~M127. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -335,7 +371,9 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Returns the extension matching |extension_id| or NULL if no matching extension is accessible in this context (see HasExtension). This function must be called on the browser process UI thread. </p>
+ Returns the extension matching |extension_id| or NULL if no matching extension is accessible in this context (see HasExtension). This function must be called on the browser process UI thread.
+
+<p>WARNING: This function is deprecated and will be removed in ~M127. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -392,11 +430,51 @@
 <p>WARNING: Incorrect usage of this function may cause instability or security issues in Chromium. Make sure that you first understand the potential impact of any changes to |content_type| by reviewing the related source code in Chromium. For example, if you plan to modify CEF_CONTENT_SETTING_TYPE_POPUPS, first review and understand the usage of ContentSettingsType::POPUPS in Chromium: <a href="https://source.chromium.org/search?q=ContentSettingsType::POPUPS">https://source.chromium.org/search?q=ContentSettingsType::POPUPS</a> </p>
 </td></tr>
 </table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetChromeColorScheme-TCefColorVariant-TCefColor-"></span><code>procedure <strong>SetChromeColorScheme</strong>(variant: <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>; user_color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Sets the Chrome color scheme for all browsers that share this request context. |variant| values of SYSTEM, LIGHT and DARK change the underlying color mode (e.g. light vs dark). Other |variant| values determine how |user_color| will be applied in the current color mode. If |user_color| is transparent (0) the default color will be used. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetChromeColorSchemeMode"></span><code>function <strong>GetChromeColorSchemeMode</strong>: <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current Chrome color scheme mode (SYSTEM, LIGHT or DARK). Must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetChromeColorSchemeColor"></span><code>function <strong>GetChromeColorSchemeColor</strong>: <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current Chrome color scheme color, or transparent (0) for the default color. Must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetChromeColorSchemeVariant"></span><code>function <strong>GetChromeColorSchemeVariant</strong>: <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current Chrome color scheme variant. Must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
 <h3 class="detail">Properties</h3>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="CachePath"></span><code>property <strong>CachePath</strong>        : <a href="uCEFTypes.html#ustring">ustring</a>         read <a href="uCEFInterfaces.ICefRequestContext.html#GetCachePath">GetCachePath</a>;</code></td>
+<td class="itemcode"><span id="CachePath"></span><code>property <strong>CachePath</strong>                : <a href="uCEFTypes.html#ustring">ustring</a>          read <a href="uCEFInterfaces.ICefRequestContext.html#GetCachePath">GetCachePath</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
@@ -406,11 +484,41 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="IsGlobalContext"></span><code>property <strong>IsGlobalContext</strong>  : boolean         read <a href="uCEFInterfaces.ICefRequestContext.html#IsGlobal">IsGlobal</a>;</code></td>
+<td class="itemcode"><span id="IsGlobalContext"></span><code>property <strong>IsGlobalContext</strong>          : boolean          read <a href="uCEFInterfaces.ICefRequestContext.html#IsGlobal">IsGlobal</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
  Returns true (1) if this object is the global context. The global context is used by default when creating a browser or URL request with a NULL context argument. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ChromeColorSchemeMode"></span><code>property <strong>ChromeColorSchemeMode</strong>    : <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a> read <a href="uCEFInterfaces.ICefRequestContext.html#GetChromeColorSchemeMode">GetChromeColorSchemeMode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current Chrome color scheme mode (SYSTEM, LIGHT or DARK). Must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ChromeColorSchemeColor"></span><code>property <strong>ChromeColorSchemeColor</strong>   : <a href="uCEFTypes.html#TCefColor">TCefColor</a>        read <a href="uCEFInterfaces.ICefRequestContext.html#GetChromeColorSchemeColor">GetChromeColorSchemeColor</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current Chrome color scheme color, or transparent (0) for the default color. Must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ChromeColorSchemeVariant"></span><code>property <strong>ChromeColorSchemeVariant</strong> : <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a> read <a href="uCEFInterfaces.ICefRequestContext.html#GetChromeColorSchemeVariant">GetChromeColorSchemeVariant</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current Chrome color scheme variant. Must be called on the browser process UI thread. </p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>

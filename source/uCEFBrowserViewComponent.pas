@@ -40,6 +40,7 @@ type
       FOnGetChromeToolbarType                   : TOnGetChromeToolbarTypeEvent;
       FOnUseFramelessWindowForPictureInPicture  : TOnUseFramelessWindowForPictureInPicture;
       FOnGestureCommand                         : TOnGestureCommandEvent;
+      FOnGetBrowserRuntimeStyle                 : TOnGetBrowserRuntimeStyleEvent;
 
       procedure DestroyView; override;
       procedure Initialize; override;
@@ -48,6 +49,7 @@ type
       function  GetAsView : ICefView; override;
       function  GetAsBrowserView : ICefBrowserView; override;
       function  GetBrowser : ICefBrowser;
+      function  GetRuntimeStyle : TCefRuntimeStyle;
 
       // ICefBrowserViewDelegateEvents
       procedure doOnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser);
@@ -57,6 +59,7 @@ type
       procedure doOnGetChromeToolbarType(const browser_view: ICefBrowserView; var aChromeToolbarType: TCefChromeToolbarType);
       procedure doOnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
       procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
+      procedure doOnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
 
     public
       /// <summary>
@@ -91,6 +94,11 @@ type
       /// ICefBrowserView assiciated to this component.
       /// </summary>
       property BrowserView                              : ICefBrowserView                           read FBrowserView;
+      /// <summary>
+      /// Returns the runtime style for this BrowserView (ALLOY or CHROME). See
+      /// TCefRuntimeStyle documentation for details.
+      /// </summary>
+      property RuntimeStyle                             : TCefRuntimeStyle                          read GetRuntimeStyle;
 
     published
       /// <summary>
@@ -144,6 +152,11 @@ type
       /// commands can also be handled via cef_command_handler_t::OnChromeCommand.
       /// </summary>
       property OnGestureCommand                         : TOnGestureCommandEvent                    read FOnGestureCommand                         write FOnGestureCommand;
+      /// <summary>
+      /// Optionally change the runtime style for this BrowserView. See
+      /// TCefRuntimeStyle documentation for details.
+      /// </summary>
+      property OnGetBrowserRuntimeStyle                 : TOnGetBrowserRuntimeStyleEvent            read FOnGetBrowserRuntimeStyle                 write FOnGetBrowserRuntimeStyle;
   end;
 
 {$IFDEF FPC}
@@ -195,6 +208,7 @@ begin
   FOnGetChromeToolbarType                  := nil;
   FOnUseFramelessWindowForPictureInPicture := nil;
   FOnGestureCommand                        := nil;
+  FOnGetBrowserRuntimeStyle                := nil;
 end;
 
 procedure TCEFBrowserViewComponent.DestroyView;
@@ -260,6 +274,14 @@ begin
     Result := nil;
 end;
 
+function TCEFBrowserViewComponent.GetRuntimeStyle : TCefRuntimeStyle;
+begin
+  if Initialized then
+    Result := FBrowserView.RuntimeStyle
+   else
+    Result := CEF_RUNTIME_STYLE_DEFAULT;
+end;
+
 procedure TCEFBrowserViewComponent.SetPreferAccelerators(prefer_accelerators: boolean);
 begin
   if Initialized then FBrowserView.SetPreferAccelerators(prefer_accelerators);
@@ -317,6 +339,14 @@ procedure TCEFBrowserViewComponent.doOnGestureCommand(const browser_view    : IC
 begin
   if assigned(FOnGestureCommand) then
     FOnGestureCommand(self, browser_view, gesture_command, aResult);
+end;
+
+procedure TCEFBrowserViewComponent.doOnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
+begin
+  aResult := CEF_RUNTIME_STYLE_DEFAULT;
+
+  if assigned(FOnGetBrowserRuntimeStyle) then
+    FOnGetBrowserRuntimeStyle(self, aResult);
 end;
 
 {$IFDEF FPC}

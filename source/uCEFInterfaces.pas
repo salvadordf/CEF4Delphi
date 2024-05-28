@@ -359,7 +359,7 @@ type
 
     // ICefDownloadHandler
     function  doOnCanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean;
-    procedure doOnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
+    function  doOnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback): boolean;
     procedure doOnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback);
 
     // ICefJsDialogHandler
@@ -627,6 +627,7 @@ type
     procedure doOnGetChromeToolbarType(const browser_view: ICefBrowserView; var aChromeToolbarType: TCefChromeToolbarType);
     procedure doOnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
     procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
+    procedure doOnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
   end;
 
   /// <summary>
@@ -679,6 +680,7 @@ type
     procedure doOnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
     procedure doOnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
     procedure doOnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
+    procedure doOnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
   end;
 
   {*
@@ -1299,12 +1301,18 @@ type
     /// Returns the extension hosted in this browser or NULL if no extension is
     /// hosted. See ICefRequestContext.LoadExtension for details.
     /// </summary>
+    /// <remarks>
+    /// <para>WARNING: This API is deprecated and will be removed in ~M127.</para>
+    /// </remarks>
     function  GetExtension : ICefExtension;
     /// <summary>
     /// Returns true (1) if this browser is hosting an extension background
     /// script. Background hosts do not have a window and are not displayable. See
     /// ICefRequestContext.LoadExtension for details.
     /// </summary>
+    /// <remarks>
+    /// <para>WARNING: This API is deprecated and will be removed in ~M127.</para>
+    /// </remarks>
     function  IsBackgroundHost : boolean;
     /// <summary>
     /// Set whether the browser's audio is muted.
@@ -1367,6 +1375,14 @@ type
     /// </remarks>
     function IsRenderProcessUnresponsive : boolean;
     /// <summary>
+    /// Returns the runtime style for this browser (ALLOY or CHROME). See
+    /// TCefRuntimeStyle documentation for details.
+    /// </summary>
+    /// <remarks>
+    /// <para>This function can only be called on the CEF UI thread.</para>
+    /// </remarks>
+    function GetRuntimeStyle : TCefRuntimeStyle;
+    /// <summary>
     /// Returns the hosted browser object.
     /// </summary>
     property Browser                    : ICefBrowser              read GetBrowser;
@@ -1391,9 +1407,11 @@ type
     property ZoomLevel                  : Double                   read GetZoomLevel                 write SetZoomLevel;
     /// <summary>
     /// Get the default zoom level. This value will be 0.0 by default but can be
-    /// configured with the Chrome runtime. This function can only be called on
-    /// the UI thread.
+    /// configured with the Chrome runtime.
     /// </summary>
+    /// <remarks>
+    /// <para>This property can only be used on the CEF UI thread.</para>
+    /// </remarks>
     property DefaultZoomLevel           : Double                   read GetDefaultZoomLevel;
     /// <summary>
     /// Returns the request context for this browser.
@@ -1406,6 +1424,14 @@ type
     /// sent.
     /// </summary>
     property VisibleNavigationEntry     : ICefNavigationEntry      read GetVisibleNavigationEntry;
+    /// <summary>
+    /// Returns the runtime style for this browser (ALLOY or CHROME). See
+    /// TCefRuntimeStyle documentation for details.
+    /// </summary>
+    /// <remarks>
+    /// <para>This property can only be used on the CEF UI thread.</para>
+    /// </remarks>
+    property RuntimeStyle               : TCefRuntimeStyle         read GetRuntimeStyle;
   end;
 
   /// <summary>
@@ -2688,12 +2714,13 @@ type
     function  CanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean;
     /// <summary>
     /// Called before a download begins. |suggested_name| is the suggested name
-    /// for the download file. By default the download will be canceled. Execute
-    /// |callback| either asynchronously or in this function to continue the
-    /// download if desired. Do not keep a reference to |download_item| outside of
-    /// this function.
+    /// for the download file. Return true (1) and execute |callback| either
+    /// asynchronously or in this function to continue or cancel the download.
+    /// Return false (0) to proceed with default handling (cancel with Alloy
+    /// style, download shelf with Chrome style). Do not keep a reference to
+    /// |download_item| outside of this function.
     /// </summary>
-    procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
+    function  OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback): boolean;
     /// <summary>
     /// Called when a download's status or progress information has been updated.
     /// This may be called multiple times before and after OnBeforeDownload.
@@ -5001,7 +5028,7 @@ type
     /// request return false (0).
     /// </summary>
     /// <remarks>
-    /// WARNING: This function is deprecated. Use Open instead.
+    /// <para>WARNING: This function is deprecated. Use Open instead.</para>
     /// </remarks>
     function  ProcessRequest(const request: ICefRequest; const callback: ICefCallback): boolean;
     /// <summary>
@@ -5052,7 +5079,7 @@ type
     /// the data is available. To indicate response completion return false (0).
     /// </summary>
     /// <remarks>
-    /// WARNING: This function is deprecated. Use Skip and Read instead.
+    /// <para>WARNING: This function is deprecated. Use Skip and Read instead.</para>
     /// </remarks>
     function  ReadResponse(const dataOut: Pointer; bytesToRead: Integer; var bytesRead: Integer; const callback: ICefCallback): boolean;
     /// <summary>
@@ -6376,6 +6403,7 @@ type
   /// loading.
   /// </summary>
   /// <remarks>
+  /// <para>WARNING: This API is deprecated and will be removed in ~M127.</para>
   /// <para><see cref="uCEFTypes|TCefExtensionHandler">Implements TCefExtensionHandler</see></para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)</see></para>
   /// </remarks>
@@ -6469,6 +6497,7 @@ type
   /// otherwise indicated.
   /// </summary>
   /// <remarks>
+  /// <para>WARNING: This API is deprecated and will be removed in ~M127.</para>
   /// <para><see cref="uCEFTypes|TCefExtension">Implements TCefExtension</see></para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_capi.h">CEF source file: /include/capi/cef_extension_capi.h (cef_extension_t)</see></para>
   /// </remarks>
@@ -8267,6 +8296,8 @@ type
     ///
     /// See https://developer.chrome.com/extensions for extension implementation
     /// and usage documentation.
+    ///
+    /// WARNING: This function is deprecated and will be removed in ~M127.
     /// </summary>
     procedure LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
     /// <summary>
@@ -8274,6 +8305,8 @@ type
     /// by |extension_id|. Other contexts sharing the same storage will also have
     /// access to the extension (see HasExtension). This function must be called
     /// on the browser process UI thread.
+    ///
+    /// WARNING: This function is deprecated and will be removed in ~M127.
     /// </summary>
     function  DidLoadExtension(const extension_id: ustring): boolean;
     /// <summary>
@@ -8281,6 +8314,8 @@ type
     /// |extension_id|. This may not be the context that was used to load the
     /// extension (see DidLoadExtension). This function must be called on the
     /// browser process UI thread.
+    ///
+    /// WARNING: This function is deprecated and will be removed in ~M127.
     /// </summary>
     function  HasExtension(const extension_id: ustring): boolean;
     /// <summary>
@@ -8288,12 +8323,16 @@ type
     /// HasExtension). |extension_ids| will be populated with the list of
     /// extension ID values. Returns true (1) on success. This function must be
     /// called on the browser process UI thread.
+    ///
+    /// WARNING: This function is deprecated and will be removed in ~M127.
     /// </summary>
     function  GetExtensions(const extension_ids: TStringList): boolean;
     /// <summary>
     /// Returns the extension matching |extension_id| or NULL if no matching
     /// extension is accessible in this context (see HasExtension). This function
     /// must be called on the browser process UI thread.
+    ///
+    /// WARNING: This function is deprecated and will be removed in ~M127.
     /// </summary>
     function  GetExtension(const extension_id: ustring): ICefExtension;
     /// <summary>
@@ -10655,6 +10694,16 @@ type
     /// or by ICefKeyboardHandler. The default value is false.
     /// </summary>
     procedure SetPreferAccelerators(prefer_accelerators: boolean);
+    /// <summary>
+    /// Returns the runtime style for this BrowserView (ALLOY or CHROME). See
+    /// TCefRuntimeStyle documentation for details.
+    /// </summary>
+    function GetRuntimeStyle : TCefRuntimeStyle;
+    /// <summary>
+    /// Returns the runtime style for this BrowserView (ALLOY or CHROME). See
+    /// TCefRuntimeStyle documentation for details.
+    /// </summary>
+    property RuntimeStyle : TCefRuntimeStyle read GetRuntimeStyle;
   end;
 
   /// <summary>
@@ -10719,6 +10768,11 @@ type
     /// commands can also be handled via cef_command_handler_t::OnChromeCommand.
     /// </summary>
     procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
+    /// <summary>
+    /// Optionally change the runtime style for this BrowserView. See
+    /// TCefRuntimeStyle documentation for details.
+    /// </summary>
+    procedure OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
   end;
 
   /// <summary>
@@ -11176,7 +11230,7 @@ type
     /// </summary>
     procedure SetThemeColor(color_id: integer; color: TCefColor);
     /// <summary>
-    /// <para>Trigger cef_view_delegate_t::OnThemeChanged callbacks for each View in
+    /// <para>Trigger ICefViewDelegate.OnThemeChanged callbacks for each View in
     /// this Window's component hierarchy. Unlike a native/OS or Chrome theme
     /// change this function does not reset theme colors to standard values and
     /// does not result in a call to ICefWindowDelegate.OnThemeColorsChanged.</para>
@@ -11184,6 +11238,11 @@ type
     /// or ICefViewDelegate.OnThemeChanged.</para>
     /// </summary>
     procedure ThemeChanged;
+    /// <summary>
+    /// Returns the runtime style for this Window (ALLOY or CHROME). See
+    /// TCefRuntimeStyle documentation for details.
+    /// </summary>
+    function GetRuntimeStyle: TCefRuntimeStyle;
 
     /// <summary>
     /// Get the Window title.
@@ -11211,6 +11270,11 @@ type
     /// Retrieve the platform window handle for this Window.
     /// </summary>
     property WindowHandle             : TCefWindowHandle   read GetWindowHandle;
+    /// <summary>
+    /// Returns the runtime style for this Window (ALLOY or CHROME). See
+    /// TCefRuntimeStyle documentation for details.
+    /// </summary>
+    property RuntimeStyle             : TCefRuntimeStyle   read GetRuntimeStyle;
   end;
 
   /// <summary>
@@ -11376,6 +11440,11 @@ type
     /// callback for the complete |window| component hierarchy.</para>
     /// </summary>
     procedure OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
+    /// <summary>
+    /// Optionally change the runtime style for this Window. See
+    /// TCefRuntimeStyle documentation for details.
+    /// </summary>
+    procedure OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
   end;
 
 implementation
