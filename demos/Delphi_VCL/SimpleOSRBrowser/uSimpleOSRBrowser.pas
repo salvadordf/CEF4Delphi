@@ -215,6 +215,7 @@ begin
   GlobalCEFApp.EnableGPU                  := True;
   GlobalCEFApp.LogFile                    := 'debug.log';
   GlobalCEFApp.LogSeverity                := LOGSEVERITY_VERBOSE;
+  //GlobalCEFApp.ChromeRuntime              := True;
 
   // If you need transparency leave the GlobalCEFApp.BackgroundColor property
   // with the default value or set the alpha channel to 0
@@ -288,7 +289,9 @@ begin
           TempKeyEvent.character               := #0;
           TempKeyEvent.unmodified_character    := #0;
           TempKeyEvent.focus_on_editable_field := ord(False);
-
+          {$IFDEF DEBUG}
+          CefKeyEventLog(TempKeyEvent);
+          {$ENDIF}
           chrmosr.SendKeyEvent(@TempKeyEvent);
           Handled := (Msg.wParam in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_TAB]);
         end;
@@ -304,7 +307,9 @@ begin
           TempKeyEvent.character               := #0;
           TempKeyEvent.unmodified_character    := #0;
           TempKeyEvent.focus_on_editable_field := ord(False);
-
+          {$IFDEF DEBUG}
+          CefKeyEventLog(TempKeyEvent);
+          {$ENDIF}
           chrmosr.SendKeyEvent(@TempKeyEvent);
         end;
 
@@ -321,6 +326,9 @@ begin
           TempKeyEvent.focus_on_editable_field := ord(False);
 
           CefCheckAltGrPressed(Msg.wParam, TempKeyEvent);
+          {$IFDEF DEBUG}
+          CefKeyEventLog(TempKeyEvent);
+          {$ENDIF}
           chrmosr.SendKeyEvent(@TempKeyEvent);
         end;
 

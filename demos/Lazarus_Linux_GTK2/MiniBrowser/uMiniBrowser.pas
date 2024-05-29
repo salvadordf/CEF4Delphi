@@ -228,7 +228,8 @@ begin
   GlobalCEFApp.cache               := 'cache';
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
-  //GlobalCEFApp.EnablePrintPreview  := True;
+  GlobalCEFApp.EnablePrintPreview  := True;
+  GlobalCEFApp.ChromeRuntime       := True;
 end;
 
 {Property setters and getters}

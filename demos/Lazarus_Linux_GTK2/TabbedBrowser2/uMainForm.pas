@@ -119,6 +119,7 @@ end;
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
+  GlobalCEFApp.ChromeRuntime        := True;
   GlobalCEFApp.OnContextInitialized := @GlobalCEFApp_OnContextInitialized;
 end;
 

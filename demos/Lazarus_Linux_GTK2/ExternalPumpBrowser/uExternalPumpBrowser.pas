@@ -104,7 +104,7 @@ procedure CreateGlobalCEFApp;
 begin                          
   GlobalCEFApp                           := TCefApplication.Create;
   GlobalCEFApp.ExternalMessagePump       := True;
-  GlobalCEFApp.MultiThreadedMessageLoop  := False;
+  GlobalCEFApp.MultiThreadedMessageLoop  := False;                
   GlobalCEFApp.OnScheduleMessagePumpWork := @GlobalCEFApp_OnScheduleMessagePumpWork;
 
   // This is a workaround for the 'GPU is not usable error' issue :

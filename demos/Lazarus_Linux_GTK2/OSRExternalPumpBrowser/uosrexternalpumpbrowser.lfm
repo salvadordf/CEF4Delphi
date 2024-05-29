@@ -12,7 +12,7 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
-  LCLVersion = '2.2.2.0'
+  LCLVersion = '3.4.0.0'
   object AddressPnl: TPanel
     Left = 0
     Height = 30
@@ -29,9 +29,9 @@ object Form1: TForm1
       Top = 1
       Width = 933
       Align = alClient
-      OnEnter = AddressEdtEnter
       TabOrder = 0
       Text = 'https://www.google.com'
+      OnEnter = AddressEdtEnter
     end
     object Panel2: TPanel
       Left = 934
@@ -49,9 +49,9 @@ object Form1: TForm1
         Width = 31
         Align = alLeft
         Caption = 'Go'
+        TabOrder = 0
         OnClick = GoBtnClick
         OnEnter = GoBtnEnter
-        TabOrder = 0
       end
       object SnapshotBtn: TButton
         Left = 34
@@ -62,10 +62,10 @@ object Form1: TForm1
         Caption = 'µ'
         Font.Height = -24
         Font.Name = 'Webdings'
-        OnClick = SnapshotBtnClick
-        OnEnter = GoBtnEnter
         ParentFont = False
         TabOrder = 1
+        OnClick = SnapshotBtnClick
+        OnEnter = GoBtnEnter
       end
     end
   end
