@@ -345,15 +345,21 @@ begin
 end;      
 
 procedure TMainForm.CreateHiddenChildForm;
+var
+  TempSize : TCefSize;
 begin
   // Linux requires a fully formed window in order to add a Chromium browser so
   // we show the next popup window outside the visible screen space and then we
   // hide it.
   FChildForm               := TChildForm.Create(self);
-  FChildForm.Top           := -1000;
-  FChildForm.Left          := -1000;
+  TempSize.width           := FChildForm.Width;
+  TempSize.height          := FChildForm.Height;
+  FChildForm.Width         := 0;
+  FChildForm.Height        := 0;
   FChildForm.Show;
-  FChildForm.Hide;
+  FChildForm.Hide;                             
+  FChildForm.Width         := TempSize.width;
+  FChildForm.Height        := TempSize.height;
   // Center the child form on the screen by default
   FChildForm.Top           := (screen.Height - FChildForm.Height) div 2;
   FChildForm.Left          := (screen.Width  - FChildForm.Width)  div 2;
