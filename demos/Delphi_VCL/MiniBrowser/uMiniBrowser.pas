@@ -246,6 +246,7 @@ type
     procedure HandleKeyDown(const aMsg : TMsg; var aHandled : boolean);
     procedure HandleBrowserInfo(const aResult : ICefValue);
 
+    procedure ReplaceAcceptEncoding(const aRequest : ICefRequest);
     procedure InspectRequest(const aRequest : ICefRequest);
     procedure InspectResponse(const aResponse : ICefResponse);
 
@@ -530,7 +531,10 @@ begin
      (frame <> nil) and
      frame.IsMain and
      frame.IsValid then
-    InspectRequest(request);
+    begin
+      ReplaceAcceptEncoding(request);
+      InspectRequest(request);
+    end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1CanDownload(Sender: TObject;
@@ -1217,6 +1221,42 @@ begin
    else
     showmessage('There was a problem resolving the host.' + CRLF +
                 'Error code : ' + inttostr(result));
+end;
+
+// This is just an example of HTTP header replacement.
+procedure TMiniBrowserFrm.ReplaceAcceptEncoding(const aRequest : ICefRequest);
+const
+  ACCEPT_ENCODING_HEADER = 'Accept-Encoding';
+var
+  TempOldMap, TempNewMap : ICefStringMultimap;
+  i : NativeUInt;
+begin
+  try
+    TempNewMap := TCefStringMultimapOwn.Create;
+    TempOldMap := TCefStringMultimapOwn.Create;
+
+    // We get all the old request headers
+    aRequest.GetHeaderMap(TempOldMap);
+
+    i := 0;
+    while (i < TempOldMap.Size) do
+      begin
+        // Copy all headers except the "Accept-Encoding" header
+        if (CompareText(TempOldMap.Key[i], ACCEPT_ENCODING_HEADER) <> 0) then
+          TempNewMap.Append(TempOldMap.Key[i], TempOldMap.Value[i]);
+
+        inc(i);
+      end;
+
+    // We append the new "Accept-Encoding" header with a custom value
+    TempNewMap.Append(ACCEPT_ENCODING_HEADER, 'gzip');
+
+    // And then we set all the headers in the request
+    aRequest.SetHeaderMap(TempNewMap);
+  finally
+    TempNewMap := nil;
+    TempOldMap := nil;
+  end;
 end;
 
 procedure TMiniBrowserFrm.InspectRequest(const aRequest : ICefRequest);
