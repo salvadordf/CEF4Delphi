@@ -501,8 +501,21 @@ begin
       TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
     {$ENDIF}
     {$IFDEF LCLGTK3}
-    if ValidCefWindowHandle(aParent) then
-      TempParent := gdk_x11_window_get_xid(TGtk3Container(aParent).Widget^.window);
+    if ValidCefWindowHandle(aParent) and (TGtk3Widget(aParent).Widget <> nil) then
+      begin
+        // cefclient creates the main window with this code in root_window_gtk.cc
+        //   window_ = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+        // Then if populates window_info with :
+        //   window_info.SetAsChild(GetXWindowForWidget(parent_handle), rect);
+        // GetXWindowForWidget returns this :
+        //   GDK_WINDOW_XID(gtk_widget_get_window(widget));
+        // GDK_WINDOW_XID is a macro equivalent to gdk_x11_drawable_get_xid in gtk2 but
+        // in gtk3 we use gdk_x11_window_get_xid instead.
+        // LCL sets TGtk3Widget.Widget to gtk_window_new(GTK_WINDOW_TOPLEVEL) for the main form.
+        // When we call TChromium.CreateBrowser with the main form as parent we get this error in the console (not in the log) :
+        //   [19140:19166:0604/174851.690766:ERROR:x11_software_bitmap_presenter.cc(144)] XGetWindowAttributes failed for window XXXXXXX
+        TempParent := gdk_x11_window_get_xid(gtk_widget_get_window(TGtk3Widget(aParent).Widget));
+      end;
     {$ENDIF}
   {$ENDIF}
 
