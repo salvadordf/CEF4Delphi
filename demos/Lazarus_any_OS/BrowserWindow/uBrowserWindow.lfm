@@ -68,6 +68,8 @@ object Form1: TForm1
     Width = 967
     Align = alClient
     TabOrder = 1
+    Chromium.OnBeforePopup = Chromium1BeforePopup
+    Chromium.OnOpenUrlFromTab = Chromium1OpenUrlFromTab
     OnBrowserCreated = BrowserWindow1BrowserCreated
     OnBrowserClosed = BrowserWindow1BrowserClosed
   end
