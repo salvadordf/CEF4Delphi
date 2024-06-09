@@ -485,25 +485,25 @@ function GetCefStateModifiers(state : TGdkModifierType) : integer;
 begin
   Result := EVENTFLAG_NONE;
 
-  if (GDK_SHIFT_MASK in state) then
+  if ((state and GDK_SHIFT_MASK) <> 0) then
     Result := Result or EVENTFLAG_SHIFT_DOWN;
 
-  if (GDK_LOCK_MASK in state) then
+  if ((state and GDK_LOCK_MASK) <> 0) then
     Result := Result or EVENTFLAG_CAPS_LOCK_ON;
 
-  if (GDK_CONTROL_MASK in state) then
-    Result := Result or EVENTFLAG_CONTROL_DOWN;
+  if ((state and GDK_CONTROL_MASK) <> 0) then
+    Result := Result or GDK_CONTROL_MASK;
 
-  if (GDK_MOD1_MASK in state) then
+  if ((state and GDK_MOD1_MASK) <> 0) then
     Result := Result or EVENTFLAG_ALT_DOWN;
 
-  if (GDK_BUTTON1_MASK in state) then
+  if ((state and GDK_BUTTON1_MASK) <> 0) then
     Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
 
-  if (GDK_BUTTON2_MASK in state) then
+  if ((state and GDK_BUTTON2_MASK) <> 0) then
     Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
 
-  if (GDK_BUTTON3_MASK in state) then
+  if ((state and GDK_BUTTON3_MASK) <> 0) then
     Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
 end;
 {$ENDIF}
