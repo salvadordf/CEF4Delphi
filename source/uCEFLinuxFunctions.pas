@@ -24,10 +24,10 @@ uses
 {$IFDEF LINUX}
 procedure GdkEventKeyToCEFKeyEvent(GdkEvent: PGdkEventKey; var aCEFKeyEvent : TCEFKeyEvent);
 function  KeyboardCodeFromXKeysym(keysym : uint32) : integer;
-{$IF DEFINED(LINUXFMX) or DEFINED(LCLGTK2)}
+{$IF DEFINED(LINUXFMX) or DEFINED(LCLGTK2) or (LCL_FULLVERSION<3000000)}
 function  GetCefStateModifiers(state : uint32) : integer;
 {$ENDIF}
-{$IF DEFINED(LCLGTK3)}
+{$IF DEFINED(LCLGTK3) and (LCL_FULLVERSION>3000000)}
 function  GetCefStateModifiers(state : TGdkModifierType) : integer;
 {$ENDIF}
 function  GdkEventToWindowsKeyCode(Event: PGdkEventKey) : integer;
@@ -453,7 +453,7 @@ begin
   end;
 end;
 
-{$IF DEFINED(LINUXFMX) or DEFINED(LCLGTK2)}
+{$IF DEFINED(LINUXFMX) or DEFINED(LCLGTK2) or (LCL_FULLVERSION<3000000)}
 function GetCefStateModifiers(state : uint32) : integer;
 begin
   Result := EVENTFLAG_NONE;
@@ -480,7 +480,7 @@ begin
     Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
 end;
 {$ENDIF}
-{$IF DEFINED(LCLGTK3)}
+{$IF DEFINED(LCLGTK3) and (LCL_FULLVERSION>3000000)}
 function GetCefStateModifiers(state : TGdkModifierType) : integer;
 begin
   Result := EVENTFLAG_NONE;
