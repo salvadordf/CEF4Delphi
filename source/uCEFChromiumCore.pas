@@ -7054,7 +7054,10 @@ begin
     UpdatePreference(aBrowser, 'performance_tuning.battery_saver_mode.state', integer(FBatterySaverModeState));
 
   if (FDownloadBubble <> STATE_DEFAULT) then
-    UpdatePreference(aBrowser, 'download_bubble_enabled', (FDownloadBubble = STATE_ENABLED));
+    begin
+      UpdatePreference(aBrowser, 'download_bubble.partial_view_enabled', (FDownloadBubble = STATE_ENABLED));
+      UpdatePreference(aBrowser, 'download_bubble_enabled',              (FDownloadBubble = STATE_ENABLED));
+    end;
 
   if assigned(FOnPrefsUpdated) then
     FOnPrefsUpdated(self);

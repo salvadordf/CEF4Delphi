@@ -21,6 +21,12 @@ uses
   {$ENDIF}
   uCEFLinuxTypes, uCEFTypes;
 
+{$IFNDEF FPC}
+const
+  // We define this constant only to avoid warnings in Delphi
+  LCL_FULLVERSION = 3000001;
+{$ENDIF}
+
 {$IFDEF LINUX}
 procedure GdkEventKeyToCEFKeyEvent(GdkEvent: PGdkEventKey; var aCEFKeyEvent : TCEFKeyEvent);
 function  KeyboardCodeFromXKeysym(keysym : uint32) : integer;
