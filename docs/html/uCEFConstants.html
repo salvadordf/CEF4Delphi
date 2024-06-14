@@ -1972,18 +1972,6 @@
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CERT_STATUS_LAST_ERROR">CERT_STATUS_LAST_ERROR</a></strong>  = <a href="uCEFConstants.html#CERT_STATUS_VALIDITY_TOO_LONG">CERT_STATUS_VALIDITY_TOO_LONG</a>;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#V8_ACCESS_CONTROL_DEFAULT">V8_ACCESS_CONTROL_DEFAULT</a></strong>               = 0;</code></td>
-</tr>
-<tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#V8_ACCESS_CONTROL_ALL_CAN_READ">V8_ACCESS_CONTROL_ALL_CAN_READ</a></strong>          = 1 shl 0;</code></td>
-</tr>
-<tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#V8_ACCESS_CONTROL_ALL_CAN_WRITE">V8_ACCESS_CONTROL_ALL_CAN_WRITE</a></strong>         = 1 shl 1;</code></td>
-</tr>
-<tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#V8_ACCESS_CONTROL_PROHIBITS_OVERWRITING">V8_ACCESS_CONTROL_PROHIBITS_OVERWRITING</a></strong> = 1 shl 2;</code></td>
-</tr>
-<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#V8_PROPERTY_ATTRIBUTE_NONE">V8_PROPERTY_ATTRIBUTE_NONE</a></strong>       = 0;</code></td>
 </tr>
 <tr class="list2">
@@ -2713,22 +2701,28 @@
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_NOTIFICATIONS">CEF_PERMISSION_TYPE_NOTIFICATIONS</a></strong>              = 1 shl 15;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER">CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER</a></strong> = 1 shl 16;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_KEYBOARD_LOCK">CEF_PERMISSION_TYPE_KEYBOARD_LOCK</a></strong>              = 1 shl 16;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER">CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER</a></strong>  = 1 shl 17;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_POINTER_LOCK">CEF_PERMISSION_TYPE_POINTER_LOCK</a></strong>               = 1 shl 17;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_STORAGE_ACCESS">CEF_PERMISSION_TYPE_STORAGE_ACCESS</a></strong>             = 1 shl 18;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER">CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER</a></strong> = 1 shl 18;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_VR_SESSION">CEF_PERMISSION_TYPE_VR_SESSION</a></strong>                 = 1 shl 19;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER">CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER</a></strong>  = 1 shl 19;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT">CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT</a></strong>          = 1 shl 20;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_STORAGE_ACCESS">CEF_PERMISSION_TYPE_STORAGE_ACCESS</a></strong>             = 1 shl 20;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS">CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS</a></strong>         = 1 shl 21;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_VR_SESSION">CEF_PERMISSION_TYPE_VR_SESSION</a></strong>                 = 1 shl 21;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT">CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT</a></strong>          = 1 shl 22;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS">CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS</a></strong>         = 1 shl 23;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_API_HASH_PLATFORM">CEF_API_HASH_PLATFORM</a></strong>  = 0;</code></td>
@@ -7871,42 +7865,6 @@
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="V8_ACCESS_CONTROL_DEFAULT"></span><code><strong>V8_ACCESS_CONTROL_DEFAULT</strong>               = 0;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
- V8 access control values. </p>
-<p>
-
-
-<p>TCefV8AccessControls values.
-
-<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_v8_accesscontrol_t))</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="V8_ACCESS_CONTROL_ALL_CAN_READ"></span><code><strong>V8_ACCESS_CONTROL_ALL_CAN_READ</strong>          = 1 shl 0;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="V8_ACCESS_CONTROL_ALL_CAN_WRITE"></span><code><strong>V8_ACCESS_CONTROL_ALL_CAN_WRITE</strong>         = 1 shl 1;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="V8_ACCESS_CONTROL_PROHIBITS_OVERWRITING"></span><code><strong>V8_ACCESS_CONTROL_PROHIBITS_OVERWRITING</strong> = 1 shl 2;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
 <td class="itemcode"><span id="V8_PROPERTY_ATTRIBUTE_NONE"></span><code><strong>V8_PROPERTY_ATTRIBUTE_NONE</strong>       = 0;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -10750,42 +10708,56 @@ Custom menu items originating from the renderer process.</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER"></span><code><strong>CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER</strong> = 1 shl 16;</code></td>
+<td class="itemcode"><span id="CEF_PERMISSION_TYPE_KEYBOARD_LOCK"></span><code><strong>CEF_PERMISSION_TYPE_KEYBOARD_LOCK</strong>              = 1 shl 16;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER"></span><code><strong>CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER</strong>  = 1 shl 17;</code></td>
+<td class="itemcode"><span id="CEF_PERMISSION_TYPE_POINTER_LOCK"></span><code><strong>CEF_PERMISSION_TYPE_POINTER_LOCK</strong>               = 1 shl 17;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CEF_PERMISSION_TYPE_STORAGE_ACCESS"></span><code><strong>CEF_PERMISSION_TYPE_STORAGE_ACCESS</strong>             = 1 shl 18;</code></td>
+<td class="itemcode"><span id="CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER"></span><code><strong>CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER</strong> = 1 shl 18;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CEF_PERMISSION_TYPE_VR_SESSION"></span><code><strong>CEF_PERMISSION_TYPE_VR_SESSION</strong>                 = 1 shl 19;</code></td>
+<td class="itemcode"><span id="CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER"></span><code><strong>CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER</strong>  = 1 shl 19;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT"></span><code><strong>CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT</strong>          = 1 shl 20;</code></td>
+<td class="itemcode"><span id="CEF_PERMISSION_TYPE_STORAGE_ACCESS"></span><code><strong>CEF_PERMISSION_TYPE_STORAGE_ACCESS</strong>             = 1 shl 20;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS"></span><code><strong>CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS</strong>         = 1 shl 21;</code></td>
+<td class="itemcode"><span id="CEF_PERMISSION_TYPE_VR_SESSION"></span><code><strong>CEF_PERMISSION_TYPE_VR_SESSION</strong>                 = 1 shl 21;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT"></span><code><strong>CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT</strong>          = 1 shl 22;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS"></span><code><strong>CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS</strong>         = 1 shl 23;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>

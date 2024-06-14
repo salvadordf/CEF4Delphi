@@ -108,7 +108,9 @@
 <td class="itemcode"><span id="OnLoadError-ICefBrowser-ICefFrame-TCefErrorCode-ustring-ustring-"></span><code>procedure <strong>OnLoadError</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; errorCode: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorCode</a>; const errorText, failedUrl: <a href="uCEFTypes.html#ustring">ustring</a>); override;</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefLoadHandler.html#OnLoadError-ICefBrowser-ICefFrame-TCefErrorCode-ustring-ustring-">ICefLoadHandler.OnLoadError</a>.</p><p>
+ Called when a navigation fails or is canceled. This function may be called by itself if before commit or in combination with OnLoadStart/OnLoadEnd if after commit. |errorCode| is the error code number, |errorText| is the error text and |failedUrl| is the URL that failed to load. See net\base\net_error_list.h for complete descriptions of the error codes. </p>
+</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">

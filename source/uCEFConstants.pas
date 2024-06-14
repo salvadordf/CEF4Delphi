@@ -741,18 +741,6 @@ const
   CERT_STATUS_FIRST_ERROR = CERT_STATUS_COMMON_NAME_INVALID;
   CERT_STATUS_LAST_ERROR  = CERT_STATUS_VALIDITY_TOO_LONG;
 
-  /// <summary>
-  /// V8 access control values.
-  /// </summary>
-  /// <remarks>
-  /// <para>TCefV8AccessControls values.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_v8_accesscontrol_t)</see></para>
-  /// </remarks>
-  V8_ACCESS_CONTROL_DEFAULT               = 0;
-  V8_ACCESS_CONTROL_ALL_CAN_READ          = 1 shl 0;
-  V8_ACCESS_CONTROL_ALL_CAN_WRITE         = 1 shl 1;
-  V8_ACCESS_CONTROL_PROHIBITS_OVERWRITING = 1 shl 2;
-
   /// <summary>Writeable, Enumerable, Configurable</summary>
   /// <remarks>
   /// <para>TCefV8PropertyAttributes value.</para>
@@ -2134,12 +2122,14 @@ const
   CEF_PERMISSION_TYPE_MIDI_SYSEX                 = 1 shl 13;
   CEF_PERMISSION_TYPE_MULTIPLE_DOWNLOADS         = 1 shl 14;
   CEF_PERMISSION_TYPE_NOTIFICATIONS              = 1 shl 15;
-  CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER = 1 shl 16;
-  CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER  = 1 shl 17;
-  CEF_PERMISSION_TYPE_STORAGE_ACCESS             = 1 shl 18;
-  CEF_PERMISSION_TYPE_VR_SESSION                 = 1 shl 19;
-  CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT          = 1 shl 20;
-  CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS         = 1 shl 21;
+  CEF_PERMISSION_TYPE_KEYBOARD_LOCK              = 1 shl 16;
+  CEF_PERMISSION_TYPE_POINTER_LOCK               = 1 shl 17;
+  CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER = 1 shl 18;
+  CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER  = 1 shl 19;
+  CEF_PERMISSION_TYPE_STORAGE_ACCESS             = 1 shl 20;
+  CEF_PERMISSION_TYPE_VR_SESSION                 = 1 shl 21;
+  CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT          = 1 shl 22;
+  CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS         = 1 shl 23;
 
 
   /// <summary>

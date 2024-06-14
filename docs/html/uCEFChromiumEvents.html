@@ -196,7 +196,7 @@
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnCanSaveCookie">TOnCanSaveCookie</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; const cookie: <a href="uCEFTypes.html#PCefCookie">PCefCookie</a>; var aResult : boolean) of object;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnFileDialog">TOnFileDialog</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; mode: <a href="uCEFTypes.html#TCefFileDialogMode">TCefFileDialogMode</a>; const title, defaultFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const acceptFilters: TStrings; const callback: <a href="uCEFInterfaces.ICefFileDialogCallback.html">ICefFileDialogCallback</a>; var Result: Boolean) of Object;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnFileDialog">TOnFileDialog</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; mode: <a href="uCEFTypes.html#TCefFileDialogMode">TCefFileDialogMode</a>; const title, defaultFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const acceptFilters, accept_extensions, accept_descriptions: TStrings; const callback: <a href="uCEFInterfaces.ICefFileDialogCallback.html">ICefFileDialogCallback</a>; var Result: Boolean) of Object;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetAccessibilityHandler">TOnGetAccessibilityHandler</a></strong> = procedure(Sender: TObject; var aAccessibilityHandler : <a href="uCEFInterfaces.ICefAccessibilityHandler.html">ICefAccessibilityHandler</a>) of Object;</code></td>
@@ -884,7 +884,7 @@ ICefCookieAccessFilter</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnFileDialog"></span><code><strong>TOnFileDialog</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; mode: <a href="uCEFTypes.html#TCefFileDialogMode">TCefFileDialogMode</a>; const title, defaultFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const acceptFilters: TStrings; const callback: <a href="uCEFInterfaces.ICefFileDialogCallback.html">ICefFileDialogCallback</a>; var Result: Boolean) of Object;</code></td>
+<td class="itemcode"><span id="TOnFileDialog"></span><code><strong>TOnFileDialog</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; mode: <a href="uCEFTypes.html#TCefFileDialogMode">TCefFileDialogMode</a>; const title, defaultFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const acceptFilters, accept_extensions, accept_descriptions: TStrings; const callback: <a href="uCEFInterfaces.ICefFileDialogCallback.html">ICefFileDialogCallback</a>; var Result: Boolean) of Object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>

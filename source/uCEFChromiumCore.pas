@@ -594,7 +594,7 @@ type
       function  doCanSaveCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie): boolean; virtual;
 
       // ICefDialogHandler
-      function  doOnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback): Boolean; virtual;
+      function  doOnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters, accept_extensions, accept_descriptions: TStrings; const callback: ICefFileDialogCallback): Boolean; virtual;
 
       // ICefRenderHandler
       procedure doOnGetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler); virtual;
@@ -3111,11 +3111,11 @@ type
       /// </remarks>
       property OnProtocolExecution              : TOnProtocolExecution              read FOnProtocolExecution              write FOnProtocolExecution;
       /// <summary>
-      /// Called on the IO thread before a resource request is sent. The |browser|
+      /// <para>Called on the IO thread before a resource request is sent. The |browser|
       /// and |frame| values represent the source of the request, and may be NULL
-      /// for requests originating from service workers or ICefUrlRequest.
-      /// |request| cannot be modified in this callback. Return true (1) if the
-      /// specified cookie can be sent with the request or false (0) otherwise.
+      /// for requests originating from service workers or ICefUrlRequest.</para>
+      /// <para>|request| cannot be modified in this callback. Return true (1) if the
+      /// specified cookie can be sent with the request or false (0) otherwise.</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF IO thread.</para>
@@ -3123,12 +3123,12 @@ type
       /// </remarks>
       property OnCanSendCookie                  : TOnCanSendCookie                  read FOnCanSendCookie                  write FOnCanSendCookie;
       /// <summary>
-      /// Called on the IO thread after a resource response is received. The
+      /// <para>Called on the IO thread after a resource response is received. The
       /// |browser| and |frame| values represent the source of the request, and may
-      /// be NULL for requests originating from service workers or ICefUrlRequest.
-      /// |request| cannot be modified in this callback. Return true (1) if the
+      /// be NULL for requests originating from service workers or ICefUrlRequest.</para>
+      /// <para>|request| cannot be modified in this callback. Return true (1) if the
       /// specified cookie returned with the response can be saved or false (0)
-      /// otherwise.
+      /// otherwise.</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF IO thread.</para>
@@ -3136,18 +3136,25 @@ type
       /// </remarks>
       property OnCanSaveCookie                  : TOnCanSaveCookie                  read FOnCanSaveCookie                  write FOnCanSaveCookie;
       /// <summary>
-      /// Called to run a file chooser dialog. |mode| represents the type of dialog
+      /// <para>Called to run a file chooser dialog. |mode| represents the type of dialog
       /// to display. |title| to the title to be used for the dialog and may be NULL
-      /// to show the default title ("Open" or "Save" depending on the mode).
-      /// |default_file_path| is the path with optional directory and/or file name
-      /// component that should be initially selected in the dialog.
-      /// |accept_filters| are used to restrict the selectable file types and may
-      /// any combination of (a) valid lower-cased MIME types (e.g. "text/*" or
-      /// "image/*"), (b) individual file extensions (e.g. ".txt" or ".png"), or (c)
-      /// combined description and file extension delimited using "|" and ";" (e.g.
-      /// "Image Types|.png;.gif;.jpg"). To display a custom dialog return true (1)
-      /// and execute |callback| either inline or at a later time. To display the
-      /// default dialog return false (0).
+      /// to show the default title ("Open" or "Save" depending on the mode).</para>
+      /// <para>|default_file_path| is the path with optional directory and/or file name
+      /// component that should be initially selected in the dialog.</para>
+      /// <para>|accept_filters| are used to restrict the selectable file types and may be
+      /// any combination of valid lower-cased MIME types (e.g. "text/*" or
+      /// "image/*") and individual file extensions (e.g. ".txt" or ".png").</para>
+      /// <para>|accept_extensions| provides the semicolon-delimited expansion of MIME
+      /// types to file extensions (if known, or NULL string otherwise).</para>
+      /// <para>|accept_descriptions| provides the descriptions for MIME types (if known,
+      /// or NULL string otherwise). For example, the "image/*" mime type might have
+      /// extensions ".png;.jpg;.bmp;..." and description "Image Files".</para>
+      /// <para>|accept_filters|, |accept_extensions| and |accept_descriptions| will all
+      /// be the same size. To display a custom dialog return true (1) and execute
+      /// |callback| either inline or at a later time. To display the default dialog
+      /// return false (0). If this function returns false (0) it may be called an
+      /// additional time for the same dialog (both before and after MIME type
+      /// expansion).</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -8586,12 +8593,14 @@ function TChromiumCore.doOnFileDialog(const browser              : ICefBrowser;
                                       const title                : ustring;
                                       const defaultFilePath      : ustring;
                                       const acceptFilters        : TStrings;
+                                      const accept_extensions    : TStrings;
+                                      const accept_descriptions  : TStrings;
                                       const callback             : ICefFileDialogCallback): Boolean;
 begin
   Result := False;
 
   if assigned(FOnFileDialog) then
-    FOnFileDialog(Self, browser, mode, title, defaultFilePath, acceptFilters, callback, Result);
+    FOnFileDialog(Self, browser, mode, title, defaultFilePath, acceptFilters, accept_extensions, accept_descriptions, callback, Result);
 end;
 
 procedure TChromiumCore.doOnFindResult(const browser            : ICefBrowser;

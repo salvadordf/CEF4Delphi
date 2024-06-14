@@ -57,7 +57,7 @@ type
       function GetValueByIndex(index: Integer): ICefv8Value;
       function SetValueByKey(const key: ustring; const value: ICefv8Value; attribute: TCefV8PropertyAttributes): Boolean;
       function SetValueByIndex(index: Integer; const value: ICefv8Value): Boolean;
-      function SetValueByAccessor(const key: ustring; settings: TCefV8AccessControls; attribute: TCefV8PropertyAttributes): Boolean;
+      function SetValueByAccessor(const key: ustring; attribute: TCefV8PropertyAttributes): Boolean;
       function GetKeys(const keys: TStrings): Integer;
       function SetUserData(const data: ICefv8Value): Boolean;
       function GetUserData: ICefv8Value;
@@ -602,12 +602,12 @@ begin
   Result := PCefV8Value(FData)^.is_undefined(PCefV8Value(FData)) <> 0;
 end;
 
-function TCefv8ValueRef.SetValueByAccessor(const key: ustring; settings: TCefV8AccessControls; attribute: TCefV8PropertyAttributes): Boolean;
+function TCefv8ValueRef.SetValueByAccessor(const key: ustring; attribute: TCefV8PropertyAttributes): Boolean;
 var
   TempKey : TCefString;
 begin
   TempKey := CefString(key);
-  Result  := PCefV8Value(FData)^.set_value_byaccessor(PCefV8Value(FData), @TempKey, PByte(@settings)^, PByte(@attribute)^) <> 0;
+  Result  := PCefV8Value(FData)^.set_value_byaccessor(PCefV8Value(FData), @TempKey, PByte(@attribute)^) <> 0;
 end;
 
 function TCefv8ValueRef.SetValueByIndex(index: Integer; const value: ICefv8Value): Boolean;

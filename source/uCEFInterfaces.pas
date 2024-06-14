@@ -402,7 +402,7 @@ type
     function  doCanSaveCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie): boolean;
 
     // ICefDialogHandler
-    function  doOnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback): Boolean;
+    function  doOnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters, accept_extensions, accept_descriptions: TStrings; const callback: ICefFileDialogCallback): Boolean;
 
     // ICefRenderHandler
     procedure doOnGetAccessibilityHandler(var aAccessibilityHandler : ICefAccessibilityHandler);
@@ -3361,7 +3361,7 @@ type
     /// function is called incorrectly or an exception is thrown. For read-only
     /// values this function will return true (1) even though assignment failed.
     /// </summary>
-    function SetValueByAccessor(const key: ustring; settings: TCefV8AccessControls; attribute: TCefV8PropertyAttributes): Boolean;
+    function SetValueByAccessor(const key: ustring; attribute: TCefV8PropertyAttributes): Boolean;
     /// <summary>
     /// Read the keys for the object's values into the specified vector. Integer-
     /// based keys will also be returned as strings.
@@ -7393,20 +7393,27 @@ type
   ICefDialogHandler = interface(ICefBaseRefCounted)
     ['{7763F4B2-8BE1-4E80-AC43-8B825850DC67}']
     /// <summary>
-    /// Called to run a file chooser dialog. |mode| represents the type of dialog
+    /// <para>Called to run a file chooser dialog. |mode| represents the type of dialog
     /// to display. |title| to the title to be used for the dialog and may be NULL
-    /// to show the default title ("Open" or "Save" depending on the mode).
-    /// |default_file_path| is the path with optional directory and/or file name
-    /// component that should be initially selected in the dialog.
-    /// |accept_filters| are used to restrict the selectable file types and may
-    /// any combination of (a) valid lower-cased MIME types (e.g. "text/*" or
-    /// "image/*"), (b) individual file extensions (e.g. ".txt" or ".png"), or (c)
-    /// combined description and file extension delimited using "|" and ";" (e.g.
-    /// "Image Types|.png;.gif;.jpg"). To display a custom dialog return true (1)
-    /// and execute |callback| either inline or at a later time. To display the
-    /// default dialog return false (0).
+    /// to show the default title ("Open" or "Save" depending on the mode).</para>
+    /// <para>|default_file_path| is the path with optional directory and/or file name
+    /// component that should be initially selected in the dialog.</para>
+    /// <para>|accept_filters| are used to restrict the selectable file types and may be
+    /// any combination of valid lower-cased MIME types (e.g. "text/*" or
+    /// "image/*") and individual file extensions (e.g. ".txt" or ".png").</para>
+    /// <para>|accept_extensions| provides the semicolon-delimited expansion of MIME
+    /// types to file extensions (if known, or NULL string otherwise).</para>
+    /// <para>|accept_descriptions| provides the descriptions for MIME types (if known,
+    /// or NULL string otherwise). For example, the "image/*" mime type might have
+    /// extensions ".png;.jpg;.bmp;..." and description "Image Files".</para>
+    /// <para>|accept_filters|, |accept_extensions| and |accept_descriptions| will all
+    /// be the same size. To display a custom dialog return true (1) and execute
+    /// |callback| either inline or at a later time. To display the default dialog
+    /// return false (0). If this function returns false (0) it may be called an
+    /// additional time for the same dialog (both before and after MIME type
+    /// expansion).</para>
     /// </summary>
-    function OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback): Boolean;
+    function OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters, accept_extensions, accept_descriptions: TStrings; const callback: ICefFileDialogCallback): Boolean;
     /// <summary>
     /// Custom procedure to clear all references.
     /// </summary>

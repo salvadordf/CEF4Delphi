@@ -167,7 +167,6 @@ procedure CreateGlobalCEFApp;
 begin               
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  GlobalCEFApp.EnableHighDPISupport       := True;
   GlobalCEFApp.BrowserSubprocessPath      := 'OSRExternalPumpBrowser2_sp';
   GlobalCEFApp.EnableGPU                  := True;
   GlobalCEFApp.BackgroundColor            := CefColorSetARGB($FF, $FF, $FF, $FF);  

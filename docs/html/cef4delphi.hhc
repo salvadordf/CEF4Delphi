@@ -14082,22 +14082,6 @@
 <param name="Local" value="uCEFConstants.html#CERT_STATUS_LAST_ERROR">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="V8_ACCESS_CONTROL_DEFAULT">
-<param name="Local" value="uCEFConstants.html#V8_ACCESS_CONTROL_DEFAULT">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="V8_ACCESS_CONTROL_ALL_CAN_READ">
-<param name="Local" value="uCEFConstants.html#V8_ACCESS_CONTROL_ALL_CAN_READ">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="V8_ACCESS_CONTROL_ALL_CAN_WRITE">
-<param name="Local" value="uCEFConstants.html#V8_ACCESS_CONTROL_ALL_CAN_WRITE">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="V8_ACCESS_CONTROL_PROHIBITS_OVERWRITING">
-<param name="Local" value="uCEFConstants.html#V8_ACCESS_CONTROL_PROHIBITS_OVERWRITING">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="V8_PROPERTY_ATTRIBUTE_NONE">
 <param name="Local" value="uCEFConstants.html#V8_PROPERTY_ATTRIBUTE_NONE">
 </object>
@@ -15068,6 +15052,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_PERMISSION_TYPE_NOTIFICATIONS">
 <param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_NOTIFICATIONS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_PERMISSION_TYPE_KEYBOARD_LOCK">
+<param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_KEYBOARD_LOCK">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_PERMISSION_TYPE_POINTER_LOCK">
+<param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_POINTER_LOCK">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER">
@@ -50572,10 +50564,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="TCefDragOperation">
 <param name="Local" value="uCEFTypes.html#TCefDragOperation">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="TCefV8AccessControls">
-<param name="Local" value="uCEFTypes.html#TCefV8AccessControls">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefV8PropertyAttributes">

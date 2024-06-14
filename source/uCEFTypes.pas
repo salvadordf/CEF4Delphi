@@ -621,15 +621,6 @@ type
   TCefDragOperation                = type Cardinal;
 
   /// <summary>
-  /// V8 access control values.
-  /// </summary>
-  /// <remarks>
-  /// <para>See the uCEFConstants unit for all possible values.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_v8_accesscontrol_t)</see></para>
-  /// </remarks>
-  TCefV8AccessControls             = type Cardinal;
-
-  /// <summary>
   /// V8 property attribute values.
   /// </summary>
   /// <remarks>
@@ -2880,18 +2871,18 @@ type
     CEF_CPAIT_COOKIE_CONTROLS,
     CEF_CPAIT_FILE_SYSTEM_ACCESS,
     CEF_CPAIT_FIND,
-    CEF_CPAIT_HIGH_EFFICIENCY,
+    CEF_CPAIT_MEMORY_SAVER,
     CEF_CPAIT_INTENT_PICKER,
     CEF_CPAIT_LOCAL_CARD_MIGRATION,
     CEF_CPAIT_MANAGE_PASSWORDS,
     CEF_CPAIT_PAYMENTS_OFFER_NOTIFICATION,
     CEF_CPAIT_PRICE_TRACKING,
     CEF_CPAIT_PWA_INSTALL,
-    CEF_CPAIT_QR_CODE_GENERATOR,
-    CEF_CPAIT_READER_MODE,
+    CEF_CPAIT_QR_CODE_GENERATOR_DEPRECATED,
+    CEF_CPAIT_READER_MODE_DEPRECATED,
     CEF_CPAIT_SAVE_AUTOFILL_ADDRESS,
     CEF_CPAIT_SAVE_CARD,
-    CEF_CPAIT_SEND_TAB_TO_SELF,
+    CEF_CPAIT_SEND_TAB_TO_SELF_DEPRECATED,
     CEF_CPAIT_SHARING_HUB,
     CEF_CPAIT_SIDE_SEARCH,
     CEF_CPAIT_SMS_REMOTE_FETCHER,
@@ -2902,8 +2893,10 @@ type
     CEF_CPAIT_SAVE_IBAN,
     CEF_CPAIT_MANDATORY_REAUTH,
     CEF_CPAIT_PRICE_INSIGHTS,
-    CEF_CPAIT_PRICE_READ_ANYTHING
-    {* CEF_CPAIT_MAX_VALUE = CEF_CPAIT_PRICE_READ_ANYTHING *}
+    CEF_CPAIT_PRICE_READ_ANYTHING,
+    CEF_CPAIT_PRODUCT_SPECIFICATIONS,
+    CEF_CPAIT_LENS_OVERLAY
+    {* CEF_CPAIT_MAX_VALUE = CEF_CPAIT_LENS_OVERLAY *}
   );
 
   /// <summary>
@@ -4905,7 +4898,7 @@ type
   /// </remarks>
   TCefDialogHandler = record
     base           : TCefBaseRefCounted;
-    on_file_dialog : function(self: PCefDialogHandler; browser: PCefBrowser; mode: TCefFileDialogMode; const title, default_file_path: PCefString; accept_filters: TCefStringList; callback: PCefFileDialogCallback): Integer; stdcall;
+    on_file_dialog : function(self: PCefDialogHandler; browser: PCefBrowser; mode: TCefFileDialogMode; const title, default_file_path: PCefString; accept_filters, accept_extensions, accept_descriptions: TCefStringList; callback: PCefFileDialogCallback): Integer; stdcall;
   end;
 
   /// <summary>
@@ -6980,7 +6973,7 @@ type
     get_value_byindex                   : function(self: PCefv8Value; index: Integer): PCefv8Value; stdcall;
     set_value_bykey                     : function(self: PCefv8Value; const key: PCefString; value: PCefv8Value; attribute: TCefV8PropertyAttributes): Integer; stdcall;
     set_value_byindex                   : function(self: PCefv8Value; index: Integer; value: PCefv8Value): Integer; stdcall;
-    set_value_byaccessor                : function(self: PCefv8Value; const key: PCefString; settings: Integer; attribute: TCefV8PropertyAttributes): Integer; stdcall;
+    set_value_byaccessor                : function(self: PCefv8Value; const key: PCefString; attribute: TCefV8PropertyAttributes): Integer; stdcall;
     get_keys                            : function(self: PCefv8Value; keys: TCefStringList): Integer; stdcall;
     set_user_data                       : function(self: PCefv8Value; user_data: PCefBaseRefCounted): Integer; stdcall;
     get_user_data                       : function(self: PCefv8Value): PCefBaseRefCounted; stdcall;

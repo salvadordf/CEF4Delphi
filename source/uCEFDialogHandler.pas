@@ -22,7 +22,7 @@ uses
 type
   TCefDialogHandlerOwn = class(TCefBaseRefCountedOwn, ICefDialogHandler)
     protected
-      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback): Boolean; virtual;
+      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters, accept_extensions, accept_descriptions: TStrings; const callback: ICefFileDialogCallback): Boolean; virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -34,7 +34,7 @@ type
     protected
       FEvents : Pointer;
 
-      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title: ustring; const defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback): Boolean; override;
+      function  OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title: ustring; const defaultFilePath: ustring; const acceptFilters, accept_extensions, accept_descriptions: TStrings; const callback: ICefFileDialogCallback): Boolean; override;
 
       procedure RemoveReferences; override;
 
@@ -59,14 +59,22 @@ function cef_dialog_handler_on_file_dialog(self                    : PCefDialogH
                                            const title             : PCefString;
                                            const default_file_path : PCefString;
                                            accept_filters          : TCefStringList;
+                                           accept_extensions       : TCefStringList;
+                                           accept_descriptions     : TCefStringList;
                                            callback                : PCefFileDialogCallback): Integer; stdcall;
 var
-  TempSL     : TStringList;
-  TempCefSL  : ICefStringList;
-  TempObject : TObject;
+  TempFilters          : TStringList;
+  TempExtensions       : TStringList;
+  TempDescriptions     : TStringList;
+  TempCefFilters       : ICefStringList;
+  TempCefExtensions    : ICefStringList;
+  TempCefDescriptions  : ICefStringList;
+  TempObject           : TObject;
 begin
-  TempSL := nil;
-  Result := Ord(False);
+  TempFilters      := nil;
+  TempExtensions   := nil;
+  TempDescriptions := nil;
+  Result           := Ord(False);
 
   try
     try
@@ -74,15 +82,25 @@ begin
 
       if (TempObject <> nil) and (TempObject is TCefDialogHandlerOwn) then
         begin
-          TempSL    := TStringList.Create;
-          TempCefSL := TCefStringListRef.Create(accept_filters);
-          TempCefSL.CopyToStrings(TempSL);
+          TempFilters    := TStringList.Create;
+          TempCefFilters := TCefStringListRef.Create(accept_filters);
+          TempCefFilters.CopyToStrings(TempFilters);
+
+          TempExtensions    := TStringList.Create;
+          TempCefExtensions := TCefStringListRef.Create(accept_extensions);
+          TempCefExtensions.CopyToStrings(TempExtensions);
+
+          TempDescriptions    := TStringList.Create;
+          TempCefDescriptions := TCefStringListRef.Create(accept_descriptions);
+          TempCefDescriptions.CopyToStrings(TempDescriptions);
 
           Result := Ord(TCefDialogHandlerOwn(TempObject).OnFileDialog(TCefBrowserRef.UnWrap(browser),
                                                                       mode,
                                                                       CefString(title),
                                                                       CefString(default_file_path),
-                                                                      TempSL,
+                                                                      TempFilters,
+                                                                      TempExtensions,
+                                                                      TempDescriptions,
                                                                       TCefFileDialogCallbackRef.UnWrap(callback)));
         end;
     except
@@ -90,7 +108,9 @@ begin
         if CustomExceptionHandler('cef_dialog_handler_on_file_dialog', e) then raise;
     end;
   finally
-    if (TempSL <> nil) then FreeAndNil(TempSL);
+    if (TempFilters      <> nil) then FreeAndNil(TempFilters);
+    if (TempExtensions   <> nil) then FreeAndNil(TempExtensions);
+    if (TempDescriptions <> nil) then FreeAndNil(TempDescriptions);
   end;
 end;
 
@@ -106,6 +126,8 @@ function TCefDialogHandlerOwn.OnFileDialog(const browser                : ICefBr
                                            const title                  : ustring;
                                            const defaultFilePath        : ustring;
                                            const acceptFilters          : TStrings;
+                                           const accept_extensions      : TStrings;
+                                           const accept_descriptions    : TStrings;
                                            const callback               : ICefFileDialogCallback): Boolean;
 begin
   Result := False;
@@ -142,14 +164,16 @@ function TCustomDialogHandler.OnFileDialog(const browser              : ICefBrow
                                            const title                : ustring;
                                            const defaultFilePath      : ustring;
                                            const acceptFilters        : TStrings;
+                                           const accept_extensions    : TStrings;
+                                           const accept_descriptions  : TStrings;
                                            const callback             : ICefFileDialogCallback): Boolean;
 begin
   if (FEvents <> nil) then
     Result := IChromiumEvents(FEvents).doOnFileDialog(browser, mode, title, defaultFilePath,
-                                                      acceptFilters, callback)
+                                                      acceptFilters, accept_extensions, accept_descriptions, callback)
    else
     Result := inherited OnFileDialog(browser, mode, title, defaultFilePath,
-                                     acceptFilters, callback);
+                                     acceptFilters, accept_extensions, accept_descriptions, callback);
 end;
 
 end.

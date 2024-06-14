@@ -54,7 +54,7 @@ type
       procedure Browser_OnPopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
       procedure Browser_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
       procedure Browser_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
-      procedure Browser_OnLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
+      procedure Browser_OnLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
       procedure Browser_OnLoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
 
       procedure DoOnError;
@@ -507,7 +507,7 @@ begin
   PostThreadMessage(ThreadID, WM_QUIT, 0, 0);
 end;
 
-procedure TCEFBrowserThread.Browser_OnLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
+procedure TCEFBrowserThread.Browser_OnLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
 begin
   if not(FClosing) and not(Terminated) and (frame <> nil) and frame.IsValid and frame.IsMain and assigned(FBrowserInfoCS) then
     try
