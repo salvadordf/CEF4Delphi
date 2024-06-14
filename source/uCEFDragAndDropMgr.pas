@@ -682,6 +682,7 @@ var
   TempResult      : HRESULT;
   TempFormatArray : TOLEFormatArray;
   TempMediumArray : TOLEMediumArray;
+  TempDragOps     : TCefDragOperations;
   i               : integer;
 begin
   Result := DRAG_OPERATION_NONE;
@@ -711,7 +712,9 @@ begin
           if (TempResult <> DRAGDROP_S_DROP) then TempResEffect := DROPEFFECT_NONE;
           FCurrentDragData := nil;
 
-          DropEffectToDragOperation(TempResEffect, Result);
+          TempDragOps := TCefDragOperations(Result);
+          DropEffectToDragOperation(TempResEffect, TempDragOps);
+          Result := TCefDragOperation(TempDragOps);
         end;
     end;
 end;

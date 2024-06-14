@@ -27,7 +27,7 @@ type
     protected
       FHandle : TCefStringList;
 
-      function  GetHandle: TCefStringMap; virtual;
+      function  GetHandle: TCefStringList; virtual;
       /// <summary>
       /// Return the number of elements in the string list.
       /// </summary>
@@ -107,7 +107,7 @@ begin
   if (FHandle <> nil) then cef_string_list_clear(FHandle);
 end;
 
-function TCefCustomStringList.GetHandle: TCefStringMap;
+function TCefCustomStringList.GetHandle: TCefStringList;
 begin
   Result := FHandle;
 end;

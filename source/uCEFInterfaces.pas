@@ -6648,7 +6648,7 @@ type
     /// error text and |failedUrl| is the URL that failed to load. See
     /// net\base\net_error_list.h for complete descriptions of the error codes.
     /// </summary>
-    procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
+    procedure OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
     /// <summary>
     /// Custom procedure to clear all references.
     /// </summary>
