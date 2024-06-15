@@ -26,6 +26,8 @@ type
       FTitle                  : ustring;
       FDefaultFilePath        : ustring;
       FAcceptFilters          : TStrings;
+      FAcceptExtensions       : TStrings;
+      FAcceptDescriptions     : TStrings;
       FCallback               : ICefFileDialogCallback;
       FDefaultAudioFileDesc   : ustring;
       FDefaultVideoFileDesc   : ustring;
@@ -38,8 +40,11 @@ type
       function  GetDialogType : TCEFDialogType;
 
       procedure SetAcceptFilters(const aAcceptFilters : TStrings);
+      procedure SetAcceptExtensions(const aAcceptExtensions : TStrings);
+      procedure SetAcceptDescriptions(const aAcceptDescriptions : TStrings);
 
-      function  CEFAcceptFilterToDialogFilter(const aAcceptFilter : ustring) : ustring; virtual;
+      function  ConvertExtensions(aExtensions : ustring): ustring;
+      function  CEFAcceptFilterToDialogFilter(const aAcceptFilter, aExtension, aDescription : ustring) : ustring; virtual;
       function  GetDefaultMimeTypeDescription(const aMimeType : ustring) : ustring; virtual;
 
     public
@@ -51,6 +56,8 @@ type
       property Title                  : ustring                  read FTitle                  write FTitle;
       property DefaultFilePath        : ustring                  read FDefaultFilePath        write FDefaultFilePath;
       property AcceptFilters          : TStrings                                              write SetAcceptFilters;
+      property AcceptExtensions       : TStrings                                              write SetAcceptExtensions;
+      property AcceptDescriptions     : TStrings                                              write SetAcceptDescriptions;
       property Callback               : ICefFileDialogCallback   read FCallback               write FCallback;
       property DialogFilter           : ustring                  read GetDialogFilter;
       property DialogType             : TCEFDialogType           read GetDialogType;
@@ -76,6 +83,8 @@ begin
   FDefaultFilePath        := '';
   FCallback               := nil;
   FAcceptFilters          := nil;
+  FAcceptExtensions       := nil;
+  FAcceptDescriptions     := nil;
   FDefaultAudioFileDesc   := 'Audio files';
   FDefaultVideoFileDesc   := 'Video files';
   FDefaultTextFileDesc    := 'Text files';
@@ -90,6 +99,12 @@ begin
 
   if assigned(FAcceptFilters) then
     FreeAndNil(FAcceptFilters);
+
+  if assigned(FAcceptExtensions) then
+    FreeAndNil(FAcceptExtensions);
+
+  if assigned(FAcceptDescriptions) then
+    FreeAndNil(FAcceptDescriptions);
 
   inherited Destroy;
 end;
@@ -139,18 +154,59 @@ begin
     end;
 end;
 
+procedure TCEFFileDialogInfo.SetAcceptExtensions(const aAcceptExtensions : TStrings);
+begin
+  if assigned(aAcceptExtensions) then
+    begin
+      if assigned(FAcceptExtensions) then
+        FAcceptExtensions.Clear
+       else
+        FAcceptExtensions := TStringList.Create;
+
+      if (aAcceptExtensions.Count > 0) then
+        FAcceptExtensions.AddStrings(aAcceptExtensions);
+    end;
+end;
+
+procedure TCEFFileDialogInfo.SetAcceptDescriptions(const aAcceptDescriptions : TStrings);
+begin
+  if assigned(aAcceptDescriptions) then
+    begin
+      if assigned(FAcceptDescriptions) then
+        FAcceptDescriptions.Clear
+       else
+        FAcceptDescriptions := TStringList.Create;
+
+      if (aAcceptDescriptions.Count > 0) then
+        FAcceptDescriptions.AddStrings(aAcceptDescriptions);
+    end;
+end;
+
 function TCEFFileDialogInfo.GetDialogFilter : ustring;
 var
   i : integer;
+  TempExtension, TempDescription : ustring;
 begin
   Result := '';
 
   if assigned(FAcceptFilters) and (FAcceptFilters.Count > 0) then
     for i := 0 to pred(FAcceptFilters.Count) do
-      if (i = 0) then
-        Result := CEFAcceptFilterToDialogFilter(FAcceptFilters[i])
-       else
-        Result := Result + '|' + CEFAcceptFilterToDialogFilter(FAcceptFilters[i]);
+      begin
+        if assigned(FAcceptExtensions) and (FAcceptFilters.Count = FAcceptExtensions.Count) then
+          TempExtension := FAcceptExtensions[i]
+         else
+          TempExtension := '';
+
+        if assigned(FAcceptDescriptions) and (FAcceptFilters.Count = FAcceptDescriptions.Count) then
+          TempDescription := FAcceptDescriptions[i]
+         else
+          TempDescription := '';
+
+        if (i = 0) then
+          Result := CEFAcceptFilterToDialogFilter(FAcceptFilters[i], TempExtension, TempDescription)
+         else
+          Result := Result + '|' + CEFAcceptFilterToDialogFilter(FAcceptFilters[i], TempExtension, TempDescription);
+      end;
 
   if (length(Result) > 0) then
     Result := Result + '|' + FDefaultAllFileDesc + '|*.*'
@@ -158,96 +214,117 @@ begin
     Result := FDefaultAllFileDesc + '|*.*';
 end;
 
-function TCEFFileDialogInfo.CEFAcceptFilterToDialogFilter(const aAcceptFilter : ustring) : ustring;
+function TCEFFileDialogInfo.ConvertExtensions(aExtensions : ustring): ustring;
 var
   i : integer;
-  TempDesc, TempExt, TempString : ustring;
+  TempSL : TStringList;
+  TempExt : ustring;
+begin
+  for i := 1 to length(aExtensions) do
+    if (aExtensions[i] = ';') then aExtensions[i] := #13;
+
+  TempSL      := TStringList.Create;
+  TempSL.Text := aExtensions;
+  Result      := '';
+
+  i := 0;
+  while (i < TempSL.Count) do
+    begin
+      TempExt := TempSL[i];
+      if (length(TempExt) > 1) and (TempExt[1] = '.') then
+        Result := Result + '*' + TempExt + ';';
+      inc(i);
+    end;
+
+  if (length(Result) > 0) and (Result[length(Result)] = ';') then
+    Result := copy(Result, 1, pred(length(Result)));
+end;
+
+function TCEFFileDialogInfo.CEFAcceptFilterToDialogFilter(const aAcceptFilter, aExtension, aDescription : ustring) : ustring;
+var
+  i : integer;
+  TempDesc, TempExt, TempExtList : ustring;
   TempSL : TStringList;
 begin
   Result := '';
 
-  if (length(aAcceptFilter) = 0) then exit;
+  if (length(aAcceptFilter) = 0) then
+    exit;
 
-  TempSL := nil;
-  i      := pos('|', aAcceptFilter);
-
-  if (i > 0) then
+  if (length(aExtension) > 0) and (length(aDescription) > 0) then
     begin
-      TempDesc   := copy(aAcceptFilter, 1, pred(i));
-      TempString := copy(aAcceptFilter, succ(i), length(aAcceptFilter));
-
-      for i := 1 to length(TempString) do
-        if (TempString[i] = ';') then TempString[i] := #13;
-
-      TempSL      := TStringList.Create;
-      TempSL.Text := TempString;
-      TempString  := '';
-
-      i := 0;
-      while (i < TempSL.Count) do
-        begin
-          TempExt := TempSL[i];
-          if (length(TempExt) > 1) and (TempExt[1] = '.') then
-            TempString := TempString + '*' + TempExt + ';';
-          inc(i);
-        end;
-
-      i := length(TempString);
-      if (i > 0) then
-        begin
-          if (TempString[i] = ';') then TempString := copy(TempString, 1, pred(i));
-          Result := TempDesc + '|' + TempString;
-        end
-       else
-        Result := aAcceptFilter;
+      TempExtList := ConvertExtensions(aExtension);
+      TempDesc    := aDescription;
     end
    else
-    if (aAcceptFilter[1] = '.') then
-      begin
-        TempDesc := GetFileTypeDescription(aAcceptFilter);
+    begin
+      i := pos('|', aAcceptFilter);
 
-        if (length(TempDesc) = 0) then
-          TempDesc := GetDefaultMimeTypeDescription(CefGetMimeType(aAcceptFilter));
+      if (i > 0) then
+        begin
+          if (length(aDescription) > 0) then
+            TempDesc := aDescription
+           else
+            TempDesc := copy(aAcceptFilter, 1, pred(i));
 
-        Result := TempDesc + ' (*' + aAcceptFilter + ')|*' + aAcceptFilter;
-      end
-     else
-      begin
-        TempSL := TStringList.Create;
-        CefGetExtensionsForMimeType(aAcceptFilter, TempSL);
+          if (length(aExtension) > 0) then
+            TempExtList := ConvertExtensions(aExtension)
+           else
+            TempExtList := ConvertExtensions(copy(aAcceptFilter, succ(i), length(aAcceptFilter)));
+        end
+       else
+        if (aAcceptFilter[1] = '.') then
+          begin
+            if (length(aDescription) > 0) then
+              TempDesc := aDescription
+             else
+              begin
+                TempDesc := GetFileTypeDescription(aAcceptFilter);
 
-        if (TempSL.Count = 0) then
-          Result := GetDefaultMimeTypeDescription(aAcceptFilter) + '|*.*'
+                if (length(TempDesc) = 0) then
+                  TempDesc := GetDefaultMimeTypeDescription(CefGetMimeType(aAcceptFilter));
+              end;
+
+            TempExtList := ConvertExtensions(aAcceptFilter);
+          end
          else
           begin
-            for i := 0 to pred(TempSL.Count) do
-              begin
-                TempExt := TempSL[i];
+            TempDesc := GetDefaultMimeTypeDescription(aAcceptFilter);
 
-                if (length(TempExt) > 0) and (TempExt[1] = '.') then
-                  TempString := TempString + '*' + TempExt + ';'
+            if (length(aExtension) > 0) then
+              TempExtList := ConvertExtensions(aExtension)
+             else
+              try
+                TempSL := TStringList.Create;
+                CefGetExtensionsForMimeType(aAcceptFilter, TempSL);
+
+                if (TempSL.Count > 0) then
+                  begin
+                    for i := 0 to pred(TempSL.Count) do
+                      begin
+                        TempExt := TempSL[i];
+
+                        if (length(TempExt) > 0) and (TempExt[1] = '.') then
+                          TempExtList := TempExtList + '*' + TempExt + ';'
+                         else
+                          TempExtList := TempExtList + '*.' + TempExt + ';';
+                      end;
+
+                    TempExtList := copy(TempExtList, 1, pred(length(TempExtList)));
+                  end
                  else
-                  TempString := TempString + '*.' + TempExt + ';';
+                  TempExtList := '';
+              finally
+                if assigned(TempSL) then
+                  FreeAndNil(TempSL);
               end;
-
-            TempString := copy(TempString, 1, pred(length(TempString)));
-            TempDesc   := '';
-            i          := 0;
-
-            while (length(TempDesc) = 0) and (i < TempSL.Count) do
-              begin
-                TempDesc := GetFileTypeDescription(TempSL[i]);
-                inc(i);
-              end;
-
-            if (length(TempDesc) = 0) then
-              TempDesc := GetDefaultMimeTypeDescription(CefGetMimeType(aAcceptFilter));
-
-            Result := TempDesc + ' (' + TempString + ')|' + TempString;
           end;
-      end;
+    end;
 
-  if assigned(TempSL) then FreeAndNil(TempSL);
+  if (length(TempExtList) > 0) then
+    Result := TempDesc + ' (' + TempExtList + ')|' + TempExtList
+   else
+    Result := TempDesc + '|*.*';
 end;
 
 end.

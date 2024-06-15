@@ -173,7 +173,7 @@ type
     procedure Chromium1CertificateError(Sender: TObject; const browser: ICefBrowser; certError: TCefErrorCode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback; out Result: Boolean);
     procedure Chromium1ConsoleMessage(Sender: TObject; const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer; out Result: Boolean);
     procedure Chromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags; out Result: Boolean);
-    procedure Chromium1FileDialog(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback; var Result: Boolean);
+    procedure Chromium1FileDialog(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters, accept_extensions, accept_descriptions: TStrings; const callback: ICefFileDialogCallback; var Result: Boolean);
     procedure Chromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
     procedure Chromium1ResolvedHostAvailable(Sender: TObject; result: TCefErrorCode; const resolvedIps: TStrings);
 
@@ -748,7 +748,7 @@ end;
 
 procedure TMiniBrowserFrm.Chromium1FileDialog(Sender: TObject;
   const browser: ICefBrowser; mode: TCefFileDialogMode;
-  const title, defaultFilePath: ustring; const acceptFilters: TStrings;
+  const title, defaultFilePath: ustring; const acceptFilters, accept_extensions, accept_descriptions: TStrings;
   const callback: ICefFileDialogCallback; var Result: Boolean);
 begin
   Result := True;
@@ -758,6 +758,8 @@ begin
   FFileDialogInfo.DefaultFilePath        := defaultFilePath;
   FFileDialogInfo.Callback               := callback;
   FFileDialogInfo.AcceptFilters          := acceptFilters;
+  FFileDialogInfo.AcceptExtensions       := accept_extensions;
+  FFileDialogInfo.AcceptDescriptions     := accept_descriptions;
 
   PostMessage(Handle, MINIBROWSER_SHOWFILEDLG, 0, 0);
 end;

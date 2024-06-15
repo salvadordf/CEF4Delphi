@@ -173,6 +173,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
           
             'https://dagrs.berkeley.edu/sites/default/files/2020-01/sample.pd' +
             'f'
+          'https://codepen.io/udaymanvar/pen/MWaePBY'
+          
+            'https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/acc' +
+            'ept'
           'chrome://version/'
           'chrome://net-internals/'
           'chrome://tracing/'
