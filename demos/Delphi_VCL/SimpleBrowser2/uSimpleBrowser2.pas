@@ -58,6 +58,8 @@ type
 var
   Form1: TForm1;
 
+procedure CreateGlobalCEFApp;
+
 implementation
 
 {$R *.dfm}
@@ -85,6 +87,19 @@ uses
 // 2. TChromium.OnClose sends a CEF_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
+procedure CreateGlobalCEFApp;
+begin
+  GlobalCEFApp                            := TCefApplication.Create;
+  GlobalCEFApp.cache                      := 'cache';
+  GlobalCEFApp.EnablePrintPreview         := True;
+  GlobalCEFApp.EnableGPU                  := True;
+  GlobalCEFApp.ChromeRuntime              := True;
+  {$IFDEF DEBUG}
+  GlobalCEFApp.LogFile                    := 'debug.log';
+  GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
+  {$ENDIF}
+end;
+
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
   CanClose := FCanClose;
@@ -94,6 +109,10 @@ begin
       FClosing := True;
       Visible  := False;
       Chromium1.CloseBrowser(True);
+
+      // Workaround for the missing TChormium.OnClose event when "Chrome runtime" is enabled.
+      if GlobalCEFApp.ChromeRuntime then
+        CEFWindowParent1.Free;
     end;
 end;
 
