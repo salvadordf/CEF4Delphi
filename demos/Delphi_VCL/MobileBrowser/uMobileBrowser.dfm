@@ -427,17 +427,6 @@ object Form1: TForm1
       Padding.Right = 5
       Padding.Bottom = 5
       TabOrder = 0
-      object AddressEdt: TEdit
-        Left = 5
-        Top = 5
-        Width = 700
-        Height = 20
-        Margins.Right = 5
-        Align = alClient
-        TabOrder = 0
-        Text = 'http://www.google.com'
-        ExplicitHeight = 21
-      end
       object GoBtn: TButton
         Left = 705
         Top = 5
@@ -446,8 +435,28 @@ object Form1: TForm1
         Margins.Left = 5
         Align = alRight
         Caption = 'Go'
-        TabOrder = 1
+        TabOrder = 0
         OnClick = GoBtnClick
+      end
+      object AddressCb: TComboBox
+        Left = 5
+        Top = 5
+        Width = 700
+        Height = 21
+        Align = alClient
+        ItemIndex = 0
+        TabOrder = 1
+        Text = 'https://www.google.com'
+        Items.Strings = (
+          'https://www.google.com'
+          'https://browserleaks.com'
+          'https://www.leaktest.io/'
+          'https://coveryourtracks.eff.org/'
+          'https://ipleak.com/full-report/'
+          'https://xsinator.com/testing.html')
+        ExplicitLeft = 392
+        ExplicitTop = 16
+        ExplicitWidth = 145
       end
     end
     object CEFWindowParent1: TCEFWindowParent

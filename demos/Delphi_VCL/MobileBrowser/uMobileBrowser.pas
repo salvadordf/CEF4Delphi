@@ -17,7 +17,6 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     AddressPnl: TPanel;
-    AddressEdt: TEdit;
     GoBtn: TButton;
     CEFWindowParent1: TCEFWindowParent;
     Splitter1: TSplitter;
@@ -48,6 +47,7 @@ type
     Panel10: TPanel;
     Label5: TLabel;
     AngleEdt: TSpinEdit;
+    AddressCb: TComboBox;
 
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -158,7 +158,7 @@ begin
   FCanClose            := False;
   FClosing             := False;
   FPendingMsgID        := 0;
-  Chromium1.DefaultURL := AddressEdt.Text;
+  Chromium1.DefaultURL := AddressCb.Text;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
@@ -270,7 +270,7 @@ end;
 procedure TForm1.GoBtnClick(Sender: TObject);
 begin
   // This will load the URL in the edit box
-  Chromium1.LoadURL(AddressEdt.Text);
+  Chromium1.LoadURL(AddressCb.Text);
 end;
 
 procedure TForm1.OverrideDeviceMetricsBtnClick(Sender: TObject);
@@ -338,6 +338,7 @@ begin
 
     TempMetadataDict.SetList('brands', TempBrandsArray);
     TempMetadataDict.SetList('fullVersionList', TempFullVersionListArray);
+    TempMetadataDict.SetString('fullVersion', '91.0.4472.114'); // Deprecated
     TempMetadataDict.SetString('platform', 'Android'); //or Windows
     TempMetadataDict.SetString('platformVersion', '12');
     TempMetadataDict.SetString('architecture', 'arm');
