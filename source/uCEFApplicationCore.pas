@@ -1863,7 +1863,7 @@ begin
   FDisableWebSecurity                := False;
   FDisablePDFExtension               := False;
   FDisableSiteIsolationTrials        := False;
-  FDisableChromeLoginPrompt          := False;
+  FDisableChromeLoginPrompt          := True;
   FDisableExtensions                 := False;
   FAutoplayPolicy                    := appDefault;
   FDisableBackgroundNetworking       := False;
