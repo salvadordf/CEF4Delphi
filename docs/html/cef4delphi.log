@@ -690,6 +690,7 @@ uCEFTypes.TCookie.html
 uCEFTypes.TCefPdfPrintSettings.html
 uCEFTypes.TCefMouseEvent.html
 uCEFTypes.TCefTouchEvent.html
+uCEFTypes.TCefSimulatedTouchPoint.html
 uCEFTypes.TCefAudioParameters.html
 uCEFTypes.TCefMediaSinkDeviceInfo.html
 uCEFTypes.TCefBaseRefCounted.html
@@ -932,12 +933,12 @@ published.gif
 automated.gif
 pasdoc.css
 
-Compile time: 0 minutes, 14 seconds
-16,480	Topics
-140,660	Local links
+Compile time: 0 minutes, 15 seconds
+16,529	Topics
+141,082	Local links
 35	Internet links
 5	Graphics
 
 
-Created c:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\docs\cef4delphi.chm, 3,628,708 bytes
-Compression decreased file by 23,517,583 bytes.
+Created c:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\docs\cef4delphi.chm, 3,646,118 bytes
+Compression decreased file by 23,602,598 bytes.

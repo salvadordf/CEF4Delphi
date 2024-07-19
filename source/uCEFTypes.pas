@@ -1938,6 +1938,218 @@ type
   );
 
   /// <summary>
+  /// Type of touch event in the TChromiumCore.SimulateTouchEvent function.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-dispatchTouchEvent">See the Input.dispatchTouchEvent DevTools method</see></para>
+  /// </remarks>
+  TCefSimulatedTouchEventType = (
+    touchStart,
+    touchEnd,
+    touchMove,
+    touchCancel
+  );
+
+  /// <summary>
+  /// Type of mouse event in the TChromiumCore.SimulateMouseEvent function.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-dispatchMouseEvent">See the Input.dispatchMouseEvent DevTools method</see></para>
+  /// </remarks>
+  TCefSimulatedMouseEventType = (
+    mousePressed,
+    mouseReleased,
+    mouseMoved,
+    mouseWheel
+  );
+
+  /// <summary>
+  /// Mouse button in the TChromiumCore.SimulateMouseEvent function.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-dispatchMouseEvent">See the Input.dispatchMouseEvent DevTools method</see></para>
+  /// </remarks>
+  TCefSimulatedMouseButton = (
+    CEF_SIMULATEDMOUSEBUTTON_NONE,
+    CEF_SIMULATEDMOUSEBUTTON_LEFT,
+    CEF_SIMULATEDMOUSEBUTTON_MIDDLE,
+    CEF_SIMULATEDMOUSEBUTTON_RIGHT,
+    CEF_SIMULATEDMOUSEBUTTON_BACK,
+    CEF_SIMULATEDMOUSEBUTTON_FORWARD
+  );
+
+  /// <summary>
+  /// Pointer type in the TChromiumCore.SimulateMouseEvent function.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-dispatchMouseEvent">See the Input.dispatchMouseEvent DevTools method</see></para>
+  /// </remarks>
+  TCefSimulatedPointerType = (
+    CEF_SIMULATEDPOINTERTYPE_MOUSE,
+    CEF_SIMULATEDPOINTERTYPE_PEN
+  );
+
+  /// <summary>
+  /// Key location value used in the TChromiumCore.dispatchKeyEvent DevTools method.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://chromedevtools.github.io/devtools-protocol/1-3/Input/#method-dispatchKeyEvent">See the "Input.dispatchKeyEvent" DevTools method.</see></para>
+  /// </remarks>
+  TCefKeyLocation = (
+    CEF_KEYLOCATION_NONE,
+    CEF_KEYLOCATION_LEFT,
+    CEF_KEYLOCATION_RIGHT
+  );
+
+  /// <summary>
+  /// Blink editing commands used by the "Input.dispatchKeyEvent" DevTools method.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://chromedevtools.github.io/devtools-protocol/1-3/Input/#method-dispatchKeyEvent">See the "Input.dispatchKeyEvent" DevTools method.</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/editing/commands/editor_command_names.h">See the Chromium sources.</see></para>
+  /// </remarks>
+  TCefEditingCommand = (ecNone,
+                        ecAlignCenter,
+                        ecAlignJustified,
+                        ecAlignLeft,
+                        ecAlignRight,
+                        ecBackColor,
+                        ecBackwardDelete,
+                        ecBold,
+                        ecCopy,
+                        ecCreateLink,
+                        ecCut,
+                        ecDefaultParagraphSeparator,
+                        ecDelete,
+                        ecDeleteBackward,
+                        ecDeleteBackwardByDecomposingPreviousCharacter,
+                        ecDeleteForward,
+                        ecDeleteToBeginningOfLine,
+                        ecDeleteToBeginningOfParagraph,
+                        ecDeleteToEndOfLine,
+                        ecDeleteToEndOfParagraph,
+                        ecDeleteToMark,
+                        ecDeleteWordBackward,
+                        ecDeleteWordForward,
+                        ecFindString,
+                        ecFontName,
+                        ecFontSize,
+                        ecFontSizeDelta,
+                        ecForeColor,
+                        ecFormatBlock,
+                        ecForwardDelete,
+                        ecHiliteColor,
+                        ecIgnoreSpelling,
+                        ecIndent,
+                        ecInsertBacktab,
+                        ecInsertHorizontalRule,
+                        ecInsertHTML,
+                        ecInsertImage,
+                        ecInsertLineBreak,
+                        ecInsertNewline,
+                        ecInsertNewlineInQuotedContent,
+                        ecInsertOrderedList,
+                        ecInsertParagraph,
+                        ecInsertTab,
+                        ecInsertText,
+                        ecInsertUnorderedList,
+                        ecItalic,
+                        ecJustifyCenter,
+                        ecJustifyFull,
+                        ecJustifyLeft,
+                        ecJustifyNone,
+                        ecJustifyRight,
+                        ecMakeTextWritingDirectionLeftToRight,
+                        ecMakeTextWritingDirectionNatural,
+                        ecMakeTextWritingDirectionRightToLeft,
+                        ecMoveBackward,
+                        ecMoveBackwardAndModifySelection,
+                        ecMoveDown,
+                        ecMoveDownAndModifySelection,
+                        ecMoveForward,
+                        ecMoveForwardAndModifySelection,
+                        ecMoveLeft,
+                        ecMoveLeftAndModifySelection,
+                        ecMovePageDown,
+                        ecMovePageDownAndModifySelection,
+                        ecMovePageUp,
+                        ecMovePageUpAndModifySelection,
+                        ecMoveParagraphBackward,
+                        ecMoveParagraphBackwardAndModifySelection,
+                        ecMoveParagraphForward,
+                        ecMoveParagraphForwardAndModifySelection,
+                        ecMoveRight,
+                        ecMoveRightAndModifySelection,
+                        ecMoveToBeginningOfDocument,
+                        ecMoveToBeginningOfDocumentAndModifySelection,
+                        ecMoveToBeginningOfLine,
+                        ecMoveToBeginningOfLineAndModifySelection,
+                        ecMoveToBeginningOfParagraph,
+                        ecMoveToBeginningOfParagraphAndModifySelection,
+                        ecMoveToBeginningOfSentence,
+                        ecMoveToBeginningOfSentenceAndModifySelection,
+                        ecMoveToEndOfDocument,
+                        ecMoveToEndOfDocumentAndModifySelection,
+                        ecMoveToEndOfLine,
+                        ecMoveToEndOfLineAndModifySelection,
+                        ecMoveToEndOfParagraph,
+                        ecMoveToEndOfParagraphAndModifySelection,
+                        ecMoveToEndOfSentence,
+                        ecMoveToEndOfSentenceAndModifySelection,
+                        ecMoveToLeftEndOfLine,
+                        ecMoveToLeftEndOfLineAndModifySelection,
+                        ecMoveToRightEndOfLine,
+                        ecMoveToRightEndOfLineAndModifySelection,
+                        ecMoveUp,
+                        ecMoveUpAndModifySelection,
+                        ecMoveWordBackward,
+                        ecMoveWordBackwardAndModifySelection,
+                        ecMoveWordForward,
+                        ecMoveWordForwardAndModifySelection,
+                        ecMoveWordLeft,
+                        ecMoveWordLeftAndModifySelection,
+                        ecMoveWordRight,
+                        ecMoveWordRightAndModifySelection,
+                        ecOutdent,
+                        ecOverWrite,
+                        ecPaste,
+                        ecPasteAndMatchStyle,
+                        ecPasteGlobalSelection,
+                        ecPrint,
+                        ecRedo,
+                        ecRemoveFormat,
+                        ecScrollLineDown,
+                        ecScrollLineUp,
+                        ecScrollPageBackward,
+                        ecScrollPageForward,
+                        ecScrollToBeginningOfDocument,
+                        ecScrollToEndOfDocument,
+                        ecSelectAll,
+                        ecSelectLine,
+                        ecSelectParagraph,
+                        ecSelectSentence,
+                        ecSelectToMark,
+                        ecSelectWord,
+                        ecSetMark,
+                        ecStrikethrough,
+                        ecStyleWithCSS,
+                        ecSubscript,
+                        ecSuperscript,
+                        ecSwapWithMark,
+                        ecToggleBold,
+                        ecToggleItalic,
+                        ecToggleUnderline,
+                        ecTranspose,
+                        ecUnderline,
+                        ecUndo,
+                        ecUnlink,
+                        ecUnscript,
+                        ecUnselect,
+                        ecUseCSS,
+                        ecYank,
+                        ecYankAndSelect);
+
+  /// <summary>
   /// Enumerates the various representations of the ordering of audio channels.
   /// Must be kept synchronized with media::ChannelLayout from Chromium.
   /// See media\base\channel_layout.h
@@ -4179,6 +4391,62 @@ type
     /// </summary>
     pointer_type   : TCefPointerType;
   end;
+
+
+  /// <summary>
+  /// Structure representing a simulated touch point.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://chromedevtools.github.io/devtools-protocol/tot/Input/#type-TouchPoint">See the Input.TouchPoint type in the DevTools docs.</see></para>
+  /// </remarks>
+  TCefSimulatedTouchPoint = record
+    /// <summary>
+    /// Identifier used to track touch sources between events, must be unique within an event. This is an optional value.
+    /// </summary>
+    id                 : integer;
+    /// <summary>
+    /// X coordinate of the event relative to the main frame's viewport in CSS pixels.
+    /// </summary>
+    x                  : integer;
+    /// <summary>
+    /// Y coordinate of the event relative to the main frame's viewport in CSS pixels. 0 refers to the top of the viewport and Y increases as it proceeds towards the bottom of the viewport.
+    /// </summary>
+    y                  : integer;
+    /// <summary>
+    /// X radius of the touch area (default: 1.0). This is an optional value.
+    /// </summary>
+    radiusX            : single;
+    /// <summary>
+    /// Y radius of the touch area (default: 1.0). This is an optional value.
+    /// </summary>
+    radiusY            : single;
+    /// <summary>
+    /// Rotation angle (default: 0.0). This is an optional value.
+    /// </summary>
+    rotationAngle      : single;
+    /// <summary>
+    /// Force (default: 1.0). This is an optional value.
+    /// </summary>
+    force              : single;
+    /// <summary>
+    /// The normalized tangential pressure, which has a range of [-1,1] (default: 0). This is an optional value.
+    /// </summary>
+    tangentialPressure : single;
+    /// <summary>
+    /// The plane angle between the Y-Z plane and the plane containing both the stylus axis and the Y axis, in degrees of the range [-90,90], a positive tiltX is to the right (default: 0) This is an optional value.
+    /// </summary>
+    tiltX              : integer;
+    /// <summary>
+    /// The plane angle between the X-Z plane and the plane containing both the stylus axis and the X axis, in degrees of the range [-90,90], a positive tiltY is towards the user (default: 0). This is an optional value.
+    /// </summary>
+    tiltY              : integer;
+    /// <summary>
+    /// The clockwise rotation of a pen stylus around its own major axis, in degrees in the range [0,359] (default: 0).  This is an optional value.
+    /// </summary>
+    twist              : integer;
+  end;
+  TCefSimulatedTouchPointArray = array of TCefSimulatedTouchPoint;
+
 
   /// <summary>
   /// Structure representing the audio parameters for setting up the audio

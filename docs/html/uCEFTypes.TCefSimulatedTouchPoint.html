@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefSimulatedTouchPoint</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefSimulatedTouchPoint"></span><h1 class="cio">Record TCefSimulatedTouchPoint</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefSimulatedTouchPoint = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure representing a simulated touch point. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://chromedevtools.github.io/devtools-protocol/tot/Input/#type-TouchPoint">https://chromedevtools.github.io/devtools-protocol/tot/Input/#type-TouchPoint</a>&quot;&gt;See the Input.TouchPoint type in the DevTools docs.)</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefSimulatedTouchPoint.html#id">id</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefSimulatedTouchPoint.html#x">x</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefSimulatedTouchPoint.html#y">y</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefSimulatedTouchPoint.html#radiusX">radiusX</a></strong>: single;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefSimulatedTouchPoint.html#radiusY">radiusY</a></strong>: single;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefSimulatedTouchPoint.html#rotationAngle">rotationAngle</a></strong>: single;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefSimulatedTouchPoint.html#force">force</a></strong>: single;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefSimulatedTouchPoint.html#tangentialPressure">tangentialPressure</a></strong>: single;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefSimulatedTouchPoint.html#tiltX">tiltX</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefSimulatedTouchPoint.html#tiltY">tiltY</a></strong>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefSimulatedTouchPoint.html#twist">twist</a></strong>: integer;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="id"></span><code><strong>id</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Identifier used to track touch sources between events, must be unique within an event. This is an optional value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="x"></span><code><strong>x</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ X coordinate of the event relative to the main frame's viewport in CSS pixels. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="y"></span><code><strong>y</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Y coordinate of the event relative to the main frame's viewport in CSS pixels. 0 refers to the top of the viewport and Y increases as it proceeds towards the bottom of the viewport. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="radiusX"></span><code><strong>radiusX</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ X radius of the touch area (default: 1.0). This is an optional value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="radiusY"></span><code><strong>radiusY</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Y radius of the touch area (default: 1.0). This is an optional value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="rotationAngle"></span><code><strong>rotationAngle</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Rotation angle (default: 0.0). This is an optional value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="force"></span><code><strong>force</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Force (default: 1.0). This is an optional value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="tangentialPressure"></span><code><strong>tangentialPressure</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The normalized tangential pressure, which has a range of [-1,1] (default: 0). This is an optional value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="tiltX"></span><code><strong>tiltX</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The plane angle between the Y-Z plane and the plane containing both the stylus axis and the Y axis, in degrees of the range [-90,90], a positive tiltX is to the right (default: 0) This is an optional value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="tiltY"></span><code><strong>tiltY</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The plane angle between the X-Z plane and the plane containing both the stylus axis and the X axis, in degrees of the range [-90,90], a positive tiltY is towards the user (default: 0). This is an optional value. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="twist"></span><code><strong>twist</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The clockwise rotation of a pen stylus around its own major axis, in degrees in the range [0,359] (default: 0). This is an optional value. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

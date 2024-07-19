@@ -3151,6 +3151,25 @@ const
   USER_DEFAULT_SCREEN_DPI = 96;
   {$IFEND}
 
+  // Modifier values used in the Input.dispatchTouchEvent and Input.dispatchMouseEvent DevTools methods.
+  // Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8 (default: 0).
+  // https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-dispatchTouchEvent
+  CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE    = 0;
+  CEF_MOUSETOUCH_EVENT_MODIFIERS_ALT     = 1 shl 0;
+  CEF_MOUSETOUCH_EVENT_MODIFIERS_CTRL    = 1 shl 1;
+  CEF_MOUSETOUCH_EVENT_MODIFIERS_METACMD = 1 shl 2;
+  CEF_MOUSETOUCH_EVENT_MODIFIERS_SHIFT   = 1 shl 3;
+
+  // Modifier values used in the Input.dispatchMouseEvent DevTools method.
+  // A number indicating which buttons are pressed on the mouse when a mouse event is triggered. Left=1, Right=2, Middle=4, Back=8, Forward=16, None=0.
+  // https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-dispatchMouseEvent
+  CEF_PRESSED_MOUSE_BUTTONS_NONE     = 0;
+  CEF_PRESSED_MOUSE_BUTTONS_LEFT     = 1 shl 0;
+  CEF_PRESSED_MOUSE_BUTTONS_RIGHT    = 1 shl 1;
+  CEF_PRESSED_MOUSE_BUTTONS_MIDDLE   = 1 shl 2;
+  CEF_PRESSED_MOUSE_BUTTONS_BACK     = 1 shl 3;
+  CEF_PRESSED_MOUSE_BUTTONS_FORWARD  = 1 shl 4;
+
   // This constant is defined by Chromium in chrome/app/main_dll_loader_win.cc
   // It's used with SetProcessShutdownParameters to set a shutdown priority for the
   // subprocesses. $280 is the default value for applications.

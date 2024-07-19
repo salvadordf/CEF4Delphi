@@ -703,6 +703,7 @@ uCEFTypes.TCookie.html
 uCEFTypes.TCefPdfPrintSettings.html
 uCEFTypes.TCefMouseEvent.html
 uCEFTypes.TCefTouchEvent.html
+uCEFTypes.TCefSimulatedTouchPoint.html
 uCEFTypes.TCefAudioParameters.html
 uCEFTypes.TCefMediaSinkDeviceInfo.html
 uCEFTypes.TCefBaseRefCounted.html

@@ -3238,36 +3238,69 @@
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#USER_DEFAULT_SCREEN_DPI">USER_DEFAULT_SCREEN_DPI</a></strong> = 96;</code></td>
 </tr>
 <tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE">CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE</a></strong>    = 0;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_ALT">CEF_MOUSETOUCH_EVENT_MODIFIERS_ALT</a></strong>     = 1 shl 0;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_CTRL">CEF_MOUSETOUCH_EVENT_MODIFIERS_CTRL</a></strong>    = 1 shl 1;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_METACMD">CEF_MOUSETOUCH_EVENT_MODIFIERS_METACMD</a></strong> = 1 shl 2;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_SHIFT">CEF_MOUSETOUCH_EVENT_MODIFIERS_SHIFT</a></strong>   = 1 shl 3;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_NONE">CEF_PRESSED_MOUSE_BUTTONS_NONE</a></strong>     = 0;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_LEFT">CEF_PRESSED_MOUSE_BUTTONS_LEFT</a></strong>     = 1 shl 0;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_RIGHT">CEF_PRESSED_MOUSE_BUTTONS_RIGHT</a></strong>    = 1 shl 1;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_MIDDLE">CEF_PRESSED_MOUSE_BUTTONS_MIDDLE</a></strong>   = 1 shl 2;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_BACK">CEF_PRESSED_MOUSE_BUTTONS_BACK</a></strong>     = 1 shl 3;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_FORWARD">CEF_PRESSED_MOUSE_BUTTONS_FORWARD</a></strong>  = 1 shl 4;</code></td>
+</tr>
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CHROMIUM_NONBROWSERSHUTDOWNPRIORITY">CHROMIUM_NONBROWSERSHUTDOWNPRIORITY</a></strong> = $280;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#INFINITE">INFINITE</a></strong> = Cardinal($FFFFFFFF);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pidWin32">pidWin32</a></strong> = 0;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pidWin64">pidWin64</a></strong> = 0;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pfidWindows">pfidWindows</a></strong> = <a href="uCEFConstants.html#pidWin32">pidWin32</a> or <a href="uCEFConstants.html#pidWin64">pidWin64</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pidOSX32">pidOSX32</a></strong> = 0;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pidOSX64">pidOSX64</a></strong> = 0;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pidOSXArm64">pidOSXArm64</a></strong> = 0;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pfidOSX">pfidOSX</a></strong> = <a href="uCEFConstants.html#pidOSX32">pidOSX32</a> or <a href="uCEFConstants.html#pidOSX64">pidOSX64</a> or <a href="uCEFConstants.html#pidOSXArm64">pidOSXArm64</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pidLinux64">pidLinux64</a></strong> = 0;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pfidLinux">pfidLinux</a></strong> = <a href="uCEFConstants.html#pidLinux64">pidLinux64</a>;</code></td>
 </tr>
 </table>
@@ -12809,6 +12842,87 @@ These contants are declared in the &quot;Windows&quot; unit but some old Delphi 
 <table class="detail wide_list">
 <tr class="list">
 <td class="itemcode"><span id="USER_DEFAULT_SCREEN_DPI"></span><code><strong>USER_DEFAULT_SCREEN_DPI</strong> = 96;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE"></span><code><strong>CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE</strong>    = 0;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Modifier values used in the Input.dispatchTouchEvent and Input.dispatchMouseEvent DevTools methods. Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8 (default: 0). <a href="https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-dispatchTouchEvent">https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-dispatchTouchEvent</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_MOUSETOUCH_EVENT_MODIFIERS_ALT"></span><code><strong>CEF_MOUSETOUCH_EVENT_MODIFIERS_ALT</strong>     = 1 shl 0;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_MOUSETOUCH_EVENT_MODIFIERS_CTRL"></span><code><strong>CEF_MOUSETOUCH_EVENT_MODIFIERS_CTRL</strong>    = 1 shl 1;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_MOUSETOUCH_EVENT_MODIFIERS_METACMD"></span><code><strong>CEF_MOUSETOUCH_EVENT_MODIFIERS_METACMD</strong> = 1 shl 2;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_MOUSETOUCH_EVENT_MODIFIERS_SHIFT"></span><code><strong>CEF_MOUSETOUCH_EVENT_MODIFIERS_SHIFT</strong>   = 1 shl 3;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_PRESSED_MOUSE_BUTTONS_NONE"></span><code><strong>CEF_PRESSED_MOUSE_BUTTONS_NONE</strong>     = 0;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Modifier values used in the Input.dispatchMouseEvent DevTools method. A number indicating which buttons are pressed on the mouse when a mouse event is triggered. Left=1, Right=2, Middle=4, Back=8, Forward=16, None=0. <a href="https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-dispatchMouseEvent">https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-dispatchMouseEvent</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_PRESSED_MOUSE_BUTTONS_LEFT"></span><code><strong>CEF_PRESSED_MOUSE_BUTTONS_LEFT</strong>     = 1 shl 0;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_PRESSED_MOUSE_BUTTONS_RIGHT"></span><code><strong>CEF_PRESSED_MOUSE_BUTTONS_RIGHT</strong>    = 1 shl 1;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_PRESSED_MOUSE_BUTTONS_MIDDLE"></span><code><strong>CEF_PRESSED_MOUSE_BUTTONS_MIDDLE</strong>   = 1 shl 2;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_PRESSED_MOUSE_BUTTONS_BACK"></span><code><strong>CEF_PRESSED_MOUSE_BUTTONS_BACK</strong>     = 1 shl 3;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_PRESSED_MOUSE_BUTTONS_FORWARD"></span><code><strong>CEF_PRESSED_MOUSE_BUTTONS_FORWARD</strong>  = 1 shl 4;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>

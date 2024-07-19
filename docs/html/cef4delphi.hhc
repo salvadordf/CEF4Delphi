@@ -9038,6 +9038,18 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SimulateKeyEvent">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SimulateMouseEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SimulateMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SimulateTouchEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SimulateTouchEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SimulateEditingCommand">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SimulateEditingCommand">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="ClearCertificateExceptions">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#ClearCertificateExceptions">
 </object>
@@ -15770,6 +15782,50 @@
 <param name="Local" value="uCEFConstants.html#USER_DEFAULT_SCREEN_DPI">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE">
+<param name="Local" value="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_MOUSETOUCH_EVENT_MODIFIERS_ALT">
+<param name="Local" value="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_ALT">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_MOUSETOUCH_EVENT_MODIFIERS_CTRL">
+<param name="Local" value="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_CTRL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_MOUSETOUCH_EVENT_MODIFIERS_METACMD">
+<param name="Local" value="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_METACMD">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_MOUSETOUCH_EVENT_MODIFIERS_SHIFT">
+<param name="Local" value="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_SHIFT">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_PRESSED_MOUSE_BUTTONS_NONE">
+<param name="Local" value="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_NONE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_PRESSED_MOUSE_BUTTONS_LEFT">
+<param name="Local" value="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_LEFT">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_PRESSED_MOUSE_BUTTONS_RIGHT">
+<param name="Local" value="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_RIGHT">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_PRESSED_MOUSE_BUTTONS_MIDDLE">
+<param name="Local" value="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_MIDDLE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_PRESSED_MOUSE_BUTTONS_BACK">
+<param name="Local" value="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_BACK">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_PRESSED_MOUSE_BUTTONS_FORWARD">
+<param name="Local" value="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_FORWARD">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="CHROMIUM_NONBROWSERSHUTDOWNPRIORITY">
 <param name="Local" value="uCEFConstants.html#CHROMIUM_NONBROWSERSHUTDOWNPRIORITY">
 </object>
@@ -18628,6 +18684,14 @@
 <param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#FAcceptFilters">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FAcceptExtensions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#FAcceptExtensions">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FAcceptDescriptions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#FAcceptDescriptions">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FCallback">
 <param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#FCallback">
 </object>
@@ -18676,6 +18740,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="AcceptFilters">
 <param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#AcceptFilters">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AcceptExtensions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#AcceptExtensions">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AcceptDescriptions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#AcceptDescriptions">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="Callback">
@@ -18730,6 +18802,18 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SetAcceptFilters">
 <param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#SetAcceptFilters">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetAcceptExtensions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#SetAcceptExtensions">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetAcceptDescriptions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#SetAcceptDescriptions">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ConvertExtensions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#ConvertExtensions">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEFAcceptFilterToDialogFilter">
@@ -32803,6 +32887,10 @@
 <param name="Name" value="IsCEFSubprocess">
 <param name="Local" value="uCEFMiscFunctions.html#IsCEFSubprocess">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="EditingCommandToString">
+<param name="Local" value="uCEFMiscFunctions.html#EditingCommandToString">
+</object>
 </ul>
 <li><object type="text/sitemap">
 <param name="Name" value="Constants">
@@ -42136,6 +42224,62 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="TCefSimulatedTouchPoint">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="id">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#id">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="x">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="y">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="radiusX">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#radiusX">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="radiusY">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#radiusY">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="rotationAngle">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#rotationAngle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="force">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#force">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tangentialPressure">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#tangentialPressure">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tiltX">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#tiltX">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tiltY">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#tiltY">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="twist">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#twist">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="TCefAudioParameters">
 <param name="Local" value="uCEFTypes.TCefAudioParameters.html">
 </object>
@@ -50878,6 +51022,30 @@
 <param name="Local" value="uCEFTypes.html#TCefPointerType">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="TCefSimulatedTouchEventType">
+<param name="Local" value="uCEFTypes.html#TCefSimulatedTouchEventType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefSimulatedMouseEventType">
+<param name="Local" value="uCEFTypes.html#TCefSimulatedMouseEventType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefSimulatedMouseButton">
+<param name="Local" value="uCEFTypes.html#TCefSimulatedMouseButton">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefSimulatedPointerType">
+<param name="Local" value="uCEFTypes.html#TCefSimulatedPointerType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefKeyLocation">
+<param name="Local" value="uCEFTypes.html#TCefKeyLocation">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefEditingCommand">
+<param name="Local" value="uCEFTypes.html#TCefEditingCommand">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="TCefChannelLayout">
 <param name="Local" value="uCEFTypes.html#TCefChannelLayout">
 </object>
@@ -51048,6 +51216,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="TCefDraggableRegionArray">
 <param name="Local" value="uCEFTypes.html#TCefDraggableRegionArray">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefSimulatedTouchPointArray">
+<param name="Local" value="uCEFTypes.html#TCefSimulatedTouchPointArray">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefContentSettingTypes">
@@ -76540,6 +76712,14 @@
 </object>
 <ul>
 <li><object type="text/sitemap">
+<param name="Name" value="FAcceptDescriptions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#FAcceptDescriptions">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FAcceptExtensions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#FAcceptExtensions">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FAcceptFilters">
 <param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#FAcceptFilters">
 </object>
@@ -76589,6 +76769,14 @@
 <param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#@Properties">
 </object>
 <ul>
+<li><object type="text/sitemap">
+<param name="Name" value="AcceptDescriptions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#AcceptDescriptions">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AcceptExtensions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#AcceptExtensions">
+</object>
 <li><object type="text/sitemap">
 <param name="Name" value="AcceptFilters">
 <param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#AcceptFilters">
@@ -76660,6 +76848,10 @@
 <param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#CEFAcceptFilterToDialogFilter">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="ConvertExtensions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#ConvertExtensions">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="GetDefaultMimeTypeDescription">
 <param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#GetDefaultMimeTypeDescription">
 </object>
@@ -76674,6 +76866,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="Clear">
 <param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#Clear">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetAcceptDescriptions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#SetAcceptDescriptions">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetAcceptExtensions">
+<param name="Local" value="uCEFFileDialogInfo.TCEFFileDialogInfo.html#SetAcceptExtensions">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetAcceptFilters">
@@ -85650,6 +85850,62 @@
 <li><object type="text/sitemap">
 <param name="Name" value="Size">
 <param name="Local" value="uCEFSharedProcessMessageBuilder.TCefSharedProcessMessageBuilderRef.html#Size">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefSimulatedTouchPoint">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="force">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#force">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="id">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#id">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="radiusX">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#radiusX">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="radiusY">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#radiusY">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="rotationAngle">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#rotationAngle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tangentialPressure">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#tangentialPressure">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tiltX">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#tiltX">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tiltY">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#tiltY">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="twist">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#twist">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="x">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="y">
+<param name="Local" value="uCEFTypes.TCefSimulatedTouchPoint.html#y">
 </object>
 </ul>
 </ul>
@@ -96142,12 +96398,24 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#ShutdownDragAndDrop">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SimulateEditingCommand">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SimulateEditingCommand">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="SimulateKeyEvent">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SimulateKeyEvent">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SimulateMouseEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SimulateMouseEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="SimulateMouseWheel">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SimulateMouseWheel">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SimulateTouchEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SimulateTouchEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="StartDownload">

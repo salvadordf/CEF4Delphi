@@ -41,6 +41,14 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#FAcceptExtensions">FAcceptExtensions</a></strong>: TStrings;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#FAcceptDescriptions">FAcceptDescriptions</a></strong>: TStrings;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#FCallback">FCallback</a></strong>: <a href="uCEFInterfaces.ICefFileDialogCallback.html">ICefFileDialogCallback</a>;</code></td>
 </tr>
 <tr class="list2">
@@ -84,21 +92,33 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>function <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#CEFAcceptFilterToDialogFilter-ustring-">CEFAcceptFilterToDialogFilter</a></strong>(const aAcceptFilter : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#SetAcceptExtensions-TStrings-">SetAcceptExtensions</a></strong>(const aAcceptExtensions : TStrings);</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>function <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#GetDefaultMimeTypeDescription-ustring-">GetDefaultMimeTypeDescription</a></strong>(const aMimeType : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#SetAcceptDescriptions-TStrings-">SetAcceptDescriptions</a></strong>(const aAcceptDescriptions : TStrings);</code></td>
 </tr>
 <tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>constructor <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#Create">Create</a></strong>;</code></td>
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#ConvertExtensions-ustring-">ConvertExtensions</a></strong>(aExtensions : <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#CEFAcceptFilterToDialogFilter-ustring-ustring-ustring-">CEFAcceptFilterToDialogFilter</a></strong>(const aAcceptFilter, aExtension, aDescription : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#GetDefaultMimeTypeDescription-ustring-">GetDefaultMimeTypeDescription</a></strong>(const aMimeType : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>destructor <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#Destroy">Destroy</a></strong>; override;</code></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#Create">Create</a></strong>;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#Clear">Clear</a></strong>;</code></td>
 </tr>
@@ -120,6 +140,14 @@
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#AcceptFilters">AcceptFilters</a></strong>          : TStrings                                              write <a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#SetAcceptFilters-TStrings-">SetAcceptFilters</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#AcceptExtensions">AcceptExtensions</a></strong>       : TStrings                                              write <a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#SetAcceptExtensions-TStrings-">SetAcceptExtensions</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#AcceptDescriptions">AcceptDescriptions</a></strong>     : TStrings                                              write <a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#SetAcceptDescriptions-TStrings-">SetAcceptDescriptions</a>;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -188,6 +216,22 @@
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="FAcceptFilters"></span><code><strong>FAcceptFilters</strong>: TStrings;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FAcceptExtensions"></span><code><strong>FAcceptExtensions</strong>: TStrings;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FAcceptDescriptions"></span><code><strong>FAcceptDescriptions</strong>: TStrings;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -276,7 +320,31 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><span id="CEFAcceptFilterToDialogFilter-ustring-"></span><code>function <strong>CEFAcceptFilterToDialogFilter</strong>(const aAcceptFilter : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
+<td class="itemcode"><span id="SetAcceptExtensions-TStrings-"></span><code>procedure <strong>SetAcceptExtensions</strong>(const aAcceptExtensions : TStrings);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SetAcceptDescriptions-TStrings-"></span><code>procedure <strong>SetAcceptDescriptions</strong>(const aAcceptDescriptions : TStrings);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ConvertExtensions-ustring-"></span><code>function <strong>ConvertExtensions</strong>(aExtensions : <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CEFAcceptFilterToDialogFilter-ustring-ustring-ustring-"></span><code>function <strong>CEFAcceptFilterToDialogFilter</strong>(const aAcceptFilter, aExtension, aDescription : <a href="uCEFTypes.html#ustring">ustring</a>) : <a href="uCEFTypes.html#ustring">ustring</a>; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -342,6 +410,22 @@
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><span id="AcceptFilters"></span><code>property <strong>AcceptFilters</strong>          : TStrings                                              write <a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#SetAcceptFilters-TStrings-">SetAcceptFilters</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AcceptExtensions"></span><code>property <strong>AcceptExtensions</strong>       : TStrings                                              write <a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#SetAcceptExtensions-TStrings-">SetAcceptExtensions</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AcceptDescriptions"></span><code>property <strong>AcceptDescriptions</strong>     : TStrings                                              write <a href="uCEFFileDialogInfo.TCEFFileDialogInfo.html#SetAcceptDescriptions-TStrings-">SetAcceptDescriptions</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
