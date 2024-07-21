@@ -116,6 +116,7 @@ type
       FComponentID              : integer;
       FDownloadBubble           : TCefState;
       FHTTPSUpgrade             : TCefState;
+      FHSTSPolicyBypassList     : ustring;
       {$IFDEF LINUX}
       FXDisplay                 : PXDisplay;
       {$ENDIF}
@@ -2214,6 +2215,10 @@ type
       /// Automatically upgrade to HTTPS connections.
       /// </summary>
       property HTTPSUpgrade                   : TCefState                    read FHTTPSUpgrade                write FHTTPSUpgrade;
+      /// <summary>
+      /// List of comma-delimited  single-label hostnames that will skip the check to possibly upgrade from http to https.
+      /// </summary>
+      property HSTSPolicyBypassList           : ustring                      read FHSTSPolicyBypassList        write FHSTSPolicyBypassList;
 
     published
       /// <summary>
@@ -4199,6 +4204,7 @@ begin
   FComponentID             := 0;
   FDownloadBubble          := STATE_DEFAULT;
   FHTTPSUpgrade            := STATE_DEFAULT;
+  FHSTSPolicyBypassList    := '';
   {$IFDEF LINUX}
   FXDisplay                := nil;
   {$ENDIF}
@@ -7340,6 +7346,8 @@ begin
 
   if (FHTTPSUpgrade <> STATE_DEFAULT) then
     UpdatePreference(aBrowser, 'https_upgrades.policy.upgrades_enabled', (FHTTPSUpgrade = STATE_ENABLED));
+
+  UpdateStringListPref(aBrowser, 'hsts.policy.upgrade_bypass_list', FHSTSPolicyBypassList);
 
   if assigned(FOnPrefsUpdated) then
     FOnPrefsUpdated(self);
