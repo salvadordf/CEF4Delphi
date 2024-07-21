@@ -115,6 +115,7 @@ type
       FEnableFocusDelayMs       : cardinal;
       FComponentID              : integer;
       FDownloadBubble           : TCefState;
+      FHTTPSUpgrade             : TCefState;
       {$IFDEF LINUX}
       FXDisplay                 : PXDisplay;
       {$ENDIF}
@@ -2209,6 +2210,10 @@ type
       /// Enable the file download bubble when using the Chrome runtime.
       /// </summary>
       property DownloadBubble                 : TCefState                    read FDownloadBubble              write FDownloadBubble;
+      /// <summary>
+      /// Automatically upgrade to HTTPS connections.
+      /// </summary>
+      property HTTPSUpgrade                   : TCefState                    read FHTTPSUpgrade                write FHTTPSUpgrade;
 
     published
       /// <summary>
@@ -4193,6 +4198,7 @@ begin
   FEnableFocusDelayMs      := CEF_DEFAULT_ENABLEFOCUSDELAY;
   FComponentID             := 0;
   FDownloadBubble          := STATE_DEFAULT;
+  FHTTPSUpgrade            := STATE_DEFAULT;
   {$IFDEF LINUX}
   FXDisplay                := nil;
   {$ENDIF}
@@ -7331,6 +7337,9 @@ begin
       UpdatePreference(aBrowser, 'download_bubble.partial_view_enabled', (FDownloadBubble = STATE_ENABLED));
       UpdatePreference(aBrowser, 'download_bubble_enabled',              (FDownloadBubble = STATE_ENABLED));
     end;
+
+  if (FHTTPSUpgrade <> STATE_DEFAULT) then
+    UpdatePreference(aBrowser, 'https_upgrades.policy.upgrades_enabled', (FHTTPSUpgrade = STATE_ENABLED));
 
   if assigned(FOnPrefsUpdated) then
     FOnPrefsUpdated(self);

@@ -5986,6 +5986,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FDownloadBubble">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FHTTPSUpgrade">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FHTTPSUpgrade">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOldBrowserCompWndPrc">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOldBrowserCompWndPrc">
 </object>
@@ -7022,6 +7026,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="DownloadBubble">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#DownloadBubble">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="HTTPSUpgrade">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#HTTPSUpgrade">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnTextResultAvailable">
@@ -93594,6 +93602,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FHighEfficiencyModeState">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FHTTPSUpgrade">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FHTTPSUpgrade">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FHyperlinkAuditing">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FHyperlinkAuditing">
 </object>
@@ -94566,6 +94578,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="HighEfficiencyModeState">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#HighEfficiencyModeState">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="HTTPSUpgrade">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#HTTPSUpgrade">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="HyperlinkAuditing">
