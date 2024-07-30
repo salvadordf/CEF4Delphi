@@ -4967,13 +4967,13 @@ type
     /// Website setting which is used for UnusedSitePermissionsService to store
     /// auto-revoked notification permissions from abusive sites.
     /// </summary>
-    REVOKED_ABUSIVE_NOTIFICATION_PERMISSIONS,
+    CEF_CONTENT_SETTING_TYPE_REVOKED_ABUSIVE_NOTIFICATION_PERMISSIONS,
     /// <summary>
     /// <para>Content setting that controls tracking protection status per site.</para>
     /// <para>BLOCK: Protections enabled. This is the default state.</para>
     /// <para>ALLOW: Protections disabled.</para>
     /// </summary>
-    TRACKING_PROTECTION
+    CEF_CONTENT_SETTING_TYPE_TRACKING_PROTECTION
   );
 
   /// <summary>
