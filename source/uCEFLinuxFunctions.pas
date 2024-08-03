@@ -32,10 +32,10 @@ procedure GdkEventKeyToCEFKeyEvent(GdkEvent: PGdkEventKey; var aCEFKeyEvent : TC
 function  KeyboardCodeFromXKeysym(keysym : uint32) : integer;
 {$IF DEFINED(LINUXFMX) or DEFINED(LCLGTK2) or (DEFINED(LCLGTK3) and (LCL_FULLVERSION<3000000))}
 function  GetCefStateModifiers(state : uint32) : integer;
-{$ENDIF}
+{$IFEND}
 {$IF DEFINED(LCLGTK3) and (LCL_FULLVERSION>3000000)}
 function  GetCefStateModifiers(state : TGdkModifierType) : integer;
-{$ENDIF}
+{$IFEND}
 function  GdkEventToWindowsKeyCode(Event: PGdkEventKey) : integer;
 function  GetWindowsKeyCodeWithoutLocation(key_code : integer) : integer;
 function  GetControlCharacter(windows_key_code : integer; shift : boolean) : integer;
@@ -485,7 +485,7 @@ begin
   if ((state and GDK_BUTTON3_MASK) <> 0) then
     Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
 end;
-{$ENDIF}
+{$IFEND}
 {$IF DEFINED(LCLGTK3) and (LCL_FULLVERSION>3000000)}
 function GetCefStateModifiers(state : TGdkModifierType) : integer;
 begin
@@ -512,7 +512,7 @@ begin
   if (GDK_BUTTON3_MASK in state) then
     Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
 end;
-{$ENDIF}
+{$IFEND}
 
 function GdkEventToWindowsKeyCode(event: PGdkEventKey) : integer;
 var
