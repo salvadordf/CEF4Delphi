@@ -27,6 +27,10 @@ type
     Separator1: TToolButton;
     BoldBtn: TToolButton;
     ItalicBtn: TToolButton;
+    ToolButton1: TToolButton;
+    CopyBtn: TToolButton;
+    CutBtn: TToolButton;
+    PasteBtn: TToolButton;
     UnderlineBtn: TToolButton;
     StrikethroughBtn: TToolButton;
     Separator2: TToolButton;
@@ -54,7 +58,6 @@ type
     OutdentBtn: TToolButton;
     Separator7: TToolButton;
 
-    procedure CEFSentinel1Close(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
 
     procedure FormShow(Sender: TObject);
@@ -86,7 +89,10 @@ type
     procedure TextColorBtnClick(Sender: TObject);
     procedure FillColorBtnClick(Sender: TObject);
     procedure RemoveFormatBtnClick(Sender: TObject);
-    procedure OutdentBtnClick(Sender: TObject);
+    procedure OutdentBtnClick(Sender: TObject);     
+    procedure CopyBtnClick(Sender: TObject);
+    procedure CutBtnClick(Sender: TObject);
+    procedure PasteBtnClick(Sender: TObject);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -407,9 +413,19 @@ begin
     Timer1.Enabled := True;
 end;
 
-procedure TForm1.CEFSentinel1Close(Sender: TObject);
+procedure TForm1.CopyBtnClick(Sender: TObject);
 begin
+  Chromium1.SimulateEditingCommand(ecCopy);
+end;
 
+procedure TForm1.CutBtnClick(Sender: TObject);
+begin
+  Chromium1.SimulateEditingCommand(ecCut);
+end;
+
+procedure TForm1.PasteBtnClick(Sender: TObject);
+begin
+  Chromium1.SimulateEditingCommand(ecPaste);
 end;
 
 procedure TForm1.OpenBtnClick(Sender: TObject);

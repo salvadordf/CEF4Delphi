@@ -57,6 +57,10 @@ type
     RemoveFormatBtn: TToolButton;
     OutdentBtn: TToolButton;
     Separator7: TToolButton;
+    ToolButton1: TToolButton;
+    CopyBtn: TToolButton;
+    CutBtn: TToolButton;
+    PasteBtn: TToolButton;
 
     procedure Timer1Timer(Sender: TObject);
 
@@ -92,6 +96,9 @@ type
     procedure FillColorBtnClick(Sender: TObject);
     procedure RemoveFormatBtnClick(Sender: TObject);
     procedure OutdentBtnClick(Sender: TObject);
+    procedure CopyBtnClick(Sender: TObject);
+    procedure CutBtnClick(Sender: TObject);
+    procedure PasteBtnClick(Sender: TObject);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -272,6 +279,16 @@ begin
     finally
       if (TempLines <> nil) then FreeAndNil(TempLines);
     end;
+end;
+
+procedure TEditorBrowserFrm.CopyBtnClick(Sender: TObject);
+begin
+  Chromium1.SimulateEditingCommand(ecCopy);
+end;
+
+procedure TEditorBrowserFrm.CutBtnClick(Sender: TObject);
+begin
+  Chromium1.SimulateEditingCommand(ecCut);
 end;
 
 procedure TEditorBrowserFrm.TextColorBtnClick(Sender: TObject);
@@ -506,6 +523,11 @@ begin
   TempCode := 'document.execCommand("outdent", false, null);';
 
   Chromium1.ExecuteJavaScript(TempCode, 'about:blank');
+end;
+
+procedure TEditorBrowserFrm.PasteBtnClick(Sender: TObject);
+begin
+  Chromium1.SimulateEditingCommand(ecPaste);
 end;
 
 procedure TEditorBrowserFrm.RemoveFormatBtnClick(Sender: TObject);
