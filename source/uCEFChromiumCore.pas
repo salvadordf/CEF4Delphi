@@ -5218,9 +5218,12 @@ begin
   if Initialized then
     begin
       TempFrame := Browser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
-      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Copy;
+      if (TempFrame = nil) then
+        TempFrame := Browser.MainFrame;
+
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.Copy;
     end;
 end;
 
@@ -5231,9 +5234,12 @@ begin
   if Initialized then
     begin
       TempFrame := Browser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
-      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Paste;
+      if (TempFrame = nil) then
+        TempFrame := Browser.MainFrame;
+
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.Paste;
     end;
 end;
 
@@ -5244,9 +5250,12 @@ begin
   if Initialized then
     begin
       TempFrame := Browser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
-      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Cut;
+      if (TempFrame = nil) then
+        TempFrame := Browser.MainFrame;
+
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.Cut;
     end;
 end;
 
@@ -5257,9 +5266,12 @@ begin
   if Initialized then
     begin
       TempFrame := Browser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
-      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Undo;
+      if (TempFrame = nil) then
+        TempFrame := Browser.MainFrame;
+
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.Undo;
     end;
 end;
 
@@ -5270,9 +5282,12 @@ begin
   if Initialized then
     begin
       TempFrame := Browser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
-      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Redo;
+      if (TempFrame = nil) then
+        TempFrame := Browser.MainFrame;
+
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.Redo;
     end;
 end;
 
@@ -5283,9 +5298,12 @@ begin
   if Initialized then
     begin
       TempFrame := Browser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
-      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.Del;
+      if (TempFrame = nil) then
+        TempFrame := Browser.MainFrame;
+
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.Del;
     end;
 end;
 
@@ -5296,9 +5314,12 @@ begin
   if Initialized then
     begin
       TempFrame := Browser.FocusedFrame;
-      if (TempFrame = nil) then TempFrame := Browser.MainFrame;
 
-      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.SelectAll;
+      if (TempFrame = nil) then
+        TempFrame := Browser.MainFrame;
+
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.SelectAll;
     end;
 end;
 
