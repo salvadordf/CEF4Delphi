@@ -784,6 +784,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FDisableHangMonitor">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FHideCrashRestoreBubble">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FHideCrashRestoreBubble">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FWindowsSandboxInfo">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FWindowsSandboxInfo">
 </object>
@@ -1368,6 +1372,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="DisableHangMonitor">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#DisableHangMonitor">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="HideCrashRestoreBubble">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#HideCrashRestoreBubble">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IgnoreCertificateErrors">
@@ -67272,6 +67280,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FGlobalContextInitialized">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FHideCrashRestoreBubble">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FHideCrashRestoreBubble">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FHyperlinkAuditing">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FHyperlinkAuditing">
 </object>
@@ -67884,6 +67896,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GlobalContextInitialized">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GlobalContextInitialized">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="HideCrashRestoreBubble">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#HideCrashRestoreBubble">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="HyperlinkAuditing">

@@ -97,6 +97,9 @@ type
       FCookieableSchemesExcludeDefaults  : boolean;
       FChromePolicyId                    : ustring;
       FChromeAppIconId                   : integer;
+      {$IF DEFINED(OS_POSIX) AND NOT(DEFINED(ANDROID))}
+      FDisableSignalHandlers             : boolean;
+      {$IFEND}
 
       // Fields used to set command line switches
       FSingleProcess                     : boolean;
@@ -161,6 +164,7 @@ type
       FAutoAcceptCamAndMicCapture        : boolean;
       FUIColorMode                       : TCefUIColorMode;
       FDisableHangMonitor                : boolean;
+      FHideCrashRestoreBubble            : boolean;
 
 
       // Fields used during the CEF initialization
@@ -756,6 +760,12 @@ type
       /// runtime on Windows.
       /// </summary>
       property ChromeAppIconId                   : integer                                  read FChromeAppIconId                   write FChromeAppIconId;
+      {$IF DEFINED(OS_POSIX) AND NOT(DEFINED(ANDROID))}
+      /// <summary>
+      /// Specify whether signal handlers must be disabled on POSIX systems.
+      /// </summary>
+      property DisableSignalHandlers             : boolean                                  read FDisableSignalHandlers             write FDisableSignalHandlers;
+      {$IFEND}
       /// <summary>
       /// Runs the renderer and plugins in the same process as the browser.
       /// </summary>
@@ -1240,6 +1250,13 @@ type
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --disable-hang-monitor</see></para>
       /// </remarks>
       property DisableHangMonitor                : boolean                                  read FDisableHangMonitor                write FDisableHangMonitor;
+      /// <summary>
+      /// Does not show the "Restore pages" popup bubble after incorrect shutdown.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --hide-crash-restore-bubble</see></para>
+      /// </remarks>
+      property HideCrashRestoreBubble            : boolean                                  read FHideCrashRestoreBubble            write FHideCrashRestoreBubble;
       /// <summary>
       /// Ignores certificate-related errors.
       /// </summary>
@@ -1842,6 +1859,9 @@ begin
   FCookieableSchemesExcludeDefaults  := False;
   FChromePolicyId                    := '';
   FChromeAppIconId                   := 0;
+  {$IF DEFINED(OS_POSIX) AND NOT(DEFINED(ANDROID))}
+  FDisableSignalHandlers             := False;
+  {$IFEND}
 
   // Fields used to set command line switches
   FSingleProcess                     := False;
@@ -1906,6 +1926,7 @@ begin
   FAutoAcceptCamAndMicCapture        := False;
   FUIColorMode                       := uicmSystemDefault;
   FDisableHangMonitor                := False;
+  FHideCrashRestoreBubble            := True;
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
@@ -2824,6 +2845,9 @@ begin
   aSettings.cookieable_schemes_exclude_defaults     := Ord(FCookieableSchemesExcludeDefaults);
   aSettings.chrome_policy_id                        := CefString(FChromePolicyId);
   aSettings.chrome_app_icon_id                      := FChromeAppIconId;
+  {$IF DEFINED(OS_POSIX) AND NOT(DEFINED(ANDROID))}
+  aSettings.disable_signal_handlers                 := ord(FDisableSignalHandlers);
+  {$IFEND}
 end;
 
 function TCefApplicationCore.InitializeLibrary(const aApp : ICefApp) : boolean;
@@ -3383,6 +3407,9 @@ begin
 
   if FDisableHangMonitor then
     ReplaceSwitch(aKeys, aValues, '--disable-hang-monitor');
+
+  if FHideCrashRestoreBubble then
+    ReplaceSwitch(aKeys, aValues, '--hide-crash-restore-bubble');
 
   if FNetLogEnabled then
     begin

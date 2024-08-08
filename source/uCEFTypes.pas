@@ -3598,6 +3598,12 @@ type
     /// runtime on Windows.
     /// </summary>
     chrome_app_icon_id                      : Integer;
+    {$IF DEFINED(OS_POSIX) AND NOT(DEFINED(ANDROID))}
+    /// <summary>
+    /// Specify whether signal handlers must be disabled on POSIX systems.
+    /// </summary>
+    disable_signal_handlers                 : Integer;
+    {$IFEND}
   end;
 
   /// <summary>
