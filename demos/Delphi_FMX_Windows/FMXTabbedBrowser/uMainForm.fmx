@@ -84,6 +84,16 @@ object MainForm: TMainForm
       StyleLookup = 'passwordeditbutton'
       TextSettings.Trimming = None
     end
+    object IndependetChk: TCheckBox
+      Position.X = -36.000000000000000000
+      Position.Y = 176.000000000000000000
+      RotationAngle = 270.000000000000000000
+      Size.Width = 100.000000000000000000
+      Size.Height = 16.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Independent'
+    end
   end
   object BrowserTabCtrl: TTabControl
     Align = Client

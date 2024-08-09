@@ -65,7 +65,7 @@ type
     public
       constructor Create(AOwner : TComponent); override;
       procedure   NotifyMoveOrResizeStarted;
-      procedure   CreateBrowser;
+      procedure   CreateBrowser(aIndependent : boolean);
       procedure   CloseBrowser;
       procedure   ResizeBrowser;
       procedure   ShowBrowser;
@@ -87,7 +87,8 @@ implementation
 
 uses
   FMX.Platform, {$IFDEF MSWINDOWS}FMX.Platform.Win,{$ENDIF}
-  uCEFMiscFunctions, uCEFApplication, uBrowserTab, uMainForm;
+  uCEFMiscFunctions, uCEFApplication, uCEFRequestContext,
+  uBrowserTab, uMainForm;
 
 procedure TBrowserFrame.BackBtnClick(Sender: TObject);
 begin
@@ -331,7 +332,7 @@ begin
   FMXChromium1.LoadURL(URLEdt.Text);
 end;
 
-procedure TBrowserFrame.CreateBrowser;
+procedure TBrowserFrame.CreateBrowser(aIndependent : boolean);
 var
   {$IFDEF MSWINDOWS}
   TempHandle : HWND;
@@ -339,11 +340,21 @@ var
   TempClientRect : TRectF;
   TempScale : single;
   {$ENDIF}
+  TempContext : ICefRequestContext;
+  TempCache : string;
 begin
   CreateFMXWindowParent;
 
   if not(FMXChromium1.Initialized) then
     begin
+      if aIndependent then
+        begin
+          TempCache   := GlobalCEFApp.RootCache + '\cache' + inttostr(TBrowserTab(ParentTab).TabID);
+          TempContext := TCefRequestContextRef.New(TempCache, '', '', False, False, False, FMXChromium1.ReqContextHandler)
+        end
+       else
+        TempContext := nil;
+
       {$IFDEF MSWINDOWS}
       TempHandle      := FmxHandleToHWND(FMXWindowParent.Handle);
       TempClientRect  := FMXWindowParent.ClientRect;
@@ -354,7 +365,7 @@ begin
       TempRect.Bottom := round(TempClientRect.Bottom * TempScale);
 
       FMXChromium1.DefaultUrl := FHomepage;
-      FMXChromium1.CreateBrowser(TempHandle, TempRect);
+      FMXChromium1.CreateBrowser(TempHandle, TempRect, '', TempContext);
       {$ENDIF}
     end;
 end;

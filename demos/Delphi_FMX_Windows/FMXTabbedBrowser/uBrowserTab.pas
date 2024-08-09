@@ -24,7 +24,7 @@ type
       constructor Create(AOwner: TComponent; aTabID : cardinal; const aCaption : string); reintroduce;
       procedure   NotifyMoveOrResizeStarted;
       procedure   DestroyWindowParent;
-      procedure   CreateBrowser(const aHomepage : string);
+      procedure   CreateBrowser(const aHomepage : string; aIndependent : boolean);
       procedure   CloseBrowser;
       procedure   ResizeBrowser;
       procedure   ShowBrowser;
@@ -86,7 +86,7 @@ begin
     FBrowserFrame.DestroyWindowParent;
 end;
 
-procedure TBrowserTab.CreateBrowser(const aHomepage : string);
+procedure TBrowserTab.CreateBrowser(const aHomepage : string; aIndependent : boolean);
 begin
   FBrowserFrame                      := TBrowserFrame.Create(self);
   FBrowserFrame.Parent               := self;
@@ -98,7 +98,7 @@ begin
   FBrowserFrame.OnBrowserTitleChange := BrowserFrame_OnBrowserTitleChange;
   FBrowserFrame.OnBrowserClosing     := BrowserFrame_OnBrowserClosing;
 
-  FBrowserFrame.CreateBrowser;
+  FBrowserFrame.CreateBrowser(aIndependent);
 end;
 
 procedure TBrowserTab.CloseBrowser;

@@ -38,6 +38,7 @@ type
     NextTabBtn: TSpeedButton;
     ShowTabsBtn: TSpeedButton;
     ShowTabsAction: TAction;
+    IndependetChk: TCheckBox;
 
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -145,7 +146,8 @@ end;
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
-  GlobalCEFApp.cache                := 'cache';
+  GlobalCEFApp.RootCache            := ExtractFileDir(ParamStr(0));
+  GlobalCEFApp.cache                := GlobalCEFApp.RootCache + '\cache';
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
 end;
 
@@ -274,7 +276,7 @@ begin
 
   BrowserTabCtrl.TabIndex := pred(BrowserTabCtrl.TabCount);
 
-  TempNewTab.CreateBrowser(HOMEPAGE_URL);
+  TempNewTab.CreateBrowser(HOMEPAGE_URL, IndependetChk.IsChecked);
 end;
 
 procedure TMainForm.RemoveTabActionExecute(Sender: TObject);
