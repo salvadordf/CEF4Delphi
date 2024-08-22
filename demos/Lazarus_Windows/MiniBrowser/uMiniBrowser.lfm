@@ -15,7 +15,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.2.0.0'
+  LCLVersion = '3.4.0.0'
   object Splitter1: TSplitter
     Left = 1179
     Height = 663
@@ -118,11 +118,11 @@ object MiniBrowserFrm: TMiniBrowserFrm
       TabOrder = 1
       object URLCbx: TComboBox
         Left = 0
-        Height = 22
+        Height = 21
         Top = 3
         Width = 978
         Anchors = [akTop, akLeft, akRight, akBottom]
-        ItemHeight = 14
+        ItemHeight = 13
         ItemIndex = 0
         Items.Strings = (
           'https://www.google.com'
@@ -264,7 +264,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnFullScreenModeChange = Chromium1FullScreenModeChange
     OnStatusMessage = Chromium1StatusMessage
     OnLoadingProgressChange = Chromium1LoadingProgressChange
-    OnCursorChange = Chromium1CursorChange
     OnMediaAccessChange = Chromium1MediaAccessChange
     OnCanDownload = Chromium1CanDownload
     OnBeforeDownload = Chromium1BeforeDownload

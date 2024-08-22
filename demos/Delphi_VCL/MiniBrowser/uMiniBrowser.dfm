@@ -300,7 +300,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnStatusMessage = Chromium1StatusMessage
     OnConsoleMessage = Chromium1ConsoleMessage
     OnLoadingProgressChange = Chromium1LoadingProgressChange
-    OnCursorChange = Chromium1CursorChange
     OnMediaAccessChange = Chromium1MediaAccessChange
     OnCanDownload = Chromium1CanDownload
     OnBeforeDownload = Chromium1BeforeDownload

@@ -166,7 +166,6 @@ type
     procedure Chromium1ZoomPctAvailable(Sender: TObject; const aZoomPct: Double);
     procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: Integer; success: Boolean; const result: ICefValue);
     procedure Chromium1SelectClientCertificate(Sender: TObject; const browser: ICefBrowser; isProxy: Boolean; const host: ustring; port: Integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback; var aResult: Boolean);
-    procedure Chromium1CursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
     procedure Chromium1CanDownload(Sender: TObject; const browser: ICefBrowser; const url, request_method: ustring; var aResult: Boolean);
     procedure Chromium1MediaAccessChange(Sender: TObject; const browser: ICefBrowser; has_video_access, has_audio_access: Boolean);
     procedure Chromium1RequestMediaAccessPermission(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: Cardinal; const callback: ICefMediaAccessCallback; var aResult: Boolean);
@@ -686,15 +685,6 @@ end;
 procedure TMiniBrowserFrm.Chromium1CookiesFlushed(Sender: TObject);
 begin
   PostMessage(Handle, MINIBROWSER_COOKIESFLUSHED, 0, 0);
-end;
-
-procedure TMiniBrowserFrm.Chromium1CursorChange(Sender: TObject;
-  const browser: ICefBrowser; cursor_: TCefCursorHandle;
-  cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo;
-  var aResult: Boolean);
-begin
-  aResult := True;
-  CEFWindowParent1.Cursor := CefCursorToWindowsCursor(cursorType);
 end;
 
 procedure TMiniBrowserFrm.CookiesFlushedMsg(var aMessage : TMessage);
@@ -1448,7 +1438,10 @@ end;
 
 procedure TMiniBrowserFrm.FindText1Click(Sender: TObject);
 begin
-  FindFrm.Show;
+  if GlobalCEFApp.ChromeRuntime then
+    Chromium1.ExecuteChromeCommand(IDC_FIND, CEF_WOD_CURRENT_TAB)
+   else
+    FindFrm.Show;
 end;
 
 procedure TMiniBrowserFrm.Flushcookies1Click(Sender: TObject);
