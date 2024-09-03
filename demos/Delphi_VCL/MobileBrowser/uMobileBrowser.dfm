@@ -454,9 +454,6 @@ object Form1: TForm1
           'https://coveryourtracks.eff.org/'
           'https://ipleak.com/full-report/'
           'https://xsinator.com/testing.html')
-        ExplicitLeft = 392
-        ExplicitTop = 16
-        ExplicitWidth = 145
       end
     end
     object CEFWindowParent1: TCEFWindowParent
@@ -479,7 +476,6 @@ object Form1: TForm1
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnOpenUrlFromTab = Chromium1OpenUrlFromTab
     OnDevToolsMethodResult = Chromium1DevToolsMethodResult
     Left = 56

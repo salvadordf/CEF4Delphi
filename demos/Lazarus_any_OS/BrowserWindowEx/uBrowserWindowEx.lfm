@@ -9,7 +9,7 @@ object Form1: TForm1
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.4.0.0'
   object PanelLeft: TPanel
     Left = 0
     Height = 556
@@ -37,16 +37,16 @@ object Form1: TForm1
         Width = 35
         Align = alRight
         Caption = 'Go'
-        OnClick = GoBtnLeftClick
         TabOrder = 0
+        OnClick = GoBtnLeftClick
       end
       object AddressEdtLeft: TComboBox
         Left = 0
-        Height = 24
+        Height = 23
         Top = 0
         Width = 424
         Align = alClient
-        ItemHeight = 16
+        ItemHeight = 15
         ItemIndex = 0
         Items.Strings = (
           'https://www.google.com'
@@ -127,16 +127,16 @@ object Form1: TForm1
         Width = 35
         Align = alRight
         Caption = 'Go'
-        OnClick = GoBtnRightClick
         TabOrder = 0
+        OnClick = GoBtnRightClick
       end
       object AddressEdtRight: TComboBox
         Left = 0
-        Height = 24
+        Height = 23
         Top = 0
         Width = 418
         Align = alClient
-        ItemHeight = 16
+        ItemHeight = 15
         ItemIndex = 0
         Items.Strings = (
           'https://www.google.com'
@@ -201,31 +201,31 @@ object Form1: TForm1
     ClientWidth = 967
     TabOrder = 3
     object BtnCloseApp: TButton
-      Left = 5
-      Height = 26
-      Top = 3
+      Left = 6
+      Height = 25
+      Top = 4
       Width = 80
       Caption = 'Close App'
-      OnClick = BtnCloseAppClick
       TabOrder = 0
+      OnClick = BtnCloseAppClick
     end
     object BtnCloseForm: TButton
-      Left = 95
-      Height = 26
-      Top = 3
+      Left = 96
+      Height = 25
+      Top = 4
       Width = 86
       Caption = 'Close Form'
-      OnClick = BtnCloseFormClick
       TabOrder = 1
+      OnClick = BtnCloseFormClick
     end
     object BtnModal: TButton
-      Left = 191
-      Height = 26
-      Top = 3
-      Width = 93
+      Left = 192
+      Height = 25
+      Top = 4
+      Width = 92
       Caption = 'Show Modal'
-      OnClick = BtnModalClick
       TabOrder = 2
+      OnClick = BtnModalClick
     end
   end
   object ImageList1: TImageList

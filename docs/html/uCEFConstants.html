@@ -3303,6 +3303,9 @@
 <tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#pfidLinux">pfidLinux</a></strong> = <a href="uCEFConstants.html#pidLinux64">pidLinux64</a>;</code></td>
 </tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#CEF_ONEDAYINMILLISECONDS">CEF_ONEDAYINMILLISECONDS</a></strong> = 86400000;</code></td>
+</tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Constants</h3>
@@ -7992,7 +7995,7 @@ Not configurable</p>
 </tr>
 <tr><td colspan="1">
 <p>
- User got to this page through a suggestion in the UI (for example, via the destinations page). Chrome runtime only. </p>
+ User got to this page through a suggestion in the UI (for example, via the destinations page). Chrome style only. </p>
 <p>
 
 
@@ -8037,7 +8040,7 @@ Not configurable</p>
 </tr>
 <tr><td colspan="1">
 <p>
- User got to this page by typing in the URL bar and selecting an entry that did not look like a URL. For example, a match might have the URL of a Google search result page, but appear like &quot;Search Google for ...&quot;. These are not quite the same as EXPLICIT navigations because the user didn't type or see the destination URL. Chrome runtime only. See also TT_KEYWORD. </p>
+ User got to this page by typing in the URL bar and selecting an entry that did not look like a URL. For example, a match might have the URL of a Google search result page, but appear like &quot;Search Google for ...&quot;. These are not quite the same as EXPLICIT navigations because the user didn't type or see the destination URL. Chrome style only. See also TT_KEYWORD. </p>
 <p>
 
 
@@ -8052,7 +8055,7 @@ Not configurable</p>
 </tr>
 <tr><td colspan="1">
 <p>
- This is a toplevel navigation. This is any content that is automatically loaded in a toplevel frame. For example, opening a tab to show the ASH screen saver, opening the devtools window, opening the NTP after the safe browsing warning, opening web-based dialog boxes are examples of AUTO_TOPLEVEL navigations. Chrome runtime only. </p>
+ This is a toplevel navigation. This is any content that is automatically loaded in a toplevel frame. For example, opening a tab to show the ASH screen saver, opening the devtools window, opening the NTP after the safe browsing warning, opening web-based dialog boxes are examples of AUTO_TOPLEVEL navigations. Chrome style only. </p>
 <p>
 
 
@@ -8097,7 +8100,7 @@ Not configurable</p>
 </tr>
 <tr><td colspan="1">
 <p>
- The url was generated from a replaceable keyword other than the default search provider. If the user types a keyword (which also applies to tab-to-search) in the omnibox this qualifier is applied to the transition type of the generated url. TemplateURLModel then may generate an additional visit with a transition type of TT_KEYWORD_GENERATED against the url '<a href="http://">http://</a>' + keyword. For example, if you do a tab-to-search against wikipedia the generated url has a transition qualifer of TT_KEYWORD, and TemplateURLModel generates a visit for 'wikipedia.org' with a transition type of TT_KEYWORD_GENERATED. Chrome runtime only. </p>
+ The url was generated from a replaceable keyword other than the default search provider. If the user types a keyword (which also applies to tab-to-search) in the omnibox this qualifier is applied to the transition type of the generated url. TemplateURLModel then may generate an additional visit with a transition type of TT_KEYWORD_GENERATED against the url '<a href="http://">http://</a>' + keyword. For example, if you do a tab-to-search against wikipedia the generated url has a transition qualifer of TT_KEYWORD, and TemplateURLModel generates a visit for 'wikipedia.org' with a transition type of TT_KEYWORD_GENERATED. Chrome style only. </p>
 <p>
 
 
@@ -8112,7 +8115,7 @@ Not configurable</p>
 </tr>
 <tr><td colspan="1">
 <p>
- Corresponds to a visit generated for a keyword. See description of TT_KEYWORD for more details. Chrome runtime only. </p>
+ Corresponds to a visit generated for a keyword. See description of TT_KEYWORD for more details. Chrome style only. </p>
 <p>
 
 
@@ -8187,7 +8190,7 @@ Not configurable</p>
 </tr>
 <tr><td colspan="1">
 <p>
- User is navigating to the home page. Chrome runtime only. </p>
+ User is navigating to the home page. Chrome style only. </p>
 <p>
 
 
@@ -8202,7 +8205,7 @@ Not configurable</p>
 </tr>
 <tr><td colspan="1">
 <p>
- The transition originated from an external application; the exact definition of this is embedder dependent. Chrome runtime and extension system only. </p>
+ The transition originated from an external application; the exact definition of this is embedder dependent. Chrome style only. </p>
 <p>
 
 
@@ -10618,7 +10621,7 @@ Custom menu items originating from the renderer process.</p>
 </tr>
 <tr><td colspan="1">
 <p>
- Permission types used with OnShowPermissionPrompt. Some types are platform-specific or only supported with the Chrome runtime. Should be kept in sync with Chromium's permissions::RequestType type. </p>
+ Permission types used with OnShowPermissionPrompt. Some types are platform-specific or only supported with Chrome style. Should be kept in sync with Chromium's permissions::RequestType type. </p>
 <p>
 
 
@@ -13007,6 +13010,19 @@ If any of the platform IDs are not defined then we set them as 0 to avoid build 
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CEF_ONEDAYINMILLISECONDS"></span><code><strong>CEF_ONEDAYINMILLISECONDS</strong> = 86400000;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ This value may be used with the mseconds_between_dumps parameter in GlobalCEFApp.DumpWithoutCrashing. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_dump_without_crashing.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_dump_without_crashing.h</a>&quot;&gt;CEF source file: /include/base/cef_dump_without_crashing.h (kOneDayInMilliseconds))</p>
+</td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
 </span>

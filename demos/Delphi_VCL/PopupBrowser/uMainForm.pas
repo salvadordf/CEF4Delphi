@@ -46,6 +46,7 @@ type
   protected
     FChildForm       : TChildForm;
     FCriticalSection : TCriticalSection;
+    FChildCounter    : cardinal; // Used to create unique child form names.
     FCanClose        : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosingMainForm : boolean;  // Set to True in the CloseQuery event.
     FClosingChildren : boolean;  // Set to True in the CloseQuery event.
@@ -53,6 +54,7 @@ type
     function  GetPopupChildCount : integer;
 
     procedure ClosePopupChildren;
+    procedure CreateChildForm;
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -103,7 +105,7 @@ uses
 // Destruction steps
 // =================
 // 1. FormCloseQuery sets CanClose to FALSE and it closes all child forms.
-// 2. When all the child forms are closed then FormCloseQuery is triggered again, sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
+// 2. When all the child forms are closed then FormCloseQuery is triggered again, calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
 // 3. TChromium.OnClose sends a CEF_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
 // 4. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
@@ -111,15 +113,7 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
-  //GlobalCEFApp.LogFile                    := 'debug.log';
-  //GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
-  {
-  GlobalCEFApp.FrameworkDirPath     := 'c:\cef';
-  GlobalCEFApp.ResourcesDirPath     := 'c:\cef';
-  GlobalCEFApp.LocalesDirPath       := 'c:\cef\locales';
-  GlobalCEFApp.cache                := 'c:\cef\cache';
-  GlobalCEFApp.UserDataPath         := 'c:\cef\User Data';
-  }
+  GlobalCEFApp.SetCurrentDir              := True;
 end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -154,6 +148,7 @@ begin
 
   Chromium1.DefaultURL              := AddressEdt.Text;
   Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+  Chromium1.RuntimeStyle            := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
@@ -276,6 +271,18 @@ begin
     end;
 end;
 
+procedure TMainForm.CreateChildForm;
+begin
+  if (FChildCounter < high(cardinal)) then
+    inc(FChildCounter)
+   else
+    FChildCounter := 1;
+
+  FChildForm         := TChildForm.Create(self);
+  FChildForm.Name    := 'ChildForm_' + IntToStr(FChildCounter);
+  FChildForm.Tag     := FChildCounter;
+end;
+
 procedure TMainForm.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 begin
   case Msg.message of
@@ -291,7 +298,8 @@ end;
 
 procedure TMainForm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
-  FChildForm         := TChildForm.Create(self);
+  CreateChildForm;
+
   Caption            := 'Popup Browser';
   AddressPnl.Enabled := True;
 end;
@@ -309,7 +317,7 @@ begin
     if (FChildForm <> nil) then
       PostMessage(FChildForm.Handle, CEF_SHOWCHILD, 0, 0);
 
-    FChildForm := TChildForm.Create(self);
+    CreateChildForm;
   finally
     FCriticalSection.Release;
   end;
@@ -317,7 +325,8 @@ end;
 
 procedure TMainForm.ChildDestroyedMsg(var aMessage : TMessage);
 begin
-  if FClosingChildren and (PopupChildCount = 0) then Close;
+  if FClosingChildren and (PopupChildCount = 0) then
+    Close;
 end;
 
 procedure TMainForm.GoBtnClick(Sender: TObject);

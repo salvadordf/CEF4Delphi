@@ -36,7 +36,7 @@ type
       function  GetBrowser : ICefBrowser;
       /// <summary>
       /// Returns the Chrome toolbar associated with this BrowserView. Only
-      /// supported when using the Chrome runtime. The ICefBrowserViewDelegate.GetChromeToolbarType
+      /// supported when using Chrome style. The ICefBrowserViewDelegate.GetChromeToolbarType
       /// function must return a value other than
       /// CEF_CTT_NONE and the toolbar will not be available until after this
       /// BrowserView is added to a ICefWindow and
@@ -44,13 +44,18 @@ type
       /// </summary>
       function  GetChromeToolbar : ICefView;
       /// <summary>
-      /// Sets whether accelerators registered with ICefWindow.SetAccelerator are
-      /// triggered before or after the event is sent to the ICefBrowser. If
-      /// |prefer_accelerators| is true (1) then the matching accelerator will be
-      /// triggered immediately and the event will not be sent to the ICefBrowser.
-      /// If |prefer_accelerators| is false (0) then the matching accelerator will
-      /// only be triggered if the event is not handled by web content or by
-      /// ICefKeyboardHandler. The default value is false (0).
+      /// Sets whether normal priority accelerators are first forwarded to the web
+      /// content (`keydown` event handler) or ICefKeyboardHandler. Normal priority
+      /// accelerators can be registered via ICefWindow.SetAccelerator (with
+      /// |high_priority|=false) or internally for standard accelerators supported
+      /// by Chrome style. If |prefer_accelerators| is true then the matching
+      /// accelerator will be triggered immediately (calling
+      /// ICefWindowDelegate.OnAccelerator or ICefCommandHandler.OnChromeCommand
+      /// respectively) and the event will not be forwarded to the web content or
+      /// ICefKeyboardHandler first. If |prefer_accelerators| is false then the
+      /// matching accelerator will only be triggered if the event is not handled by
+      /// web content (`keydown` event handler that calls `event.preventDefault()`)
+      /// or by ICefKeyboardHandler. The default value is false.
       /// </summary>
       procedure SetPreferAccelerators(prefer_accelerators: boolean);
       /// <summary>

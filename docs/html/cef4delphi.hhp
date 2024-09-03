@@ -185,12 +185,6 @@ uCEFDragHandler.TCustomDragHandler.html
 uCEFEndTracingCallback.html
 uCEFEndTracingCallback.TCefEndTracingCallbackOwn.html
 uCEFEndTracingCallback.TCefFastEndTracingCallback.html
-uCEFExtension.html
-uCEFExtension.TCefExtensionRef.html
-uCEFExtensionHandler.html
-uCEFExtensionHandler.TCefExtensionHandlerRef.html
-uCEFExtensionHandler.TCefExtensionHandlerOwn.html
-uCEFExtensionHandler.TCustomExtensionHandler.html
 uCEFFileDialogCallback.html
 uCEFFileDialogCallback.TCefFileDialogCallbackRef.html
 uCEFFileDialogInfo.html
@@ -216,8 +210,6 @@ uCEFFrame.TCefFrameRef.html
 uCEFFrameHandler.html
 uCEFFrameHandler.TCefFrameHandlerOwn.html
 uCEFFrameHandler.TCustomFrameHandler.html
-uCEFGetExtensionResourceCallback.html
-uCEFGetExtensionResourceCallback.TCefGetExtensionResourceCallbackRef.html
 uCEFImage.html
 uCEFImage.TCefImageRef.html
 uCEFInterfaces.html
@@ -269,6 +261,7 @@ uCEFInterfaces.ICefv8Handler.html
 uCEFInterfaces.ICefV8Interceptor.html
 uCEFInterfaces.ICefV8Accessor.html
 uCEFInterfaces.ICefTask.html
+uCEFInterfaces.ICefTaskManager.html
 uCEFInterfaces.ICefTaskRunner.html
 uCEFInterfaces.ICefThread.html
 uCEFInterfaces.ICefWaitableEvent.html
@@ -314,9 +307,6 @@ uCEFInterfaces.ICefDictionaryValue.html
 uCEFInterfaces.ICefListValue.html
 uCEFInterfaces.ICefLifeSpanHandler.html
 uCEFInterfaces.ICefCommandHandler.html
-uCEFInterfaces.ICefGetExtensionResourceCallback.html
-uCEFInterfaces.ICefExtensionHandler.html
-uCEFInterfaces.ICefExtension.html
 uCEFInterfaces.ICefLoadHandler.html
 uCEFInterfaces.ICefResponseFilter.html
 uCEFInterfaces.ICefRequestHandler.html
@@ -655,6 +645,8 @@ uCEFTask.TCefBrowserNavigationTask.html
 uCEFTask.TCefSetAudioMutedTask.html
 uCEFTask.TCefToggleAudioMutedTask.html
 uCEFTask.TCefEnableFocusTask.html
+uCEFTaskManager.html
+uCEFTaskManager.TCefTaskManagerRef.html
 uCEFTaskRunner.html
 uCEFTaskRunner.TCefTaskRunnerRef.html
 uCEFTextfield.html
@@ -683,9 +675,13 @@ uCEFTypes.TCefPoint.html
 uCEFTypes.TCefSize.html
 uCEFTypes.TCefRange.html
 uCEFTypes.TCefCursorInfo.html
+uCEFTypes.TCefLinuxWindowProperties.html
+uCEFTypes.TLinuxWindowProperties.html
 uCEFTypes.TCefUrlParts.html
 uCEFTypes.TUrlParts.html
 uCEFTypes.TCefInsets.html
+uCEFTypes.TCefTaskInfo.html
+uCEFTypes.TCustomTaskInfo.html
 uCEFTypes.TCefTouchHandleState.html
 uCEFTypes.TCefCompositionUnderline.html
 uCEFTypes.TCefTime.html
@@ -736,10 +732,7 @@ uCEFTypes.TCefMediaRouteCreateCallback.html
 uCEFTypes.TCefMediaSink.html
 uCEFTypes.TCefMediaSinkDeviceInfoCallback.html
 uCEFTypes.TCefMediaSource.html
-uCEFTypes.TCefGetExtensionResourceCallback.html
-uCEFTypes.TCefExtensionHandler.html
 uCEFTypes.TCefAudioHandler.html
-uCEFTypes.TCefExtension.html
 uCEFTypes.TCefLoadHandler.html
 uCEFTypes.TCefRenderHandler.html
 uCEFTypes.TCefPreferenceRegistrar.html
@@ -809,6 +802,7 @@ uCEFTypes.TCefPostDataElement.html
 uCEFTypes.TCefPostData.html
 uCEFTypes.TCefRequest.html
 uCEFTypes.TCefTask.html
+uCEFTypes.TCefTaskManager.html
 uCEFTypes.TCefDomVisitor.html
 uCEFTypes.TCefMenuModel.html
 uCEFTypes.TCefContextMenuParams.html

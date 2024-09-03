@@ -14,7 +14,6 @@ begin
   GlobalCEFApp.ShowMessageDlg             := False;
   GlobalCEFApp.BlinkSettings              := 'hideScrollbars';     
   GlobalCEFApp.SetCurrentDir              := True;
-  GlobalCEFApp.ChromeRuntime              := True;
   GlobalCEFApp.StartSubProcess;
   DestroyGlobalCEFApp;
 end.

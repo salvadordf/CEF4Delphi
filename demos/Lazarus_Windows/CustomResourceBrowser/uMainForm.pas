@@ -26,11 +26,13 @@ type
     Button1: TButton;
     Timer1: TTimer;
 
-    procedure FormShow(Sender: TObject);
+    procedure FormShow(Sender: TObject);  
+    procedure FormCreate(Sender: TObject);    
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+
     procedure Button1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+
     procedure ChromiumWindow1Close(Sender: TObject);
     procedure ChromiumWindow1BeforeClose(Sender: TObject);
 
@@ -100,6 +102,8 @@ procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
+
+  ChromiumWindow1.ChromiumBrowser.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TMainForm.FormShow(Sender: TObject);

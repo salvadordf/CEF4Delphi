@@ -25,9 +25,6 @@ type
 
     procedure Panel1Enter(Sender: TObject);
     procedure Panel1Exit(Sender: TObject);
-    procedure Panel1IMECancelComposition(Sender: TObject);
-    procedure Panel1IMECommitText(Sender: TObject; const aText: ustring; const replacement_range: PCefRange; relative_cursor_pos: integer);
-    procedure Panel1IMESetComposition(Sender: TObject; const aText: ustring; const underlines: TCefCompositionUnderlineDynArray; const replacement_range, selection_range: TCefRange);
     procedure Panel1Resize(Sender: TObject);
     procedure Panel1Click(Sender: TObject);
     procedure Panel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -43,7 +40,6 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormHide(Sender: TObject);
-    procedure FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);        
     procedure FormClose(Sender: TObject; var aAction: TCloseAction);
 
@@ -57,12 +53,11 @@ type
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var aText: ustring; out Result: Boolean);
     procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
-    procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure chrmosrIMECompositionRangeChanged(Sender: TObject; const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect);
     procedure chrmosrTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
+    procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
+    procedure chrmosrCanFocus(Sender: TObject);
 
   protected
-    FbFirst            : boolean;
     FPopUpBitmap       : TBitmap;
     FPopUpRect         : TRect;
     FShowPopUp         : boolean;
@@ -72,9 +67,6 @@ type
     FClosing           : boolean;
     FClientInitialized : boolean;
     FResizeCS          : TCriticalSection;
-    FIMECS             : TCriticalSection;
-    FDeviceBounds      : TCefRectDynArray;
-    FSelectedRange     : TCefRange;          
     FPopupFeatures     : TCefPopupFeatures;
 
     FLastClickCount  : integer;
@@ -101,11 +93,11 @@ type
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
     procedure PendingResizeMsg(var aMessage : TMessage); message CEF_PENDINGRESIZE;
     procedure PendingInvalidateMsg(var aMessage : TMessage); message CEF_PENDINGINVALIDATE;
-    procedure RangeChangedMsg(var aMessage : TMessage); message CEF_IMERANGECHANGED;
-    procedure ShowChildMsg(var aMessage : TMessage); message CEF_SHOWCHILD;
+    procedure ShowChildMsg(var aMessage : TMessage); message CEF_SHOWCHILD;       
+    procedure FocusEnabledMsg(var aMessage : TMessage); message CEF_FOCUSENABLED;
 
   public
-    function  CreateClientHandler(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : string; const popupFeatures : TCefPopupFeatures) : boolean;
+    function  CreateClientHandler(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : ustring; const popupFeatures : TCefPopupFeatures) : boolean;
     procedure ApplyPopupFeatures;
 
     property  ClientInitialized : boolean   read FClientInitialized;
@@ -129,7 +121,7 @@ uses
 
 function TChildForm.CreateClientHandler(var   windowInfo      : TCefWindowInfo;
                                         var   client          : ICefClient;
-                                        const targetFrameName : string;
+                                        const targetFrameName : ustring;
                                         const popupFeatures   : TCefPopupFeatures) : boolean;
 begin                                      
   Panel1.CreateIMEHandler;
@@ -147,55 +139,6 @@ begin
   if (FPopupFeatures.yset      <> 0) then chrmosr.SetFormTopTo(FPopupFeatures.y);
   if (FPopupFeatures.widthset  <> 0) then chrmosr.ResizeFormWidthTo(FPopupFeatures.width);
   if (FPopupFeatures.heightset <> 0) then chrmosr.ResizeFormHeightTo(FPopupFeatures.height);
-end;
-
-procedure TChildForm.chrmosrIMECompositionRangeChanged(      Sender                : TObject;
-                                                       const browser               : ICefBrowser;
-                                                       const selected_range        : PCefRange;
-                                                             character_boundsCount : NativeUInt;
-                                                       const character_bounds      : PCefRect);
-var
-  TempPRect : PCefRect;
-  i         : NativeUInt;
-begin
-  try
-    FIMECS.Acquire;
-
-    // TChromium.OnIMECompositionRangeChanged is triggered in a different thread
-    // and all functions using a IMM context need to be executed in the same
-    // thread, in this case the main thread. We need to save the parameters and
-    // send a message to the form to execute Panel1.ChangeCompositionRange in
-    // the main thread.
-
-    if (FDeviceBounds <> nil) then
-      begin
-        Finalize(FDeviceBounds);
-        FDeviceBounds := nil;
-      end;
-
-    FSelectedRange := selected_range^;
-
-    if (character_boundsCount > 0) then
-      begin
-        SetLength(FDeviceBounds, character_boundsCount);
-
-        i         := 0;
-        TempPRect := character_bounds;
-
-        while (i < character_boundsCount) do
-          begin
-            FDeviceBounds[i] := TempPRect^;
-            LogicalToDevice(FDeviceBounds[i], GlobalCEFApp.DeviceScaleFactor);
-
-            inc(TempPRect);
-            inc(i);
-          end;
-      end;
-
-    PostMessage(Handle, CEF_IMERANGECHANGED, 0, 0);
-  finally
-    FIMECS.Release;
-  end;
 end;
 
 procedure TChildForm.chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -460,7 +403,7 @@ end;
 
 procedure TChildForm.chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var aText: ustring; out Result: Boolean);
 begin
-  Panel1.hint     := aText;
+  Panel1.hint     := UTF8Encode(aText);
   Panel1.ShowHint := (length(aText) > 0);
   Result          := True;
 end;
@@ -611,15 +554,6 @@ begin
   Caption := 'Popup Browser';
 end;
 
-procedure TChildForm.FormAfterMonitorDpiChanged(Sender: TObject; OldDPI, NewDPI: Integer);
-begin
-  if (chrmosr <> nil) then
-    begin
-      chrmosr.NotifyScreenInfoChanged;
-      chrmosr.WasResized;
-    end;
-end;
-
 procedure TChildForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
   CanClose := FCanClose;
@@ -634,7 +568,6 @@ end;
 
 procedure TChildForm.FormCreate(Sender: TObject);
 begin
-  FbFirst         := False;
   FPopUpBitmap    := nil;
   FPopUpRect      := rect(0, 0, 0, 0);
   FShowPopUp      := False;
@@ -642,13 +575,7 @@ begin
   FPendingResize  := False;
   FCanClose       := False;
   FClosing        := False;
-  FDeviceBounds   := nil;
-
-  FSelectedRange.from   := 0;
-  FSelectedRange.to_    := 0;
-
   FResizeCS       := TCriticalSection.Create;
-  FIMECS          := TCriticalSection.Create;
 
   InitializeLastClick;
 end;
@@ -659,16 +586,9 @@ begin
 
   if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
   if (FResizeCS    <> nil) then FreeAndNil(FResizeCS);
-  if (FIMECS       <> nil) then FreeAndNil(FIMECS);
 
-  if (FDeviceBounds <> nil) then
-    begin
-      Finalize(FDeviceBounds);
-      FDeviceBounds := nil;
-    end;
-
-  if FClientInitialized and TMainForm(Owner).HandleAllocated then
-    PostMessage(TMainForm(Owner).Handle, CEF_CHILDDESTROYED, 0, 0);
+  if FClientInitialized and MainForm.HandleAllocated then
+    PostMessage(MainForm.Handle, CEF_CHILDDESTROYED, 0, 0);
 end;
 
 procedure TChildForm.FormHide(Sender: TObject);
@@ -784,16 +704,6 @@ begin
   Panel1.Invalidate;
 end;
 
-procedure TChildForm.RangeChangedMsg(var aMessage : TMessage);
-begin
-  try
-    FIMECS.Acquire;
-    Panel1.ChangeCompositionRange(FSelectedRange, FDeviceBounds);
-  finally
-    FIMECS.Release;
-  end;
-end;
-
 procedure TChildForm.DoResize;
 begin
   try
@@ -837,31 +747,17 @@ begin
   chrmosr.SetFocus(True);
 end;
 
+procedure TChildForm.chrmosrCanFocus(Sender: TObject);
+begin
+  // The browser required some time to create associated internal objects
+  // before being able to accept the focus. Now we can set the focus on the
+  // TBufferPanel control
+  PostMessage(Handle, CEF_FOCUSENABLED, 0, 0);
+end;
+
 procedure TChildForm.Panel1Exit(Sender: TObject);
 begin
   chrmosr.SetFocus(False);
-end;
-
-procedure TChildForm.Panel1IMECancelComposition(Sender: TObject);
-begin
-  chrmosr.IMECancelComposition;
-end;
-
-procedure TChildForm.Panel1IMECommitText(      Sender              : TObject;
-                                         const aText               : ustring;
-                                         const replacement_range   : PCefRange;
-                                               relative_cursor_pos : Integer);
-begin
-  chrmosr.IMECommitText(aText, replacement_range, relative_cursor_pos);
-end;
-
-procedure TChildForm.Panel1IMESetComposition(      Sender            : TObject;
-                                             const aText             : ustring;
-                                             const underlines        : TCefCompositionUnderlineDynArray;
-                                             const replacement_range : TCefRange;
-                                             const selection_range   : TCefRange);
-begin
-  chrmosr.IMESetComposition(aText, underlines, @replacement_range, @selection_range);
 end;
 
 procedure TChildForm.Panel1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -925,7 +821,7 @@ end;
 
 procedure TChildForm.chrmosrTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
 begin
-  Caption := title;
+  Caption := UTF8Encode(title);
 end;
 
 procedure TChildForm.FormClose(Sender: TObject; var aAction: TCloseAction);
@@ -937,6 +833,14 @@ procedure TChildForm.ShowChildMsg(var aMessage : TMessage);
 begin
   ApplyPopupFeatures;
   Show;
+end;
+
+procedure TChildForm.FocusEnabledMsg(var aMessage : TMessage);
+begin
+  if Panel1.Focused then
+    chrmosr.SetFocus(True)
+   else
+    Panel1.SetFocus;
 end;
 
 end.

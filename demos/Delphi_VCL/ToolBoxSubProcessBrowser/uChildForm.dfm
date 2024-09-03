@@ -32,7 +32,6 @@ object ChildForm: TChildForm
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     Left = 184
     Top = 128
   end

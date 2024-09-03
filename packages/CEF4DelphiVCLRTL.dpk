@@ -78,13 +78,10 @@ contains
   uCEFDragData in '..\source\uCEFDragData.pas',
   uCEFDragHandler in '..\source\uCEFDragHandler.pas',
   uCEFEndTracingCallback in '..\source\uCEFEndTracingCallback.pas',
-  uCEFExtension in '..\source\uCEFExtension.pas',
-  uCEFExtensionHandler in '..\source\uCEFExtensionHandler.pas',
   uCEFFileDialogCallback in '..\source\uCEFFileDialogCallback.pas',
   uCEFFindHandler in '..\source\uCEFFindHandler.pas',
   uCEFFocusHandler in '..\source\uCEFFocusHandler.pas',
   uCEFFrame in '..\source\uCEFFrame.pas',
-  uCEFGetExtensionResourceCallback in '..\source\uCEFGetExtensionResourceCallback.pas',
   uCEFImage in '..\source\uCEFImage.pas',
   uCEFInterfaces in '..\source\uCEFInterfaces.pas',
   uCEFJsDialogCallback in '..\source\uCEFJsDialogCallback.pas',
@@ -237,7 +234,8 @@ contains
   uCEFBrowserBitmap in '..\source\uCEFBrowserBitmap.pas',
   uCEFComponentIdList in '..\source\uCEFComponentIdList.pas',
   uCEFUnresponsiveProcessCallback in '..\source\uCEFUnresponsiveProcessCallback.pas',
-  uCEFWindowInfoWrapper in '..\source\uCEFWindowInfoWrapper.pas';
+  uCEFWindowInfoWrapper in '..\source\uCEFWindowInfoWrapper.pas',
+  uCEFTaskManager in '..\source\uCEFTaskManager.pas';
 
 end.
 

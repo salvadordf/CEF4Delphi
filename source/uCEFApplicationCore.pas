@@ -69,7 +69,6 @@ type
       FBrowserSubprocessPath             : ustring;
       FFrameworkDirPath                  : ustring;
       FMainBundlePath                    : ustring; // Only used in macOS
-      FChromeRuntime                     : boolean;
       FMultiThreadedMessageLoop          : boolean;
       FExternalMessagePump               : boolean;
       FWindowlessRenderingEnabled        : boolean;
@@ -77,7 +76,6 @@ type
       FCache                             : ustring;
       FRootCache                         : ustring;
       FPersistSessionCookies             : boolean;
-      FPersistUserPreferences            : boolean;
       FUserAgent                         : ustring;
       FUserAgentProduct                  : ustring;
       FLocale                            : ustring;
@@ -87,7 +85,6 @@ type
       FJavaScriptFlags                   : ustring;
       FResourcesDirPath                  : ustring;
       FLocalesDirPath                    : ustring;
-      FPackLoadingDisabled               : boolean;
       FRemoteDebuggingPort               : integer;
       FUncaughtExceptionStackSize        : integer;
       FIgnoreCertificateErrors           : boolean;
@@ -165,6 +162,7 @@ type
       FUIColorMode                       : TCefUIColorMode;
       FDisableHangMonitor                : boolean;
       FHideCrashRestoreBubble            : boolean;
+      FPostQuantumKyber                  : TCefState;
 
 
       // Fields used during the CEF initialization
@@ -284,6 +282,7 @@ type
       function  Load_cef_cookie_capi_h : boolean;
       function  Load_cef_crash_util_h : boolean;
       function  Load_cef_drag_data_capi_h : boolean;
+      function  Load_cef_dump_without_crashing_internal_h : boolean;
       function  Load_cef_file_util_capi_h : boolean;
       function  Load_cef_i18n_util_capi_h : boolean;
       function  Load_cef_image_capi_h : boolean;
@@ -306,6 +305,7 @@ type
       function  Load_cef_ssl_info_capi_h : boolean;
       function  Load_cef_stream_capi_h : boolean;
       function  Load_cef_task_capi_h : boolean;
+      function  Load_cef_task_manager_capi_h : boolean;
       function  Load_cef_thread_capi_h : boolean;
       function  Load_cef_trace_capi_h : boolean;
       function  Load_cef_urlrequest_capi_h : boolean;
@@ -475,6 +475,32 @@ type
       /// Removes a component ID from the valid ID list when a component is destroyed.
       /// </summary>
       procedure   RemoveComponentID(aComponentID : integer);
+      /// <summary>
+      /// DumpWithoutCrashing allows for generating crash dumps with a throttling
+      /// mechanism, preventing frequent dumps from being generated in a short period
+      /// of time from the same location. The |function_name|, |file_name|, and
+      /// |line_number| determine the location of the dump. The
+      /// |mseconds_between_dumps| is an interval between consecutive dumps in
+      /// milliseconds from the same location.
+      /// </summary>
+      /// <returns>
+      /// Returns true if the dump was successfully generated, false otherwise
+      /// </returns>
+      /// <remarks>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_dump_without_crashing.h">CEF source file: /include/base/cef_dump_without_crashing.h (CefDumpWithoutCrashing)</see></para>
+      /// </remarks>
+      function    DumpWithoutCrashing(mseconds_between_dumps: int64; const function_name, file_name: ustring; line_number: integer): boolean;
+      /// <summary>
+      /// DumpWithoutCrashingUnthrottled allows for immediate crash dumping without
+      /// any throttling constraints.
+      /// </summary>
+      /// <returns>
+      /// Returns true if the dump was successfully generated, false otherwise
+      /// </returns>
+      /// <remarks>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_dump_without_crashing.h">CEF source file: /include/base/cef_dump_without_crashing.h (CefDumpWithoutCrashingUnthrottled)</see></para>
+      /// </remarks>
+      function    DumpWithoutCrashingUnthrottled : boolean;
 
       /// <summary>
       /// Set to true (1) to disable the sandbox for sub-processes. See
@@ -508,12 +534,6 @@ type
       /// command-line switch.
       /// </summary>
       property MainBundlePath                    : ustring                                  read FMainBundlePath                    write FMainBundlePath;
-      /// <summary>
-      /// Set to true (1) to enable use of the Chrome runtime in CEF. This feature
-      /// is considered experimental and is not recommended for most users at this
-      /// time. See issue #2969 for details.
-      /// </summary>
-      property ChromeRuntime                     : boolean                                  read FChromeRuntime                     write FChromeRuntime;
       /// <summary>
       /// Set to true (1) to have the browser process message loop run in a separate
       /// thread. If false (0) then the CefDoMessageLoopWork() function must be
@@ -549,16 +569,16 @@ type
       /// <summary>
       /// The directory where data for the global browser cache will be stored on
       /// disk. If this value is non-empty then it must be an absolute path that is
-      /// either equal to or a child directory of TCefSettings.root_cache_path. If
+      /// either equal to or a child directory of CefSettings.root_cache_path. If
       /// this value is empty then browsers will be created in "incognito mode"
       /// where in-memory caches are used for storage and no profile-specific data
       /// is persisted to disk (installation-specific data will still be persisted
       /// in root_cache_path). HTML5 databases such as localStorage will only
       /// persist across sessions if a cache path is specified. Can be overridden
-      /// for individual ICefRequestContext instances via the
-      /// ICefRequestContextSettings.cache_path value. When using the Chrome runtime
-      /// any child directory value will be ignored and the "default" profile (also
-      /// a child directory) will be used instead.
+      /// for individual CefRequestContext instances via the
+      /// TCefRequestContextSettings.cache_path value. Any child directory value will
+      /// be ignored and the "default" profile (also a child directory) will be used
+      /// instead.
       /// </summary>
       property Cache                             : ustring                                  read FCache                             write SetCache;
       /// <summary>
@@ -597,15 +617,6 @@ type
       /// TCefRequestContextSettings.persist_session_cookies value.
       /// </summary>
       property PersistSessionCookies             : Boolean                                  read FPersistSessionCookies             write FPersistSessionCookies;
-      /// <summary>
-      /// To persist user preferences as a JSON file in the cache path directory set
-      /// this value to true (1). A |cache_path| value must also be specified
-      /// to enable this feature. Also configurable using the
-      /// "persist-user-preferences" command-line switch. Can be overridden for
-      /// individual CefRequestContext instances via the
-      /// TCefRequestContextSettings.persist_user_preferences value.
-      /// </summary>
-      property PersistUserPreferences            : Boolean                                  read FPersistUserPreferences            write FPersistUserPreferences;
       /// <summary>
       /// Value that will be returned as the User-Agent HTTP header. If empty the
       /// default User-Agent string will be used. Also configurable using the
@@ -675,14 +686,6 @@ type
       /// </summary>
       property LocalesDirPath                    : ustring                                  read GetLocalesDirPath                  write SetLocalesDirPath;
       /// <summary>
-      /// Set to true (1) to disable loading of pack files for resources and
-      /// locales. A resource bundle handler must be provided for the browser and
-      /// render processes via ICefApp.GetResourceBundleHandler() if loading of pack
-      /// files is disabled. Also configurable using the "disable-pack-loading"
-      /// command- line switch.
-      /// </summary>
-      property PackLoadingDisabled               : Boolean                                  read FPackLoadingDisabled               write FPackLoadingDisabled;
-      /// <summary>
       /// Set to a value between 1024 and 65535 to enable remote debugging on the
       /// specified port. Also configurable using the "remote-debugging-port"
       /// command-line switch. Specifying 0 via the command-line switch will result
@@ -744,7 +747,7 @@ type
       /// policies. On Windows, this is a registry key like
       /// "SOFTWARE\\Policies\\Google\\Chrome". On MacOS, this is a bundle ID like
       /// "com.google.Chrome". On Linux, this is an absolute directory path like
-      /// "/etc/opt/chrome/policies". Only supported with the Chrome runtime. See
+      /// "/etc/opt/chrome/policies". Only supported with Chrome style. See
       /// https://support.google.com/chrome/a/answer/9037717 for details.</para>
       /// <para>Chrome Browser Cloud Management integration, when enabled via the
       /// "enable-chrome-browser-cloud-management" command-line flag, will also use
@@ -756,8 +759,8 @@ type
       /// Specify an ID for an ICON resource that can be loaded from the main
       /// executable and used when creating default Chrome windows such as DevTools
       /// and Task Manager. If unspecified the default Chromium ICON (IDR_MAINFRAME
-      /// [101]) will be loaded from libcef.dll. Only supported with the Chrome
-      /// runtime on Windows.
+      /// [101]) will be loaded from libcef.dll. Only supported with Chrome style on
+      /// Windows.
       /// </summary>
       property ChromeAppIconId                   : integer                                  read FChromeAppIconId                   write FChromeAppIconId;
       {$IF DEFINED(OS_POSIX) AND NOT(DEFINED(ANDROID))}
@@ -940,8 +943,7 @@ type
       /// </remarks>
       property DisableSiteIsolationTrials        : boolean                                  read FDisableSiteIsolationTrials        write FDisableSiteIsolationTrials;
       /// <summary>
-      /// Delegate all login requests to the client GetAuthCredentials
-      /// callback when using the Chrome runtime.
+      /// Delegate all login requests to the client GetAuthCredentials callback.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc">Uses the following command line switch: --disable-chrome-login-prompt</see></para>
@@ -1258,6 +1260,10 @@ type
       /// </remarks>
       property HideCrashRestoreBubble            : boolean                                  read FHideCrashRestoreBubble            write FHideCrashRestoreBubble;
       /// <summary>
+      /// This option enables a combination of X25519 and Kyber in TLS 1.3.
+      /// </summary>
+      property TLS13HybridizedKyberSupport       : TCefState                                read FPostQuantumKyber                  write FPostQuantumKyber;
+      /// <summary>
       /// Ignores certificate-related errors.
       /// </summary>
       /// <remarks>
@@ -1467,26 +1473,22 @@ type
       /// </remarks>
       property OnRegCustomSchemes                : TOnRegisterCustomSchemesEvent            read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
       /// <summary>
-      /// Provides an opportunity to register custom preferences prior to global and
-      /// request context initialization.
-      ///
-      /// If |type| is CEF_PREFERENCES_TYPE_GLOBAL the registered preferences can be
+      /// <para>Provides an opportunity to register custom preferences prior to global and
+      /// request context initialization.</para>
+      /// <para>If |type| is CEF_PREFERENCES_TYPE_GLOBAL the registered preferences can be
       /// accessed via ICefPreferenceManager.GetGlobalPreferences after
       /// OnContextInitialized is called. Global preferences are registered a single
-      /// time at application startup. See related TCefSettings.cache_path and
-      /// TCefSettings.persist_user_preferences configuration.
-      ///
-      /// If |type| is CEF_PREFERENCES_TYPE_REQUEST_CONTEXT the preferences can be
+      /// time at application startup. See related TCefSettings.cache_path
+      /// configuration.</para>
+      /// <para>If |type| is CEF_PREFERENCES_TYPE_REQUEST_CONTEXT the preferences can be
       /// accessed via the ICefRequestContext after
       /// ICefRequestContextHandler.OnRequestContextInitialized is called.
       /// Request context preferences are registered each time a new
       /// ICefRequestContext is created. It is intended but not required that all
       /// request contexts have the same registered preferences. See related
-      /// TCefRequestContextSettings.cache_path and
-      /// TCefRequestContextSettings.persist_user_preferences configuration.
-      ///
-      /// Do not keep a reference to the |registrar| object. This function is called
-      /// on the browser process UI thread.
+      /// TCefRequestContextSettings.cache_path configuration.</para>
+      /// <para>Do not keep a reference to the |registrar| object. This function is called
+      /// on the browser process UI thread.</para>
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
@@ -1553,8 +1555,8 @@ type
       /// (TCefBrowser object). If null is returned the TCefBrowser will be
       /// unmanaged (no callbacks will be executed for that TCefBrowser) and
       /// application shutdown will be blocked until the browser window is closed
-      /// manually. This function is currently only used with the Chrome runtime
-      /// when creating new browser windows via Chrome UI.
+      /// manually. This function is currently only used with Chrome style when
+      /// creating new browser windows via Chrome UI.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
@@ -1564,8 +1566,8 @@ type
       /// Return the default handler for use with a new user or incognito profile
       /// (TCefRequestContext object). If null is returned the
       /// TCefRequestContext will be unmanaged (no callbacks will be executed for
-      /// that TCefRequestContext). This function is currently only used with the
-      /// Chrome runtime when creating new browser windows via Chrome UI.
+      /// that TCefRequestContext). This function is currently only used with
+      /// Chrome style when creating new browser windows via Chrome UI.
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
@@ -1831,7 +1833,6 @@ begin
   FBrowserSubprocessPath             := '';
   FFrameworkDirPath                  := '';
   FMainBundlePath                    := {$IFDEF MACOSX}GetModulePath{$ELSE}''{$ENDIF};
-  FChromeRuntime                     := False;
   FMultiThreadedMessageLoop          := True;
   FExternalMessagePump               := False;
   FWindowlessRenderingEnabled        := False;
@@ -1839,7 +1840,6 @@ begin
   FCache                             := '';
   FRootCache                         := '';
   FPersistSessionCookies             := False;
-  FPersistUserPreferences            := False;
   FUserAgent                         := '';
   FUserAgentProduct                  := '';
   FLocale                            := '';
@@ -1849,7 +1849,6 @@ begin
   FJavaScriptFlags                   := '';
   FResourcesDirPath                  := '';
   FLocalesDirPath                    := '';
-  FPackLoadingDisabled               := False;
   FRemoteDebuggingPort               := 0;
   FUncaughtExceptionStackSize        := 0;
   FIgnoreCertificateErrors           := False;
@@ -1927,6 +1926,7 @@ begin
   FUIColorMode                       := uicmSystemDefault;
   FDisableHangMonitor                := False;
   FHideCrashRestoreBubble            := True;
+  FPostQuantumKyber                  := STATE_DEFAULT;
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
@@ -2726,6 +2726,26 @@ begin
   FComponentIDList.RemoveID(aComponentID);
 end;
 
+function TCefApplicationCore.DumpWithoutCrashing(mseconds_between_dumps: int64; const function_name, file_name: ustring; line_number: integer): boolean;
+var
+  TempFunctionName, TempFileName : AnsiString;
+begin
+  Result := False;
+
+  if (FStatus = asInitialized) then
+    begin
+      TempFunctionName := AnsiString(function_name);
+      TempFileName     := AnsiString(file_name);
+      Result           := (cef_dump_without_crashing(mseconds_between_dumps, @TempFunctionName[1], @TempFileName[1], line_number) <> 0);
+    end;
+end;
+
+function TCefApplicationCore.DumpWithoutCrashingUnthrottled : boolean;
+begin
+  Result := (FStatus = asInitialized) and
+            (cef_dump_without_crashing_unthrottled() <> 0);
+end;
+
 procedure TCefApplicationCore.ShutDown;
 begin
   try
@@ -2818,7 +2838,6 @@ begin
   aSettings.browser_subprocess_path                 := CefString(FBrowserSubprocessPath);
   aSettings.framework_dir_path                      := CefString(FFrameworkDirPath);
   aSettings.main_bundle_path                        := CefString(FMainBundlePath);
-  aSettings.chrome_runtime                          := Ord(FChromeRuntime);
   aSettings.multi_threaded_message_loop             := Ord(FMultiThreadedMessageLoop);
   aSettings.external_message_pump                   := Ord(FExternalMessagePump);
   aSettings.windowless_rendering_enabled            := Ord(FWindowlessRenderingEnabled);
@@ -2826,7 +2845,6 @@ begin
   aSettings.cache_path                              := CefString(FCache);
   aSettings.root_cache_path                         := CefString(FRootCache);
   aSettings.persist_session_cookies                 := Ord(FPersistSessionCookies);
-  aSettings.persist_user_preferences                := Ord(FPersistUserPreferences);
   aSettings.user_agent                              := CefString(FUserAgent);
   aSettings.user_agent_product                      := CefString(FUserAgentProduct);
   aSettings.locale                                  := CefString(FLocale);
@@ -2836,7 +2854,6 @@ begin
   aSettings.javascript_flags                        := CefString(FJavaScriptFlags);
   aSettings.resources_dir_path                      := CefString(ResourcesDirPath);
   aSettings.locales_dir_path                        := CefString(LocalesDirPath);
-  aSettings.pack_loading_disabled                   := Ord(FPackLoadingDisabled);
   aSettings.remote_debugging_port                   := FRemoteDebuggingPort;
   aSettings.uncaught_exception_stack_size           := FUncaughtExceptionStackSize;
   aSettings.background_color                        := FBackgroundColor;
@@ -3422,6 +3439,11 @@ begin
       end;
     end;
 
+  case FPostQuantumKyber of
+    STATE_ENABLED  : ReplaceSwitch(aKeys, aValues, '--enable-features',  'PostQuantumKyber');
+    STATE_DISABLED : ReplaceSwitch(aKeys, aValues, '--disable-features', 'PostQuantumKyber');
+  end;
+
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
   // https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/content_features.cc
@@ -3803,6 +3825,7 @@ begin
      Load_cef_cookie_capi_h and
      Load_cef_crash_util_h and
      Load_cef_drag_data_capi_h and
+     Load_cef_dump_without_crashing_internal_h and
      Load_cef_file_util_capi_h and
      Load_cef_i18n_util_capi_h and
      Load_cef_image_capi_h and
@@ -3825,6 +3848,7 @@ begin
      Load_cef_ssl_info_capi_h and
      Load_cef_stream_capi_h and
      Load_cef_task_capi_h and
+     Load_cef_task_manager_capi_h and
      Load_cef_thread_capi_h and
      Load_cef_trace_capi_h and
      Load_cef_urlrequest_capi_h and
@@ -3947,6 +3971,15 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_drag_data_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_drag_data_create');
 
   Result := assigned(cef_drag_data_create);
+end;
+
+function TCefApplicationCore.Load_cef_dump_without_crashing_internal_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_dump_without_crashing{$IFDEF FPC}){$ENDIF}             := GetProcAddress(FLibHandle, 'cef_dump_without_crashing');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_dump_without_crashing_unthrottled{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_dump_without_crashing_unthrottled');
+
+  Result := assigned(cef_dump_without_crashing) and
+            assigned(cef_dump_without_crashing_unthrottled);
 end;
 
 function TCefApplicationCore.Load_cef_file_util_capi_h : boolean;
@@ -4173,6 +4206,13 @@ begin
             assigned(cef_post_delayed_task);
 end;
 
+function TCefApplicationCore.Load_cef_task_manager_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_task_manager_get{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_task_manager_get');
+
+  Result := assigned(cef_task_manager_get);
+end;
+
 function TCefApplicationCore.Load_cef_thread_capi_h : boolean;
 begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_thread_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_thread_create');
@@ -4200,24 +4240,25 @@ end;
 
 function TCefApplicationCore.Load_cef_v8_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8context_get_current_context{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_v8context_get_current_context');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8context_get_entered_context{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_v8context_get_entered_context');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8context_in_context{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_v8context_in_context');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_undefined{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_v8value_create_undefined');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_null{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_v8value_create_null');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_bool{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_v8value_create_bool');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_int{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_v8value_create_int');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_uint{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_v8value_create_uint');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_double{$IFDEF FPC}){$ENDIF}         := GetProcAddress(FLibHandle, 'cef_v8value_create_double');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_date{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_v8value_create_date');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_string{$IFDEF FPC}){$ENDIF}         := GetProcAddress(FLibHandle, 'cef_v8value_create_string');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_object{$IFDEF FPC}){$ENDIF}         := GetProcAddress(FLibHandle, 'cef_v8value_create_object');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_array{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_v8value_create_array');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_array_buffer{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_v8value_create_array_buffer');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_function{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_v8value_create_function');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_promise{$IFDEF FPC}){$ENDIF}        := GetProcAddress(FLibHandle, 'cef_v8value_create_promise');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8stack_trace_get_current{$IFDEF FPC}){$ENDIF}     := GetProcAddress(FLibHandle, 'cef_v8stack_trace_get_current');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_register_extension{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_register_extension');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8context_get_current_context{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_v8context_get_current_context');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8context_get_entered_context{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_v8context_get_entered_context');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8context_in_context{$IFDEF FPC}){$ENDIF}                    := GetProcAddress(FLibHandle, 'cef_v8context_in_context');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_undefined{$IFDEF FPC}){$ENDIF}                := GetProcAddress(FLibHandle, 'cef_v8value_create_undefined');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_null{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8value_create_null');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_bool{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8value_create_bool');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_int{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_v8value_create_int');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_uint{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8value_create_uint');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_double{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_v8value_create_double');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_date{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8value_create_date');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_string{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_v8value_create_string');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_object{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_v8value_create_object');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_array{$IFDEF FPC}){$ENDIF}                    := GetProcAddress(FLibHandle, 'cef_v8value_create_array');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_array_buffer{$IFDEF FPC}){$ENDIF}             := GetProcAddress(FLibHandle, 'cef_v8value_create_array_buffer');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_array_buffer_with_copy{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_v8value_create_array_buffer_with_copy');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_function{$IFDEF FPC}){$ENDIF}                 := GetProcAddress(FLibHandle, 'cef_v8value_create_function');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_promise{$IFDEF FPC}){$ENDIF}                  := GetProcAddress(FLibHandle, 'cef_v8value_create_promise');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8stack_trace_get_current{$IFDEF FPC}){$ENDIF}               := GetProcAddress(FLibHandle, 'cef_v8stack_trace_get_current');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_register_extension{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_register_extension');
 
   Result := assigned(cef_v8context_get_current_context) and
             assigned(cef_v8context_get_entered_context) and
@@ -4233,6 +4274,7 @@ begin
             assigned(cef_v8value_create_object) and
             assigned(cef_v8value_create_array) and
             assigned(cef_v8value_create_array_buffer) and
+            assigned(cef_v8value_create_array_buffer_with_copy) and
             assigned(cef_v8value_create_function) and
             assigned(cef_v8value_create_promise) and
             assigned(cef_v8stack_trace_get_current) and

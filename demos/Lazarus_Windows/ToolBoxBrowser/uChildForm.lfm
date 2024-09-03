@@ -18,7 +18,6 @@ object ChildForm: TChildForm
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '2.0.4.0'
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Height = 394
@@ -33,8 +32,7 @@ object ChildForm: TChildForm
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
-    left = 184
-    top = 128
+    Left = 184
+    Top = 128
   end
 end

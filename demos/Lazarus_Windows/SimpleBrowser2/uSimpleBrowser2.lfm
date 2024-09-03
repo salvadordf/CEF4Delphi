@@ -10,7 +10,6 @@ object Form1: TForm1
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
   object AddressPnl: TPanel
     Left = 0
     Height = 23
@@ -38,8 +37,8 @@ object Form1: TForm1
       Width = 35
       Align = alRight
       Caption = 'Go'
-      OnClick = GoBtnClick
       TabOrder = 1
+      OnClick = GoBtnClick
     end
   end
   object CEFWindowParent1: TCEFWindowParent
@@ -54,16 +53,15 @@ object Form1: TForm1
     Enabled = False
     Interval = 500
     OnTimer = Timer1Timer
-    left = 40
-    top = 64
+    Left = 40
+    Top = 64
   end
   object Chromium1: TChromium
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnOpenUrlFromTab = Chromium1OpenUrlFromTab
-    left = 40
-    top = 136
+    Left = 40
+    Top = 136
   end
 end

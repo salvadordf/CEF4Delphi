@@ -136,13 +136,13 @@ type
       property WindowlessFrameRate         : Integer   read FWindowlessFrameRate          write FWindowlessFrameRate         default CEF_OSR_FRAMERATE_DEFAULT;
       /// <summary>
       /// Controls whether the Chrome status bubble will be used. Only supported
-      /// with the Chrome runtime. For details about the status bubble see
+      /// with Chrome style. For details about the status bubble see
       /// https://www.chromium.org/user-experience/status-bubble/
       /// </summary>
       property ChromeStatusBubble          : TCefState read FChromeStatusBubble           write FChromeStatusBubble          default STATE_DEFAULT;
       /// <summary>
       /// Controls whether the Chrome zoom bubble will be shown when zooming. Only
-      /// supported with the Chrome runtime.
+      /// supported with Chrome style.
       /// </summary>
       property ChromeZoomBubble            : TCefState read FChromeZoomBubble             write FChromeZoomBubble            default STATE_DEFAULT;
   end;

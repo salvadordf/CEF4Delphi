@@ -274,14 +274,6 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>function <strong><a href="uCEFBrowser.TCefBrowserHostRef.html#GetExtension">GetExtension</a></strong>: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>function <strong><a href="uCEFBrowser.TCefBrowserHostRef.html#IsBackgroundHost">IsBackgroundHost</a></strong>: boolean;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFBrowser.TCefBrowserHostRef.html#SetAudioMuted-boolean-">SetAudioMuted</a></strong>(mute: boolean);</code></td>
 </tr>
 <tr class="list2">
@@ -436,7 +428,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#GetDefaultZoomLevel">ICefBrowserHost.GetDefaultZoomLevel</a>.</p><p>
- Get the default zoom level. This value will be 0.0 by default but can be configured with the Chrome runtime. This function can only be called on the UI thread. </p>
+ Get the default zoom level. This value will be 0.0 by default but can be configured. This function can only be called on the UI thread. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -956,30 +948,6 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><span id="GetExtension"></span><code>function <strong>GetExtension</strong>: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#GetExtension">ICefBrowserHost.GetExtension</a>.</p><p>
- Returns the extension hosted in this browser or NULL if no extension is hosted. See ICefRequestContext.LoadExtension for details. 
-
-<p>WARNING: This API is deprecated and will be removed in ~M127.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><span id="IsBackgroundHost"></span><code>function <strong>IsBackgroundHost</strong>: boolean;</code></td>
-</tr>
-<tr><td colspan="2">
-<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#IsBackgroundHost">ICefBrowserHost.IsBackgroundHost</a>.</p><p>
- Returns true (1) if this browser is hosting an extension background script. Background hosts do not have a window and are not displayable. See ICefRequestContext.LoadExtension for details. 
-
-<p>WARNING: This API is deprecated and will be removed in ~M127.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="SetAudioMuted-boolean-"></span><code>procedure <strong>SetAudioMuted</strong>(mute: boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -1014,7 +982,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#ExitFullscreen-boolean-">ICefBrowserHost.ExitFullscreen</a>.</p><p>
- Requests the renderer to exit browser fullscreen. In most cases exiting window fullscreen should also exit browser fullscreen. With the Alloy runtime this function should be called in response to a user action such as clicking the green traffic light button on MacOS (ICefWindowDelegate.OnWindowFullscreenTransition callback) or pressing the &quot;ESC&quot; key (ICefKeyboardHandler.OnPreKeyEvent callback). With the Chrome runtime these standard exit actions are handled internally but new/additional user actions can use this function. Set |will_cause_resize| to true (1) if exiting browser fullscreen will cause a view resize. </p>
+ Requests the renderer to exit browser fullscreen. In most cases exiting window fullscreen should also exit browser fullscreen. With Alloy style this function should be called in response to a user action such as clicking the green traffic light button on MacOS (ICefWindowDelegate.OnWindowFullscreenTransition callback) or pressing the &quot;ESC&quot; key (ICefKeyboardHandler.OnPreKeyEvent callback). With Chrome style these standard exit actions are handled internally but new/additional user actions can use this function. Set |will_cause_resize| to true (1) if exiting browser fullscreen will cause a view resize. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -1024,7 +992,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#CanExecuteChromeCommand-integer-">ICefBrowserHost.CanExecuteChromeCommand</a>.</p><p>
- Returns true (1) if a Chrome command is supported and enabled. Values for |command_id| can be found in the cef_command_ids.h file. This function can only be called on the UI thread. Only used with the Chrome runtime. 
+ Returns true (1) if a Chrome command is supported and enabled. Values for |command_id| can be found in the cef_command_ids.h file. This function can only be called on the UI thread. Only used with Chrome style. 
 
 <p><a class="normal" href="uCEFConstants.html">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</a>
 
@@ -1038,7 +1006,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#ExecuteChromeCommand-integer-TCefWindowOpenDisposition-">ICefBrowserHost.ExecuteChromeCommand</a>.</p><p>
- Execute a Chrome command. Values for |command_id| can be found in the cef_command_ids.h file. |disposition| provides information about the intended command target. Only used with the Chrome runtime. 
+ Execute a Chrome command. Values for |command_id| can be found in the cef_command_ids.h file. |disposition| provides information about the intended command target. Only used with Chrome style. 
 
 <p><a class="normal" href="uCEFConstants.html">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</a>
 

@@ -94,7 +94,6 @@ object MainForm: TMainForm
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnOpenUrlFromTab = Chromium1OpenUrlFromTab
     OnDevToolsMethodResult = Chromium1DevToolsMethodResult
     OnDevToolsRawEvent = Chromium1DevToolsRawEvent

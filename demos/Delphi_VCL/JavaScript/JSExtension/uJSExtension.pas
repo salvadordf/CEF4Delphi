@@ -440,6 +440,7 @@ procedure TJSExtensionFrm.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
+  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TJSExtensionFrm.FormShow(Sender: TObject);

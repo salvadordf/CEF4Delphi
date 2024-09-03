@@ -672,9 +672,10 @@ begin
   Chromium1.ShutdownDragAndDrop;
 
   if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
+  if (FResizeCS    <> nil) then FreeAndNil(FResizeCS);
 
-  if FClientInitialized and TMainForm(Owner).HandleAllocated then
-    PostMessage(TMainForm(Owner).Handle, CEF_CHILDDESTROYED, 0, 0);
+  if FClientInitialized and MainForm.HandleAllocated then
+    PostMessage(MainForm.Handle, CEF_CHILDDESTROYED, 0, 0);
 end;
 
 procedure TChildForm.FormHide(Sender: TObject);

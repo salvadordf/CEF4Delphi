@@ -26,11 +26,10 @@ type
     URLCbx: TComboBox;
     ChromiumWindow1: TChromiumWindow;
 
-    procedure CEFSentinel1Close(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
 
+    procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
@@ -94,6 +93,7 @@ procedure TSimpleExternalPumpBrowserFrm.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
+  ChromiumWindow1.ChromiumBrowser.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TSimpleExternalPumpBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -159,11 +159,6 @@ end;
 procedure TSimpleExternalPumpBrowserFrm.GoBtnClick(Sender: TObject);
 begin
   ChromiumWindow1.LoadURL(URLCbx.Text);
-end;
-
-procedure TSimpleExternalPumpBrowserFrm.CEFSentinel1Close(Sender: TObject);
-begin
-
 end;
 
 procedure TSimpleExternalPumpBrowserFrm.Timer1Timer(Sender: TObject);

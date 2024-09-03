@@ -160,7 +160,6 @@ begin
   GlobalCEFApp.EnablePrintPreview   := True;
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;   
   GlobalCEFApp.SetCurrentDir        := True;
-  GlobalCEFApp.ChromeRuntime        := True;
 end;
 
 procedure TMainForm.EnableButtonPnl;
@@ -498,61 +497,55 @@ function TMainForm.DoOnBeforePopup(var   windowInfo        : TCefWindowInfo;
                                    const popupFeatures     : TCefPopupFeatures;
                                          targetDisposition : TCefWindowOpenDisposition) : boolean;
 begin             
-  if GlobalCEFApp.ChromeRuntime then
-    Result := False
-   else
-    try
-      FCriticalSection.Acquire;
+  try
+    FCriticalSection.Acquire;
 
-      case targetDisposition of
-        CEF_WOD_NEW_FOREGROUND_TAB,
-        CEF_WOD_NEW_BACKGROUND_TAB :
-          Result := (FHiddenTab <> nil) and
-                    FHiddenTab.CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures) and
-                    PostMessage(Handle, CEF_CREATENEXTTAB, 0, ord(False));
+    case targetDisposition of
+      CEF_WOD_NEW_FOREGROUND_TAB,
+      CEF_WOD_NEW_BACKGROUND_TAB :
+        Result := (FHiddenTab <> nil) and
+                  FHiddenTab.CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures) and
+                  PostMessage(Handle, CEF_CREATENEXTTAB, 0, ord(False));
 
-        CEF_WOD_NEW_WINDOW,
-        CEF_WOD_NEW_POPUP :
-          Result := (FChildForm <> nil) and
-                    FChildForm.CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures) and
-                    PostMessage(Handle, CEF_CREATENEXTCHILD, 0, ord(False));
+      CEF_WOD_NEW_WINDOW,
+      CEF_WOD_NEW_POPUP :
+        Result := (FChildForm <> nil) and
+                  FChildForm.CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures) and
+                  PostMessage(Handle, CEF_CREATENEXTCHILD, 0, ord(False));
 
-        else Result := False;
-      end;
-    finally
-      FCriticalSection.Release;
+      else Result := False;
     end;
+  finally
+    FCriticalSection.Release;
+  end;
 end;
 
 function TMainForm.DoOpenUrlFromTab(const targetUrl         : string;
                                           targetDisposition : TCefWindowOpenDisposition) : boolean;
 begin      
-  if GlobalCEFApp.ChromeRuntime then
-    Result := True
-   else
-    try
-      FCriticalSection.Acquire;
+  try
+    FCriticalSection.Acquire;
 
-      case targetDisposition of
-        CEF_WOD_NEW_FOREGROUND_TAB,
-        CEF_WOD_NEW_BACKGROUND_TAB :
-          begin
-            FPendingURL := targetUrl;
-            Result      := PostMessage(Handle, CEF_CREATENEXTTAB, 0, ord(True));
-          end;
+    case targetDisposition of
+      CEF_WOD_NEW_FOREGROUND_TAB,
+      CEF_WOD_NEW_BACKGROUND_TAB :
+        begin
+          FPendingURL := targetUrl;
+          Result      := PostMessage(Handle, CEF_CREATENEXTTAB, 0, ord(True));
+        end;
 
-        CEF_WOD_NEW_WINDOW,
-        CEF_WOD_NEW_POPUP :
-          begin
-            FPendingURL := targetUrl;
-            Result      := PostMessage(Handle, CEF_CREATENEXTCHILD, 0, ord(True));
-          end
+      CEF_WOD_NEW_WINDOW,
+      CEF_WOD_NEW_POPUP :
+        begin
+          FPendingURL := targetUrl;
+          Result      := PostMessage(Handle, CEF_CREATENEXTCHILD, 0, ord(True));
+        end
 
-        else Result := False;
-      end;
-    finally
-      FCriticalSection.Release;
+      else Result := False;
     end;
+  finally
+    FCriticalSection.Release;
+  end;
 end;
 
 end.

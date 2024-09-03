@@ -237,10 +237,6 @@ begin
           FClosing := True;
           Visible  := False;
           Chromium1.CloseBrowser(True);     
-
-          // Workaround for the missing TChormium.OnClose event when "Chrome runtime" is enabled.
-          if GlobalCEFApp.ChromeRuntime then
-            CEFWindowParent1.Free;
         end;
     end
    else
@@ -253,6 +249,8 @@ begin
   FBrowserWasCreated := False;
   FCanClose          := False;
   FClosing           := False;
+
+  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TChildForm.FormDestroy(Sender: TObject);

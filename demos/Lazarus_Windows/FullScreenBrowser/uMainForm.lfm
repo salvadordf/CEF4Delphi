@@ -1,13 +1,13 @@
 object MainForm: TMainForm
-  Left = 165
-  Height = 673
-  Top = 130
-  Width = 1364
+  Left = -8
+  Height = 712
+  Top = -8
+  Width = 1380
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'MainForm'
-  ClientHeight = 673
-  ClientWidth = 1364
+  ClientHeight = 811
+  ClientWidth = 1537
   Color = clBtnFace
   Font.Color = clWindowText
   Font.Height = -11
@@ -16,13 +16,12 @@ object MainForm: TMainForm
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
-  LCLVersion = '2.0.6.0'
   WindowState = wsMaximized
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
-    Height = 673
+    Height = 811
     Top = 0
-    Width = 1364
+    Width = 1537
     Align = alClient
     TabOrder = 0
   end
@@ -32,15 +31,14 @@ object MainForm: TMainForm
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
-    left = 208
-    top = 120
+    Left = 208
+    Top = 120
   end
   object Timer1: TTimer
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
-    left = 272
-    top = 120
+    Left = 272
+    Top = 120
   end
 end

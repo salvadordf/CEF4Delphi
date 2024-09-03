@@ -14,7 +14,7 @@ object SimpleExternalPumpBrowserFrm: TSimpleExternalPumpBrowserFrm
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '3.4.0.0'
   object AddressPnl: TPanel
     Left = 0
     Height = 21
@@ -25,6 +25,7 @@ object SimpleExternalPumpBrowserFrm: TSimpleExternalPumpBrowserFrm
     ClientHeight = 21
     ClientWidth = 1038
     Enabled = False
+    ParentBackground = False
     TabOrder = 0
     object GoBtn: TButton
       Left = 1007
@@ -33,8 +34,8 @@ object SimpleExternalPumpBrowserFrm: TSimpleExternalPumpBrowserFrm
       Width = 31
       Align = alRight
       Caption = 'Go'
-      OnClick = GoBtnClick
       TabOrder = 0
+      OnClick = GoBtnClick
     end
     object URLCbx: TComboBox
       Left = 0
@@ -82,7 +83,7 @@ object SimpleExternalPumpBrowserFrm: TSimpleExternalPumpBrowserFrm
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
-    left = 56
-    top = 88
+    Left = 56
+    Top = 88
   end
 end

@@ -52,6 +52,7 @@ type
       FOnKeyEvent                   : TOnWindowKeyEventEvent;
       FOnThemeColorsChanged         : TOnThemeColorsChangedEvent;
       FOnGetWindowRuntimeStyle      : TOnGetWindowRuntimeStyleEvent;
+      FOnGetLinuxWindowProperties   : TOnGetLinuxWindowPropertiesEvent;
 
       procedure DestroyView; override;
       procedure Initialize; override;
@@ -103,6 +104,7 @@ type
       procedure doOnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
       procedure doOnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
       procedure doOnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
+      procedure doOnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
 
       // ICefViewDelegateEvents
       procedure doCreateCustomView; override;
@@ -378,9 +380,9 @@ type
       /// the transition occurs asynchronously with |is_competed| set to false (0)
       /// when the transition starts and true (1) after the transition completes. On
       /// other platforms the transition occurs synchronously with |is_completed|
-      /// set to true (1) after the transition completes. With the Alloy runtime you
-      /// must also implement ICefDisplayHandler.OnFullscreenModeChange to
-      /// handle fullscreen transitions initiated by browser content.
+      /// set to true (1) after the transition completes. With Alloy style you must
+      /// also implement ICefDisplayHandler.OnFullscreenModeChange to handle
+      /// fullscreen transitions initiated by browser content.
       /// </summary>
       property OnWindowFullscreenTransition : TOnWindowFullscreenTransitionEvent read FOnWindowFullscreenTransition write FOnWindowFullscreenTransition;
       /// <summary>
@@ -485,12 +487,10 @@ type
       /// <para>Chrome theme colors will be applied and this callback will be triggered
       /// if/when a BrowserView is added to the Window's component hierarchy. Chrome
       /// theme colors can be configured on a per-RequestContext basis using
-      /// ICefRequestContext.SetChromeColorScheme or (Chrome runtime only) by
+      /// ICefRequestContext.SetChromeColorScheme or (Chrome style only) by
       /// visiting chrome://settings/manageProfile. Any theme changes using those
       /// mechanisms will also trigger this callback. Chrome theme colors will be
-      /// persisted and restored from disk cache with the Chrome runtime, and with
-      /// the Alloy runtime if persist_user_preferences is set to true (1) via
-      /// CefSettings or ICefRequestContext Settings.</para>
+      /// persisted and restored from disk cache.</para>
       /// <para>This callback is not triggered on Window creation so clients that wish to
       /// customize the initial native/OS theme must call
       /// ICefWindow.SetThemeColor and ICefWindow.ThemeChanged before showing
@@ -507,6 +507,11 @@ type
       /// TCefRuntimeStyle documentation for details.
       /// </summary>
       property OnGetWindowRuntimeStyle      : TOnGetWindowRuntimeStyleEvent      read FOnGetWindowRuntimeStyle      write FOnGetWindowRuntimeStyle;
+      /// <summary>
+      /// Return Linux-specific window properties for correctly handling by window
+      /// managers.
+      /// </summary>
+      property OnGetLinuxWindowProperties   : TOnGetLinuxWindowPropertiesEvent   read FOnGetLinuxWindowProperties   write FOnGetLinuxWindowProperties;
   end;
 
 {$IFDEF FPC}
@@ -573,6 +578,7 @@ begin
   FOnKeyEvent                   := nil;
   FOnThemeColorsChanged         := nil;
   FOnGetWindowRuntimeStyle      := nil;
+  FOnGetLinuxWindowProperties   := nil;
 end;
 
 procedure TCEFWindowComponent.CreateTopLevelWindow;
@@ -765,6 +771,14 @@ begin
 
   if assigned(FOnGetWindowRuntimeStyle) then
     FOnGetWindowRuntimeStyle(self, aResult);
+end;
+
+procedure TCEFWindowComponent.doOnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
+begin
+  aResult := False;
+
+  if assigned(FOnGetLinuxWindowProperties) then
+    FOnGetLinuxWindowProperties(self, window_, properties, aResult);
 end;
 
 procedure TCEFWindowComponent.Show;

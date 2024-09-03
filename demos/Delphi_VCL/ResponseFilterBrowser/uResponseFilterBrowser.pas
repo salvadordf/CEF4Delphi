@@ -431,6 +431,8 @@ begin
 
   // This event will receive the data
   TCustomResponseFilter(FFilter).OnFilter := Filter_OnFilter;
+
+  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TResponseFilterBrowserFrm.FormDestroy(Sender: TObject);

@@ -37,7 +37,6 @@ type
     procedure Chromium1GetResourceResponseFilter(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: ICefResponseFilter);
     procedure Chromium1ResourceLoadComplete(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; status: TCefUrlRequestStatus; receivedContentLength: Int64);
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1LoadStart(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; transitionType: Cardinal);
     procedure Chromium1BeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback; out Result: TCefReturnValue);
@@ -71,7 +70,6 @@ type
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
-    procedure BrowserDestroyMsg(var aMessage: TMessage); message CEF_DESTROY;
     procedure StreamCopyCompleteMsg(var aMessage : TMessage); message STREAM_COPY_COMPLETE;
 
     procedure Filter_OnFilter(Sender: TObject; data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus);
@@ -109,12 +107,8 @@ uses
 
 // Destruction steps
 // =================
-// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser
-//    which triggers the TChromium.OnClose event.
-// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy
-//    CEFWindowParent1 in the main thread, which triggers the
-//    TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 1. FormCloseQuery sets CanClose to FALSE, destroys CEFWindowParent1 and calls TChromium.CloseBrowser which triggers the TChromium.OnBeforeClose event.
+// 2. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 // TCustomResponseFilter.OnFilter event might be called multiple times
 // when the resource is too big. In that case the resource will be split into
@@ -403,6 +397,7 @@ begin
       FClosing := True;
       Visible  := False;
       Chromium1.CloseBrowser(True);
+      CEFWindowParent1.Free;
     end;
 end;
 
@@ -512,12 +507,6 @@ begin
     TempNewMap := nil;
     TempOldMap := nil;
   end;
-end;
-
-procedure TResponseFilterBrowserFrm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
-begin
-  PostMessage(Handle, CEF_DESTROY, 0, 0);
-  aAction := cbaDelay;
 end;
 
 procedure TResponseFilterBrowserFrm.Chromium1GetResourceResponseFilter(      Sender    : TObject;
@@ -666,11 +655,6 @@ begin
   Caption            := 'Response Filter Browser';
   AddressPnl.Enabled := True;
   GoBtn.Click;
-end;
-
-procedure TResponseFilterBrowserFrm.BrowserDestroyMsg(var aMessage : TMessage);
-begin
-  CEFWindowParent1.Free;
 end;
 
 // This procedure handles the stream contents after it's fully downloaded

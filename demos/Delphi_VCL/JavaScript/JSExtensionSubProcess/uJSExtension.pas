@@ -49,10 +49,7 @@ type
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium1ContextMenuCommand(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const params: ICefContextMenuParams; commandId: Integer;
-      eventFlags: Cardinal; out Result: Boolean);
+    procedure Chromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags; out Result: Boolean);
 
   protected
     FText : string;
@@ -294,7 +291,7 @@ end;
 procedure TJSExtensionFrm.Chromium1ContextMenuCommand(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; commandId: Integer;
-  eventFlags: Cardinal; out Result: Boolean);
+  eventFlags: TCefEventFlags; out Result: Boolean);
 var
   TempPoint : TPoint;
   TempJSCode : string;
@@ -408,6 +405,7 @@ procedure TJSExtensionFrm.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
+  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TJSExtensionFrm.FormShow(Sender: TObject);

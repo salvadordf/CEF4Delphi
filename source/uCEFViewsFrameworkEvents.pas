@@ -79,6 +79,7 @@ type
   TOnWindowKeyEventEvent             = procedure(const Sender: TObject; const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean) of object;
   TOnThemeColorsChangedEvent         = procedure(const Sender: TObject; const window_: ICefWindow; chrome_theme: Integer) of object;
   TOnGetWindowRuntimeStyleEvent      = procedure(const Sender: TObject; var aResult : TCefRuntimeStyle) of object;
+  TOnGetLinuxWindowPropertiesEvent   = procedure(const Sender: TObject; const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean) of object;
 
 implementation
 

@@ -313,7 +313,6 @@ object MediaRouterFrm: TMediaRouterFrm
     OnMediaSinkDeviceInfo = Chromium1MediaSinkDeviceInfo
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnSinks = Chromium1Sinks
     OnRoutes = Chromium1Routes
     OnRouteStateChanged = Chromium1RouteStateChanged

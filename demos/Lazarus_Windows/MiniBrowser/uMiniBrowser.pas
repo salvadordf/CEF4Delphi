@@ -117,25 +117,16 @@ type
     OpenfilewithaDAT1: TMenuItem;
     N5: TMenuItem;
     Memoryinfo1: TMenuItem;
+
+    procedure FormShow(Sender: TObject);        
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);      
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+
+    procedure Timer1Timer(Sender: TObject);     
+    procedure ApplicationEvents1Message(var Msg: tagMSG; var Handled: Boolean);  
+    procedure PopupMenu1Popup(Sender: TObject);
     procedure Allowdownloads1Click(Sender: TObject);
-    procedure CEFWindowParent1DragDrop(Sender, Source: TObject; X, Y: Integer);
-    procedure Chromium1CanDownload(Sender: TObject; const browser: ICefBrowser;
-      const url, request_method: ustring; var aResult: boolean);
-    procedure Chromium1CookiesFlushed(Sender: TObject);
-    procedure Chromium1DevToolsMethodResult(Sender: TObject;
-      const browser: ICefBrowser; message_id: integer; success: boolean;
-      const result: ICefValue);
-    procedure Chromium1DownloadImageFinished(Sender: TObject;
-      const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
-    procedure Chromium1MediaAccessChange(Sender: TObject;
-      const browser: ICefBrowser; has_video_access, has_audio_access: boolean);
-    procedure Chromium1RequestMediaAccessPermission(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const requesting_origin: ustring; requested_permissions: cardinal;
-      const callback: ICefMediaAccessCallback; var aResult: boolean);
-    procedure Chromium1ZoomPctAvailable(Sender: TObject; const aZoomPct: double
-      );
-    procedure FormShow(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
     procedure MenuItem1Click(Sender: TObject);
@@ -145,24 +136,6 @@ type
     procedure MenuItem5Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
     procedure ReloadBtnClick(Sender: TObject);
-    procedure Chromium1AfterCreated(Sender: TObject;
-      const browser: ICefBrowser);
-    procedure Chromium1LoadingStateChange(Sender: TObject;
-      const browser: ICefBrowser; isLoading, canGoBack,
-      canGoForward: Boolean);
-    procedure Chromium1TitleChange(Sender: TObject;
-      const browser: ICefBrowser; const title: ustring);
-    procedure Chromium1AddressChange(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const url: ustring);
-    procedure Chromium1BeforeContextMenu(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const params: ICefContextMenuParams; const model: ICefMenuModel);
-    procedure Chromium1StatusMessage(Sender: TObject;
-      const browser: ICefBrowser; const value: ustring);
-    procedure Chromium1TextResultAvailable(Sender: TObject;
-      const aText: ustring);
-    procedure PopupMenu1Popup(Sender: TObject);
     procedure DevTools1Click(Sender: TObject);
     procedure Preferences1Click(Sender: TObject);
     procedure ConfigBtnClick(Sender: TObject);
@@ -172,68 +145,47 @@ type
     procedure Inczoom1Click(Sender: TObject);
     procedure Deczoom1Click(Sender: TObject);
     procedure Resetzoom1Click(Sender: TObject);
-    procedure Chromium1FullScreenModeChange(Sender: TObject;
-      const browser: ICefBrowser; fullscreen: Boolean);
-    procedure Chromium1PreKeyEvent(Sender: TObject;
-      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
-      out isKeyboardShortcut, Result: Boolean);
-    procedure Chromium1KeyEvent(Sender: TObject;
-      const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
-      out Result: Boolean);
-    procedure ApplicationEvents1Message(var Msg: tagMSG;
-      var Handled: Boolean);
     procedure Openfile1Click(Sender: TObject);
-    procedure Chromium1ContextMenuCommand(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const params: ICefContextMenuParams; commandId: Integer;
-      eventFlags: Cardinal; out Result: Boolean);
-    procedure Chromium1PdfPrintFinished(Sender: TObject;
-      aResultOK: Boolean);
-    procedure Chromium1ResourceResponse(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const request: ICefRequest; const response: ICefResponse;
-      out Result: Boolean);
     procedure StopBtnClick(Sender: TObject);
     procedure Resolvehost1Click(Sender: TObject);
-    procedure Chromium1ResolvedHostAvailable(Sender: TObject;
-      result: Integer; const resolvedIps: TStrings);
-    procedure Timer1Timer(Sender: TObject);
-    procedure Chromium1PrefsAvailable(Sender: TObject; aResultOK: Boolean);
-    procedure Chromium1BeforeDownload(Sender: TObject;
-      const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
-      const suggestedName: ustring;
-      const callback: ICefBeforeDownloadCallback);
-    procedure Chromium1DownloadUpdated(Sender: TObject;
-      const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
-      const callback: ICefDownloadItemCallback);
-    procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
-    procedure Chromium1BeforeResourceLoad(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      const request: ICefRequest; const callback: ICefCallback;
-      out Result: TCefReturnValue);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
-      var aAction : TCefCloseBrowserAction);
-    procedure Chromium1BeforeClose(Sender: TObject;
-      const browser: ICefBrowser);
-    procedure Chromium1RenderCompMsg(Sender: TObject; var aMessage : TMessage; var aHandled: Boolean);
-    procedure Chromium1LoadingProgressChange(Sender: TObject;
-      const browser: ICefBrowser; const progress: Double);
     procedure OpenfilewithaDAT1Click(Sender: TObject);
-    procedure Chromium1LoadEnd(Sender: TObject; const browser: ICefBrowser;
-      const frame: ICefFrame; httpStatusCode: Integer);
     procedure Memoryinfo1Click(Sender: TObject);
-    procedure Chromium1LoadError(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame;
-      errorCode: Integer; const errorText, failedUrl: ustring);
-    procedure Chromium1CertificateError(Sender: TObject;
-      const browser: ICefBrowser; certError: Integer;
-      const requestUrl: ustring; const sslInfo: ICefSslInfo;
-      const callback: ICefCallback; out Result: Boolean);
-    procedure Chromium1NavigationVisitorResultAvailable(Sender: TObject;
-      const entry: ICefNavigationEntry; current: Boolean; index, total: Integer;
-      var aResult: Boolean);
+
+    procedure CEFWindowParent1DragDrop(Sender, Source: TObject; X, Y: Integer);
+
+    procedure Chromium1CanDownload(Sender: TObject; const browser: ICefBrowser; const url, request_method: ustring; var aResult: boolean);
+    procedure Chromium1CookiesFlushed(Sender: TObject);
+    procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue);
+    procedure Chromium1DownloadImageFinished(Sender: TObject; const imageUrl: ustring; httpStatusCode: Integer; const image: ICefImage);
+    procedure Chromium1MediaAccessChange(Sender: TObject; const browser: ICefBrowser; has_video_access, has_audio_access: boolean);
+    procedure Chromium1RequestMediaAccessPermission(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefMediaAccessCallback; var aResult: boolean);
+    procedure Chromium1ZoomPctAvailable(Sender: TObject; const aZoomPct: double);
+    procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium1LoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
+    procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
+    procedure Chromium1AddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
+    procedure Chromium1BeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
+    procedure Chromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
+    procedure Chromium1TextResultAvailable(Sender: TObject; const aText: ustring);
+    procedure Chromium1FullScreenModeChange(Sender: TObject; const browser: ICefBrowser; fullscreen: Boolean);
+    procedure Chromium1PreKeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut, Result: Boolean);
+    procedure Chromium1KeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out Result: Boolean);
+    procedure Chromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
+    procedure Chromium1PdfPrintFinished(Sender: TObject; aResultOK: Boolean);
+    procedure Chromium1ResourceResponse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: Boolean);
+    procedure Chromium1ResolvedHostAvailable(Sender: TObject; result: Integer; const resolvedIps: TStrings);
+    procedure Chromium1PrefsAvailable(Sender: TObject; aResultOK: Boolean);
+    procedure Chromium1BeforeDownload(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
+    procedure Chromium1DownloadUpdated(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback);
+    procedure Chromium1BeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback; out Result: TCefReturnValue);
+    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
+    procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium1RenderCompMsg(Sender: TObject; var aMessage : TMessage; var aHandled: Boolean);
+    procedure Chromium1LoadingProgressChange(Sender: TObject; const browser: ICefBrowser; const progress: Double);
+    procedure Chromium1LoadEnd(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
+    procedure Chromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
+    procedure Chromium1CertificateError(Sender: TObject; const browser: ICefBrowser; certError: Integer; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback; out Result: Boolean);
+    procedure Chromium1NavigationVisitorResultAvailable(Sender: TObject; const entry: ICefNavigationEntry; current: Boolean; index, total: Integer; var aResult: Boolean);
 
   protected
     FResponse           : TStringList;
@@ -269,7 +221,6 @@ type
     procedure InspectResponse(const aResponse : ICefResponse);
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
-    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure ShowDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_SHOWDEVTOOLS;
     procedure HideDevToolsMsg(var aMessage : TMessage); message MINIBROWSER_HIDEDEVTOOLS;
     procedure CopyAllTextMsg(var aMessage : TMessage); message MINIBROWSER_COPYALLTEXT;
@@ -312,9 +263,8 @@ uses
 
 // Destruction steps
 // =================
-// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
-// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 1. FormCloseQuery sets CanClose to FALSE, destroys CEFWindowParent1 and calls TChromium.CloseBrowser which triggers the TChromium.OnBeforeClose event.
+// 2. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure CreateGlobalCEFApp;
 begin
@@ -325,7 +275,6 @@ begin
   GlobalCEFApp.EnablePrintPreview  := True;          
   GlobalCEFApp.EnableGPU           := True;
   GlobalCEFApp.SetCurrentDir       := True;
-  GlobalCEFApp.ChromeRuntime       := True;
 end;
 
 procedure TMiniBrowserFrm.BackBtnClick(Sender: TObject);
@@ -1138,10 +1087,7 @@ begin
       // if TChromium.MultiBrowserMode is enabled then we have to close all
       // stored browsers and not only the main browser.
       Chromium1.CloseAllBrowsers;      
-
-      // Workaround for the missing TChormium.OnClose event when "Chrome runtime" is enabled.
-      if GlobalCEFApp.ChromeRuntime then
-        CEFWindowParent1.Free;
+      CEFWindowParent1.Free;
     end;
 end;
 
@@ -1515,11 +1461,6 @@ procedure TMiniBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
   CEFWindowParent1.UpdateSize;
   NavControlPnl.Enabled := True;
-end;
-
-procedure TMiniBrowserFrm.BrowserDestroyMsg(var aMessage : TMessage);
-begin
-  FreeAndNil(CEFWindowParent1);
 end;
 
 procedure TMiniBrowserFrm.AddURL(const aURL : string);

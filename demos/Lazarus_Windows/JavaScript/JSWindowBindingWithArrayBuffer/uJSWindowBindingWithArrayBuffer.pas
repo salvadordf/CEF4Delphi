@@ -28,31 +28,24 @@ type
     CEFWindowParent1: TCEFWindowParent;
     Chromium1: TChromium;
     Timer1: TTimer;
-    procedure FormShow(Sender: TObject);
-    procedure GoBtnClick(Sender: TObject);
-    procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
-    procedure Timer1Timer(Sender: TObject);
-    procedure Chromium1BeforePopup(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-      targetFrameName: ustring;
-      targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
-      const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
-      var client: ICefClient; var settings: TCefBrowserSettings;
-      var extra_info: ICefDictionaryValue;
-      var noJavascriptAccess: Boolean; var Result: Boolean);
+
+    procedure FormShow(Sender: TObject);     
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser;
-      var aAction : TCefCloseBrowserAction);
-    procedure Chromium1BeforeClose(Sender: TObject;
-      const browser: ICefBrowser);
+
+    procedure GoBtnClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+
+    procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
+
   protected
     // Variables to control when can we destroy the form safely
     FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
-    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -81,14 +74,8 @@ uses
 
 // Destruction steps
 // =================
-// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which triggers the TChromium.OnClose event.
-// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
-
-procedure FreeCustomArrayBufer(buffer : Pointer);
-begin
-  if (buffer <> nil) then FreeMem(buffer);
-end;
+// 1. FormCloseQuery sets CanClose to FALSE, destroys CEFWindowParent1 and calls TChromium.CloseBrowser which triggers the TChromium.OnBeforeClose event.
+// 2. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 const
@@ -96,27 +83,14 @@ const
   BUFFER_FILL_VALUE = 42; // Some ramdom value to fill the buffer
 var
   TempObject   : ICefv8Value;
-  TempCallback : ICefv8ArrayBufferReleaseCallback;
   TempBuffer   : Pointer;
 begin
-  // The ArrayBuffer in this demo has a "buffer" pointer but CEF uses a callback to free it when the JS garbage collector is triggered.
-  // The garbage collector calls ICefv8ArrayBufferReleaseCallback.ReleaseBuffer to free the buffer and
-  // CEF4Delphi has a TCefFastv8ArrayBufferReleaseCallback class that calls a custom procedure when
-  // ICefv8ArrayBufferReleaseCallback.ReleaseBuffer is called.
-
   GetMem(TempBuffer, BUFFER_LENGTH);
   FillChar(TempBuffer^, BUFFER_LENGTH, BUFFER_FILL_VALUE);
 
-  // TempCallback will execute FreeCustomArrayBufer when the garbage collector needs to free the buffer inside the "ArrayBuffer".
-  TempCallback := TCefFastv8ArrayBufferReleaseCallback.Create(@FreeCustomArrayBufer);
-  TempObject   := TCefv8ValueRef.NewArrayBuffer(TempBuffer, BUFFER_LENGTH, TempCallback);
+  TempObject := TCefv8ValueRef.NewArrayBufferWithCopy(TempBuffer, BUFFER_LENGTH);
 
   context.Global.SetValueByKey('myobj', TempObject, V8_PROPERTY_ATTRIBUTE_NONE);
-
-  // If you keep a reference to "TempObject" and you need to free the buffer immediately then call TempObject.NeuterArrayBuffer
-
-  // Read this for more information about ICefv8Value :
-  // https://magpcss.org/ceforum/apidocs3/projects/(default)/CefV8Value.html
 end;
 
 procedure CreateGlobalCEFApp;
@@ -206,13 +180,6 @@ begin
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
-procedure TJSWindowBindingWithArrayBufferFrm.Chromium1Close(
-  Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
-begin
-  PostMessage(Handle, CEF_DESTROY, 0, 0);
-  aAction := cbaDelay;
-end;
-
 procedure TJSWindowBindingWithArrayBufferFrm.FormCloseQuery(
   Sender: TObject; var CanClose: Boolean);
 begin
@@ -223,6 +190,7 @@ begin
       FClosing := True;
       Visible  := False;
       Chromium1.CloseBrowser(True);
+      CEFWindowParent1.Free;
     end;
 end;
 
@@ -230,11 +198,6 @@ procedure TJSWindowBindingWithArrayBufferFrm.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
-end;
-
-procedure TJSWindowBindingWithArrayBufferFrm.BrowserDestroyMsg(var aMessage : TMessage);
-begin
-  CEFWindowParent1.Free;
 end;
 
 end.

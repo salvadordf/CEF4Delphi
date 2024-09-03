@@ -62,12 +62,11 @@ type
 
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
     procedure Chromium1Sinks(Sender: TObject; const sinks: TCefMediaSinkArray);
     procedure Chromium1Routes(Sender: TObject; const routes: TCefMediaRouteArray);
     procedure Chromium1RouteStateChanged(Sender: TObject; const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
     procedure Chromium1RouteMessageReceived(Sender: TObject; const route: ICefMediaRoute; const message_: ustring);
-    procedure Chromium1MediaRouteCreateFinished(Sender: TObject; result: Integer; const error: ustring; const route: ICefMediaRoute);
+    procedure Chromium1MediaRouteCreateFinished(Sender: TObject; result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
     procedure Chromium1MediaSinkDeviceInfo(Sender: TObject; const ip_address: ustring; port: Integer; const model_name: ustring);
 
     procedure Timer1Timer(Sender: TObject);
@@ -93,7 +92,6 @@ type
     FSinks    : TCefMediaSinkInfoArray;
     FRoutes   : TCefMediaRouteInfoArray;
 
-    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
     procedure PendingLogLinesMsg(var aMessage : TMessage); message MEDIA_ROUTER_PENDING_LOG_LINES;
     procedure RefreshSinksMsg(var aMessage : TMessage); message MEDIA_ROUTER_REFRESH_SINKS;
     procedure RefreshRoutesMsg(var aMessage : TMessage); message MEDIA_ROUTER_REFRESH_ROUTES;
@@ -200,15 +198,8 @@ begin
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
-procedure TMediaRouterFrm.Chromium1Close(Sender: TObject;
-  const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
-begin
-  PostMessage(Handle, CEF_DESTROY, 0, 0);
-  aAction := cbaDelay;
-end;
-
 procedure TMediaRouterFrm.Chromium1MediaRouteCreateFinished(Sender: TObject;
-  result: Integer; const error: ustring; const route: ICefMediaRoute);
+  result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
 var
   TempMsg, TempID : string;
 begin
@@ -308,6 +299,7 @@ begin
       Chromium1.ExecuteDevToolsMethod(0, 'Cast.disable', nil);
       sleep(500);
       Chromium1.CloseBrowser(True);
+      CEFWindowParent1.Free;
     end;
 end;
 
@@ -319,6 +311,8 @@ begin
   FRoutes   := nil;
   FMediaCS  := TCriticalSection.Create;
   FLog      := TStringList.Create;
+
+  //Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TMediaRouterFrm.FormDestroy(Sender: TObject);
@@ -421,11 +415,6 @@ begin
   Timer1.Enabled := False;
   if not(Chromium1.CreateBrowser(CEFWindowParent1)) and not(Chromium1.Initialized) then
     Timer1.Enabled := True;
-end;
-
-procedure TMediaRouterFrm.BrowserDestroyMsg(var aMessage : TMessage);
-begin
-  CEFWindowParent1.Free;
 end;
 
 procedure TMediaRouterFrm.PendingLogLinesMsg(var aMessage : TMessage);

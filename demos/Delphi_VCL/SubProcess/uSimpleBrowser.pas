@@ -31,6 +31,7 @@ type
 
     procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure ChromiumWindow1Close(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
 
   private
     // You have to handle this two messages to call NotifyMoveOrResizeStarted or some page elements will be misaligned.
@@ -90,6 +91,11 @@ begin
     end
    else
     CanClose := True;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  ChromiumWindow1.ChromiumBrowser.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TForm1.FormActivate(Sender: TObject);

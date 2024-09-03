@@ -15,7 +15,6 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.0.0.3'
   object Splitter1: TSplitter
     Cursor = crVSplit
     Left = 0
@@ -49,11 +48,11 @@ object Form1: TForm1
     end
     object AddressCb: TComboBox
       Left = 0
-      Height = 21
+      Height = 22
       Top = 0
       Width = 1007
       Align = alClient
-      ItemHeight = 13
+      ItemHeight = 14
       ItemIndex = 0
       Items.Strings = (
         'https://tryphp.w3schools.com/showphp.php?filename=demo_form_post'
@@ -90,7 +89,6 @@ object Form1: TForm1
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     Left = 56
     Top = 152

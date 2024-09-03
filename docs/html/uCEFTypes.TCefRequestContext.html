@@ -83,57 +83,37 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#load_extension">load_extension</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; const root_directory: <a href="uCEFTypes.html#PCefString">PCefString</a>; manifest: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; handler: <a href="uCEFTypes.html#PCefExtensionHandler">PCefExtensionHandler</a>); stdcall;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#did_load_extension">did_load_extension</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; const extension_id: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#has_extension">has_extension</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; const extension_id: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#get_extensions">get_extensions</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; extension_ids: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): Integer; stdcall;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#get_extension">get_extension</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; const extension_id: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefExtension">PCefExtension</a>; stdcall;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#get_media_router">get_media_router</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; callback: <a href="uCEFTypes.html#PCefCompletionCallback">PCefCompletionCallback</a>): <a href="uCEFTypes.html#PCefMediaRouter">PCefMediaRouter</a>; stdcall;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#get_website_setting">get_website_setting</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; const requesting_url, top_level_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFTypes.html#PCefValue">PCefValue</a>; stdcall;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#set_website_setting">set_website_setting</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; const requesting_url, top_level_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; value: <a href="uCEFTypes.html#PCefValue">PCefValue</a>); stdcall;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#get_content_setting">get_content_setting</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; const requesting_url, top_level_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>; stdcall;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#set_content_setting">set_content_setting</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; const requesting_url, top_level_url: <a href="uCEFTypes.html#PCefString">PCefString</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; value: <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>); stdcall;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#set_chrome_color_scheme">set_chrome_color_scheme</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; variant: <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>; user_color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>); stdcall;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#get_chrome_color_scheme_mode">get_chrome_color_scheme_mode</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>): <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>; stdcall;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#get_chrome_color_scheme_color">get_chrome_color_scheme_color</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>): <a href="uCEFTypes.html#TCefColor">TCefColor</a>; stdcall;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContext.html#get_chrome_color_scheme_variant">get_chrome_color_scheme_variant</a></strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>): <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>; stdcall;</code></td>
 </tr>
@@ -240,46 +220,6 @@
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><span id="resolve_host"></span><code><strong>resolve_host</strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; const origin: <a href="uCEFTypes.html#PCefString">PCefString</a>; callback: <a href="uCEFTypes.html#PCefResolveCallback">PCefResolveCallback</a>); stdcall;</code></td>
-</tr>
-<tr><td colspan="2">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="load_extension"></span><code><strong>load_extension</strong>: procedure(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; const root_directory: <a href="uCEFTypes.html#PCefString">PCefString</a>; manifest: <a href="uCEFTypes.html#PCefDictionaryValue">PCefDictionaryValue</a>; handler: <a href="uCEFTypes.html#PCefExtensionHandler">PCefExtensionHandler</a>); stdcall;</code></td>
-</tr>
-<tr><td colspan="2">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="did_load_extension"></span><code><strong>did_load_extension</strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; const extension_id: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
-</tr>
-<tr><td colspan="2">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="has_extension"></span><code><strong>has_extension</strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; const extension_id: <a href="uCEFTypes.html#PCefString">PCefString</a>): Integer; stdcall;</code></td>
-</tr>
-<tr><td colspan="2">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="get_extensions"></span><code><strong>get_extensions</strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; extension_ids: <a href="uCEFTypes.html#TCefStringList">TCefStringList</a>): Integer; stdcall;</code></td>
-</tr>
-<tr><td colspan="2">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="get_extension"></span><code><strong>get_extension</strong>: function(self: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>; const extension_id: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefExtension">PCefExtension</a>; stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>

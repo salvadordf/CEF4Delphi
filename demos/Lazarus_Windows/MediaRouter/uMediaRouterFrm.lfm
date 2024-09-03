@@ -15,7 +15,7 @@ object MediaRouterFrm: TMediaRouterFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.0.0.3'
+  LCLVersion = '3.4.0.0'
   object CEFWindowParent1: TCEFWindowParent
     Left = 184
     Height = 0
@@ -311,7 +311,6 @@ object MediaRouterFrm: TMediaRouterFrm
     OnMediaRouteCreateFinished = Chromium1MediaRouteCreateFinished
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnSinks = Chromium1Sinks
     OnRoutes = Chromium1Routes
     OnRouteStateChanged = Chromium1RouteStateChanged

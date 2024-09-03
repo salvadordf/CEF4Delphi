@@ -120,7 +120,7 @@ begin
   FBrowserLeft.OnBrowserClosed  := @LeftBrowserClosed;
   FBrowserLeft.Align  := alClient;
   FBrowserLeft.Parent := PanelLeft;
-
+  FBrowserLeft.Chromium.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
   OpenBtnLeft.Enabled := False;
   GoBtnLeftClick(nil);
 end;
@@ -163,6 +163,7 @@ begin
   {$ENDIF}
   FBrowserRight.Align  := alClient;
   FBrowserRight.Parent := PanelRight;
+  FBrowserRight.Chromium.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 
   OpenBtnRight.Enabled := False;
   GoBtnRightClick(nil);

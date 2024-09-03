@@ -139,6 +139,7 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
+  BrowserWindow1.Chromium.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
   BrowserWindow1.LoadURL(UTF8Decode(AddressEdt.Text));
 end;
 

@@ -1,82 +1,84 @@
 object BrowserFrame: TBrowserFrame
   Left = 0
+  Height = 670
   Top = 0
   Width = 932
-  Height = 670
+  ClientHeight = 670
+  ClientWidth = 932
   TabOrder = 0
   object NavControlPnl: TPanel
     Left = 0
+    Height = 35
     Top = 0
     Width = 932
-    Height = 35
     Align = alTop
     BevelOuter = bvNone
+    ClientHeight = 35
+    ClientWidth = 932
     Enabled = False
     TabOrder = 0
     object NavButtonPnl: TPanel
       Left = 0
+      Height = 35
       Top = 0
       Width = 123
-      Height = 35
       Align = alLeft
       BevelOuter = bvNone
+      ClientHeight = 35
+      ClientWidth = 123
       TabOrder = 0
       object BackBtn: TButton
         Left = 3
+        Height = 25
         Top = 3
         Width = 25
-        Height = 25
         Caption = '3'
-        Font.Charset = SYMBOL_CHARSET
+        Font.CharSet = SYMBOL_CHARSET
         Font.Color = clWindowText
         Font.Height = -19
         Font.Name = 'Webdings'
-        Font.Style = []
         ParentFont = False
         TabOrder = 0
         OnClick = BackBtnClick
       end
       object ForwardBtn: TButton
         Left = 33
+        Height = 25
         Top = 3
         Width = 25
-        Height = 25
         Caption = '4'
-        Font.Charset = SYMBOL_CHARSET
+        Font.CharSet = SYMBOL_CHARSET
         Font.Color = clWindowText
         Font.Height = -19
         Font.Name = 'Webdings'
-        Font.Style = []
         ParentFont = False
         TabOrder = 1
         OnClick = ForwardBtnClick
       end
       object ReloadBtn: TButton
         Left = 62
+        Height = 25
         Top = 3
         Width = 25
-        Height = 25
         Caption = 'q'
-        Font.Charset = SYMBOL_CHARSET
+        Font.CharSet = SYMBOL_CHARSET
         Font.Color = clWindowText
         Font.Height = -19
         Font.Name = 'Webdings'
-        Font.Style = []
         ParentFont = False
         TabOrder = 2
         OnClick = ReloadBtnClick
       end
       object StopBtn: TButton
         Left = 91
+        Height = 25
         Top = 3
         Width = 25
-        Height = 25
         Caption = '='
-        Font.Charset = SYMBOL_CHARSET
+        Font.CharSet = SYMBOL_CHARSET
         Font.Color = clWindowText
         Font.Height = -19
         Font.Name = 'Webdings'
-        Font.Style = []
         ParentFont = False
         TabOrder = 3
         OnClick = StopBtnClick
@@ -84,32 +86,29 @@ object BrowserFrame: TBrowserFrame
     end
     object URLEditPnl: TPanel
       Left = 121
+      Height = 35
       Top = 0
       Width = 774
-      Height = 35
       Align = alClient
       BevelOuter = bvNone
+      ClientHeight = 35
+      ClientWidth = 774
       TabOrder = 1
       object URLCbx: TComboBox
         Left = 0
+        Height = 21
         Top = 5
         Width = 770
-        Height = 21
-        Anchors = [akLeft, akTop, akRight]
+        Anchors = [akTop, akLeft, akRight]
+        ItemHeight = 0
         ItemIndex = 0
-        TabOrder = 0
-        Text = 'https://www.google.com'
         Items.Strings = (
           'https://www.google.com'
-          
-            'https://www.whatismybrowser.com/detect/what-http-headers-is-my-b' +
-            'rowser-sending'
+          'https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending'
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_loc_assign'
-          
-            'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_styl' +
-            'e_backgroundcolor'
+          'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_backgroundcolor'
           'https://www.w3schools.com/html/html5_video.asp'
           'http://www.adobe.com/software/flash/about/'
           'http://isflashinstalled.com/'
@@ -117,9 +116,7 @@ object BrowserFrame: TBrowserFrame
           'https://www.ultrasounds.com/'
           'https://www.whatismybrowser.com/detect/is-flash-installed'
           'http://html5test.com/'
-          
-            'https://webrtc.github.io/samples/src/content/devices/input-outpu' +
-            't/'
+          'https://webrtc.github.io/samples/src/content/devices/input-output/'
           'https://test.webrtc.org/'
           'https://www.w3schools.com/'
           'http://webglsamples.org/'
@@ -127,15 +124,9 @@ object BrowserFrame: TBrowserFrame
           'https://www.briskbard.com'
           'https://www.youtube.com'
           'https://html5demos.com/drag/'
-          
-            'https://developers.google.com/maps/documentation/javascript/exam' +
-            'ples/streetview-embed?hl=fr'
-          
-            'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe' +
-            '_name'
-          
-            'http://www-db.deis.unibo.it/courses/TW/DOCS/w3schools/html/tryit' +
-            '.asp-filename=tryhtml5_html_manifest.html'
+          'https://developers.google.com/maps/documentation/javascript/examples/streetview-embed?hl=fr'
+          'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe_name'
+          'http://www-db.deis.unibo.it/courses/TW/DOCS/w3schools/html/tryit.asp-filename=tryhtml5_html_manifest.html'
           'https://www.browserleaks.com/webrtc'
           'https://frames-per-second.appspot.com/'
           'chrome://version/'
@@ -155,24 +146,29 @@ object BrowserFrame: TBrowserFrame
           'chrome://gpucrash'
           'chrome://gpuhang'
           'chrome://extensions-support'
-          'chrome://process-internals')
+          'chrome://process-internals'
+        )
+        TabOrder = 0
+        Text = 'https://www.google.com'
       end
     end
     object ConfigPnl: TPanel
       Left = 895
+      Height = 35
       Top = 0
       Width = 35
-      Height = 35
       Align = alRight
       BevelOuter = bvNone
+      ClientHeight = 35
+      ClientWidth = 35
       TabOrder = 2
       object GoBtn: TButton
         Left = 3
+        Height = 25
         Top = 3
         Width = 25
-        Height = 25
         Caption = '►'
-        Font.Charset = ANSI_CHARSET
+        Font.CharSet = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -17
         Font.Name = 'Arial'
@@ -185,10 +181,10 @@ object BrowserFrame: TBrowserFrame
   end
   object StatusBar1: TStatusBar
     Left = 0
+    Height = 19
     Top = 651
     Width = 932
-    Height = 19
-    Panels = <
+    Panels = <    
       item
         Width = 500
       end>
@@ -196,9 +192,9 @@ object BrowserFrame: TBrowserFrame
   end
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
+    Height = 616
     Top = 35
     Width = 932
-    Height = 616
     Align = alClient
     TabOrder = 2
   end

@@ -350,7 +350,7 @@ begin
       if aIndependent then
         begin
           TempCache   := GlobalCEFApp.RootCache + '\cache' + inttostr(TBrowserTab(ParentTab).TabID);
-          TempContext := TCefRequestContextRef.New(TempCache, '', '', False, False, False, FMXChromium1.ReqContextHandler)
+          TempContext := TCefRequestContextRef.New(TempCache, '', '', False, False, FMXChromium1.ReqContextHandler)
         end
        else
         TempContext := nil;
@@ -364,7 +364,8 @@ begin
       TempRect.Right  := round(TempClientRect.Right  * TempScale);
       TempRect.Bottom := round(TempClientRect.Bottom * TempScale);
 
-      FMXChromium1.DefaultUrl := FHomepage;
+      FMXChromium1.DefaultUrl   := FHomepage;
+      FMXChromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
       FMXChromium1.CreateBrowser(TempHandle, TempRect, '', TempContext);
       {$ENDIF}
     end;

@@ -13,8 +13,8 @@ package CEF4Delphi;
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
 {$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
 {$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
 {$STACKFRAMES ON}
@@ -146,9 +146,6 @@ contains
   uCEFAccessibilityHandler in '..\source\uCEFAccessibilityHandler.pas',
   uCEFOLEDragAndDrop in '..\source\uCEFOLEDragAndDrop.pas',
   uCEFDragAndDropMgr in '..\source\uCEFDragAndDropMgr.pas',
-  uCEFGetExtensionResourceCallback in '..\source\uCEFGetExtensionResourceCallback.pas',
-  uCEFExtension in '..\source\uCEFExtension.pas',
-  uCEFExtensionHandler in '..\source\uCEFExtensionHandler.pas',
   uCEFBufferPanel in '..\source\uCEFBufferPanel.pas',
   uCEFApp in '..\source\uCEFApp.pas',
   uCEFWorkScheduler in '..\source\uCEFWorkScheduler.pas',
@@ -237,7 +234,8 @@ contains
   uCEFBrowserBitmap in '..\source\uCEFBrowserBitmap.pas',
   uCEFComponentIdList in '..\source\uCEFComponentIdList.pas',
   uCEFUnresponsiveProcessCallback in '..\source\uCEFUnresponsiveProcessCallback.pas',
-  uCEFWindowInfoWrapper in '..\source\uCEFWindowInfoWrapper.pas';
+  uCEFWindowInfoWrapper in '..\source\uCEFWindowInfoWrapper.pas',
+  uCEFTaskManager in '..\source\uCEFTaskManager.pas';
 
 end.
 

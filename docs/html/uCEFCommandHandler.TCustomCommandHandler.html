@@ -83,7 +83,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefCommandHandler.html#OnChromeCommand-ICefBrowser-integer-TCefWindowOpenDisposition-">ICefCommandHandler.OnChromeCommand</a>.</p><p>
- Called to execute a Chrome command triggered via menu selection or keyboard shortcut. Values for |command_id| can be found in the cef_command_ids.h file. |disposition| provides information about the intended command target. Return true (1) if the command was handled or false (0) for the default implementation. For context menu commands this will be called after ICefContextMenuHandler.OnContextMenuCommand. Only used with the Chrome runtime. </p>
+ Called to execute a Chrome command triggered via menu selection or keyboard shortcut. Values for |command_id| can be found in the cef_command_ids.h file. |disposition| provides information about the intended command target. Return true (1) if the command was handled or false (0) for the default implementation. For context menu commands this will be called after ICefContextMenuHandler.OnContextMenuCommand. Only used with Chrome style. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -93,7 +93,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefCommandHandler.html#OnIsChromeAppMenuItemVisible-ICefBrowser-integer-">ICefCommandHandler.OnIsChromeAppMenuItemVisible</a>.</p><p>
- Called to check if a Chrome app menu item should be visible. Values for |command_id| can be found in the cef_command_ids.h file. Only called for menu items that would be visible by default. Only used with the Chrome runtime. </p>
+ Called to check if a Chrome app menu item should be visible. Values for |command_id| can be found in the cef_command_ids.h file. Only called for menu items that would be visible by default. Only used with Chrome style. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -103,7 +103,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefCommandHandler.html#OnIsChromeAppMenuItemEnabled-ICefBrowser-integer-">ICefCommandHandler.OnIsChromeAppMenuItemEnabled</a>.</p><p>
- Called to check if a Chrome app menu item should be enabled. Values for |command_id| can be found in the cef_command_ids.h file. Only called for menu items that would be enabled by default. Only used with the Chrome runtime. </p>
+ Called to check if a Chrome app menu item should be enabled. Values for |command_id| can be found in the cef_command_ids.h file. Only called for menu items that would be enabled by default. Only used with Chrome style. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -113,7 +113,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefCommandHandler.html#OnIsChromePageActionIconVisible-TCefChromePageActionIconType-">ICefCommandHandler.OnIsChromePageActionIconVisible</a>.</p><p>
- Called during browser creation to check if a Chrome page action icon should be visible. Only called for icons that would be visible by default. Only used with the Chrome runtime. </p>
+ Called during browser creation to check if a Chrome page action icon should be visible. Only called for icons that would be visible by default. Only used with Chrome style. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -123,7 +123,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefCommandHandler.html#OnIsChromeToolbarButtonVisible-TCefChromeToolbarButtonType-">ICefCommandHandler.OnIsChromeToolbarButtonVisible</a>.</p><p>
- Called during browser creation to check if a Chrome toolbar button should be visible. Only called for buttons that would be visible by default. Only used with the Chrome runtime. </p>
+ Called during browser creation to check if a Chrome toolbar button should be visible. Only called for buttons that would be visible by default. Only used with Chrome style. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

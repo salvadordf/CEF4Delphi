@@ -205,6 +205,7 @@ procedure TSchemeRegistrationBrowserFrm.FormCreate(Sender: TObject);
 begin
   // You can register the Scheme Handler Factory here or later, for example in a context menu command.
   CefRegisterSchemeHandlerFactory(CUSTOM_SCHEME_NAME, '', THelloScheme);
+  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TSchemeRegistrationBrowserFrm.FormShow(Sender: TObject);

@@ -14,7 +14,6 @@ object Form1: TForm1
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.4.0.0'
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Height = 599
@@ -329,7 +328,6 @@ object Form1: TForm1
     OnLoadEnd = Chromium1LoadEnd
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     Left = 56
     Top = 144
   end

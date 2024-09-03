@@ -14,7 +14,7 @@ object MainForm: TMainForm
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '2.0.10.0'
+  LCLVersion = '3.4.0.0'
   object BrowserPageCtrl: TPageControl
     Left = 34
     Height = 704
@@ -33,6 +33,7 @@ object MainForm: TMainForm
     ClientHeight = 704
     ClientWidth = 34
     Enabled = False
+    ParentBackground = False
     TabOrder = 1
     object AddTabBtn: TSpeedButton
       Left = 4

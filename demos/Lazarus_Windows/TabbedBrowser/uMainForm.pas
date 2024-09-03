@@ -39,18 +39,19 @@ type
     URLCbx: TComboBox;
     AddTabBtn: TButton;
     RemoveTabBtn: TButton;
-    procedure AddTabBtnClick(Sender: TObject);
-    procedure CEFSentinel1Close(Sender: TObject);
-    procedure RemoveTabBtnClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure PageControl1Change(Sender: TObject);
+
+    procedure FormShow(Sender: TObject);   
+    procedure FormCreate(Sender: TObject);     
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+                                               
+    procedure PageControl1Change(Sender: TObject);
+    procedure AddTabBtnClick(Sender: TObject);
+    procedure RemoveTabBtnClick(Sender: TObject);
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
     procedure ReloadBtnClick(Sender: TObject);
     procedure StopBtnClick(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
 
   protected
     FClosingTab : boolean;
@@ -153,13 +154,9 @@ begin
   TempChromium.OnClose         := Chromium_OnClose;
   TempChromium.OnBeforeClose   := Chromium_OnBeforeClose;
   TempChromium.OnBeforePopup   := Chromium_OnBeforePopup;
+  TempChromium.RuntimeStyle    := CEF_RUNTIME_STYLE_ALLOY;
 
   TempChromium.CreateBrowser(TempWindowParent, '');
-end;
-
-procedure TMainForm.CEFSentinel1Close(Sender: TObject);
-begin
-
 end;
 
 procedure TMainForm.RemoveTabBtnClick(Sender: TObject);

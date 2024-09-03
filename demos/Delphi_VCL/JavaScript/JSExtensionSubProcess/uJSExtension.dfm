@@ -28,7 +28,6 @@ object JSExtensionFrm: TJSExtensionFrm
     Padding.Right = 5
     Padding.Bottom = 5
     TabOrder = 0
-    ExplicitWidth = 974
     object Edit1: TEdit
       Left = 5
       Top = 5
@@ -38,7 +37,6 @@ object JSExtensionFrm: TJSExtensionFrm
       Align = alClient
       TabOrder = 0
       Text = 'http://www.google.com'
-      ExplicitWidth = 933
       ExplicitHeight = 21
     end
     object GoBtn: TButton
@@ -51,7 +49,6 @@ object JSExtensionFrm: TJSExtensionFrm
       Caption = 'Go'
       TabOrder = 1
       OnClick = GoBtnClick
-      ExplicitLeft = 938
     end
   end
   object StatusBar1: TStatusBar
@@ -63,8 +60,6 @@ object JSExtensionFrm: TJSExtensionFrm
       item
         Width = 50
       end>
-    ExplicitTop = 569
-    ExplicitWidth = 974
   end
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
@@ -73,8 +68,6 @@ object JSExtensionFrm: TJSExtensionFrm
     Height = 540
     Align = alClient
     TabOrder = 2
-    ExplicitWidth = 974
-    ExplicitHeight = 539
   end
   object Chromium1: TChromium
     OnProcessMessageReceived = Chromium1ProcessMessageReceived

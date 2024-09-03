@@ -13,7 +13,6 @@ object JSEvalFrm: TJSEvalFrm
   OnCloseQuery = FormCloseQuery
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Height = 550
@@ -33,6 +32,7 @@ object JSEvalFrm: TJSEvalFrm
     ClientWidth = 878
     DoubleBuffered = True
     Enabled = False
+    ParentBackground = False
     ParentDoubleBuffered = False
     TabOrder = 1
     object GoBtn: TButton
@@ -42,8 +42,8 @@ object JSEvalFrm: TJSEvalFrm
       Width = 31
       Align = alRight
       Caption = 'Go'
-      OnClick = GoBtnClick
       TabOrder = 0
+      OnClick = GoBtnClick
     end
     object AddressEdt: TEdit
       Left = 0
@@ -62,15 +62,14 @@ object JSEvalFrm: TJSEvalFrm
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
-    left = 16
-    top = 40
+    Left = 16
+    Top = 40
   end
   object Timer1: TTimer
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
-    left = 16
-    top = 96
+    Left = 16
+    Top = 96
   end
 end

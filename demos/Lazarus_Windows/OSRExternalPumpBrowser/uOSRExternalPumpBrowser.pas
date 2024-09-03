@@ -27,7 +27,6 @@ type
     Timer1: TTimer;
     Panel1: TBufferPanel;
 
-    procedure CEFSentinel1Close(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
 
@@ -171,12 +170,6 @@ begin
   FResizeCS.Release;
 
   chrmosr.LoadURL(ComboBox1.Text);
-end;
-
-procedure TOSRExternalPumpBrowserFrm.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TOSRExternalPumpBrowserFrm.chrmosrIMECompositionRangeChanged(      Sender                : TObject;

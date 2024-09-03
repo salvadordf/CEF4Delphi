@@ -19,9 +19,8 @@ uses
   uCEFDisplayHandler, uCEFDomDocument, uCEFDomNode, uCEFDomVisitor, 
   uCEFDownloadHandler, uCEFDownloadImageCallBack, uCEFDownloadItem, 
   uCEFDownloadItemCallback, uCEFDragData, uCEFDragHandler, 
-  uCEFEndTracingCallback, uCEFExtension, uCEFExtensionHandler, 
-  uCEFFileDialogCallback, uCEFFindHandler, uCEFFocusHandler, uCEFFrame, 
-  uCEFGetExtensionResourceCallback, uCEFImage, uCEFInterfaces, 
+  uCEFEndTracingCallback, uCEFFileDialogCallback, uCEFFindHandler, 
+  uCEFFocusHandler, uCEFFrame, uCEFImage, uCEFInterfaces, 
   uCEFJsDialogCallback, uCEFJsDialogHandler, uCEFKeyboardHandler, 
   uCEFLibFunctions, uCEFLifeSpanHandler, uCEFListValue, uCEFLoadHandler, 
   uCEFMenuModel, uCEFMenuModelDelegate, uCEFMiscFunctions, 
@@ -71,7 +70,7 @@ uses
   uCEFPermissionPromptCallback, uCEFSharedProcessMessageBuilder, 
   uCEFSharedMemoryRegion, uCEFPreferenceManager, uCEFPreferenceRegistrar, 
   uCEFApplicationEvents, uCEFBrowserBitmap, uCEFComponentIdList, 
-  uCEFWindowInfoWrapper, LazarusPackageIntf;
+  uCEFWindowInfoWrapper, uCEFTaskManager, LazarusPackageIntf;
 
 implementation
 

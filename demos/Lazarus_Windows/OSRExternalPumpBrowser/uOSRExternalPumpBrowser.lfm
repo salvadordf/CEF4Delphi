@@ -16,7 +16,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
   OnHide = FormHide
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.10.0'
+  LCLVersion = '3.4.0.0'
   object NavControlPnl: TPanel
     Left = 0
     Height = 21
@@ -27,6 +27,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
     ClientHeight = 21
     ClientWidth = 913
     Enabled = False
+    ParentBackground = False
     TabOrder = 0
     object ComboBox1: TComboBox
       Left = 0
@@ -44,9 +45,9 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
         'https://frames-per-second.appspot.com/'
         'https://www.youtube.com'
       )
-      OnEnter = ComboBox1Enter
       TabOrder = 0
       Text = 'https://www.google.com'
+      OnEnter = ComboBox1Enter
     end
     object Panel2: TPanel
       Left = 844
@@ -57,6 +58,7 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
       BevelOuter = bvNone
       ClientHeight = 21
       ClientWidth = 69
+      ParentBackground = False
       TabOrder = 1
       object GoBtn: TButton
         Left = 0
@@ -65,9 +67,9 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
         Width = 31
         Align = alLeft
         Caption = 'Go'
+        TabOrder = 0
         OnClick = GoBtnClick
         OnEnter = GoBtnEnter
-        TabOrder = 0
       end
       object SnapshotBtn: TButton
         Left = 38
@@ -81,12 +83,12 @@ object OSRExternalPumpBrowserFrm: TOSRExternalPumpBrowserFrm
         Font.Color = clWindowText
         Font.Height = -24
         Font.Name = 'Webdings'
-        OnClick = SnapshotBtnClick
-        OnEnter = SnapshotBtnEnter
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabOrder = 1
+        OnClick = SnapshotBtnClick
+        OnEnter = SnapshotBtnEnter
       end
     end
   end

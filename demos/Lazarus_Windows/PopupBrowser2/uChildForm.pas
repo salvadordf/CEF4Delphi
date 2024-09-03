@@ -24,7 +24,6 @@ type
 
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 
   protected
@@ -37,7 +36,6 @@ type
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
     procedure WMExitMenuLoop(var aMessage: TMessage); message WM_EXITMENULOOP;
-    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;  
     procedure ShowChildMsg(var aMessage : TMessage); message CEF_SHOWCHILD;
 
   public
@@ -136,12 +134,6 @@ begin
   end;
 end;
 
-procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
-begin
-  PostMessage(Handle, CEF_DESTROY, 0, 0);
-  aAction := cbaDelay;
-end;
-
 procedure TChildForm.Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
 begin
   Caption := title;
@@ -189,10 +181,7 @@ begin
       FClosing := True;
       Visible  := False;
       Chromium1.CloseBrowser(True);             
-
-      // Workaround for the missing TChormium.OnClose event when "Chrome runtime" is enabled.
-      if GlobalCEFApp.ChromeRuntime then
-        CEFWindowParent1.Free;
+      CEFWindowParent1.Free;
     end;
 end;
 
@@ -207,11 +196,6 @@ procedure TChildForm.FormDestroy(Sender: TObject);
 begin
   if FClientInitialized and TMainForm(Owner).HandleAllocated then
     PostMessage(TMainForm(Owner).Handle, CEF_CHILDDESTROYED, 0, 0);
-end;
-
-procedure TChildForm.BrowserDestroyMsg(var aMessage : TMessage);
-begin
-  CEFWindowParent1.Free;
 end;
 
 procedure TChildForm.ShowChildMsg(var aMessage : TMessage);

@@ -90,6 +90,8 @@ procedure TSimpleExternalPumpBrowserFrm.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
+
+  ChromiumWindow1.ChromiumBrowser.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TSimpleExternalPumpBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);

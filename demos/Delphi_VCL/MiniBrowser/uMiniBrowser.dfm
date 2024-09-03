@@ -306,7 +306,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnDownloadUpdated = Chromium1DownloadUpdated
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnCertificateError = Chromium1CertificateError
     OnSelectClientCertificate = Chromium1SelectClientCertificate
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad

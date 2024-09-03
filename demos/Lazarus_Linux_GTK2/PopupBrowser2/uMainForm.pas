@@ -130,7 +130,6 @@ begin
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.OnContextInitialized := @GlobalCEFApp_OnContextInitialized;
   GlobalCEFApp.SetCurrentDir        := True;
-  GlobalCEFApp.ChromeRuntime        := True;
 end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -151,9 +150,6 @@ begin
         begin
           FClosingMainForm := True;
           Chromium1.CloseBrowser(True);
-
-          if GlobalCEFApp.ChromeRuntime then
-            CEFLinkedWindowParent1.Free;
         end;
     end;
 end;
@@ -173,6 +169,7 @@ begin
                                                               
   Chromium1.DefaultURL              := UTF8Decode(AddressEdt.Text);
   Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+  Chromium1.RuntimeStyle            := CEF_RUNTIME_STYLE_ALLOY;
 
   CreateHiddenChildForm;
 end;

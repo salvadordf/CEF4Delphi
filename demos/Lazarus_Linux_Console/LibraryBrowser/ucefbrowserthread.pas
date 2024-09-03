@@ -108,7 +108,6 @@ begin
   GlobalCEFApp.BlinkSettings              := 'hideScrollbars';    // This setting removes all scrollbars to capture a cleaner snapshot
   GlobalCEFApp.SetCurrentDir              := True;
   GlobalCEFApp.DisableZygote              := True;
-  GlobalCEFApp.ChromeRuntime              := True;
   GlobalCEFApp.StartMainProcess;
 end;
 

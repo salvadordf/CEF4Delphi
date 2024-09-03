@@ -14,7 +14,6 @@ object MainForm: TMainForm
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
   object ChromiumWindow1: TChromiumWindow
     Left = 0
     Height = 637
@@ -36,6 +35,7 @@ object MainForm: TMainForm
     ClientWidth = 781
     DoubleBuffered = True
     Enabled = False
+    ParentBackground = False
     ParentDoubleBuffered = False
     TabOrder = 1
     object Edit1: TEdit
@@ -54,15 +54,15 @@ object MainForm: TMainForm
       Width = 31
       Align = alRight
       Caption = 'Go'
-      OnClick = Button1Click
       TabOrder = 1
+      OnClick = Button1Click
     end
   end
   object Timer1: TTimer
     Enabled = False
     Interval = 300
     OnTimer = Timer1Timer
-    left = 48
-    top = 240
+    Left = 48
+    Top = 240
   end
 end

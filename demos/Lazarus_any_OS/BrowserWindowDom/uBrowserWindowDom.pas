@@ -193,7 +193,7 @@ begin
   BrowserWindow1.Chromium.OnBeforeContextMenu := @DoBeforeContextMenu;
   BrowserWindow1.Chromium.OnContextMenuCommand := @DoContextMenuCmd;
   BrowserWindow1.Chromium.OnProcessMessageReceived := @DoProcessMessageReceived;
-
+  BrowserWindow1.Chromium.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
   BrowserWindow1.LoadURL(UTF8Decode(AddressEdt.Text));
 end;
 

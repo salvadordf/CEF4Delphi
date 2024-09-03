@@ -230,198 +230,190 @@
 <td class="itemdesc"> Implement this interface for asynchronous task execution. If the task is posted successfully and if the associated message loop is still running then the execute() function will be called on the target thread. If the task fails to post then the task object may be destroyed on the source thread instead of the target thread. For this reason be cautious when performing work in the task object destructor. </td>
 </tr>
 <tr class="list">
+<td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefTaskManager.html"><code>ICefTaskManager</code></a></td>
+<td class="itemdesc"> Interface that facilitates managing the browser-related tasks. The functions of this structure may only be called on the UI thread. </td>
+</tr>
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefTaskRunner.html"><code>ICefTaskRunner</code></a></td>
 <td class="itemdesc"> Interface that asynchronously executes tasks on the associated thread. It is safe to call the functions of this interface on any thread.
 
 <p>CEF maintains multiple internal threads that are used for handling different types of tasks in different processes. The TCefThreadId definitions in cef_types.h list the common CEF threads. Task runners are also available for other CEF threads as appropriate (for example, V8 WebWorker threads). </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefThread.html"><code>ICefThread</code></a></td>
 <td class="itemdesc"> A simple thread abstraction that establishes a message loop on a new thread. The consumer uses ICefTaskRunner to execute code on the thread's message loop. The thread is terminated when the ICefThread object is destroyed or stop() is called. All pending tasks queued on the thread's message loop will run to completion before the thread is terminated. cef_thread_create() can be called on any valid CEF thread in either the browser or render process. This interface should only be used for tasks that require a dedicated thread. In most cases you can post tasks to an existing CEF thread instead of creating a new one; see cef_task.h for details. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefWaitableEvent.html"><code>ICefWaitableEvent</code></a></td>
 <td class="itemdesc"> WaitableEvent is a thread synchronization tool that allows one thread to wait for another thread to finish some work. This is equivalent to using a Lock+ConditionVariable to protect a simple boolean value. However, using WaitableEvent in conjunction with a Lock to wait for a more complex state change (e.g., for an item to be added to a queue) is not recommended. In that case consider using a ConditionVariable instead of a WaitableEvent. It is safe to create and/or signal a WaitableEvent from any thread. Blocking on a WaitableEvent by calling the *wait() functions is not allowed on the browser process UI or IO threads. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefv8Value.html"><code>ICefv8Value</code></a></td>
 <td class="itemdesc"> Interface representing a V8 value handle. V8 handles can only be accessed from the thread on which they are created. Valid threads for creating a V8 handle include the render process main thread (TID_RENDERER) and WebWorker threads. A task runner for posting tasks on the associated thread can be retrieved via the ICefv8context.GetTaskRunner() function. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefV8StackFrame.html"><code>ICefV8StackFrame</code></a></td>
 <td class="itemdesc"> Interface representing a V8 stack frame handle. V8 handles can only be accessed from the thread on which they are created. Valid threads for creating a V8 handle include the render process main thread (TID_RENDERER) and WebWorker threads. A task runner for posting tasks on the associated thread can be retrieved via the ICefv8context.GetTaskRunner() function. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefV8StackTrace.html"><code>ICefV8StackTrace</code></a></td>
 <td class="itemdesc"> Interface representing a V8 stack trace handle. V8 handles can only be accessed from the thread on which they are created. Valid threads for creating a V8 handle include the render process main thread (TID_RENDERER) and WebWorker threads. A task runner for posting tasks on the associated thread can be retrieved via the ICefv8context.GetTaskRunner() function. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefXmlReader.html"><code>ICefXmlReader</code></a></td>
 <td class="itemdesc"> Interface that supports the reading of XML data via the libxml streaming API. The functions of this interface should only be called on the thread that creates the object. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefZipReader.html"><code>ICefZipReader</code></a></td>
 <td class="itemdesc"> Interface that supports the reading of zip archives via the zlib unzip API. The functions of this interface should only be called on the thread that creates the object. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefDomNode.html"><code>ICefDomNode</code></a></td>
 <td class="itemdesc"> Interface used to represent a DOM node. The functions of this interface should only be called on the render process main thread. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefDomDocument.html"><code>ICefDomDocument</code></a></td>
 <td class="itemdesc"> Interface used to represent a DOM document. The functions of this interface should only be called on the render process main thread thread. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefDomVisitor.html"><code>ICefDomVisitor</code></a></td>
 <td class="itemdesc"> Interface to implement for visiting the DOM. The functions of this interface will be called on the render process main thread. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefCookieVisitor.html"><code>ICefCookieVisitor</code></a></td>
 <td class="itemdesc"> Interface to implement for visiting cookie values. The functions of this interface will always be called on the UI thread. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefCommandLine.html"><code>ICefCommandLine</code></a></td>
 <td class="itemdesc"> Interface used to create and/or parse command line arguments. Arguments with &quot;&ndash;&quot;, &quot;-&quot; and, on Windows, &quot;/&quot; prefixes are considered switches. Switches will always precede any arguments without switch prefixes. Switches can optionally have a value specified using the &quot;=&quot; delimiter (e.g. &quot;-switch=value&quot;). An argument of &quot;&ndash;&quot; will terminate switch parsing with all subsequent tokens, regardless of prefix, being interpreted as non-switch arguments. Switch names should be lowercase ASCII and will be converted to such if necessary. Switch values will retain the original case and UTF8 encoding. This interface can be used before cef_initialize() is called. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefRegistration.html"><code>ICefRegistration</code></a></td>
 <td class="itemdesc"> Generic callback interface used for managing the lifespan of a registration. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefDevToolsMessageObserver.html"><code>ICefDevToolsMessageObserver</code></a></td>
 <td class="itemdesc"> Callback interface for ICefBrowserHost.AddDevToolsMessageObserver. The functions of this interface will be called on the browser process UI thread. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMediaRouter.html"><code>ICefMediaRouter</code></a></td>
 <td class="itemdesc"> Supports discovery of and communication with media devices on the local network via the Cast and DIAL protocols. The functions of this interface may be called on any browser process thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMediaObserver.html"><code>ICefMediaObserver</code></a></td>
 <td class="itemdesc"> Implemented by the client to observe MediaRouter events and registered via ICefMediaRouter.AddObserver. The functions of this interface will be called on the browser process UI thread. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMediaRoute.html"><code>ICefMediaRoute</code></a></td>
 <td class="itemdesc"> Represents the route between a media source and sink. Instances of this object are created via ICefMediaRouter.CreateRoute and retrieved via ICefMediaObserver.OnRoutes. Contains the status and metadata of a routing operation. The functions of this interface may be called on any browser process thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMediaRouteCreateCallback.html"><code>ICefMediaRouteCreateCallback</code></a></td>
 <td class="itemdesc"> Callback interface for ICefMediaRouter.CreateRoute. The functions of this interface will be called on the browser process UI thread. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMediaSinkDeviceInfoCallback.html"><code>ICefMediaSinkDeviceInfoCallback</code></a></td>
 <td class="itemdesc"> Callback interface for ICefMediaSink.GetDeviceInfo. The functions of this interface will be called on the browser process UI thread. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMediaSink.html"><code>ICefMediaSink</code></a></td>
 <td class="itemdesc"> Represents a sink to which media can be routed. Instances of this object are retrieved via ICefMediaObserver.OnSinks. The functions of this interface may be called on any browser process thread unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMediaSource.html"><code>ICefMediaSource</code></a></td>
 <td class="itemdesc"> Represents a source from which media can be routed. Instances of this object are retrieved via ICefMediaRouter.GetSource. The functions of this interface may be called on any browser process thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefResourceBundleHandler.html"><code>ICefResourceBundleHandler</code></a></td>
 <td class="itemdesc"> Interface used to implement a custom resource bundle interface. See TCefSettings for additional options related to resource bundle loading. The functions of this interface may be called on multiple threads. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefBrowserProcessHandler.html"><code>ICefBrowserProcessHandler</code></a></td>
 <td class="itemdesc"> Interface used to implement browser process callbacks. The functions of this interface will be called on the browser process main thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefRenderProcessHandler.html"><code>ICefRenderProcessHandler</code></a></td>
 <td class="itemdesc"> Interface used to implement render process callbacks. The functions of this interface will be called on the render process main thread (TID_RENDERER) unless otherwise indicated. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefApp.html"><code>ICefApp</code></a></td>
 <td class="itemdesc"> Implement this interface to provide handler implementations. Methods will be called by the process and/or thread indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefCompletionCallback.html"><code>ICefCompletionCallback</code></a></td>
 <td class="itemdesc"> Generic callback interface used for asynchronous completion. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefSetCookieCallback.html"><code>ICefSetCookieCallback</code></a></td>
 <td class="itemdesc"> Interface to implement to be notified of asynchronous completion via ICefCookieManager.SetCookie. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefDeleteCookiesCallback.html"><code>ICefDeleteCookiesCallback</code></a></td>
 <td class="itemdesc"> Interface to implement to be notified of asynchronous completion via ICefCookieManager.DeleteCookies. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefCookieManager.html"><code>ICefCookieManager</code></a></td>
 <td class="itemdesc"> Interface used for managing cookies. The functions of this interface may be called on any thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefCallback.html"><code>ICefCallback</code></a></td>
 <td class="itemdesc"> Generic callback interface used for asynchronous continuation. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefResourceSkipCallback.html"><code>ICefResourceSkipCallback</code></a></td>
 <td class="itemdesc"> Callback for asynchronous continuation of ICefResourceHandler.skip. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefResourceReadCallback.html"><code>ICefResourceReadCallback</code></a></td>
 <td class="itemdesc"> Callback for asynchronous continuation of ICefResourceHandler.read. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefResourceHandler.html"><code>ICefResourceHandler</code></a></td>
 <td class="itemdesc"> Interface used to implement a custom request handler interface. The functions of this interface will be called on the IO thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefSchemeHandlerFactory.html"><code>ICefSchemeHandlerFactory</code></a></td>
 <td class="itemdesc"> Interface that creates ICefResourceHandler instances for handling scheme requests. The functions of this interface will always be called on the IO thread. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefAuthCallback.html"><code>ICefAuthCallback</code></a></td>
 <td class="itemdesc"> Callback interface used for asynchronous continuation of authentication requests. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefJsDialogCallback.html"><code>ICefJsDialogCallback</code></a></td>
 <td class="itemdesc"> Callback interface used for asynchronous continuation of JavaScript dialog requests. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefContextMenuParams.html"><code>ICefContextMenuParams</code></a></td>
 <td class="itemdesc"> Provides information about the context menu state. The functions of this interface can only be accessed on browser process the UI thread. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefMenuModel.html"><code>ICefMenuModel</code></a></td>
 <td class="itemdesc"> Supports creation and modification of menus. See TCefMenuId for the command ids that have default implementations. All user-defined command ids should be between MENU_ID_USER_FIRST and MENU_ID_USER_LAST. The functions of this interface can only be accessed on the browser process the UI thread. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefValue.html"><code>ICefValue</code></a></td>
 <td class="itemdesc"> Interface that wraps other data value types. Complex types (binary, dictionary and list) will be referenced but not owned by this object. Can be used on any process and thread. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefBinaryValue.html"><code>ICefBinaryValue</code></a></td>
 <td class="itemdesc"> Interface representing a binary value. Can be used on any process and thread. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefDictionaryValue.html"><code>ICefDictionaryValue</code></a></td>
 <td class="itemdesc"> Interface representing a dictionary value. Can be used on any process and thread. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefListValue.html"><code>ICefListValue</code></a></td>
 <td class="itemdesc"> Interface representing a list value. Can be used on any process and thread. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefLifeSpanHandler.html"><code>ICefLifeSpanHandler</code></a></td>
 <td class="itemdesc"> Implement this interface to handle events related to browser life span. The functions of this interface will be called on the UI thread unless otherwise indicated. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefCommandHandler.html"><code>ICefCommandHandler</code></a></td>
 <td class="itemdesc"> Implement this interface to handle events related to commands. The functions of this interface will be called on the UI thread. </td>
-</tr>
-<tr class="list2">
-<td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefGetExtensionResourceCallback.html"><code>ICefGetExtensionResourceCallback</code></a></td>
-<td class="itemdesc"> Callback interface used for asynchronous continuation of ICefExtensionHandler.GetExtensionResource. </td>
-</tr>
-<tr class="list">
-<td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefExtensionHandler.html"><code>ICefExtensionHandler</code></a></td>
-<td class="itemdesc"> Implement this interface to handle events related to browser extensions. The functions of this interface will be called on the UI thread. See ICefRequestContext.LoadExtension for information about extension loading. </td>
-</tr>
-<tr class="list2">
-<td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefExtension.html"><code>ICefExtension</code></a></td>
-<td class="itemdesc"> Object representing an extension. Methods may be called on any thread unless otherwise indicated. </td>
 </tr>
 <tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefLoadHandler.html"><code>ICefLoadHandler</code></a></td>

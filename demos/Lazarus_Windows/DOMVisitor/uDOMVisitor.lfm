@@ -15,7 +15,6 @@ object DOMVisitorFrm: TDOMVisitorFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.0.0.3'
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Height = 539
@@ -98,7 +97,6 @@ object DOMVisitorFrm: TDOMVisitorFrm
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnDevToolsMethodResult = Chromium1DevToolsMethodResult
     Left = 16
     Top = 40

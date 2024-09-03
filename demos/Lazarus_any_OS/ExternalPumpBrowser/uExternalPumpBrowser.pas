@@ -104,7 +104,7 @@ procedure TForm1.FormCreate(Sender: TObject);
 begin
   FCanClose   := False;
   FClosing    := False;
-
+  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
   Chromium1.DefaultURL := UTF8Decode(AddressEdt.Text);
 end;
 

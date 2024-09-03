@@ -1,4 +1,5 @@
 object ChildForm: TChildForm
+  Tag = 42
   Left = 550
   Height = 256
   Top = 146
@@ -18,15 +19,12 @@ object ChildForm: TChildForm
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '2.0.10.0'
+  LCLVersion = '3.4.0.0'
   object Panel1: TBufferPanel
     Left = 0
     Height = 256
     Top = 0
     Width = 352
-    OnIMECancelComposition = Panel1IMECancelComposition
-    OnIMECommitText = Panel1IMECommitText
-    OnIMESetComposition = Panel1IMESetComposition
     Align = alClient
     OnUTF8KeyPress = Panel1UTF8KeyPress
     Caption = 'Panel1'
@@ -46,6 +44,7 @@ object ChildForm: TChildForm
     OnResize = Panel1Resize
   end
   object chrmosr: TChromium
+    OnCanFocus = chrmosrCanFocus
     OnTitleChange = chrmosrTitleChange
     OnTooltip = chrmosrTooltip
     OnCursorChange = chrmosrCursorChange
@@ -57,7 +56,6 @@ object ChildForm: TChildForm
     OnPopupShow = chrmosrPopupShow
     OnPopupSize = chrmosrPopupSize
     OnPaint = chrmosrPaint
-    OnIMECompositionRangeChanged = chrmosrIMECompositionRangeChanged
     Left = 24
     Top = 56
   end

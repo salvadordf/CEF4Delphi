@@ -286,9 +286,13 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewFunction-ustring-ICefv8Handler-">NewFunction</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const handler: <a href="uCEFInterfaces.ICefv8Handler.html">ICefv8Handler</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewArrayBufferWithCopy-Pointer-NativeUInt-">NewArrayBufferWithCopy</a></strong>(buffer: Pointer; length: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewFunction-ustring-ICefv8Handler-">NewFunction</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const handler: <a href="uCEFInterfaces.ICefv8Handler.html">ICefv8Handler</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFv8Value.TCefv8ValueRef.html#NewPromise">NewPromise</a></strong>: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
 </tr>
@@ -943,6 +947,20 @@
 <tr><td colspan="2">
 <p>
  Create a new ICefv8Value object of type ArrayBuffer which wraps the provided |buffer| of size |length| bytes. The ArrayBuffer is externalized, meaning that it does not own |buffer|. The caller is responsible for freeing |buffer| when requested via a call to ICefv8ArrayBufferReleaseCallback.ReleaseBuffer. This function should only be called from within the scope of a ICefRenderProcessHandler, ICefv8Handler or ICefv8Accessor callback, or in combination with calling enter() and exit() on a stored ICefv8Context reference. </p>
+<p>
+
+
+<p>NOTE: Always returns nullptr when V8 sandbox is enabled.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NewArrayBufferWithCopy-Pointer-NativeUInt-"></span><code>class function <strong>NewArrayBufferWithCopy</strong>(buffer: Pointer; length: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Create a new cef_v8value_t object of type ArrayBuffer which copies the provided |buffer| of size |length| bytes. This function should only be called from within the scope of a cef_render_process_handler_t, cef_v8handler_t or cef_v8accessor_t callback, or in combination with calling enter() and exit() on a stored cef_v8context_t reference. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

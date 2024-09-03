@@ -14,7 +14,6 @@ object ExternalPumpBrowserFrm: TExternalPumpBrowserFrm
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
   object AddressPnl: TPanel
     Left = 0
     Height = 21
@@ -25,6 +24,7 @@ object ExternalPumpBrowserFrm: TExternalPumpBrowserFrm
     ClientHeight = 21
     ClientWidth = 1038
     Enabled = False
+    ParentBackground = False
     TabOrder = 0
     object GoBtn: TButton
       Left = 1007
@@ -33,16 +33,16 @@ object ExternalPumpBrowserFrm: TExternalPumpBrowserFrm
       Width = 31
       Align = alRight
       Caption = 'Go'
-      OnClick = GoBtnClick
       TabOrder = 0
+      OnClick = GoBtnClick
     end
     object URLCbx: TComboBox
       Left = 0
-      Height = 21
+      Height = 22
       Top = 0
       Width = 1007
       Align = alClient
-      ItemHeight = 13
+      ItemHeight = 14
       ItemIndex = 0
       Items.Strings = (
         'https://www.google.com'
@@ -86,7 +86,6 @@ object ExternalPumpBrowserFrm: TExternalPumpBrowserFrm
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     Left = 56
     Top = 152
   end

@@ -14,7 +14,7 @@ object Form1: TForm1
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.10.0'
+  LCLVersion = '3.4.0.0'
   object ChromiumWindow1: TChromiumWindow
     Left = 0
     Height = 603
@@ -36,6 +36,7 @@ object Form1: TForm1
     ClientHeight = 21
     ClientWidth = 1038
     Enabled = False
+    ParentBackground = False
     TabOrder = 1
     object AddressEdt: TEdit
       Left = 0
@@ -53,8 +54,8 @@ object Form1: TForm1
       Width = 31
       Align = alRight
       Caption = 'Go'
-      OnClick = GoBtnClick
       TabOrder = 1
+      OnClick = GoBtnClick
     end
   end
   object Timer1: TTimer

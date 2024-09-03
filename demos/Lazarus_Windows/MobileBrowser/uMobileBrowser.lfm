@@ -14,7 +14,6 @@ object Form1: TForm1
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.2.0.0'
   object Splitter1: TSplitter
     Left = 739
     Height = 624
@@ -95,17 +94,17 @@ object Form1: TForm1
         Width = 294
         Align = alTop
         Caption = ' User agent '
-        ClientHeight = 55
+        ClientHeight = 54
         ClientWidth = 290
         ParentBackground = False
         TabOrder = 0
         object UserAgentCb: TComboBox
           Left = 0
-          Height = 21
+          Height = 22
           Top = 0
           Width = 290
           Align = alTop
-          ItemHeight = 13
+          ItemHeight = 14
           ItemIndex = 0
           Items.Strings = (
             'Mozilla/5.0 (Linux; Android 11; M2102K1G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Mobile Safari/537.36'
@@ -135,7 +134,7 @@ object Form1: TForm1
         object OverrideUserAgentBtn: TButton
           Left = 0
           Height = 25
-          Top = 30
+          Top = 29
           Width = 290
           Align = alBottom
           Caption = 'Override user agent'
@@ -145,8 +144,8 @@ object Form1: TForm1
       end
       object EmulateTouchChk: TCheckBox
         Left = 0
-        Height = 17
-        Top = 80
+        Height = 18
+        Top = 79
         Width = 294
         Align = alBottom
         Caption = 'Emulate Touch'
@@ -172,7 +171,7 @@ object Form1: TForm1
         Width = 294
         Align = alClient
         Caption = ' Emulate device metrics '
-        ClientHeight = 187
+        ClientHeight = 186
         ClientWidth = 290
         ParentBackground = False
         TabOrder = 0
@@ -241,7 +240,7 @@ object Form1: TForm1
         object OverrideDeviceMetricsBtn: TButton
           Left = 0
           Height = 25
-          Top = 162
+          Top = 161
           Width = 290
           Align = alBottom
           Caption = 'Override device metrics'
@@ -306,11 +305,11 @@ object Form1: TForm1
           end
           object OrientationCb: TComboBox
             Left = 75
-            Height = 21
+            Height = 22
             Top = 0
             Width = 215
             Align = alClient
-            ItemHeight = 13
+            ItemHeight = 14
             ItemIndex = 0
             Items.Strings = (
               'Portrait Primary'
@@ -420,7 +419,6 @@ object Form1: TForm1
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnOpenUrlFromTab = Chromium1OpenUrlFromTab
     OnDevToolsMethodResult = Chromium1DevToolsMethodResult
     Left = 56

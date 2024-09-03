@@ -105,6 +105,8 @@ begin
   FCanClose  := False;
   FClosing   := False;
 
+  ChromiumWindow1.ChromiumBrowser.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
+
   try
     try
       TempStream := TStringStream.Create('<!DOCTYPE html><html><body><p>test</p></body></html>', TEncoding.UTF8, false);
@@ -138,8 +140,11 @@ end;
 
 procedure TMainForm.ChromiumWindow1BeforeClose(Sender: TObject);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  if not(FCanClose) then
+    begin
+      FCanClose := True;
+      PostMessage(Handle, WM_CLOSE, 0, 0);
+    end;
 end;
 
 procedure TMainForm.ChromiumWindow1Close(Sender: TObject);

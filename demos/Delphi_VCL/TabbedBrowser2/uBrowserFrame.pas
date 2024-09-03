@@ -272,7 +272,8 @@ end;
 
 procedure TBrowserFrame.CreateBrowser;
 begin
-  Chromium1.DefaultURL := FHomepage;
+  Chromium1.DefaultURL   := FHomepage;
+  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
   Chromium1.CreateBrowser(CEFWindowParent1);
 end;
 
@@ -283,10 +284,6 @@ begin
       FClosing              := True;
       NavControlPnl.Enabled := False;
       Chromium1.CloseBrowser(True);
-
-      // Workaround for the missing TChormium.OnClose event when "Chrome runtime" is enabled.
-      if GlobalCEFApp.ChromeRuntime then
-        CEFWindowParent1.Free;
     end;
 end;
 

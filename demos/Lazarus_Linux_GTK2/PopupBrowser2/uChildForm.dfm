@@ -16,6 +16,7 @@ object ChildForm: TChildForm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poDefault
+  LCLVersion = '3.4.0.0'
   object CEFLinkedWindowParent1: TCEFLinkedWindowParent
     Left = 0
     Height = 256

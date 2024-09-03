@@ -14,7 +14,6 @@ object CookieVisitorFrm: TCookieVisitorFrm
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
   object AddressBarPnl: TPanel
     Left = 0
     Height = 21
@@ -26,6 +25,7 @@ object CookieVisitorFrm: TCookieVisitorFrm
     ClientWidth = 884
     DoubleBuffered = True
     Enabled = False
+    ParentBackground = False
     ParentDoubleBuffered = False
     TabOrder = 0
     object Edit1: TEdit
@@ -44,8 +44,8 @@ object CookieVisitorFrm: TCookieVisitorFrm
       Width = 31
       Align = alRight
       Caption = 'Go'
-      OnClick = GoBtnClick
       TabOrder = 1
+      OnClick = GoBtnClick
     end
   end
   object CEFWindowParent1: TCEFWindowParent
@@ -66,7 +66,6 @@ object CookieVisitorFrm: TCookieVisitorFrm
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     Left = 32
     Top = 224
   end

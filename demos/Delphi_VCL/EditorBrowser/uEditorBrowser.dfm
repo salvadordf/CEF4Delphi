@@ -332,7 +332,6 @@ object EditorBrowserFrm: TEditorBrowserFrm
     OnContextMenuCommand = Chromium1ContextMenuCommand
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     Left = 56
     Top = 144
   end

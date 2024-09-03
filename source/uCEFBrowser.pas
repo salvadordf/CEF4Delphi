@@ -112,8 +112,6 @@ type
       function  GetVisibleNavigationEntry : ICefNavigationEntry;
       procedure SetAccessibilityState(accessibilityState: TCefState);
       procedure SetAutoResizeEnabled(enabled: boolean; const min_size, max_size: PCefSize);
-      function  GetExtension : ICefExtension;
-      function  IsBackgroundHost : boolean;
       procedure SetAudioMuted(mute: boolean);
       function  IsAudioMuted : boolean;
       function  IsFullscreen : boolean;
@@ -132,7 +130,7 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFDownloadImageCallBack, uCEFFrame, uCEFPDFPrintCallback,
   uCEFRunFileDialogCallback, uCEFRequestContext, uCEFNavigationEntryVisitor, uCEFNavigationEntry,
-  uCEFExtension, uCEFStringList, uCEFRegistration, uCEFClient;
+  uCEFStringList, uCEFRegistration, uCEFClient;
 
 
 // TCefBrowserRef
@@ -333,16 +331,6 @@ end;
 procedure TCefBrowserHostRef.SetAutoResizeEnabled(enabled: boolean; const min_size, max_size: PCefSize);
 begin
   PCefBrowserHost(FData)^.set_auto_resize_enabled(PCefBrowserHost(FData), Ord(enabled), min_size, max_size);
-end;
-
-function TCefBrowserHostRef.GetExtension : ICefExtension;
-begin
-  Result := TCefExtensionRef.UnWrap(PCefBrowserHost(FData)^.get_extension(PCefBrowserHost(FData)));
-end;
-
-function TCefBrowserHostRef.IsBackgroundHost : boolean;
-begin
-  Result := PCefBrowserHost(FData)^.is_background_host(PCefBrowserHost(FData)) <> 0;
 end;
 
 procedure TCefBrowserHostRef.SetAudioMuted(mute: boolean);

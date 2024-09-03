@@ -245,6 +245,8 @@ begin
   FClosing  := False;
 
   FCritSection := TCriticalSection.Create;
+
+  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);

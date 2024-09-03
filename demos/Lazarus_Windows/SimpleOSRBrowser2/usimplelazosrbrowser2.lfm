@@ -16,7 +16,6 @@ object Form1: TForm1
   OnHide = FormHide
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.0.0.3'
   object NavControlPnl: TPanel
     Left = 0
     Height = 21
@@ -31,11 +30,11 @@ object Form1: TForm1
     TabOrder = 0
     object ComboBox1: TComboBox
       Left = 0
-      Height = 21
+      Height = 22
       Top = 0
       Width = 892
       Align = alClient
-      ItemHeight = 13
+      ItemHeight = 14
       Items.Strings = (
         'https://www.google.co'
         'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_select_form'

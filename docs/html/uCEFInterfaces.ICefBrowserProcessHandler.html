@@ -78,9 +78,9 @@
 
 <p>Provides an opportunity to register custom preferences prior to global and request context initialization.
 
-<p>If |type| is CEF_PREFERENCES_TYPE_GLOBAL the registered preferences can be accessed via ICefPreferenceManager.GetGlobalPreferences after OnContextInitialized is called. Global preferences are registered a single time at application startup. See related TCefSettings.cache_path and TCefSettings.persist_user_preferences configuration.
+<p>If |type| is CEF_PREFERENCES_TYPE_GLOBAL the registered preferences can be accessed via ICefPreferenceManager.GetGlobalPreferences after OnContextInitialized is called. Global preferences are registered a single time at application startup. See related TCefSettings.cache_path configuration.
 
-<p>If |type| is CEF_PREFERENCES_TYPE_REQUEST_CONTEXT the preferences can be accessed via the ICefRequestContext after ICefRequestContextHandler.OnRequestContextInitialized is called. Request context preferences are registered each time a new ICefRequestContext is created. It is intended but not required that all request contexts have the same registered preferences. See related TCefRequestContextSettings.cache_path and TCefRequestContextSettings.persist_user_preferences configuration.
+<p>If |type| is CEF_PREFERENCES_TYPE_REQUEST_CONTEXT the preferences can be accessed via the ICefRequestContext after ICefRequestContextHandler.OnRequestContextInitialized is called. Request context preferences are registered each time a new ICefRequestContext is created. It is intended but not required that all request contexts have the same registered preferences. See related TCefRequestContextSettings.cache_path configuration.
 
 <p>Do not keep a reference to the |registrar| object. This function is called on the browser process UI thread.
 
@@ -147,7 +147,7 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Return the default client for use with a newly created browser window (TCefBrowser object). If null is returned the TCefBrowser will be unmanaged (no callbacks will be executed for that TCefBrowser) and application shutdown will be blocked until the browser window is closed manually. This function is currently only used with the Chrome runtime when creating new browser windows via Chrome UI. </p>
+ Return the default client for use with a newly created browser window (TCefBrowser object). If null is returned the TCefBrowser will be unmanaged (no callbacks will be executed for that TCefBrowser) and application shutdown will be blocked until the browser window is closed manually. This function is currently only used with Chrome style when creating new browser windows via Chrome UI. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -157,7 +157,7 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Return the default handler for use with a new user or incognito profile (TCefRequestContext object). If null is returned the TCefRequestContext will be unmanaged (no callbacks will be executed for that TCefRequestContext). This function is currently only used with the Chrome runtime when creating new browser windows via Chrome UI. </p>
+ Return the default handler for use with a new user or incognito profile (TCefRequestContext object). If null is returned the TCefRequestContext will be unmanaged (no callbacks will be executed for that TCefRequestContext). This function is currently only used with Chrome style when creating new browser windows via Chrome UI. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

@@ -229,7 +229,6 @@ begin
   GlobalCEFApp.LogFile             := 'debug.log';
   GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
   GlobalCEFApp.EnablePrintPreview  := True;
-  GlobalCEFApp.ChromeRuntime       := True;
 end;
 
 {Property setters and getters}
@@ -520,6 +519,7 @@ begin
   // used when you call any method or property in TChromium.
   Chromium1.MultiBrowserMode := True;
   Chromium1.DefaultURL       := UTF8Decode(URLCbx.Text);
+  Chromium1.RuntimeStyle     := CEF_RUNTIME_STYLE_ALLOY;
 
   // WebRTC's IP leaking can lowered/avoided by setting these preferences
   // To test this go to https://www.browserleaks.com/webrtc

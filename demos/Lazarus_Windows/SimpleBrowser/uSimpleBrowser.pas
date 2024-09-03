@@ -105,7 +105,8 @@ begin
   FClosing  := False;     
 
   // The browser will load the URL in AddressEdt initially.
-  ChromiumWindow1.ChromiumBrowser.DefaultURL := AddressEdt.Text;
+  ChromiumWindow1.ChromiumBrowser.DefaultURL   := AddressEdt.Text;
+  ChromiumWindow1.ChromiumBrowser.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);

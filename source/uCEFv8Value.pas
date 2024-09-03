@@ -155,7 +155,18 @@ type
       /// ICefv8Handler or ICefv8Accessor callback, or in combination with calling
       /// enter() and exit() on a stored ICefv8Context reference.
       /// </summary>
+      /// <remarks>
+      /// <para>NOTE: Always returns nullptr when V8 sandbox is enabled.</para>
+      /// </remarks>
       class function NewArrayBuffer(buffer: Pointer; length: NativeUInt; const callback : ICefv8ArrayBufferReleaseCallback): ICefv8Value;
+      /// <summary>
+      /// Create a new cef_v8value_t object of type ArrayBuffer which copies the
+      /// provided |buffer| of size |length| bytes. This function should only be
+      /// called from within the scope of a cef_render_process_handler_t,
+      /// cef_v8handler_t or cef_v8accessor_t callback, or in combination with calling
+      /// enter() and exit() on a stored cef_v8context_t reference.
+      /// </summary>
+      class function NewArrayBufferWithCopy(buffer: Pointer; length: NativeUInt): ICefv8Value;
       /// <summary>
       /// Create a new ICefv8Value object of type function. This function should
       /// only be called from within the scope of a ICefRenderProcessHandler,
@@ -193,6 +204,12 @@ class function TCefv8ValueRef.NewArrayBuffer(      buffer   : Pointer;
                                              const callback : ICefv8ArrayBufferReleaseCallback): ICefv8Value;
 begin
   Result := UnWrap(cef_v8value_create_array_buffer(buffer, length, CefGetData(callback)));
+end;
+
+class function TCefv8ValueRef.NewArrayBufferWithCopy(buffer : Pointer;
+                                                     length : NativeUInt): ICefv8Value;
+begin
+  Result := UnWrap(cef_v8value_create_array_buffer_with_copy(buffer, length));
 end;
 
 class function TCefv8ValueRef.NewBool(value: Boolean): ICefv8Value;

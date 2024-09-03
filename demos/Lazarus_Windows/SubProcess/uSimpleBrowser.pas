@@ -25,14 +25,18 @@ type
     AddressEdt: TEdit;
     GoBtn: TButton;
     Timer1: TTimer;
-    procedure CEFSentinel1Close(Sender: TObject);
+
+    procedure FormCreate(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+
+    procedure FormShow(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+
+    procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure ChromiumWindow1Close(Sender: TObject);
     procedure ChromiumWindow1BeforeClose(Sender: TObject);
+
   private
     // You have to handle this two messages to call NotifyMoveOrResizeStarted or some page elements will be misaligned.
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
@@ -155,9 +159,9 @@ begin
   ChromiumWindow1.LoadURL(AddressEdt.Text);
 end;
 
-procedure TForm1.CEFSentinel1Close(Sender: TObject);
+procedure TForm1.FormCreate(Sender: TObject);
 begin
-
+  ChromiumWindow1.ChromiumBrowser.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);

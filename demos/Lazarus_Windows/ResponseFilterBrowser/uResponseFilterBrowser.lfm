@@ -15,7 +15,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.2.0.0'
   object Splitter1: TSplitter
     Cursor = crVSplit
     Left = 0
@@ -165,7 +164,6 @@ object ResponseFilterBrowserFrm: TResponseFilterBrowserFrm
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnBeforeResourceLoad = Chromium1BeforeResourceLoad
     OnResourceResponse = Chromium1ResourceResponse
     OnGetResourceResponseFilter = Chromium1GetResourceResponseFilter

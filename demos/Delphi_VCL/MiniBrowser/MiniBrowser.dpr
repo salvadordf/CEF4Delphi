@@ -25,6 +25,8 @@ const
 {$IFDEF WIN32}{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}{$ENDIF}
 
 begin
+  ReportMemoryLeaksOnShutdown := True;
+
   CreateGlobalCEFApp;
 
   if GlobalCEFApp.StartMainProcess then

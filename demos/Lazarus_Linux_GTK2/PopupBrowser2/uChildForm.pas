@@ -164,9 +164,6 @@ begin
       FClosing := True;
       Visible  := False;
       Chromium1.CloseBrowser(True);
-
-      if GlobalCEFApp.ChromeRuntime then
-        CEFLinkedWindowParent1.Free;
     end;
 end;
 
@@ -194,6 +191,8 @@ begin
   FCanClose          := False;
   FClosing           := False;
   FClientInitialized := False;
+
+  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 // This is a workaround for the CEF issue #2026

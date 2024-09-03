@@ -12,7 +12,7 @@ uses
 
 const
   CEF_CREATENEXTCHILD  = WM_APP + $A50;
-  CEF_CHILDDESTROYED   = WM_APP + $A51;
+  CEF_CHILDDESTROYED   = WM_APP + $A51;  
 
 type
 
@@ -27,7 +27,6 @@ type
     Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
 
-    procedure CEFSentinel1Close(Sender: TObject);
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
 
@@ -43,14 +42,16 @@ type
 
   protected
     FChildForm       : TChildForm;
-    FCriticalSection : TCriticalSection;
+    FCriticalSection : TCriticalSection;                 
+    FChildCounter    : cardinal; // Used to create unique child form names.
     FCanClose        : boolean;  // Set to True in TChromium.OnBeforeClose
     FClosingMainForm : boolean;  // Set to True in the CloseQuery event.
     FClosingChildren : boolean;  // Set to True in the CloseQuery event.
 
     function  GetPopupChildCount : integer;
 
-    procedure ClosePopupChildren;
+    procedure ClosePopupChildren; 
+    procedure CreateChildForm;
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -63,7 +64,7 @@ type
     procedure ChildDestroyedMsg(var aMessage : TMessage); message CEF_CHILDDESTROYED;
 
   public
-    function  CreateClientHandler(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : string; const popupFeatures : TCefPopupFeatures) : boolean;
+    function  CreateClientHandler(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : ustring; const popupFeatures : TCefPopupFeatures) : boolean;
 
     property  PopupChildCount : integer  read  GetPopupChildCount;
   end;
@@ -109,7 +110,7 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                            := TCefApplication.Create;
-  GlobalCEFApp.WindowlessRenderingEnabled := True;      
+  GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.SetCurrentDir              := True;
 end;
 
@@ -143,8 +144,9 @@ begin
   FCanClose                         := False;
   FCriticalSection                  := TCriticalSection.Create;
 
-  Chromium1.DefaultURL              := AddressEdt.Text;
+  Chromium1.DefaultURL              := UTF8Decode(AddressEdt.Text);
   Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+  Chromium1.RuntimeStyle            := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
@@ -192,7 +194,7 @@ end;
 
 function TMainForm.CreateClientHandler(var   windowInfo      : TCefWindowInfo;
                                        var   client          : ICefClient;
-                                       const targetFrameName : string;
+                                       const targetFrameName : ustring;
                                        const popupFeatures   : TCefPopupFeatures) : boolean;
 begin
   try
@@ -244,15 +246,28 @@ begin
       if (TempForm is TChildForm) and
          TChildForm(TempForm).ClientInitialized and
          not(TChildForm(TempForm).Closing) then
-        PostMessage(TChildForm(TempForm).Handle, WM_CLOSE, 0, 0);
+        PostMessage(TempForm.Handle, WM_CLOSE, 0, 0);
 
       dec(i);
     end;
 end;
 
+procedure TMainForm.CreateChildForm;
+begin
+  if (FChildCounter < high(cardinal)) then
+    inc(FChildCounter)
+   else
+    FChildCounter := 1;
+
+  FChildForm         := TChildForm.Create(self);
+  FChildForm.Name    := 'ChildForm_' + IntToStr(FChildCounter);
+  FChildForm.Tag     := FChildCounter;
+end;
+
 procedure TMainForm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
-  FChildForm         := TChildForm.Create(self);
+  CreateChildForm;
+
   Caption            := 'Popup Browser';
   AddressPnl.Enabled := True;
 end;
@@ -268,13 +283,9 @@ begin
     FCriticalSection.Acquire;
 
     if (FChildForm <> nil) then
-      begin
-        //FChildForm.ApplyPopupFeatures;
-        //FChildForm.Show;
-        PostMessage(FChildForm.Handle, CEF_SHOWCHILD, 0, 0);
-      end;
+      PostMessage(FChildForm.Handle, CEF_SHOWCHILD, 0, 0);
 
-    FChildForm := TChildForm.Create(self);
+    CreateChildForm;
   finally
     FCriticalSection.Release;
   end;
@@ -282,18 +293,14 @@ end;
 
 procedure TMainForm.ChildDestroyedMsg(var aMessage : TMessage);
 begin
-  if FClosingChildren and (PopupChildCount = 0) then Close;
+  if FClosingChildren and (PopupChildCount = 0) then
+    Close;
 end;
 
 procedure TMainForm.GoBtnClick(Sender: TObject);
 begin
   // This will load the URL in the edit box
-  Chromium1.LoadURL(AddressEdt.Text);
-end;
-
-procedure TMainForm.CEFSentinel1Close(Sender: TObject);
-begin
-
+  Chromium1.LoadURL(UTF8Decode(AddressEdt.Text));
 end;
 
 procedure TMainForm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);

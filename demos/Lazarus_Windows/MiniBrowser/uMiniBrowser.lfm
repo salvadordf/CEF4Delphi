@@ -15,7 +15,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.4.0.0'
   object Splitter1: TSplitter
     Left = 1179
     Height = 663
@@ -118,11 +117,11 @@ object MiniBrowserFrm: TMiniBrowserFrm
       TabOrder = 1
       object URLCbx: TComboBox
         Left = 0
-        Height = 21
+        Height = 22
         Top = 3
         Width = 978
         Anchors = [akTop, akLeft, akRight, akBottom]
-        ItemHeight = 13
+        ItemHeight = 14
         ItemIndex = 0
         Items.Strings = (
           'https://www.google.com'

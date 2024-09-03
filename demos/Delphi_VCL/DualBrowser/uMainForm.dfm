@@ -33,7 +33,6 @@ object MainForm: TMainForm
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitHeight = 656
     object CEFAddressPnl: TPanel
       Left = 0
       Top = 0
@@ -75,7 +74,6 @@ object MainForm: TMainForm
       Align = alClient
       Color = clWhite
       TabOrder = 1
-      ExplicitHeight = 626
     end
   end
   object WVPnl: TPanel
@@ -87,8 +85,6 @@ object MainForm: TMainForm
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 1
-    ExplicitWidth = 519
-    ExplicitHeight = 656
     object WVAddressPnl: TPanel
       Left = 0
       Top = 0
@@ -99,7 +95,6 @@ object MainForm: TMainForm
       Padding.Top = 5
       Padding.Bottom = 5
       TabOrder = 0
-      ExplicitWidth = 519
       object WVAddressEdt: TEdit
         Left = 0
         Top = 5
@@ -109,7 +104,6 @@ object MainForm: TMainForm
         Align = alClient
         TabOrder = 0
         Text = 'http://www.bing.com'
-        ExplicitWidth = 488
         ExplicitHeight = 21
       end
       object WVGoBtn: TButton
@@ -122,7 +116,6 @@ object MainForm: TMainForm
         Caption = 'Go'
         TabOrder = 1
         OnClick = WVGoBtnClick
-        ExplicitLeft = 488
       end
     end
     object WVWindowParent1: TWVWindowParent
@@ -135,15 +128,12 @@ object MainForm: TMainForm
       TabStop = True
       TabOrder = 1
       Browser = WVBrowser1
-      ExplicitWidth = 519
-      ExplicitHeight = 626
     end
   end
   object Chromium1: TChromium
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnOpenUrlFromTab = Chromium1OpenUrlFromTab
     Left = 224
     Top = 256

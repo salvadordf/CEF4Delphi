@@ -16,7 +16,6 @@ object ChildForm: TChildForm
   OnDestroy = FormDestroy
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '2.0.2.0'
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Height = 256
@@ -29,8 +28,7 @@ object ChildForm: TChildForm
     OnTitleChange = Chromium1TitleChange
     OnBeforePopup = Chromium1BeforePopup
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
-    left = 24
-    top = 56
+    Left = 24
+    Top = 56
   end
 end

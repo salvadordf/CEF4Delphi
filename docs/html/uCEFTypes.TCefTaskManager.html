@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefTaskManager</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCefTaskManager"></span><h1 class="cio">Record TCefTaskManager</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefTaskManager = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Structure that facilitates managing the browser-related tasks. The functions of this structure may only be called on the UI thread. </p>
+<p>
+
+
+<p>Implemented by ICefTaskManager.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_task_manager_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_task_manager_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_task_manager_capi.h (cef_task_manager_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTaskManager.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTaskManager.html#get_tasks_count">get_tasks_count</a></strong>: function(self: <a href="uCEFTypes.html#PCefTaskManager">PCefTaskManager</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTaskManager.html#get_task_ids_list">get_task_ids_list</a></strong>: function(self: <a href="uCEFTypes.html#PCefTaskManager">PCefTaskManager</a>; task_idsCount: <a href="uCEFTypes.html#PNativeUInt">PNativeUInt</a>; task_ids: PInt64): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTaskManager.html#get_task_info">get_task_info</a></strong>: function(self: <a href="uCEFTypes.html#PCefTaskManager">PCefTaskManager</a>; task_id: int64; info: <a href="uCEFTypes.html#PCefTaskInfo">PCefTaskInfo</a>): Integer; stdcall;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTaskManager.html#kill_task">kill_task</a></strong>: function(self: <a href="uCEFTypes.html#PCefTaskManager">PCefTaskManager</a>; task_id: int64): Integer; stdcall;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefTaskManager.html#get_task_id_for_browser_id">get_task_id_for_browser_id</a></strong>: function(self: <a href="uCEFTypes.html#PCefTaskManager">PCefTaskManager</a>; browser_id: Integer): int64; stdcall;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_tasks_count"></span><code><strong>get_tasks_count</strong>: function(self: <a href="uCEFTypes.html#PCefTaskManager">PCefTaskManager</a>): <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_task_ids_list"></span><code><strong>get_task_ids_list</strong>: function(self: <a href="uCEFTypes.html#PCefTaskManager">PCefTaskManager</a>; task_idsCount: <a href="uCEFTypes.html#PNativeUInt">PNativeUInt</a>; task_ids: PInt64): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_task_info"></span><code><strong>get_task_info</strong>: function(self: <a href="uCEFTypes.html#PCefTaskManager">PCefTaskManager</a>; task_id: int64; info: <a href="uCEFTypes.html#PCefTaskInfo">PCefTaskInfo</a>): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="kill_task"></span><code><strong>kill_task</strong>: function(self: <a href="uCEFTypes.html#PCefTaskManager">PCefTaskManager</a>; task_id: int64): Integer; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="get_task_id_for_browser_id"></span><code><strong>get_task_id_for_browser_id</strong>: function(self: <a href="uCEFTypes.html#PCefTaskManager">PCefTaskManager</a>; browser_id: Integer): int64; stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

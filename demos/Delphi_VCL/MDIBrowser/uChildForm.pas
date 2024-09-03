@@ -34,7 +34,6 @@ type
     procedure Button1Click(Sender: TObject);
 
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1LoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
     procedure Chromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
@@ -47,7 +46,6 @@ type
 
   protected
     procedure BrowserCreatedMsg(var aMessage : TMessage); message CEFBROWSER_CREATED;
-    procedure BrowserDestroyMsg(var aMessage : TMessage); message CEFBROWSER_DESTROY;
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
     procedure WMEnterMenuLoop(var aMessage: TMessage); message WM_ENTERMENULOOP;
@@ -63,9 +61,8 @@ implementation
 
 // Destruction steps
 // =================
-// 1. FormCloseQuery calls TChromium.CloseBrowser
-// 2. TChromium.OnClose sends a CEF_DESTROY message to destroy CEFWindowParent1 in the main thread.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 1. FormCloseQuery sets CanClose to FALSE, destroys CEFWindowParent1 and calls TChromium.CloseBrowser which triggers the TChromium.OnBeforeClose event.
+// 2. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 uses
   uCEFRequestContext, uCEFApplication;
@@ -97,12 +94,6 @@ procedure TChildForm.Chromium1BeforePopup(Sender: TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
-end;
-
-procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
-begin
-  PostMessage(Handle, CEFBROWSER_DESTROY, 0, 0);
-  aAction := cbaDelay;
 end;
 
 procedure TChildForm.Chromium1LoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
@@ -138,6 +129,7 @@ begin
       FClosing       := True;
       Panel1.Enabled := False;
       Chromium1.CloseBrowser(True);
+      CEFWindowParent1.Free;
     end;
 end;
 
@@ -176,7 +168,7 @@ begin
          else
           TempCache := GlobalCEFApp.RootCache + '\cache' + inttostr(MainForm.BrowserCount);
 
-        TempContext := TCefRequestContextRef.New(TempCache, '', '', False, False, False, Chromium1.ReqContextHandler)
+        TempContext := TCefRequestContextRef.New(TempCache, '', '', False, False, Chromium1.ReqContextHandler)
       end
      else
       TempContext := nil;
@@ -231,11 +223,6 @@ procedure TChildForm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
   CEFWindowParent1.UpdateSize;
   Panel1.Enabled := True;
-end;
-
-procedure TChildForm.BrowserDestroyMsg(var aMessage : TMessage);
-begin
-  CEFWindowParent1.Free;
 end;
 
 end.

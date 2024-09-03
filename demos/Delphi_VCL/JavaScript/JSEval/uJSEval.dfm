@@ -12,6 +12,7 @@ object JSEvalFrm: TJSEvalFrm
   Font.Style = []
   Position = poScreenCenter
   OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
   OnShow = FormShow
   TextHeight = 13
   object CEFWindowParent1: TCEFWindowParent

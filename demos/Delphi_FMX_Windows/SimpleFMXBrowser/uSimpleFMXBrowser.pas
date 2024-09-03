@@ -379,6 +379,8 @@ begin
   FClosing           := False;
   FMXWindowParent    := nil;
 
+  FMXChromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
+
   {$IFDEF MSWINDOWS}
   FCustomWindowState := WindowState;
   {$ENDIF}

@@ -129,97 +129,6 @@ type
       procedure ResolveHost(const origin: ustring; const callback: ICefResolveCallback);
 
       /// <summary>
-      /// Load an extension.
-      ///
-      /// If extension resources will be read from disk using the default load
-      /// implementation then |root_directory| should be the absolute path to the
-      /// extension resources directory and |manifest| should be NULL. If extension
-      /// resources will be provided by the client (e.g. via cef_request_handler_t
-      /// and/or cef_extension_handler_t) then |root_directory| should be a path
-      /// component unique to the extension (if not absolute this will be internally
-      /// prefixed with the PK_DIR_RESOURCES path) and |manifest| should contain the
-      /// contents that would otherwise be read from the "manifest.json" file on
-      /// disk.
-      ///
-      /// The loaded extension will be accessible in all contexts sharing the same
-      /// storage (HasExtension returns true (1)). However, only the context on
-      /// which this function was called is considered the loader (DidLoadExtension
-      /// returns true (1)) and only the loader will receive
-      /// cef_request_context_handler_t callbacks for the extension.
-      ///
-      /// cef_extension_handler_t::OnExtensionLoaded will be called on load success
-      /// or cef_extension_handler_t::OnExtensionLoadFailed will be called on load
-      /// failure.
-      ///
-      /// If the extension specifies a background script via the "background"
-      /// manifest key then cef_extension_handler_t::OnBeforeBackgroundBrowser will
-      /// be called to create the background browser. See that function for
-      /// additional information about background scripts.
-      ///
-      /// For visible extension views the client application should evaluate the
-      /// manifest to determine the correct extension URL to load and then pass that
-      /// URL to the cef_browser_host_t::CreateBrowser* function after the extension
-      /// has loaded. For example, the client can look for the "browser_action"
-      /// manifest key as documented at
-      /// https://developer.chrome.com/extensions/browserAction. Extension URLs take
-      /// the form "chrome-extension://<extension_id>/<path>".
-      ///
-      /// Browsers that host extensions differ from normal browsers as follows:
-      ///  - Can access chrome.* JavaScript APIs if allowed by the manifest. Visit
-      ///    chrome://extensions-support for the list of extension APIs currently
-      ///    supported by CEF.
-      ///  - Main frame navigation to non-extension content is blocked.
-      ///  - Pinch-zooming is disabled.
-      ///  - CefBrowserHost::GetExtension returns the hosted extension.
-      ///  - CefBrowserHost::IsBackgroundHost returns true for background hosts.
-      ///
-      /// See https://developer.chrome.com/extensions for extension implementation
-      /// and usage documentation.
-      ///
-      /// WARNING: This function is deprecated and will be removed in ~M127.
-      /// </summary>
-      procedure LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
-
-      /// <summary>
-      /// Returns true (1) if this context was used to load the extension identified
-      /// by |extension_id|. Other contexts sharing the same storage will also have
-      /// access to the extension (see HasExtension). This function must be called
-      /// on the browser process UI thread.
-      ///
-      /// WARNING: This function is deprecated and will be removed in ~M127.
-      /// </summary>
-      function  DidLoadExtension(const extension_id: ustring): boolean;
-
-      /// <summary>
-      /// Returns true (1) if this context has access to the extension identified by
-      /// |extension_id|. This may not be the context that was used to load the
-      /// extension (see DidLoadExtension). This function must be called on the
-      /// browser process UI thread.
-      ///
-      /// WARNING: This function is deprecated and will be removed in ~M127.
-      /// </summary>
-      function  HasExtension(const extension_id: ustring): boolean;
-
-      /// <summary>
-      /// Retrieve the list of all extensions that this context has access to (see
-      /// HasExtension). |extension_ids| will be populated with the list of
-      /// extension ID values. Returns true (1) on success. This function must be
-      /// called on the browser process UI thread.
-      ///
-      /// WARNING: This function is deprecated and will be removed in ~M127.
-      /// </summary>
-      function  GetExtensions(const extension_ids: TStringList): boolean;
-
-      /// <summary>
-      /// Returns the extension matching |extension_id| or NULL if no matching
-      /// extension is accessible in this context (see HasExtension). This function
-      /// must be called on the browser process UI thread.
-      ///
-      /// WARNING: This function is deprecated and will be removed in ~M127.
-      /// </summary>
-      function  GetExtension(const extension_id: ustring): ICefExtension;
-
-      /// <summary>
       /// Returns the MediaRouter object associated with this context.  If
       /// |callback| is non-NULL it will be executed asnychronously on the UI thread
       /// after the manager's context has been initialized.
@@ -323,9 +232,8 @@ type
       /// <param name="aCookieableSchemesList">Comma delimited list of schemes supported by the associated ICefCookieManager. See TCefRequestContextSettings.cookieable_schemes_list for more information.</param>
       /// <param name="aCookieableSchemesExcludeDefaults">Setting this parameter to true will disable all loading and saving of cookies. See TCefRequestContextSettings.cookieable_schemes_list for more information.</param>
       /// <param name="aPersistSessionCookies">To persist session cookies (cookies without an expiry date or validity interval) by default when using the global cookie manager set this value to true. See TCefRequestContextSettings.persist_session_cookies for more information.</param>
-      /// <param name="aPersistUserPreferences">To persist user preferences as a JSON file in the cache path directory set this value to true. See TCefRequestContextSettings.persist_user_preferences for more information.</param>
       /// <param name="handler">Optional handler for the request context.</param>
-      class function New(const aCache, aAcceptLanguageList, aCookieableSchemesList : ustring; aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences : boolean; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
+      class function New(const aCache, aAcceptLanguageList, aCookieableSchemesList : ustring; aCookieableSchemesExcludeDefaults, aPersistSessionCookies : boolean; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
       /// <summary>
       /// Creates a new context object that shares storage with |other| and uses an
       /// optional |handler|.
@@ -354,7 +262,7 @@ implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFCookieManager, uCEFRequestContextHandler,
-  uCEFExtension, uCEFStringList, uCEFMediaRouter, uCEFValue;
+  uCEFStringList, uCEFMediaRouter, uCEFValue;
 
 function TCefRequestContextRef.ClearSchemeHandlerFactories: Boolean;
 begin
@@ -419,7 +327,6 @@ class function TCefRequestContextRef.New(const aCache                           
                                          const aCookieableSchemesList            : ustring;
                                                aCookieableSchemesExcludeDefaults : boolean;
                                                aPersistSessionCookies            : boolean;
-                                               aPersistUserPreferences           : boolean;
                                          const handler                           : ICefRequestContextHandler): ICefRequestContext;
 var
   TempSettings : TCefRequestContextSettings;
@@ -427,7 +334,6 @@ begin
   TempSettings.size                                 := SizeOf(TCefRequestContextSettings);
   TempSettings.cache_path                           := CefString(aCache);
   TempSettings.persist_session_cookies              := Ord(aPersistSessionCookies);
-  TempSettings.persist_user_preferences             := Ord(aPersistUserPreferences);
   TempSettings.accept_language_list                 := CefString(aAcceptLanguageList);
   TempSettings.cookieable_schemes_list              := CefString(aCookieableSchemesList);
   TempSettings.cookieable_schemes_exclude_defaults  := Ord(aCookieableSchemesExcludeDefaults);
@@ -457,52 +363,6 @@ var
 begin
   TempOrigin := CefString(origin);
   PCefRequestContext(FData)^.resolve_host(PCefRequestContext(FData), @TempOrigin, CefGetData(callback));
-end;
-
-procedure TCefRequestContextRef.LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
-var
-  TempDir : TCefString;
-begin
-  TempDir := CefString(root_directory);
-  PCefRequestContext(FData)^.load_extension(PCefRequestContext(FData), @TempDir, CefGetData(manifest), CefGetData(handler));
-end;
-
-function TCefRequestContextRef.DidLoadExtension(const extension_id: ustring): boolean;
-var
-  TempID : TCefString;
-begin
-  TempID := CefString(extension_id);
-  Result := PCefRequestContext(FData)^.did_load_extension(PCefRequestContext(FData), @TempID) <> 0;
-end;
-
-function TCefRequestContextRef.HasExtension(const extension_id: ustring): boolean;
-var
-  TempID : TCefString;
-begin
-  TempID := CefString(extension_id);
-  Result := PCefRequestContext(FData)^.has_extension(PCefRequestContext(FData), @TempID) <> 0;
-end;
-
-function TCefRequestContextRef.GetExtensions(const extension_ids: TStringList): boolean;
-var
-  TempSL : ICefStringList;
-begin
-  Result := False;
-  TempSL := TCefStringListOwn.Create;
-
-  if (PCefRequestContext(FData)^.get_extensions(PCefRequestContext(FData), TempSL.Handle) <> 0) then
-    begin
-      TempSL.CopyToStrings(extension_ids);
-      Result := True;
-    end;
-end;
-
-function TCefRequestContextRef.GetExtension(const extension_id: ustring): ICefExtension;
-var
-  TempID : TCefString;
-begin
-  TempID := CefString(extension_id);
-  Result := TCefExtensionRef.UnWrap(PCefRequestContext(FData)^.get_extension(PCefRequestContext(FData), @TempID));
 end;
 
 function TCefRequestContextRef.GetMediaRouter(const callback: ICefCompletionCallback): ICefMediaRouter;

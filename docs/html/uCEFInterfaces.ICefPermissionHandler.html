@@ -58,7 +58,21 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Called when a page requests permission to access media. |requesting_origin| is the URL origin requesting permission. |requested_permissions| is a combination of values from TCefMediaAccessPermissionTypes that represent the requested permissions. Return true (1) and call ICefMediaAccessCallback functions either in this function or at a later time to continue or cancel the request. Return false (0) to proceed with default handling. With the Chrome runtime, default handling will display the permission request UI. With the Alloy runtime, default handling will deny the request. This function will not be called if the &quot;&ndash;enable-media-stream&quot; command-line switch is used to grant all permissions. </p>
+
+
+<p>Called when a page requests permission to access media.
+
+<p>|requesting_origin| is the URL origin requesting permission.
+
+<p>|requested_permissions| is a combination of values from TCefMediaAccessPermissionTypes that represent the requested permissions.
+
+<p>Return true (1) and call ICefMediaAccessCallback functions either in this function or at a later time to continue or cancel the request.
+
+<p>Return false (0) to proceed with default handling. With Chrome style, default handling will display the permission request UI.
+
+<p>With Alloy style, default handling will deny the request. This function will not be called if the &quot;&ndash;enable-media-stream&quot; command-line switch is used to grant all permissions.
+
+<p></p>
 <h6 class="description_section">Attributes</h6>
 <dl class="attributes">
   <dt>GUID['{DC079268-FB08-44DA-B216-35C5C339B341}']</dt>
@@ -73,7 +87,7 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Called when a page should show a permission prompt. |prompt_id| uniquely identifies the prompt. |requesting_origin| is the URL origin requesting permission. |requested_permissions| is a combination of values from TCefPermissionRequestTypes that represent the requested permissions. Return true (1) and call ICefPermissionPromptCallback.Continue either in this function or at a later time to continue or cancel the request. Return false (0) to proceed with default handling. With the Chrome runtime, default handling will display the permission prompt UI. With the Alloy runtime, default handling is CEF_PERMISSION_RESULT_IGNORE. </p>
+ Called when a page should show a permission prompt. |prompt_id| uniquely identifies the prompt. |requesting_origin| is the URL origin requesting permission. |requested_permissions| is a combination of values from TCefPermissionRequestTypes that represent the requested permissions. Return true (1) and call ICefPermissionPromptCallback.Continue either in this function or at a later time to continue or cancel the request. Return false (0) to proceed with default handling. With Chrome style, default handling will display the permission prompt UI. With Alloy style, default handling is CEF_PERMISSION_RESULT_IGNORE. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

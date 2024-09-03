@@ -313,30 +313,6 @@
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDevToolsAgentDetachedEvent">TOnDevToolsAgentDetachedEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnExtensionLoadFailedEvent">TOnExtensionLoadFailedEvent</a></strong> = procedure(Sender: TObject; result: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorcode</a>) of object;</code></td>
-</tr>
-<tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnExtensionLoadedEvent">TOnExtensionLoadedEvent</a></strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>) of object;</code></td>
-</tr>
-<tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnExtensionUnloadedEvent">TOnExtensionUnloadedEvent</a></strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>) of object;</code></td>
-</tr>
-<tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnBeforeBackgroundBrowserEvent">TOnBeforeBackgroundBrowserEvent</a></strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>; const url: <a href="uCEFTypes.html#ustring">ustring</a>; var client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; var settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; var aResult : boolean) of object;</code></td>
-</tr>
-<tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnBeforeBrowserEvent">TOnBeforeBrowserEvent</a></strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>; const browser, active_browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; index: Integer; const url: <a href="uCEFTypes.html#ustring">ustring</a>; active: boolean; var windowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a>; var client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; var settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; var aResult : boolean) of object;</code></td>
-</tr>
-<tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetActiveBrowserEvent">TOnGetActiveBrowserEvent</a></strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; include_incognito: boolean; var aRsltBrowser : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
-</tr>
-<tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnCanAccessBrowserEvent">TOnCanAccessBrowserEvent</a></strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; include_incognito: boolean; const target_browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var aResult : boolean) of object;</code></td>
-</tr>
-<tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetExtensionResourceEvent">TOnGetExtensionResourceEvent</a></strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const file_: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefGetExtensionResourceCallback.html">ICefGetExtensionResourceCallback</a>; var aResult : boolean) of object;</code></td>
-</tr>
-<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPrintStartEvent">TOnPrintStartEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
 <tr class="list">
@@ -1167,64 +1143,6 @@ ICefDevToolsMessageObserver</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="itemcode"><span id="TOnDevToolsAgentDetachedEvent"></span><code><strong>TOnDevToolsAgentDetachedEvent</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="TOnExtensionLoadFailedEvent"></span><code><strong>TOnExtensionLoadFailedEvent</strong> = procedure(Sender: TObject; result: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorcode</a>) of object;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-ICefExtensionHandler</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="TOnExtensionLoadedEvent"></span><code><strong>TOnExtensionLoadedEvent</strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>) of object;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="TOnExtensionUnloadedEvent"></span><code><strong>TOnExtensionUnloadedEvent</strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>) of object;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="TOnBeforeBackgroundBrowserEvent"></span><code><strong>TOnBeforeBackgroundBrowserEvent</strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>; const url: <a href="uCEFTypes.html#ustring">ustring</a>; var client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; var settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; var aResult : boolean) of object;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="TOnBeforeBrowserEvent"></span><code><strong>TOnBeforeBrowserEvent</strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>; const browser, active_browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; index: Integer; const url: <a href="uCEFTypes.html#ustring">ustring</a>; active: boolean; var windowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a>; var client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; var settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; var aResult : boolean) of object;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="TOnGetActiveBrowserEvent"></span><code><strong>TOnGetActiveBrowserEvent</strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; include_incognito: boolean; var aRsltBrowser : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="TOnCanAccessBrowserEvent"></span><code><strong>TOnCanAccessBrowserEvent</strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; include_incognito: boolean; const target_browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var aResult : boolean) of object;</code></td>
-</tr>
-<tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="TOnGetExtensionResourceEvent"></span><code><strong>TOnGetExtensionResourceEvent</strong> = procedure(Sender: TObject; const extension: <a href="uCEFInterfaces.ICefExtension.html">ICefExtension</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const file_: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefGetExtensionResourceCallback.html">ICefGetExtensionResourceCallback</a>; var aResult : boolean) of object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>

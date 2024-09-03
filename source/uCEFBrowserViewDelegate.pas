@@ -95,8 +95,8 @@ type
       /// <summary>
       /// Called when |browser_view| receives a gesture command. Return true (1) to
       /// handle (or disable) a |gesture_command| or false (0) to propagate the
-      /// gesture to the browser for default handling. With the Chrome runtime these
-      /// commands can also be handled via cef_command_handler_t::OnChromeCommand.
+      /// gesture to the browser for default handling. With Chrome style these
+      /// commands can also be handled via ICefCommandHandler.OnChromeCommand.
       /// </summary>
       procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean); virtual;
       /// <summary>

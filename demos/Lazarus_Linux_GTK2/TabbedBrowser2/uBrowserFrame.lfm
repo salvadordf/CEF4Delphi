@@ -39,9 +39,9 @@ object BrowserFrame: TBrowserFrame
         Font.Color = clWindowText
         Font.Height = -19
         Font.Name = 'Webdings'
-        OnClick = BackBtnClick
         ParentFont = False
         TabOrder = 0
+        OnClick = BackBtnClick
       end
       object ForwardBtn: TButton
         Left = 30
@@ -53,9 +53,9 @@ object BrowserFrame: TBrowserFrame
         Font.Color = clWindowText
         Font.Height = -19
         Font.Name = 'Webdings'
-        OnClick = ForwardBtnClick
         ParentFont = False
         TabOrder = 1
+        OnClick = ForwardBtnClick
       end
       object ReloadBtn: TButton
         Left = 59
@@ -67,9 +67,9 @@ object BrowserFrame: TBrowserFrame
         Font.Color = clWindowText
         Font.Height = -19
         Font.Name = 'Webdings'
-        OnClick = ReloadBtnClick
         ParentFont = False
         TabOrder = 2
+        OnClick = ReloadBtnClick
       end
       object StopBtn: TButton
         Left = 88
@@ -81,9 +81,9 @@ object BrowserFrame: TBrowserFrame
         Font.Color = clWindowText
         Font.Height = -19
         Font.Name = 'Webdings'
-        OnClick = StopBtnClick
         ParentFont = False
         TabOrder = 3
+        OnClick = StopBtnClick
       end
     end
     object URLEditPnl: TPanel
@@ -175,9 +175,9 @@ object BrowserFrame: TBrowserFrame
         Font.Height = -17
         Font.Name = 'Arial'
         Font.Style = [fsBold]
-        OnClick = GoBtnClick
         ParentFont = False
         TabOrder = 0
+        OnClick = GoBtnClick
       end
     end
   end

@@ -28,14 +28,16 @@ type
     AddressEdt: TEdit;
     GoBtn: TButton;
     Timer1: TTimer;
-    procedure CEFSentinel1Close(Sender: TObject);
+
     procedure GoBtnClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+
+    procedure FormShow(Sender: TObject);       
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+
+    procedure ChromiumWindow1AfterCreated(Sender: TObject);
     procedure ChromiumWindow1Close(Sender: TObject);
     procedure ChromiumWindow1BeforeClose(Sender: TObject);
 
@@ -103,6 +105,7 @@ begin
   FCallback          := nil;
   FCanClose          := False;
   FClosing           := False;
+  ChromiumWindow1.ChromiumBrowser.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TJSDialogBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -143,12 +146,6 @@ end;
 procedure TJSDialogBrowserFrm.GoBtnClick(Sender: TObject);
 begin
   ChromiumWindow1.LoadURL(AddressEdt.Text);
-end;
-
-procedure TJSDialogBrowserFrm.CEFSentinel1Close(Sender: TObject);
-begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TJSDialogBrowserFrm.Timer1Timer(Sender: TObject);

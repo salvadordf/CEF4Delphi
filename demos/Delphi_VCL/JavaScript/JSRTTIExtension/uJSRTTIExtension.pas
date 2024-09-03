@@ -321,6 +321,7 @@ procedure TJSRTTIExtensionFrm.FormCreate(Sender: TObject);
 begin
   FCanClose := False;
   FClosing  := False;
+  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TJSRTTIExtensionFrm.BrowserDestroyMsg(var aMessage : TMessage);

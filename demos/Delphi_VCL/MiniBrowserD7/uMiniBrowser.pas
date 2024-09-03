@@ -341,6 +341,7 @@ begin
   // used when you call any method or property in TChromium.
   Chromium1.MultiBrowserMode := True;
   Chromium1.DefaultURL       := MINIBROWSER_HOMEPAGE;
+  Chromium1.RuntimeStyle     := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TMiniBrowserFrm.FormShow(Sender: TObject);

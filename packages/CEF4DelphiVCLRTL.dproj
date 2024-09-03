@@ -172,13 +172,10 @@
         <DCCReference Include="..\source\uCEFDragData.pas"/>
         <DCCReference Include="..\source\uCEFDragHandler.pas"/>
         <DCCReference Include="..\source\uCEFEndTracingCallback.pas"/>
-        <DCCReference Include="..\source\uCEFExtension.pas"/>
-        <DCCReference Include="..\source\uCEFExtensionHandler.pas"/>
         <DCCReference Include="..\source\uCEFFileDialogCallback.pas"/>
         <DCCReference Include="..\source\uCEFFindHandler.pas"/>
         <DCCReference Include="..\source\uCEFFocusHandler.pas"/>
         <DCCReference Include="..\source\uCEFFrame.pas"/>
-        <DCCReference Include="..\source\uCEFGetExtensionResourceCallback.pas"/>
         <DCCReference Include="..\source\uCEFImage.pas"/>
         <DCCReference Include="..\source\uCEFInterfaces.pas"/>
         <DCCReference Include="..\source\uCEFJsDialogCallback.pas"/>
@@ -332,6 +329,7 @@
         <DCCReference Include="..\source\uCEFComponentIdList.pas"/>
         <DCCReference Include="..\source\uCEFUnresponsiveProcessCallback.pas"/>
         <DCCReference Include="..\source\uCEFWindowInfoWrapper.pas"/>
+        <DCCReference Include="..\source\uCEFTaskManager.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

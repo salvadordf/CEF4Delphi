@@ -67,9 +67,6 @@ type
   ICefProcessMessage = interface;
   ICefLifeSpanHandler = interface;
   ICefCommandHandler = interface;
-  ICefGetExtensionResourceCallback = interface;
-  ICefExtensionHandler = interface;
-  ICefExtension = interface;
   ICefStreamReader = interface;
   ICefLoadHandler = interface;
   ICefServer = interface;
@@ -454,16 +451,6 @@ type
     procedure doOnDevToolsAgentAttached(const browser: ICefBrowser);
     procedure doOnDevToolsAgentDetached(const browser: ICefBrowser);
 
-    // ICefExtensionHandler
-    procedure doOnExtensionLoadFailed(result: TCefErrorcode);
-    procedure doOnExtensionLoaded(const extension: ICefExtension);
-    procedure doOnExtensionUnloaded(const extension: ICefExtension);
-    function  doOnExtensionBeforeBackgroundBrowser(const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
-    function  doOnExtensionBeforeBrowser(const extension: ICefExtension; const browser, active_browser: ICefBrowser; index: Integer; const url: ustring; active: boolean; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
-    procedure doOnExtensionGetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; var aRsltBrowser: ICefBrowser);
-    function  doOnExtensionCanAccessBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser): boolean;
-    function  doOnExtensionGetExtensionResource(const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback): boolean;
-
     // ICefPrintHandler
     procedure doOnPrintStart(const browser: ICefBrowser);
     procedure doOnPrintSettings(const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean);
@@ -681,6 +668,7 @@ type
     procedure doOnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
     procedure doOnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
     procedure doOnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
+    procedure doOnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
   end;
 
   {*
@@ -877,8 +865,7 @@ type
     procedure Zoom(command: TCefZoomCommand);
     /// <summary>
     /// Get the default zoom level. This value will be 0.0 by default but can be
-    /// configured with the Chrome runtime. This function can only be called on
-    /// the UI thread.
+    /// configured. This function can only be called on the UI thread.
     /// </summary>
     function GetDefaultZoomLevel: Double;
     /// <summary>
@@ -1298,23 +1285,6 @@ type
     /// </summary>
     procedure SetAutoResizeEnabled(enabled: boolean; const min_size, max_size: PCefSize);
     /// <summary>
-    /// Returns the extension hosted in this browser or NULL if no extension is
-    /// hosted. See ICefRequestContext.LoadExtension for details.
-    /// </summary>
-    /// <remarks>
-    /// <para>WARNING: This API is deprecated and will be removed in ~M127.</para>
-    /// </remarks>
-    function  GetExtension : ICefExtension;
-    /// <summary>
-    /// Returns true (1) if this browser is hosting an extension background
-    /// script. Background hosts do not have a window and are not displayable. See
-    /// ICefRequestContext.LoadExtension for details.
-    /// </summary>
-    /// <remarks>
-    /// <para>WARNING: This API is deprecated and will be removed in ~M127.</para>
-    /// </remarks>
-    function  IsBackgroundHost : boolean;
-    /// <summary>
     /// Set whether the browser's audio is muted.
     /// </summary>
     procedure SetAudioMuted(mute: boolean);
@@ -1333,12 +1303,12 @@ type
     function IsFullscreen : boolean;
     /// <summary>
     /// Requests the renderer to exit browser fullscreen. In most cases exiting
-    /// window fullscreen should also exit browser fullscreen. With the Alloy
-    /// runtime this function should be called in response to a user action such
-    /// as clicking the green traffic light button on MacOS
+    /// window fullscreen should also exit browser fullscreen. With Alloy style
+    /// this function should be called in response to a user action such as
+    /// clicking the green traffic light button on MacOS
     /// (ICefWindowDelegate.OnWindowFullscreenTransition callback) or pressing
-    /// the "ESC" key (ICefKeyboardHandler.OnPreKeyEvent callback). With the
-    /// Chrome runtime these standard exit actions are handled internally but
+    /// the "ESC" key (ICefKeyboardHandler.OnPreKeyEvent callback). With
+    /// Chrome style these standard exit actions are handled internally but
     /// new/additional user actions can use this function. Set |will_cause_resize|
     /// to true (1) if exiting browser fullscreen will cause a view resize.
     /// </summary>
@@ -1346,7 +1316,7 @@ type
     /// <summary>
     /// Returns true (1) if a Chrome command is supported and enabled. Values for
     /// |command_id| can be found in the cef_command_ids.h file. This function can
-    /// only be called on the UI thread. Only used with the Chrome runtime.
+    /// only be called on the UI thread. Only used with Chrome style.
     /// </summary>
     /// <remarks>
     /// <para><see cref="uCEFConstants">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</see></para>
@@ -1356,7 +1326,7 @@ type
     /// <summary>
     /// Execute a Chrome command. Values for |command_id| can be found in the
     /// cef_command_ids.h file. |disposition| provides information about the
-    /// intended command target. Only used with the Chrome runtime.
+    /// intended command target. Only used with Chrome style.
     /// </summary>
     /// <remarks>
     /// <para><see cref="uCEFConstants">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</see></para>
@@ -3048,6 +3018,52 @@ type
   end;
 
   /// <summary>
+  /// Interface that facilitates managing the browser-related tasks. The functions
+  /// of this structure may only be called on the UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_task_manager_capi.h">CEF source file: /include/capi/cef_task_manager_capi.h (cef_task_manager_t)</see></para>
+  /// </remarks>
+  ICefTaskManager = interface(ICefBaseRefCounted)
+    ['{913B6FE7-1543-407D-9A23-8C232103965B}']
+    /// <summary>
+    /// Returns the number of tasks currently tracked by the task manager. Returns
+    /// 0 if the function was called from the incorrect thread.
+    /// </summary>
+    function GetTasksCount : NativeUInt;
+    /// <summary>
+    /// Gets the list of task IDs currently tracked by the task manager. Tasks
+    /// that share the same process id will always be consecutive. The list will
+    /// be sorted in a way that reflects the process tree: the browser process
+    /// will be first, followed by the gpu process if it exists. Related processes
+    /// (e.g., a subframe process and its parent) will be kept together if
+    /// possible. Callers can expect this ordering to be stable when a process is
+    /// added or removed. The task IDs are unique within the application lifespan.
+    /// Returns false (0) if the function was called from the incorrect thread.
+    /// </summary>
+    function GetTaskIdsList(var task_ids: TCefCustomInt64Array): boolean;
+    /// <summary>
+    /// Gets information about the task with |task_id|. Returns true (1) if the
+    /// information about the task was successfully retrieved and false (0) if the
+    /// |task_id| is invalid or the function was called from the incorrect thread.
+    /// </summary>
+    function GetTaskInfo(const task_id: int64; var info: TCustomTaskInfo): boolean;
+    /// <summary>
+    /// Attempts to terminate a task with |task_id|. Returns false (0) if the
+    /// |task_id| is invalid, the call is made from an incorrect thread, or if the
+    /// task cannot be terminated.
+    /// </summary>
+    function KillTask(task_id: int64): boolean;
+    /// <summary>
+    /// Returns the task ID associated with the main task for |browser_id| (value
+    /// from cef_browser_t::GetIdentifier). Returns -1 if |browser_id| is invalid,
+    /// does not currently have an associated task, or the function was called
+    /// from the incorrect thread.
+    /// </summary>
+    function GetTaskIdForBrowserId(browser_id: Integer): int64;
+  end;
+
+  /// <summary>
   /// Interface that asynchronously executes tasks on the associated thread. It is
   /// safe to call the functions of this interface on any thread.
   ///
@@ -4625,16 +4641,15 @@ type
     /// <para>If |type| is CEF_PREFERENCES_TYPE_GLOBAL the registered preferences can be
     /// accessed via ICefPreferenceManager.GetGlobalPreferences after
     /// OnContextInitialized is called. Global preferences are registered a single
-    /// time at application startup. See related TCefSettings.cache_path and
-    /// TCefSettings.persist_user_preferences configuration.</para>
+    /// time at application startup. See related TCefSettings.cache_path
+    /// configuration.</para>
     /// <para>If |type| is CEF_PREFERENCES_TYPE_REQUEST_CONTEXT the preferences can be
     /// accessed via the ICefRequestContext after
     /// ICefRequestContextHandler.OnRequestContextInitialized is called.
     /// Request context preferences are registered each time a new
     /// ICefRequestContext is created. It is intended but not required that all
     /// request contexts have the same registered preferences. See related
-    /// TCefRequestContextSettings.cache_path and
-    /// TCefRequestContextSettings.persist_user_preferences configuration.</para>
+    /// TCefRequestContextSettings.cache_path configuration.</para>
     /// <para>Do not keep a reference to the |registrar| object. This function is called
     /// on the browser process UI thread.</para>
     /// </summary>
@@ -4688,16 +4703,16 @@ type
     /// (TCefBrowser object). If null is returned the TCefBrowser will be
     /// unmanaged (no callbacks will be executed for that TCefBrowser) and
     /// application shutdown will be blocked until the browser window is closed
-    /// manually. This function is currently only used with the Chrome runtime
-    /// when creating new browser windows via Chrome UI.
+    /// manually. This function is currently only used with Chrome style when
+    /// creating new browser windows via Chrome UI.
     /// </summary>
     procedure GetDefaultClient(var aClient : ICefClient);
     /// <summary>
     /// Return the default handler for use with a new user or incognito profile
     /// (TCefRequestContext object). If null is returned the
     /// TCefRequestContext will be unmanaged (no callbacks will be executed for
-    /// that TCefRequestContext). This function is currently only used with the
-    /// Chrome runtime when creating new browser windows via Chrome UI.
+    /// that TCefRequestContext). This function is currently only used with
+    /// Chrome style when creating new browser windows via Chrome UI.
     /// </summary>
     procedure GetDefaultRequestContextHandler(var aRequestContextHandler : ICefRequestContextHandler);
     /// <summary>
@@ -4811,11 +4826,9 @@ type
     /// </summary>
     procedure OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
     /// <summary>
-    /// Return the handler for resource bundle events. If
-    /// TCefSettings.pack_loading_disabled is true (1) a handler must be
-    /// returned. If no handler is returned resources will be loaded from pack
-    /// files. This function is called by the browser and render processes on
-    /// multiple threads.
+    /// Return the handler for resource bundle events. If no handler is returned
+    /// resources will be loaded from pack files. This function is called by the
+    /// browser and render processes on multiple threads.
     /// </summary>
     procedure GetResourceBundleHandler(var aHandler : ICefResourceBundleHandler);
     /// <summary>
@@ -6208,7 +6221,7 @@ type
     /// <para>Views-hosted source browsers will create Views-hosted DevTools popups
     /// unless |use_default_window| is set to to true (1). DevTools popups can be
     /// blocked by returning true (1) from ICefCommandHandler.OnChromeCommand
-    /// for IDC_DEV_TOOLS. Only used with the Chrome runtime.</para>
+    /// for IDC_DEV_TOOLS. Only used with Chrome style.</para>
     /// </summary>
     procedure OnBeforeDevToolsPopup(const browser: ICefBrowser; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var use_default_window: boolean);
     /// <summary>
@@ -6341,261 +6354,37 @@ type
     /// intended command target. Return true (1) if the command was handled or
     /// false (0) for the default implementation. For context menu commands this
     /// will be called after ICefContextMenuHandler.OnContextMenuCommand.
-    /// Only used with the Chrome runtime.
+    /// Only used with Chrome style.
     /// </summary>
     function  OnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
     /// <summary>
     /// Called to check if a Chrome app menu item should be visible. Values for
     /// |command_id| can be found in the cef_command_ids.h file. Only called for
-    /// menu items that would be visible by default. Only used with the Chrome
-    /// runtime.
+    /// menu items that would be visible by default. Only used with Chrome style.
     /// </summary>
     function  OnIsChromeAppMenuItemVisible(const browser: ICefBrowser; command_id: integer): boolean;
     /// <summary>
     /// Called to check if a Chrome app menu item should be enabled. Values for
     /// |command_id| can be found in the cef_command_ids.h file. Only called for
-    /// menu items that would be enabled by default. Only used with the Chrome
-    /// runtime.
+    /// menu items that would be enabled by default. Only used with Chrome style.
     /// </summary>
     function  OnIsChromeAppMenuItemEnabled(const browser: ICefBrowser; command_id: integer): boolean;
     /// <summary>
     /// Called during browser creation to check if a Chrome page action icon
     /// should be visible. Only called for icons that would be visible by default.
-    /// Only used with the Chrome runtime.
+    /// Only used with Chrome style.
     /// </summary>
     function  OnIsChromePageActionIconVisible(icon_type: TCefChromePageActionIconType): boolean;
     /// <summary>
     /// Called during browser creation to check if a Chrome toolbar button should
     /// be visible. Only called for buttons that would be visible by default. Only
-    /// used with the Chrome runtime.
+    /// used with Chrome style.
     /// </summary>
     function  OnIsChromeToolbarButtonVisible(button_type: TCefChromeToolbarButtonType): boolean;
     /// <summary>
     /// Custom procedure to clear all references.
     /// </summary>
     procedure RemoveReferences;
-  end;
-
-  /// <summary>
-  /// Callback interface used for asynchronous continuation of
-  /// ICefExtensionHandler.GetExtensionResource.
-  /// </summary>
-  /// <remarks>
-  /// <para><see cref="uCEFTypes|TCefGetExtensionResourceCallback">Implements TCefGetExtensionResourceCallback</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_get_extension_resource_callback_t)</see></para>
-  /// </remarks>
-  ICefGetExtensionResourceCallback = interface(ICefBaseRefCounted)
-    ['{579C8602-8252-40D0-9E0A-501F32C36C42}']
-    /// <summary>
-    /// Continue the request. Read the resource contents from |stream|.
-    /// </summary>
-    procedure cont(const stream: ICefStreamReader);
-    /// <summary>
-    /// Cancel the request.
-    /// </summary>
-    procedure cancel;
-  end;
-
-  /// <summary>
-  /// Implement this interface to handle events related to browser extensions. The
-  /// functions of this interface will be called on the UI thread. See
-  /// ICefRequestContext.LoadExtension for information about extension
-  /// loading.
-  /// </summary>
-  /// <remarks>
-  /// <para>WARNING: This API is deprecated and will be removed in ~M127.</para>
-  /// <para><see cref="uCEFTypes|TCefExtensionHandler">Implements TCefExtensionHandler</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_handler_capi.h">CEF source file: /include/capi/cef_extension_handler_capi.h (cef_extension_handler_t)</see></para>
-  /// </remarks>
-  ICefExtensionHandler = interface(ICefBaseRefCounted)
-    ['{3234008F-D809-459D-963D-23BA50219648}']
-    /// <summary>
-    /// Called if the ICefRequestContext.LoadExtension request fails. |result|
-    /// will be the error code.
-    /// </summary>
-    procedure OnExtensionLoadFailed(result: TCefErrorcode);
-    /// <summary>
-    /// Called if the ICefRequestContext.LoadExtension request succeeds.
-    /// |extension| is the loaded extension.
-    /// </summary>
-    procedure OnExtensionLoaded(const extension: ICefExtension);
-    /// <summary>
-    /// Called after the ICefExtension.Unload request has completed.
-    /// </summary>
-    procedure OnExtensionUnloaded(const extension: ICefExtension);
-    /// <summary>
-    /// Called when an extension needs a browser to host a background script
-    /// specified via the "background" manifest key. The browser will have no
-    /// visible window and cannot be displayed. |extension| is the extension that
-    /// is loading the background script. |url| is an internally generated
-    /// reference to an HTML page that will be used to load the background script
-    /// via a "<script>" src attribute. To allow creation of the browser
-    /// optionally modify |client| and |settings| and return false (0). To cancel
-    /// creation of the browser (and consequently cancel load of the background
-    /// script) return true (1). Successful creation will be indicated by a call
-    /// to ICefLifeSpanHandler.OnAfterCreated, and
-    /// ICefBrowserHost.IsBackgroundHost will return true (1) for the
-    /// resulting browser. See https://developer.chrome.com/extensions/event_pages
-    /// for more information about extension background script usage.
-    /// </summary>
-    function  OnBeforeBackgroundBrowser(const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
-    /// <summary>
-    /// Called when an extension API (e.g. chrome.tabs.create) requests creation
-    /// of a new browser. |extension| and |browser| are the source of the API
-    /// call. |active_browser| may optionally be specified via the windowId
-    /// property or returned via the get_active_browser() callback and provides
-    /// the default |client| and |settings| values for the new browser. |index| is
-    /// the position value optionally specified via the index property. |url| is
-    /// the URL that will be loaded in the browser. |active| is true (1) if the
-    /// new browser should be active when opened.  To allow creation of the
-    /// browser optionally modify |windowInfo|, |client| and |settings| and return
-    /// false (0). To cancel creation of the browser return true (1). Successful
-    /// creation will be indicated by a call to
-    /// ICefLifeSpanHandler.OnAfterCreated. Any modifications to |windowInfo|
-    /// will be ignored if |active_browser| is wrapped in a ICefBrowserView.
-    /// </summary>
-    function  OnBeforeBrowser(const extension: ICefExtension; const browser, active_browser: ICefBrowser; index: Integer; const url: ustring; active: boolean; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings) : boolean;
-    /// <summary>
-    /// Called when no tabId is specified to an extension API call that accepts a
-    /// tabId parameter (e.g. chrome.tabs.*). |extension| and |browser| are the
-    /// source of the API call. Return the browser that will be acted on by the
-    /// API call or return NULL to act on |browser|. The returned browser must
-    /// share the same ICefRequestContext as |browser|. Incognito browsers
-    /// should not be considered unless the source extension has incognito access
-    /// enabled, in which case |include_incognito| will be true (1).
-    /// </summary>
-    procedure GetActiveBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; var aRsltBrowser: ICefBrowser);
-    /// <summary>
-    /// Called when the tabId associated with |target_browser| is specified to an
-    /// extension API call that accepts a tabId parameter (e.g. chrome.tabs.*).
-    /// |extension| and |browser| are the source of the API call. Return true (1)
-    /// to allow access of false (0) to deny access. Access to incognito browsers
-    /// should not be allowed unless the source extension has incognito access
-    /// enabled, in which case |include_incognito| will be true (1).
-    /// </summary>
-    function  CanAccessBrowser(const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser): boolean;
-    /// <summary>
-    /// Called to retrieve an extension resource that would normally be loaded
-    /// from disk (e.g. if a file parameter is specified to
-    /// chrome.tabs.executeScript). |extension| and |browser| are the source of
-    /// the resource request. |file| is the requested relative file path. To
-    /// handle the resource request return true (1) and execute |callback| either
-    /// synchronously or asynchronously. For the default behavior which reads the
-    /// resource from the extension directory on disk return false (0).
-    /// Localization substitutions will not be applied to resources handled via
-    /// this function.
-    ///  </summary>
-    function  GetExtensionResource(const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback): boolean;
-    /// <summary>
-    /// Custom procedure to clear all references.
-    /// </summary>
-    procedure RemoveReferences;
-  end;
-
-  /// <summary>
-  /// Object representing an extension. Methods may be called on any thread unless
-  /// otherwise indicated.
-  /// </summary>
-  /// <remarks>
-  /// <para>WARNING: This API is deprecated and will be removed in ~M127.</para>
-  /// <para><see cref="uCEFTypes|TCefExtension">Implements TCefExtension</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_extension_capi.h">CEF source file: /include/capi/cef_extension_capi.h (cef_extension_t)</see></para>
-  /// </remarks>
-  ICefExtension = interface(ICefBaseRefCounted)
-    ['{D30D1C64-A26F-49C0-AEB7-C55EC68951CA}']
-    /// <summary>
-    /// Returns the unique extension identifier. This is calculated based on the
-    /// extension public key, if available, or on the extension path. See
-    /// https://developer.chrome.com/extensions/manifest/key for details.
-    /// </summary>
-    function  GetIdentifier : ustring;
-    /// <summary>
-    /// Returns the absolute path to the extension directory on disk. This value
-    /// will be prefixed with PK_DIR_RESOURCES if a relative path was passed to
-    /// ICefRequestContext.LoadExtension.
-    /// </summary>
-    function  GetPath : ustring;
-    /// <summary>
-    /// Returns the extension manifest contents as a ICefDictionaryValue
-    /// object. See https://developer.chrome.com/extensions/manifest for details.
-    /// </summary>
-    function  GetManifest : ICefDictionaryValue;
-    /// <summary>
-    /// Returns true (1) if this object is the same extension as |that| object.
-    /// Extensions are considered the same if identifier, path and loader context
-    /// match.
-    /// </summary>
-    function  IsSame(const that : ICefExtension) : boolean;
-    /// <summary>
-    /// Returns the handler for this extension. Will return NULL for internal
-    /// extensions or if no handler was passed to
-    /// ICefRequestContext.LoadExtension.
-    /// </summary>
-    function  GetHandler : ICefExtensionHandler;
-    /// <summary>
-    /// Returns the request context that loaded this extension. Will return NULL
-    /// for internal extensions or if the extension has been unloaded. See the
-    /// ICefRequestContext.LoadExtension documentation for more information
-    /// about loader contexts. Must be called on the browser process UI thread.
-    /// </summary>
-    function  GetLoaderContext : ICefRequestContext;
-    /// <summary>
-    /// Returns true (1) if this extension is currently loaded. Must be called on
-    /// the browser process UI thread.
-    /// </summary>
-    function  IsLoaded : boolean;
-    /// <summary>
-    /// Unload this extension if it is not an internal extension and is currently
-    /// loaded. Will result in a call to
-    /// ICefExtensionHandler.OnExtensionUnloaded on success.
-    /// </summary>
-    procedure unload;
-    function  GetBrowserActionPopup : ustring;
-    function  GetBrowserActionIcon : ustring;
-    function  GetPageActionPopup : ustring;
-    function  GetPageActionIcon : ustring;
-    function  GetOptionsPage : ustring;
-    function  GetOptionsUIPage : ustring;
-    function  GetBackgroundPage : ustring;
-    function  GetURL : ustring;
-    /// <summary>
-    /// Returns the unique extension identifier. This is calculated based on the
-    /// extension public key, if available, or on the extension path. See
-    /// https://developer.chrome.com/extensions/manifest/key for details.
-    /// </summary>
-    property  Identifier          : ustring               read GetIdentifier;
-    /// <summary>
-    /// Returns the absolute path to the extension directory on disk. This value
-    /// will be prefixed with PK_DIR_RESOURCES if a relative path was passed to
-    /// ICefRequestContext.LoadExtension.
-    /// </summary>
-    property  Path                : ustring               read GetPath;
-    /// <summary>
-    /// Returns the extension manifest contents as a ICefDictionaryValue
-    /// object. See https://developer.chrome.com/extensions/manifest for details.
-    /// </summary>
-    property  Manifest            : ICefDictionaryValue   read GetManifest;
-    /// <summary>
-    /// Returns the handler for this extension. Will return NULL for internal
-    /// extensions or if no handler was passed to
-    /// ICefRequestContext.LoadExtension.
-    /// </summary>
-    property  Handler             : ICefExtensionHandler  read GetHandler;
-    /// <summary>
-    /// Returns the request context that loaded this extension. Will return NULL
-    /// for internal extensions or if the extension has been unloaded. See the
-    /// ICefRequestContext.LoadExtension documentation for more information
-    /// about loader contexts. Must be called on the browser process UI thread.
-    /// </summary>
-    property  LoaderContext       : ICefRequestContext    read GetLoaderContext;
-    property  BrowserActionPopup  : ustring               read GetBrowserActionPopup;
-    property  BrowserActionIcon   : ustring               read GetBrowserActionIcon;
-    property  PageActionPopup     : ustring               read GetPageActionPopup;
-    property  PageActionIcon      : ustring               read GetPageActionIcon;
-    property  OptionsPage         : ustring               read GetOptionsPage;
-    property  OptionsUIPage       : ustring               read GetOptionsUIPage;
-    property  BackgroundPage      : ustring               read GetBackgroundPage;
-    property  URL                 : ustring               read GetURL;
   end;
 
   /// <summary>
@@ -6807,20 +6596,19 @@ type
     /// Called on the browser process UI thread when the render process is
     /// unresponsive as indicated by a lack of input event processing for at least
     /// 15 seconds. Return false (0) for the default behavior which is an
-    /// indefinite wait with the Alloy runtime or display of the "Page
-    /// unresponsive" dialog with the Chrome runtime. Return true (1) and don't
-    /// execute the callback for an indefinite wait without display of the Chrome
-    /// runtime dialog. Return true (1) and call
-    /// ICefUnresponsiveProcessCallback.Wait either in this function or at a
-    /// later time to reset the wait timer, potentially triggering another call to
-    /// this function if the process remains unresponsive. Return true (1) and
-    /// call ICefUnresponsiveProcessCallback.Terminate either in this
-    /// function or at a later time to terminate the unresponsive process,
-    /// resulting in a call to OnRenderProcessTerminated.
-    /// OnRenderProcessResponsive will be called if the process becomes responsive
-    /// after this function is called. This functionality depends on the hang
-    /// monitor which can be disabled by passing the `--disable-hang-monitor`
-    /// command-line flag or setting GlobalCEFApp.DisableHangMonitor to True.
+    /// indefinite wait with Alloy style or display of the "Page unresponsive"
+    /// dialog with Chrome style. Return true (1) and don't execute the callback
+    /// for an indefinite wait without display of the Chrome style dialog. Return
+    /// true (1) and call ICefUnresponsiveProcessCallback.Wait either in this
+    /// function or at a later time to reset the wait timer, potentially
+    /// triggering another call to this function if the process remains
+    /// unresponsive. Return true (1) and call
+    /// ICefUnresponsiveProcessCallback.Terminate either in this function or
+    /// at a later time to terminate the unresponsive process, resulting in a call
+    /// to OnRenderProcessTerminated. OnRenderProcessResponsive will be called if
+    /// the process becomes responsive after this function is called. This
+    /// functionality depends on the hang monitor which can be disabled by passing
+    /// the `--disable-hang-monitor` command-line flag.
     /// </summary>
     function  OnRenderProcessUnresponsive(const browser: ICefBrowser; const callback: ICefUnresponsiveProcessCallback): boolean;
     /// <summary>
@@ -7018,13 +6806,12 @@ type
     /// Called when web content in the page has toggled fullscreen mode. If
     /// |fullscreen| is true (1) the content will automatically be sized to fill
     /// the browser content area. If |fullscreen| is false (0) the content will
-    /// automatically return to its original size and position. With the Alloy
-    /// runtime the client is responsible for triggering the fullscreen transition
-    /// (for example, by calling ICefWindow.SetFullscreen when using Views).
-    /// With the Chrome runtime the fullscreen transition will be triggered
-    /// automatically. The ICefWindowDelegate.OnWindowFullscreenTransition
-    /// function will be called during the fullscreen transition for notification
-    /// purposes.
+    /// automatically return to its original size and position. With Alloy style
+    /// the client is responsible for triggering the fullscreen transition (for
+    /// example, by calling ICefWindow.SetFullscreen when using Views). With
+    /// Chrome style the fullscreen transition will be triggered automatically.
+    /// The ICefWindowDelegate.OnWindowFullscreenTransition function will be
+    /// called during the fullscreen transition for notification purposes.
     /// </summary>
     procedure OnFullScreenModeChange(const browser: ICefBrowser; fullscreen: Boolean);
     /// <summary>
@@ -8257,92 +8044,6 @@ type
     /// </summary>
     procedure ResolveHost(const origin: ustring; const callback: ICefResolveCallback);
     /// <summary>
-    /// Load an extension.
-    ///
-    /// If extension resources will be read from disk using the default load
-    /// implementation then |root_directory| should be the absolute path to the
-    /// extension resources directory and |manifest| should be NULL. If extension
-    /// resources will be provided by the client (e.g. via ICefRequestHandler
-    /// and/or ICefExtensionHandler) then |root_directory| should be a path
-    /// component unique to the extension (if not absolute this will be internally
-    /// prefixed with the PK_DIR_RESOURCES path) and |manifest| should contain the
-    /// contents that would otherwise be read from the "manifest.json" file on
-    /// disk.
-    ///
-    /// The loaded extension will be accessible in all contexts sharing the same
-    /// storage (HasExtension returns true (1)). However, only the context on
-    /// which this function was called is considered the loader (DidLoadExtension
-    /// returns true (1)) and only the loader will receive
-    /// ICefRequestContextHandler callbacks for the extension.
-    ///
-    /// ICefExtensionHandler.OnExtensionLoaded will be called on load success
-    /// or ICefExtensionHandler.OnExtensionLoadFailed will be called on load
-    /// failure.
-    ///
-    /// If the extension specifies a background script via the "background"
-    /// manifest key then ICefExtensionHandler.OnBeforeBackgroundBrowser will
-    /// be called to create the background browser. See that function for
-    /// additional information about background scripts.
-    ///
-    /// For visible extension views the client application should evaluate the
-    /// manifest to determine the correct extension URL to load and then pass that
-    /// URL to the ICefBrowserHost.CreateBrowser* function after the extension
-    /// has loaded. For example, the client can look for the "browser_action"
-    /// manifest key as documented at
-    /// https://developer.chrome.com/extensions/browserAction. Extension URLs take
-    /// the form "chrome-extension://<extension_id>/<path>".
-    ///
-    /// Browsers that host extensions differ from normal browsers as follows:
-    ///  - Can access chrome.* JavaScript APIs if allowed by the manifest. Visit
-    ///    chrome://extensions-support for the list of extension APIs currently
-    ///    supported by CEF.
-    ///  - Main frame navigation to non-extension content is blocked.
-    ///  - Pinch-zooming is disabled.
-    ///  - CefBrowserHost::GetExtension returns the hosted extension.
-    ///  - CefBrowserHost::IsBackgroundHost returns true for background hosts.
-    ///
-    /// See https://developer.chrome.com/extensions for extension implementation
-    /// and usage documentation.
-    ///
-    /// WARNING: This function is deprecated and will be removed in ~M127.
-    /// </summary>
-    procedure LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
-    /// <summary>
-    /// Returns true (1) if this context was used to load the extension identified
-    /// by |extension_id|. Other contexts sharing the same storage will also have
-    /// access to the extension (see HasExtension). This function must be called
-    /// on the browser process UI thread.
-    ///
-    /// WARNING: This function is deprecated and will be removed in ~M127.
-    /// </summary>
-    function  DidLoadExtension(const extension_id: ustring): boolean;
-    /// <summary>
-    /// Returns true (1) if this context has access to the extension identified by
-    /// |extension_id|. This may not be the context that was used to load the
-    /// extension (see DidLoadExtension). This function must be called on the
-    /// browser process UI thread.
-    ///
-    /// WARNING: This function is deprecated and will be removed in ~M127.
-    /// </summary>
-    function  HasExtension(const extension_id: ustring): boolean;
-    /// <summary>
-    /// Retrieve the list of all extensions that this context has access to (see
-    /// HasExtension). |extension_ids| will be populated with the list of
-    /// extension ID values. Returns true (1) on success. This function must be
-    /// called on the browser process UI thread.
-    ///
-    /// WARNING: This function is deprecated and will be removed in ~M127.
-    /// </summary>
-    function  GetExtensions(const extension_ids: TStringList): boolean;
-    /// <summary>
-    /// Returns the extension matching |extension_id| or NULL if no matching
-    /// extension is accessible in this context (see HasExtension). This function
-    /// must be called on the browser process UI thread.
-    ///
-    /// WARNING: This function is deprecated and will be removed in ~M127.
-    /// </summary>
-    function  GetExtension(const extension_id: ustring): ICefExtension;
-    /// <summary>
     /// Returns the MediaRouter object associated with this context.  If
     /// |callback| is non-NULL it will be executed asnychronously on the UI thread
     /// after the manager's context has been initialized.
@@ -9389,17 +9090,19 @@ type
   ICefPermissionHandler = interface(ICefBaseRefCounted)
     ['{DC079268-FB08-44DA-B216-35C5C339B341}']
     /// <summary>
-    /// Called when a page requests permission to access media.
-    /// |requesting_origin| is the URL origin requesting permission.
-    /// |requested_permissions| is a combination of values from
+    /// <para>Called when a page requests permission to access media.</para>
+    /// <para>|requesting_origin| is the URL origin requesting permission.</para>
+    /// <para>|requested_permissions| is a combination of values from
     /// TCefMediaAccessPermissionTypes that represent the requested
-    /// permissions. Return true (1) and call ICefMediaAccessCallback
+    /// permissions.</para>
+    /// <para>Return true (1) and call ICefMediaAccessCallback
     /// functions either in this function or at a later time to continue or cancel
-    /// the request. Return false (0) to proceed with default handling. With the
-    /// Chrome runtime, default handling will display the permission request UI.
-    /// With the Alloy runtime, default handling will deny the request. This
-    /// function will not be called if the "--enable-media-stream" command-line
-    /// switch is used to grant all permissions.
+    /// the request.</para>
+    /// <para>Return false (0) to proceed with default handling. With
+    /// Chrome style, default handling will display the permission request UI.</para>
+    /// <para>With Alloy style, default handling will deny the request. This function
+    /// will not be called if the "--enable-media-stream" command-line switch is
+    /// used to grant all permissions.</para>
     /// </summary>
     function  OnRequestMediaAccessPermission(const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefMediaAccessCallback): boolean;
     /// <summary>
@@ -9409,9 +9112,9 @@ type
     /// TCefPermissionRequestTypes that represent the requested permissions.
     /// Return true (1) and call ICefPermissionPromptCallback.Continue either
     /// in this function or at a later time to continue or cancel the request.
-    /// Return false (0) to proceed with default handling. With the Chrome
-    /// runtime, default handling will display the permission prompt UI. With the
-    /// Alloy runtime, default handling is CEF_PERMISSION_RESULT_IGNORE.
+    /// Return false (0) to proceed with default handling. With Chrome style,
+    /// default handling will display the permission prompt UI. With Alloy
+    /// style, default handling is CEF_PERMISSION_RESULT_IGNORE.
     /// </summary>
     function  OnShowPermissionPrompt(const browser: ICefBrowser; prompt_id: uint64; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefPermissionPromptCallback): boolean;
     /// <summary>
@@ -10679,7 +10382,7 @@ type
     function  GetBrowser : ICefBrowser;
     /// <summary>
     /// Returns the Chrome toolbar associated with this BrowserView. Only
-    /// supported when using the Chrome runtime. The ICefBrowserViewDelegate.GetChromeToolbarType
+    /// supported when using Chrome style. The ICefBrowserViewDelegate.GetChromeToolbarType
     /// function must return a value other than
     /// CEF_CTT_NONE and the toolbar will not be available until after this
     /// BrowserView is added to a ICefWindow and
@@ -10691,7 +10394,7 @@ type
     /// content (`keydown` event handler) or ICefKeyboardHandler. Normal priority
     /// accelerators can be registered via ICefWindow.SetAccelerator (with
     /// |high_priority|=false) or internally for standard accelerators supported
-    /// by the Chrome runtime. If |prefer_accelerators| is true then the matching
+    /// by Chrome style. If |prefer_accelerators| is true then the matching
     /// accelerator will be triggered immediately (calling
     /// ICefWindowDelegate.OnAccelerator or ICefCommandHandler.OnChromeCommand
     /// respectively) and the event will not be forwarded to the web content or
@@ -10771,8 +10474,8 @@ type
     /// <summary>
     /// Called when |browser_view| receives a gesture command. Return true (1) to
     /// handle (or disable) a |gesture_command| or false (0) to propagate the
-    /// gesture to the browser for default handling. With the Chrome runtime these
-    /// commands can also be handled via cef_command_handler_t::OnChromeCommand.
+    /// gesture to the browser for default handling. With Chrome style these
+    /// commands can also be handled via ICefCommandHandler.OnChromeCommand.
     /// </summary>
     procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
     /// <summary>
@@ -11323,9 +11026,9 @@ type
     /// the transition occurs asynchronously with |is_competed| set to false (0)
     /// when the transition starts and true (1) after the transition completes. On
     /// other platforms the transition occurs synchronously with |is_completed|
-    /// set to true (1) after the transition completes. With the Alloy runtime you
-    /// must also implement ICefDisplayHandler.OnFullscreenModeChange to
-    /// handle fullscreen transitions initiated by browser content.
+    /// set to true (1) after the transition completes. With Alloy style you must
+    /// also implement ICefDisplayHandler.OnFullscreenModeChange to handle
+    /// fullscreen transitions initiated by browser content.
     /// </summary>
     procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
     /// <summary>
@@ -11430,12 +11133,10 @@ type
     /// <para>Chrome theme colors will be applied and this callback will be triggered
     /// if/when a BrowserView is added to the Window's component hierarchy. Chrome
     /// theme colors can be configured on a per-RequestContext basis using
-    /// ICefRequestContext.SetChromeColorScheme or (Chrome runtime only) by
+    /// ICefRequestContext.SetChromeColorScheme or (Chrome style only) by
     /// visiting chrome://settings/manageProfile. Any theme changes using those
     /// mechanisms will also trigger this callback. Chrome theme colors will be
-    /// persisted and restored from disk cache with the Chrome runtime, and with
-    /// the Alloy runtime if persist_user_preferences is set to true (1) via
-    /// CefSettings or ICefRequestContext Settings.</para>
+    /// persisted and restored from disk cache.</para>
     /// <para>This callback is not triggered on Window creation so clients that wish to
     /// customize the initial native/OS theme must call
     /// ICefWindow.SetThemeColor and ICefWindow.ThemeChanged before showing
@@ -11452,6 +11153,11 @@ type
     /// TCefRuntimeStyle documentation for details.
     /// </summary>
     procedure OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
+    /// <summary>
+    /// Return Linux-specific window properties for correctly handling by window
+    /// managers.
+    /// </summary>
+    procedure OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
   end;
 
 implementation

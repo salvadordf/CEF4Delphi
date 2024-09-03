@@ -44,6 +44,7 @@ type
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
       procedure OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
       procedure OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
+      procedure OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
 
     public
       /// <summary>
@@ -90,9 +91,9 @@ type
       /// the transition occurs asynchronously with |is_competed| set to false (0)
       /// when the transition starts and true (1) after the transition completes. On
       /// other platforms the transition occurs synchronously with |is_completed|
-      /// set to true (1) after the transition completes. With the Alloy runtime you
-      /// must also implement ICefDisplayHandler.OnFullscreenModeChange to
-      /// handle fullscreen transitions initiated by browser content.
+      /// set to true (1) after the transition completes. With Alloy style you must
+      /// also implement ICefDisplayHandler.OnFullscreenModeChange to handle
+      /// fullscreen transitions initiated by browser content.
       /// </summary>
       procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); virtual;
       /// <summary>
@@ -197,12 +198,10 @@ type
       /// <para>Chrome theme colors will be applied and this callback will be triggered
       /// if/when a BrowserView is added to the Window's component hierarchy. Chrome
       /// theme colors can be configured on a per-RequestContext basis using
-      /// ICefRequestContext.SetChromeColorScheme or (Chrome runtime only) by
+      /// ICefRequestContext.SetChromeColorScheme or (Chrome style only) by
       /// visiting chrome://settings/manageProfile. Any theme changes using those
       /// mechanisms will also trigger this callback. Chrome theme colors will be
-      /// persisted and restored from disk cache with the Chrome runtime, and with
-      /// the Alloy runtime if persist_user_preferences is set to true (1) via
-      /// CefSettings or ICefRequestContext Settings.</para>
+      /// persisted and restored from disk cache.</para>
       /// <para>This callback is not triggered on Window creation so clients that wish to
       /// customize the initial native/OS theme must call
       /// ICefWindow.SetThemeColor and ICefWindow.ThemeChanged before showing
@@ -219,6 +218,11 @@ type
       /// TCefRuntimeStyle documentation for details.
       /// </summary>
       procedure OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle); virtual;
+      /// <summary>
+      /// Return Linux-specific window properties for correctly handling by window
+      /// managers.
+      /// </summary>
+      procedure OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean); virtual;
       /// <summary>
       /// Links the methods in the internal CEF record data pointer with the methods in this class.
       /// </summary>
@@ -272,6 +276,7 @@ type
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); override;
       procedure OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer); override;
       procedure OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle); override;
+      procedure OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean); override;
 
     public
       /// <summary>
@@ -410,6 +415,28 @@ end;
 procedure TCefWindowDelegateRef.OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
 begin
   aResult := PCefWindowDelegate(FData)^.get_window_runtime_style(PCefWindowDelegate(FData));
+end;
+
+procedure TCefWindowDelegateRef.OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
+var
+  TempProperties : TCefLinuxWindowProperties;
+begin
+  aResult := False;
+
+  CefStringInitialize(@TempProperties.wayland_app_id);
+  CefStringInitialize(@TempProperties.wm_class_class);
+  CefStringInitialize(@TempProperties.wm_class_name);
+  CefStringInitialize(@TempProperties.wm_role_name);
+
+  if (PCefWindowDelegate(FData)^.get_linux_window_properties(PCefWindowDelegate(FData), CefGetData(window_), @TempProperties) <> 0) then
+    begin
+      aResult := True;
+
+      properties.wayland_app_id := CefString(@TempProperties.wayland_app_id);
+      properties.wm_class_class := CefString(@TempProperties.wm_class_class);
+      properties.wm_class_name  := CefString(@TempProperties.wm_class_name);
+      properties.wm_role_name   := CefString(@TempProperties.wm_role_name);
+    end;
 end;
 
 class function TCefWindowDelegateRef.UnWrap(data: Pointer): ICefWindowDelegate;
@@ -732,6 +759,32 @@ begin
     TCefWindowDelegateOwn(TempObject).OnGetWindowRuntimeStyle(Result);
 end;
 
+function cef_window_delegate_get_linux_window_properties(self: PCefWindowDelegate; window_: PCefWindow; properties: PCefLinuxWindowProperties): Integer; stdcall;
+var
+  TempProperties : TLinuxWindowProperties;
+  TempObject : TObject;
+  TempResult : boolean;
+begin
+  TempObject := CefGetObject(self);
+  TempResult := False;
+
+  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
+    begin
+      TCefWindowDelegateOwn(TempObject).OnGetLinuxWindowProperties(TCefWindowRef.UnWrap(window_),
+                                                                   TempProperties,
+                                                                   TempResult);
+      if TempResult then
+        begin
+          CefStringSet(@properties^.wayland_app_id, TempProperties.wayland_app_id);
+          CefStringSet(@properties^.wm_class_class, TempProperties.wm_class_class);
+          CefStringSet(@properties^.wm_class_name,  TempProperties.wm_class_name);
+          CefStringSet(@properties^.wm_role_name,   TempProperties.wm_role_name);
+        end;
+    end;
+
+  Result := ord(TempResult);
+end;
+
 constructor TCefWindowDelegateOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefWindowDelegate));
@@ -767,6 +820,7 @@ begin
       on_key_event                     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_key_event;
       on_theme_colors_changed          := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_theme_colors_changed;
       get_window_runtime_style         := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_window_runtime_style;
+      get_linux_window_properties      := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_linux_window_properties;
     end;
 end;
 
@@ -878,6 +932,11 @@ end;
 procedure TCefWindowDelegateOwn.OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
 begin
   aResult := CEF_RUNTIME_STYLE_DEFAULT;
+end;
+
+procedure TCefWindowDelegateOwn.OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
+begin
+  aResult := False;
 end;
 
 // **************************************************************
@@ -1253,6 +1312,19 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnGetWindowRuntimeStyle', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
+begin
+  aResult := False;
+
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnGetLinuxWindowProperties(window_, properties, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnGetLinuxWindowProperties', e) then raise;
   end;
 end;
 

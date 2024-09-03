@@ -161,6 +161,7 @@ begin
   FClosing             := False;
   FPendingMsgID        := 0;
   Chromium1.DefaultURL := UTF8Decode(AddressEdt.Text);
+  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);

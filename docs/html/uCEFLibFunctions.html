@@ -235,61 +235,67 @@
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_post_delayed_task">cef_post_delayed_task</a></strong>: function(threadId: <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>; task: <a href="uCEFTypes.html#PCefTask">PCefTask</a>; delay_ms: Int64): Integer; cdecl;</code></td>
 </tr>
 <tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_task_manager_get">cef_task_manager_get</a></strong>: function: <a href="uCEFTypes.html#PCefTaskManager">PCefTaskManager</a>;</code></td>
+</tr>
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_thread_create">cef_thread_create</a></strong>: function(const display_name: <a href="uCEFTypes.html#PCefString">PCefString</a>; priority: <a href="uCEFTypes.html#TCefThreadPriority">TCefThreadPriority</a>; message_loop_type: <a href="uCEFTypes.html#TCefMessageLoopType">TCefMessageLoopType</a>; stoppable: integer; com_init_mode: <a href="uCEFTypes.html#TCefCOMInitMode">TCefCOMInitMode</a>): <a href="uCEFTypes.html#PCefThread">PCefThread</a>; cdecl;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_begin_tracing">cef_begin_tracing</a></strong>: function(const categories: <a href="uCEFTypes.html#PCefString">PCefString</a>; callback: <a href="uCEFTypes.html#PCefCompletionCallback">PCefCompletionCallback</a>): Integer; cdecl;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_end_tracing">cef_end_tracing</a></strong>: function(const tracing_file: <a href="uCEFTypes.html#PCefString">PCefString</a>; callback: <a href="uCEFTypes.html#PCefEndTracingCallback">PCefEndTracingCallback</a>): Integer; cdecl;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_now_from_system_trace_time">cef_now_from_system_trace_time</a></strong>: function: int64; cdecl;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_urlrequest_create">cef_urlrequest_create</a></strong>: function(request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; client: <a href="uCEFTypes.html#PCefUrlRequestClient">PCefUrlRequestClient</a>; request_context: <a href="uCEFTypes.html#PCefRequestContext">PCefRequestContext</a>): <a href="uCEFTypes.html#PCefUrlRequest">PCefUrlRequest</a>; cdecl;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8context_get_current_context">cef_v8context_get_current_context</a></strong>: function: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; cdecl;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8context_get_entered_context">cef_v8context_get_entered_context</a></strong>: function: <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; cdecl;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8context_in_context">cef_v8context_in_context</a></strong>: function: Integer; cdecl;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_undefined">cef_v8value_create_undefined</a></strong>: function: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_null">cef_v8value_create_null</a></strong>: function: <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_bool">cef_v8value_create_bool</a></strong>: function(value: Integer): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_int">cef_v8value_create_int</a></strong>: function(value: Integer): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_uint">cef_v8value_create_uint</a></strong>: function(value: Cardinal): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_double">cef_v8value_create_double</a></strong>: function(value: Double): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_date">cef_v8value_create_date</a></strong>: function(value: <a href="uCEFTypes.html#TCefBaseTime">TCefBaseTime</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_string">cef_v8value_create_string</a></strong>: function(const value: <a href="uCEFTypes.html#PCefString">PCefString</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_object">cef_v8value_create_object</a></strong>: function(accessor: <a href="uCEFTypes.html#PCefV8Accessor">PCefV8Accessor</a>; interceptor: <a href="uCEFTypes.html#PCefV8Interceptor">PCefV8Interceptor</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_array">cef_v8value_create_array</a></strong>: function(length: Integer): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_array_buffer">cef_v8value_create_array_buffer</a></strong>: function(buffer : Pointer; length: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; release_callback : <a href="uCEFTypes.html#PCefv8ArrayBufferReleaseCallback">PCefv8ArrayBufferReleaseCallback</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_array_buffer_with_copy">cef_v8value_create_array_buffer_with_copy</a></strong>: function(buffer : Pointer; length: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_v8value_create_function">cef_v8value_create_function</a></strong>: function(const name: <a href="uCEFTypes.html#PCefString">PCefString</a>; handler: <a href="uCEFTypes.html#PCefv8Handler">PCefv8Handler</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
@@ -377,6 +383,12 @@
 </tr>
 <tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_set_osmodal_loop">cef_set_osmodal_loop</a></strong>: procedure(osModalLoop: Integer); cdecl;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_dump_without_crashing">cef_dump_without_crashing</a></strong>: function(mseconds_between_dumps: int64; const function_name, file_name: PAnsiChar; line_number: integer): Integer; cdecl;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_dump_without_crashing_unthrottled">cef_dump_without_crashing_unthrottled</a></strong>: function: Integer; cdecl;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFLibFunctions.html#cef_get_min_log_level">cef_get_min_log_level</a></strong>: function: Integer; cdecl;</code></td>
@@ -1168,6 +1180,15 @@
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="itemcode"><span id="cef_task_manager_get"></span><code><strong>cef_task_manager_get</strong>: function: <a href="uCEFTypes.html#PCefTaskManager">PCefTaskManager</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/capi/cef_task_manager_capi.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="itemcode"><span id="cef_thread_create"></span><code><strong>cef_thread_create</strong>: function(const display_name: <a href="uCEFTypes.html#PCefString">PCefString</a>; priority: <a href="uCEFTypes.html#TCefThreadPriority">TCefThreadPriority</a>; message_loop_type: <a href="uCEFTypes.html#TCefMessageLoopType">TCefMessageLoopType</a>; stoppable: integer; com_init_mode: <a href="uCEFTypes.html#TCefCOMInitMode">TCefCOMInitMode</a>): <a href="uCEFTypes.html#PCefThread">PCefThread</a>; cdecl;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -1303,6 +1324,13 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="itemcode"><span id="cef_v8value_create_array_buffer"></span><code><strong>cef_v8value_create_array_buffer</strong>: function(buffer : Pointer; length: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; release_callback : <a href="uCEFTypes.html#PCefv8ArrayBufferReleaseCallback">PCefv8ArrayBufferReleaseCallback</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_v8value_create_array_buffer_with_copy"></span><code><strong>cef_v8value_create_array_buffer_with_copy</strong>: function(buffer : Pointer; length: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>): <a href="uCEFTypes.html#PCefv8Value">PCefv8Value</a>; cdecl;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -1535,6 +1563,22 @@
 <p>
 ********************************* *********** INTERNAL ************ ********************************* /include/internal/cef_app_win.h</p>
 </td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_dump_without_crashing"></span><code><strong>cef_dump_without_crashing</strong>: function(mseconds_between_dumps: int64; const function_name, file_name: PAnsiChar; line_number: integer): Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+/include/internal/cef_dump_without_crashing_internal.h</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="cef_dump_without_crashing_unthrottled"></span><code><strong>cef_dump_without_crashing_unthrottled</strong>: function: Integer; cdecl;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">

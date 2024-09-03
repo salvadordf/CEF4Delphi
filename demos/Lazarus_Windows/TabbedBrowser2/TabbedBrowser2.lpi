@@ -50,7 +50,9 @@
       <Unit2>
         <Filename Value="uBrowserFrame.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="BrowserFrame"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
       </Unit2>
       <Unit3>
         <Filename Value="uBrowserTab.pas"/>

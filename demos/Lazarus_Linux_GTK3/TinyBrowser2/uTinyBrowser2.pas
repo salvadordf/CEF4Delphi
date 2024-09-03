@@ -90,12 +90,11 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.ExternalMessagePump        := False;                         
-  GlobalCEFApp.ChromeRuntime              := True; // Enable this line to enable the "ChromeRuntime" mode. It's in experimental state.
   GlobalCEFApp.cache                      := 'cache';
   GlobalCEFApp.DisableZygote              := True;
   GlobalCEFApp.SetCurrentDir              := True;
   GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;     
-  GlobalCEFApp.OnGetDefaultClient         := GlobalCEFApp_OnGetDefaultClient;    // This event is only used in "ChromeRuntime" mode
+  GlobalCEFApp.OnGetDefaultClient         := GlobalCEFApp_OnGetDefaultClient;
 
   // Add a debug log in the BIN directory
   //GlobalCEFApp.LogFile     := 'cef.log';

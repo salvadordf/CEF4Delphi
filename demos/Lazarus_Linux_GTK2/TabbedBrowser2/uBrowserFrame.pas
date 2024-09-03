@@ -247,7 +247,8 @@ end;
 
 procedure TBrowserFrame.CreateBrowser;
 begin
-  Chromium1.DefaultURL := FHomepage;
+  Chromium1.DefaultURL   := FHomepage;
+  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
   Chromium1.CreateBrowser(CEFLinkedWindowParent1.Handle, CEFLinkedWindowParent1.BoundsRect);
 end;
 

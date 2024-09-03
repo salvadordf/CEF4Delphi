@@ -789,7 +789,7 @@ const
   TT_EXPLICIT             = 1;
   /// <summary>
   /// User got to this page through a suggestion in the UI (for example, via the
-  /// destinations page). Chrome runtime only.
+  /// destinations page). Chrome style only.
   /// </summary>
   /// <remarks>
   /// <para>TCefTransitionType value.</para>
@@ -825,7 +825,7 @@ const
   /// that did not look like a URL.  For example, a match might have the URL
   /// of a Google search result page, but appear like "Search Google for ...".
   /// These are not quite the same as EXPLICIT navigations because the user
-  /// didn't type or see the destination URL. Chrome runtime only.
+  /// didn't type or see the destination URL. Chrome style only.
   /// See also TT_KEYWORD.
   /// </summary>
   /// <remarks>
@@ -838,7 +838,7 @@ const
   /// loaded in a toplevel frame.  For example, opening a tab to show the ASH
   /// screen saver, opening the devtools window, opening the NTP after the safe
   /// browsing warning, opening web-based dialog boxes are examples of
-  /// AUTO_TOPLEVEL navigations. Chrome runtime only.
+  /// AUTO_TOPLEVEL navigations. Chrome style only.
   /// </summary>
   /// <remarks>
   /// <para>TCefTransitionType value.</para>
@@ -874,7 +874,7 @@ const
   /// the url 'http://' + keyword. For example, if you do a tab-to-search
   /// against wikipedia the generated url has a transition qualifer of
   /// TT_KEYWORD, and TemplateURLModel generates a visit for 'wikipedia.org'
-  /// with a transition type of TT_KEYWORD_GENERATED. Chrome runtime only.
+  /// with a transition type of TT_KEYWORD_GENERATED. Chrome style only.
   /// </summary>
   /// <remarks>
   /// <para>TCefTransitionType value.</para>
@@ -883,7 +883,7 @@ const
   TT_KEYWORD              = 9;
   /// <summary>
   /// Corresponds to a visit generated for a keyword. See description of
-  /// TT_KEYWORD for more details. Chrome runtime only.
+  /// TT_KEYWORD for more details. Chrome style only.
   /// </summary>
   /// <remarks>
   /// <para>TCefTransitionType value.</para>
@@ -925,7 +925,7 @@ const
   /// </remarks>
   TT_DIRECT_LOAD_FLAG     = $02000000;
   /// <summary>
-  /// User is navigating to the home page. Chrome runtime only.
+  /// User is navigating to the home page. Chrome style only.
   /// </summary>
   /// <remarks>
   /// <para>TCefTransitionType value.</para>
@@ -934,8 +934,7 @@ const
   TT_HOME_PAGE_FLAG       = $04000000;
   /// <summary>
   /// The transition originated from an external application; the exact
-  /// definition of this is embedder dependent. Chrome runtime and
-  /// extension system only.
+  /// definition of this is embedder dependent. Chrome style only.
   /// </summary>
   /// <remarks>
   /// <para>TCefTransitionType value.</para>
@@ -2098,7 +2097,7 @@ const
 
   /// <summary>
   /// Permission types used with OnShowPermissionPrompt. Some types are
-  /// platform-specific or only supported with the Chrome runtime. Should be kept
+  /// platform-specific or only supported with Chrome style. Should be kept
   /// in sync with Chromium's permissions::RequestType type.
   /// </summary>
   /// <remarks>
@@ -3229,6 +3228,14 @@ const
   /// </remarks>
   CEF_KACCELERATEDPAINTMAXPLANES = 4;
   {$ENDIF}
+
+  /// <summary>
+  /// This value may be used with the mseconds_between_dumps parameter in GlobalCEFApp.DumpWithoutCrashing.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_dump_without_crashing.h">CEF source file: /include/base/cef_dump_without_crashing.h (kOneDayInMilliseconds)</see></para>
+  /// </remarks>
+  CEF_ONEDAYINMILLISECONDS = 86400000;
 
 implementation
 

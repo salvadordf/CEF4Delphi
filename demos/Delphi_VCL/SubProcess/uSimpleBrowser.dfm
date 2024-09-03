@@ -13,6 +13,7 @@ object Form1: TForm1
   Position = poScreenCenter
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
   TextHeight = 13
   object ChromiumWindow1: TChromiumWindow
     Left = 0

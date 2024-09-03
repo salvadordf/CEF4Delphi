@@ -41,17 +41,13 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContextSettings.html#persist_user_preferences">persist_user_preferences</a></strong>: Integer;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContextSettings.html#accept_language_list">accept_language_list</a></strong>: <a href="uCEFTypes.html#TCefString">TCefString</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContextSettings.html#cookieable_schemes_list">cookieable_schemes_list</a></strong>: <a href="uCEFTypes.html#TCefString">TCefString</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefRequestContextSettings.html#cookieable_schemes_exclude_defaults">cookieable_schemes_exclude_defaults</a></strong>: integer;</code></td>
 </tr>
@@ -86,16 +82,6 @@
 <tr><td colspan="2">
 <p>
  To persist session cookies (cookies without an expiry date or validity interval) by default when using the global cookie manager set this value to true (1). Session cookies are generally intended to be transient and most Web browsers do not persist them. Can be set globally using the TCefSettings.persist_session_cookies value. This value will be ignored if |cache_path| is empty or if it matches the TCefSettings.cache_path value. </p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="persist_user_preferences"></span><code><strong>persist_user_preferences</strong>: Integer;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
- To persist user preferences as a JSON file in the cache path directory set this value to true (1). Can be set globally using the TCefSettings.persist_user_preferences value. This value will be ignored if |cache_path| is empty or if it matches the TCefSettings.cache_path value. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
