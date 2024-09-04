@@ -53,6 +53,8 @@ type
     PopupMenu1: TPopupMenu;
     BackMenuItem: TMenuItem;
     ForwardMenuItem: TMenuItem;
+    StatusBar: TStatusBar;
+    StatusLbl: TLabel;
 
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
@@ -107,6 +109,10 @@ type
     procedure UndoMenuItemClick(Sender: TObject);
     procedure BackMenuItemClick(Sender: TObject);
     procedure ForwardMenuItemClick(Sender: TObject);
+    procedure chrmosrTitleChange(Sender: TObject; const browser: ICefBrowser;
+      const title: ustring);
+    procedure chrmosrStatusMessage(Sender: TObject; const browser: ICefBrowser;
+      const value: ustring);
 
   protected
     FPopUpBitmap       : TBitmap;
@@ -171,6 +177,7 @@ var
 // <appname> Helper (GPU).app
 // <appname> Helper (Plugin).app
 // <appname> Helper (Renderer).app
+// <appname> Helper (Alerts).app
 
 // Delphi doesn't allow project names with spaces so you need to rename all the
 // helper bundles and the executable inside them. The "AppHelperRenamer" tool
@@ -975,6 +982,18 @@ begin
       FPopUpRect.Right  := rect.x + rect.width  - 1;
       FPopUpRect.Bottom := rect.y + rect.height - 1;
     end;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.chrmosrStatusMessage(Sender: TObject;
+  const browser: ICefBrowser; const value: ustring);
+begin
+  StatusLbl.Text := value;
+end;
+
+procedure TFMXExternalPumpBrowserFrm.chrmosrTitleChange(Sender: TObject;
+  const browser: ICefBrowser; const title: ustring);
+begin
+  Caption := 'FMX External Pump Browser - ' + title;
 end;
 
 procedure TFMXExternalPumpBrowserFrm.chrmosrTooltip(      Sender  : TObject;

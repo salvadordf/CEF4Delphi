@@ -28,15 +28,6 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser_helper_plugin.entitlements" Condition="'$(Config)'=='Debug'">
-            <RemoteDir>FMXExternalPumpBrowser_helper_plugin.app\..\</RemoteDir>
-            <RemoteName>FMXExternalPumpBrowser_helper_plugin.entitlements</RemoteName>
-            <DeployClass>ProjectOSXEntitlements</DeployClass>
-            <Operation>1</Operation>
-            <LocalCommand/>
-            <RemoteCommand/>
-            <Overwrite>True</Overwrite>
-        </DeployFile>
         <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser_helper_plugin" Condition="'$(Config)'=='Debug'">
             <RemoteDir>FMXExternalPumpBrowser_helper_plugin.app\Contents\MacOS\</RemoteDir>
             <RemoteName>FMXExternalPumpBrowser_helper_plugin</RemoteName>
@@ -47,6 +38,15 @@
             <Overwrite>True</Overwrite>
             <Required>True</Required>
         </DeployFile>
+        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser_helper_plugin.entitlements" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser_helper_plugin.app\..\</RemoteDir>
+            <RemoteName>FMXExternalPumpBrowser_helper_plugin.entitlements</RemoteName>
+            <DeployClass>ProjectOSXEntitlements</DeployClass>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
     </ItemGroup>
     <ItemGroup Condition="'$(Platform)'=='Win32'"/>
     <ItemGroup Condition="'$(Platform)'=='Android64'"/>
@@ -55,4 +55,5 @@
     <ItemGroup Condition="'$(Platform)'=='Win64'"/>
     <ItemGroup Condition="'$(Platform)'=='iOSDevice64'"/>
     <ItemGroup Condition="'$(Platform)'=='iOSSimARM64'"/>
+    <ItemGroup Condition="'$(Platform)'=='Win64x'"/>
 </Project>

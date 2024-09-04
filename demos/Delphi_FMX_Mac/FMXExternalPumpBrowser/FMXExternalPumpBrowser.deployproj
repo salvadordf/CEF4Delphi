@@ -10,10 +10,10 @@
         <DeviceId Condition="'$(Platform)'=='iOSSimARM64'"/>
     </PropertyGroup>
     <ItemGroup Condition="'$(Platform)'=='OSX64'">
-        <DeployFile Include="$(BDS)\bin\delphi_PROJECTICNS.icns" Condition="'$(Config)'=='Debug'">
-            <RemoteDir>FMXExternalPumpBrowser.app\Contents\Resources\</RemoteDir>
-            <RemoteName>FMXExternalPumpBrowser.icns</RemoteName>
-            <DeployClass>ProjectOSXResource</DeployClass>
+        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser.info.plist" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser.app\Contents\</RemoteDir>
+            <RemoteName>Info.plist</RemoteName>
+            <DeployClass>ProjectOSXInfoPList</DeployClass>
             <Operation>1</Operation>
             <LocalCommand/>
             <RemoteCommand/>
@@ -28,10 +28,10 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser.info.plist" Condition="'$(Config)'=='Debug'">
-            <RemoteDir>FMXExternalPumpBrowser.app\Contents\</RemoteDir>
-            <RemoteName>Info.plist</RemoteName>
-            <DeployClass>ProjectOSXInfoPList</DeployClass>
+        <DeployFile Include="$(BDS)\bin\delphi_PROJECTICNS.icns" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser.app\Contents\Resources\</RemoteDir>
+            <RemoteName>FMXExternalPumpBrowser.icns</RemoteName>
+            <DeployClass>ProjectOSXResource</DeployClass>
             <Operation>1</Operation>
             <LocalCommand/>
             <RemoteCommand/>
@@ -64,4 +64,5 @@
     <ItemGroup Condition="'$(Platform)'=='Win64'"/>
     <ItemGroup Condition="'$(Platform)'=='iOSDevice64'"/>
     <ItemGroup Condition="'$(Platform)'=='iOSSimARM64'"/>
+    <ItemGroup Condition="'$(Platform)'=='Win64x'"/>
 </Project>

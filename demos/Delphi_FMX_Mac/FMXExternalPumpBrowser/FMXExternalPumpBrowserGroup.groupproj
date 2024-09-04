@@ -15,6 +15,9 @@
         <Projects Include="FMXExternalPumpBrowser_helper_renderer.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="FMXExternalPumpBrowser_helper_alerts.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="FMXExternalPumpBrowser_helper.dproj">
             <Dependencies/>
         </Projects>
@@ -62,6 +65,15 @@
     <Target Name="FMXExternalPumpBrowser_helper_renderer:Make">
         <MSBuild Projects="FMXExternalPumpBrowser_helper_renderer.dproj" Targets="Make"/>
     </Target>
+    <Target Name="FMXExternalPumpBrowser_helper_alerts">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper_alerts.dproj"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper_alerts:Clean">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper_alerts.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FMXExternalPumpBrowser_helper_alerts:Make">
+        <MSBuild Projects="FMXExternalPumpBrowser_helper_alerts.dproj" Targets="Make"/>
+    </Target>
     <Target Name="FMXExternalPumpBrowser_helper">
         <MSBuild Projects="FMXExternalPumpBrowser_helper.dproj"/>
     </Target>
@@ -72,13 +84,13 @@
         <MSBuild Projects="FMXExternalPumpBrowser_helper.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="FMXExternalPumpBrowser;FMXExternalPumpBrowser_helper_gpu;FMXExternalPumpBrowser_helper_plugin;FMXExternalPumpBrowser_helper_renderer;FMXExternalPumpBrowser_helper"/>
+        <CallTarget Targets="FMXExternalPumpBrowser;FMXExternalPumpBrowser_helper_gpu;FMXExternalPumpBrowser_helper_plugin;FMXExternalPumpBrowser_helper_renderer;FMXExternalPumpBrowser_helper_alerts;FMXExternalPumpBrowser_helper"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="FMXExternalPumpBrowser:Clean;FMXExternalPumpBrowser_helper_gpu:Clean;FMXExternalPumpBrowser_helper_plugin:Clean;FMXExternalPumpBrowser_helper_renderer:Clean;FMXExternalPumpBrowser_helper:Clean"/>
+        <CallTarget Targets="FMXExternalPumpBrowser:Clean;FMXExternalPumpBrowser_helper_gpu:Clean;FMXExternalPumpBrowser_helper_plugin:Clean;FMXExternalPumpBrowser_helper_renderer:Clean;FMXExternalPumpBrowser_helper_alerts:Clean;FMXExternalPumpBrowser_helper:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="FMXExternalPumpBrowser:Make;FMXExternalPumpBrowser_helper_gpu:Make;FMXExternalPumpBrowser_helper_plugin:Make;FMXExternalPumpBrowser_helper_renderer:Make;FMXExternalPumpBrowser_helper:Make"/>
+        <CallTarget Targets="FMXExternalPumpBrowser:Make;FMXExternalPumpBrowser_helper_gpu:Make;FMXExternalPumpBrowser_helper_plugin:Make;FMXExternalPumpBrowser_helper_renderer:Make;FMXExternalPumpBrowser_helper_alerts:Make;FMXExternalPumpBrowser_helper:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

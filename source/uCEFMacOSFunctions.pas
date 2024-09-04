@@ -40,10 +40,12 @@ const
   PRJ_GPU_SUBFIX      = '_helper_gpu';
   PRJ_PLUGIN_SUBFIX   = '_helper_plugin';
   PRJ_RENDERER_SUBFIX = '_helper_renderer';
+  PRJ_ALERTS_SUBFIX   = '_helper_alerts';
   HELPER_SUBFIX       = ' Helper';
   GPU_SUBFIX          = ' Helper (GPU)';
   PLUGIN_SUBFIX       = ' Helper (Plugin)';
   RENDERER_SUBFIX     = ' Helper (Renderer)';
+  ALERTS_SUBFIX       = ' Helper (Alerts)';
 {$ENDIF}
 
 {$IFDEF MACOSX}
@@ -271,7 +273,13 @@ begin
               appNewSubfix := RENDERER_SUBFIX;
             end
            else
-            exit;
+            if appBundleName.EndsWith(PRJ_ALERTS_SUBFIX) then
+              begin
+                appOldSubfix := PRJ_ALERTS_SUBFIX;
+                appNewSubfix := ALERTS_SUBFIX;
+              end
+             else
+              exit;
 
     appBundlePath := TPath.GetDirectoryName(aHelperPrjPath);
     appExecPath   := aHelperPrjPath + TPath.DirectorySeparatorChar +
@@ -299,8 +307,9 @@ end;
 
 procedure CopyCEFHelpers(const aProjectName : string);
 const
-  projectSubfixes : array [0..3] of string = (PRJ_HELPER_SUBFIX, PRJ_GPU_SUBFIX, PRJ_PLUGIN_SUBFIX, PRJ_RENDERER_SUBFIX);
-  helperSubfixes  : array [0..3] of string = (HELPER_SUBFIX, GPU_SUBFIX, PLUGIN_SUBFIX, RENDERER_SUBFIX);
+  HELPER_COUNT = 5;
+  projectSubfixes : array [0..pred(HELPER_COUNT)] of string = (PRJ_HELPER_SUBFIX, PRJ_GPU_SUBFIX, PRJ_PLUGIN_SUBFIX, PRJ_RENDERER_SUBFIX, PRJ_ALERTS_SUBFIX);
+  helperSubfixes  : array [0..pred(HELPER_COUNT)] of string = (HELPER_SUBFIX, GPU_SUBFIX, PLUGIN_SUBFIX, RENDERER_SUBFIX, ALERTS_SUBFIX);
 var
   appParentPath, appFrameworksPath : string;
   srcBundlePath, dstBundlePath : string;
@@ -310,7 +319,7 @@ begin
   appParentPath     := TDirectory.GetParent(GetModulePath);
   appFrameworksPath := TDirectory.GetParent(ExtractFileDir(ParamStr(0))) + TPath.DirectorySeparatorChar + 'Frameworks';
 
-  for i := 0 to 3 do
+  for i := 0 to pred(HELPER_COUNT) do
     begin
       prjBundleName    := aProjectName + projectSubfixes[i] + '.app';
       helperBundleName := aProjectName + helperSubfixes[i]  + '.app';

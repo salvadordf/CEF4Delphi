@@ -19,19 +19,29 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser_helper.dSYM" Condition="'$(Config)'=='Debug'">
-            <RemoteDir>FMXExternalPumpBrowser_helper.app\..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF\</RemoteDir>
+        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser_helper" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser_helper.app\Contents\MacOS\</RemoteDir>
             <RemoteName>FMXExternalPumpBrowser_helper</RemoteName>
-            <DeployClass>ProjectOSXDebug</DeployClass>
+            <DeployClass>ProjectOutput</DeployClass>
             <Operation>1</Operation>
             <LocalCommand/>
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
+            <Required>True</Required>
         </DeployFile>
         <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser_helper.info.plist" Condition="'$(Config)'=='Debug'">
             <RemoteDir>FMXExternalPumpBrowser_helper.app\Contents\</RemoteDir>
             <RemoteName>Info.plist</RemoteName>
             <DeployClass>ProjectOSXInfoPList</DeployClass>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser_helper.dSYM" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser_helper.app\..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF\</RemoteDir>
+            <RemoteName>FMXExternalPumpBrowser_helper</RemoteName>
+            <DeployClass>ProjectOSXDebug</DeployClass>
             <Operation>1</Operation>
             <LocalCommand/>
             <RemoteCommand/>
@@ -46,16 +56,6 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser_helper" Condition="'$(Config)'=='Debug'">
-            <RemoteDir>FMXExternalPumpBrowser_helper.app\Contents\MacOS\</RemoteDir>
-            <RemoteName>FMXExternalPumpBrowser_helper</RemoteName>
-            <DeployClass>ProjectOutput</DeployClass>
-            <Operation>1</Operation>
-            <LocalCommand/>
-            <RemoteCommand/>
-            <Overwrite>True</Overwrite>
-            <Required>True</Required>
-        </DeployFile>
     </ItemGroup>
     <ItemGroup Condition="'$(Platform)'=='Win32'"/>
     <ItemGroup Condition="'$(Platform)'=='Android64'"/>
@@ -64,4 +64,5 @@
     <ItemGroup Condition="'$(Platform)'=='Win64'"/>
     <ItemGroup Condition="'$(Platform)'=='iOSDevice64'"/>
     <ItemGroup Condition="'$(Platform)'=='iOSSimARM64'"/>
+    <ItemGroup Condition="'$(Platform)'=='Win64x'"/>
 </Project>

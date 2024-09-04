@@ -25,7 +25,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     Size.Width = 800.000000000000000000
     Size.Height = 33.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 1
+    TabOrder = 2
     object Layout1: TLayout
       Align = Right
       Padding.Left = 5.000000000000000000
@@ -105,7 +105,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
     TabOrder = 0
     CanFocus = True
     Size.Width = 800.000000000000000000
-    Size.Height = 600.000000000000000000
+    Size.Height = 578.000000000000000000
     Size.PlatformDefault = False
     OnEnter = Panel1Enter
     OnExit = Panel1Exit
@@ -185,9 +185,29 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
       OnClick = ForwardMenuItemClick
     end
   end
+  object StatusBar: TStatusBar
+    Padding.Left = 5.000000000000000000
+    Padding.Right = 5.000000000000000000
+    Position.Y = 611.000000000000000000
+    ShowSizeGrip = False
+    Size.Width = 800.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object StatusLbl: TLabel
+      Align = Client
+      Size.Width = 790.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Trimming = None
+      TabOrder = 0
+    end
+  end
   object chrmosr: TFMXChromium
     OnBeforeContextMenu = chrmosrBeforeContextMenu
+    OnTitleChange = chrmosrTitleChange
     OnTooltip = chrmosrTooltip
+    OnStatusMessage = chrmosrStatusMessage
     OnCursorChange = chrmosrCursorChange
     OnJsdialog = chrmosrJsdialog
     OnBeforePopup = chrmosrBeforePopup

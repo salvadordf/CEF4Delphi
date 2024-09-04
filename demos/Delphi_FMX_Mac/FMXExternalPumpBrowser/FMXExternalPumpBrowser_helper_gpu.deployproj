@@ -10,29 +10,10 @@
         <DeviceId Condition="'$(Platform)'=='iOSSimARM64'"/>
     </PropertyGroup>
     <ItemGroup Condition="'$(Platform)'=='OSX64'">
-        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser_helper_gpu" Condition="'$(Config)'=='Debug'">
-            <RemoteDir>FMXExternalPumpBrowser_helper_gpu.app\Contents\MacOS\</RemoteDir>
-            <RemoteName>FMXExternalPumpBrowser_helper_gpu</RemoteName>
-            <DeployClass>ProjectOutput</DeployClass>
-            <Operation>1</Operation>
-            <LocalCommand/>
-            <RemoteCommand/>
-            <Overwrite>True</Overwrite>
-            <Required>True</Required>
-        </DeployFile>
         <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser_helper_gpu.dSYM" Condition="'$(Config)'=='Debug'">
             <RemoteDir>FMXExternalPumpBrowser_helper_gpu.app\..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF\</RemoteDir>
             <RemoteName>FMXExternalPumpBrowser_helper_gpu</RemoteName>
             <DeployClass>ProjectOSXDebug</DeployClass>
-            <Operation>1</Operation>
-            <LocalCommand/>
-            <RemoteCommand/>
-            <Overwrite>True</Overwrite>
-        </DeployFile>
-        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser_helper_gpu.info.plist" Condition="'$(Config)'=='Debug'">
-            <RemoteDir>FMXExternalPumpBrowser_helper_gpu.app\Contents\</RemoteDir>
-            <RemoteName>Info.plist</RemoteName>
-            <DeployClass>ProjectOSXInfoPList</DeployClass>
             <Operation>1</Operation>
             <LocalCommand/>
             <RemoteCommand/>
@@ -47,6 +28,25 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
+        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser_helper_gpu" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser_helper_gpu.app\Contents\MacOS\</RemoteDir>
+            <RemoteName>FMXExternalPumpBrowser_helper_gpu</RemoteName>
+            <DeployClass>ProjectOutput</DeployClass>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="..\..\..\bin\FMXExternalPumpBrowser_helper_gpu.info.plist" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>FMXExternalPumpBrowser_helper_gpu.app\Contents\</RemoteDir>
+            <RemoteName>Info.plist</RemoteName>
+            <DeployClass>ProjectOSXInfoPList</DeployClass>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
     </ItemGroup>
     <ItemGroup Condition="'$(Platform)'=='Win32'"/>
     <ItemGroup Condition="'$(Platform)'=='Android64'"/>
@@ -55,4 +55,5 @@
     <ItemGroup Condition="'$(Platform)'=='Win64'"/>
     <ItemGroup Condition="'$(Platform)'=='iOSDevice64'"/>
     <ItemGroup Condition="'$(Platform)'=='iOSSimARM64'"/>
+    <ItemGroup Condition="'$(Platform)'=='Win64x'"/>
 </Project>
