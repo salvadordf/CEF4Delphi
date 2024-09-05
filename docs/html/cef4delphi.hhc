@@ -5998,6 +5998,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FHSTSPolicyBypassList">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FCredentialsService">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FCredentialsService">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOldBrowserCompWndPrc">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOldBrowserCompWndPrc">
 </object>
@@ -7006,6 +7010,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="HSTSPolicyBypassList">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#HSTSPolicyBypassList">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CredentialsService">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#CredentialsService">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnTextResultAvailable">
@@ -92504,6 +92512,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FComponentID">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FCredentialsService">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FCredentialsService">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FCustomHeaderName">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FCustomHeaderName">
 </object>
@@ -93424,6 +93436,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ChromeColorSchemeVariant">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#ChromeColorSchemeVariant">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CredentialsService">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#CredentialsService">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CustomHeaderName">

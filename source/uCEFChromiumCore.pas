@@ -116,6 +116,8 @@ type
       FDownloadBubble           : TCefState;
       FHTTPSUpgrade             : TCefState;
       FHSTSPolicyBypassList     : ustring;
+      FCredentialsService       : TCefState;
+
       {$IFDEF LINUX}
       FXDisplay                 : PXDisplay;
       {$ENDIF}
@@ -2104,6 +2106,10 @@ type
       /// List of comma-delimited  single-label hostnames that will skip the check to possibly upgrade from http to https.
       /// </summary>
       property HSTSPolicyBypassList           : ustring                      read FHSTSPolicyBypassList        write FHSTSPolicyBypassList;
+      /// <summary>
+      /// This service shows a dialog to save the usernames and passwords in Chrome style.
+      /// </summary>
+      property CredentialsService             : TCefState                    read FCredentialsService          write FCredentialsService;
 
     published
       /// <summary>
@@ -3972,6 +3978,7 @@ begin
   FDownloadBubble          := STATE_DEFAULT;
   FHTTPSUpgrade            := STATE_DEFAULT;
   FHSTSPolicyBypassList    := '';
+  FCredentialsService      := STATE_DEFAULT;
   {$IFDEF LINUX}
   FXDisplay                := nil;
   {$ENDIF}
@@ -7101,6 +7108,9 @@ begin
     UpdatePreference(aBrowser, 'https_upgrades.policy.upgrades_enabled', (FHTTPSUpgrade = STATE_ENABLED));
 
   UpdateStringListPref(aBrowser, 'hsts.policy.upgrade_bypass_list', FHSTSPolicyBypassList);
+
+  if (FCredentialsService <> STATE_DEFAULT) then
+    UpdatePreference(aBrowser, 'credentials_enable_service', (FCredentialsService = STATE_ENABLED));
 
   if assigned(FOnPrefsUpdated) then
     FOnPrefsUpdated(self);
