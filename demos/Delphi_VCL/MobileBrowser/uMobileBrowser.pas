@@ -127,6 +127,8 @@ begin
   GlobalCEFApp.cache                      := 'cache';
   GlobalCEFApp.EnablePrintPreview         := True;
   GlobalCEFApp.EnableGPU                  := True;
+  // Enable this line to set the user agent. This is needed for https://abrahamjuliot.github.io/creepjs/
+  //GlobalCEFApp.UserAgent                  := 'Mozilla/5.0 (Linux; Android 11; M2102K1G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Mobile Safari/537.36';
   {$IFDEF DEBUG}
   GlobalCEFApp.LogFile                    := 'debug.log';
   GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;

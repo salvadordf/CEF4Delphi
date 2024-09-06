@@ -453,7 +453,10 @@ object Form1: TForm1
           'https://www.leaktest.io/'
           'https://coveryourtracks.eff.org/'
           'https://ipleak.com/full-report/'
-          'https://xsinator.com/testing.html')
+          'https://xsinator.com/testing.html'
+          'https://abrahamjuliot.github.io/creepjs/')
+        ExplicitLeft = -3
+        ExplicitTop = 3
       end
     end
     object CEFWindowParent1: TCEFWindowParent
