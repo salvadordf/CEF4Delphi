@@ -55,3 +55,9 @@ cp -r "$SRC" "$DEST/Contents/Frameworks/$DESTAPP Helper$SUB.app"
 mv "$DEST/Contents/Frameworks/$DESTAPP Helper$SUB.app/Contents/MacOS/$SRCAPP" "$DEST/Contents/Frameworks/$DESTAPP Helper$SUB.app/Contents/MacOS/$DESTAPP Helper$SUB"
 sed -i '' "s/$SRCAPP/$DESTAPP Helper$SUB/g" "$DEST/Contents/Frameworks/$DESTAPP Helper$SUB.app/Contents/Info.plist"
 
+SUB=" (Alerts)"
+rm -rf "$DEST/Contents/Frameworks/$DESTAPP Helper$SUB.app"
+cp -r "$SRC" "$DEST/Contents/Frameworks/$DESTAPP Helper$SUB.app"
+mv "$DEST/Contents/Frameworks/$DESTAPP Helper$SUB.app/Contents/MacOS/$SRCAPP" "$DEST/Contents/Frameworks/$DESTAPP Helper$SUB.app/Contents/MacOS/$DESTAPP Helper$SUB"
+sed -i '' "s/$SRCAPP/$DESTAPP Helper$SUB/g" "$DEST/Contents/Frameworks/$DESTAPP Helper$SUB.app/Contents/Info.plist"
+
