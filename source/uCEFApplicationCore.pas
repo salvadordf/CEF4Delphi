@@ -384,6 +384,10 @@ type
       function  CheckCEFDLL : boolean; virtual;
       function  CheckWindowsVersion: boolean; virtual;
       {$ENDIF}
+      {$IFDEF MACOSX}
+      function  CheckMacOSVersion : boolean; virtual;
+      {$ENDIF}
+      function  CheckOSVersion: boolean; virtual;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       function  ParseProcessType : TCefProcessType;
       procedure AddCustomCommandLineSwitches(var aKeys, aValues : TStringList); virtual;
@@ -1802,7 +1806,7 @@ uses
     System.Math, System.IOUtils, System.SysUtils,
     {$IFDEF MSWINDOWS}WinApi.TlHelp32, WinApi.PSAPI,{$ENDIF}
     {$IFDEF LINUX}{$IFDEF FMX}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
-    {$IFDEF MACOS}Posix.Stdio, uCEFMacOSFunctions,{$ENDIF}
+    {$IFDEF MACOS}Posix.Stdio,{$ENDIF}
   {$ELSE}
     Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
     {$IFDEF FPC}
@@ -1812,6 +1816,7 @@ uses
       TlHelp32, {$IFDEF MSWINDOWS}PSAPI,{$ENDIF}
     {$ENDIF}
   {$ENDIF}
+  {$IFDEF MACOSX}uCEFMacOSFunctions,{$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
   uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp, uCEFCompletionCallback,
   uCEFWaitableEvent;
@@ -2590,11 +2595,44 @@ begin
 end;
 {$ENDIF}
 
+{$IFDEF MACOSX}
+function TCefApplicationCore.CheckMacOSVersion : boolean;
+begin
+  // Chromium crashes with the compatibility mode and old OS versions
+  // https://source.chromium.org/chromium/chromium/src/+/main:base/mac/mac_util.mm;drc=6166dba74ab72a84a6c7c575cacb438e6bfb2c66;l=338
+  // https://support.google.com/chrome/a/answer/7100626?hl=en
+  if CheckRealMacOSVersion(11, 0) then
+    Result := True
+   else
+    begin
+      Result            := False;
+      FStatus           := asErrorWindowsVersion;
+      FLastErrorMessage := 'Unsupported macOS version !' +
+                           CRLF + CRLF +
+                           'Chromium requires macOS 11.0 or later.';
+      ShowErrorMessageDlg(FLastErrorMessage);
+    end;
+end;
+{$ENDIF}
+
+function TCefApplicationCore.CheckOSVersion: boolean;
+begin
+  {$IFDEF MSWINDOWS}
+  Result := CheckWindowsVersion;
+  {$ELSE}
+    {$IFDEF MACOSX}
+    Result := CheckMacOSVersion;
+    {$ELSE}
+    Result := True;  // Linux
+    {$ENDIF}
+  {$ENDIF}
+end;
+
 function TCefApplicationCore.CheckCEFLibrary : boolean;
 var
   TempOldDir : string;
 begin
-  if not(FCheckCEFFiles) or (FProcessType <> ptBrowser) then
+  if (FProcessType <> ptBrowser) then
     begin
       Result := True;
       exit;
@@ -2606,9 +2644,9 @@ begin
       chdir(GetModulePath);
     end;
 
-  Result := CheckCEFResources;
+  Result := (not(FCheckCEFFiles) or CheckCEFResources) and CheckOSVersion;
   {$IFDEF MSWINDOWS}
-  Result := Result and CheckWindowsVersion and CheckCEFDLL;
+  Result := Result and (not(FCheckCEFFiles) or CheckCEFDLL);
   {$ENDIF}
 
   if FSetCurrentDir then chdir(TempOldDir);

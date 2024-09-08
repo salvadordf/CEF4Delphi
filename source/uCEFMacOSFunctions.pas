@@ -12,16 +12,20 @@ unit uCEFMacOSFunctions;
 interface
 
 uses
-  System.UITypes,
   {$IFDEF MACOS}
-  FMX.Helpers.Mac, System.Messaging, Macapi.CoreFoundation, Macapi.Foundation,
+  System.UITypes, FMX.Helpers.Mac, System.Messaging, Macapi.CoreFoundation, Macapi.Foundation,
+  {$ENDIF}  
+  {$IFDEF DARWIN}
+  SysCtl, SysUtils, Unix,
   {$ENDIF}
   uCEFMacOSConstants;
 
 {$IFDEF MACOSX}
-function  KeyToMacOSKeyCode(aKey : Word): integer;
+function  GetSysCtlValueByName(const aName: AnsiString) : string;
+function  CheckRealMacOSVersion(aMajor, aMinor: integer): boolean;
 {$ENDIF}
-{$IFDEF MACOS}
+{$IFDEF MACOS}   
+function  KeyToMacOSKeyCode(aKey : Word): integer;
 procedure CopyCEFFramework;
 procedure CopyCEFHelpers(const aProjectName : string);
 procedure ShowMessageCF(const aHeading, aMessage : string; const aTimeoutInSecs : double = 0);
@@ -33,7 +37,7 @@ implementation
 {$IFDEF MACOS}
 uses
   System.SysUtils, System.Types, System.IOUtils, Posix.Stdio, FMX.Types,
-  uCEFMiscFunctions;
+  Posix.SysSysctl, uCEFMiscFunctions;
 
 const
   PRJ_HELPER_SUBFIX   = '_helper';
@@ -49,6 +53,93 @@ const
 {$ENDIF}
 
 {$IFDEF MACOSX}
+function GetSysCtlValueByName(const aName: AnsiString) : string;
+{$IFDEF MACOS}
+var
+  Buffer: TArray<Byte>;
+  BufferLength: LongWord;
+{$ENDIF}
+{$IFDEF DARWIN}
+var
+  Buffer : PChar;
+  BufferLength : size_t;
+{$ENDIF}
+begin
+  {$IFDEF MACOS}
+  if (SysCtlByName(MarshaledAString(aName), nil, @BufferLength, nil, 0) = 0) and (BufferLength > 0) then
+    begin
+      SetLength(Buffer, BufferLength);
+      try
+        if (SysCtlByName(MarshaledAString(aName), @Buffer[0], @BufferLength, nil, 0) = 0) then
+          Result := string(MarshaledAString(@Buffer[0]));
+      finally
+        SetLength(Buffer, 0);
+      end;
+    end;
+  {$ENDIF}
+  {$IFDEF DARWIN}
+  if (fpSysCtlByName(PChar(aName), nil, @BufferLength, nil, 0) = 0) and (BufferLength > 0) then
+    begin
+      GetMem(Buffer, BufferLength);
+      try
+        if (fpSysCtlByName(PChar(aName), Buffer, @BufferLength, nil, 0) = 0) then
+          Result := Buffer;
+      finally
+        FreeMem(Buffer);
+      end;
+    end;
+  {$ENDIF}
+end;
+
+function CheckRealMacOSVersion(aMajor, aMinor: integer): boolean;
+var
+  TempValue : string;
+  TempMajor, TempMinor, i : integer;
+begin
+  TempMajor := 0;
+  TempMinor := 0;
+  TempValue := trim(GetSysCtlValueByName('kern.osproductversion'));
+
+  if (length(TempValue) > 0) then
+    begin
+      i := pos('.', TempValue);
+      if (i > 0) then
+        begin
+          TempMajor := StrToIntDef(copy(TempValue, 1, pred(i)), 0);
+          TempValue := copy(TempValue, succ(i), length(TempValue));
+        end
+       else
+        begin
+          i := pos(' ', TempValue);
+          if (i > 0) then
+            begin
+              TempMajor := StrToIntDef(copy(TempValue, 1, pred(i)), 0);
+              TempValue := copy(TempValue, succ(i), length(TempValue));
+            end;
+        end;
+
+      if (length(TempValue) > 0) then
+        begin
+          i := pos('.', TempValue);
+          if (i > 0) then
+            TempMinor := StrToIntDef(copy(TempValue, 1, pred(i)), 0)
+           else
+            begin
+              i := pos(' ', TempValue);
+              if (i > 0) then
+                TempMinor := StrToIntDef(copy(TempValue, 1, pred(i)), 0)
+               else
+                TempMinor := StrToIntDef(TempValue, 0);
+            end;
+        end;
+    end;
+
+  Result := (TempMajor > aMajor) or
+            ((TempMajor = aMajor) and (TempMinor >= aMinor));
+end;
+{$ENDIF}
+
+{$IFDEF MACOS}
 // Key Code translation following the information found in these documents :
 // https://developer.apple.com/library/archive/documentation/mac/pdf/MacintoshToolboxEssentials.pdf
 // https://eastmanreference.com/complete-list-of-applescript-key-codes
@@ -178,9 +269,7 @@ begin
     else                 Result := 0;
   end;
 end;
-{$ENDIF}
 
-{$IFDEF MACOS}
 procedure CopyAllFiles(const aSrcPath, aDstPath: string);
 var
   TempDirectories, TempFiles : TStringDynArray;
