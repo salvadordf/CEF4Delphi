@@ -29,8 +29,8 @@ uses
 
 begin
   RequireDerivedFormResource:=True;
-  Application.Title := 'External Pump Browser';
-  Application.Scaled := True;
+  Application.Title:='External Pump Browser';
+  Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TForm1, Form1);
   Application.Run;

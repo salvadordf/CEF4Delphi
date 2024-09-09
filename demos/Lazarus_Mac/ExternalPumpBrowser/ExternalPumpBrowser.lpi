@@ -64,6 +64,9 @@
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
+      <Debugging>
+        <DebugInfoType Value="dsDwarf3"/>
+      </Debugging>
       <Options>
         <Win32>
           <GraphicApplication Value="True"/>
@@ -71,7 +74,8 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-dUseCthreads"/>
+      <CustomOptions Value="-WM11.0
+-dUseCthreads"/>
     </Other>
   </CompilerOptions>
   <Debugging>

@@ -27,6 +27,11 @@ begin
   GlobalCEFApp.InitLibLocationFromArgs;
   {$ENDIF}
 
+  GlobalCEFApp.UseMockKeyChain := True;
+  //GlobalCEFApp.EnableGPU := False;
+  //GlobalCEFApp.LogFile     := 'debug.log';
+  //GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
+
   GlobalCEFApp.StartSubProcess;
   GlobalCEFApp.Free;
   GlobalCEFApp := nil;

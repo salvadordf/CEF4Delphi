@@ -79,5 +79,8 @@
         </Win32>
       </Options>
     </Linking>
+    <Other>
+      <CustomOptions Value="-WM11.0"/>
+    </Other>
   </CompilerOptions>
 </CONFIG>

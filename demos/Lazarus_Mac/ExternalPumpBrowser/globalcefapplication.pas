@@ -6,7 +6,7 @@ unit GlobalCefApplication;
 interface
 
 uses
-  uCEFApplication, uCEFWorkScheduler;
+  uCEFApplication, uCEFWorkScheduler, uCEFConstants;
 
 procedure CreateGlobalCEFApp;
 
@@ -36,12 +36,11 @@ begin
   (* Enable the below to prevent being asked for permission to access "Chromium Safe Storage"
      If set to true, Cookies will not be encrypted.
   *)
-  //GlobalCEFApp.UseMockKeyChain := True;
+  GlobalCEFApp.UseMockKeyChain := True;
+  //GlobalCEFApp.EnableGPU := False;
+  //GlobalCEFApp.LogFile     := 'debug.log';
+  //GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
 
-  {
-  GlobalCEFApp.LogFile     := 'cef.log';
-  GlobalCEFApp.LogSeverity := LOGSEVERITY_VERBOSE;
-  }
 end;
 
 end.
