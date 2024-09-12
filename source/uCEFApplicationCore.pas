@@ -3806,9 +3806,7 @@ end;
 function TCefApplicationCore.LoadCEFlibrary : boolean;
 var
   TempOldDir : string;
-  {$IFDEF MSWINDOWS}
-  TempError : DWORD;
-  {$ENDIF}
+  TempError  : {$IFDEF MSWINDOWS}DWORD;{$ELSE}Integer;{$ENDIF}
 begin
   Result := False;
 
@@ -3847,7 +3845,14 @@ begin
                            'Error code : 0x' + inttohex(TempError, 8) + CRLF +
                            SysErrorMessage(TempError);
       {$ELSE}
-      FLastErrorMessage := 'Error loading ' + LIBCEF_DLL;
+        {$IFDEF FPC}
+        TempError         := GetLastOSError;
+        FLastErrorMessage := 'Error loading ' + LIBCEF_DLL + CRLF + CRLF +
+                             'Error code : 0x' + inttohex(TempError, 8) + CRLF +
+                             UTF8Decode(GetLoadErrorStr);
+        {$ELSE}
+        FLastErrorMessage := 'Error loading ' + LIBCEF_DLL;
+        {$ENDIF}
       {$ENDIF}
 
       ShowErrorMessageDlg(FLastErrorMessage);
