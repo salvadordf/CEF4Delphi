@@ -117,6 +117,7 @@ type
       FHTTPSUpgrade             : TCefState;
       FHSTSPolicyBypassList     : ustring;
       FCredentialsService       : TCefState;
+      FTryingToCloseBrowser     : boolean;
 
       {$IFDEF LINUX}
       FXDisplay                 : PXDisplay;
@@ -694,6 +695,7 @@ type
       procedure doSetAudioMuted(aValue : boolean); virtual;
       procedure doToggleAudioMuted; virtual;
       procedure doEnableFocus; virtual;
+      function  doTryCloseBrowser : boolean; virtual;
 
       function  MustCreateAudioHandler : boolean; virtual;
       function  MustCreateCommandHandler : boolean; virtual;
@@ -1741,7 +1743,7 @@ type
       /// <remarks>
       /// <para>This property can only be read on the CEF UI thread.</para>
       /// </remarks>
-      property RuntimeStyle                   : TCefRuntimeStyle             read GetRuntimeStyle              write SetRuntimeStyle;
+      property  RuntimeStyle                   : TCefRuntimeStyle             read GetRuntimeStyle              write SetRuntimeStyle;
       /// <summary>
       /// Returns a ICefRequestContext instance used by the selected browser.
       /// </summary>
@@ -3979,6 +3981,7 @@ begin
   FHTTPSUpgrade            := STATE_DEFAULT;
   FHSTSPolicyBypassList    := '';
   FCredentialsService      := STATE_DEFAULT;
+  FTryingToCloseBrowser    := False;
   {$IFDEF LINUX}
   FXDisplay                := nil;
   {$ENDIF}
@@ -4867,7 +4870,12 @@ end;
 procedure TChromiumCore.CloseBrowser(aForceClose : boolean);
 begin
   if Initialized then
-    Browser.Host.CloseBrowser(aForceClose);
+    begin
+      if (RuntimeStyle <> CEF_RUNTIME_STYLE_ALLOY) then
+        SetBrowserIsClosing(browser.Identifier);
+
+      Browser.Host.CloseBrowser(aForceClose);
+    end;
 end;
 
 procedure TChromiumCore.CloseAllBrowsers;
@@ -4882,9 +4890,26 @@ begin
 end;
 
 function TChromiumCore.TryCloseBrowser : boolean;
+var
+  TempTask : ICefTask;
 begin
   if Initialized then
-    Result := Browser.Host.TryCloseBrowser
+    begin
+      if FTryingToCloseBrowser then
+        Result := False
+       else
+        if CefCurrentlyOn(TID_UI) then
+          Result := doTryCloseBrowser
+         else
+          try
+            Result := False;
+            FTryingToCloseBrowser := True;
+            TempTask := TCefTryCloseBrowserTask.Create(self);
+            CefPostTask(TID_UI, TempTask);
+          finally
+            TempTask := nil;
+          end;
+    end
    else
     Result := True;
 end;
@@ -5196,7 +5221,8 @@ begin
   if Initialized then
     begin
       TempFrame := Browser.MainFrame;
-      if (TempFrame <> nil) and TempFrame.IsValid then TempFrame.LoadRequest(aRequest);
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.LoadRequest(aRequest);
     end;
 end;
 
@@ -5692,7 +5718,8 @@ begin
   if Initialized then
     begin
       TempFrame := Browser.MainFrame;
-      if (TempFrame <> nil) and TempFrame.IsValid then Result := TempFrame.URL;
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        Result := TempFrame.URL;
     end;
 end;
 
@@ -7695,6 +7722,16 @@ procedure TChromiumCore.doToggleAudioMuted;
 begin
   if Initialized then
     AudioMuted := not(AudioMuted);
+end;
+
+function TChromiumCore.doTryCloseBrowser: boolean;
+begin
+  if Initialized then
+    Result := Browser.Host.TryCloseBrowser
+   else
+    Result := True;
+
+  FTryingToCloseBrowser := False;
 end;
 
 procedure TChromiumCore.doEnableFocus;

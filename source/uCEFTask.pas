@@ -197,6 +197,11 @@ type
       procedure Execute; override;
   end;
 
+  TCefTryCloseBrowserTask = class(TCefChromiumTask)
+    protected
+      procedure Execute; override;
+  end;
+
 implementation
 
 uses
@@ -671,6 +676,24 @@ begin
     except
       on e : exception do
         if CustomExceptionHandler('TCefEnableFocusTask.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+
+// TCefTryCloseBrowserTask
+
+procedure TCefTryCloseBrowserTask.Execute;
+begin
+  try
+    try
+      if CanExecute then
+        IChromiumEvents(FEvents).doTryCloseBrowser;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefTryCloseBrowserTask.Execute', e) then raise;
     end;
   finally
     FEvents := nil;

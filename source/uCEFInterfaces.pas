@@ -507,6 +507,7 @@ type
     procedure doSetAudioMuted(aValue : boolean);
     procedure doToggleAudioMuted;
     procedure doEnableFocus;
+    function  doTryCloseBrowser : boolean;
     function  MustCreateAudioHandler : boolean;
     function  MustCreateCommandHandler : boolean;
     function  MustCreateLoadHandler : boolean;
