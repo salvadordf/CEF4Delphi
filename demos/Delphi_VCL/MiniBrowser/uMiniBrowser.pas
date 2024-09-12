@@ -175,6 +175,7 @@ type
     procedure Chromium1FileDialog(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters, accept_extensions, accept_descriptions: TStrings; const callback: ICefFileDialogCallback; var Result: Boolean);
     procedure Chromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
     procedure Chromium1ResolvedHostAvailable(Sender: TObject; result: TCefErrorCode; const resolvedIps: TStrings);
+    procedure Chromium1ChromeCommand(Sender: TObject; const browser: ICefBrowser; command_id: Integer; disposition: TCefWindowOpenDisposition; var aResult: Boolean);
 
     procedure BackBtnClick(Sender: TObject);
     procedure ForwardBtnClick(Sender: TObject);
@@ -551,6 +552,14 @@ begin
   CefDebugLog('Certificate error code:' + inttostr(certError) +
               ' - URL:' + requestUrl, CEF_LOG_SEVERITY_ERROR);
   Result := False;
+end;
+
+procedure TMiniBrowserFrm.Chromium1ChromeCommand(Sender: TObject;
+  const browser: ICefBrowser; command_id: Integer;
+  disposition: TCefWindowOpenDisposition; var aResult: Boolean);
+begin
+  aResult := (command_id = IDC_HELP_PAGE_VIA_KEYBOARD) or // Block the new Chromium window created when the user presses F1 for help.
+             (command_id = IDC_FULLSCREEN);               // Block the "switch to full screen" command when the user presses F11.
 end;
 
 procedure TMiniBrowserFrm.Chromium1ConsoleMessage(Sender: TObject;

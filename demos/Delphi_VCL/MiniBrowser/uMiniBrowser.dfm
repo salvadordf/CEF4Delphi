@@ -312,6 +312,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnResourceResponse = Chromium1ResourceResponse
     OnFileDialog = Chromium1FileDialog
     OnDevToolsMethodResult = Chromium1DevToolsMethodResult
+    OnChromeCommand = Chromium1ChromeCommand
     OnRequestMediaAccessPermission = Chromium1RequestMediaAccessPermission
     Left = 32
     Top = 224

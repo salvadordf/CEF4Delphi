@@ -59,6 +59,7 @@ type
     OpenfilewithaDAT1: TMenuItem;
                                                                             
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
+    procedure Chromium1ChromeCommand(Sender: TObject; const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition; var aResult: boolean);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1GetPDFPaperSize(Sender: TObject; const browser: ICefBrowser; deviceUnitsPerInch: Integer; var aResult: TCefSize);
@@ -618,6 +619,14 @@ procedure TMiniBrowserFrm.Chromium1AfterCreated(Sender: TObject; const browser: 
 begin
   if Chromium1.IsSameBrowser(browser) then
     SendCompMessage(CEF_AFTERCREATED);
+end;
+
+procedure TMiniBrowserFrm.Chromium1ChromeCommand(Sender: TObject;
+  const browser: ICefBrowser; command_id: integer;
+  disposition: TCefWindowOpenDisposition; var aResult: boolean);
+begin
+  aResult := (command_id = IDC_HELP_PAGE_VIA_KEYBOARD) or // Block the new Chromium window created when the user presses F1 for help.
+             (command_id = IDC_FULLSCREEN);               // Block the "switch to full screen" command when the user presses F11.
 end;
 
 procedure TMiniBrowserFrm.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);

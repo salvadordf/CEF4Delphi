@@ -118,7 +118,7 @@ type
     N5: TMenuItem;
     Memoryinfo1: TMenuItem;
 
-    procedure FormShow(Sender: TObject);        
+    procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);      
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -186,6 +186,7 @@ type
     procedure Chromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
     procedure Chromium1CertificateError(Sender: TObject; const browser: ICefBrowser; certError: Integer; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback; out Result: Boolean);
     procedure Chromium1NavigationVisitorResultAvailable(Sender: TObject; const entry: ICefNavigationEntry; current: Boolean; index, total: Integer; var aResult: Boolean);
+    procedure Chromium1ChromeCommand(Sender: TObject; const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition; var aResult: boolean);
 
   protected
     FResponse           : TStringList;
@@ -1140,6 +1141,14 @@ begin
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
   if not(Chromium1.CreateBrowser(CEFWindowParent1, '')) then Timer1.Enabled := True;
+end;
+
+procedure TMiniBrowserFrm.Chromium1ChromeCommand(Sender: TObject;
+  const browser: ICefBrowser; command_id: integer;
+  disposition: TCefWindowOpenDisposition; var aResult: boolean);
+begin
+  aResult := (command_id = IDC_HELP_PAGE_VIA_KEYBOARD) or // Block the new Chromium window created when the user presses F1 for help.
+             (command_id = IDC_FULLSCREEN);               // Block the "switch to full screen" command when the user presses F11.
 end;
 
 procedure TMiniBrowserFrm.Chromium1CookiesFlushed(Sender: TObject);

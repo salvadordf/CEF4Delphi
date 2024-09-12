@@ -264,6 +264,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
+    OnChromeCommand = Chromium1ChromeCommand
     Left = 32
     Top = 224
   end

@@ -57,7 +57,8 @@ type
     procedure Chromium1LoadEnd(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: Integer);
     procedure Chromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
     procedure Chromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
-    procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
+    procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);     
+    procedure Chromium1ChromeCommand(Sender: TObject; const browser: ICefBrowser; command_id: Integer; disposition: TCefWindowOpenDisposition; var aResult: Boolean);
 
     procedure BackBtnClick(Sender: TObject);    
     procedure ConfigBtnClick(Sender: TObject);  
@@ -320,10 +321,7 @@ begin
       // if TChromium.MultiBrowserMode is enabled then we have to close all
       // stored browsers and not only the main browser.
       Chromium1.CloseAllBrowsers;
-
-      // Workaround for the missing TChormium.OnClose event when "Chrome runtime" is enabled.
-      if GlobalCEFApp.ChromeRuntime then
-        CEFWindowParent1.Free;
+      CEFWindowParent1.Free;
     end;
 end;
 
@@ -341,7 +339,6 @@ begin
   // used when you call any method or property in TChromium.
   Chromium1.MultiBrowserMode := True;
   Chromium1.DefaultURL       := MINIBROWSER_HOMEPAGE;
-  Chromium1.RuntimeStyle     := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TMiniBrowserFrm.FormShow(Sender: TObject);
@@ -410,6 +407,14 @@ begin
 
   if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then
     GlobalCEFApp.OsmodalLoop := False;
+end;
+
+procedure TMiniBrowserFrm.Chromium1ChromeCommand(Sender: TObject;
+  const browser: ICefBrowser; command_id: Integer;
+  disposition: TCefWindowOpenDisposition; var aResult: Boolean);
+begin
+  aResult := (command_id = IDC_HELP_PAGE_VIA_KEYBOARD) or // Block the new Chromium window created when the user presses F1 for help.
+             (command_id = IDC_FULLSCREEN);               // Block the "switch to full screen" command when the user presses F11.
 end;
 
 end.
