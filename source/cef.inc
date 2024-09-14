@@ -1,5 +1,5 @@
  // The complete list of compiler versions is here :
- // http://docwiki.embarcadero.com/RADStudio/Tokyo/en/Compiler_Versions
+ // https://docwiki.embarcadero.com/RADStudio/Athens/en/Compiler_Versions
 
 {$DEFINE DELPHI_VERSION_UNKNOW}
 
@@ -393,7 +393,7 @@
   {$DEFINE DELPHI28_UP}
 {$ENDIF}
 
-// Rad Studio 12.0 - Delphi Yukon
+// Rad Studio 12.0 - Delphi Athens
 {$IFDEF VER360}
   {$UNDEF DELPHI_VERSION_UNKNOW}
   {$DEFINE DELPHI5_UP}
