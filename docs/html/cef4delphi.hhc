@@ -2128,6 +2128,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#CheckWindowsVersion">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CheckOSVersion">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#CheckOSVersion">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="ShowErrorMessageDlg">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ShowErrorMessageDlg">
 </object>
@@ -6002,6 +6006,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FCredentialsService">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FTryingToCloseBrowser">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FTryingToCloseBrowser">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOldBrowserCompWndPrc">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOldBrowserCompWndPrc">
 </object>
@@ -8734,6 +8742,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doEnableFocus">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doTryCloseBrowser">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doTryCloseBrowser">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="MustCreateAudioHandler">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#MustCreateAudioHandler">
 </object>
@@ -11446,10 +11458,6 @@
 <param name="Local" value="uCEFConstants.html#ERR_SOCKET_IS_CONNECTED">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="ERR_BLOCKED_ENROLLMENT_CHECK_PENDING">
-<param name="Local" value="uCEFConstants.html#ERR_BLOCKED_ENROLLMENT_CHECK_PENDING">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="ERR_UPLOAD_STREAM_REWIND_NOT_SUPPORTED">
 <param name="Local" value="uCEFConstants.html#ERR_UPLOAD_STREAM_REWIND_NOT_SUPPORTED">
 </object>
@@ -11462,10 +11470,6 @@
 <param name="Local" value="uCEFConstants.html#ERR_BLOCKED_BY_RESPONSE">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="ERR_BLOCKED_BY_XSS_AUDITOR">
-<param name="Local" value="uCEFConstants.html#ERR_BLOCKED_BY_XSS_AUDITOR">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="ERR_CLEARTEXT_NOT_PERMITTED">
 <param name="Local" value="uCEFConstants.html#ERR_CLEARTEXT_NOT_PERMITTED">
 </object>
@@ -11476,6 +11480,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_H2_OR_QUIC_REQUIRED">
 <param name="Local" value="uCEFConstants.html#ERR_H2_OR_QUIC_REQUIRED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_BLOCKED_BY_ORB">
+<param name="Local" value="uCEFConstants.html#ERR_BLOCKED_BY_ORB">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_NETWORK_ACCESS_REVOKED">
+<param name="Local" value="uCEFConstants.html#ERR_NETWORK_ACCESS_REVOKED">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_CONNECTION_CLOSED">
@@ -11540,10 +11552,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_PROXY_AUTH_UNSUPPORTED">
 <param name="Local" value="uCEFConstants.html#ERR_PROXY_AUTH_UNSUPPORTED">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="ERR_CERT_ERROR_IN_SSL_RENEGOTIATION">
-<param name="Local" value="uCEFConstants.html#ERR_CERT_ERROR_IN_SSL_RENEGOTIATION">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_BAD_SSL_CLIENT_AUTH_CERT">
@@ -12054,28 +12062,12 @@
 <param name="Local" value="uCEFConstants.html#ERR_SPDY_RST_STREAM_NO_ERROR_RECEIVED">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="ERR_SPDY_PUSHED_STREAM_NOT_AVAILABLE">
-<param name="Local" value="uCEFConstants.html#ERR_SPDY_PUSHED_STREAM_NOT_AVAILABLE">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="ERR_SPDY_CLAIMED_PUSHED_STREAM_RESET_BY_SERVER">
-<param name="Local" value="uCEFConstants.html#ERR_SPDY_CLAIMED_PUSHED_STREAM_RESET_BY_SERVER">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="ERR_TOO_MANY_RETRIES">
 <param name="Local" value="uCEFConstants.html#ERR_TOO_MANY_RETRIES">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_SPDY_STREAM_CLOSED">
 <param name="Local" value="uCEFConstants.html#ERR_SPDY_STREAM_CLOSED">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="ERR_SPDY_CLIENT_REFUSED_STREAM">
-<param name="Local" value="uCEFConstants.html#ERR_SPDY_CLIENT_REFUSED_STREAM">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="ERR_SPDY_PUSHED_RESPONSE_DOES_NOT_MATCH">
-<param name="Local" value="uCEFConstants.html#ERR_SPDY_PUSHED_RESPONSE_DOES_NOT_MATCH">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_HTTP_RESPONSE_CODE_FAILURE">
@@ -12088,6 +12080,34 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_QUIC_GOAWAY_REQUEST_CAN_BE_RETRIED">
 <param name="Local" value="uCEFConstants.html#ERR_QUIC_GOAWAY_REQUEST_CAN_BE_RETRIED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_TOO_MANY_ACCEPT_CH_RESTARTS">
+<param name="Local" value="uCEFConstants.html#ERR_TOO_MANY_ACCEPT_CH_RESTARTS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_INCONSISTENT_IP_ADDRESS_SPACE">
+<param name="Local" value="uCEFConstants.html#ERR_INCONSISTENT_IP_ADDRESS_SPACE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_POLICY">
+<param name="Local" value="uCEFConstants.html#ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_POLICY">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_CHECKS">
+<param name="Local" value="uCEFConstants.html#ERR_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_CHECKS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_ZSTD_WINDOW_SIZE_TOO_BIG">
+<param name="Local" value="uCEFConstants.html#ERR_ZSTD_WINDOW_SIZE_TOO_BIG">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_DICTIONARY_LOAD_FAILED">
+<param name="Local" value="uCEFConstants.html#ERR_DICTIONARY_LOAD_FAILED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_UNEXPECTED_CONTENT_DICTIONARY_HEADER">
+<param name="Local" value="uCEFConstants.html#ERR_UNEXPECTED_CONTENT_DICTIONARY_HEADER">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_CACHE_MISS">
@@ -12174,34 +12194,6 @@
 <param name="Local" value="uCEFConstants.html#ERR_TRUST_TOKEN_OPERATION_SUCCESS_WITHOUT_SENDING_REQUEST">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="ERR_FTP_FAILED">
-<param name="Local" value="uCEFConstants.html#ERR_FTP_FAILED">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="ERR_FTP_SERVICE_UNAVAILABLE">
-<param name="Local" value="uCEFConstants.html#ERR_FTP_SERVICE_UNAVAILABLE">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="ERR_FTP_TRANSFER_ABORTED">
-<param name="Local" value="uCEFConstants.html#ERR_FTP_TRANSFER_ABORTED">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="ERR_FTP_FILE_BUSY">
-<param name="Local" value="uCEFConstants.html#ERR_FTP_FILE_BUSY">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="ERR_FTP_SYNTAX_ERROR">
-<param name="Local" value="uCEFConstants.html#ERR_FTP_SYNTAX_ERROR">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="ERR_FTP_COMMAND_NOT_SUPPORTED">
-<param name="Local" value="uCEFConstants.html#ERR_FTP_COMMAND_NOT_SUPPORTED">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="ERR_FTP_BAD_COMMAND_SEQUENCE">
-<param name="Local" value="uCEFConstants.html#ERR_FTP_BAD_COMMAND_SEQUENCE">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="ERR_PKCS12_IMPORT_BAD_PASSWORD">
 <param name="Local" value="uCEFConstants.html#ERR_PKCS12_IMPORT_BAD_PASSWORD">
 </object>
@@ -12254,6 +12246,10 @@
 <param name="Local" value="uCEFConstants.html#ERR_CERT_DATABASE_CHANGED">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="ERR_CERT_VERIFIER_CHANGED">
+<param name="Local" value="uCEFConstants.html#ERR_CERT_VERIFIER_CHANGED">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="ERR_DNS_MALFORMED_RESPONSE">
 <param name="Local" value="uCEFConstants.html#ERR_DNS_MALFORMED_RESPONSE">
 </object>
@@ -12288,6 +12284,18 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_DNS_NAME_HTTPS_ONLY">
 <param name="Local" value="uCEFConstants.html#ERR_DNS_NAME_HTTPS_ONLY">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_DNS_REQUEST_CANCELLED">
+<param name="Local" value="uCEFConstants.html#ERR_DNS_REQUEST_CANCELLED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_DNS_NO_MATCHING_SUPPORTED_ALPN">
+<param name="Local" value="uCEFConstants.html#ERR_DNS_NO_MATCHING_SUPPORTED_ALPN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_DNS_SECURE_PROBE_RECORD_INVALID">
+<param name="Local" value="uCEFConstants.html#ERR_DNS_SECURE_PROBE_RECORD_INVALID">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="COMMAND_ID_FIRST_UNBOUNDED">
@@ -20580,6 +20588,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doEnableFocus">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doEnableFocus">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doTryCloseBrowser">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doTryCloseBrowser">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="MustCreateAudioHandler">
@@ -39224,6 +39236,22 @@
 <li><object type="text/sitemap">
 <param name="Name" value="Execute">
 <param name="Local" value="uCEFTask.TCefEnableFocusTask.html#Execute">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefTryCloseBrowserTask">
+<param name="Local" value="uCEFTask.TCefTryCloseBrowserTask.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFTask.TCefTryCloseBrowserTask.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Execute">
+<param name="Local" value="uCEFTask.TCefTryCloseBrowserTask.html#Execute">
 </object>
 </ul>
 </ul>
@@ -64558,6 +64586,10 @@
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doSavePreferences">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doTryCloseBrowser">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doTryCloseBrowser">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="GetComponentID">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#GetComponentID">
 </object>
@@ -67452,6 +67484,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CheckCEFResources">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#CheckCEFResources">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CheckOSVersion">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#CheckOSVersion">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CheckWindowsVersion">
@@ -86528,6 +86564,22 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="TCefTryCloseBrowserTask">
+<param name="Local" value="uCEFTask.TCefTryCloseBrowserTask.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFTask.TCefTryCloseBrowserTask.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Execute">
+<param name="Local" value="uCEFTask.TCefTryCloseBrowserTask.html#Execute">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="TCefUnresponsiveProcessCallback">
 <param name="Local" value="uCEFTypes.TCefUnresponsiveProcessCallback.html">
 </object>
@@ -93292,6 +93344,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FSpellChecking">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FTryingToCloseBrowser">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FTryingToCloseBrowser">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FUpdatePreferences">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FUpdatePreferences">
 </object>
@@ -94606,6 +94662,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doSavePreferences">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doSavePreferences">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doTryCloseBrowser">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doTryCloseBrowser">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ExecuteBrowserNavigationTask">

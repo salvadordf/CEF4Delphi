@@ -645,6 +645,7 @@ uCEFTask.TCefBrowserNavigationTask.html
 uCEFTask.TCefSetAudioMutedTask.html
 uCEFTask.TCefToggleAudioMutedTask.html
 uCEFTask.TCefEnableFocusTask.html
+uCEFTask.TCefTryCloseBrowserTask.html
 uCEFTaskManager.html
 uCEFTaskManager.TCefTaskManagerRef.html
 uCEFTaskRunner.html

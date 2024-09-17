@@ -632,6 +632,7 @@ uCEFTask.TCefBrowserNavigationTask.html
 uCEFTask.TCefSetAudioMutedTask.html
 uCEFTask.TCefToggleAudioMutedTask.html
 uCEFTask.TCefEnableFocusTask.html
+uCEFTask.TCefTryCloseBrowserTask.html
 uCEFTaskManager.html
 uCEFTaskManager.TCefTaskManagerRef.html
 uCEFTaskRunner.html
@@ -927,12 +928,12 @@ published.gif
 automated.gif
 pasdoc.css
 
-Compile time: 0 minutes, 16 seconds
-16,341	Topics
-139,301	Local links
-35	Internet links
+Compile time: 0 minutes, 15 seconds
+16,347	Topics
+139,361	Local links
+32	Internet links
 5	Graphics
 
 
-Created c:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\docs\cef4delphi.chm, 3,600,504 bytes
-Compression decreased file by 23,313,388 bytes.
+Created c:\Users\usuario\Documents\Embarcadero\Studio\Projects\CEF4Delphi\docs\cef4delphi.chm, 3,661,896 bytes
+Compression decreased file by 23,395,725 bytes.
