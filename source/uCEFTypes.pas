@@ -523,7 +523,7 @@ type
   ///   300-399 HTTP errors
   ///   400-499 Cache errors
   ///   500-599 ?
-  ///   600-699 FTP errors
+  ///   600-699 <Obsolete: FTP errors>
   ///   700-799 Certificate manager errors
   ///   800-899 DNS resolver errors
   /// </code>
