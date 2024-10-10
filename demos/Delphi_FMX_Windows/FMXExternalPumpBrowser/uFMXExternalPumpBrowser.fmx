@@ -102,6 +102,7 @@ object FMXExternalPumpBrowserFrm: TFMXExternalPumpBrowserFrm
   object Panel1: TFMXBufferPanel
     Align = Client
     TabOrder = 1
+    HighSpeedDrawing = False
     CanFocus = True
     Size.Width = 800.000000000000000000
     Size.Height = 600.000000000000000000

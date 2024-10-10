@@ -119,6 +119,7 @@ object BrowserFrame: TBrowserFrame
   object FMXBufferPanel1: TFMXBufferPanel
     Align = Client
     TabOrder = 5
+    HighSpeedDrawing = False
     CanFocus = True
     Size.Width = 998.000000000000000000
     Size.Height = 674.000000000000000000
