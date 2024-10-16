@@ -125,13 +125,10 @@ type
 
       {$IFDEF MSWINDOWS}
       FOldBrowserCompWndPrc   : TFNWndProc;
-      FOldWidgetCompWndPrc    : TFNWndProc;
       FOldRenderCompWndPrc    : TFNWndProc;
       FBrowserCompStub        : Pointer;
-      FWidgetCompStub         : Pointer;
       FRenderCompStub         : Pointer;
       FBrowserCompHWND        : THandle;
-      FWidgetCompHWND         : THandle;
       FRenderCompHWND         : THandle;
       {$ENDIF}
 
@@ -325,7 +322,6 @@ type
       FOnCanFocus                         : TNotifyEvent;
       {$IFDEF MSWINDOWS}
       FOnBrowserCompMsg                   : TOnCompMsgEvent;
-      FOnWidgetCompMsg                    : TOnCompMsgEvent;
       FOnRenderCompMsg                    : TOnCompMsgEvent;
       {$ENDIF}
 
@@ -490,7 +486,6 @@ type
       procedure RestoreCompWndProc(var aOldWnd: THandle; aNewWnd: THandle; var aProc: TFNWndProc);
       procedure CallOldCompWndProc(aProc: TFNWndProc; aWnd: THandle; var aMessage: TMessage);
       procedure BrowserCompWndProc(var aMessage: TMessage);
-      procedure WidgetCompWndProc(var aMessage: TMessage);
       procedure RenderCompWndProc(var aMessage: TMessage);
       procedure RestoreOldCompWndProc;
       function  CopyDCToBitmapStream(aSrcDC : HDC; const aSrcRect : TRect; const aStream : TStream) : boolean;
@@ -1824,10 +1819,6 @@ type
       /// <summary>
       /// Handle of one to the child controls created automatically by CEF to show the web contents.
       /// </summary>
-      property  WidgetHandle                  : THandle                      read FWidgetCompHWND;
-      /// <summary>
-      /// Handle of one to the child controls created automatically by CEF to show the web contents.
-      /// </summary>
       property  RenderHandle                  : THandle                      read FRenderCompHWND;
       {$ENDIF}
       /// <summary>
@@ -2199,10 +2190,6 @@ type
       /// Triggered for all messages sent to the child controls created by CEF to show the web contents.
       /// </summary>
       property  OnBrowserCompMsg                   : TOnCompMsgEvent                          read FOnBrowserCompMsg                   write FOnBrowserCompMsg;
-      /// <summary>
-      /// Triggered for all messages sent to the child controls created by CEF to show the web contents.
-      /// </summary>
-      property  OnWidgetCompMsg                    : TOnCompMsgEvent                          read FOnWidgetCompMsg                    write FOnWidgetCompMsg;
       /// <summary>
       /// Triggered for all messages sent to the child controls created by CEF to show the web contents.
       /// </summary>
@@ -3993,13 +3980,10 @@ begin
 
   {$IFDEF MSWINDOWS}
   FOldBrowserCompWndPrc   := nil;
-  FOldWidgetCompWndPrc    := nil;
   FOldRenderCompWndPrc    := nil;
   FBrowserCompStub        := nil;
-  FWidgetCompStub         := nil;
   FRenderCompStub         := nil;
   FBrowserCompHWND        := 0;
-  FWidgetCompHWND         := 0;
   FRenderCompHWND         := 0;
   {$ENDIF MSWINDOWS}
 
@@ -4581,7 +4565,6 @@ begin
 
   {$IFDEF MSWINDOWS}
   FOnBrowserCompMsg                   := nil;
-  FOnWidgetCompMsg                    := nil;
   FOnRenderCompMsg                    := nil;
   {$ENDIF}
 end;
@@ -8164,29 +8147,6 @@ begin
   end;
 end;
 
-procedure TChromiumCore.WidgetCompWndProc(var aMessage: TMessage);
-var
-  TempHandled : boolean;
-begin
-  try
-    TempHandled := False;
-
-    try
-      if assigned(FOnWidgetCompMsg) then
-        FOnWidgetCompMsg(self, aMessage, TempHandled);
-
-      if not(TempHandled) then
-        CallOldCompWndProc(FOldWidgetCompWndPrc, FWidgetCompHWND, aMessage);
-    finally
-      if aMessage.Msg = WM_DESTROY then
-        RestoreCompWndProc(FWidgetCompHWND, 0, FOldWidgetCompWndPrc);
-    end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TChromiumCore.WidgetCompWndProc', e) then raise;
-  end;
-end;
-
 procedure TChromiumCore.RenderCompWndProc(var aMessage: TMessage);
 var
   TempHandled : boolean;
@@ -8214,9 +8174,6 @@ procedure TChromiumCore.RestoreOldCompWndProc;
 begin
   RestoreCompWndProc(FBrowserCompHWND, 0, FOldBrowserCompWndPrc);
   FreeAndNilStub(FBrowserCompStub);
-
-  RestoreCompWndProc(FWidgetCompHWND, 0, FOldWidgetCompWndPrc);
-  FreeAndNilStub(FWidgetCompStub);
 
   RestoreCompWndProc(FRenderCompHWND, 0, FOldRenderCompWndPrc);
   FreeAndNilStub(FRenderCompStub);
@@ -9289,26 +9246,10 @@ begin
     FOnDocumentAvailableInMainFrame(Self, browser);
 end;
 
-{$IFDEF MSWINDOWS}
-function EnumProcOSRChromeWidgetWin0(hWnd: HWND; lParam: LPARAM): BOOL; stdcall;
-var
-  ClsName: array[0..256] of Char;
-begin
-  ClsName[GetClassName(hWnd, ClsName, 256)] := #0;
-  if StrComp(ClsName, 'Chrome_WidgetWin_0') = 0 then
-  begin
-    PHandle(lParam)^ := hWnd;
-    Result := False;
-  end
-  else
-    Result := True;
-end;
-{$ENDIF MSWINDOWS}
-
 procedure TChromiumCore.doOnRenderViewReady(const browser: ICefBrowser);
 {$IFDEF MSWINDOWS}
 var
-  OldBrowserCompHWND, OldWidgetCompHWND, OldRenderCompHWND: THandle;
+  OldBrowserCompHWND, OldRenderCompHWND: THandle;
 {$ENDIF}
 begin
   if (browser            <> nil) and
@@ -9317,42 +9258,17 @@ begin
     begin
       {$IFDEF MSWINDOWS}
       OldBrowserCompHWND := FBrowserCompHWND;
-      OldWidgetCompHWND  := FWidgetCompHWND;
       OldRenderCompHWND  := FRenderCompHWND;
       FBrowserCompHWND   := browser.Host.WindowHandle;
 
       if (FBrowserCompHWND <> 0) then
-        begin
-          FWidgetCompHWND := FindWindowEx(FBrowserCompHWND, 0, 'Chrome_WidgetWin_0', '');
-
-          if (FWidgetCompHWND = 0) and FIsOSR and CefCurrentlyOn(TID_UI) then
-            begin
-              // The WidgetCompHWND window doesn't have a HwndParent (Owner). If we are in OSR mode this
-              // causes popup menus that are opened by CEF to stay open if the user clicks somewhere else.
-              // With this code we search for the Widget window in the UI Thread's window list and set
-              // the Browser window as its HwndParent. This works around the bug.
-              EnumThreadWindows(GetCurrentThreadId, @EnumProcOSRChromeWidgetWin0, NativeInt(@FWidgetCompHWND));
-
-              if (FWidgetCompHWND <> 0) then
-                SetWindowLongPtr(FWidgetCompHWND, GWLP_HWNDPARENT, NativeInt(FBrowserCompHWND));
-            end;
-        end;
-
-      if (FWidgetCompHWND <> 0) then
-        FRenderCompHWND := FindWindowEx(FWidgetCompHWND, 0, 'Chrome_RenderWidgetHostHWND', 'Chrome Legacy Window');
+        FRenderCompHWND := FindWindowEx(FBrowserCompHWND, 0, 'Chrome_RenderWidgetHostHWND', 'Chrome Legacy Window');
 
       RestoreCompWndProc(OldBrowserCompHWND, FBrowserCompHWND, FOldBrowserCompWndPrc);
       if assigned(FOnBrowserCompMsg) and (FBrowserCompHWND <> 0) and (FOldBrowserCompWndPrc = nil) then
         begin
           CreateStub({$IFDEF FPC}@{$ENDIF}BrowserCompWndProc, FBrowserCompStub);
           FOldBrowserCompWndPrc := InstallCompWndProc(FBrowserCompHWND, FBrowserCompStub);
-        end;
-
-      RestoreCompWndProc(OldWidgetCompHWND, FWidgetCompHWND, FOldWidgetCompWndPrc);
-      if assigned(FOnWidgetCompMsg) and (FWidgetCompHWND <> 0) and (FOldWidgetCompWndPrc = nil) then
-        begin
-          CreateStub({$IFDEF FPC}@{$ENDIF}WidgetCompWndProc, FWidgetCompStub);
-          FOldWidgetCompWndPrc := InstallCompWndProc(FWidgetCompHWND, FWidgetCompStub);
         end;
 
       RestoreCompWndProc(OldRenderCompHWND, FRenderCompHWND, FOldRenderCompWndPrc);

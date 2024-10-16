@@ -6014,10 +6014,6 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOldBrowserCompWndPrc">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FOldWidgetCompWndPrc">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOldWidgetCompWndPrc">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="FOldRenderCompWndPrc">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOldRenderCompWndPrc">
 </object>
@@ -6026,20 +6022,12 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FBrowserCompStub">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FWidgetCompStub">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FWidgetCompStub">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="FRenderCompStub">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FRenderCompStub">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FBrowserCompHWND">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FBrowserCompHWND">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="FWidgetCompHWND">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FWidgetCompHWND">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FRenderCompHWND">
@@ -6602,10 +6590,6 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnBrowserCompMsg">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FOnWidgetCompMsg">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnWidgetCompMsg">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="FOnRenderCompMsg">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnRenderCompMsg">
 </object>
@@ -6758,10 +6742,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="BrowserHandle">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#BrowserHandle">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="WidgetHandle">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#WidgetHandle">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="RenderHandle">
@@ -7106,10 +7086,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnBrowserCompMsg">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnBrowserCompMsg">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="OnWidgetCompMsg">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnWidgetCompMsg">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnRenderCompMsg">
@@ -8128,10 +8104,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="BrowserCompWndProc">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#BrowserCompWndProc">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="WidgetCompWndProc">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#WidgetCompWndProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="RenderCompWndProc">
@@ -92692,10 +92664,6 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOldRenderCompWndPrc">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FOldWidgetCompWndPrc">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOldWidgetCompWndPrc">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="FOnAcceleratedPaint">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnAcceleratedPaint">
 </object>
@@ -93252,10 +93220,6 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnVirtualKeyboardRequested">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FOnWidgetCompMsg">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnWidgetCompMsg">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="FOnZoomPctAvailable">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnZoomPctAvailable">
 </object>
@@ -93362,14 +93326,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="FWebRTCNonProxiedUDP">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FWebRTCNonProxiedUDP">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="FWidgetCompHWND">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FWidgetCompHWND">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="FWidgetCompStub">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FWidgetCompStub">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FWindowInfo">
@@ -94190,10 +94146,6 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnVirtualKeyboardRequested">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="OnWidgetCompMsg">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnWidgetCompMsg">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="OnZoomPctAvailable">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnZoomPctAvailable">
 </object>
@@ -94312,10 +94264,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="WebRTCNonproxiedUDP">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#WebRTCNonproxiedUDP">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="WidgetHandle">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#WidgetHandle">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="WindowHandle">
@@ -96138,10 +96086,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="UpdateHostZoomPct">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#UpdateHostZoomPct">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="WidgetCompWndProc">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#WidgetCompWndProc">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="WndProc">
