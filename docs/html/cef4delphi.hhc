@@ -3280,6 +3280,10 @@
 <param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#TryCloseBrowser">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IsReadyToBeClosed">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#IsReadyToBeClosed">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="SetFocus">
 <param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SetFocus">
 </object>
@@ -8840,6 +8844,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="TryCloseBrowser">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#TryCloseBrowser">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IsReadyToBeClosed">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#IsReadyToBeClosed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SelectBrowser">
@@ -14886,6 +14894,10 @@
 <param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_GEOLOCATION">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_PERMISSION_TYPE_HAND_TRACKING">
+<param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_HAND_TRACKING">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="CEF_PERMISSION_TYPE_IDENTITY_PROVIDER">
 <param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_IDENTITY_PROVIDER">
 </object>
@@ -14932,6 +14944,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_PERMISSION_TYPE_VR_SESSION">
 <param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_VR_SESSION">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_PERMISSION_TYPE_WEB_APP_INSTALLATION">
+<param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_WEB_APP_INSTALLATION">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT">
@@ -21192,6 +21208,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="TryCloseBrowser">
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#TryCloseBrowser">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IsReadyToBeClosed">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#IsReadyToBeClosed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetFocus">
@@ -47302,6 +47322,10 @@
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#try_close_browser">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="is_ready_to_be_closed">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#is_ready_to_be_closed">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="set_focus">
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#set_focus">
 </object>
@@ -56366,6 +56390,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IsFullscreen">
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#IsFullscreen">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IsReadyToBeClosed">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#IsReadyToBeClosed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IsRenderProcessUnresponsive">
@@ -69208,6 +69236,10 @@
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#is_fullscreen">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="is_ready_to_be_closed">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#is_ready_to_be_closed">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="is_render_process_unresponsive">
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#is_render_process_unresponsive">
 </object>
@@ -69410,6 +69442,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IsFullscreen">
 <param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#IsFullscreen">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IsReadyToBeClosed">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#IsReadyToBeClosed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IsRenderProcessUnresponsive">
@@ -94390,6 +94426,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IndexOfBrowserID">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#IndexOfBrowserID">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IsReadyToBeClosed">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#IsReadyToBeClosed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IsSameBrowser">

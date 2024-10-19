@@ -5213,9 +5213,9 @@ type
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_JAVASCRIPT_OPTIMIZER,
     /// <summary>
-    /// <para>Content Setting for the Storage Access Headers persistent origin trial that
-    /// allows origins to opt into the storage access header behavior. Should be
-    /// scoped to `REQUESTING_ORIGIN_AND_TOP_SCHEMEFUL_SITE_SCOPE` in order to
+    /// <para>Content Setting for the Storage Access Headers persistent origin trial
+    /// that allows origins to opt into the storage access header behavior. Should
+    /// be scoped to `REQUESTING_ORIGIN_AND_TOP_SCHEMEFUL_SITE_SCOPE` in order to
     /// correspond to the design of persistent origin trials.</para>
     /// <para>ALLOW: storage access request headers will be attached to cross-site
     ///        requests, and url requests will look for response headers from
@@ -5225,7 +5225,16 @@ type
     /// <remarks>
     /// <para><see href="https://github.com/cfredric/storage-access-headers">See also: https://github.com/cfredric/storage-access-headers.</see></para>
     /// </remarks>
-    CEF_CONTENT_SETTING_TYPE_STORAGE_ACCESS_HEADER_ORIGIN_TRIAL
+    CEF_CONTENT_SETTING_TYPE_STORAGE_ACCESS_HEADER_ORIGIN_TRIAL,
+    /// <summary>
+    /// Whether or not sites can request Hand Tracking data within WebXR Sessions.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_HAND_TRACKING,
+    /// <summary>
+    /// Website setting to indicate whether user has opted in to allow web apps to
+    /// install other web apps.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_WEB_APP_INSTALLATION
   );
 
   /// <summary>
@@ -7746,6 +7755,7 @@ type
     get_browser                       : function(self: PCefBrowserHost): PCefBrowser; stdcall;
     close_browser                     : procedure(self: PCefBrowserHost; force_close: Integer); stdcall;
     try_close_browser                 : function(self: PCefBrowserHost): Integer; stdcall;
+    is_ready_to_be_closed             : function(self: PCefBrowserHost): Integer; stdcall;
     set_focus                         : procedure(self: PCefBrowserHost; focus: Integer); stdcall;
     get_window_handle                 : function(self: PCefBrowserHost): TCefWindowHandle; stdcall;
     get_opener_window_handle          : function(self: PCefBrowserHost): TCefWindowHandle; stdcall;

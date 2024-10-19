@@ -2204,501 +2204,505 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#SelectBrowser-integer-">SelectBrowser</a></strong>(aID : integer) : boolean;</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#IsReadyToBeClosed">IsReadyToBeClosed</a></strong>: boolean;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#SelectBrowser-integer-">SelectBrowser</a></strong>(aID : integer) : boolean;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#IndexOfBrowserID-integer-">IndexOfBrowserID</a></strong>(aID : integer) : integer;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ShareRequestContext-ICefRequestContext-ICefRequestContextHandler-">ShareRequestContext</a></strong>(var aContext : <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; const aHandler : <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a> = nil) : boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#InitializeDragAndDrop-HWND-">InitializeDragAndDrop</a></strong>(const aDropTargetWnd : HWND);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ShutdownDragAndDrop">ShutdownDragAndDrop</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetNewBrowserParent-HWND-">SetNewBrowserParent</a></strong>(aNewParentHwnd : HWND) : boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateBrowser-TCefWindowHandle-TRect-ustring-ICefRequestContext-ICefDictionaryValue-boolean-">CreateBrowser</a></strong>(aParentHandle : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; aParentRect : TRect; const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aContext : <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a> = nil; const aExtraInfo : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a> = nil; aForceAsPopup : boolean = False) : boolean; overload; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateBrowser-ustring-TCEFBrowserViewComponent-ICefRequestContext-ICefDictionaryValue-">CreateBrowser</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>; const aBrowserViewComp : <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html">TCEFBrowserViewComponent</a>; const aContext : <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a> = nil; const aExtraInfo : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a> = nil) : boolean; overload; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadURL-ustring-ustring-ustring-">LoadURL</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadURL-ustring-ICefFrame-">LoadURL</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadString-ustring-ustring-ustring-">LoadString</a></strong>(const aHTML : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadString-ustring-ICefFrame-">LoadString</a></strong>(const aHTML : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadResource-TCustomMemoryStream-string-string-ustring-ustring-">LoadResource</a></strong>(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadResource-TCustomMemoryStream-string-string-ICefFrame-">LoadResource</a></strong>(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadRequest-ICefRequest-">LoadRequest</a></strong>(const aRequest: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GoBack">GoBack</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GoForward">GoForward</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#Reload">Reload</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ReloadIgnoreCache">ReloadIgnoreCache</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#StopLoad">StopLoad</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#StartDownload-ustring-">StartDownload</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DownloadImage-ustring-Boolean-cardinal-Boolean-">DownloadImage</a></strong>(const imageUrl: <a href="uCEFTypes.html#ustring">ustring</a>; isFavicon: Boolean; maxImageSize: cardinal; bypassCache: Boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateMouseWheel-integer-integer-">SimulateMouseWheel</a></strong>(aDeltaX, aDeltaY : integer);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateKeyEvent-TSimulatedCefKeyEventType-integer-single-ustring-ustring-ustring-ustring-ustring-integer-integer-boolean-boolean-boolean-TCefKeyLocation-TCefEditingCommand-">SimulateKeyEvent</a></strong>(type_: <a href="uCEFTypes.html#TSimulatedCefKeyEventType">TSimulatedCefKeyEventType</a>; modifiers: integer = <a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE">CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE</a>; timestamp: single = 0; const text: <a href="uCEFTypes.html#ustring">ustring</a> = ''; const unmodifiedtext: <a href="uCEFTypes.html#ustring">ustring</a> = ''; const keyIdentifier: <a href="uCEFTypes.html#ustring">ustring</a> = ''; const code: <a href="uCEFTypes.html#ustring">ustring</a> = ''; const key: <a href="uCEFTypes.html#ustring">ustring</a> = ''; windowsVirtualKeyCode: integer = 0; nativeVirtualKeyCode: integer = 0; autoRepeat: boolean = False; isKeypad: boolean = False; isSystemKey: boolean = False; location: <a href="uCEFTypes.html#TCefKeyLocation">TCefKeyLocation</a> = <a href="uCEFTypes.html#CEF_KEYLOCATION_NONE">CEF_KEYLOCATION_NONE</a>; commands: <a href="uCEFTypes.html#TCefEditingCommand">TCefEditingCommand</a> = <a href="uCEFTypes.html#ecNone">ecNone</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateMouseEvent-TCefSimulatedMouseEventType-single-single-integer-single-TCefSimulatedMouseButton-integer-integer-single-single-single-single-integer-single-single-TCefSimulatedPointerType-">SimulateMouseEvent</a></strong>(type_: <a href="uCEFTypes.html#TCefSimulatedMouseEventType">TCefSimulatedMouseEventType</a>; x, y: single; modifiers: integer = <a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE">CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE</a>; timestamp: single = 0; button: <a href="uCEFTypes.html#TCefSimulatedMouseButton">TCefSimulatedMouseButton</a> = <a href="uCEFTypes.html#CEF_SIMULATEDMOUSEBUTTON_NONE">CEF_SIMULATEDMOUSEBUTTON_NONE</a>; buttons: integer = <a href="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_NONE">CEF_PRESSED_MOUSE_BUTTONS_NONE</a>; clickCount: integer = 0; force: single = 0; tangentialPressure: single = 0; tiltX: single = 0; tiltY: single = 0; twist: integer = 0; deltaX: single = 0; deltaY: single = 0; pointerType: <a href="uCEFTypes.html#TCefSimulatedPointerType">TCefSimulatedPointerType</a> = <a href="uCEFTypes.html#CEF_SIMULATEDPOINTERTYPE_MOUSE">CEF_SIMULATEDPOINTERTYPE_MOUSE</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateTouchEvent-TCefSimulatedTouchEventType-TCefSimulatedTouchPointArray-integer-single-">SimulateTouchEvent</a></strong>(type_: <a href="uCEFTypes.html#TCefSimulatedTouchEventType">TCefSimulatedTouchEventType</a>; var touchPoints: <a href="uCEFTypes.html#TCefSimulatedTouchPointArray">TCefSimulatedTouchPointArray</a>; modifiers: integer = <a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE">CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE</a>; timestamp: single = 0);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateEditingCommand-TCefEditingCommand-">SimulateEditingCommand</a></strong>(command : <a href="uCEFTypes.html#TCefEditingCommand">TCefEditingCommand</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClearCertificateExceptions-boolean-">ClearCertificateExceptions</a></strong>(aClearImmediately : boolean = True) : boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClearHttpAuthCredentials-boolean-">ClearHttpAuthCredentials</a></strong>(aClearImmediately : boolean = True) : boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CloseAllConnections-boolean-">CloseAllConnections</a></strong>(aCloseImmediately : boolean = True) : boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#RetrieveHTML-ustring-ustring-">RetrieveHTML</a></strong>(const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#RetrieveHTML-ICefFrame-">RetrieveHTML</a></strong>(const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#RetrieveText-ustring-ustring-">RetrieveText</a></strong>(const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#RetrieveText-ICefFrame-">RetrieveText</a></strong>(const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetNavigationEntries-Boolean-">GetNavigationEntries</a></strong>(currentOnly: Boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetFrameNames-TStrings-">GetFrameNames</a></strong>(var aFrameNames : TStrings) : boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetFrameIdentifiers-TStrings-">GetFrameIdentifiers</a></strong>(var aFrameIdentifiers : TStrings) : boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExecuteJavaScript-ustring-ustring-ustring-ustring-integer-">ExecuteJavaScript</a></strong>(const aCode, aScriptURL : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''; aStartLine : integer = 0); overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExecuteJavaScript-ustring-ustring-ICefFrame-integer-">ExecuteJavaScript</a></strong>(const aCode, aScriptURL : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; aStartLine : integer = 0); overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#UpdatePreferences">UpdatePreferences</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SavePreferences-string-">SavePreferences</a></strong>(const aFileName : string);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResolveHost-ustring-">ResolveHost</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#IsSameBrowser-ICefBrowser-">IsSameBrowser</a></strong>(const aBrowser : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) : boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExecuteTaskOnCefThread-TCefThreadId-cardinal-Int64-">ExecuteTaskOnCefThread</a></strong>(aCefThreadId : <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>; aTaskID : cardinal; aDelayMs : Int64 = 0) : boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetUserAgentOverride-ustring-ustring-ustring-">SetUserAgentOverride</a></strong>(const aUserAgent : <a href="uCEFTypes.html#ustring">ustring</a>; const aAcceptLanguage : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aPlatform : <a href="uCEFTypes.html#ustring">ustring</a> = '');</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClearDataForOrigin-ustring-TCefClearDataStorageTypes-">ClearDataForOrigin</a></strong>(const aOrigin : <a href="uCEFTypes.html#ustring">ustring</a>; aStorageTypes : <a href="uCEFTypes.html#TCefClearDataStorageTypes">TCefClearDataStorageTypes</a> = <a href="uCEFTypes.html#cdstAll">cdstAll</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClearCache">ClearCache</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ToggleAudioMuted">ToggleAudioMuted</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#DeleteCookies-ustring-ustring-boolean-">DeleteCookies</a></strong>(const url : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const cookieName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; aDeleteImmediately : boolean = False) : boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#VisitAllCookies-integer-">VisitAllCookies</a></strong>(aID : integer = 0) : boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#VisitURLCookies-ustring-boolean-integer-">VisitURLCookies</a></strong>(const url : <a href="uCEFTypes.html#ustring">ustring</a>; includeHttpOnly : boolean = False; aID : integer = 0) : boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetCookie-ustring-ustring-ustring-ustring-ustring-Boolean-Boolean-Boolean-TDateTime-TDateTime-TDateTime-TCefCookieSameSite-TCefCookiePriority-boolean-integer-">SetCookie</a></strong>(const url, name_, value, domain, path: <a href="uCEFTypes.html#ustring">ustring</a>; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; same_site : <a href="uCEFTypes.html#TCefCookieSameSite">TCefCookieSameSite</a>; priority : <a href="uCEFTypes.html#TCefCookiePriority">TCefCookiePriority</a>; aSetImmediately : boolean = True; aID : integer = 0): Boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#FlushCookieStore-boolean-">FlushCookieStore</a></strong>(aFlushImmediately : boolean = True) : boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ShowDevTools-TPoint-PCefWindowInfo-">ShowDevTools</a></strong>(const inspectElementAt: TPoint; aWindowInfo: <a href="uCEFTypes.html#PCefWindowInfo">PCefWindowInfo</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CloseDevTools">CloseDevTools</a></strong>; overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CloseDevTools-TCefWindowHandle-">CloseDevTools</a></strong>(const aDevToolsWnd : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>); overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendDevToolsMessage-ustring-">SendDevToolsMessage</a></strong>(const message_: <a href="uCEFTypes.html#ustring">ustring</a>): boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExecuteDevToolsMethod-integer-ustring-ICefDictionaryValue-">ExecuteDevToolsMethod</a></strong>(message_id: integer; const method: <a href="uCEFTypes.html#ustring">ustring</a>; const params: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>): Integer;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddDevToolsMessageObserver-ICefDevToolsMessageObserver-">AddDevToolsMessageObserver</a></strong>(const observer: <a href="uCEFInterfaces.ICefDevToolsMessageObserver.html">ICefDevToolsMessageObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#Find-ustring-Boolean-Boolean-Boolean-">Find</a></strong>(const aSearchText : <a href="uCEFTypes.html#ustring">ustring</a>; aForward, aMatchCase, aFindNext : Boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#StopFinding-Boolean-">StopFinding</a></strong>(aClearSelection : Boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#Print">Print</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#PrintToPDF-ustring-">PrintToPDF</a></strong>(const aFilePath : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardCopy">ClipboardCopy</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardPaste">ClipboardPaste</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardCut">ClipboardCut</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardUndo">ClipboardUndo</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardRedo">ClipboardRedo</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardDel">ClipboardDel</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SelectAll">SelectAll</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IncZoomStep">IncZoomStep</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DecZoomStep">DecZoomStep</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IncZoomPct">IncZoomPct</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DecZoomPct">DecZoomPct</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResetZoomStep">ResetZoomStep</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResetZoomLevel">ResetZoomLevel</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResetZoomPct">ResetZoomPct</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ReadZoom">ReadZoom</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IncZoomCommand">IncZoomCommand</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DecZoomCommand">DecZoomCommand</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResetZoomCommand">ResetZoomCommand</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#WasResized">WasResized</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#WasHidden-Boolean-">WasHidden</a></strong>(hidden: Boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyScreenInfoChanged">NotifyScreenInfoChanged</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyMoveOrResizeStarted">NotifyMoveOrResizeStarted</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#Invalidate-TCefPaintElementType-">Invalidate</a></strong>(type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a> = <a href="uCEFTypes.html#PET_VIEW">PET_VIEW</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExitFullscreen-boolean-">ExitFullscreen</a></strong>(will_cause_resize: boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CanExecuteChromeCommand-integer-">CanExecuteChromeCommand</a></strong>(command_id: integer): boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExecuteChromeCommand-integer-TCefWindowOpenDisposition-">ExecuteChromeCommand</a></strong>(command_id: integer; disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendExternalBeginFrame">SendExternalBeginFrame</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendKeyEvent-PCefKeyEvent-">SendKeyEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefKeyEvent">PCefKeyEvent</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendMouseClickEvent-PCefMouseEvent-TCefMouseButtonType-Boolean-Integer-">SendMouseClickEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; type_: <a href="uCEFTypes.html#TCefMouseButtonType">TCefMouseButtonType</a>; mouseUp: Boolean; clickCount: Integer);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendMouseMoveEvent-PCefMouseEvent-Boolean-">SendMouseMoveEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; mouseLeave: Boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendMouseWheelEvent-PCefMouseEvent-Integer-Integer-">SendMouseWheelEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; deltaX, deltaY: Integer);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendTouchEvent-PCefTouchEvent-">SendTouchEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefTouchEvent">PCefTouchEvent</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendCaptureLostEvent">SendCaptureLostEvent</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendProcessMessage-TCefProcessId-ICefProcessMessage-ustring-ustring-">SendProcessMessage</a></strong>(targetProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const ProcMessage: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendProcessMessage-TCefProcessId-ICefProcessMessage-ICefFrame-">SendProcessMessage</a></strong>(targetProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const ProcMessage: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateUrlRequest-ICefRequest-ICefUrlrequestClient-ustring-ustring-">CreateUrlRequest</a></strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const client: <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''): <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateUrlRequest-ICefRequest-ICefUrlrequestClient-ICefFrame-">CreateUrlRequest</a></strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const client: <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>): <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetFocus-Boolean-">SetFocus</a></strong>(focus: Boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetAccessibilityState-TCefState-">SetAccessibilityState</a></strong>(accessibilityState: <a href="uCEFTypes.html#TCefState">TCefState</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDragEnter-ICefDragData-PCefMouseEvent-TCefDragOperations-">DragTargetDragEnter</a></strong>(const dragData: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDragOver-PCefMouseEvent-TCefDragOperations-">DragTargetDragOver</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDragLeave">DragTargetDragLeave</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDrop-PCefMouseEvent-">DragTargetDrop</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragSourceEndedAt-Integer-Integer-TCefDragOperation-">DragSourceEndedAt</a></strong>(x, y: Integer; op: <a href="uCEFTypes.html#TCefDragOperation">TCefDragOperation</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragSourceSystemDragEnded">DragSourceSystemDragEnded</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMESetComposition-ustring-TCefCompositionUnderlineDynArray-PCefRange-PCefRange-">IMESetComposition</a></strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; const underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>; const replacement_range, selection_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMECommitText-ustring-PCefRange-integer-">IMECommitText</a></strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; const replacement_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>; relative_cursor_pos : integer);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMEFinishComposingText-boolean-">IMEFinishComposingText</a></strong>(keep_selection : boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMECancelComposition">IMECancelComposition</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ReplaceMisspelling-ustring-">ReplaceMisspelling</a></strong>(const aWord : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddWordToDictionary-ustring-">AddWordToDictionary</a></strong>(const aWord : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddObserver-ICefMediaObserver-">AddObserver</a></strong>(const observer: <a href="uCEFInterfaces.ICefMediaObserver.html">ICefMediaObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetSource-ustring-">GetSource</a></strong>(const urn: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefMediaSource.html">ICefMediaSource</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyCurrentSinks">NotifyCurrentSinks</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyCurrentRoutes">NotifyCurrentRoutes</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateRoute-ICefMediaSource-ICefMediaSink-">CreateRoute</a></strong>(const source: <a href="uCEFInterfaces.ICefMediaSource.html">ICefMediaSource</a>; const sink: <a href="uCEFInterfaces.ICefMediaSink.html">ICefMediaSink</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetDeviceInfo-ICefMediaSink-">GetDeviceInfo</a></strong>(const aMediaSink: <a href="uCEFInterfaces.ICefMediaSink.html">ICefMediaSink</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetWebsiteSetting-ustring-ustring-TCefContentSettingTypes-">GetWebsiteSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetWebsiteSetting-ustring-ustring-TCefContentSettingTypes-ICefValue-">SetWebsiteSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetContentSetting-ustring-ustring-TCefContentSettingTypes-">GetContentSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetContentSetting-ustring-ustring-TCefContentSettingTypes-TCefContentSettingValues-">SetContentSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; value: <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetChromeColorScheme-TCefColorVariant-TCefColor-">SetChromeColorScheme</a></strong>(variant: <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>; user_color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
 </tr>
@@ -8084,7 +8088,13 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Request that the browser close. The JavaScript 'onbeforeunload' event will be fired. If |aForceClose| is false (0) the event handler, if any, will be allowed to prompt the user and the user can optionally cancel the close. If |aForceClose| is true (1) the prompt will not be displayed and the close will proceed. Results in a call to ICefLifeSpanHandler.DoClose() if the event handler allows the close or if |aForceClose| is true (1). See ICefLifeSpanHandler.DoClose() documentation for additional usage information. </p>
+
+
+<p>Request that the browser close. Closing a browser is a multi-stage process that may complete either synchronously or asynchronously, and involves events such as TChromiumCore.OnClose (Alloy style only), TChromiumCore.OnBeforeClose, and a top-level window close handler such as TCEFWindowComponent.OnCanClose (or platform-specific equivalent). In some cases a close request may be delayed or canceled by the user. Using TryCloseBrowser() instead of CloseBrowser() is recommended for most use cases. See TChromiumCore.OnClose documentation for detailed usage and examples.
+
+<p>If |aForceClose| is false (0) then JavaScript unload handlers, if any, may be fired and the close may be delayed or canceled by the user. If |aForceClose| is true (1) then the user will not be prompted and the close will proceed immediately (possibly asynchronously). If browser close is delayed and not canceled the default behavior is to call the top-level window close handler once the browser is ready to be closed. This default behavior can be changed for Alloy style browsers by implementing TChromiumCore.OnClose. IsReadyToBeClosed() can be used to detect mandatory browser close events when customizing close behavior on the browser process UI thread.
+
+<p></p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -8104,7 +8114,17 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Helper for closing a browser. Call this function from the top-level window close handler (if any). Internally this calls CloseBrowser(false (0)) if the close has not yet been initiated. This function returns false (0) while the close is pending and true (1) after the close has completed. See CloseBrowser() and ICefLifeSpanHandler.DoClose() documentation for additional usage information. This function must be called on the browser process UI thread. </p>
+ Helper for closing a browser. This is similar in behavior to CLoseBrowser(false) but returns a boolean to reflect the immediate close status. Call this function from a top-level window close handler such as TCEFWindowComponent.OnCanClose (or platform-specific equivalent) to request that the browser close, and return the result to indicate if the window close should proceed. Returns false (0) if the close will be delayed (JavaScript unload handlers triggered but still pending) or true (1) if the close will proceed immediately (possibly asynchronously). See CloseBrowser() documentation for additional usage information. This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsReadyToBeClosed"></span><code>function <strong>IsReadyToBeClosed</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if the browser is ready to be closed, meaning that the close has already been initiated and that JavaScript unload handlers have already executed or should be ignored. This can be used from a top-level window close handler such as TCEFWindowComponent.OnCanClose (or platform- specific equivalent) to distringuish between potentially cancelable browser close events (like the user clicking the top-level window close button before browser close has started) and mandatory browser close events (like JavaScript `window.close()` or after browser close has started in response to [Try]CloseBrowser()). Not completing the browser close for mandatory close events (when this function returns true (1)) will leave the browser in a partially closed state that interferes with proper functioning. See CloseBrowser() documentation for additional usage information. This function must be called on the browser process UI thread. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -11643,21 +11663,21 @@ Custom</p>
 <p>
 
 
-<p>Called when a browser has recieved a request to close. This may result directly from a call to ICefBrowserHost.*CloseBrowser or indirectly if the browser is parented to a top-level window created by CEF and the user attempts to close that window (by clicking the 'X', for example). The OnClose function will be called after the JavaScript 'onunload' event has been fired.
+<p>Called when an Alloy style browser is ready to be closed, meaning that the close has already been initiated and that JavaScript unload handlers have already executed or should be ignored. This may result directly from a call to TChromiumCore.[Try]CloseBrowser() or indirectly if the browser's top-level parent window was created by CEF and the user attempts to close that window (by clicking the 'X', for example). TChromiumCore.OnClose will not be called if the browser's host window/view has already been destroyed (via parent window/view hierarchy tear-down, for example), as it is no longer possible to customize the close behavior at that point.
 
-<p>An application should handle top-level owner window close notifications by calling ICefBrowserHost.TryCloseBrowser or ICefBrowserHost.CloseBrowser(false) instead of allowing the window to close immediately (see the examples below). This gives CEF an opportunity to process the 'onbeforeunload' event and optionally cancel the close before OnClose is called.
+<p>An application should handle top-level parent window close notifications by calling TChromiumCore.TryCloseBrowser() or TChromiumCore.CloseBrowser(false) instead of allowing the window to close immediately (see the examples below). This gives CEF an opportunity to process JavaScript unload handlers and optionally cancel the close before TChromiumCore.OnClose is called.
 
-<p>When windowed rendering is enabled CEF will internally create a window or view to host the browser. In that case returning false (0) from OnClose() will send the standard close notification to the browser's top-level owner window (e.g. WM_CLOSE on Windows, performClose: on OS X, &quot;delete_event&quot; on Linux or ICefWindowDelegate.CanClose callback from Views). If the browser's host window/view has already been destroyed (via view hierarchy tear-down, for example) then OnClose() will not be called for that browser since is no longer possible to cancel the close.
+<p>When windowed rendering is enabled CEF will create an internal child window/view to host the browser. In that case returning false (0) from TChromiumCore.OnClose will send the standard close notification to the browser's top- level parent window (e.g. WM_CLOSE on Windows, performClose: on OS X, &quot;delete_event&quot; on Linux or TCEFWindowComponent.OnCanClose callback from Views).
 
-<p>When windowed rendering is disabled returning false (0) from OnClose() will cause the browser object to be destroyed immediately.
+<p>When windowed rendering is disabled there is no internal window/view and returning false (0) from TChromiumCore.OnClose will cause the browser object to be destroyed immediately.
 
-<p>If the browser's top-level owner window requires a non-standard close notification then send that notification from OnClose() and return true.
+<p>If the browser's top-level parent window requires a non-standard close notification then send that notification from TChromiumCore.OnClose and return true (1). You are still required to complete the browser close as soon as possible (either by calling TChromiumCore.[Try]CloseBrowser() or by proceeding with window/view hierarchy tear-down), otherwise the browser will be left in a partially closed state that interferes with proper functioning. Top-level windows created on the browser process UI thread can alternately call TChromiumCore.IsReadyToBeClosed() in the close handler to check close status instead of relying on custom TChromiumCore.OnClose handling. See documentation on that function for additional details.
 
-<p>The ICefLifeSpanHandler.OnBeforeClose function will be called after OnClose() (if OnClose() is called) and immediately before the browser object is destroyed. The application should only exit after OnBeforeClose() has been called for all existing browsers.
+<p>The TChromiumCore.OnBeforeClose event will be called after TChromiumCore.OnClose (if TChromiumCore.OnClose is called) and immediately before the browser object is destroyed. The application should only exit after TChromiumCore.OnBeforeClose has been called for all existing browsers.
 
 <p>The below examples describe what should happen during window close when the browser is parented to an application-provided top-level window.
 
-<p>Example 1: Using ICefBrowserHost.TryCloseBrowser(). This is recommended for clients using standard close handling and windows created on the browser process UI thread.
+<p>Example 1: Using TChromiumCore.TryCloseBrowser(). This is recommended for clients using standard close handling and windows created on the browser process UI thread.
 
 <p></p>
 
@@ -11665,26 +11685,30 @@ Custom</p>
 1.  User clicks the window close button which sends a close notification
     to the application's top-level window.
 2.  Application's top-level window receives the close notification and
-    calls TryCloseBrowser() (which internally calls CloseBrowser(false)).
-    TryCloseBrowser() returns false so the client cancels the window
+    calls TChromiumCore.TryCloseBrowser() (similar to calling TChromiumCore.CloseBrowser(false)).
+    TChromiumCore.TryCloseBrowser() returns false so the client cancels the window
     close.
 3.  JavaScript 'onbeforeunload' handler executes and shows the close
-    confirmation dialog (which can be overridden via
-    ICefJSDialogHandler.OnBeforeUnloadDialog()).
+    confirmation dialog (which can be overridden via TChromiumCore.OnBeforeUnloadDialog).
 4.  User approves the close.
 5.  JavaScript 'onunload' handler executes.
-6.  CEF sends a close notification to the application's top-level window
-    (because OnClose() returned false by default).
-7.  Application's top-level window receives the close notification and
+6.  Application's TChromiumCore.OnClose handler is called and returns false (0) by
+    default.
+7.  CEF sends a close notification to the application's top-level window
+    (because TChromiumCore.OnClose returned false).
+8.  Application's top-level window receives the close notification and
     calls TryCloseBrowser(). TryCloseBrowser() returns true so the client
     allows the window close.
-8.  Application's top-level window is destroyed.
-9.  Application's OnBeforeClose() handler is called and the browser object is destroyed.
-10. Application exits by calling cef_quit_message_loop() if no other browsers exist.</pre>
+9.  Application's top-level window is destroyed, triggering destruction
+    of the child browser window.
+10. Application's TChromiumCore.OnBeforeClose handler is called and the browser object
+    is destroyed.
+11. Application exits by calling TCefApplicationCore.QuitMessageLoop if no other browsers
+    exist.</pre>
 
 <p>
 
-<p>Example 2: Using ICefBrowserHost::CloseBrowser(false) and implementing the OnClose() callback. This is recommended for clients using non-standard close handling or windows that were not created on the browser process UI thread.
+<p>Example 2: Using TChromiumCore.CloseBrowser(false) and implementing the TChromiumCore.OnClose event. This is recommended for clients using non-standard close handling or windows that were not created on the browser process UI thread.
 
 <p></p>
 
@@ -11695,19 +11719,22 @@ Custom</p>
     A. Calls ICefBrowserHost.CloseBrowser(false).
     B. Cancels the window close.
 3.  JavaScript 'onbeforeunload' handler executes and shows the close
-    confirmation dialog (which can be overridden via
-    ICefJSDialogHandler.OnBeforeUnloadDialog()).
+    confirmation dialog (which can be overridden via TChromiumCore.OnBeforeUnloadDialog).
 4.  User approves the close.
 5.  JavaScript 'onunload' handler executes.
-6.  Application's OnClose() handler is called. Application will:
-    A. Set a flag to indicate that the next close attempt will be allowed.
+6.  Application's TChromiumCore.OnClose handler is called. Application will:
+    A. Set a flag to indicate that the next top-level window close attempt
+       will be allowed.
     B. Return false.
-7.  CEF sends an close notification to the application's top-level window.
+7.  CEF sends a close notification to the application's top-level window
+    (because TChromiumCore.OnClose returned false).
 8.  Application's top-level window receives the close notification and
-    allows the window to close based on the flag from #6B.
-9.  Application's top-level window is destroyed.
-10. Application's OnBeforeClose() handler is called and the browser object is destroyed.
-11. Application exits by calling cef_quit_message_loop() if no other browsers exist.</pre>
+    allows the window to close based on the flag from #6A.
+9.  Application's top-level window is destroyed, triggering destruction
+    of the child browser window.
+10. Application's TChromiumCore.OnBeforeClose handler is called and the browser object
+    is destroyed.
+11. Application exits by calling TCefApplicationCore.QuitMessageLoop if no other browsers exist.</pre>
 
 <p> </p>
 <p>
@@ -11729,7 +11756,7 @@ Custom</p>
 
 <p>Called on the UI thread before browser navigation. Return true (1) to cancel the navigation or false (0) to allow the navigation to proceed. The |request| object cannot be modified in this callback.
 
-<p>ICefLoadHandler.OnLoadingStateChange will be called twice in all cases. If the navigation is allowed ICefLoadHandler.OnLoadStart and ICefLoadHandler.OnLoadEnd will be called. If the navigation is canceled ICefLoadHandler.OnLoadError will be called with an |errorCode| value of ERR_ABORTED. The |user_gesture| value will be true (1) if the browser navigated via explicit user gesture (e.g. clicking a link) or false (0) if it navigated automatically (e.g. via the DomContentLoaded event).
+<p>TChromiumCore.OnLoadingStateChange will be called twice in all cases. If the navigation is allowed TChromiumCore.OnLoadStart and TChromiumCore.OnLoadEnd will be called. If the navigation is canceled TChromiumCore.OnLoadError will be called with an |errorCode| value of ERR_ABORTED. The |user_gesture| value will be true (1) if the browser navigated via explicit user gesture (e.g. clicking a link) or false (0) if it navigated automatically (e.g. via the DomContentLoaded event).
 
 <p></p>
 <p>

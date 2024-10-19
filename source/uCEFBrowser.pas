@@ -53,6 +53,7 @@ type
       function  GetBrowser: ICefBrowser;
       procedure CloseBrowser(forceClose: Boolean);
       function  TryCloseBrowser: Boolean;
+      function  IsReadyToBeClosed: Boolean;
       procedure SetFocus(focus: Boolean);
       function  GetWindowHandle: TCefWindowHandle;
       function  GetOpenerWindowHandle: TCefWindowHandle;
@@ -746,6 +747,11 @@ end;
 function TCefBrowserHostRef.TryCloseBrowser: Boolean;
 begin
   Result := PCefBrowserHost(FData)^.try_close_browser(PCefBrowserHost(FData)) <> 0;
+end;
+
+function TCefBrowserHostRef.IsReadyToBeClosed: Boolean;
+begin
+  Result := PCefBrowserHost(FData)^.is_ready_to_be_closed(PCefBrowserHost(FData)) <> 0;
 end;
 
 class function TCefBrowserHostRef.UnWrap(data: Pointer): ICefBrowserHost;

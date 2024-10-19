@@ -731,14 +731,26 @@ type
       /// </summary>
       function    CreateClientHandler(var aClient : ICefClient; aIsOSR : boolean = True) : boolean; overload;
       /// <summary>
-      /// Request that the browser close. The JavaScript 'onbeforeunload' event will
-      /// be fired. If |aForceClose| is false (0) the event handler, if any, will be
-      /// allowed to prompt the user and the user can optionally cancel the close.
-      /// If |aForceClose| is true (1) the prompt will not be displayed and the
-      /// close will proceed. Results in a call to
-      /// ICefLifeSpanHandler.DoClose() if the event handler allows the close
-      /// or if |aForceClose| is true (1). See ICefLifeSpanHandler.DoClose()
-      /// documentation for additional usage information.
+      /// <para>Request that the browser close. Closing a browser is a multi-stage process
+      /// that may complete either synchronously or asynchronously, and involves
+      /// events such as TChromiumCore.OnClose (Alloy style only),
+      /// TChromiumCore.OnBeforeClose, and a top-level window close
+      /// handler such as TCEFWindowComponent.OnCanClose (or platform-specific
+      /// equivalent). In some cases a close request may be delayed or canceled by
+      /// the user. Using TryCloseBrowser() instead of CloseBrowser() is
+      /// recommended for most use cases. See TChromiumCore.OnClose
+      /// documentation for detailed usage and examples.</para>
+      ///
+      /// <para>If |aForceClose| is false (0) then JavaScript unload handlers, if any, may
+      /// be fired and the close may be delayed or canceled by the user. If
+      /// |aForceClose| is true (1) then the user will not be prompted and the close
+      /// will proceed immediately (possibly asynchronously). If browser close is
+      /// delayed and not canceled the default behavior is to call the top-level
+      /// window close handler once the browser is ready to be closed. This default
+      /// behavior can be changed for Alloy style browsers by implementing
+      /// TChromiumCore.OnClose. IsReadyToBeClosed() can be used
+      /// to detect mandatory browser close events when customizing close behavior
+      /// on the browser process UI thread.</para>
       /// </summary>
       procedure   CloseBrowser(aForceClose : boolean);
       /// <summary>
@@ -746,15 +758,35 @@ type
       /// </summary>
       procedure   CloseAllBrowsers;
       /// <summary>
-      /// Helper for closing a browser. Call this function from the top-level window
-      /// close handler (if any). Internally this calls CloseBrowser(false (0)) if
-      /// the close has not yet been initiated. This function returns false (0)
-      /// while the close is pending and true (1) after the close has completed. See
-      /// CloseBrowser() and ICefLifeSpanHandler.DoClose() documentation for
-      /// additional usage information. This function must be called on the browser
-      /// process UI thread.
+      /// Helper for closing a browser. This is similar in behavior to
+      /// CLoseBrowser(false) but returns a boolean to reflect the immediate
+      /// close status. Call this function from a top-level window close handler
+      /// such as TCEFWindowComponent.OnCanClose (or platform-specific equivalent)
+      /// to request that the browser close, and return the result to indicate if
+      /// the window close should proceed. Returns false (0) if the close will be
+      /// delayed (JavaScript unload handlers triggered but still pending) or true
+      /// (1) if the close will proceed immediately (possibly asynchronously). See
+      /// CloseBrowser() documentation for additional usage information. This
+      /// function must be called on the browser process UI thread.
       /// </summary>
       function    TryCloseBrowser : boolean;
+      /// <summary>
+      /// Returns true (1) if the browser is ready to be closed, meaning that the
+      /// close has already been initiated and that JavaScript unload handlers have
+      /// already executed or should be ignored. This can be used from a top-level
+      /// window close handler such as TCEFWindowComponent.OnCanClose (or platform-
+      /// specific equivalent) to distringuish between potentially cancelable
+      /// browser close events (like the user clicking the top-level window close
+      /// button before browser close has started) and mandatory browser close
+      /// events (like JavaScript `window.close()` or after browser close has
+      /// started in response to [Try]CloseBrowser()). Not completing the browser
+      /// close for mandatory close events (when this function returns true (1))
+      /// will leave the browser in a partially closed state that interferes with
+      /// proper functioning. See CloseBrowser() documentation for additional usage
+      /// information. This function must be called on the browser process UI
+      /// thread.
+      /// </summary>
+      function    IsReadyToBeClosed : boolean;
       /// <summary>
       /// Select the browser with the aID identifier when TChromiumCore uses the
       /// multi-browser mode.
@@ -2680,69 +2712,84 @@ type
       /// </remarks>
       property OnBeforeClose                    : TOnBeforeClose                    read FOnBeforeClose                    write FOnBeforeClose;
       /// <summary>
-      /// <para>Called when a browser has recieved a request to close. This may result
-      /// directly from a call to ICefBrowserHost.*CloseBrowser or indirectly
-      /// if the browser is parented to a top-level window created by CEF and the
-      /// user attempts to close that window (by clicking the 'X', for example). The
-      /// OnClose function will be called after the JavaScript 'onunload' event
-      /// has been fired.</para>
+      /// <para>Called when an Alloy style browser is ready to be closed, meaning that the
+      /// close has already been initiated and that JavaScript unload handlers have
+      /// already executed or should be ignored. This may result directly from a
+      /// call to TChromiumCore.[Try]CloseBrowser() or indirectly if the
+      /// browser's top-level parent window was created by CEF and the user attempts
+      /// to close that window (by clicking the 'X', for example). TChromiumCore.OnClose will
+      /// not be called if the browser's host window/view has already been destroyed
+      /// (via parent window/view hierarchy tear-down, for example), as it is no
+      /// longer possible to customize the close behavior at that point.</para>
       ///
-      /// <para>An application should handle top-level owner window close notifications by
-      /// calling ICefBrowserHost.TryCloseBrowser or
-      /// ICefBrowserHost.CloseBrowser(false) instead of allowing the window
+      /// <para>An application should handle top-level parent window close notifications
+      /// by calling TChromiumCore.TryCloseBrowser() or
+      /// TChromiumCore.CloseBrowser(false) instead of allowing the window
       /// to close immediately (see the examples below). This gives CEF an
-      /// opportunity to process the 'onbeforeunload' event and optionally cancel
-      /// the close before OnClose is called.</para>
+      /// opportunity to process JavaScript unload handlers and optionally cancel
+      /// the close before TChromiumCore.OnClose is called.</para>
       ///
-      /// <para>When windowed rendering is enabled CEF will internally create a window or
-      /// view to host the browser. In that case returning false (0) from OnClose()
-      /// will send the standard close notification to the browser's top-level owner
-      /// window (e.g. WM_CLOSE on Windows, performClose: on OS X, "delete_event" on
-      /// Linux or ICefWindowDelegate.CanClose callback from Views). If the
-      /// browser's host window/view has already been destroyed (via view hierarchy
-      /// tear-down, for example) then OnClose() will not be called for that
-      /// browser since is no longer possible to cancel the close.</para>
+      /// <para>When windowed rendering is enabled CEF will create an internal child
+      /// window/view to host the browser. In that case returning false (0) from
+      /// TChromiumCore.OnClose will send the standard close notification to the browser's top-
+      /// level parent window (e.g. WM_CLOSE on Windows, performClose: on OS X,
+      /// "delete_event" on Linux or TCEFWindowComponent.OnCanClose callback
+      /// from Views).</para>
       ///
-      /// <para>When windowed rendering is disabled returning false (0) from OnClose()
-      /// will cause the browser object to be destroyed immediately.</para>
+      /// <para>When windowed rendering is disabled there is no internal window/view and
+      /// returning false (0) from TChromiumCore.OnClose will cause the browser object to be
+      /// destroyed immediately.</para>
       ///
-      /// <para>If the browser's top-level owner window requires a non-standard close
-      /// notification then send that notification from OnClose() and return true.</para>
+      /// <para>If the browser's top-level parent window requires a non-standard close
+      /// notification then send that notification from TChromiumCore.OnClose and return true
+      /// (1). You are still required to complete the browser close as soon as
+      /// possible (either by calling TChromiumCore.[Try]CloseBrowser() or by proceeding with
+      /// window/view hierarchy tear-down), otherwise the browser will be left in a
+      /// partially closed state that interferes with proper functioning. Top-level
+      /// windows created on the browser process UI thread can alternately call
+      /// TChromiumCore.IsReadyToBeClosed() in the close handler to check
+      /// close status instead of relying on custom TChromiumCore.OnClose handling. See
+      /// documentation on that function for additional details.</para>
       ///
-      /// <para>The ICefLifeSpanHandler.OnBeforeClose function will be called
-      /// after OnClose() (if OnClose() is called) and immediately before the
+      /// <para>The TChromiumCore.OnBeforeClose event will be called
+      /// after TChromiumCore.OnClose (if TChromiumCore.OnClose is called) and immediately before the
       /// browser object is destroyed. The application should only exit after
-      /// OnBeforeClose() has been called for all existing browsers.</para>
+      /// TChromiumCore.OnBeforeClose has been called for all existing browsers.</para>
       ///
       /// <para>The below examples describe what should happen during window close when
       /// the browser is parented to an application-provided top-level window.</para>
       ///
-      /// <para>Example 1: Using ICefBrowserHost.TryCloseBrowser(). This is
+      /// <para>Example 1: Using TChromiumCore.TryCloseBrowser(). This is
       /// recommended for clients using standard close handling and windows created
       /// on the browser process UI thread.</para>
       /// <code>
       /// 1.  User clicks the window close button which sends a close notification
       ///     to the application's top-level window.
       /// 2.  Application's top-level window receives the close notification and
-      ///     calls TryCloseBrowser() (which internally calls CloseBrowser(false)).
-      ///     TryCloseBrowser() returns false so the client cancels the window
+      ///     calls TChromiumCore.TryCloseBrowser() (similar to calling TChromiumCore.CloseBrowser(false)).
+      ///     TChromiumCore.TryCloseBrowser() returns false so the client cancels the window
       ///     close.
       /// 3.  JavaScript 'onbeforeunload' handler executes and shows the close
-      ///     confirmation dialog (which can be overridden via
-      ///     ICefJSDialogHandler.OnBeforeUnloadDialog()).
+      ///     confirmation dialog (which can be overridden via TChromiumCore.OnBeforeUnloadDialog).
       /// 4.  User approves the close.
       /// 5.  JavaScript 'onunload' handler executes.
-      /// 6.  CEF sends a close notification to the application's top-level window
-      ///     (because OnClose() returned false by default).
-      /// 7.  Application's top-level window receives the close notification and
+      /// 6.  Application's TChromiumCore.OnClose handler is called and returns false (0) by
+      ///     default.
+      /// 7.  CEF sends a close notification to the application's top-level window
+      ///     (because TChromiumCore.OnClose returned false).
+      /// 8.  Application's top-level window receives the close notification and
       ///     calls TryCloseBrowser(). TryCloseBrowser() returns true so the client
       ///     allows the window close.
-      /// 8.  Application's top-level window is destroyed.
-      /// 9.  Application's OnBeforeClose() handler is called and the browser object is destroyed.
-      /// 10. Application exits by calling cef_quit_message_loop() if no other browsers exist.
+      /// 9.  Application's top-level window is destroyed, triggering destruction
+      ///     of the child browser window.
+      /// 10. Application's TChromiumCore.OnBeforeClose handler is called and the browser object
+      ///     is destroyed.
+      /// 11. Application exits by calling TCefApplicationCore.QuitMessageLoop if no other browsers
+      ///     exist.
       /// </code>
-      /// <para>Example 2: Using ICefBrowserHost::CloseBrowser(false) and
-      /// implementing the OnClose() callback. This is recommended for clients
+      ///
+      /// <para>Example 2: Using TChromiumCore.CloseBrowser(false) and
+      /// implementing the TChromiumCore.OnClose event. This is recommended for clients
       /// using non-standard close handling or windows that were not created on the
       /// browser process UI thread.</para>
       /// <code>
@@ -2752,19 +2799,22 @@ type
       ///     A. Calls ICefBrowserHost.CloseBrowser(false).
       ///     B. Cancels the window close.
       /// 3.  JavaScript 'onbeforeunload' handler executes and shows the close
-      ///     confirmation dialog (which can be overridden via
-      ///     ICefJSDialogHandler.OnBeforeUnloadDialog()).
+      ///     confirmation dialog (which can be overridden via TChromiumCore.OnBeforeUnloadDialog).
       /// 4.  User approves the close.
       /// 5.  JavaScript 'onunload' handler executes.
-      /// 6.  Application's OnClose() handler is called. Application will:
-      ///     A. Set a flag to indicate that the next close attempt will be allowed.
+      /// 6.  Application's TChromiumCore.OnClose handler is called. Application will:
+      ///     A. Set a flag to indicate that the next top-level window close attempt
+      ///        will be allowed.
       ///     B. Return false.
-      /// 7.  CEF sends an close notification to the application's top-level window.
+      /// 7.  CEF sends a close notification to the application's top-level window
+      ///     (because TChromiumCore.OnClose returned false).
       /// 8.  Application's top-level window receives the close notification and
-      ///     allows the window to close based on the flag from #6B.
-      /// 9.  Application's top-level window is destroyed.
-      /// 10. Application's OnBeforeClose() handler is called and the browser object is destroyed.
-      /// 11. Application exits by calling cef_quit_message_loop() if no other browsers exist.
+      ///     allows the window to close based on the flag from #6A.
+      /// 9.  Application's top-level window is destroyed, triggering destruction
+      ///     of the child browser window.
+      /// 10. Application's TChromiumCore.OnBeforeClose handler is called and the browser object
+      ///     is destroyed.
+      /// 11. Application exits by calling TCefApplicationCore.QuitMessageLoop if no other browsers exist.
       /// </code>
       /// </summary>
       /// <remarks>
@@ -2776,10 +2826,10 @@ type
       /// <para>Called on the UI thread before browser navigation. Return true (1) to
       /// cancel the navigation or false (0) to allow the navigation to proceed. The
       /// |request| object cannot be modified in this callback.</para>
-      /// <para>ICefLoadHandler.OnLoadingStateChange will be called twice in all
-      /// cases. If the navigation is allowed ICefLoadHandler.OnLoadStart and
-      /// ICefLoadHandler.OnLoadEnd will be called. If the navigation is
-      /// canceled ICefLoadHandler.OnLoadError will be called with an
+      /// <para>TChromiumCore.OnLoadingStateChange will be called twice in all
+      /// cases. If the navigation is allowed TChromiumCore.OnLoadStart and
+      /// TChromiumCore.OnLoadEnd will be called. If the navigation is
+      /// canceled TChromiumCore.OnLoadError will be called with an
       /// |errorCode| value of ERR_ABORTED. The |user_gesture| value will be true
       /// (1) if the browser navigated via explicit user gesture (e.g. clicking a
       /// link) or false (0) if it navigated automatically (e.g. via the
@@ -4895,6 +4945,12 @@ begin
     end
    else
     Result := True;
+end;
+
+function TChromiumCore.IsReadyToBeClosed : boolean;
+begin
+  Result := Initialized and
+            Browser.Host.IsReadyToBeClosed;
 end;
 
 function TChromiumCore.CreateBrowserHost(      aWindowInfo : PCefWindowInfo;
