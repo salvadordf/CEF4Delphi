@@ -10,6 +10,7 @@ uses
   System.SyncObjs, System.Classes, Vcl.Graphics, Vcl.Menus, Vcl.Controls,
   Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, System.Types,
   Vcl.ComCtrls, Vcl.ClipBrd, System.UITypes,
+  {$IFDEF DELPHI21_UP}System.NetEncoding,{$ELSE}Web.HTTPApp,{$ENDIF}
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus, SyncObjs,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
@@ -493,27 +494,23 @@ end;
 procedure TDOMVisitorFrm.Chromium1ConsoleMessage(Sender: TObject;
   const browser: ICefBrowser; level: TCefLogSeverity; const message, source: ustring;
   line: Integer; out Result: Boolean);
+var
+  TempResult : string;
 begin
-  // In this event we receive the message with the name and value of a DOM node
+  // In this event we receive the message with the HTML
   // from the render process.
   // This event may receive many other messages but we identify our message
   // thanks to the preamble.
-  // The we set MsgContents with the rest of the message and send a
-  // MINIBROWSER_SHOWMESSAGE message to show MsgContents in the main thread safely.
-  // This and many other TChromium events are executed in a CEF thread. The VCL
-  // should be used only in the main thread and we use a message and a field
-  // protected by a synchronization object to call showmessage safely.
   if (length(message) > 0) and
      (copy(message, 1, length(CONSOLE_MSG_PREAMBLE)) = CONSOLE_MSG_PREAMBLE) then
     begin
-      MsgContents := copy(message, succ(length(CONSOLE_MSG_PREAMBLE)), length(message));
-
-      if (length(MsgContents) = 0) then
-        MsgContents := 'There was an error reading the search box information'
-       else
-        MsgContents := 'Search box information: ' + quotedstr(MsgContents);
-
-      PostMessage(Handle, MINIBROWSER_SHOWMESSAGE, 0, 0);
+      // Remove CONSOLE_MSG_PREAMBLE to get the encoded result
+      TempResult := copy(message, succ(length(CONSOLE_MSG_PREAMBLE)), length(message));
+      // Decode the result and copy to the clipboard.
+      Clipboard.AsText := TNetEncoding.URL.Decode(TempResult);
+      // Update the status bar text in the main application thread
+      StatusText := 'HTML copied to the clipboard';
+      PostMessage(Handle, MINIBROWSER_SHOWSTATUSTEXT, 0, 0);
 
       Result := True;
     end;
@@ -783,11 +780,13 @@ procedure TDOMVisitorFrm.VisitDOM3Msg(var aMessage : TMessage);
 var
   TempJSCode, TempMessage : string;
 begin
-  // Here we send the name and value of the element with the "console trick".
+  // Here we send the HTML with the "console trick".
+
+  // We need to encode the HTML with encodeURIComponent but it might be necessary to encode it with btoa (Base64)
+  TempMessage := 'encodeURIComponent(document.documentElement.outerHTML)';
   // We execute "console.log" in JavaScript to send TempMessage with a
   // known preamble that will be used to identify the message in the
   // TChromium.OnConsoleMessage event.
-  TempMessage := 'document.getElementById("' + NODE_ID + '").value';
   TempJSCode  := 'console.log("' + CONSOLE_MSG_PREAMBLE + '" + ' + TempMessage + ');';
   chromium1.ExecuteJavaScript(TempJSCode, 'about:blank');
 end;
