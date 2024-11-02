@@ -220,24 +220,29 @@ var
   TempSL : TStringList;
   TempExt : ustring;
 begin
-  for i := 1 to length(aExtensions) do
-    if (aExtensions[i] = ';') then aExtensions[i] := #13;
+  try
+    for i := 1 to length(aExtensions) do
+      if (aExtensions[i] = ';') then aExtensions[i] := #13;
 
-  TempSL      := TStringList.Create;
-  TempSL.Text := aExtensions;
-  Result      := '';
+    TempSL      := TStringList.Create;
+    TempSL.Text := aExtensions;
+    Result      := '';
 
-  i := 0;
-  while (i < TempSL.Count) do
-    begin
-      TempExt := TempSL[i];
-      if (length(TempExt) > 1) and (TempExt[1] = '.') then
-        Result := Result + '*' + TempExt + ';';
-      inc(i);
-    end;
+    i := 0;
+    while (i < TempSL.Count) do
+      begin
+        TempExt := TempSL[i];
+        if (length(TempExt) > 1) and (TempExt[1] = '.') then
+          Result := Result + '*' + TempExt + ';';
+        inc(i);
+      end;
 
-  if (length(Result) > 0) and (Result[length(Result)] = ';') then
-    Result := copy(Result, 1, pred(length(Result)));
+    if (length(Result) > 0) and (Result[length(Result)] = ';') then
+      Result := copy(Result, 1, pred(length(Result)));
+  finally
+    if assigned(TempSL) then
+      FreeAndNil(TempSL);
+  end;
 end;
 
 function TCEFFileDialogInfo.CEFAcceptFilterToDialogFilter(const aAcceptFilter, aExtension, aDescription : ustring) : ustring;
