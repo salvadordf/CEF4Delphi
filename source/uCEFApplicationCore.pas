@@ -246,6 +246,7 @@ type
       procedure SetOsmodalLoop(aValue : boolean);
       {$ENDIF}
       procedure SetKioskPrinting(aValue : boolean);
+      procedure SetLogFile(const aValue : ustring);
 
       function  GetChromeVersion : ustring;
       function  GetLibCefVersion : ustring;
@@ -650,7 +651,7 @@ type
       /// [app name] is the name of the main app executable. Also configurable using
       /// the "log-file" command-line switch.
       /// </summary>
-      property LogFile                           : ustring                                  read FLogFile                           write FLogFile;
+      property LogFile                           : ustring                                  read FLogFile                           write SetLogFile;
       /// <summary>
       /// The log severity. Only messages of this severity level or higher will be
       /// logged. When set to DISABLE no messages will be written to the log file,
@@ -2739,6 +2740,11 @@ begin
       if FKioskPrinting then
         FEnablePrintPreview := True;
     end;
+end;
+
+procedure TCefApplicationCore.SetLogFile(const aValue : ustring);
+begin
+  FLogFile := CustomAbsolutePath(aValue, False);
 end;
 
 procedure TCefApplicationCore.UpdateDeviceScaleFactor;
