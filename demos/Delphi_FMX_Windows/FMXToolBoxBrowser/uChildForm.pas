@@ -22,7 +22,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormDestroy(Sender: TObject);
 
-    procedure FMXChromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
+    procedure FMXChromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
     procedure FMXChromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure FMXChromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
 
@@ -251,8 +251,8 @@ begin
 end;
 
 procedure TChildForm.FMXChromium1BeforePopup(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
+  const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer;
+  const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
   userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
   var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue;

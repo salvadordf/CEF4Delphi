@@ -39,7 +39,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 
@@ -176,6 +176,7 @@ end;
 procedure TMainForm.Chromium1BeforePopup(      Sender             : TObject;
                                          const browser            : ICefBrowser;
                                          const frame              : ICefFrame;
+                                               popup_id           : Integer;
                                          const targetUrl          : ustring;
                                          const targetFrameName    : ustring;
                                                targetDisposition  : TCefWindowOpenDisposition;

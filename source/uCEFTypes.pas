@@ -1775,7 +1775,6 @@ type
     DOM_FORM_CONTROL_TYPE_BUTTON_BUTTON,
     DOM_FORM_CONTROL_TYPE_BUTTON_SUBMIT,
     DOM_FORM_CONTROL_TYPE_BUTTON_RESET,
-    DOM_FORM_CONTROL_TYPE_BUTTON_SELECT_LIST,
     DOM_FORM_CONTROL_TYPE_BUTTON_POPOVER,
     DOM_FORM_CONTROL_TYPE_FIELDSET,
     DOM_FORM_CONTROL_TYPE_INPUT_BUTTON,
@@ -1803,7 +1802,6 @@ type
     DOM_FORM_CONTROL_TYPE_OUTPUT,
     DOM_FORM_CONTROL_TYPE_SELECT_ONE,
     DOM_FORM_CONTROL_TYPE_SELECT_MULTIPLE,
-    DOM_FORM_CONTROL_TYPE_SELECT_LIST,
     DOM_FORM_CONTROL_TYPE_TEXT_AREA
 );
 
@@ -4805,9 +4803,9 @@ type
     /// permission to respond to accessibility events, which can be used to
     /// provide a custom accessibility experience. Requires explicit user consent
     /// because some users may not want sites to know they're using assistive
-    /// technology.
+    /// technology. Deprecated in M131.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_ACCESSIBILITY_EVENTS,
+    CEF_CONTENT_SETTING_TYPE_DEPRECATED_ACCESSIBILITY_EVENTS,
     /// <summary>
     /// Used to store whether to allow a website to install a payment handler.
     /// </summary>
@@ -5234,7 +5232,12 @@ type
     /// Website setting to indicate whether user has opted in to allow web apps to
     /// install other web apps.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_WEB_APP_INSTALLATION
+    CEF_CONTENT_SETTING_TYPE_WEB_APP_INSTALLATION,
+    /// <summary>
+    /// Content settings for private network access in the context of the
+    /// Direct Sockets API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_DIRECT_SOCKETS_PRIVATE_NETWORK_ACCESS
   );
 
   /// <summary>
@@ -5564,7 +5567,8 @@ type
   /// </remarks>
   TCefLifeSpanHandler = record
     base                      : TCefBaseRefCounted;
-    on_before_popup           : function(self: PCefLifeSpanHandler; browser: PCefBrowser; frame: PCefFrame; const target_url, target_frame_name: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer; const popupFeatures: PCefPopupFeatures; windowInfo: PCefWindowInfo; var client: PCefClient; settings: PCefBrowserSettings; var extra_info: PCefDictionaryValue; no_javascript_access: PInteger): Integer; stdcall;
+    on_before_popup           : function(self: PCefLifeSpanHandler; browser: PCefBrowser; frame: PCefFrame; popup_id: Integer; const target_url, target_frame_name: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer; const popupFeatures: PCefPopupFeatures; windowInfo: PCefWindowInfo; var client: PCefClient; settings: PCefBrowserSettings; var extra_info: PCefDictionaryValue; no_javascript_access: PInteger): Integer; stdcall;
+    on_before_popup_aborted   : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser; popup_id: Integer); stdcall;
     on_before_dev_tools_popup : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser; windowInfo: PCefWindowInfo; var client: PCefClient; settings: PCefBrowserSettings; var extra_info: PCefDictionaryValue; use_default_window: PInteger); stdcall;
     on_after_created          : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser); stdcall;
     do_close                  : function(self: PCefLifeSpanHandler; browser: PCefBrowser): Integer; stdcall;
@@ -7546,32 +7550,33 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_frame_capi.h">CEF source file: /include/capi/cef_frame_capi.h (cef_frame_t)</see></para>
   /// </remarks>
   TCefFrame = record
-    base                 : TCefBaseRefCounted;
-    is_valid             : function(self: PCefFrame): Integer; stdcall;
-    undo                 : procedure(self: PCefFrame); stdcall;
-    redo                 : procedure(self: PCefFrame); stdcall;
-    cut                  : procedure(self: PCefFrame); stdcall;
-    copy                 : procedure(self: PCefFrame); stdcall;
-    paste                : procedure(self: PCefFrame); stdcall;
-    del                  : procedure(self: PCefFrame); stdcall;
-    select_all           : procedure(self: PCefFrame); stdcall;
-    view_source          : procedure(self: PCefFrame); stdcall;
-    get_source           : procedure(self: PCefFrame; visitor: PCefStringVisitor); stdcall;
-    get_text             : procedure(self: PCefFrame; visitor: PCefStringVisitor); stdcall;
-    load_request         : procedure(self: PCefFrame; request: PCefRequest); stdcall;
-    load_url             : procedure(self: PCefFrame; const url: PCefString); stdcall;
-    execute_java_script  : procedure(self: PCefFrame; const code, script_url: PCefString; start_line: Integer); stdcall;
-    is_main              : function(self: PCefFrame): Integer; stdcall;
-    is_focused           : function(self: PCefFrame): Integer; stdcall;
-    get_name             : function(self: PCefFrame): PCefStringUserFree; stdcall;
-    get_identifier       : function(self: PCefFrame): PCefStringUserFree; stdcall;
-    get_parent           : function(self: PCefFrame): PCefFrame; stdcall;
-    get_url              : function(self: PCefFrame): PCefStringUserFree; stdcall;
-    get_browser          : function(self: PCefFrame): PCefBrowser; stdcall;
-    get_v8context        : function(self: PCefFrame): PCefv8Context; stdcall;
-    visit_dom            : procedure(self: PCefFrame; visitor: PCefDomVisitor); stdcall;
-    create_urlrequest    : function(self: PCefFrame; request: PCefRequest; client: PCefUrlrequestClient): PCefUrlRequest; stdcall;
-    send_process_message : procedure(self: PCefFrame; target_process: TCefProcessId; message_: PCefProcessMessage); stdcall;
+    base                   : TCefBaseRefCounted;
+    is_valid               : function(self: PCefFrame): Integer; stdcall;
+    undo                   : procedure(self: PCefFrame); stdcall;
+    redo                   : procedure(self: PCefFrame); stdcall;
+    cut                    : procedure(self: PCefFrame); stdcall;
+    copy                   : procedure(self: PCefFrame); stdcall;
+    paste                  : procedure(self: PCefFrame); stdcall;
+    paste_and_match_style  : procedure(self: PCefFrame); stdcall;
+    del                    : procedure(self: PCefFrame); stdcall;
+    select_all             : procedure(self: PCefFrame); stdcall;
+    view_source            : procedure(self: PCefFrame); stdcall;
+    get_source             : procedure(self: PCefFrame; visitor: PCefStringVisitor); stdcall;
+    get_text               : procedure(self: PCefFrame; visitor: PCefStringVisitor); stdcall;
+    load_request           : procedure(self: PCefFrame; request: PCefRequest); stdcall;
+    load_url               : procedure(self: PCefFrame; const url: PCefString); stdcall;
+    execute_java_script    : procedure(self: PCefFrame; const code, script_url: PCefString; start_line: Integer); stdcall;
+    is_main                : function(self: PCefFrame): Integer; stdcall;
+    is_focused             : function(self: PCefFrame): Integer; stdcall;
+    get_name               : function(self: PCefFrame): PCefStringUserFree; stdcall;
+    get_identifier         : function(self: PCefFrame): PCefStringUserFree; stdcall;
+    get_parent             : function(self: PCefFrame): PCefFrame; stdcall;
+    get_url                : function(self: PCefFrame): PCefStringUserFree; stdcall;
+    get_browser            : function(self: PCefFrame): PCefBrowser; stdcall;
+    get_v8context          : function(self: PCefFrame): PCefv8Context; stdcall;
+    visit_dom              : procedure(self: PCefFrame; visitor: PCefDomVisitor); stdcall;
+    create_urlrequest      : function(self: PCefFrame; request: PCefRequest; client: PCefUrlrequestClient): PCefUrlRequest; stdcall;
+    send_process_message   : procedure(self: PCefFrame; target_process: TCefProcessId; message_: PCefProcessMessage); stdcall;
   end;
 
   /// <summary>
@@ -7759,6 +7764,7 @@ type
     set_focus                         : procedure(self: PCefBrowserHost; focus: Integer); stdcall;
     get_window_handle                 : function(self: PCefBrowserHost): TCefWindowHandle; stdcall;
     get_opener_window_handle          : function(self: PCefBrowserHost): TCefWindowHandle; stdcall;
+    get_opener_identifier             : function(self: PCefBrowserHost): Integer; stdcall;
     has_view                          : function(self: PCefBrowserHost): Integer; stdcall;
     get_client                        : function(self: PCefBrowserHost): PCefClient; stdcall;
     get_request_context               : function(self: PCefBrowserHost): PCefRequestContext; stdcall;
@@ -8158,6 +8164,7 @@ type
     set_focusable               : procedure(self: PCefView; focusable: Integer); stdcall;
     is_focusable                : function(self: PCefView): Integer; stdcall;
     is_accessibility_focusable  : function(self: PCefView): Integer; stdcall;
+    has_focus                   : function(self: PCefView): Integer; stdcall;
     request_focus               : procedure(self: PCefView); stdcall;
     set_background_color        : procedure(self: PCefView; color: TCefColor); stdcall;
     get_background_color        : function(self: PCefView): TCefColor; stdcall;
@@ -8480,6 +8487,7 @@ type
     is_maximized                     : function(self: PCefWindow): Integer; stdcall;
     is_minimized                     : function(self: PCefWindow): Integer; stdcall;
     is_fullscreen                    : function(self: PCefWindow): Integer; stdcall;
+    get_focused_view                 : function(self: PCefWindow): PCefView; stdcall;
     set_title                        : procedure(self: PCefWindow; const title: PCefString); stdcall;
     get_title                        : function(self: PCefWindow): PCefStringUserFree; stdcall;
     set_window_icon                  : procedure(self: PCefWindow; image: PCefImage); stdcall;

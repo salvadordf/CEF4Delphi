@@ -71,6 +71,7 @@ type
       function  GetIsEnabled : boolean;
       function  GetIsFocusable : boolean;
       function  GetIsAccessibilityFocusable : boolean;
+      function  GetHasFocus : boolean;
       function  GetBackgroundColor : TCefColor;
       function  GetViewForID(id_: Integer): ICefView;
       function  GetHeightForWidth(width: Integer): Integer;
@@ -129,8 +130,10 @@ type
       /// </summary>
       procedure   InvalidateLayout;
       /// <summary>
-      /// Request keyboard focus. If this View is focusable it will become the
-      /// focused View.
+      /// Request focus for this View in the context of the containing Window. If
+      /// this View is focusable it will become the focused View. Any focus changes
+      /// while a Window is not active may be applied after that Window next becomes
+      /// active.
       /// </summary>
       procedure   RequestFocus;
       /// <summary>
@@ -294,6 +297,12 @@ type
       /// access, even though it may not be normally focusable.
       /// </summary>
       property AccessibilityFocusable         : boolean                    read GetIsAccessibilityFocusable;
+      /// <summary>
+      /// Returns true (1) if this View has focus in the context of the containing
+      /// Window. Check both this function and ICefWindow.IsActive to determine
+      /// global keyboard focus.
+      /// </summary>
+      property HasFocus                       : boolean                    read GetHasFocus;
       /// <summary>
       /// Returns the background color for this View. If the background color is
       /// unset then the current `GetThemeColor(CEF_ColorPrimaryBackground)` value
@@ -858,6 +867,11 @@ end;
 function TCEFViewComponent.GetIsAccessibilityFocusable : boolean;
 begin
   Result := Initialized and AsView.IsAccessibilityFocusable;
+end;
+
+function TCEFViewComponent.GetHasFocus : boolean;
+begin
+  Result := Initialized and AsView.HasFocus;
 end;
 
 procedure TCEFViewComponent.RequestFocus;

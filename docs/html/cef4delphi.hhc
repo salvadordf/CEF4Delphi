@@ -1522,6 +1522,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ExitCode">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="BrowserById">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#BrowserById">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="LastErrorMessage">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#LastErrorMessage">
 </object>
@@ -1656,6 +1660,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#SetKioskPrinting">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SetLogFile">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#SetLogFile">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="GetChromeVersion">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetChromeVersion">
 </object>
@@ -1734,6 +1742,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetExitCode">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetExitCode">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetBrowserById">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetBrowserById">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="LoadCEFlibrary">
@@ -3294,6 +3306,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetOpenerWindowHandle">
 <param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#GetOpenerWindowHandle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetOpenerIdentifier">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#GetOpenerIdentifier">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="HasView">
@@ -6182,6 +6198,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnBeforePopup">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FOnBeforePopupAborted">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnBeforePopupAborted">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOnBeforeDevToolsPopup">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnBeforeDevToolsPopup">
 </object>
@@ -6744,6 +6764,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OpenerWindowHandle">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OpenerIdentifier">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OpenerIdentifier">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="BrowserHandle">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#BrowserHandle">
 </object>
@@ -7240,6 +7264,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnBeforePopup">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnBeforePopupAborted">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnBeforePopupAborted">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnBeforeDevToolsPopup">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnBeforeDevToolsPopup">
 </object>
@@ -7628,6 +7656,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetOpenerWindowHandle">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#GetOpenerWindowHandle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetOpenerIdentifier">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#GetOpenerIdentifier">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetWindowlessFrameRate">
@@ -8280,6 +8312,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnBeforePopup">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnBeforePopup">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnBeforePopupAborted">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnBeforePopupAborted">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnBeforeDevToolsPopup">
@@ -9110,6 +9146,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#ClipboardPaste">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="ClipboardPasteAndMatchStyle">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#ClipboardPasteAndMatchStyle">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="ClipboardCut">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#ClipboardCut">
 </object>
@@ -9662,6 +9702,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBeforePopup">
 <param name="Local" value="uCEFChromiumEvents.html#TOnBeforePopup">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TOnBeforePopupAborted">
+<param name="Local" value="uCEFChromiumEvents.html#TOnBeforePopupAborted">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBeforeDevToolsPopup">
@@ -14362,6 +14406,10 @@
 <param name="Local" value="uCEFConstants.html#MENU_ID_PASTE">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="MENU_ID_PASTE_MATCH_STYLE">
+<param name="Local" value="uCEFConstants.html#MENU_ID_PASTE_MATCH_STYLE">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="MENU_ID_DELETE">
 <param name="Local" value="uCEFConstants.html#MENU_ID_DELETE">
 </object>
@@ -14854,10 +14902,6 @@
 <param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_NONE">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="CEF_PERMISSION_TYPE_ACCESSIBILITY_EVENTS">
-<param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_ACCESSIBILITY_EVENTS">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="CEF_PERMISSION_TYPE_AR_SESSION">
 <param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_AR_SESSION">
 </object>
@@ -15270,10 +15314,6 @@
 <param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="CEF_RESULT_CODE_INVALID_POST_LOGIN_PARAMS">
-<param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_INVALID_POST_LOGIN_PARAMS">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="CEF_RESULT_CODE_CHROME_LAST">
 <param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_CHROME_LAST">
 </object>
@@ -15312,6 +15352,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP">
 <param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_RESULT_CODE_SANDBOX_FATAL_BROKER_SHUTDOWN_HUNG">
+<param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_SANDBOX_FATAL_BROKER_SHUTDOWN_HUNG">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_RESULT_CODE_SANDBOX_FATAL_LAST">
@@ -19300,6 +19344,10 @@
 <param name="Local" value="uCEFFrame.TCefFrameRef.html#Paste">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="PasteAndMatchStyle">
+<param name="Local" value="uCEFFrame.TCefFrameRef.html#PasteAndMatchStyle">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="Del">
 <param name="Local" value="uCEFFrame.TCefFrameRef.html#Del">
 </object>
@@ -20144,6 +20192,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnBeforePopup">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnBeforePopup">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnBeforePopupAborted">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnBeforePopupAborted">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnBeforeDevToolsPopup">
@@ -21172,6 +21224,10 @@
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#OpenerWindowHandle">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OpenerIdentifier">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#OpenerIdentifier">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="ZoomLevel">
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#ZoomLevel">
 </object>
@@ -21224,6 +21280,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetOpenerWindowHandle">
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#GetOpenerWindowHandle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetOpenerIdentifier">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#GetOpenerIdentifier">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="HasView">
@@ -21960,6 +22020,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="Paste">
 <param name="Local" value="uCEFInterfaces.ICefFrame.html#Paste">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PasteAndMatchStyle">
+<param name="Local" value="uCEFInterfaces.ICefFrame.html#PasteAndMatchStyle">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="Del">
@@ -25376,6 +25440,10 @@
 <param name="Local" value="uCEFInterfaces.ICefLifeSpanHandler.html#OnBeforePopup">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnBeforePopupAborted">
+<param name="Local" value="uCEFInterfaces.ICefLifeSpanHandler.html#OnBeforePopupAborted">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnBeforeDevToolsPopup">
 <param name="Local" value="uCEFInterfaces.ICefLifeSpanHandler.html#OnBeforeDevToolsPopup">
 </object>
@@ -28008,6 +28076,10 @@
 <param name="Local" value="uCEFInterfaces.ICefView.html#IsAccessibilityFocusable">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="HasFocus">
+<param name="Local" value="uCEFInterfaces.ICefView.html#HasFocus">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="RequestFocus">
 <param name="Local" value="uCEFInterfaces.ICefView.html#RequestFocus">
 </object>
@@ -28704,6 +28776,10 @@
 </object>
 <ul>
 <li><object type="text/sitemap">
+<param name="Name" value="FocusedView">
+<param name="Local" value="uCEFInterfaces.ICefWindow.html#FocusedView">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="Title">
 <param name="Local" value="uCEFInterfaces.ICefWindow.html#Title">
 </object>
@@ -28812,6 +28888,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IsFullscreen">
 <param name="Local" value="uCEFInterfaces.ICefWindow.html#IsFullscreen">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetFocusedView">
+<param name="Local" value="uCEFInterfaces.ICefWindow.html#GetFocusedView">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetTitle">
@@ -29766,6 +29846,10 @@
 <param name="Local" value="uCEFLifeSpanHandler.TCefLifeSpanHandlerOwn.html#OnBeforePopup">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnBeforePopupAborted">
+<param name="Local" value="uCEFLifeSpanHandler.TCefLifeSpanHandlerOwn.html#OnBeforePopupAborted">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnBeforeDevToolsPopup">
 <param name="Local" value="uCEFLifeSpanHandler.TCefLifeSpanHandlerOwn.html#OnBeforeDevToolsPopup">
 </object>
@@ -29814,6 +29898,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnBeforePopup">
 <param name="Local" value="uCEFLifeSpanHandler.TCustomLifeSpanHandler.html#OnBeforePopup">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnBeforePopupAborted">
+<param name="Local" value="uCEFLifeSpanHandler.TCustomLifeSpanHandler.html#OnBeforePopupAborted">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnBeforeDevToolsPopup">
@@ -42458,6 +42546,10 @@
 <param name="Local" value="uCEFTypes.TCefLifeSpanHandler.html#on_before_popup">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="on_before_popup_aborted">
+<param name="Local" value="uCEFTypes.TCefLifeSpanHandler.html#on_before_popup_aborted">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="on_before_dev_tools_popup">
 <param name="Local" value="uCEFTypes.TCefLifeSpanHandler.html#on_before_dev_tools_popup">
 </object>
@@ -47002,6 +47094,10 @@
 <param name="Local" value="uCEFTypes.TCefFrame.html#paste">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="paste_and_match_style">
+<param name="Local" value="uCEFTypes.TCefFrame.html#paste_and_match_style">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="del">
 <param name="Local" value="uCEFTypes.TCefFrame.html#del">
 </object>
@@ -47336,6 +47432,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="get_opener_window_handle">
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#get_opener_window_handle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="get_opener_identifier">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#get_opener_identifier">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="has_view">
@@ -48286,6 +48386,10 @@
 <param name="Local" value="uCEFTypes.TCefView.html#is_accessibility_focusable">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="has_focus">
+<param name="Local" value="uCEFTypes.TCefView.html#has_focus">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="request_focus">
 <param name="Local" value="uCEFTypes.TCefView.html#request_focus">
 </object>
@@ -49028,6 +49132,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="is_fullscreen">
 <param name="Local" value="uCEFTypes.TCefWindow.html#is_fullscreen">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="get_focused_view">
+<param name="Local" value="uCEFTypes.TCefWindow.html#get_focused_view">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="set_title">
@@ -52240,6 +52348,10 @@
 <param name="Local" value="uCEFView.TCefViewRef.html#IsAccessibilityFocusable">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="HasFocus">
+<param name="Local" value="uCEFView.TCefViewRef.html#HasFocus">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="RequestFocus">
 <param name="Local" value="uCEFView.TCefViewRef.html#RequestFocus">
 </object>
@@ -52450,6 +52562,10 @@
 <param name="Local" value="uCEFViewComponent.TCEFViewComponent.html#AccessibilityFocusable">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="HasFocus">
+<param name="Local" value="uCEFViewComponent.TCEFViewComponent.html#HasFocus">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="BackgroundColor">
 <param name="Local" value="uCEFViewComponent.TCEFViewComponent.html#BackgroundColor">
 </object>
@@ -52654,6 +52770,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetIsAccessibilityFocusable">
 <param name="Local" value="uCEFViewComponent.TCEFViewComponent.html#GetIsAccessibilityFocusable">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetHasFocus">
+<param name="Local" value="uCEFViewComponent.TCEFViewComponent.html#GetHasFocus">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetBackgroundColor">
@@ -53538,6 +53658,10 @@
 <param name="Local" value="uCEFWindow.TCefWindowRef.html#IsFullscreen">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="GetFocusedView">
+<param name="Local" value="uCEFWindow.TCefWindowRef.html#GetFocusedView">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="SetTitle">
 <param name="Local" value="uCEFWindow.TCefWindowRef.html#SetTitle">
 </object>
@@ -53764,6 +53888,10 @@
 </object>
 <ul>
 <li><object type="text/sitemap">
+<param name="Name" value="FocusedView">
+<param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#FocusedView">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="Title">
 <param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#Title">
 </object>
@@ -53960,6 +54088,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetIsFullscreen">
 <param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#GetIsFullscreen">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetFocusedView">
+<param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#GetFocusedView">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetTitle">
@@ -56290,6 +56422,10 @@
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#DefaultZoomLevel">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OpenerIdentifier">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#OpenerIdentifier">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OpenerWindowHandle">
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#OpenerWindowHandle">
 </object>
@@ -56346,6 +56482,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetDefaultZoomLevel">
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#GetDefaultZoomLevel">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetOpenerIdentifier">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#GetOpenerIdentifier">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetOpenerWindowHandle">
@@ -58656,6 +58796,10 @@
 <param name="Local" value="uCEFInterfaces.ICefFrame.html#Paste">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="PasteAndMatchStyle">
+<param name="Local" value="uCEFInterfaces.ICefFrame.html#PasteAndMatchStyle">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="Redo">
 <param name="Local" value="uCEFInterfaces.ICefFrame.html#Redo">
 </object>
@@ -58996,6 +59140,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnBeforeDevToolsPopup">
 <param name="Local" value="uCEFInterfaces.ICefLifeSpanHandler.html#OnBeforeDevToolsPopup">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnBeforePopupAborted">
+<param name="Local" value="uCEFInterfaces.ICefLifeSpanHandler.html#OnBeforePopupAborted">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="RemoveReferences">
@@ -63408,6 +63556,10 @@
 <param name="Local" value="uCEFInterfaces.ICefView.html#GetWindow">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="HasFocus">
+<param name="Local" value="uCEFInterfaces.ICefView.html#HasFocus">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IsAccessibilityFocusable">
 <param name="Local" value="uCEFInterfaces.ICefView.html#IsAccessibilityFocusable">
 </object>
@@ -63678,6 +63830,10 @@
 <param name="Local" value="uCEFInterfaces.ICefWindow.html#Display">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FocusedView">
+<param name="Local" value="uCEFInterfaces.ICefWindow.html#FocusedView">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="RuntimeStyle">
 <param name="Local" value="uCEFInterfaces.ICefWindow.html#RuntimeStyle">
 </object>
@@ -63714,6 +63870,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetDisplay">
 <param name="Local" value="uCEFInterfaces.ICefWindow.html#GetDisplay">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetFocusedView">
+<param name="Local" value="uCEFInterfaces.ICefWindow.html#GetFocusedView">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetRuntimeStyle">
@@ -64760,6 +64920,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnBeforeDevToolsPopup">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnBeforeDevToolsPopup">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnBeforePopupAborted">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnBeforePopupAborted">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnContextMenuDismissed">
@@ -66864,6 +67028,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#BlinkSettings">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="BrowserById">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#BrowserById">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="BrowserSubprocessPath">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#BrowserSubprocessPath">
 </object>
@@ -67526,6 +67694,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetAvailableSystemMemory">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="GetBrowserById">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetBrowserById">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="GetChildProcessesCount">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetChildProcessesCount">
 </object>
@@ -68020,6 +68192,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SetLocalesDirPath">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#SetLocalesDirPath">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetLogFile">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#SetLogFile">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetOsmodalLoop">
@@ -69172,6 +69348,10 @@
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#get_navigation_entries">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="get_opener_identifier">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#get_opener_identifier">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="get_opener_window_handle">
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#get_opener_window_handle">
 </object>
@@ -69398,6 +69578,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetDefaultZoomLevel">
 <param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#GetDefaultZoomLevel">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetOpenerIdentifier">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#GetOpenerIdentifier">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetOpenerWindowHandle">
@@ -76086,6 +76270,10 @@
 <param name="Local" value="uCEFTypes.TCefFrame.html#paste">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="paste_and_match_style">
+<param name="Local" value="uCEFTypes.TCefFrame.html#paste_and_match_style">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="redo">
 <param name="Local" value="uCEFTypes.TCefFrame.html#redo">
 </object>
@@ -76276,6 +76464,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="Paste">
 <param name="Local" value="uCEFFrame.TCefFrameRef.html#Paste">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PasteAndMatchStyle">
+<param name="Local" value="uCEFFrame.TCefFrameRef.html#PasteAndMatchStyle">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="Redo">
@@ -77127,6 +77319,10 @@
 <param name="Name" value="on_before_popup">
 <param name="Local" value="uCEFTypes.TCefLifeSpanHandler.html#on_before_popup">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="on_before_popup_aborted">
+<param name="Local" value="uCEFTypes.TCefLifeSpanHandler.html#on_before_popup_aborted">
+</object>
 </ul>
 </ul>
 <li><object type="text/sitemap">
@@ -77162,6 +77358,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnBeforeDevToolsPopup">
 <param name="Local" value="uCEFLifeSpanHandler.TCefLifeSpanHandlerOwn.html#OnBeforeDevToolsPopup">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnBeforePopupAborted">
+<param name="Local" value="uCEFLifeSpanHandler.TCefLifeSpanHandlerOwn.html#OnBeforePopupAborted">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="RemoveReferences">
@@ -88590,6 +88790,10 @@
 <param name="Local" value="uCEFTypes.TCefView.html#get_window">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="has_focus">
+<param name="Local" value="uCEFTypes.TCefView.html#has_focus">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="invalidate_layout">
 <param name="Local" value="uCEFTypes.TCefView.html#invalidate_layout">
 </object>
@@ -88808,6 +89012,10 @@
 <param name="Local" value="uCEFViewComponent.TCEFViewComponent.html#GroupID">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="HasFocus">
+<param name="Local" value="uCEFViewComponent.TCEFViewComponent.html#HasFocus">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="HeightForWidth">
 <param name="Local" value="uCEFViewComponent.TCEFViewComponent.html#HeightForWidth">
 </object>
@@ -89004,6 +89212,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetGroupID">
 <param name="Local" value="uCEFViewComponent.TCEFViewComponent.html#GetGroupID">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetHasFocus">
+<param name="Local" value="uCEFViewComponent.TCEFViewComponent.html#GetHasFocus">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetHeightForWidth">
@@ -89538,6 +89750,10 @@
 <param name="Local" value="uCEFView.TCefViewRef.html#GetWindow">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="HasFocus">
+<param name="Local" value="uCEFView.TCefViewRef.html#HasFocus">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IsAccessibilityFocusable">
 <param name="Local" value="uCEFView.TCefViewRef.html#IsAccessibilityFocusable">
 </object>
@@ -89888,6 +90104,10 @@
 <param name="Local" value="uCEFTypes.TCefWindow.html#get_display">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="get_focused_view">
+<param name="Local" value="uCEFTypes.TCefWindow.html#get_focused_view">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="get_runtime_style">
 <param name="Local" value="uCEFTypes.TCefWindow.html#get_runtime_style">
 </object>
@@ -90142,6 +90362,10 @@
 <param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#Display">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FocusedView">
+<param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#FocusedView">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IsActive">
 <param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#IsActive">
 </object>
@@ -90306,6 +90530,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetDisplay">
 <param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#GetDisplay">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetFocusedView">
+<param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#GetFocusedView">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetInitialized">
@@ -91198,6 +91426,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetDisplay">
 <param name="Local" value="uCEFWindow.TCefWindowRef.html#GetDisplay">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetFocusedView">
+<param name="Local" value="uCEFWindow.TCefWindowRef.html#GetFocusedView">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetRuntimeStyle">
@@ -92760,6 +92992,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnBeforePopup">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FOnBeforePopupAborted">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnBeforePopupAborted">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOnBeforeResourceLoad">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnBeforeResourceLoad">
 </object>
@@ -93710,6 +93946,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnBeforePopup">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnBeforePopupAborted">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnBeforePopupAborted">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnBeforeResourceLoad">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnBeforeResourceLoad">
 </object>
@@ -94184,6 +94424,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnZoomPctAvailable">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnZoomPctAvailable">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OpenerIdentifier">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OpenerIdentifier">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OpenerWindowHandle">
@@ -94816,6 +95060,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#GetMultithreadApp">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="GetOpenerIdentifier">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#GetOpenerIdentifier">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="GetOpenerWindowHandle">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#GetOpenerWindowHandle">
 </object>
@@ -95030,6 +95278,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ClipboardPaste">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#ClipboardPaste">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ClipboardPasteAndMatchStyle">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#ClipboardPasteAndMatchStyle">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ClipboardRedo">
@@ -95562,6 +95814,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnBeforeDevToolsPopup">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnBeforeDevToolsPopup">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnBeforePopupAborted">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnBeforePopupAborted">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnContextMenuDismissed">
@@ -98040,6 +98296,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnBeforeDevToolsPopup">
 <param name="Local" value="uCEFLifeSpanHandler.TCustomLifeSpanHandler.html#OnBeforeDevToolsPopup">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnBeforePopupAborted">
+<param name="Local" value="uCEFLifeSpanHandler.TCustomLifeSpanHandler.html#OnBeforePopupAborted">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="RemoveReferences">

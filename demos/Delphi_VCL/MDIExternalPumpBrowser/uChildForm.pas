@@ -37,7 +37,7 @@ type
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1LoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
     procedure Chromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
-    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
 
   private
     // Variables to control when can we destroy the form safely
@@ -84,8 +84,8 @@ begin
 end;
 
 procedure TChildForm.Chromium1BeforePopup(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
+  const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer;
+  const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
   userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
   var settings: TCefBrowserSettings;

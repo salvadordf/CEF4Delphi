@@ -49,7 +49,7 @@ type
       procedure Browser_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
       procedure Browser_OnGetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect);
       procedure Browser_OnGetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: Boolean);
-      procedure Browser_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+      procedure Browser_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
       procedure Browser_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
       procedure Browser_OnLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorcode; const errorText, failedUrl: ustring);
       procedure Browser_OnLoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
@@ -282,7 +282,7 @@ end;
 
 procedure TCEFBrowserThread.Browser_OnBeforePopup(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame;
-  const targetUrl, targetFrameName: ustring;
+  popup_id: Integer; const targetUrl, targetFrameName: ustring;
   targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
   const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
   var client: ICefClient; var settings: TCefBrowserSettings;

@@ -41,7 +41,7 @@ type
     procedure WMWindowPosChanged(var Message: TLMWindowPosChanged); message LM_WINDOWPOSCHANGED;
 
     procedure BrowserCloseMainForm(Data: PtrInt);
-    procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
   public
 
   end;
@@ -104,8 +104,8 @@ begin
 end;
 
 procedure TForm1.Chromium_OnBeforePopup(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
+  const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer;
+  const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
   userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
   var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue;

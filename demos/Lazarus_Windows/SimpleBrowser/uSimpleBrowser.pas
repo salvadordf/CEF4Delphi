@@ -48,7 +48,7 @@ type
     FCanClose : boolean;  // Set to True in TChromium.OnClose
     FClosing  : boolean;  // Set to True in the CloseQuery event.
 
-    procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
 
   public
     { Public declarations }
@@ -132,6 +132,7 @@ end;
 procedure TForm1.Chromium_OnBeforePopup(      Sender             : TObject;
                                         const browser            : ICefBrowser;
                                         const frame              : ICefFrame;
+                                              popup_id           : Integer;
                                         const targetUrl          : ustring;
                                         const targetFrameName    : ustring;
                                               targetDisposition  : TCefWindowOpenDisposition;

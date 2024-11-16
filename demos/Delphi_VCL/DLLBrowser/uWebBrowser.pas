@@ -29,8 +29,8 @@ type
   private
 
     procedure Chromium_OnBeforePopup(Sender: TObject;
-      const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-      targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
+      const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer;
+      const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
       userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
       var windowInfo: TCefWindowInfo; var client: ICefClient;
       var settings: TCefBrowserSettings;
@@ -137,8 +137,8 @@ begin
 end;
 
 procedure TWebBrowserFrm.Chromium_OnBeforePopup(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
+  const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer;
+  const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
   userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient;
   var settings: TCefBrowserSettings;

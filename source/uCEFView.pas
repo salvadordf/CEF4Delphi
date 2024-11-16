@@ -243,8 +243,16 @@ type
       /// </summary>
       function  IsAccessibilityFocusable : boolean;
       /// <summary>
-      /// Request keyboard focus. If this View is focusable it will become the
-      /// focused View.
+      /// Returns true (1) if this View has focus in the context of the containing
+      /// Window. Check both this function and ICefWindow.IsActive to determine
+      /// global keyboard focus.
+      /// </summary>
+      function  HasFocus : boolean;
+      /// <summary>
+      /// Request focus for this View in the context of the containing Window. If
+      /// this View is focusable it will become the focused View. Any focus changes
+      /// while a Window is not active may be applied after that Window next becomes
+      /// active.
       /// </summary>
       procedure RequestFocus;
       /// <summary>
@@ -527,6 +535,11 @@ end;
 function TCefViewRef.IsAccessibilityFocusable : boolean;
 begin
   Result := (PCefView(FData)^.is_accessibility_focusable(PCefView(FData)) <> 0);
+end;
+
+function TCefViewRef.HasFocus : boolean;
+begin
+  Result := (PCefView(FData)^.has_focus(PCefView(FData)) <> 0);
 end;
 
 procedure TCefViewRef.RequestFocus;

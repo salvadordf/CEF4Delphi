@@ -59,7 +59,7 @@ type
     procedure chrmosrPopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
-    procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrCursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: Boolean);
     procedure chrmosrAddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
@@ -502,39 +502,40 @@ begin
 end;
 
 procedure TMainForm.chrmosrBeforePopup(      Sender             : TObject;
-                                                        const browser            : ICefBrowser;
-                                                        const frame              : ICefFrame;
-                                                        const targetUrl          : ustring;
-                                                        const targetFrameName    : ustring;
-                                                              targetDisposition  : TCefWindowOpenDisposition;
-                                                              userGesture        : Boolean;
-                                                        const popupFeatures      : TCefPopupFeatures;
-                                                        var   windowInfo         : TCefWindowInfo;
-                                                        var   client             : ICefClient;
-                                                        var   settings           : TCefBrowserSettings;
-                                                        var   extra_info         : ICefDictionaryValue;
-                                                        var   noJavascriptAccess : Boolean;
-                                                        var   Result             : Boolean);
+                                      const browser            : ICefBrowser;
+                                      const frame              : ICefFrame;
+                                            popup_id           : Integer;
+                                      const targetUrl          : ustring;
+                                      const targetFrameName    : ustring;
+                                            targetDisposition  : TCefWindowOpenDisposition;
+                                            userGesture        : Boolean;
+                                      const popupFeatures      : TCefPopupFeatures;
+                                      var   windowInfo         : TCefWindowInfo;
+                                      var   client             : ICefClient;
+                                      var   settings           : TCefBrowserSettings;
+                                      var   extra_info         : ICefDictionaryValue;
+                                      var   noJavascriptAccess : Boolean;
+                                      var   Result             : Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
 end;
 
 procedure TMainForm.chrmosrCursorChange(      Sender           : TObject;
-                                                         const browser          : ICefBrowser;
-                                                               cursor_          : TCefCursorHandle;
-                                                               cursorType       : TCefCursorType;
-                                                         const customCursorInfo : PCefCursorInfo;
-                                                         var   aResult          : Boolean);
+                                       const browser          : ICefBrowser;
+                                             cursor_          : TCefCursorHandle;
+                                             cursorType       : TCefCursorType;
+                                       const customCursorInfo : PCefCursorInfo;
+                                       var   aResult          : Boolean);
 begin
   Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
   aResult       := True;
 end;
 
 procedure TMainForm.chrmosrGetScreenInfo(      Sender     : TObject;
-                                                          const browser    : ICefBrowser;
-                                                          var   screenInfo : TCefScreenInfo;
-                                                          out   Result     : Boolean);
+                                        const browser    : ICefBrowser;
+                                        var   screenInfo : TCefScreenInfo;
+                                        out   Result     : Boolean);
 var
   TempRect : TCEFRect;
 begin
@@ -554,12 +555,12 @@ begin
 end;
 
 procedure TMainForm.chrmosrGetScreenPoint(      Sender  : TObject;
-                                                           const browser : ICefBrowser;
-                                                                 viewX   : Integer;
-                                                                 viewY   : Integer;
-                                                           var   screenX : Integer;
-                                                           var   screenY : Integer;
-                                                           out   Result  : Boolean);
+                                         const browser : ICefBrowser;
+                                               viewX   : Integer;
+                                               viewY   : Integer;
+                                         var   screenX : Integer;
+                                         var   screenY : Integer;
+                                         out   Result  : Boolean);
 var
   TempScreenPt, TempViewPt : TPoint;
   TempScale : single;
@@ -574,8 +575,8 @@ begin
 end;
 
 procedure TMainForm.chrmosrGetViewRect(      Sender  : TObject;
-                                                        const browser : ICefBrowser;
-                                                        var   rect    : TCefRect);
+                                      const browser : ICefBrowser;
+                                      var   rect    : TCefRect);
 begin
   rect.x      := 0;
   rect.y      := 0;
@@ -584,13 +585,13 @@ begin
 end;
 
 procedure TMainForm.chrmosrPaint(      Sender          : TObject;
-                                                  const browser         : ICefBrowser;
-                                                        type_           : TCefPaintElementType;
-                                                        dirtyRectsCount : NativeUInt;
-                                                  const dirtyRects      : PCefRectArray;
-                                                  const buffer          : Pointer;
-                                                        width           : Integer;
-                                                        height          : Integer);
+                                const browser         : ICefBrowser;
+                                      type_           : TCefPaintElementType;
+                                      dirtyRectsCount : NativeUInt;
+                                const dirtyRects      : PCefRectArray;
+                                const buffer          : Pointer;
+                                      width           : Integer;
+                                      height          : Integer);
 var
   src, dst: PByte;
   i, j, TempLineSize, TempSrcOffset, TempDstOffset, SrcStride, TempWidth, TempHeight : Integer;
@@ -744,8 +745,8 @@ begin
 end;
 
 procedure TMainForm.chrmosrPopupShow(      Sender  : TObject;
-                                                      const browser : ICefBrowser;
-                                                            show    : Boolean);
+                                    const browser : ICefBrowser;
+                                          show    : Boolean);
 begin
   if show then
     FShowPopUp := True
@@ -759,8 +760,8 @@ begin
 end;
 
 procedure TMainForm.chrmosrPopupSize(      Sender  : TObject;
-                                                      const browser : ICefBrowser;
-                                                      const rect    : PCefRect);
+                                    const browser : ICefBrowser;
+                                    const rect    : PCefRect);
 begin
   if (GlobalCEFApp <> nil) then
     begin
@@ -774,9 +775,9 @@ begin
 end;
 
 procedure TMainForm.chrmosrTooltip(      Sender  : TObject;
-                                                    const browser : ICefBrowser;
-                                                    var   text    : ustring;
-                                                    out   Result  : Boolean);
+                                  const browser : ICefBrowser;
+                                  var   text    : ustring;
+                                  out   Result  : Boolean);
 begin
   Panel1.Hint     := text;
   Panel1.ShowHint := (length(text) > 0);

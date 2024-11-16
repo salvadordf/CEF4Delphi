@@ -49,7 +49,7 @@ type
     procedure Chromium1PopupShow(Sender: TObject; const browser: ICefBrowser; show: Boolean);
     procedure Chromium1PopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
     procedure Chromium1Tooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
-    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
+    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
@@ -277,6 +277,7 @@ end;
 procedure TChildForm.Chromium1BeforePopup(      Sender             : TObject;
                                           const browser            : ICefBrowser;
                                           const frame              : ICefFrame;
+										        popup_id		   : Integer; 
                                           const targetUrl          : ustring;
                                           const targetFrameName    : ustring;
                                                 targetDisposition  : TCefWindowOpenDisposition;

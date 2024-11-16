@@ -31,7 +31,7 @@ type
       function GetClient : ICefClient;
 
       procedure Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
-      procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
+      procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
       procedure Chromium_OnTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
 
       procedure CEFWindowComponent_OnWindowCreated(const Sender : TObject; const window : ICefWindow);
@@ -150,6 +150,7 @@ end;
 procedure TTinyBrowser.Chromium_OnBeforePopup(      Sender             : TObject;
                                               const browser            : ICefBrowser;
                                               const frame              : ICefFrame;
+											        popup_id		   : Integer; 
                                               const targetUrl          : ustring;
                                               const targetFrameName    : ustring;
                                                     targetDisposition  : TCefWindowOpenDisposition;

@@ -67,6 +67,7 @@ type
       function  GetIsMaximized : boolean;
       function  GetIsMinimized : boolean;
       function  GetIsFullscreen : boolean;
+      function  GetFocusedView : ICefView;
       function  GetTitle : ustring;
       function  GetWindowIcon : ICefImage;
       function  GetWindowAppIcon : ICefImage;
@@ -291,6 +292,13 @@ type
       /// or ICefViewDelegate.OnThemeChanged.</para>
       /// </summary>
       procedure ThemeChanged;
+      /// <summary>
+      /// Returns the View that currently has focus in this Window, or nullptr if no
+      /// View currently has focus. A Window may have a focused View even if it is
+      /// not currently active. Any focus changes while a Window is not active may
+      /// be applied after that Window next becomes active.
+      /// </summary>
+      property FocusedView              : ICefView           read GetFocusedView;
       /// <summary>
       /// Get the Window title.
       /// </summary>
@@ -874,6 +882,14 @@ end;
 function TCEFWindowComponent.GetIsFullscreen : boolean;
 begin
   Result := Initialized and FWindow.IsFullscreen;
+end;
+
+function TCEFWindowComponent.GetFocusedView : ICefView;
+begin
+  if Initialized then
+    Result := FWindow.GetFocusedView
+   else
+    Result := nil;
 end;
 
 procedure TCEFWindowComponent.SetTitle(const title_: ustring);

@@ -33,7 +33,6 @@ type
       /// Show the Window.
       /// </summary>
       procedure Show;
-
       /// <summary>
       /// Show the Window as a browser modal dialog relative to |browser_view|. A
       /// parent Window must be returned via
@@ -46,117 +45,102 @@ type
       /// where all controls in the parent Window are disabled.
       /// </summary>
       procedure ShowAsBrowserModalDialog(const browser_view: ICefBrowserView);
-
       /// <summary>
       /// Hide the Window.
       /// </summary>
       procedure Hide;
-
       /// <summary>
       /// Sizes the Window to |size| and centers it in the current display.
       /// </summary>
       procedure CenterWindow(const size_: TCefSize);
-
       /// <summary>
       /// Close the Window.
       /// </summary>
       procedure Close;
-
       /// <summary>
       /// Returns true (1) if the Window has been closed.
       /// </summary>
       function  IsClosed : boolean;
-
       /// <summary>
       /// Activate the Window, assuming it already exists and is visible.
       /// </summary>
       procedure Activate;
-
       /// <summary>
       /// Deactivate the Window, making the next Window in the Z order the active
       /// Window.
       /// </summary>
       procedure Deactivate;
-
       /// <summary>
       /// Returns whether the Window is the currently active Window.
       /// </summary>
       function  IsActive : boolean;
-
       /// <summary>
       /// Bring this Window to the top of other Windows in the Windowing system.
       /// </summary>
       procedure BringToTop;
-
       /// <summary>
       /// Set the Window to be on top of other Windows in the Windowing system.
       /// </summary>
       procedure SetAlwaysOnTop(on_top: boolean);
-
       /// <summary>
       /// Returns whether the Window has been set to be on top of other Windows in
       /// the Windowing system.
       /// </summary>
       function  IsAlwaysOnTop : boolean;
-
       /// <summary>
       /// Maximize the Window.
       /// </summary>
       procedure Maximize;
-
       /// <summary>
       /// Minimize the Window.
       /// </summary>
       procedure Minimize;
-
       /// <summary>
       /// Restore the Window.
       /// </summary>
       procedure Restore;
-
       /// <summary>
       /// Set fullscreen Window state. The
       /// ICefWindowDelegate.OnWindowFullscreenTransition function will be
       /// called during the fullscreen transition for notification purposes.
       /// </summary>
       procedure SetFullscreen(fullscreen: boolean);
-
       /// <summary>
       /// Returns true (1) if the Window is maximized.
       /// </summary>
       function  IsMaximized : boolean;
-
       /// <summary>
       /// Returns true (1) if the Window is minimized.
       /// </summary>
       function  IsMinimized : boolean;
-
       /// <summary>
       /// Returns true (1) if the Window is fullscreen.
       /// </summary>
       function  IsFullscreen : boolean;
-
+      /// <summary>
+      /// Returns the View that currently has focus in this Window, or nullptr if no
+      /// View currently has focus. A Window may have a focused View even if it is
+      /// not currently active. Any focus changes while a Window is not active may
+      /// be applied after that Window next becomes active.
+      /// </summary>
+      function  GetFocusedView : ICefView;
       /// <summary>
       /// Set the Window title.
       /// </summary>
       procedure SetTitle(const title_: ustring);
-
       /// <summary>
       /// Get the Window title.
       /// </summary>
       function  GetTitle : ustring;
-
       /// <summary>
       /// Set the Window icon. This should be a 16x16 icon suitable for use in the
       /// Windows's title bar.
       /// </summary>
       procedure SetWindowIcon(const image: ICefImage);
-
       /// <summary>
       /// Get the Window icon.
       /// </summary>
       function  GetWindowIcon : ICefImage;
-
       /// <summary>
       /// Set the Window App icon. This should be a larger icon for use in the host
       /// environment app switching UI. On Windows, this is the ICON_BIG used in
@@ -164,12 +148,10 @@ type
       /// if no Window App icon is specified.
       /// </summary>
       procedure SetWindowAppIcon(const image: ICefImage);
-
       /// <summary>
       /// Get the Window App icon.
       /// </summary>
       function  GetWindowAppIcon : ICefImage;
-
       /// <summary>
       /// <para>Add a View that will be overlayed on the Window contents with absolute
       /// positioning and high z-order. Positioning is controlled by |docking_mode|
@@ -202,31 +184,26 @@ type
       /// overlay displays as the top-most child of the Window.</para>
       /// </summary>
       function  AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode; can_activate: boolean): ICefOverlayController;
-
       /// <summary>
       /// Show a menu with contents |menu_model|. |screen_point| specifies the menu
       /// position in screen coordinates. |anchor_position| specifies how the menu
       /// will be anchored relative to |screen_point|.
       /// </summary>
       procedure ShowMenu(const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition);
-
       /// <summary>
       /// Cancel the menu that is currently showing, if any.
       /// </summary>
       procedure CancelMenu;
-
       /// <summary>
       /// Returns the Display that most closely intersects the bounds of this
       /// Window. May return NULL if this Window is not currently displayed.
       /// </summary>
       function  GetDisplay : ICefDisplay;
-
       /// <summary>
       /// Returns the bounds (size and position) of this Window's client area.
       /// Position is in screen coordinates.
       /// </summary>
       function  GetClientAreaBoundsInScreen : TCefRect;
-
       /// <summary>
       /// Set the regions where mouse events will be intercepted by this Window to
       /// support drag operations. Call this function with an NULL vector to clear
@@ -234,12 +211,10 @@ type
       /// coordinates.
       /// </summary>
       procedure SetDraggableRegions(regionsCount: NativeUInt; const regions: PCefDraggableRegionArray);
-
       /// <summary>
       /// Retrieve the platform window handle for this Window.
       /// </summary>
       function  GetWindowHandle : TCefWindowHandle;
-
       /// <summary>
       /// Simulate a key press. |key_code| is the VKEY_* value from Chromium's
       /// ui/events/keycodes/keyboard_codes.h header (VK_* values on Windows).
@@ -248,14 +223,12 @@ type
       /// primarily for testing purposes.
       /// </summary>
       procedure SendKeyPress(key_code: Integer; event_flags: cardinal);
-
       /// <summary>
       /// Simulate a mouse move. The mouse cursor will be moved to the specified
       /// (screen_x, screen_y) position. This function is exposed primarily for
       /// testing purposes.
       /// </summary>
       procedure SendMouseMove(screen_x, screen_y: Integer);
-
       /// <summary>
       /// Simulate mouse down and/or mouse up events. |button| is the mouse button
       /// type. If |mouse_down| is true (1) a mouse down event will be sent. If
@@ -266,7 +239,6 @@ type
       /// the mouse. This function is exposed primarily for testing purposes.
       /// </summary>
       procedure SendMouseEvents(button: TCefMouseButtonType; mouse_down, mouse_up: boolean);
-
       /// <summary>
       /// <para>Set the keyboard accelerator for the specified |command_id|. |key_code|
       /// can be any virtual key or character value. Required modifier keys are
@@ -281,17 +253,14 @@ type
       /// ICefBrowserView.SetPreferAccelerators configuration.</para>
       /// </summary>
       procedure SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed, high_priority: boolean);
-
       /// <summary>
       /// Remove the keyboard accelerator for the specified |command_id|.
       /// </summary>
       procedure RemoveAccelerator(command_id: Integer);
-
       /// <summary>
       /// Remove all keyboard accelerators.
       /// </summary>
       procedure RemoveAllAccelerators;
-
       /// <summary>
       /// <para>Override a standard theme color or add a custom color associated with
       /// |color_id|. See cef_color_ids.h for standard ID values. Recommended usage
@@ -314,7 +283,6 @@ type
       /// CEF_ChromeColorsEnd.</para>
       /// </summary>
       procedure SetThemeColor(color_id: integer; color: TCefColor);
-
       /// <summary>
       /// <para>Trigger ICefViewDelegate.OnThemeChanged callbacks for each View in
       /// this Window's component hierarchy. Unlike a native/OS or Chrome theme
@@ -324,7 +292,6 @@ type
       /// or ICefViewDelegate.OnThemeChanged.</para>
       /// </summary>
       procedure ThemeChanged;
-
       /// <summary>
       /// Returns the runtime style for this Window (ALLOY or CHROME). See
       /// TCefRuntimeStyle documentation for details.
@@ -345,7 +312,8 @@ type
 implementation
 
 uses
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFImage, uCEFDisplay, uCEFOverlayController;
+  uCEFLibFunctions, uCEFMiscFunctions, uCEFImage, uCEFDisplay, uCEFOverlayController,
+  uCEFView;
 
 procedure TCefWindowRef.Show;
 begin
@@ -440,6 +408,11 @@ end;
 function TCefWindowRef.IsFullscreen : boolean;
 begin
   Result := (PCefWindow(FData)^.is_fullscreen(PCefWindow(FData)) <> 0);
+end;
+
+function TCefWindowRef.GetFocusedView : ICefView;
+begin
+  Result := TCefViewRef.UnWrap(PCefWindow(FData)^.get_focused_view(PCefWindow(FData)));
 end;
 
 procedure TCefWindowRef.SetTitle(const title_: ustring);

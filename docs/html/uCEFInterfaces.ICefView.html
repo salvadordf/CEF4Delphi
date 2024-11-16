@@ -198,41 +198,45 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#RequestFocus">RequestFocus</a></strong>;</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#HasFocus">HasFocus</a></strong>: boolean;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#RequestFocus">RequestFocus</a></strong>;</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefView.html#SetBackgroundColor-TCefColor-">SetBackgroundColor</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetBackgroundColor">GetBackgroundColor</a></strong>: <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#GetThemeColor-integer-">GetThemeColor</a></strong>(color_id: integer): <a href="uCEFTypes.html#TCefColor">TCefColor</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointToScreen-TCefPoint-">ConvertPointToScreen</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointFromScreen-TCefPoint-">ConvertPointFromScreen</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointToWindow-TCefPoint-">ConvertPointToWindow</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointFromWindow-TCefPoint-">ConvertPointFromWindow</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointToView-ICefView-TCefPoint-">ConvertPointToView</a></strong>(const view : <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefView.html#ConvertPointFromView-ICefView-TCefPoint-">ConvertPointFromView</a></strong>(const view : <a href="uCEFInterfaces.ICefView.html">ICefView</a>; var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>): boolean;</code></td>
 </tr>
@@ -748,11 +752,21 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="HasFocus"></span><code>function <strong>HasFocus</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this View has focus in the context of the containing Window. Check both this function and ICefWindow.IsActive to determine global keyboard focus. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><span id="RequestFocus"></span><code>procedure <strong>RequestFocus</strong>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
- Request keyboard focus. If this View is focusable it will become the focused View. </p>
+ Request focus for this View in the context of the containing Window. If this View is focusable it will become the focused View. Any focus changes while a Window is not active may be applied after that Window next becomes active. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

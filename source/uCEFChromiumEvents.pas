@@ -72,7 +72,8 @@ type
   TOnDialogClosed                 = procedure(Sender: TObject; const browser: ICefBrowser) of object;
 
   // ICefLifeSpanHandler
-  TOnBeforePopup                  = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean) of object;
+  TOnBeforePopup                  = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean) of object;
+  TOnBeforePopupAborted           = procedure(Sender: TObject; const browser: ICefBrowser; popup_id: Integer) of object;
   TOnBeforeDevToolsPopup          = procedure(Sender: TObject; const browser: ICefBrowser; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var use_default_window: boolean) of object;
   TOnAfterCreated                 = procedure(Sender: TObject; const browser: ICefBrowser) of object;
   TOnBeforeClose                  = procedure(Sender: TObject; const browser: ICefBrowser) of object;

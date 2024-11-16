@@ -57,6 +57,7 @@ type
       procedure SetFocus(focus: Boolean);
       function  GetWindowHandle: TCefWindowHandle;
       function  GetOpenerWindowHandle: TCefWindowHandle;
+      function  GetOpenerIdentifier: integer;
       function  HasView: Boolean;
       function  GetClient: ICefClient;
       function  GetRequestContext: ICefRequestContext;
@@ -542,6 +543,11 @@ end;
 function TCefBrowserHostRef.GetOpenerWindowHandle: TCefWindowHandle;
 begin
   Result := PCefBrowserHost(FData)^.get_opener_window_handle(PCefBrowserHost(FData));
+end;
+
+function TCefBrowserHostRef.GetOpenerIdentifier: Integer;
+begin
+  Result := PCefBrowserHost(FData)^.get_opener_identifier(PCefBrowserHost(FData));
 end;
 
 function TCefBrowserHostRef.GetClient: ICefClient;

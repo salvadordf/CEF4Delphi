@@ -17,7 +17,8 @@ uses
 type
   TCefLifeSpanHandlerOwn = class(TCefBaseRefCountedOwn, ICefLifeSpanHandler)
     protected
-      function  OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean): Boolean; virtual;
+      function  OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean): Boolean; virtual;
+      procedure OnBeforePopupAborted(const browser: ICefBrowser; popup_id: Integer); virtual;
       procedure OnBeforeDevToolsPopup(const browser: ICefBrowser; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var use_default_window: boolean); virtual;
       procedure OnAfterCreated(const browser: ICefBrowser); virtual;
       function  DoClose(const browser: ICefBrowser): Boolean; virtual;
@@ -33,7 +34,8 @@ type
     protected
       FEvents : Pointer;
 
-      function  OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean): Boolean; override;
+      function  OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean): Boolean; override;
+      procedure OnBeforePopupAborted(const browser: ICefBrowser; popup_id: Integer); override;
       procedure OnBeforeDevToolsPopup(const browser: ICefBrowser; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var use_default_window: boolean); override;
       procedure OnAfterCreated(const browser: ICefBrowser); override;
       function  DoClose(const browser: ICefBrowser): Boolean; override;
@@ -59,6 +61,7 @@ uses
 function cef_life_span_handler_on_before_popup(      self                 : PCefLifeSpanHandler;
                                                      browser              : PCefBrowser;
                                                      frame                : PCefFrame;
+                                                     popup_id             : Integer;
                                                const target_url           : PCefString;
                                                const target_frame_name    : PCefString;
                                                      target_disposition   : TCefWindowOpenDisposition;
@@ -87,6 +90,7 @@ begin
 
         Result := Ord(TCefLifeSpanHandlerOwn(TempObject).OnBeforePopup(TCefBrowserRef.UnWrap(browser),
                                                                        TCefFrameRef.UnWrap(frame),
+                                                                       popup_id,
                                                                        CefString(target_url),
                                                                        CefString(target_frame_name),
                                                                        target_disposition,
@@ -117,6 +121,20 @@ begin
     TempExtraInfo := nil;
   end;
 end;
+
+procedure cef_life_span_handler_on_before_popup_aborted(self      : PCefLifeSpanHandler;
+                                                        browser   : PCefBrowser;
+                                                        popup_id  : Integer); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefLifeSpanHandlerOwn) then
+    TCefLifeSpanHandlerOwn(TempObject).OnBeforePopupAborted(TCefBrowserRef.UnWrap(browser),
+                                                            popup_id);
+end;
+
 
 procedure cef_life_span_handler_on_before_dev_tools_popup(    self               : PCefLifeSpanHandler;
                                                               browser            : PCefBrowser;
@@ -208,6 +226,7 @@ begin
   with PCefLifeSpanHandler(FData)^ do
     begin
       on_before_popup           := {$IFDEF FPC}@{$ENDIF}cef_life_span_handler_on_before_popup;
+      on_before_popup_aborted   := {$IFDEF FPC}@{$ENDIF}cef_life_span_handler_on_before_popup_aborted;
       on_before_dev_tools_popup := {$IFDEF FPC}@{$ENDIF}cef_life_span_handler_on_before_dev_tools_popup;
       on_after_created          := {$IFDEF FPC}@{$ENDIF}cef_life_span_handler_on_after_created;
       do_close                  := {$IFDEF FPC}@{$ENDIF}cef_life_span_handler_do_close;
@@ -227,6 +246,7 @@ end;
 
 function TCefLifeSpanHandlerOwn.OnBeforePopup(const browser            : ICefBrowser;
                                               const frame              : ICefFrame;
+                                                    popup_id           : Integer;
                                               const targetUrl          : ustring;
                                               const targetFrameName    : ustring;
                                                     targetDisposition  : TCefWindowOpenDisposition;
@@ -239,6 +259,12 @@ function TCefLifeSpanHandlerOwn.OnBeforePopup(const browser            : ICefBro
                                               var   noJavascriptAccess : Boolean): Boolean;
 begin
   Result := False;
+end;
+
+procedure TCefLifeSpanHandlerOwn.OnBeforePopupAborted(const browser  : ICefBrowser;
+                                                            popup_id : Integer);
+begin
+  //
 end;
 
 procedure TCefLifeSpanHandlerOwn.OnBeforeDevToolsPopup(const browser            : ICefBrowser;
@@ -302,6 +328,7 @@ end;
 
 function TCustomLifeSpanHandler.OnBeforePopup(const browser            : ICefBrowser;
                                               const frame              : ICefFrame;
+                                                    popup_id           : Integer;
                                               const targetUrl          : ustring;
                                               const targetFrameName    : ustring;
                                                     targetDisposition  : TCefWindowOpenDisposition;
@@ -314,13 +341,20 @@ function TCustomLifeSpanHandler.OnBeforePopup(const browser            : ICefBro
                                               var   noJavascriptAccess : Boolean): Boolean;
 begin
   if (FEvents <> nil) then
-    Result := IChromiumEvents(FEvents).doOnBeforePopup(browser, frame, targetUrl, targetFrameName,
+    Result := IChromiumEvents(FEvents).doOnBeforePopup(browser, frame, popup_id, targetUrl, targetFrameName,
                                                        targetDisposition, userGesture, popupFeatures,
                                                        windowInfo, client, settings, extra_info, noJavascriptAccess)
    else
-    Result := inherited OnBeforePopup(browser, frame, targetUrl, targetFrameName,
+    Result := inherited OnBeforePopup(browser, frame, popup_id, targetUrl, targetFrameName,
                                       targetDisposition, userGesture, popupFeatures,
                                       windowInfo, client, settings, extra_info, noJavascriptAccess);
+end;
+
+procedure TCustomLifeSpanHandler.OnBeforePopupAborted(const browser  : ICefBrowser;
+                                                            popup_id : Integer);
+begin
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnBeforePopupAborted(browser, popup_id);
 end;
 
 procedure TCustomLifeSpanHandler.OnBeforeDevToolsPopup(const browser            : ICefBrowser;

@@ -268,6 +268,7 @@ type
       function  GetApiHashPlatform : ustring;
       function  GetApiHashCommit : ustring;
       function  GetExitCode : TCefResultCode;
+      function  GetBrowserById(aID : integer) : ICefBrowser;
       {$IFDEF LINUX}
       function  GetXDisplay : PXDisplay;
       function  GetArgc : longint;
@@ -1456,6 +1457,10 @@ type
       /// </summary>
       property ExitCode                          : TCefResultCode                           read GetExitCode;
       /// <summary>
+      /// Returns the browser (if any) with the specified identifier.
+      /// </summary>
+      property BrowserById[id : integer]         : ICefBrowser                              read GetBrowserById;
+      /// <summary>
       /// Last error message that is usually shown when CEF finds a problem at initialization.
       /// </summary>
       property LastErrorMessage                  : ustring                                  read FLastErrorMessage;
@@ -1820,7 +1825,7 @@ uses
   {$IFDEF MACOSX}uCEFMacOSFunctions,{$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
   uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp, uCEFCompletionCallback,
-  uCEFWaitableEvent;
+  uCEFWaitableEvent, uCEFBrowser;
 
 procedure DestroyGlobalCEFApp;
 begin
@@ -3782,6 +3787,14 @@ begin
     Result := CEF_RESULT_CODE_NORMAL_EXIT;
 end;
 
+function TCefApplicationCore.GetBrowserById(aID : integer) : ICefBrowser;
+begin
+  if (FStatus = asInitialized) then
+    Result := TCefBrowserRef.UnWrap(cef_browser_host_get_browser_by_identifier(aID))
+   else
+    Result := nil;
+end;
+
 {$IFDEF LINUX}
 function TCefApplicationCore.GetXDisplay : PXDisplay;
 begin
@@ -3983,11 +3996,13 @@ end;
 
 function TCefApplicationCore.Load_cef_browser_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_browser_host_create_browser{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_browser_host_create_browser');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_browser_host_create_browser_sync{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_browser_host_create_browser_sync');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_browser_host_create_browser{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_browser_host_create_browser');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_browser_host_create_browser_sync{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_browser_host_create_browser_sync');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_browser_host_get_browser_by_identifier{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_browser_host_get_browser_by_identifier');
 
   Result := assigned(cef_browser_host_create_browser) and
-            assigned(cef_browser_host_create_browser_sync);
+            assigned(cef_browser_host_create_browser_sync) and
+            assigned(cef_browser_host_get_browser_by_identifier);
 end;
 
 function TCefApplicationCore.Load_cef_command_line_capi_h : boolean;

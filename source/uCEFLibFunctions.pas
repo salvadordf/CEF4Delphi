@@ -46,8 +46,9 @@ var
   cef_quit_message_loop      : procedure; cdecl;
 
   // /include/capi/cef_browser_capi.h
-  cef_browser_host_create_browser      : function(const windowInfo: PCefWindowInfo; client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; extra_info: PCefDictionaryValue; request_context: PCefRequestContext): Integer; cdecl;
-  cef_browser_host_create_browser_sync : function(const windowInfo: PCefWindowInfo; client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; extra_info: PCefDictionaryValue; request_context: PCefRequestContext): PCefBrowser; cdecl;
+  cef_browser_host_create_browser            : function(const windowInfo: PCefWindowInfo; client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; extra_info: PCefDictionaryValue; request_context: PCefRequestContext): Integer; cdecl;
+  cef_browser_host_create_browser_sync       : function(const windowInfo: PCefWindowInfo; client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; extra_info: PCefDictionaryValue; request_context: PCefRequestContext): PCefBrowser; cdecl;
+  cef_browser_host_get_browser_by_identifier : function(browser_id: Integer): PCefBrowser; cdecl;
 
   // /include/capi/cef_command_line_capi.h
   cef_command_line_create     : function : PCefCommandLine; cdecl;

@@ -23,6 +23,7 @@ type
       procedure Cut;
       procedure Copy;
       procedure Paste;
+      procedure PasteAndMatchStyle;
       procedure Del;
       procedure SelectAll;
       procedure ViewSource;
@@ -159,6 +160,11 @@ end;
 procedure TCefFrameRef.Paste;
 begin
   PCefFrame(FData)^.paste(PCefFrame(FData));
+end;
+
+procedure TCefFrameRef.PasteAndMatchStyle;
+begin
+  PCefFrame(FData)^.paste_and_match_style(PCefFrame(FData));
 end;
 
 procedure TCefFrameRef.Redo;

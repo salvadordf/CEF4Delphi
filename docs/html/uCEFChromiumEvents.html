@@ -121,294 +121,297 @@
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDialogClosed">TOnDialogClosed</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnBeforePopup">TOnBeforePopup</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const targetUrl, targetFrameName: <a href="uCEFTypes.html#ustring">ustring</a>; targetDisposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>; userGesture: Boolean; const popupFeatures: <a href="uCEFTypes.TCefPopupFeatures.html">TCefPopupFeatures</a>; var windowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a>; var client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; var settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; var extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; var noJavascriptAccess: Boolean; var Result: Boolean) of object;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnBeforePopup">TOnBeforePopup</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; popup_id: Integer; const targetUrl, targetFrameName: <a href="uCEFTypes.html#ustring">ustring</a>; targetDisposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>; userGesture: Boolean; const popupFeatures: <a href="uCEFTypes.TCefPopupFeatures.html">TCefPopupFeatures</a>; var windowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a>; var client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; var settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; var extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; var noJavascriptAccess: Boolean; var Result: Boolean) of object;</code></td>
 </tr>
 <tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnBeforePopupAborted">TOnBeforePopupAborted</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; popup_id: Integer) of object;</code></td>
+</tr>
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnBeforeDevToolsPopup">TOnBeforeDevToolsPopup</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var windowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a>; var client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; var settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; var extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; var use_default_window: boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnAfterCreated">TOnAfterCreated</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnBeforeClose">TOnBeforeClose</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnClose">TOnClose</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var aAction : <a href="uCEFTypes.html#TCefCloseBrowserAction">TCefCloseBrowserAction</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnBeforeBrowse">TOnBeforeBrowse</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; user_gesture, isRedirect: Boolean; out Result: Boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnOpenUrlFromTab">TOnOpenUrlFromTab</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const targetUrl: <a href="uCEFTypes.html#ustring">ustring</a>; targetDisposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>; userGesture: Boolean; out Result: Boolean) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetAuthCredentials">TOnGetAuthCredentials</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const originUrl: <a href="uCEFTypes.html#ustring">ustring</a>; isProxy: Boolean; const host: <a href="uCEFTypes.html#ustring">ustring</a>; port: Integer; const realm, scheme: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefAuthCallback.html">ICefAuthCallback</a>; out Result: Boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnCertificateError">TOnCertificateError</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; certError: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorcode</a>; const requestUrl: <a href="uCEFTypes.html#ustring">ustring</a>; const sslInfo: <a href="uCEFInterfaces.ICefSslInfo.html">ICefSslInfo</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>; out Result: Boolean) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnSelectClientCertificate">TOnSelectClientCertificate</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; isProxy: boolean; const host: <a href="uCEFTypes.html#ustring">ustring</a>; port: integer; certificatesCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const certificates: <a href="uCEFInterfaces.html#TCefX509CertificateArray">TCefX509CertificateArray</a>; const callback: <a href="uCEFInterfaces.ICefSelectClientCertificateCallback.html">ICefSelectClientCertificateCallback</a>; var aResult : boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRenderViewReady">TOnRenderViewReady</a></strong> = procedure(Sender: Tobject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRenderProcessUnresponsive">TOnRenderProcessUnresponsive</a></strong> = procedure(Sender: Tobject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const callback: <a href="uCEFInterfaces.ICefUnresponsiveProcessCallback.html">ICefUnresponsiveProcessCallback</a>; var aResult: boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRenderProcessResponsive">TOnRenderProcessResponsive</a></strong> = procedure(Sender: Tobject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRenderProcessTerminated">TOnRenderProcessTerminated</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>; error_code: integer; const error_string: <a href="uCEFTypes.html#ustring">ustring</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetResourceRequestHandler">TOnGetResourceRequestHandler</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; is_navigation, is_download: boolean; const request_initiator: <a href="uCEFTypes.html#ustring">ustring</a>; var disable_default_handling: boolean; var aExternalResourceRequestHandler : <a href="uCEFInterfaces.ICefResourceRequestHandler.html">ICefResourceRequestHandler</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDocumentAvailableInMainFrame">TOnDocumentAvailableInMainFrame</a></strong> = procedure(Sender: Tobject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnBeforeResourceLoad">TOnBeforeResourceLoad</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>; out Result: <a href="uCEFTypes.html#TCefReturnValue">TCefReturnValue</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetResourceHandler">TOnGetResourceHandler</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; var aResourceHandler : <a href="uCEFInterfaces.ICefResourceHandler.html">ICefResourceHandler</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnResourceRedirect">TOnResourceRedirect</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; var newUrl: <a href="uCEFTypes.html#ustring">ustring</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnResourceResponse">TOnResourceResponse</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; out Result: Boolean) of Object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetResourceResponseFilter">TOnGetResourceResponseFilter</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; out Result: <a href="uCEFInterfaces.ICefResponseFilter.html">ICefResponseFilter</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnResourceLoadComplete">TOnResourceLoadComplete</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; status: <a href="uCEFTypes.html#TCefUrlRequestStatus">TCefUrlRequestStatus</a>; receivedContentLength: Int64) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnProtocolExecution">TOnProtocolExecution</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; var allowOsExecution: Boolean) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnCanSendCookie">TOnCanSendCookie</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const cookie: <a href="uCEFTypes.html#PCefCookie">PCefCookie</a>; var aResult: boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnCanSaveCookie">TOnCanSaveCookie</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; const cookie: <a href="uCEFTypes.html#PCefCookie">PCefCookie</a>; var aResult : boolean) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnFileDialog">TOnFileDialog</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; mode: <a href="uCEFTypes.html#TCefFileDialogMode">TCefFileDialogMode</a>; const title, defaultFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const acceptFilters, accept_extensions, accept_descriptions: TStrings; const callback: <a href="uCEFInterfaces.ICefFileDialogCallback.html">ICefFileDialogCallback</a>; var Result: Boolean) of Object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetAccessibilityHandler">TOnGetAccessibilityHandler</a></strong> = procedure(Sender: TObject; var aAccessibilityHandler : <a href="uCEFInterfaces.ICefAccessibilityHandler.html">ICefAccessibilityHandler</a>) of Object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetRootScreenRect">TOnGetRootScreenRect</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var rect: <a href="uCEFTypes.TCefRect.html">TCefRect</a>; out Result: Boolean) of Object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetViewRect">TOnGetViewRect</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var rect: <a href="uCEFTypes.TCefRect.html">TCefRect</a>) of Object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetScreenPoint">TOnGetScreenPoint</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; viewX, viewY: Integer; var screenX, screenY: Integer; out Result: Boolean) of Object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetScreenInfo">TOnGetScreenInfo</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var screenInfo: <a href="uCEFTypes.TCefScreenInfo.html">TCefScreenInfo</a>; out Result: Boolean) of Object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPopupShow">TOnPopupShow</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; show: Boolean) of Object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPopupSize">TOnPopupSize</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const rect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>) of Object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPaint">TOnPaint</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; const buffer: Pointer; width, height: Integer) of Object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnAcceleratedPaint">TOnAcceleratedPaint</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a>; dirtyRectsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const dirtyRects: <a href="uCEFTypes.html#PCefRectArray">PCefRectArray</a>; const info: <a href="uCEFTypes.html#PCefAcceleratedPaintInfo">PCefAcceleratedPaintInfo</a>) of Object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetTouchHandleSize">TOnGetTouchHandleSize</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; orientation: <a href="uCEFTypes.html#TCefHorizontalAlignment">TCefHorizontalAlignment</a>; var size: <a href="uCEFTypes.TCefSize.html">TCefSize</a>) of Object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnTouchHandleStateChanged">TOnTouchHandleStateChanged</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const state: <a href="uCEFTypes.TCefTouchHandleState.html">TCefTouchHandleState</a>) of Object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnStartDragging">TOnStartDragging</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const dragData: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>; x, y: Integer; out Result: Boolean) of Object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnUpdateDragCursor">TOnUpdateDragCursor</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; operation: <a href="uCEFTypes.html#TCefDragOperation">TCefDragOperation</a>) of Object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnScrollOffsetChanged">TOnScrollOffsetChanged</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; x, y: Double) of Object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnIMECompositionRangeChanged">TOnIMECompositionRangeChanged</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const selected_range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>; character_boundsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const character_bounds: <a href="uCEFTypes.html#PCefRect">PCefRect</a>) of Object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnTextSelectionChanged">TOnTextSelectionChanged</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const selected_text: <a href="uCEFTypes.html#ustring">ustring</a>; const selected_range: <a href="uCEFTypes.html#PCefRange">PCefRange</a>) of Object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnVirtualKeyboardRequested">TOnVirtualKeyboardRequested</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; input_mode: <a href="uCEFTypes.html#TCefTextInpuMode">TCefTextInpuMode</a>) of Object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDragEnter">TOnDragEnter</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const dragData: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; mask: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>; out Result: Boolean) of Object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDraggableRegionsChanged">TOnDraggableRegionsChanged</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; regionsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const regions: <a href="uCEFTypes.html#PCefDraggableRegionArray">PCefDraggableRegionArray</a>) of Object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnFindResult">TOnFindResult</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; identifier, count: Integer; const selectionRect: <a href="uCEFTypes.html#PCefRect">PCefRect</a>; activeMatchOrdinal: Integer; finalUpdate: Boolean) of Object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRequestContextInitialized">TOnRequestContextInitialized</a></strong> = procedure(Sender: TObject; const request_context: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>) of Object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnSinksEvent">TOnSinksEvent</a></strong> = procedure(Sender: TObject; const sinks: <a href="uCEFInterfaces.html#TCefMediaSinkArray">TCefMediaSinkArray</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRoutesEvent">TOnRoutesEvent</a></strong> = procedure(Sender: TObject; const routes: <a href="uCEFInterfaces.html#TCefMediaRouteArray">TCefMediaRouteArray</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRouteStateChangedEvent">TOnRouteStateChangedEvent</a></strong> = procedure(Sender: TObject; const route: <a href="uCEFInterfaces.ICefMediaRoute.html">ICefMediaRoute</a>; state: <a href="uCEFTypes.html#TCefMediaRouteConnectionState">TCefMediaRouteConnectionState</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRouteMessageReceivedEvent">TOnRouteMessageReceivedEvent</a></strong> = procedure(Sender: TObject; const route: <a href="uCEFInterfaces.ICefMediaRoute.html">ICefMediaRoute</a>; const message_: <a href="uCEFTypes.html#ustring">ustring</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetAudioParametersEvent">TOnGetAudioParametersEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; var params: <a href="uCEFTypes.TCefAudioParameters.html">TCefAudioParameters</a>; var aResult: boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnAudioStreamStartedEvent">TOnAudioStreamStartedEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const params: <a href="uCEFTypes.TCefAudioParameters.html">TCefAudioParameters</a>; channels: integer) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnAudioStreamPacketEvent">TOnAudioStreamPacketEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const data : <a href="uCEFTypes.html#PPSingle">PPSingle</a>; frames: integer; pts: int64) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnAudioStreamStoppedEvent">TOnAudioStreamStoppedEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnAudioStreamErrorEvent">TOnAudioStreamErrorEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const message_: <a href="uCEFTypes.html#ustring">ustring</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDevToolsMessageEvent">TOnDevToolsMessageEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const message_: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; var aHandled: boolean) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDevToolsRawMessageEvent">TOnDevToolsRawMessageEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const message_: Pointer; message_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; var aHandled: boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDevToolsMethodResultEvent">TOnDevToolsMethodResultEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; message_id: integer; success: boolean; const result: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDevToolsMethodRawResultEvent">TOnDevToolsMethodRawResultEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; message_id: integer; success: boolean; const result: Pointer; result_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDevToolsEventEvent">TOnDevToolsEventEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const method: <a href="uCEFTypes.html#ustring">ustring</a>; const params: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDevToolsEventRawEvent">TOnDevToolsEventRawEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const method: <a href="uCEFTypes.html#ustring">ustring</a>; const params: Pointer; params_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDevToolsAgentAttachedEvent">TOnDevToolsAgentAttachedEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDevToolsAgentDetachedEvent">TOnDevToolsAgentDetachedEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPrintStartEvent">TOnPrintStartEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPrintSettingsEvent">TOnPrintSettingsEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const settings: <a href="uCEFInterfaces.ICefPrintSettings.html">ICefPrintSettings</a>; getDefaults: boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPrintDialogEvent">TOnPrintDialogEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; hasSelection: boolean; const callback: <a href="uCEFInterfaces.ICefPrintDialogCallback.html">ICefPrintDialogCallback</a>; var aResult : boolean) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPrintJobEvent">TOnPrintJobEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const documentName, PDFFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefPrintJobCallback.html">ICefPrintJobCallback</a>; var aResult : boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPrintResetEvent">TOnPrintResetEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetPDFPaperSizeEvent">TOnGetPDFPaperSizeEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; deviceUnitsPerInch: Integer; var aResult : <a href="uCEFTypes.TCefSize.html">TCefSize</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnFrameCreated">TOnFrameCreated</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnFrameAttached">TOnFrameAttached</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; reattached: boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnFrameDetached">TOnFrameDetached</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnMainFrameChanged">TOnMainFrameChanged</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const old_frame, new_frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnChromeCommandEvent">TOnChromeCommandEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; command_id: integer; disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>; var aResult: boolean) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnIsChromeAppMenuItemVisibleEvent">TOnIsChromeAppMenuItemVisibleEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; command_id: integer; var aResult: boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnIsChromeAppMenuItemEnabledEvent">TOnIsChromeAppMenuItemEnabledEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; command_id: integer; var aResult: boolean) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnIsChromePageActionIconVisibleEvent">TOnIsChromePageActionIconVisibleEvent</a></strong> = procedure(Sender: TObject; icon_type: <a href="uCEFTypes.html#TCefChromePageActionIconType">TCefChromePageActionIconType</a>; var aResult: boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnIsChromeToolbarButtonVisibleEvent">TOnIsChromeToolbarButtonVisibleEvent</a></strong> = procedure(Sender: TObject; button_type: <a href="uCEFTypes.html#TCefChromeToolbarButtonType">TCefChromeToolbarButtonType</a>; var aResult: boolean) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnRequestMediaAccessPermissionEvent">TOnRequestMediaAccessPermissionEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const requesting_origin: <a href="uCEFTypes.html#ustring">ustring</a>; requested_permissions: cardinal; const callback: <a href="uCEFInterfaces.ICefMediaAccessCallback.html">ICefMediaAccessCallback</a>; var aResult: boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnShowPermissionPromptEvent">TOnShowPermissionPromptEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; prompt_id: uint64; const requesting_origin: <a href="uCEFTypes.html#ustring">ustring</a>; requested_permissions: cardinal; const callback: <a href="uCEFInterfaces.ICefPermissionPromptCallback.html">ICefPermissionPromptCallback</a>; var aResult: boolean) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDismissPermissionPromptEvent">TOnDismissPermissionPromptEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; prompt_id: uint64; result: <a href="uCEFTypes.html#TCefPermissionRequestResult">TCefPermissionRequestResult</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnTextResultAvailableEvent">TOnTextResultAvailableEvent</a></strong> = procedure(Sender: TObject; const aText : <a href="uCEFTypes.html#ustring">ustring</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPdfPrintFinishedEvent">TOnPdfPrintFinishedEvent</a></strong> = procedure(Sender: TObject; aResultOK : boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPrefsAvailableEvent">TOnPrefsAvailableEvent</a></strong> = procedure(Sender: TObject; aResultOK : boolean) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnCookiesDeletedEvent">TOnCookiesDeletedEvent</a></strong> = procedure(Sender: TObject; numDeleted : integer) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnResolvedIPsAvailableEvent">TOnResolvedIPsAvailableEvent</a></strong> = procedure(Sender: TObject; result: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorCode</a>; const resolvedIps: TStrings) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnNavigationVisitorResultAvailableEvent">TOnNavigationVisitorResultAvailableEvent</a></strong> = procedure(Sender: TObject; const entry: <a href="uCEFInterfaces.ICefNavigationEntry.html">ICefNavigationEntry</a>; current: Boolean; index, total: Integer; var aResult : boolean) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnDownloadImageFinishedEvent">TOnDownloadImageFinishedEvent</a></strong> = procedure(Sender: TObject; const imageUrl: <a href="uCEFTypes.html#ustring">ustring</a>; httpStatusCode: Integer; const image: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnExecuteTaskOnCefThread">TOnExecuteTaskOnCefThread</a></strong> = procedure(Sender: TObject; aTaskID : cardinal) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnCookiesVisited">TOnCookiesVisited</a></strong> = procedure(Sender: TObject; const name_, value, domain, path: <a href="uCEFTypes.html#ustring">ustring</a>; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; same_site : <a href="uCEFTypes.html#TCefCookieSameSite">TCefCookieSameSite</a>; priority : <a href="uCEFTypes.html#TCefCookiePriority">TCefCookiePriority</a>; var aDeleteCookie, aResult : Boolean) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnCookieVisitorDestroyed">TOnCookieVisitorDestroyed</a></strong> = procedure(Sender: TObject; aID : integer) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnCookieSet">TOnCookieSet</a></strong> = procedure(Sender: TObject; aSuccess : boolean; aID : integer) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnZoomPctAvailable">TOnZoomPctAvailable</a></strong> = procedure(Sender: TObject; const aZoomPct : double) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnMediaRouteCreateFinishedEvent">TOnMediaRouteCreateFinishedEvent</a></strong> = procedure(Sender: TObject; result: <a href="uCEFTypes.html#TCefMediaRouterCreateResult">TCefMediaRouterCreateResult</a>; const error: <a href="uCEFTypes.html#ustring">ustring</a>; const route: <a href="uCEFInterfaces.ICefMediaRoute.html">ICefMediaRoute</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnMediaSinkDeviceInfoEvent">TOnMediaSinkDeviceInfoEvent</a></strong> = procedure(Sender: TObject; const ip_address: <a href="uCEFTypes.html#ustring">ustring</a>; port: integer; const model_name: <a href="uCEFTypes.html#ustring">ustring</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnCompMsgEvent">TOnCompMsgEvent</a></strong> = procedure(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean) of object;</code></td>
 </tr>
 </table>
@@ -677,12 +680,19 @@ ICefJsDialogHandler</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="TOnBeforePopup"></span><code><strong>TOnBeforePopup</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const targetUrl, targetFrameName: <a href="uCEFTypes.html#ustring">ustring</a>; targetDisposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>; userGesture: Boolean; const popupFeatures: <a href="uCEFTypes.TCefPopupFeatures.html">TCefPopupFeatures</a>; var windowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a>; var client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; var settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; var extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; var noJavascriptAccess: Boolean; var Result: Boolean) of object;</code></td>
+<td class="itemcode"><span id="TOnBeforePopup"></span><code><strong>TOnBeforePopup</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; popup_id: Integer; const targetUrl, targetFrameName: <a href="uCEFTypes.html#ustring">ustring</a>; targetDisposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>; userGesture: Boolean; const popupFeatures: <a href="uCEFTypes.TCefPopupFeatures.html">TCefPopupFeatures</a>; var windowInfo: <a href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a>; var client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; var settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; var extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; var noJavascriptAccess: Boolean; var Result: Boolean) of object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
 ICefLifeSpanHandler</p>
 </td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnBeforePopupAborted"></span><code><strong>TOnBeforePopupAborted</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; popup_id: Integer) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">

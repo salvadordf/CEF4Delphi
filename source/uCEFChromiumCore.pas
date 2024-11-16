@@ -185,6 +185,7 @@ type
 
       // ICefLifeSpanHandler
       FOnBeforePopup                  : TOnBeforePopup;
+      FOnBeforePopupAborted           : TOnBeforePopupAborted;
       FOnBeforeDevToolsPopup          : TOnBeforeDevToolsPopup;
       FOnAfterCreated                 : TOnAfterCreated;
       FOnBeforeClose                  : TOnBeforeClose;
@@ -345,6 +346,7 @@ type
       function  GetIsPopUp : boolean;
       function  GetWindowHandle : TCefWindowHandle;
       function  GetOpenerWindowHandle : TCefWindowHandle;
+      function  GetOpenerIdentifier: Integer;
       function  GetWindowlessFrameRate : integer;
       function  GetFrameIsFocused : boolean;
       function  GetInitialized : boolean;
@@ -548,7 +550,8 @@ type
       procedure doOnDialogClosed(const browser: ICefBrowser); virtual;
 
       // ICefLifeSpanHandler
-      function  doOnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean): Boolean; virtual;
+      function  doOnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean): Boolean; virtual;
+      procedure doOnBeforePopupAborted(const browser: ICefBrowser; popup_id: Integer); virtual;
       procedure doOnBeforeDevToolsPopup(const browser: ICefBrowser; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var use_default_window: boolean); virtual;
       procedure doOnAfterCreated(const browser: ICefBrowser); virtual;
       procedure doOnBeforeClose(const browser: ICefBrowser); virtual;
@@ -1245,6 +1248,10 @@ type
       /// </summary>
       procedure   ClipboardPaste;
       /// <summary>
+      /// Execute paste and match style on the focused frame.
+      /// </summary>
+      procedure  ClipboardPasteAndMatchStyle;
+      /// <summary>
       /// Execute cut on the focused frame.
       /// </summary>
       procedure   ClipboardCut;
@@ -1843,6 +1850,11 @@ type
       /// Calls ICefBrowserHost.GetOpenerWindowHandle and returns the window handle of the browser that opened this browser.
       /// </summary>
       property  OpenerWindowHandle            : TCefWindowHandle             read GetOpenerWindowHandle;
+      /// <summary>
+      /// Retrieve the unique identifier of the browser that opened this browser.
+      /// Will return 0 for non-popup browsers.
+      /// </summary>
+      property  OpenerIdentifier              : Integer                      read GetOpenerIdentifier;
       {$IFDEF MSWINDOWS}
       /// <summary>
       /// Handle of one to the child controls created automatically by CEF to show the web contents.
@@ -2632,35 +2644,61 @@ type
       /// </remarks>
       property OnDialogClosed                   : TOnDialogClosed                   read FOnDialogClosed                   write FOnDialogClosed;
       /// <summary>
-      /// Called on the CEF UI thread before a new popup browser is created. The
-      /// |browser| and |frame| values represent the source of the popup request.
-      /// The |target_url| and |target_frame_name| values indicate where the popup
-      /// browser should navigate and may be NULL if not specified with the request.
-      /// The |target_disposition| value indicates where the user intended to open
-      /// the popup (e.g. current tab, new tab, etc). The |user_gesture| value will
-      /// be true (1) if the popup was opened via explicit user gesture (e.g.
-      /// clicking a link) or false (0) if the popup opened automatically (e.g. via
-      /// the DomContentLoaded event). The |popupFeatures| structure contains
-      /// additional information about the requested popup window. To allow creation
-      /// of the popup browser optionally modify |windowInfo|, |client|, |settings|
-      /// and |no_javascript_access| and return false (0). To cancel creation of the
+      /// <para>Called on the UI thread before a new popup browser is created. The
+      /// |browser| and |frame| values represent the source of the popup request
+      /// (opener browser and frame). The |popup_id| value uniquely identifies the
+      /// popup in the context of the opener browser. The |target_url| and
+      /// |target_frame_name| values indicate where the popup browser should
+      /// navigate and may be NULL if not specified with the request. The
+      /// |target_disposition| value indicates where the user intended to open the
+      /// popup (e.g. current tab, new tab, etc). The |user_gesture| value will be
+      /// true (1) if the popup was opened via explicit user gesture (e.g. clicking
+      /// a link) or false (0) if the popup opened automatically (e.g. via the
+      /// DomContentLoaded event). The |popupFeatures| structure contains additional
+      /// information about the requested popup window. To allow creation of the
+      /// popup browser optionally modify |windowInfo|, |client|, |settings| and
+      /// |no_javascript_access| and return false (0). To cancel creation of the
       /// popup browser return true (1). The |client| and |settings| values will
       /// default to the source browser's values. If the |no_javascript_access|
       /// value is set to false (0) the new browser will not be scriptable and may
       /// not be hosted in the same renderer process as the source browser. Any
       /// modifications to |windowInfo| will be ignored if the parent browser is
-      /// wrapped in a ICefBrowserView. Popup browser creation will be canceled
-      /// if the parent browser is destroyed before the popup browser creation
-      /// completes (indicated by a call to OnAfterCreated for the popup browser).
-      /// The |extra_info| parameter provides an opportunity to specify extra
-      /// information specific to the created popup browser that will be passed to
-      /// ICefRenderProcessHandler.OnBrowserCreated in the render process.
+      /// wrapped in a ICefBrowserView. The |extra_info| parameter provides an
+      /// opportunity to specify extra information specific to the created popup
+      /// browser that will be passed to GlobalCEFApp.OnBrowserCreated in the render
+      /// process.</para>
+      ///
+      /// <para>If popup browser creation succeeds then OnAfterCreated will be called for
+      /// the new popup browser. If popup browser creation fails, and if the opener
+      /// browser has not yet been destroyed, then OnBeforePopupAborted will be
+      /// called for the opener browser. See OnBeforePopupAborted documentation for
+      /// additional details.</para>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_life_span_handler_capi.h">CEF source file: /include/capi/cef_life_span_handler_capi.h (cef_life_span_handler_t)</see></para>
       /// </remarks>
       property OnBeforePopup                    : TOnBeforePopup                    read FOnBeforePopup                    write FOnBeforePopup;
+      /// <summary>
+      /// <para>Called on the CEF UI thread if a new popup browser is aborted. This only
+      /// occurs if the popup is allowed in OnBeforePopup and creation fails before
+      /// OnAfterCreated is called for the new popup browser. The |browser| value is
+      /// the source of the popup request (opener browser). The |popup_id| value
+      /// uniquely identifies the popup in the context of the opener browser, and is
+      /// the same value that was passed to OnBeforePopup.</para>
+      ///
+      /// <para>Any client state associated with pending popups should be cleared in
+      /// OnBeforePopupAborted, OnAfterCreated of the popup browser, or
+      /// OnBeforeClose of the opener browser. OnBeforeClose of the opener browser
+      /// may be called before this function in cases where the opener is closing
+      /// during popup creation, in which case ICefBrowser.IsValid will
+      /// return false (0) in this function.</para>
+      /// </summary>
+      /// <remarks>
+      /// <para>This event will be called on the browser process CEF UI thread.</para>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_life_span_handler_capi.h">CEF source file: /include/capi/cef_life_span_handler_capi.h (cef_life_span_handler_t)</see></para>
+      /// </remarks>
+      property OnBeforePopupAborted             : TOnBeforePopupAborted             read FOnBeforePopupAborted             write FOnBeforePopupAborted;
       /// <summary>
       /// <para>Called on the CEF UI thread before a new DevTools popup browser is created.
       /// The |browser| value represents the source of the popup request. Optionally
@@ -2670,7 +2708,7 @@ type
       /// parent browser is Views-hosted (wrapped in a ICefBrowserView).</para>
       /// <para>The |extra_info| parameter provides an opportunity to specify extra
       /// information specific to the created popup browser that will be passed to
-      /// ICefRenderProcessHandler.OnBrowserCreated() in the render process.
+      /// GlobalCEFApp.OnBrowserCreated in the render process.
       /// The existing |extra_info| object, if any, will be read-only but may be
       /// replaced with a new object.</para>
       /// <para>Views-hosted source browsers will create Views-hosted DevTools popups
@@ -2699,12 +2737,13 @@ type
       /// browser object and do not attempt to execute any functions on the browser
       /// object (other than IsValid, GetIdentifier or IsSame) after this callback
       /// returns. ICefFrameHandler callbacks related to final main frame
-      /// destruction will arrive after this callback and ICefBrowser.IsValid
-      /// will return false (0) at that time. Any in-progress network requests
-      /// associated with |browser| will be aborted when the browser is destroyed,
-      /// and ICefResourceRequestHandler callbacks related to those requests may
+      /// destruction, and OnBeforePopupAborted callbacks for any pending popups,
+      /// will arrive after this callback and ICefBrowser.IsValid will return
+      /// false (0) at that time. Any in-progress network requests associated with
+      /// |browser| will be aborted when the browser is destroyed, and
+      /// ICefResourceRequestHandler callbacks related to those requests may
       /// still arrive on the IO thread after this callback. See ICefFrameHandler
-      /// and OnClose() documentation for additional usage information.
+      /// and DoClose() documentation for additional usage information.
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -2893,16 +2932,19 @@ type
       property OnCertificateError                  : TOnCertificateError               read FOnCertificateError                  write FOnCertificateError;
       /// <summary>
       /// Called on the UI thread when a client certificate is being requested for
-      /// authentication. Return false (0) to use the default behavior and
-      /// automatically select the first certificate available. Return true (1) and
-      /// call ICefSelectClientCertificateCallback.Select either in this
-      /// function or at a later time to select a certificate. Do not call Select or
-      /// call it with NULL to continue without using any certificate. |isProxy|
-      /// indicates whether the host is an HTTPS proxy or the origin server. |host|
-      /// and |port| contains the hostname and port of the SSL server.
-      /// |certificates| is the list of certificates to choose from; this list has
-      /// already been pruned by Chromium so that it only contains certificates from
-      /// issuers that the server trusts.
+      /// authentication. Return false (0) to use the default behavior.  If the
+      /// |certificates| list is not NULL the default behavior will be to display a
+      /// dialog for certificate selection. If the |certificates| list is NULL then
+      /// the default behavior will be not to show a dialog and it will continue
+      /// without using any certificate. Return true (1) and call
+      /// ICefSelectClientCertificateCallback.Select either in this function
+      /// or at a later time to select a certificate. Do not call Select or call it
+      /// with NULL to continue without using any certificate. |isProxy| indicates
+      /// whether the host is an HTTPS proxy or the origin server. |host| and |port|
+      /// contains the hostname and port of the SSL server. |certificates| is the
+      /// list of certificates to choose from; this list has already been pruned by
+      /// Chromium so that it only contains certificates from issuers that the
+      /// server trusts.
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -4478,6 +4520,7 @@ begin
 
   // ICefLifeSpanHandler
   FOnBeforePopup                  := nil;
+  FOnBeforePopupAborted           := nil;
   FOnBeforeDevToolsPopup          := nil;
   FOnAfterCreated                 := nil;
   FOnBeforeClose                  := nil;
@@ -5046,6 +5089,22 @@ begin
     end;
 end;
 
+procedure TChromiumCore.ClipboardPasteAndMatchStyle;
+var
+  TempFrame : ICefFrame;
+begin
+  if Initialized then
+    begin
+      TempFrame := Browser.FocusedFrame;
+
+      if (TempFrame = nil) then
+        TempFrame := Browser.MainFrame;
+
+      if (TempFrame <> nil) and TempFrame.IsValid then
+        TempFrame.PasteAndMatchStyle;
+    end;
+end;
+
 procedure TChromiumCore.ClipboardCut;
 var
   TempFrame : ICefFrame;
@@ -5380,6 +5439,14 @@ begin
 
   if Initialized then
     Result := Browser.Host.OpenerWindowHandle;
+end;
+
+function TChromiumCore.GetOpenerIdentifier: Integer;
+begin
+  if Initialized then
+    Result := Browser.Host.OpenerIdentifier
+   else
+    Result := 0;
 end;
 
 function TChromiumCore.GetFrameIsFocused : boolean;
@@ -8459,6 +8526,7 @@ end;
 
 function TChromiumCore.doOnBeforePopup(const browser            : ICefBrowser;
                                        const frame              : ICefFrame;
+                                             popup_id           : Integer;
                                        const targetUrl          : ustring;
                                        const targetFrameName    : ustring;
                                              targetDisposition  : TCefWindowOpenDisposition;
@@ -8473,9 +8541,15 @@ begin
   Result := False;
 
   if assigned(FOnBeforePopup) then
-    FOnBeforePopup(Self, browser, frame, targetUrl, targetFrameName,
+    FOnBeforePopup(Self, browser, frame, popup_id, targetUrl, targetFrameName,
                    targetDisposition, userGesture, popupFeatures, windowInfo, client,
                    settings, extra_info, noJavascriptAccess, Result);
+end;
+
+procedure TChromiumCore.doOnBeforePopupAborted(const browser: ICefBrowser; popup_id: Integer);
+begin
+  if assigned(FOnBeforePopupAborted) then
+    FOnBeforePopupAborted(Self, browser, popup_id);
 end;
 
 procedure TChromiumCore.doOnBeforeDevToolsPopup(const browser            : ICefBrowser;
