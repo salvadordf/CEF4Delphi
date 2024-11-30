@@ -377,7 +377,7 @@ begin
       FResizeCS.Acquire;
       TempForcedResize := False;
 
-      if FBrowserBitmap.BeginBufferDraw then
+      if FBrowserBitmap.BeginDraw then
         begin
           if (kind = PET_POPUP) then
             begin
@@ -401,7 +401,7 @@ begin
             end
            else
             begin
-              TempForcedResize := FBrowserBitmap.UpdateBufferDimensions(aWidth, aHeight) or not(FBrowserBitmap.BufferIsResized(False));
+              TempForcedResize := FBrowserBitmap.UpdateDimensions(aWidth, aHeight);
               TempWidth        := FBrowserBitmap.Width;
               TempHeight       := FBrowserBitmap.Height;
               TempScanlineSize := FBrowserBitmap.ScanlineSize;
@@ -457,7 +457,7 @@ begin
                 end;
             end;
 
-          FBrowserBitmap.EndBufferDraw;
+          FBrowserBitmap.EndDraw;
 
           if (kind = PET_VIEW) then
             begin
@@ -587,13 +587,10 @@ begin
       if FResizing then
         FPendingResize := True
        else
-        if FBrowserBitmap.BufferIsResized then
-          FBrowser.Invalidate(PET_VIEW)
-         else
-          begin
-            FResizing := True;
-            FBrowser.WasResized;
-          end;
+        begin
+          FResizing := True;
+          FBrowser.WasResized;
+        end;
     finally
       FResizeCS.Release;
     end;

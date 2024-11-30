@@ -36,10 +36,9 @@ type
     public
       constructor Create; override;
       destructor  Destroy; override;
-      function    BeginBufferDraw : boolean;
-      procedure   EndBufferDraw;
-      function    UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
-      function    BufferIsResized(aUseMutex : boolean = True) : boolean;
+      function    BeginDraw : boolean;
+      procedure   EndDraw;
+      function    UpdateDimensions(aWidth, aHeight : integer) : boolean;
       procedure   BufferDraw(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect);
 
       property ScanlineSize              : integer                   read FScanlineSize;
@@ -98,7 +97,7 @@ begin
     Result := nil;
 end;
 
-function TCEFBrowserBitmap.BeginBufferDraw : boolean;
+function TCEFBrowserBitmap.BeginDraw : boolean;
 begin
   {$IFDEF MSWINDOWS}
   Result := (FSyncObj <> 0) and (WaitForSingleObject(FSyncObj, 5000) = WAIT_OBJECT_0);
@@ -113,7 +112,7 @@ begin
   {$ENDIF}
 end;
 
-procedure TCEFBrowserBitmap.EndBufferDraw;
+procedure TCEFBrowserBitmap.EndDraw;
 begin
   {$IFDEF MSWINDOWS}
   if (FSyncObj <> 0) then ReleaseMutex(FSyncObj);
@@ -122,7 +121,7 @@ begin
   {$ENDIF}
 end;
 
-function TCEFBrowserBitmap.UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
+function TCEFBrowserBitmap.UpdateDimensions(aWidth, aHeight : integer) : boolean;
 begin
   Result        := False;
   FScanlineSize := aWidth * SizeOf(TRGBQuad);
@@ -137,37 +136,6 @@ begin
       Height := aHeight;
       {$ENDIF}
       Result := True;
-    end;
-end;
-
-function TCEFBrowserBitmap.BufferIsResized(aUseMutex : boolean) : boolean;
-var
-  TempDevWidth, TempLogWidth, TempDevHeight, TempLogHeight : integer;
-begin
-  Result := False;
-
-  if not(aUseMutex) or BeginBufferDraw then
-    begin
-      if (FDeviceScaleFactor = 1) then
-        Result := (Width  = Width) and
-                  (Height = Height)
-       else
-        begin
-          // CEF and Chromium use 'floor' to round the float values in Device <-> Logical unit conversions
-          // and Delphi uses MulDiv, which uses the bankers rounding, to resize the components in high DPI mode.
-          // This is the cause of slight differences in size between the buffer and the panel in some occasions.
-
-          TempLogWidth  := DeviceToLogical(Width,  FDeviceScaleFactor);
-          TempLogHeight := DeviceToLogical(Height, FDeviceScaleFactor);
-
-          TempDevWidth  := LogicalToDevice(TempLogWidth,  FDeviceScaleFactor);
-          TempDevHeight := LogicalToDevice(TempLogHeight, FDeviceScaleFactor);
-
-          Result := (Width  = TempDevWidth) and
-                    (Height = TempDevHeight);
-        end;
-
-      if aUseMutex then EndBufferDraw;
     end;
 end;
 

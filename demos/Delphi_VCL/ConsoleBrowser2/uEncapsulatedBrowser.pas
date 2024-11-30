@@ -22,17 +22,19 @@ type
       FScale        : single;
       FSnapshotPath : ustring;
       FErrorText    : ustring;
+      FFirst        : boolean;
 
       procedure Thread_OnError(Sender: TObject);
       procedure Thread_OnSnapshotAvailable(Sender: TObject);
 
     public
-      constructor Create;
+      constructor Create(aWidth, aHeight : integer);
       destructor  Destroy; override;
       procedure   LoadURL(const aURL : ustring);
+      function    UpdateBrowserSize(aNewWidth, aNewHeight : integer): boolean;
 
-      property Width           : integer    read FWidth          write FWidth;
-      property Height          : integer    read FHeight         write FHeight;
+      property Width           : integer    read FWidth;
+      property Height          : integer    read FHeight;
       property DelayMs         : integer    read FDelayMs        write FDelayMs;
       property Scale           : single     read FScale          write FScale;
       property SnapshotPath    : ustring    read FSnapshotPath   write FSnapshotPath;
@@ -77,7 +79,7 @@ begin
       WriteLn('No URL has been specified. Using the default...');
     end;
 
-  EncapsulatedBrowser := TEncapsulatedBrowser.Create;
+  EncapsulatedBrowser := TEncapsulatedBrowser.Create(1024, 768);
   EncapsulatedBrowser.LoadURL(TempURL);
 end;
 
@@ -125,13 +127,14 @@ begin
   GlobalCEFApp.StartMainProcess;
 end;
 
-constructor TEncapsulatedBrowser.Create;
+constructor TEncapsulatedBrowser.Create(aWidth, aHeight : integer);
 begin
   inherited Create;
 
+  FFirst         := True;
   FThread        := nil;
-  FWidth         := 1024;
-  FHeight        := 768;
+  FWidth         := aWidth;
+  FHeight        := aHeight;
   FDelayMs       := 500;
   FScale         := 1;    // This is the relative scale to a 96 DPI screen. It's calculated with the formula : scale = custom_DPI / 96
   FSnapshotPath  := 'snapshot.bmp';
@@ -164,6 +167,14 @@ begin
     FThread.LoadUrl(aURL);
 end;
 
+function TEncapsulatedBrowser.UpdateBrowserSize(aNewWidth, aNewHeight : integer): boolean;
+begin
+  FWidth  := aNewWidth;
+  FHeight := aNewHeight;
+  Result  := assigned(FThread) and
+             FThread.UpdateBrowserSize(aNewWidth, aNewHeight);
+end;
+
 procedure TEncapsulatedBrowser.Thread_OnError(Sender: TObject);
 begin
   // This code is executed in the TCEFBrowserThread thread context while the main application thread is waiting for MainAppEvent.
@@ -185,6 +196,17 @@ end;
 procedure TEncapsulatedBrowser.Thread_OnSnapshotAvailable(Sender: TObject);
 begin
   // This code is executed in the TCEFBrowserThread thread context while the main application thread is waiting for MainAppEvent.
+
+  // Enable this block to test UpdateBrowserSize
+  {
+  if FFirst then
+    begin
+      FFirst := False;
+      if UpdateBrowserSize(800, 600) then
+        LoadURL('https://www.bing.com');
+      exit;
+    end;
+  }
 
   if (FThread = nil) or not(FThread.SaveSnapshotToFile(FSnapshotPath)) then
     FErrorText := 'There was an error copying the snapshot';
