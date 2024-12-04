@@ -6,12 +6,9 @@ unit uExternalPumpBrowser;
 interface
 
 uses
-  GlobalCefApplication,
-  uCEFLazarusCocoa, // required for Cocoa
   Classes, SysUtils, Messages, Forms, Controls, Graphics,
-  Dialogs, ExtCtrls, StdCtrls, LMessages, uCEFChromium, uCEFWindowParent,
-  uCEFConstants, uCEFTypes, uCEFInterfaces, uCEFChromiumEvents,
-  uCEFLinkedWindowParent, uCEFWorkScheduler;
+  Dialogs, ExtCtrls, StdCtrls, LMessages, uCEFChromium,
+  uCEFTypes, uCEFInterfaces, uCEFLinkedWindowParent;
 
 type
 
@@ -91,8 +88,6 @@ implementation
 // 2. TChromium.OnClose sets aAction to cbaClose to destroy the browser, which triggers the TChromium.OnBeforeClose event.
 // 3. TChromium.OnBeforeClose sets FCanClose := True and sends CEF_BEFORECLOSE to close the form.
 
-uses
-  uCEFApplication;
 
 { TForm1 }
 
@@ -232,24 +227,6 @@ begin
   inherited;
   Chromium1.NotifyMoveOrResizeStarted;
 end;
-
-initialization
-  AddCrDelegate;
-  if GlobalCEFApp = nil then begin
-    CreateGlobalCEFApp;
-    if not GlobalCEFApp.StartMainProcess then begin
-      DestroyGlobalCEFApp;
-      DestroyGlobalCEFWorkScheduler;
-      halt(0); // exit the subprocess
-    end;
-  end;
-
-finalization
-  (* Destroy from this unit, which is used after "Interfaces". So this happens before the Application object is destroyed *)
-  if GlobalCEFWorkScheduler <> nil then
-    GlobalCEFWorkScheduler.StopScheduler;
-  DestroyGlobalCEFApp;
-  DestroyGlobalCEFWorkScheduler;
 
 end.
 

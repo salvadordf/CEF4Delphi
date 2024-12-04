@@ -6,7 +6,7 @@ unit GlobalCefApplication;
 interface
 
 uses
-  uCEFApplication, uCEFWorkScheduler, uCEFConstants;
+  uCEFLazarusCocoa, uCEFApplication, uCEFWorkScheduler, uCEFConstants;
 
 procedure CreateGlobalCEFApp;
 
@@ -19,8 +19,7 @@ end;
 
 procedure CreateGlobalCEFApp;
 begin
-  if GlobalCEFApp <> nil then
-    exit;
+  AddCrDelegate;
 
   // TCEFWorkScheduler will call cef_do_message_loop_work when
   // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.

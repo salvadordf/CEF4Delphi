@@ -21,18 +21,31 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces,
   Forms,
-  uExternalPumpBrowser, GlobalCefApplication
+  uExternalPumpBrowser, GlobalCefApplication, uCEFApplication, uCEFWorkScheduler
   { you can add units after this }
   ;
 
 {$R *.res}
 
 begin
-  RequireDerivedFormResource:=True;
-  Application.Title:='External Pump Browser';
-  Application.Scaled:=True;
-  Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
-  Application.Run;
+  CreateGlobalCEFApp;
+
+  if GlobalCEFApp.StartMainProcess then
+    begin
+      RequireDerivedFormResource := True;
+      Application.Title  := 'External Pump Browser';
+      Application.Scaled := True;
+      Application.Initialize;
+      Application.CreateForm(TForm1, Form1);
+      Application.Run;
+
+      // The form needs to be destroyed *BEFORE* stopping the scheduler.	
+      Form1.Free;
+
+      GlobalCEFWorkScheduler.StopScheduler;
+    end;
+
+  DestroyGlobalCEFApp;
+  DestroyGlobalCEFWorkScheduler;
 end.
 

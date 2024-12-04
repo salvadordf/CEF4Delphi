@@ -157,7 +157,8 @@ end;
 procedure TCEFLinkedWinControlBase.UpdateSize;
 {$IFDEF MACOSX}{$IFDEF FPC}
 var
-  TempSize: NSSize;
+  TempSize  : NSSize;
+  TempPoint : NSPoint;
 {$ENDIF}{$ENDIF}
 begin
   {$IFDEF MSWINDOWS}
@@ -177,6 +178,9 @@ begin
      (Chromium <> nil) and
      Chromium.Initialized then
     begin
+      TempPoint.x:= 0;
+      TempPoint.y:= 0;
+      NSView(Chromium.WindowHandle).setFrameOrigin(TempPoint);
       TempSize.width:= Width;
       TempSize.height:= Height;
       NSView(Chromium.WindowHandle).setFrameSize(TempSize);
