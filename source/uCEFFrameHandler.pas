@@ -18,6 +18,7 @@ type
   TCefFrameHandlerOwn = class(TCefBaseRefCountedOwn, ICefFrameHandler)
     protected
       procedure OnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame); virtual;
+      procedure OnFrameDestroyed(const browser: ICefBrowser; const frame: ICefFrame); virtual;
       procedure OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean); virtual;
       procedure OnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame); virtual;
       procedure OnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame); virtual;
@@ -33,6 +34,7 @@ type
       FEvents : Pointer;
 
       procedure OnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame); override;
+      procedure OnFrameDestroyed(const browser: ICefBrowser; const frame: ICefFrame); override;
       procedure OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean); override;
       procedure OnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame); override;
       procedure OnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame); override;
@@ -66,6 +68,17 @@ begin
   if (TempObject <> nil) and (TempObject is TCefFrameHandlerOwn) then
     TCefFrameHandlerOwn(TempObject).OnFrameCreated(TCefBrowserRef.UnWrap(browser),
                                                    TCefFrameRef.UnWrap(frame));
+end;
+
+procedure cef_frame_handler_on_frame_destroyed(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefFrameHandlerOwn) then
+    TCefFrameHandlerOwn(TempObject).OnFrameDestroyed(TCefBrowserRef.UnWrap(browser),
+                                                     TCefFrameRef.UnWrap(frame));
 end;
 
 procedure cef_frame_handler_on_frame_attached(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame; reattached: integer); stdcall;
@@ -110,6 +123,7 @@ begin
   with PCefFrameHandler(FData)^ do
     begin
       on_frame_created      := {$IFDEF FPC}@{$ENDIF}cef_frame_handler_on_frame_created;
+      on_frame_destroyed    := {$IFDEF FPC}@{$ENDIF}cef_frame_handler_on_frame_destroyed;
       on_frame_attached     := {$IFDEF FPC}@{$ENDIF}cef_frame_handler_on_frame_attached;
       on_frame_detached     := {$IFDEF FPC}@{$ENDIF}cef_frame_handler_on_frame_detached;
       on_main_frame_changed := {$IFDEF FPC}@{$ENDIF}cef_frame_handler_on_main_frame_changed;
@@ -117,6 +131,11 @@ begin
 end;
 
 procedure TCefFrameHandlerOwn.OnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame);
+begin
+  //
+end;
+
+procedure TCefFrameHandlerOwn.OnFrameDestroyed(const browser: ICefBrowser; const frame: ICefFrame);
 begin
   //
 end;
@@ -167,6 +186,12 @@ procedure TCustomFrameHandler.OnFrameCreated(const browser: ICefBrowser; const f
 begin
   if (FEvents <> nil) then
     IChromiumEvents(FEvents).doOnFrameCreated(browser, frame);
+end;
+
+procedure TCustomFrameHandler.OnFrameDestroyed(const browser: ICefBrowser; const frame: ICefFrame);
+begin
+  if (FEvents <> nil) then
+    IChromiumEvents(FEvents).doOnFrameDestroyed(browser, frame);
 end;
 
 procedure TCustomFrameHandler.OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);

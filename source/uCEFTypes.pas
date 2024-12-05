@@ -7663,6 +7663,7 @@ type
   TCefFrameHandler = record
     base                  : TCefBaseRefCounted;
     on_frame_created      : procedure(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
+    on_frame_destroyed    : procedure(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
     on_frame_attached     : procedure(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame; reattached: integer); stdcall;
     on_frame_detached     : procedure(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
     on_main_frame_changed : procedure(self: PCefFrameHandler; browser: PCefBrowser; old_frame, new_frame: PCefFrame); stdcall;

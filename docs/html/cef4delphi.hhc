@@ -3652,20 +3652,16 @@
 <param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#Destroy">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="BeginBufferDraw">
-<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#BeginBufferDraw">
+<param name="Name" value="BeginDraw">
+<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#BeginDraw">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="EndBufferDraw">
-<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#EndBufferDraw">
+<param name="Name" value="EndDraw">
+<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#EndDraw">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="UpdateBufferDimensions">
-<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#UpdateBufferDimensions">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="BufferIsResized">
-<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#BufferIsResized">
+<param name="Name" value="UpdateDimensions">
+<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#UpdateDimensions">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="BufferDraw">
@@ -6486,6 +6482,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnFrameCreated">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FOnFrameDestroyed">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnFrameDestroyed">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOnFrameAttached">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnFrameAttached">
 </object>
@@ -7526,6 +7526,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnFrameCreated">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnFrameCreated">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnFrameDestroyed">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnFrameDestroyed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnFrameAttached">
@@ -8588,6 +8592,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnFrameCreated">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnFrameCreated">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnFrameDestroyed">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnFrameDestroyed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnFrameAttached">
@@ -9986,6 +9994,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="TOnFrameCreated">
 <param name="Local" value="uCEFChromiumEvents.html#TOnFrameCreated">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TOnFrameDestroyed">
+<param name="Local" value="uCEFChromiumEvents.html#TOnFrameDestroyed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnFrameAttached">
@@ -19468,6 +19480,10 @@
 <param name="Local" value="uCEFFrameHandler.TCefFrameHandlerOwn.html#OnFrameCreated">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnFrameDestroyed">
+<param name="Local" value="uCEFFrameHandler.TCefFrameHandlerOwn.html#OnFrameDestroyed">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnFrameAttached">
 <param name="Local" value="uCEFFrameHandler.TCefFrameHandlerOwn.html#OnFrameAttached">
 </object>
@@ -19512,6 +19528,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnFrameCreated">
 <param name="Local" value="uCEFFrameHandler.TCustomFrameHandler.html#OnFrameCreated">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnFrameDestroyed">
+<param name="Local" value="uCEFFrameHandler.TCustomFrameHandler.html#OnFrameDestroyed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnFrameAttached">
@@ -20468,6 +20488,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnFrameCreated">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnFrameCreated">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnFrameDestroyed">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnFrameDestroyed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnFrameAttached">
@@ -22128,6 +22152,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnFrameCreated">
 <param name="Local" value="uCEFInterfaces.ICefFrameHandler.html#OnFrameCreated">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnFrameDestroyed">
+<param name="Local" value="uCEFInterfaces.ICefFrameHandler.html#OnFrameDestroyed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnFrameAttached">
@@ -47194,6 +47222,10 @@
 <param name="Local" value="uCEFTypes.TCefFrameHandler.html#on_frame_created">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="on_frame_destroyed">
+<param name="Local" value="uCEFTypes.TCefFrameHandler.html#on_frame_destroyed">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="on_frame_attached">
 <param name="Local" value="uCEFTypes.TCefFrameHandler.html#on_frame_attached">
 </object>
@@ -58848,6 +58880,10 @@
 <param name="Local" value="uCEFInterfaces.ICefFrameHandler.html#OnFrameCreated">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnFrameDestroyed">
+<param name="Local" value="uCEFInterfaces.ICefFrameHandler.html#OnFrameDestroyed">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnFrameDetached">
 <param name="Local" value="uCEFInterfaces.ICefFrameHandler.html#OnFrameDetached">
 </object>
@@ -65010,6 +65046,10 @@
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnFrameCreated">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doOnFrameDestroyed">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnFrameDestroyed">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="doOnFrameDetached">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnFrameDetached">
 </object>
@@ -69216,16 +69256,12 @@
 <param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#Destroy">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="BeginBufferDraw">
-<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#BeginBufferDraw">
+<param name="Name" value="BeginDraw">
+<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#BeginDraw">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="BufferIsResized">
-<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#BufferIsResized">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="UpdateBufferDimensions">
-<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#UpdateBufferDimensions">
+<param name="Name" value="UpdateDimensions">
+<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#UpdateDimensions">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetBufferBits">
@@ -69236,8 +69272,8 @@
 <param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#BufferDraw">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="EndBufferDraw">
-<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#EndBufferDraw">
+<param name="Name" value="EndDraw">
+<param name="Local" value="uCEFBrowserBitmap.TCEFBrowserBitmap.html#EndDraw">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CreateSyncObj">
@@ -76322,6 +76358,10 @@
 <param name="Local" value="uCEFTypes.TCefFrameHandler.html#on_frame_created">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="on_frame_destroyed">
+<param name="Local" value="uCEFTypes.TCefFrameHandler.html#on_frame_destroyed">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="on_frame_detached">
 <param name="Local" value="uCEFTypes.TCefFrameHandler.html#on_frame_detached">
 </object>
@@ -76352,6 +76392,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnFrameCreated">
 <param name="Local" value="uCEFFrameHandler.TCefFrameHandlerOwn.html#OnFrameCreated">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnFrameDestroyed">
+<param name="Local" value="uCEFFrameHandler.TCefFrameHandlerOwn.html#OnFrameDestroyed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnFrameDetached">
@@ -93160,6 +93204,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnFrameCreated">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FOnFrameDestroyed">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnFrameDestroyed">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOnFrameDetached">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnFrameDetached">
 </object>
@@ -94112,6 +94160,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnFrameCreated">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnFrameCreated">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnFrameDestroyed">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnFrameDestroyed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnFrameDetached">
@@ -95902,6 +95954,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnFrameCreated">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnFrameCreated">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnFrameDestroyed">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnFrameDestroyed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnFrameDetached">
@@ -98142,6 +98198,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnFrameCreated">
 <param name="Local" value="uCEFFrameHandler.TCustomFrameHandler.html#OnFrameCreated">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnFrameDestroyed">
+<param name="Local" value="uCEFFrameHandler.TCustomFrameHandler.html#OnFrameDestroyed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnFrameDetached">

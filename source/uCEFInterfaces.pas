@@ -462,6 +462,7 @@ type
 
     // ICefFrameHandler
     procedure doOnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame);
+    procedure doOnFrameDestroyed(const browser: ICefBrowser; const frame: ICefFrame);
     procedure doOnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);
     procedure doOnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
     procedure doOnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
@@ -2111,81 +2112,79 @@ type
   end;
 
   /// <summary>
-  /// Implement this interface to handle events related to ICefFrame life span.
-  /// The order of callbacks is:
+  /// <para>Implement this structure to handle events related to cef_frame_t life span.
+  /// The order of callbacks is:</para>
   ///
-  /// (1) During initial ICefBrowserHost creation and navigation of the main
-  /// frame:
-  /// - ICefFrameHandler.OnFrameCreated => The initial main frame
-  /// object has been created. Any commands will be queued until the frame is attached.
-  /// - ICefFrameHandler.OnMainFrameChanged => The initial main frame object
-  /// has been assigned to the browser.
-  /// - ICefLifeSpanHandler.OnAfterCreated => The browser is now valid and
-  /// can be used.
-  /// - ICefFrameHandler.OnFrameAttached => The initial main frame object is
-  /// now connected to its peer in the renderer process. Commands can be routed.
-  ///
-  /// (2) During further ICefBrowserHost navigation/loading of the main frame
-  ///     and/or sub-frames:
-  /// - ICefFrameHandler.OnFrameCreated => A new main frame or sub-frame
-  /// object has been created. Any commands will be queued until the frame is attached.
-  /// - ICefFrameHandler.OnFrameAttached => A new main frame or sub-frame
-  /// object is now connected to its peer in the renderer process. Commands can be routed.
-  /// - ICefFrameHandler.OnFrameDetached => An existing main frame or sub-
-  /// frame object has lost its connection to the renderer process. If multiple
+  /// <para>(1) During initial cef_browser_host_t creation and navigation of the main
+  /// frame:</para>
+  /// <code>
+  /// - cef_frame_handler_t::OnFrameCreated => The initial main frame object has
+  ///   been created. Any commands will be queued until the frame is attached.
+  /// - cef_frame_handler_t::OnMainFrameChanged => The initial main frame object
+  ///   has been assigned to the browser.
+  /// - cef_life_span_handler_t::OnAfterCreated => The browser is now valid and
+  ///   can be used.
+  /// - cef_frame_handler_t::OnFrameAttached => The initial main frame object is
+  ///   now connected to its peer in the renderer process. Commands can be routed.
+  /// </code>
+  /// <para>(2) During further cef_browser_host_t navigation/loading of the main frame
+  ///     and/or sub-frames:</para>
+  /// <code>
+  /// - cef_frame_handler_t::OnFrameCreated => A new main frame or sub-frame
+  ///   object has been created. Any commands will be queued until the frame is
+  ///   attached.
+  /// - cef_frame_handler_t::OnFrameAttached => A new main frame or sub-frame
+  ///   object is now connected to its peer in the renderer process. Commands can
+  ///   be routed.
+  /// - cef_frame_handler_t::OnFrameDetached => An existing main frame or sub-
+  ///   frame object has lost its connection to the renderer process. If multiple
   ///   objects are detached at the same time then notifications will be sent for
   ///   any sub-frame objects before the main frame object. Commands can no longer
   ///   be routed and will be discarded.
-  /// - ICefFrameHandler.OnMainFrameChanged => A new main frame object has
-  /// been assigned to the browser. This will only occur with cross-origin navigation
-  ///   or re-navigation after renderer process termination (due to crashes, etc).
-  ///
-  /// (3) During final ICefBrowserHost destruction of the main frame:
-  /// - ICefFrameHandler.OnFrameDetached => Any sub-frame objects have lost
-  /// their connection to the renderer process. Commands can no longer be routed and
-  ///   will be discarded.
-  /// - ICefLifeSpanHandler.OnBeforeClose => The browser has been destroyed.
-  /// - ICefFrameHandler.OnFrameDetached => The main frame object have lost
-  /// its connection to the renderer process. Notifications will be sent for any
+  /// - CefFremeHadler::OnFrameDestroyed => An existing main frame or sub-frame
+  ///   object has been destroyed.
+  /// - cef_frame_handler_t::OnMainFrameChanged => A new main frame object has
+  ///   been assigned to the browser. This will only occur with cross-origin
+  ///   navigation or re-navigation after renderer process termination (due to
+  ///   crashes, etc).
+  /// </code>
+  /// <para>(3) During final cef_browser_host_t destruction of the main frame:</para>
+  /// <code>
+  /// - cef_frame_handler_t::OnFrameDetached => Any sub-frame objects have lost
+  ///   their connection to the renderer process. Commands can no longer be routed
+  ///   and will be discarded.
+  /// - CefFreameHandler::OnFrameDestroyed => Any sub-frame objects have been
+  ///   destroyed.
+  /// - cef_life_span_handler_t::OnBeforeClose => The browser has been destroyed.
+  /// - cef_frame_handler_t::OnFrameDetached => The main frame object have lost
+  ///   its connection to the renderer process. Notifications will be sent for any
   ///   sub-frame objects before the main frame object. Commands can no longer be
   ///   routed and will be discarded.
-  /// - ICefFrameHandler.OnMainFrameChanged => The final main frame object has
+  /// - CefFreameHandler::OnFrameDestroyed => The main frame object has been
+  ///   destroyed.
+  /// - cef_frame_handler_t::OnMainFrameChanged => The final main frame object has
   ///   been removed from the browser.
+  /// </code>
+  /// <para>Special handling applies for cross-origin loading on creation/navigation of
+  /// sub-frames, and cross-origin loading on creation of new popup browsers. A
+  /// temporary frame will first be created in the parent frame's renderer
+  /// process. This temporary frame will never attach and will be discarded after
+  /// the real cross-origin frame is created in the new/target renderer process.
+  /// The client will receive creation callbacks for the temporary frame, followed
+  /// by cross-origin navigation callbacks (2) for the transition from the
+  /// temporary frame to the real frame. The temporary frame will not receive or
+  /// execute commands during this transitional period (any sent commands will be
+  /// discarded).<para>
   ///
-  /// Cross-origin navigation and/or loading receives special handling.
+  /// <para>When the main frame navigates to a different origin the OnMainFrameChanged
+  /// callback (2) will be executed with the old and new main frame objects.</para>
   ///
-  /// When the main frame navigates to a different origin the OnMainFrameChanged
-  /// callback (2) will be executed with the old and new main frame objects.
-  ///
-  /// When a new sub-frame is loaded in, or an existing sub-frame is navigated to,
-  /// a different origin from the parent frame, a temporary sub-frame object will
-  /// first be created in the parent's renderer process. That temporary sub-frame
-  /// will then be discarded after the real cross-origin sub-frame is created in
-  /// the new/target renderer process. The client will receive cross-origin
-  /// navigation callbacks (2) for the transition from the temporary sub-frame to
-  /// the real sub-frame. The temporary sub-frame will not recieve or execute
-  /// commands during this transitional period (any sent commands will be
-  /// discarded).
-  ///
-  /// When a new popup browser is created in a different origin from the parent
-  /// browser, a temporary main frame object for the popup will first be created
-  /// in the parent's renderer process. That temporary main frame will then be
-  /// discarded after the real cross-origin main frame is created in the
-  /// new/target renderer process. The client will recieve creation and initial
-  /// navigation callbacks (1) for the temporary main frame, followed by cross-
-  /// origin navigation callbacks (2) for the transition from the temporary main
-  /// frame to the real main frame. The temporary main frame may receive and
-  /// execute commands during this transitional period (any sent commands may be
-  /// executed, but the behavior is potentially undesirable since they execute in
-  /// the parent browser's renderer process and not the new/target renderer
-  /// process).
-  ///
-  /// Callbacks will not be executed for placeholders that may be created during
+  /// <para>Callbacks will not be executed for placeholders that may be created during
   /// pre-commit navigation for sub-frames that do not yet exist in the renderer
-  /// process. Placeholders will have ICefFrame.GetIdentifier() == -4.
+  /// process. Placeholders will have cef_frame_t::get_identifier() == -4.</para>
   ///
-  /// The functions of this interface will be called on the UI thread unless
-  /// otherwise indicated.
+  /// <para>The functions of this structure will be called on the UI thread unless
+  /// otherwise indicated.</para>
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefFrameHandler">Implements TCefFrameHandler</see></para>
@@ -2197,23 +2196,43 @@ type
     /// Called when a new frame is created. This will be the first notification
     /// that references |frame|. Any commands that require transport to the
     /// associated renderer process (LoadRequest, SendProcessMessage, GetSource,
-    /// etc.) will be queued until OnFrameAttached is called for |frame|.
+    /// etc.) will be queued. The queued commands will be sent before
+    /// OnFrameAttached or discarded before OnFrameDestroyed if the frame never
+    /// attaches.
     /// </summary>
     procedure OnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame);
     /// <summary>
+    /// Called when an existing frame is destroyed. This will be the last
+    /// notification that references |frame| and cef_frame_t::is_valid() will
+    /// return false (0) for |frame|. If called during browser destruction and
+    /// after cef_life_span_handler_t::on_before_close() then
+    /// cef_browser_t::is_valid() will return false (0) for |browser|. Any queued
+    /// commands that have not been sent will be discarded before this callback.
+    /// </summary>
+    procedure OnFrameDestroyed(const browser: ICefBrowser; const frame: ICefFrame);
+    /// <summary>
     /// Called when a frame can begin routing commands to/from the associated
     /// renderer process. |reattached| will be true (1) if the frame was re-
-    /// attached after exiting the BackForwardCache. Any commands that were queued
-    /// have now been dispatched.
+    /// attached after exiting the BackForwardCache or after encountering a
+    /// recoverable connection error. Any queued commands will now have been
+    /// dispatched. This function will not be called for temporary frames created
+    /// during cross-origin navigation.
     /// </summary>
     procedure OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);
     /// <summary>
-    /// Called when a frame loses its connection to the renderer process and will
-    /// be destroyed. Any pending or future commands will be discarded and
-    /// ICefFrame.IsValid() will now return false (0) for |frame|. If called
-    /// after ICefLifeSpanHandler.OnBeforeClose() during browser
-    /// destruction then ICefBrowser.IsValid() will return false (0) for
-    /// |browser|.
+    /// Called when a frame loses its connection to the renderer process. This may
+    /// occur when a frame is destroyed, enters the BackForwardCache, or
+    /// encounters a rare connection error. In the case of frame destruction this
+    /// call will be followed by a (potentially async) call to OnFrameDestroyed.
+    /// If frame destruction is occuring synchronously then
+    /// cef_frame_t::is_valid() will return false (0) for |frame|. If called
+    /// during browser destruction and after
+    /// cef_life_span_handler_t::on_before_close() then cef_browser_t::is_valid()
+    /// will return false (0) for |browser|. If, in the non-destruction case, the
+    /// same frame later exits the BackForwardCache or recovers from a connection
+    /// error then there will be a follow-up call to OnFrameAttached. This
+    /// function will not be called for temporary frames created during cross-
+    /// origin navigation.
     /// </summary>
     procedure OnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
     /// <summary>
@@ -2222,14 +2241,14 @@ type
     /// navigation after renderer process termination (due to crashes, etc).
     /// |old_frame| will be NULL and |new_frame| will be non-NULL when a main
     /// frame is assigned to |browser| for the first time. |old_frame| will be
-    /// non-NULL and |new_frame| will be NULL and  when a main frame is removed
-    /// from |browser| for the last time. Both |old_frame| and |new_frame| will be
-    /// non-NULL for cross-origin navigations or re-navigation after renderer
-    /// process termination. This function will be called after on_frame_created()
-    /// for |new_frame| and/or after OnFrameDetached() for |old_frame|. If
-    /// called after ICefLifeSpanHandler.OnBeforeClose() during browser
-    /// destruction then ICefBrowser.IsValid() will return false (0) for
-    /// |browser|.
+    /// non-NULL and |new_frame| will be NULL when a main frame is removed from
+    /// |browser| for the last time. Both |old_frame| and |new_frame| will be non-
+    /// NULL for cross-origin navigations or re-navigation after renderer process
+    /// termination. This function will be called after on_frame_created() for
+    /// |new_frame| and/or after on_frame_destroyed() for |old_frame|. If called
+    /// during browser destruction and after
+    /// cef_life_span_handler_t::on_before_close() then cef_browser_t::is_valid()
+    /// will return false (0) for |browser|.
     /// </summary>
     procedure OnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
     /// <summary>

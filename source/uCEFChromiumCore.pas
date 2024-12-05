@@ -283,6 +283,7 @@ type
 
       // ICefFrameHandler
       FOnFrameCreated                     : TOnFrameCreated;
+      FOnFrameDestroyed                   : TOnFrameDestroyed;
       FOnFrameAttached                    : TOnFrameAttached;
       FOnFrameDetached                    : TOnFrameDetached;
       FOnMainFrameChanged                 : TOnMainFrameChanged;
@@ -646,6 +647,7 @@ type
 
       // ICefFrameHandler
       procedure doOnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame);
+      procedure doOnFrameDestroyed(const browser: ICefBrowser; const frame: ICefFrame);
       procedure doOnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);
       procedure doOnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
       procedure doOnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
@@ -3752,7 +3754,9 @@ type
       /// Called when a new frame is created. This will be the first notification
       /// that references |frame|. Any commands that require transport to the
       /// associated renderer process (LoadRequest, SendProcessMessage, GetSource,
-      /// etc.) will be queued until OnFrameAttached is called for |frame|.
+      /// etc.) will be queued. The queued commands will be sent before
+      /// OnFrameAttached or discarded before OnFrameDestroyed if the frame never
+      /// attaches.
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -3760,10 +3764,25 @@ type
       /// </remarks>
       property OnFrameCreated                         : TOnFrameCreated                   read FOnFrameCreated                         write FOnFrameCreated;
       /// <summary>
+      /// Called when an existing frame is destroyed. This will be the last
+      /// notification that references |frame| and ICefFrame.IsValid will
+      /// return false (0) for |frame|. If called during browser destruction and
+      /// after TChromiumCore.OnBeforeClose then
+      /// ICefBrowser.IsValid will return false (0) for |browser|. Any queued
+      /// commands that have not been sent will be discarded before this callback.
+      /// </summary>
+      /// <remarks>
+      /// <para>This event will be called on the browser process CEF UI thread.</para>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_frame_handler_capi.h">CEF source file: /include/capi/cef_frame_handler_capi.h (cef_frame_handler_t)</see></para>
+      /// </remarks>
+      property OnFrameDestroyed                       : TOnFrameDestroyed                 read FOnFrameDestroyed                       write FOnFrameDestroyed;
+      /// <summary>
       /// Called when a frame can begin routing commands to/from the associated
       /// renderer process. |reattached| will be true (1) if the frame was re-
-      /// attached after exiting the BackForwardCache. Any commands that were queued
-      /// have now been dispatched.
+      /// attached after exiting the BackForwardCache or after encountering a
+      /// recoverable connection error. Any queued commands will now have been
+      /// dispatched. This function will not be called for temporary frames created
+      /// during cross-origin navigation.
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -3771,12 +3790,19 @@ type
       /// </remarks>
       property OnFrameAttached                        : TOnFrameAttached                  read FOnFrameAttached                        write FOnFrameAttached;
       /// <summary>
-      /// Called when a frame loses its connection to the renderer process and will
-      /// be destroyed. Any pending or future commands will be discarded and
-      /// ICefFrame.IsValid() will now return false (0) for |frame|. If called
-      /// after ICefLifeSpanHandler.OnBeforeClose() during browser
-      /// destruction then ICefBrowser.IsValid() will return false (0) for
-      /// |browser|.
+      /// Called when a frame loses its connection to the renderer process. This may
+      /// occur when a frame is destroyed, enters the BackForwardCache, or
+      /// encounters a rare connection error. In the case of frame destruction this
+      /// call will be followed by a (potentially async) call to OnFrameDestroyed.
+      /// If frame destruction is occuring synchronously then
+      /// ICefFrame.IsValid will return false (0) for |frame|. If called
+      /// during browser destruction and after
+      /// TChromiumCore.OnBeforeClose then ICefBrowser.IsValid
+      /// will return false (0) for |browser|. If, in the non-destruction case, the
+      /// same frame later exits the BackForwardCache or recovers from a connection
+      /// error then there will be a follow-up call to OnFrameAttached. This
+      /// function will not be called for temporary frames created during cross-
+      /// origin navigation.
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -3789,14 +3815,14 @@ type
       /// navigation after renderer process termination (due to crashes, etc).
       /// |old_frame| will be NULL and |new_frame| will be non-NULL when a main
       /// frame is assigned to |browser| for the first time. |old_frame| will be
-      /// non-NULL and |new_frame| will be NULL and  when a main frame is removed
-      /// from |browser| for the last time. Both |old_frame| and |new_frame| will be
-      /// non-NULL for cross-origin navigations or re-navigation after renderer
-      /// process termination. This function will be called after on_frame_created()
-      /// for |new_frame| and/or after OnFrameDetached() for |old_frame|. If
-      /// called after ICefLifeSpanHandler.OnBeforeClose() during browser
-      /// destruction then ICefBrowser.IsValid() will return false (0) for
-      /// |browser|.
+      /// non-NULL and |new_frame| will be NULL when a main frame is removed from
+      /// |browser| for the last time. Both |old_frame| and |new_frame| will be non-
+      /// NULL for cross-origin navigations or re-navigation after renderer process
+      /// termination. This function will be called after OnFrameCreated for
+      /// |new_frame| and/or after OnFrameDestroyed for |old_frame|. If called
+      /// during browser destruction and after
+      /// TChromiumCore.OnBeforeClose then ICefBrowser.IsValid
+      /// will return false (0) for |browser|.
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -4618,6 +4644,7 @@ begin
 
   // ICefFrameHandler
   FOnFrameCreated                     := nil;
+  FOnFrameDestroyed                   := nil;
   FOnFrameAttached                    := nil;
   FOnFrameDetached                    := nil;
   FOnMainFrameChanged                 := nil;
@@ -8062,9 +8089,10 @@ end;
 
 function TChromiumCore.MustCreateFrameHandler : boolean;
 begin
-  Result := assigned(FOnFrameCreated)  or
-            assigned(FOnFrameAttached) or
-            assigned(FOnFrameDetached) or
+  Result := assigned(FOnFrameCreated)   or
+            assigned(FOnFrameDestroyed) or
+            assigned(FOnFrameAttached)  or
+            assigned(FOnFrameDetached)  or
             assigned(FOnMainFrameChanged);
 end;
 
@@ -8982,6 +9010,12 @@ procedure TChromiumCore.doOnFrameCreated(const browser: ICefBrowser; const frame
 begin
   if assigned(FOnFrameCreated) then
     FOnFrameCreated(self, browser, frame);
+end;
+
+procedure TChromiumCore.doOnFrameDestroyed(const browser: ICefBrowser; const frame: ICefFrame);
+begin
+  if assigned(FOnFrameDestroyed) then
+    FOnFrameDestroyed(self, browser, frame);
 end;
 
 procedure TChromiumCore.doOnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);

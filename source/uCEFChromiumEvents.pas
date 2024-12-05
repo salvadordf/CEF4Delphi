@@ -171,6 +171,7 @@ type
 
   // ICefFrameHandler
   TOnFrameCreated                 = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame) of object;
+  TOnFrameDestroyed               = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame) of object;
   TOnFrameAttached                = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean) of object;
   TOnFrameDetached                = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame) of object;
   TOnMainFrameChanged             = procedure(Sender: TObject; const browser: ICefBrowser; const old_frame, new_frame: ICefFrame) of object;

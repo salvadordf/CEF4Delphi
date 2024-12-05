@@ -30,21 +30,25 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFFrameHandler.TCefFrameHandlerOwn.html#OnFrameAttached-ICefBrowser-ICefFrame-boolean-">OnFrameAttached</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; reattached: boolean); virtual;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrameHandler.TCefFrameHandlerOwn.html#OnFrameDestroyed-ICefBrowser-ICefFrame-">OnFrameDestroyed</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); virtual;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFFrameHandler.TCefFrameHandlerOwn.html#OnFrameAttached-ICefBrowser-ICefFrame-boolean-">OnFrameAttached</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; reattached: boolean); virtual;</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFFrameHandler.TCefFrameHandlerOwn.html#OnFrameDetached-ICefBrowser-ICefFrame-">OnFrameDetached</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFFrameHandler.TCefFrameHandlerOwn.html#OnMainFrameChanged-ICefBrowser-ICefFrame-ICefFrame-">OnMainFrameChanged</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const old_frame, new_frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFFrameHandler.TCefFrameHandlerOwn.html#RemoveReferences">RemoveReferences</a></strong>; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>constructor <strong><a href="uCEFFrameHandler.TCefFrameHandlerOwn.html#Create">Create</a></strong>; virtual;</code></td>
 </tr>
@@ -58,7 +62,17 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrameHandler.html#OnFrameCreated-ICefBrowser-ICefFrame-">ICefFrameHandler.OnFrameCreated</a>.</p><p>
- Called when a new frame is created. This will be the first notification that references |frame|. Any commands that require transport to the associated renderer process (LoadRequest, SendProcessMessage, GetSource, etc.) will be queued until OnFrameAttached is called for |frame|. </p>
+ Called when a new frame is created. This will be the first notification that references |frame|. Any commands that require transport to the associated renderer process (LoadRequest, SendProcessMessage, GetSource, etc.) will be queued. The queued commands will be sent before OnFrameAttached or discarded before OnFrameDestroyed if the frame never attaches. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnFrameDestroyed-ICefBrowser-ICefFrame-"></span><code>procedure <strong>OnFrameDestroyed</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrameHandler.html#OnFrameDestroyed-ICefBrowser-ICefFrame-">ICefFrameHandler.OnFrameDestroyed</a>.</p><p>
+ Called when an existing frame is destroyed. This will be the last notification that references |frame| and cef_frame_t::is_valid() will return false (0) for |frame|. If called during browser destruction and after cef_life_span_handler_t::on_before_close() then cef_browser_t::is_valid() will return false (0) for |browser|. Any queued commands that have not been sent will be discarded before this callback. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -68,7 +82,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrameHandler.html#OnFrameAttached-ICefBrowser-ICefFrame-boolean-">ICefFrameHandler.OnFrameAttached</a>.</p><p>
- Called when a frame can begin routing commands to/from the associated renderer process. |reattached| will be true (1) if the frame was re- attached after exiting the BackForwardCache. Any commands that were queued have now been dispatched. </p>
+ Called when a frame can begin routing commands to/from the associated renderer process. |reattached| will be true (1) if the frame was re- attached after exiting the BackForwardCache or after encountering a recoverable connection error. Any queued commands will now have been dispatched. This function will not be called for temporary frames created during cross-origin navigation. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -78,7 +92,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrameHandler.html#OnFrameDetached-ICefBrowser-ICefFrame-">ICefFrameHandler.OnFrameDetached</a>.</p><p>
- Called when a frame loses its connection to the renderer process and will be destroyed. Any pending or future commands will be discarded and ICefFrame.IsValid() will now return false (0) for |frame|. If called after ICefLifeSpanHandler.OnBeforeClose() during browser destruction then ICefBrowser.IsValid() will return false (0) for |browser|. </p>
+ Called when a frame loses its connection to the renderer process. This may occur when a frame is destroyed, enters the BackForwardCache, or encounters a rare connection error. In the case of frame destruction this call will be followed by a (potentially async) call to OnFrameDestroyed. If frame destruction is occuring synchronously then cef_frame_t::is_valid() will return false (0) for |frame|. If called during browser destruction and after cef_life_span_handler_t::on_before_close() then cef_browser_t::is_valid() will return false (0) for |browser|. If, in the non-destruction case, the same frame later exits the BackForwardCache or recovers from a connection error then there will be a follow-up call to OnFrameAttached. This function will not be called for temporary frames created during cross- origin navigation. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -88,7 +102,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefFrameHandler.html#OnMainFrameChanged-ICefBrowser-ICefFrame-ICefFrame-">ICefFrameHandler.OnMainFrameChanged</a>.</p><p>
- Called when the main frame changes due to (a) initial browser creation, (b) final browser destruction, (c) cross-origin navigation or (d) re- navigation after renderer process termination (due to crashes, etc). |old_frame| will be NULL and |new_frame| will be non-NULL when a main frame is assigned to |browser| for the first time. |old_frame| will be non-NULL and |new_frame| will be NULL and when a main frame is removed from |browser| for the last time. Both |old_frame| and |new_frame| will be non-NULL for cross-origin navigations or re-navigation after renderer process termination. This function will be called after on_frame_created() for |new_frame| and/or after OnFrameDetached() for |old_frame|. If called after ICefLifeSpanHandler.OnBeforeClose() during browser destruction then ICefBrowser.IsValid() will return false (0) for |browser|. </p>
+ Called when the main frame changes due to (a) initial browser creation, (b) final browser destruction, (c) cross-origin navigation or (d) re- navigation after renderer process termination (due to crashes, etc). |old_frame| will be NULL and |new_frame| will be non-NULL when a main frame is assigned to |browser| for the first time. |old_frame| will be non-NULL and |new_frame| will be NULL when a main frame is removed from |browser| for the last time. Both |old_frame| and |new_frame| will be non- NULL for cross-origin navigations or re-navigation after renderer process termination. This function will be called after on_frame_created() for |new_frame| and/or after on_frame_destroyed() for |old_frame|. If called during browser destruction and after cef_life_span_handler_t::on_before_close() then cef_browser_t::is_valid() will return false (0) for |browser|. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

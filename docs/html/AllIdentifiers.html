@@ -3108,12 +3108,12 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-single-double-">DeviceToLogical</a></td>
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-TCEFMouseEvent-double-">DeviceToLogical</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list2">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-TCEFMouseEvent-double-">DeviceToLogical</a></td>
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-single-double-">DeviceToLogical</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
@@ -3123,12 +3123,12 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list2">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-integer-double-">DeviceToLogical</a></td>
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-TCefTouchEvent-double-">DeviceToLogical</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-TCefTouchEvent-double-">DeviceToLogical</a></td>
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#DeviceToLogical-integer-double-">DeviceToLogical</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
@@ -5017,25 +5017,82 @@
 <tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFInterfaces.ICefFrameHandler.html">ICefFrameHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFInterfaces.html">uCEFInterfaces</a></td>
-<td class="itemdesc"><p> Implement this interface to handle events related to ICefFrame life span. The order of callbacks is:
+<td class="itemdesc"><p>
 
-<p>(1) During initial ICefBrowserHost creation and navigation of the main frame: - ICefFrameHandler.OnFrameCreated =&gt; The initial main frame object has been created. Any commands will be queued until the frame is attached. - ICefFrameHandler.OnMainFrameChanged =&gt; The initial main frame object has been assigned to the browser. - ICefLifeSpanHandler.OnAfterCreated =&gt; The browser is now valid and can be used. - ICefFrameHandler.OnFrameAttached =&gt; The initial main frame object is now connected to its peer in the renderer process. Commands can be routed.
+<p>Implement this structure to handle events related to cef_frame_t life span. The order of callbacks is:
 
-<p>(2) During further ICefBrowserHost navigation/loading of the main frame and/or sub-frames: - ICefFrameHandler.OnFrameCreated =&gt; A new main frame or sub-frame object has been created. Any commands will be queued until the frame is attached. - ICefFrameHandler.OnFrameAttached =&gt; A new main frame or sub-frame object is now connected to its peer in the renderer process. Commands can be routed. - ICefFrameHandler.OnFrameDetached =&gt; An existing main frame or sub- frame object has lost its connection to the renderer process. If multiple objects are detached at the same time then notifications will be sent for any sub-frame objects before the main frame object. Commands can no longer be routed and will be discarded. - ICefFrameHandler.OnMainFrameChanged =&gt; A new main frame object has been assigned to the browser. This will only occur with cross-origin navigation or re-navigation after renderer process termination (due to crashes, etc).
+<p>(1) During initial cef_browser_host_t creation and navigation of the main frame:
 
-<p>(3) During final ICefBrowserHost destruction of the main frame: - ICefFrameHandler.OnFrameDetached =&gt; Any sub-frame objects have lost their connection to the renderer process. Commands can no longer be routed and will be discarded. - ICefLifeSpanHandler.OnBeforeClose =&gt; The browser has been destroyed. - ICefFrameHandler.OnFrameDetached =&gt; The main frame object have lost its connection to the renderer process. Notifications will be sent for any sub-frame objects before the main frame object. Commands can no longer be routed and will be discarded. - ICefFrameHandler.OnMainFrameChanged =&gt; The final main frame object has been removed from the browser.
+<p></p>
 
-<p>Cross-origin navigation and/or loading receives special handling.
+<pre class="preformatted">
+- cef_frame_handler_t::OnFrameCreated =&gt; The initial main frame object has
+  been created. Any commands will be queued until the frame is attached.
+- cef_frame_handler_t::OnMainFrameChanged =&gt; The initial main frame object
+  has been assigned to the browser.
+- cef_life_span_handler_t::OnAfterCreated =&gt; The browser is now valid and
+  can be used.
+- cef_frame_handler_t::OnFrameAttached =&gt; The initial main frame object is
+  now connected to its peer in the renderer process. Commands can be routed.</pre>
+
+<p>
+
+<p>(2) During further cef_browser_host_t navigation/loading of the main frame and/or sub-frames:
+
+<p></p>
+
+<pre class="preformatted">
+- cef_frame_handler_t::OnFrameCreated =&gt; A new main frame or sub-frame
+  object has been created. Any commands will be queued until the frame is
+  attached.
+- cef_frame_handler_t::OnFrameAttached =&gt; A new main frame or sub-frame
+  object is now connected to its peer in the renderer process. Commands can
+  be routed.
+- cef_frame_handler_t::OnFrameDetached =&gt; An existing main frame or sub-
+  frame object has lost its connection to the renderer process. If multiple
+  objects are detached at the same time then notifications will be sent for
+  any sub-frame objects before the main frame object. Commands can no longer
+  be routed and will be discarded.
+- CefFremeHadler::OnFrameDestroyed =&gt; An existing main frame or sub-frame
+  object has been destroyed.
+- cef_frame_handler_t::OnMainFrameChanged =&gt; A new main frame object has
+  been assigned to the browser. This will only occur with cross-origin
+  navigation or re-navigation after renderer process termination (due to
+  crashes, etc).</pre>
+
+<p>
+
+<p>(3) During final cef_browser_host_t destruction of the main frame:
+
+<p></p>
+
+<pre class="preformatted">
+- cef_frame_handler_t::OnFrameDetached =&gt; Any sub-frame objects have lost
+  their connection to the renderer process. Commands can no longer be routed
+  and will be discarded.
+- CefFreameHandler::OnFrameDestroyed =&gt; Any sub-frame objects have been
+  destroyed.
+- cef_life_span_handler_t::OnBeforeClose =&gt; The browser has been destroyed.
+- cef_frame_handler_t::OnFrameDetached =&gt; The main frame object have lost
+  its connection to the renderer process. Notifications will be sent for any
+  sub-frame objects before the main frame object. Commands can no longer be
+  routed and will be discarded.
+- CefFreameHandler::OnFrameDestroyed =&gt; The main frame object has been
+  destroyed.
+- cef_frame_handler_t::OnMainFrameChanged =&gt; The final main frame object has
+  been removed from the browser.</pre>
+
+<p>
+
+<p>Special handling applies for cross-origin loading on creation/navigation of sub-frames, and cross-origin loading on creation of new popup browsers. A temporary frame will first be created in the parent frame's renderer process. This temporary frame will never attach and will be discarded after the real cross-origin frame is created in the new/target renderer process. The client will receive creation callbacks for the temporary frame, followed by cross-origin navigation callbacks (2) for the transition from the temporary frame to the real frame. The temporary frame will not receive or execute commands during this transitional period (any sent commands will be discarded).
 
 <p>When the main frame navigates to a different origin the OnMainFrameChanged callback (2) will be executed with the old and new main frame objects.
 
-<p>When a new sub-frame is loaded in, or an existing sub-frame is navigated to, a different origin from the parent frame, a temporary sub-frame object will first be created in the parent's renderer process. That temporary sub-frame will then be discarded after the real cross-origin sub-frame is created in the new/target renderer process. The client will receive cross-origin navigation callbacks (2) for the transition from the temporary sub-frame to the real sub-frame. The temporary sub-frame will not recieve or execute commands during this transitional period (any sent commands will be discarded).
+<p>Callbacks will not be executed for placeholders that may be created during pre-commit navigation for sub-frames that do not yet exist in the renderer process. Placeholders will have cef_frame_t::get_identifier() == -4.
 
-<p>When a new popup browser is created in a different origin from the parent browser, a temporary main frame object for the popup will first be created in the parent's renderer process. That temporary main frame will then be discarded after the real cross-origin main frame is created in the new/target renderer process. The client will recieve creation and initial navigation callbacks (1) for the temporary main frame, followed by cross- origin navigation callbacks (2) for the transition from the temporary main frame to the real main frame. The temporary main frame may receive and execute commands during this transitional period (any sent commands may be executed, but the behavior is potentially undesirable since they execute in the parent browser's renderer process and not the new/target renderer process).
+<p>The functions of this structure will be called on the UI thread unless otherwise indicated.
 
-<p>Callbacks will not be executed for placeholders that may be created during pre-commit navigation for sub-frames that do not yet exist in the renderer process. Placeholders will have ICefFrame.GetIdentifier() == -4.
-
-<p>The functions of this interface will be called on the UI thread unless otherwise indicated. </p></td>
+<p></p></td>
 </tr>
 <tr class="list">
 <td class="itemname"><a class="bold" href="uCEFInterfaces.ICefImage.html">ICefImage</a></td>
@@ -7665,12 +7722,12 @@
 <td class="itemdesc"><p>for InitLibLocationFromArgs</p></td>
 </tr>
 <tr class="list2">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#LogicalToDevice-integer-double-">LogicalToDevice</a></td>
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#LogicalToDevice-TCEFRect-double-">LogicalToDevice</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
-<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#LogicalToDevice-TCEFRect-double-">LogicalToDevice</a></td>
+<td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#LogicalToDevice-integer-double-">LogicalToDevice</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
@@ -13329,721 +13386,726 @@ Ranges:
 <td class="itemdesc"><p>ICefFrameHandler</p></td>
 </tr>
 <tr class="list2">
+<td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnFrameDestroyed">TOnFrameDestroyed</a></td>
+<td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnFrameDetached">TOnFrameDetached</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnFullScreenModeChange">TOnFullScreenModeChange</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGestureCommandEvent">TOnGestureCommandEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnGetAccessibilityHandler">TOnGetAccessibilityHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>ICefRenderHandler</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnGetAudioParametersEvent">TOnGetAudioParametersEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>ICefAudioHandler</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnGetAuthCredentials">TOnGetAuthCredentials</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFUrlRequestClientEvents.html#TOnGetAuthCredentials">TOnGetAuthCredentials</a></td>
 <td class="itemunit"><a class="bold" href="uCEFUrlRequestClientEvents.html">uCEFUrlRequestClientEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGetBrowserRuntimeStyleEvent">TOnGetBrowserRuntimeStyleEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGetChromeToolbarTypeEvent">TOnGetChromeToolbarTypeEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnGetDataResourceEvent">TOnGetDataResourceEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnGetDataResourceForScaleEvent">TOnGetDataResourceForScaleEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnGetDefaultClientEvent">TOnGetDefaultClientEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnGetDefaultRequestContextHandlerEvent">TOnGetDefaultRequestContextHandlerEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGetDelegateForPopupBrowserViewEvent">TOnGetDelegateForPopupBrowserViewEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGetHeightForWidthEvent">TOnGetHeightForWidthEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGetInitialBoundsEvent">TOnGetInitialBoundsEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGetInitialShowStateEvent">TOnGetInitialShowStateEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGetLinuxWindowPropertiesEvent">TOnGetLinuxWindowPropertiesEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnGetLocalizedStringEvent">TOnGetLocalizedStringEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>ICefResourceBundleHandler</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGetMaximumSizeEvent">TOnGetMaximumSizeEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGetMinimumSizeEvent">TOnGetMinimumSizeEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGetParentWindowEvent">TOnGetParentWindowEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnGetPDFPaperSizeEvent">TOnGetPDFPaperSizeEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGetPreferredSizeEvent">TOnGetPreferredSizeEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>ICefViewDelegate</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnGetResourceHandler">TOnGetResourceHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnGetResourceRequestHandler">TOnGetResourceRequestHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnGetResourceResponseFilter">TOnGetResourceResponseFilter</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnGetRootScreenRect">TOnGetRootScreenRect</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnGetScreenInfo">TOnGetScreenInfo</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnGetScreenPoint">TOnGetScreenPoint</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGetTitlebarHeightEvent">TOnGetTitlebarHeightEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnGetTouchHandleSize">TOnGetTouchHandleSize</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnGetViewRect">TOnGetViewRect</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnGetWindowRuntimeStyleEvent">TOnGetWindowRuntimeStyleEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnGotFocus">TOnGotFocus</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFBufferPanel.html#TOnHandledMessageEvent">TOnHandledMessageEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFBufferPanel.html">uCEFBufferPanel</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFServerEvents.html#TOnHttpRequest">TOnHttpRequest</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServerEvents.html">uCEFServerEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFBufferPanel.html#TOnIMECommitTextEvent">TOnIMECommitTextEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFBufferPanel.html">uCEFBufferPanel</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnIMECompositionRangeChanged">TOnIMECompositionRangeChanged</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFBufferPanel.html#TOnIMESetCompositionEvent">TOnIMESetCompositionEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFBufferPanel.html">uCEFBufferPanel</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFResponseFilter.html#TOnInitFilterEvent">TOnInitFilterEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResponseFilter.html">uCEFResponseFilter</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnIsChromeAppMenuItemEnabledEvent">TOnIsChromeAppMenuItemEnabledEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnIsChromeAppMenuItemVisibleEvent">TOnIsChromeAppMenuItemVisibleEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnIsChromePageActionIconVisibleEvent">TOnIsChromePageActionIconVisibleEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnIsChromeToolbarButtonVisibleEvent">TOnIsChromeToolbarButtonVisibleEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnIsFramelessEvent">TOnIsFramelessEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnIsWindowModalDialogEvent">TOnIsWindowModalDialogEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnJsdialog">TOnJsdialog</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>ICefJsDialogHandler</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnKeyEvent">TOnKeyEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnLayoutChangedEvent">TOnLayoutChangedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnLoadEnd">TOnLoadEnd</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnLoadError">TOnLoadError</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnLoadingProgressChange">TOnLoadingProgressChange</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnLoadingStateChange">TOnLoadingStateChange</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnLoadStart">TOnLoadStart</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>ICefLoadHandler</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnMainFrameChanged">TOnMainFrameChanged</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnMediaAccessChange">TOnMediaAccessChange</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnMediaRouteCreateFinishedEvent">TOnMediaRouteCreateFinishedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnMediaSinkDeviceInfoEvent">TOnMediaSinkDeviceInfoEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnMenuButtonPressedEvent">TOnMenuButtonPressedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>ICefMenuButtonDelegate</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnNavigationVisitorResultAvailableEvent">TOnNavigationVisitorResultAvailableEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnOpenUrlFromTab">TOnOpenUrlFromTab</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnPaint">TOnPaint</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnParentViewChangedEvent">TOnParentViewChangedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnPdfPrintFinishedEvent">TOnPdfPrintFinishedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFInterfaces.html#TOnPdfPrintFinishedProc">TOnPdfPrintFinishedProc</a></td>
 <td class="itemunit"><a class="bold" href="uCEFInterfaces.html">uCEFInterfaces</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnPopupBrowserViewCreatedEvent">TOnPopupBrowserViewCreatedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnPopupShow">TOnPopupShow</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnPopupSize">TOnPopupSize</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnPrefsAvailableEvent">TOnPrefsAvailableEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnPreKeyEvent">TOnPreKeyEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>ICefKeyboardHandler</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnPrintDialogEvent">TOnPrintDialogEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnPrintJobEvent">TOnPrintJobEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnPrintResetEvent">TOnPrintResetEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnPrintSettingsEvent">TOnPrintSettingsEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnPrintStartEvent">TOnPrintStartEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>ICefPrintHandler</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnProcessMessageReceived">TOnProcessMessageReceived</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>ICefClient</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnProcessMessageReceivedEvent">TOnProcessMessageReceivedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnProtocolExecution">TOnProtocolExecution</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFWorkSchedulerQueueThread.html#TOnPulseEvent">TOnPulseEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWorkSchedulerQueueThread.html">uCEFWorkSchedulerQueueThread</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnQuickMenuCommandEvent">TOnQuickMenuCommandEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnQuickMenuDismissedEvent">TOnQuickMenuDismissedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnRegisterCustomPreferencesEvent">TOnRegisterCustomPreferencesEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>ICefBrowserProcessHandler</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnRegisterCustomSchemesEvent">TOnRegisterCustomSchemesEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>ICefApp</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnRenderLoadEnd">TOnRenderLoadEnd</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnRenderLoadError">TOnRenderLoadError</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnRenderLoadingStateChange">TOnRenderLoadingStateChange</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>ICefLoadHandler</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnRenderLoadStart">TOnRenderLoadStart</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnRenderProcessResponsive">TOnRenderProcessResponsive</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnRenderProcessTerminated">TOnRenderProcessTerminated</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnRenderProcessUnresponsive">TOnRenderProcessUnresponsive</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnRenderViewReady">TOnRenderViewReady</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFUrlRequestClientEvents.html#TOnRequestComplete">TOnRequestComplete</a></td>
 <td class="itemunit"><a class="bold" href="uCEFUrlRequestClientEvents.html">uCEFUrlRequestClientEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnRequestContextInitialized">TOnRequestContextInitialized</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>ICefRequestContextHandler</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnRequestMediaAccessPermissionEvent">TOnRequestMediaAccessPermissionEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>ICefPermissionHandler</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnResetDialogState">TOnResetDialogState</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnResolvedIPsAvailableEvent">TOnResolvedIPsAvailableEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnResourceLoadComplete">TOnResourceLoadComplete</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnResourceRedirect">TOnResourceRedirect</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnResourceResponse">TOnResourceResponse</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnRouteMessageReceivedEvent">TOnRouteMessageReceivedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnRoutesEvent">TOnRoutesEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnRouteStateChangedEvent">TOnRouteStateChangedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnRunContextMenu">TOnRunContextMenu</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnRunQuickMenuEvent">TOnRunQuickMenuEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnScheduleMessagePumpWorkEvent">TOnScheduleMessagePumpWorkEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnScrollOffsetChanged">TOnScrollOffsetChanged</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnSelectClientCertificate">TOnSelectClientCertificate</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFServerEvents.html#TOnServerCreated">TOnServerCreated</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServerEvents.html">uCEFServerEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFServerEvents.html#TOnServerDestroyed">TOnServerDestroyed</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServerEvents.html">uCEFServerEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnSetFocus">TOnSetFocus</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnShowPermissionPromptEvent">TOnShowPermissionPromptEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnSinksEvent">TOnSinksEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>ICefRequestContextHandler uses the same TOnGetResourceRequestHandler event type defined for ICefRequestHandler ICefMediaObserver</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnStartDragging">TOnStartDragging</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnStatusMessage">TOnStatusMessage</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnTakeFocus">TOnTakeFocus</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>ICefFocusHandler</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEventEvent">TOnTextfieldKeyEventEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>ICefTextfieldDelegate</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnTextResultAvailableEvent">TOnTextResultAvailableEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>Custom</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnTextSelectionChanged">TOnTextSelectionChanged</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnThemeChangedEvent">TOnThemeChangedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnThemeColorsChangedEvent">TOnThemeColorsChangedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnTitleChange">TOnTitleChange</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnTooltip">TOnTooltip</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnTouchHandleStateChanged">TOnTouchHandleStateChanged</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnUncaughtExceptionEvent">TOnUncaughtExceptionEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnUpdateDragCursor">TOnUpdateDragCursor</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFUrlRequestClientEvents.html#TOnUploadProgress">TOnUploadProgress</a></td>
 <td class="itemunit"><a class="bold" href="uCEFUrlRequestClientEvents.html">uCEFUrlRequestClientEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnUseFramelessWindowForPictureInPicture">TOnUseFramelessWindowForPictureInPicture</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnVirtualKeyboardRequested">TOnVirtualKeyboardRequested</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationEvents.html#TOnWebKitInitializedEvent">TOnWebKitInitializedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationEvents.html">uCEFApplicationEvents</a></td>
 <td class="itemdesc"><p>ICefRenderProcessHandler</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFServerEvents.html#TOnWebSocketConnected">TOnWebSocketConnected</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServerEvents.html">uCEFServerEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFServerEvents.html#TOnWebSocketMessage">TOnWebSocketMessage</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServerEvents.html">uCEFServerEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFServerEvents.html#TOnWebSocketRequest">TOnWebSocketRequest</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServerEvents.html">uCEFServerEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnWindowActivationChangedEvent">TOnWindowActivationChangedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnWindowBoundsChangedEvent">TOnWindowBoundsChangedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnWindowChangedEvent">TOnWindowChangedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnWindowClosingEvent">TOnWindowClosingEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnWindowCreatedEvent">TOnWindowCreatedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>ICefWindowDelegate</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnWindowDestroyedEvent">TOnWindowDestroyedEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnWindowFullscreenTransitionEvent">TOnWindowFullscreenTransitionEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnWindowKeyEventEvent">TOnWindowKeyEventEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewsFrameworkEvents.html#TOnWithStandardWindowButtonsEvent">TOnWithStandardWindowButtonsEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewsFrameworkEvents.html">uCEFViewsFrameworkEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumEvents.html#TOnZoomPctAvailable">TOnZoomPctAvailable</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumEvents.html">uCEFChromiumEvents</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFOsrBrowserWindow.TOsrBrowserWindow.html">TOsrBrowserWindow</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOsrBrowserWindow.html">uCEFOsrBrowserWindow</a></td>
 <td class="itemdesc"><p>TOsrBrowserWindow - Off-Screen-Rendering
@@ -14054,432 +14116,432 @@ Ranges:
 
 <p>This component is still experimental. - On MacOS Keyboard support is not complete</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TOSVersionInfoEx.html">TOSVersionInfoEx</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Record used with RtlGetVersion to get the Windows version information. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFPDFPrintOptions.TPDFPrintOptions.html">TPDFPrintOptions</a></td>
 <td class="itemunit"><a class="bold" href="uCEFPDFPrintOptions.html">uCEFPDFPrintOptions</a></td>
 <td class="itemdesc"><p> The TPDFPrintOptions properties are used to fill the TCefPdfPrintSettings record which is used in the TChromiumCore.PrintToPDF call. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFSentinel.html#TSentinelStatus">TSentinelStatus</a></td>
 <td class="itemunit"><a class="bold" href="uCEFSentinel.html">uCEFSentinel</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.html#TSimulatedCefKeyEventType">TSimulatedCefKeyEventType</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Event type used by TChromiumCore.SimulateKeyEvent </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_AUTO_BOOKMARK">TT_AUTO_BOOKMARK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> User got to this page through a suggestion in the UI (for example, via the destinations page). Chrome style only. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_AUTO_SUBFRAME">TT_AUTO_SUBFRAME</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Source is a subframe navigation. This is any content that is automatically loaded in a non-toplevel frame. For example, if a page consists of several frames containing ads, those ad URLs will have this transition type. The user may not even realize the content in these pages is a separate frame, so may not care about the URL. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_AUTO_TOPLEVEL">TT_AUTO_TOPLEVEL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> This is a toplevel navigation. This is any content that is automatically loaded in a toplevel frame. For example, opening a tab to show the ASH screen saver, opening the devtools window, opening the NTP after the safe browsing warning, opening web-based dialog boxes are examples of AUTO_TOPLEVEL navigations. Chrome style only. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_BLOCKED_FLAG">TT_BLOCKED_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Attempted to visit a URL but was blocked. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_CHAIN_END_FLAG">TT_CHAIN_END_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The last transition in a redirect chain. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_CHAIN_START_FLAG">TT_CHAIN_START_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The beginning of a navigation chain. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_CLIENT_REDIRECT_FLAG">TT_CLIENT_REDIRECT_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Redirects caused by JavaScript or a meta refresh tag on the page. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_DIRECT_LOAD_FLAG">TT_DIRECT_LOAD_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Loaded a URL directly via CreateBrowser, LoadURL or LoadRequest. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_EXPLICIT">TT_EXPLICIT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Source is some other &quot;explicit&quot; navigation. This is the default value for navigations where the actual type is unknown. See also TT_DIRECT_LOAD_FLAG. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_FORM_SUBMIT">TT_FORM_SUBMIT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Source is a form submission by the user. NOTE: In some situations submitting a form does not result in this transition type. This can happen if the form uses a script to submit the contents. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_FORWARD_BACK_FLAG">TT_FORWARD_BACK_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Used the Forward or Back function to navigate among browsing history. Will be ORed to the transition type for the original load. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_FROM_API_FLAG">TT_FROM_API_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The transition originated from an external application; the exact definition of this is embedder dependent. Chrome style only. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_GENERATED">TT_GENERATED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> User got to this page by typing in the URL bar and selecting an entry that did not look like a URL. For example, a match might have the URL of a Google search result page, but appear like &quot;Search Google for ...&quot;. These are not quite the same as EXPLICIT navigations because the user didn't type or see the destination URL. Chrome style only. See also TT_KEYWORD. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_HOME_PAGE_FLAG">TT_HOME_PAGE_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> User is navigating to the home page. Chrome style only. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_IS_REDIRECT_MASK">TT_IS_REDIRECT_MASK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Used to test whether a transition involves a redirect. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_KEYWORD">TT_KEYWORD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The url was generated from a replaceable keyword other than the default search provider. If the user types a keyword (which also applies to tab-to-search) in the omnibox this qualifier is applied to the transition type of the generated url. TemplateURLModel then may generate an additional visit with a transition type of TT_KEYWORD_GENERATED against the url '<a href="http://">http://</a>' + keyword. For example, if you do a tab-to-search against wikipedia the generated url has a transition qualifer of TT_KEYWORD, and TemplateURLModel generates a visit for 'wikipedia.org' with a transition type of TT_KEYWORD_GENERATED. Chrome style only. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_KEYWORD_GENERATED">TT_KEYWORD_GENERATED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Corresponds to a visit generated for a keyword. See description of TT_KEYWORD for more details. Chrome style only. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_LINK">TT_LINK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Source is a link click or the JavaScript window.open function. This is also the default value for requests like sub-resource loads that are not navigations. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_MANUAL_SUBFRAME">TT_MANUAL_SUBFRAME</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Source is a subframe navigation explicitly requested by the user that will generate new navigation entries in the back/forward list. These are probably more important than frames that were automatically loaded in the background because the user probably cares about the fact that this link was loaded. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_QUALIFIER_MASK">TT_QUALIFIER_MASK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> General mask defining the bits used for the qualifiers. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_RELOAD">TT_RELOAD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Source is a &quot;reload&quot; of the page via the Reload function or by re-visiting the same URL. NOTE: This is distinct from the concept of whether a particular load uses &quot;reload semantics&quot; (i.e. bypasses cached data). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_SERVER_REDIRECT_FLAG">TT_SERVER_REDIRECT_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Redirects sent from the server by HTTP headers. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_SOURCE_MASK">TT_SOURCE_MASK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> General mask defining the bits used for the source values. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TUrlParts.html">TUrlParts</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> String version of TCefUrlParts </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFWorkSchedulerQueueThread.html#TValuesArray">TValuesArray</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWorkSchedulerQueueThread.html">uCEFWorkSchedulerQueueThread</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#UInt64ToFileVersionInfo-uint64-TFileVersionInfo-">UInt64ToFileVersionInfo</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#UnixTimeToCefTime-int64-">UnixTimeToCefTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p> Converts cef_time_t from time_t. time_t is almost always an integral value holding the number of seconds (not counting leap seconds) since 00:00, Jan 1 1970 UTC, corresponding to POSIX time. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_ALLOW_STORED_CREDENTIALS">UR_FLAG_ALLOW_STORED_CREDENTIALS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set user name, password, and cookies may be sent with the request, and cookies may be saved from the response. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_DISABLE_CACHE">UR_FLAG_DISABLE_CACHE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set the cache will not be used at all. Setting this value is equivalent to specifying the &quot;Cache-Control: no-store&quot; request header. Setting this value in combination with UR_FLAG_ONLY_FROM_CACHE will cause the request to fail. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_NONE">UR_FLAG_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Default behavior. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_NO_DOWNLOAD_DATA">UR_FLAG_NO_DOWNLOAD_DATA</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set the ICefURLRequestClient.OnDownloadData method will not be called. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_NO_RETRY_ON_5XX">UR_FLAG_NO_RETRY_ON_5XX</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set 5XX redirect errors will be propagated to the observer instead of automatically re-tried. This currently only applies for requests originated in the browser process. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_ONLY_FROM_CACHE">UR_FLAG_ONLY_FROM_CACHE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set the request will fail if it cannot be served from the cache (or some equivalent local store). Setting this value is equivalent to specifying the &quot;Cache-Control: only-if-cached&quot; request header. Setting this value in combination with UR_FLAG_SKIP_CACHE or UR_FLAG_DISABLE_CACHE will cause the request to fail. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_REPORT_UPLOAD_PROGRESS">UR_FLAG_REPORT_UPLOAD_PROGRESS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set upload progress events will be generated when a request has a body. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_SKIP_CACHE">UR_FLAG_SKIP_CACHE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set the cache will be skipped when handling the request. Setting this value is equivalent to specifying the &quot;Cache-Control: no-cache&quot; request header. Setting this value in combination with UR_FLAG_ONLY_FROM_CACHE will cause the request to fail. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_STOP_ON_REDIRECT">UR_FLAG_STOP_ON_REDIRECT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set 3XX responses will cause the fetch to halt immediately rather than continue through the redirect. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#User32DLL">User32DLL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#USER_DEFAULT_SCREEN_DPI">USER_DEFAULT_SCREEN_DPI</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.html#ustring">ustring</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> String type used by CEF. ustring was created to use the same type in Delphi and Lazarus. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UU_NONE">UU_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Don't unescape anything at all. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UU_NORMAL">UU_NORMAL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Don't unescape anything special, but all normal unescaping will happen. This is a placeholder and can't be combined with other flags (since it's just the absence of them). All other unescape rules imply &quot;normal&quot; in addition to their special meaning. Things like escaped letters, digits, and most symbols will get unescaped with this mode. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UU_PATH_SEPARATORS">UU_PATH_SEPARATORS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Unescapes '/' and '\\'. If these characters were unescaped, the resulting URL won't be the same as the source one. Moreover, they are dangerous to unescape in strings that will be used as file paths or names. This value should only be used when slashes don't have special meaning, like data URLs. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UU_REPLACE_PLUS_WITH_SPACE">UU_REPLACE_PLUS_WITH_SPACE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> URL queries use &quot;+&quot; for space. This flag controls that replacement. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UU_SPACES">UU_SPACES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Convert %20 to spaces. In some places where we're showing URLs, we may want this. In places where the URL may be copied and pasted out, then you wouldn't want this since it might not be interpreted in one piece by other applications. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UU_URL_SPECIAL_CHARS_EXCEPT_PATH_SEPARATORS">UU_URL_SPECIAL_CHARS_EXCEPT_PATH_SEPARATORS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Unescapes various characters that will change the meaning of URLs, including '%', '+', '&amp;', '#'. Does not unescape path separators. If these characters were unescaped, the resulting URL won't be the same as the source one. This flag is used when generating final output like filenames for URLs where we won't be interpreting as a URL and want to do as much unescaping as possible. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#V8_PROPERTY_ATTRIBUTE_DONTDELETE">V8_PROPERTY_ATTRIBUTE_DONTDELETE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Not configurable</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#V8_PROPERTY_ATTRIBUTE_DONTENUM">V8_PROPERTY_ATTRIBUTE_DONTENUM</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Not enumerable</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#V8_PROPERTY_ATTRIBUTE_NONE">V8_PROPERTY_ATTRIBUTE_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Writeable, Enumerable, Configurable</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#V8_PROPERTY_ATTRIBUTE_READONLY">V8_PROPERTY_ATTRIBUTE_READONLY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Not writeable</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#ValidCefWindowHandle-TCefWindowHandle-">ValidCefWindowHandle</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#WindowInfoAsChild-TCefWindowInfo-TCefWindowHandle-TRect-ustring-DWORD-">WindowInfoAsChild</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#WindowInfoAsPopUp-TCefWindowInfo-TCefWindowHandle-ustring-DWORD-">WindowInfoAsPopUp</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#WindowInfoAsWindowless-TCefWindowInfo-TCefWindowHandle-ustring-DWORD-">WindowInfoAsWindowless</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#WM_POINTERDOWN">WM_POINTERDOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#WM_POINTERUP">WM_POINTERUP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#WM_POINTERUPDATE">WM_POINTERUPDATE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#WM_TOUCH">WM_TOUCH</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Lazarus and some old Delphi versions don't have these message contants</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#YOUTUBE_RESTRICT_MODERATE">YOUTUBE_RESTRICT_MODERATE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#YOUTUBE_RESTRICT_OFF">YOUTUBE_RESTRICT_OFF</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>delay in ms to enable the browser focus &lt;summary&gt; YouTube restrict mode. &lt;/summary&gt; &lt;remarks&gt; &lt;para&gt;&lt;see href=&quot;<a href="https://chromium.googlesource.com/chromium/src/">https://chromium.googlesource.com/chromium/src/</a>+/refs/tags/77.0.3865.90/chrome/common/net/safe_search_util.h&quot;&gt;Chromium source file: /chrome/common/net/safe_search_util.h (YouTubeRestrictMode)&lt;/see&gt;&lt;/para&gt; &lt;para&gt;&lt;see href=&quot;<a href="https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict">https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict</a>&quot;&gt;Chromium policy list: <a href="https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict">https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict</a>&lt;/see&gt;&lt;/para&gt; &lt;/remarks&gt;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#YOUTUBE_RESTRICT_STRICT">YOUTUBE_RESTRICT_STRICT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZoomStepValues">ZoomStepValues</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_PCT_DELTA">ZOOM_PCT_DELTA</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_100">ZOOM_STEP_100</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_110">ZOOM_STEP_110</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_125">ZOOM_STEP_125</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_150">ZOOM_STEP_150</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_175">ZOOM_STEP_175</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_200">ZOOM_STEP_200</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_25">ZOOM_STEP_25</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_250">ZOOM_STEP_250</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_300">ZOOM_STEP_300</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_33">ZOOM_STEP_33</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_400">ZOOM_STEP_400</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_50">ZOOM_STEP_50</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_500">ZOOM_STEP_500</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_67">ZOOM_STEP_67</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_75">ZOOM_STEP_75</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_90">ZOOM_STEP_90</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_DEF">ZOOM_STEP_DEF</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_MAX">ZOOM_STEP_MAX</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_MIN">ZOOM_STEP_MIN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_UNK">ZOOM_STEP_UNK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
