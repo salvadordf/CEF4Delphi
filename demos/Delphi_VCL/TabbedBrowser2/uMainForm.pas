@@ -75,6 +75,8 @@ type
     property  BrowserTabCount : integer    read GetBrowserTabCount;
 
   public
+    procedure AddTab(const aURL : ustring = '');
+
     function  DoOnBeforePopup(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : string; const popupFeatures : TCefPopupFeatures; targetDisposition : TCefWindowOpenDisposition) : boolean;
     function  DoOpenUrlFromTab(const targetUrl : string; targetDisposition : TCefWindowOpenDisposition) : boolean;
   end;
@@ -153,12 +155,41 @@ begin
     PostMessage(MainForm.Handle, CEF_INITIALIZED, 0, 0);
 end;
 
+procedure GlobalCEFApp_OnAlreadyRunningAppRelaunch(const commandLine: ICefCommandLine; const current_directory: ustring; var aResult: boolean);
+var
+  TempURL : ustring;
+begin
+  if assigned(commandLine) and commandLine.IsValid then
+    begin
+      // Lets pretend the second application instance was executed with the
+      // following command line :
+      //     TabbedBrowser2.exe --url=https://www.example.com
+      //
+      // We read the switch value and store it in a normal string.
+      TempURL := commandLine.GetSwitchValue('url');
+
+      // This event is executed in the CEF UI thread and the VCL is not
+      // thread-safe so we have to use TThread.Queue if we want to add VCL
+      // controls safely.
+      TThread.Queue(nil,
+        procedure
+        begin
+          MainForm.AddTab(TempURL);
+        end);
+
+      // The relaunch was handled correctly so we return true.
+      aResult := True;
+    end;
+end;
+
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                      := TCefApplication.Create;
-  GlobalCEFApp.cache                := 'cache';
-  GlobalCEFApp.EnablePrintPreview   := True;
-  GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
+  GlobalCEFApp                             := TCefApplication.Create;
+  GlobalCEFApp.RootCache                   := 'RootCache';
+  GlobalCEFApp.cache                       := 'RootCache\cache';
+  GlobalCEFApp.EnablePrintPreview          := True;
+  GlobalCEFApp.OnContextInitialized        := GlobalCEFApp_OnContextInitialized;
+  GlobalCEFApp.OnAlreadyRunningAppRelaunch := GlobalCEFApp_OnAlreadyRunningAppRelaunch;
 end;
 
 procedure TMainForm.EnableButtonPnl;
@@ -217,6 +248,11 @@ begin
 end;
 
 procedure TMainForm.AddTabBtnClick(Sender: TObject);
+begin
+  AddTab;
+end;
+
+procedure TMainForm.AddTab(const aURL : ustring);
 var
   TempNewTab : TBrowserTab;
 begin
@@ -225,7 +261,10 @@ begin
 
   BrowserPageCtrl.ActivePageIndex := pred(BrowserPageCtrl.PageCount);
 
-  TempNewTab.CreateBrowser(HOMEPAGE_URL);
+  if (length(aURL) = 0) then
+    TempNewTab.CreateBrowser(HOMEPAGE_URL)
+   else
+    TempNewTab.CreateBrowser(aURL);
 end;
 
 procedure TMainForm.CEFInitializedMsg(var aMessage : TMessage);
