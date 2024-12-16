@@ -4828,7 +4828,7 @@ begin
       FDevWindowInfo.WindowName := aWindowName;
     end
    else
-    FDevWindowInfo.SetAsPopup(WindowHandle, aWindowName);
+    FDevWindowInfo.SetAsPopup(aDevToolsWnd, aWindowName);
   {$ENDIF}
   {$IFDEF MACOSX}
    FDevWindowInfo.SetAsChild(aDevToolsWnd, aClientRect);
