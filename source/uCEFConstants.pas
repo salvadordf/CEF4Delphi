@@ -4885,6 +4885,11 @@ const
   CEF_SETTINGS_URL          = 'chrome://settings';
   CEF_DOWNLOADS_URL         = 'chrome://downloads';
   CEF_EXTENSIONS_URL        = 'chrome://extensions';
+  CEF_INSPECT_URL           = 'chrome://inspect';
+  CEF_GPU_URL               = 'chrome://gpu';
+  CEF_PREFS_URL             = 'chrome://prefs-internals';
+  CEF_CERTMANAGER_URL       = 'chrome://certificate-manager';
+  CEF_MEMORY_URL            = 'chrome://memory-internals';
 
   // These contants are declared in the "Windows" unit but
   // some old Delphi versions don't have them.

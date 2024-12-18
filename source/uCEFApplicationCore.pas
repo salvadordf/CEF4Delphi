@@ -269,6 +269,7 @@ type
       function  GetApiHashCommit : ustring;
       function  GetExitCode : TCefResultCode;
       function  GetBrowserById(aID : integer) : ICefBrowser;
+      function  GetCookiesDir(const aRootDirectory : string) : string;
       {$IFDEF LINUX}
       function  GetXDisplay : PXDisplay;
       function  GetArgc : longint;
@@ -376,7 +377,7 @@ type
       function  InitializeLibrary(const aApp : ICefApp) : boolean;
       procedure RenameAndDeleteDir(const aDirectory : string; aKeepCookies : boolean = False);
       procedure DeleteCacheContents(const aDirectory : string);
-      procedure DeleteCookiesDB(const aDirectory : string);
+      procedure DeleteCookiesDB(const aRootDirectory : string);
       procedure MoveCookiesDB(const aSrcDirectory, aDstDirectory : string);
       function  MultiExeProcessing : boolean;
       function  SingleExeProcessing : boolean;
@@ -2919,6 +2920,7 @@ end;
 function TCefApplicationCore.InitializeLibrary(const aApp : ICefApp) : boolean;
 var
   TempArgs : TCefMainArgs;
+  TempRootDir : string;
 begin
   Result := False;
 
@@ -2926,14 +2928,19 @@ begin
     try
       if (aApp <> nil) then
         begin
+          if (length(FRootCache) > 0) then
+            TempRootDir := FRootCache
+           else
+            TempRootDir := FCache;
+
           if FDeleteCache and FDeleteCookies then
-            RenameAndDeleteDir(FCache)
+            RenameAndDeleteDir(TempRootDir)
            else
             if FDeleteCookies then
-              DeleteCookiesDB(IncludeTrailingPathDelimiter(FCache) + 'Network')
+              DeleteCookiesDB(TempRootDir)
              else
               if FDeleteCache then
-                RenameAndDeleteDir(FCache, True);
+                RenameAndDeleteDir(TempRootDir, True);
 
           InitializeSettings(FAppSettings);
           InitializeCefMainArgs(TempArgs);
@@ -2970,15 +2977,25 @@ begin
   end;
 end;
 
-procedure TCefApplicationCore.DeleteCookiesDB(const aDirectory : string);
+function TCefApplicationCore.GetCookiesDir(const aRootDirectory : string) : string;
+begin
+  Result := IncludeTrailingPathDelimiter(aRootDirectory) + 'Default';
+  Result := IncludeTrailingPathDelimiter(Result) + 'Network';
+  Result := IncludeTrailingPathDelimiter(Result);
+end;
+
+procedure TCefApplicationCore.DeleteCookiesDB(const aRootDirectory : string);
 var
   TempFiles : TStringList;
+  TempCookiesDir : string;
 begin
   TempFiles := TStringList.Create;
 
   try
-    TempFiles.Add(IncludeTrailingPathDelimiter(aDirectory) + 'Cookies');
-    TempFiles.Add(IncludeTrailingPathDelimiter(aDirectory) + 'Cookies-journal');
+    TempCookiesDir := GetCookiesDir(aRootDirectory);
+
+    TempFiles.Add(TempCookiesDir + 'Cookies');
+    TempFiles.Add(TempCookiesDir + 'Cookies-journal');
 
     DeleteFileList(TempFiles);
   finally
@@ -2994,12 +3011,12 @@ begin
   TempFiles := TStringList.Create;
 
   try
-    TempFiles.Add('LocalPrefs.json');
+    TempFiles.Add('Local State');
 
     MoveFileList(TempFiles, aSrcDirectory, aDstDirectory);
 
-    TempSrc := IncludeTrailingPathDelimiter(aSrcDirectory) + 'Network';
-    TempDst := IncludeTrailingPathDelimiter(aDstDirectory) + 'Network';
+    TempSrc := GetCookiesDir(aSrcDirectory);
+    TempDst := GetCookiesDir(aDstDirectory);
 
     TempFiles.Clear;
     TempFiles.Add('Cookies');
@@ -3034,7 +3051,8 @@ begin
 
         if RenameFile(TempOldDir, TempNewDir) then
           begin
-            if aKeepCookies then MoveCookiesDB(TempNewDir, TempOldDir);
+            if aKeepCookies then
+              MoveCookiesDB(TempNewDir, TempOldDir);
 
             TempThread := TCEFDirectoryDeleterThread.Create(TempNewDir);
             {$IFDEF DELPHI14_UP}
