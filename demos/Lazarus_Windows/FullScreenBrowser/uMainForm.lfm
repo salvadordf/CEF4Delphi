@@ -1,27 +1,26 @@
 object MainForm: TMainForm
   Left = -8
-  Height = 712
+  Height = 751
   Top = -8
-  Width = 1380
+  Width = 1396
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'MainForm'
-  ClientHeight = 811
-  ClientWidth = 1537
+  ClientHeight = 728
+  ClientWidth = 1396
   Color = clBtnFace
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
-  FormStyle = fsStayOnTop
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
   WindowState = wsMaximized
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
-    Height = 811
+    Height = 728
     Top = 0
-    Width = 1537
+    Width = 1396
     Align = alClient
     TabOrder = 0
   end
