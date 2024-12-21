@@ -117,6 +117,8 @@ type
       FHTTPSUpgrade             : TCefState;
       FHSTSPolicyBypassList     : ustring;
       FCredentialsService       : TCefState;
+      FAutofillCreditCard       : TCefState;
+      FAutofillProfile          : TCefState;
       FTryingToCloseBrowser     : boolean;
 
       {$IFDEF LINUX}
@@ -2149,6 +2151,20 @@ type
       /// This service shows a dialog to save the usernames and passwords in Chrome style.
       /// </summary>
       property CredentialsService             : TCefState                    read FCredentialsService          write FCredentialsService;
+      /// <summary>
+      /// Browser preference used to enable the autofill feature for credit card information.
+      /// </summary>
+      /// <remarks>
+      /// <para>Disabling this property is a suggested workaround for some autofill crashes in Alloy style.</para>
+      /// </remarks>
+      property AutofillCreditCard             : TCefState                    read FAutofillCreditCard          write FAutofillCreditCard;
+      /// <summary>
+      /// Browser preference used to enable the autofill feature for profile information.
+      /// </summary>
+      /// <remarks>
+      /// <para>Disabling this property is a suggested workaround for some autofill crashes in Alloy style.</para>
+      /// </remarks>
+      property AutofillProfile                : TCefState                    read FAutofillProfile             write FAutofillProfile;
 
     published
       /// <summary>
@@ -4086,6 +4102,8 @@ begin
   FHTTPSUpgrade            := STATE_DEFAULT;
   FHSTSPolicyBypassList    := '';
   FCredentialsService      := STATE_DEFAULT;
+  FAutofillCreditCard      := STATE_DEFAULT;
+  FAutofillProfile         := STATE_DEFAULT;
   FTryingToCloseBrowser    := False;
   {$IFDEF LINUX}
   FXDisplay                := nil;
@@ -7193,9 +7211,6 @@ var
 begin
   FUpdatePreferences := False;
 
-  // The preferences registered in CEF are defined in :
-  // /libcef/browser/prefs/browser_prefs.cc
-
   UpdateProxyPrefs(aBrowser);
   UpdatePreference(aBrowser, 'enable_do_not_track',                  FDoNotTrack);
   UpdatePreference(aBrowser, 'enable_referrers',                     FSendReferrer);
@@ -7271,6 +7286,12 @@ begin
 
   if (FCredentialsService <> STATE_DEFAULT) then
     UpdatePreference(aBrowser, 'credentials_enable_service', (FCredentialsService = STATE_ENABLED));
+
+  if (FAutofillCreditCard <> STATE_DEFAULT) then
+    UpdatePreference(aBrowser, 'autofill.credit_card_enabled', (FAutofillCreditCard = STATE_ENABLED));
+
+  if (FAutofillProfile <> STATE_DEFAULT) then
+    UpdatePreference(aBrowser, 'autofill.profile_enabled', (FAutofillProfile = STATE_ENABLED));
 
   if assigned(FOnPrefsUpdated) then
     FOnPrefsUpdated(self);

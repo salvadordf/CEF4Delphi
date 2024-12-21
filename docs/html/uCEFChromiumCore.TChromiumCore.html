@@ -317,6 +317,14 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FAutofillCreditCard">FAutofillCreditCard</a></strong>: <a href="uCEFTypes.html#TCefState">TCefState</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FAutofillProfile">FAutofillProfile</a></strong>: <a href="uCEFTypes.html#TCefState">TCefState</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FTryingToCloseBrowser">FTryingToCloseBrowser</a></strong>: boolean;</code></td>
 </tr>
 <tr class="list2">
@@ -3142,6 +3150,14 @@
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#CredentialsService">CredentialsService</a></strong>             : <a href="uCEFTypes.html#TCefState">TCefState</a>                    read <a href="uCEFChromiumCore.TChromiumCore.html#FCredentialsService">FCredentialsService</a>          write <a href="uCEFChromiumCore.TChromiumCore.html#FCredentialsService">FCredentialsService</a>;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#AutofillCreditCard">AutofillCreditCard</a></strong>             : <a href="uCEFTypes.html#TCefState">TCefState</a>                    read <a href="uCEFChromiumCore.TChromiumCore.html#FAutofillCreditCard">FAutofillCreditCard</a>          write <a href="uCEFChromiumCore.TChromiumCore.html#FAutofillCreditCard">FAutofillCreditCard</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#AutofillProfile">AutofillProfile</a></strong>                : <a href="uCEFTypes.html#TCefState">TCefState</a>                    read <a href="uCEFChromiumCore.TChromiumCore.html#FAutofillProfile">FAutofillProfile</a>             write <a href="uCEFChromiumCore.TChromiumCore.html#FAutofillProfile">FAutofillProfile</a>;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnTextResultAvailable">OnTextResultAvailable</a></strong>              : <a href="uCEFChromiumEvents.html#TOnTextResultAvailableEvent">TOnTextResultAvailableEvent</a>              read <a href="uCEFChromiumCore.TChromiumCore.html#FOnTextResultAvailable">FOnTextResultAvailable</a>              write <a href="uCEFChromiumCore.TChromiumCore.html#FOnTextResultAvailable">FOnTextResultAvailable</a>;</code></td>
 </tr>
@@ -4260,6 +4276,22 @@
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="FCredentialsService"></span><code><strong>FCredentialsService</strong>: <a href="uCEFTypes.html#TCefState">TCefState</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FAutofillCreditCard"></span><code><strong>FAutofillCreditCard</strong>: <a href="uCEFTypes.html#TCefState">TCefState</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FAutofillProfile"></span><code><strong>FAutofillProfile</strong>: <a href="uCEFTypes.html#TCefState">TCefState</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -10898,6 +10930,34 @@ Custom</p>
 <tr><td colspan="2">
 <p>
  This service shows a dialog to save the usernames and passwords in Chrome style. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AutofillCreditCard"></span><code>property <strong>AutofillCreditCard</strong>             : <a href="uCEFTypes.html#TCefState">TCefState</a>                    read <a href="uCEFChromiumCore.TChromiumCore.html#FAutofillCreditCard">FAutofillCreditCard</a>          write <a href="uCEFChromiumCore.TChromiumCore.html#FAutofillCreditCard">FAutofillCreditCard</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Browser preference used to enable the autofill feature for credit card information. </p>
+<p>
+
+
+<p>Disabling this property is a suggested workaround for some autofill crashes in Alloy style.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AutofillProfile"></span><code>property <strong>AutofillProfile</strong>                : <a href="uCEFTypes.html#TCefState">TCefState</a>                    read <a href="uCEFChromiumCore.TChromiumCore.html#FAutofillProfile">FAutofillProfile</a>             write <a href="uCEFChromiumCore.TChromiumCore.html#FAutofillProfile">FAutofillProfile</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Browser preference used to enable the autofill feature for profile information. </p>
+<p>
+
+
+<p>Disabling this property is a suggested workaround for some autofill crashes in Alloy style.</p>
 </td></tr>
 </table>
 <table class="detail wide_list">

@@ -1748,6 +1748,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetBrowserById">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="GetCookiesDir">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetCookiesDir">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="LoadCEFlibrary">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#LoadCEFlibrary">
 </object>
@@ -6022,6 +6026,14 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FCredentialsService">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FAutofillCreditCard">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAutofillCreditCard">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FAutofillProfile">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAutofillProfile">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FTryingToCloseBrowser">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FTryingToCloseBrowser">
 </object>
@@ -7030,6 +7042,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CredentialsService">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#CredentialsService">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AutofillCreditCard">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#AutofillCreditCard">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AutofillProfile">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#AutofillProfile">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnTextResultAvailable">
@@ -15684,6 +15704,26 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_EXTENSIONS_URL">
 <param name="Local" value="uCEFConstants.html#CEF_EXTENSIONS_URL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_INSPECT_URL">
+<param name="Local" value="uCEFConstants.html#CEF_INSPECT_URL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_GPU_URL">
+<param name="Local" value="uCEFConstants.html#CEF_GPU_URL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_PREFS_URL">
+<param name="Local" value="uCEFConstants.html#CEF_PREFS_URL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_CERTMANAGER_URL">
+<param name="Local" value="uCEFConstants.html#CEF_CERTMANAGER_URL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_MEMORY_URL">
+<param name="Local" value="uCEFConstants.html#CEF_MEMORY_URL">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_IMAGE_FILE_MACHINE_I386">
@@ -67750,6 +67790,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetChromeVersion">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="GetCookiesDir">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetCookiesDir">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="GetExitCode">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetExitCode">
 </object>
@@ -92804,6 +92848,14 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAlwaysOpenPDFExternally">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FAutofillCreditCard">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAutofillCreditCard">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FAutofillProfile">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAutofillProfile">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FBatterySaverModeState">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FBatterySaverModeState">
 </object>
@@ -93692,6 +93744,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="AudioMuted">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#AudioMuted">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AutofillCreditCard">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#AutofillCreditCard">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AutofillProfile">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#AutofillProfile">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="BatterySaverModeState">
