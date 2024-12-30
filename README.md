@@ -66,6 +66,8 @@ Delphinus-Support
 * [FreePascal from Square One by Jeff Duntemann](http://www.copperwood.com/pub/FreePascalFromSquareOne.pdf)
 * [Pascal and Lazarus Books and Magazines](https://wiki.freepascal.org/Pascal_and_Lazarus_Books_and_Magazines)
 * [Lazarus Documentation](https://wiki.freepascal.org/Lazarus_Documentation)
+* [Delphi Succinctly](https://www.syncfusion.com/succinctly-free-ebooks/delphi)
+* [Start Programming using Object Pascal](https://code.sd/startprog/StartProgUsingPascal.pdf)
 
 ## Attribution
 * [Fugue & Diagona icons](http://yusukekamiyamane.com/)
