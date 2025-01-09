@@ -125,22 +125,26 @@ procedure TBrowserTab.CreateBrowser(const aHomepage : string);
 begin
   CreateFrame(aHomepage);
 
-  if (FBrowserFrame <> nil) then FBrowserFrame.CreateBrowser;
+  if (FBrowserFrame <> nil) then
+    FBrowserFrame.CreateBrowser;
 end;
 
 procedure TBrowserTab.CloseBrowser;
 begin
-  if (FBrowserFrame <> nil) then FBrowserFrame.CloseBrowser;
+  if (FBrowserFrame <> nil) then
+    FBrowserFrame.CloseBrowser;
 end;
 
 procedure TBrowserTab.ShowBrowser;
 begin
-  if (FBrowserFrame <> nil) then FBrowserFrame.ShowBrowser;
+  if (FBrowserFrame <> nil) then
+    FBrowserFrame.ShowBrowser;
 end;
 
 procedure TBrowserTab.HideBrowser;
 begin
-  if (FBrowserFrame <> nil) then FBrowserFrame.HideBrowser;
+  if (FBrowserFrame <> nil) then
+    FBrowserFrame.HideBrowser;
 end;
 
 procedure TBrowserTab.BrowserFrame_OnBrowserDestroyed(Sender: TObject);

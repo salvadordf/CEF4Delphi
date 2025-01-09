@@ -85,7 +85,7 @@ object BrowserFrame: TBrowserFrame
       end
     end
     object URLEditPnl: TPanel
-      Left = 121
+      Left = 123
       Height = 35
       Top = 0
       Width = 774
@@ -96,11 +96,11 @@ object BrowserFrame: TBrowserFrame
       TabOrder = 1
       object URLCbx: TComboBox
         Left = 0
-        Height = 21
+        Height = 23
         Top = 5
         Width = 770
         Anchors = [akTop, akLeft, akRight]
-        ItemHeight = 0
+        ItemHeight = 15
         ItemIndex = 0
         Items.Strings = (
           'https://www.google.com'
@@ -153,7 +153,7 @@ object BrowserFrame: TBrowserFrame
       end
     end
     object ConfigPnl: TPanel
-      Left = 895
+      Left = 897
       Height = 35
       Top = 0
       Width = 35
@@ -181,8 +181,8 @@ object BrowserFrame: TBrowserFrame
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 19
-    Top = 651
+    Height = 23
+    Top = 647
     Width = 932
     Panels = <    
       item
@@ -192,7 +192,7 @@ object BrowserFrame: TBrowserFrame
   end
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
-    Height = 616
+    Height = 612
     Top = 35
     Width = 932
     Align = alClient
@@ -207,7 +207,6 @@ object BrowserFrame: TBrowserFrame
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnOpenUrlFromTab = Chromium1OpenUrlFromTab
     Left = 40
     Top = 72

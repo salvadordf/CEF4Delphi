@@ -106,13 +106,10 @@ implementation
 // TBrowserFrame has all the usual code to close CEF4Delphi browsers following
 // a similar destruction sequence than the MiniBrowser demo :
 //
-// 1. TBrowserTab.CloseBrowser calls TChromium.CloseBrowser which triggers the
-//    TChromium.OnClose event.
-// 2. TChromium.OnClose sends a CEF_DESTROY message to destroy CEFWindowParent1
-//    in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose executes the TBrowserFrame.OnBrowserDestroyed
-//    event which will be used in TBrowserTab to send a CEF_DESTROYTAB message
-//    to the main form to free the tab.
+// 1. TBrowserFrame.FormCloseQuery sets CanClose to FALSE, destroys CEFWindowParent1
+//    and calls TChromium.CloseBrowser which triggers the TChromium.OnBeforeClose event.
+// 2. TChromium.OnBeforeClose sets FCanClose := True and sends a CEF_DESTROYTAB
+//    message with the TabID to the main form.
 
 // This demo also uses custom forms to open popup browsers in the same way as
 // the PopupBrowser2 demo. Please, read the code comments in that demo for all
@@ -155,11 +152,12 @@ end;
 
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                      := TCefApplication.Create;
-  GlobalCEFApp.cache                := 'cache';
-  GlobalCEFApp.EnablePrintPreview   := True;
-  GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;   
-  GlobalCEFApp.SetCurrentDir        := True;
+  GlobalCEFApp                             := TCefApplication.Create;
+  GlobalCEFApp.RootCache                   := 'RootCache';
+  GlobalCEFApp.cache                       := 'RootCache\cache';
+  GlobalCEFApp.EnablePrintPreview          := True;
+  GlobalCEFApp.OnContextInitialized        := GlobalCEFApp_OnContextInitialized;
+  GlobalCEFApp.SetCurrentDir               := True;
 end;
 
 procedure TMainForm.EnableButtonPnl;
@@ -209,7 +207,6 @@ begin
   while (i >= 0) do
     begin
       // Only count the fully initialized browser tabs and not the one waiting to be used.
-
       if TBrowserTab(BrowserPageCtrl.Pages[i]).Initialized then
         inc(Result);
 

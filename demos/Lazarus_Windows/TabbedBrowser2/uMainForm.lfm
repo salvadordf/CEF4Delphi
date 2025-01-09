@@ -15,7 +15,7 @@ object MainForm: TMainForm
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.4.0.0'
+  LCLVersion = '3.6.0.0'
   object BrowserPageCtrl: TPageControl
     Left = 32
     Height = 703

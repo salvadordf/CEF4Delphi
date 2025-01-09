@@ -15,7 +15,6 @@ object ChildForm: TChildForm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '3.4.0.0'
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Height = 256
@@ -29,7 +28,6 @@ object ChildForm: TChildForm
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnOpenUrlFromTab = Chromium1OpenUrlFromTab
     Left = 24
     Top = 56

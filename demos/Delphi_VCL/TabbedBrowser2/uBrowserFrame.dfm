@@ -217,7 +217,6 @@ object BrowserFrame: TBrowserFrame
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     OnOpenUrlFromTab = Chromium1OpenUrlFromTab
     Left = 40
     Top = 72

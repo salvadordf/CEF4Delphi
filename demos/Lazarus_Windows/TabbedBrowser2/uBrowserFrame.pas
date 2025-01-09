@@ -47,7 +47,6 @@ type
       procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
       procedure Chromium1AddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
       procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-      procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
       procedure Chromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: Integer; const errorText, failedUrl: ustring);
       procedure Chromium1LoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
       procedure Chromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
@@ -90,7 +89,6 @@ type
       procedure SetPendingCanGoForward(aValue : boolean);
 
       procedure BrowserCreatedMsg(var aMessage : TMessage); message CEF_AFTERCREATED;
-      procedure BrowserDestroyMsg(var aMessage : TMessage); message CEF_DESTROY;
       procedure BrowserUpdateCaptionMsg(var aMessage : TMessage); message CEF_UPDATECAPTION;
       procedure BrowserUpdateAddressMsg(var aMessage : TMessage); message CEF_UPDATEADDRESS;
       procedure BrowserUpdateStateMsg(var aMessage : TMessage); message CEF_UPDATESTATE;
@@ -136,12 +134,10 @@ uses
 
 // Destruction steps
 // =================
-// 1. TBrowserFrame.CloseBrowser sets CanClose to FALSE calls TChromium.CloseBrowser
-//    which triggers the TChromium.OnClose event.
-// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1
-//    in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose triggers the TBrowserFrame.OnBrowserDestroyed event
-//    which sends a CEF_DESTROYTAB message with the TabID to the main form.
+// 1. TBrowserFrame.FormCloseQuery sets CanClose to FALSE, destroys CEFWindowParent1
+//    and calls TChromium.CloseBrowser which triggers the TChromium.OnBeforeClose event.
+// 2. TChromium.OnBeforeClose sets FCanClose := True and sends a CEF_DESTROYTAB
+//    message with the TabID to the main form.
 
 constructor TBrowserFrame.Create(AOwner : TComponent);
 begin
@@ -275,7 +271,6 @@ end;
 procedure TBrowserFrame.CreateBrowser;
 begin
   Chromium1.DefaultURL   := FHomepage;
-  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
   Chromium1.CreateBrowser(CEFWindowParent1);
 end;
 
@@ -285,7 +280,8 @@ begin
     begin
       FClosing              := True;
       NavControlPnl.Enabled := False;
-      Chromium1.CloseBrowser(True);      
+      Chromium1.CloseBrowser(True);
+      FreeAndNil(CEFWindowParent1);
     end;
 end;
 
@@ -371,14 +367,6 @@ begin
             TBrowserTab(Parent).DoOpenUrlFromTab(targetUrl, targetDisposition);
 end;
 
-procedure TBrowserFrame.Chromium1Close(      Sender  : TObject;
-                                       const browser : ICefBrowser;
-                                       var   aAction : TCefCloseBrowserAction);
-begin
-  PostMessage(Handle, CEF_DESTROY, 0, 0);
-  aAction := cbaDelay;
-end;
-
 procedure TBrowserFrame.Chromium1LoadError(      Sender    : TObject;
                                            const browser   : ICefBrowser;
                                            const frame     : ICefFrame;
@@ -436,11 +424,6 @@ procedure TBrowserFrame.BrowserCreatedMsg(var aMessage : TMessage);
 begin
   CEFWindowParent1.UpdateSize;
   NavControlPnl.Enabled := True;
-end;
-
-procedure TBrowserFrame.BrowserDestroyMsg(var aMessage : TMessage);
-begin
-  CEFWindowParent1.Free;
 end;
 
 procedure TBrowserFrame.BrowserUpdateCaptionMsg(var aMessage : TMessage);

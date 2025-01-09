@@ -34,7 +34,6 @@ type
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
 
@@ -79,11 +78,9 @@ uses
 
 // Destruction steps
 // =================
-// 1. FormCloseQuery sets CanClose to FALSE calls TChromium.CloseBrowser which
-//    triggers the TChromium.OnClose event.
-// 2. TChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1
-//    in the main thread, which triggers the TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 1. FormCloseQuery sets CanClose to FALSE, destroys CEFWindowParent1 and calls
+//    TChromium.CloseBrowser which triggers the TChromium.OnBeforeClose event.
+// 2. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 procedure TChildForm.AfterConstruction;
 begin
@@ -172,12 +169,6 @@ begin
   Result := not(TMainForm(Owner).DoOpenUrlFromTab(targetUrl, targetDisposition));
 end;
 
-procedure TChildForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
-begin
-  PostMessage(Handle, CEF_DESTROY, 0, 0);
-  aAction := cbaDelay;
-end;
-
 procedure TChildForm.Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
 begin
   try
@@ -237,7 +228,8 @@ begin
         begin
           FClosing := True;
           Visible  := False;
-          Chromium1.CloseBrowser(True);     
+          Chromium1.CloseBrowser(True);
+          FreeAndNil(CEFWindowParent1);
         end;
     end
    else
