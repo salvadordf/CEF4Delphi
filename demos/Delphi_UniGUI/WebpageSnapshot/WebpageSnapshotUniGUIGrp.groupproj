@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{CA1ADB9C-FCE8-4DC1-B7CF-DD26E7B81B65}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="WebpageSnapshotUniGUI.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="WebpageSnapshotUniGUI_sp.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="WebpageSnapshotUniGUI">
+        <MSBuild Projects="WebpageSnapshotUniGUI.dproj"/>
+    </Target>
+    <Target Name="WebpageSnapshotUniGUI:Clean">
+        <MSBuild Projects="WebpageSnapshotUniGUI.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WebpageSnapshotUniGUI:Make">
+        <MSBuild Projects="WebpageSnapshotUniGUI.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="WebpageSnapshotUniGUI_sp">
+        <MSBuild Projects="WebpageSnapshotUniGUI_sp.dproj"/>
+    </Target>
+    <Target Name="WebpageSnapshotUniGUI_sp:Clean">
+        <MSBuild Projects="WebpageSnapshotUniGUI_sp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WebpageSnapshotUniGUI_sp:Make">
+        <MSBuild Projects="WebpageSnapshotUniGUI_sp.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="WebpageSnapshotUniGUI;WebpageSnapshotUniGUI_sp"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="WebpageSnapshotUniGUI:Clean;WebpageSnapshotUniGUI_sp:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="WebpageSnapshotUniGUI:Make;WebpageSnapshotUniGUI_sp:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
