@@ -663,6 +663,9 @@ uCEFThread.TCefThreadRef.html
 uCEFTimerWorkScheduler.html
 uCEFTimerWorkScheduler.TCEFTimerWorkScheduler.html
 uCEFTypes.html
+uCEFTypes.TCefSize.html
+uCEFTypes.TCefRect.html
+uCEFTypes.TCefAcceleratedPaintInfoCommon.html
 uCEFTypes.TCefAcceleratedPaintInfo.html
 uCEFTypes.TMyMemoryStatusEx.html
 uCEFTypes.TOSVersionInfoEx.html
@@ -671,9 +674,7 @@ uCEFTypes.TCefStringUtf8.html
 uCEFTypes.TCefStringUtf16.html
 uCEFTypes.TFileVersionInfo.html
 uCEFTypes.TCefMainArgs.html
-uCEFTypes.TCefRect.html
 uCEFTypes.TCefPoint.html
-uCEFTypes.TCefSize.html
 uCEFTypes.TCefRange.html
 uCEFTypes.TCefCursorInfo.html
 uCEFTypes.TCefLinuxWindowProperties.html

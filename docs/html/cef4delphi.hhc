@@ -40320,6 +40320,114 @@
 </object>
 <ul>
 <li><object type="text/sitemap">
+<param name="Name" value="TCefSize">
+<param name="Local" value="uCEFTypes.TCefSize.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefSize.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="width">
+<param name="Local" value="uCEFTypes.TCefSize.html#width">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="height">
+<param name="Local" value="uCEFTypes.TCefSize.html#height">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefRect">
+<param name="Local" value="uCEFTypes.TCefRect.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefRect.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="x">
+<param name="Local" value="uCEFTypes.TCefRect.html#x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="y">
+<param name="Local" value="uCEFTypes.TCefRect.html#y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="width">
+<param name="Local" value="uCEFTypes.TCefRect.html#width">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="height">
+<param name="Local" value="uCEFTypes.TCefRect.html#height">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefAcceleratedPaintInfoCommon">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="timestamp">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#timestamp">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="coded_size">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#coded_size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="visible_rect">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#visible_rect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="content_rect">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#content_rect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="source_size">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#source_size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="capture_update_rect">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#capture_update_rect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="region_capture_rect">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#region_capture_rect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="capture_counter">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#capture_counter">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="has_capture_update_rect">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#has_capture_update_rect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="has_region_capture_rect">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#has_region_capture_rect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="has_source_size">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#has_source_size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="has_capture_counter">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#has_capture_counter">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="TCefAcceleratedPaintInfo">
 <param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfo.html">
 </object>
@@ -40336,6 +40444,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="format">
 <param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfo.html#format">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="extra">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfo.html#extra">
 </object>
 </ul>
 </ul>
@@ -40560,34 +40672,6 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
-<param name="Name" value="TCefRect">
-<param name="Local" value="uCEFTypes.TCefRect.html">
-</object>
-<ul>
-<li><object type="text/sitemap">
-<param name="Name" value="Fields">
-<param name="Local" value="uCEFTypes.TCefRect.html#@Fields">
-</object>
-<ul>
-<li><object type="text/sitemap">
-<param name="Name" value="x">
-<param name="Local" value="uCEFTypes.TCefRect.html#x">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="y">
-<param name="Local" value="uCEFTypes.TCefRect.html#y">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="width">
-<param name="Local" value="uCEFTypes.TCefRect.html#width">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="height">
-<param name="Local" value="uCEFTypes.TCefRect.html#height">
-</object>
-</ul>
-</ul>
-<li><object type="text/sitemap">
 <param name="Name" value="TCefPoint">
 <param name="Local" value="uCEFTypes.TCefPoint.html">
 </object>
@@ -40604,26 +40688,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="y">
 <param name="Local" value="uCEFTypes.TCefPoint.html#y">
-</object>
-</ul>
-</ul>
-<li><object type="text/sitemap">
-<param name="Name" value="TCefSize">
-<param name="Local" value="uCEFTypes.TCefSize.html">
-</object>
-<ul>
-<li><object type="text/sitemap">
-<param name="Name" value="Fields">
-<param name="Local" value="uCEFTypes.TCefSize.html#@Fields">
-</object>
-<ul>
-<li><object type="text/sitemap">
-<param name="Name" value="width">
-<param name="Local" value="uCEFTypes.TCefSize.html#width">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="height">
-<param name="Local" value="uCEFTypes.TCefSize.html#height">
 </object>
 </ul>
 </ul>
@@ -50242,6 +50306,14 @@
 <param name="Local" value="uCEFTypes.html#TCefColorType">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="TCefRectArray">
+<param name="Local" value="uCEFTypes.html#TCefRectArray">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefRectDynArray">
+<param name="Local" value="uCEFTypes.html#TCefRectDynArray">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="TCefPlatformThreadId">
 <param name="Local" value="uCEFTypes.html#TCefPlatformThreadId">
 </object>
@@ -50524,14 +50596,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="TCefMediaType">
 <param name="Local" value="uCEFTypes.html#TCefMediaType">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="TCefRectArray">
-<param name="Local" value="uCEFTypes.html#TCefRectArray">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="TCefRectDynArray">
-<param name="Local" value="uCEFTypes.html#TCefRectDynArray">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefRangeArray">
@@ -66290,12 +66354,76 @@
 </object>
 <ul>
 <li><object type="text/sitemap">
+<param name="Name" value="extra">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfo.html#extra">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="format">
 <param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfo.html#format">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="shared_texture_handle">
 <param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfo.html#shared_texture_handle">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefAcceleratedPaintInfoCommon">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="capture_counter">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#capture_counter">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="capture_update_rect">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#capture_update_rect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="coded_size">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#coded_size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="content_rect">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#content_rect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="has_capture_counter">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#has_capture_counter">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="has_capture_update_rect">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#has_capture_update_rect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="has_region_capture_rect">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#has_region_capture_rect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="has_source_size">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#has_source_size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="region_capture_rect">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#region_capture_rect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="source_size">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#source_size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="timestamp">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#timestamp">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="visible_rect">
+<param name="Local" value="uCEFTypes.TCefAcceleratedPaintInfoCommon.html#visible_rect">
 </object>
 </ul>
 </ul>

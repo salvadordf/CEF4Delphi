@@ -425,6 +425,92 @@ type
   {$ENDIF}
 
   /// <summary>
+  /// Structure representing a size.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_geometry.h">CEF source file: /include/internal/cef_types_geometry.h (cef_size_t)</see></para>
+  /// </remarks>
+  TCefSize = record
+    width  : Integer;
+    height : Integer;
+  end;
+
+  /// <summary>
+  /// Structure representing a rectangle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_geometry.h">CEF source file: /include/internal/cef_types_geometry.h (cef_rect_t)</see></para>
+  /// </remarks>
+  TCefRect = record
+    x      : Integer;
+    y      : Integer;
+    width  : Integer;
+    height : Integer;
+  end;
+  TCefRectArray    = array[0..(High(Integer) div SizeOf(TCefRect))-1] of TCefRect;
+  TCefRectDynArray = array of TCefRect;
+
+  /// <summary>
+  /// Structure containing shared texture common metadata.
+  /// For documentation on each field, please refer to
+  /// src/media/base/video_frame_metadata.h for actual details.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_osr.h">CEF source file: /include/internal/cef_types_osr.h (cef_accelerated_paint_info_common_t)</see></para>
+  /// </remarks>
+  TCefAcceleratedPaintInfoCommon = record
+    /// <summary>
+    /// Timestamp of the frame in microseconds since capture start.
+    /// </summary>
+    timestamp : uint64;
+    /// <summary>
+    /// The full dimensions of the video frame.
+    /// </summary>
+    coded_size : TCefSize;
+    /// <summary>
+    /// The visible area of the video frame.
+    /// </summary>
+    visible_rect : TCefRect;
+    /// <summary>
+    /// The region of the video frame that capturer would like to populate.
+    /// </summary>
+    content_rect : TCefRect;
+    /// <summary>
+    /// Full size of the source frame.
+    /// </summary>
+    source_size : TCefSize;
+    /// <summary>
+    /// Updated area of frame, can be considered as the `dirty` area.
+    /// </summary>
+    capture_update_rect : TCefRect;
+    /// <summary>
+    /// May reflects where the frame's contents originate from if region
+    /// capture is used internally.
+    /// </summary>
+    region_capture_rect : TCefRect;
+    /// <summary>
+    /// The increamental counter of the frame.
+    /// </summary>
+    capture_counter : uint64;
+    /// <summary>
+    /// Optional flag of capture_update_rect
+    /// </summary>
+    has_capture_update_rect : byte;
+    /// <summary>
+    /// Optional flag of region_capture_rect
+    /// </summary>
+    has_region_capture_rect : byte;
+    /// <summary>
+    /// Optional flag of source_size
+    /// </summary>
+    has_source_size : byte;
+    /// <summary>
+    /// Optional flag of capture_counter
+    /// </summary>
+    has_capture_counter : byte;
+  end;
+
+  /// <summary>
   /// Structure containing shared texture information for the OnAcceleratedPaint
   /// callback. Resources will be released to the underlying pool for reuse when
   /// the callback returns from client code.
@@ -441,10 +527,6 @@ type
     /// without a keyed mutex.
     /// </summary>
     shared_texture_handle   : TCefSharedTextureHandle;
-    /// <summary>
-    /// The pixel format of the texture.
-    /// </summary>
-    format                  : TCefColorType;
     {$ENDIF}
 
     {$IFDEF MACOSX}
@@ -452,10 +534,6 @@ type
     /// Handle for the shared texture IOSurface.
     /// </summary>
     shared_texture_io_surface : TCefSharedTextureHandle;
-    /// <summary>
-    /// The pixel format of the texture.
-    /// </summary>
-    format                    : TCefColorType;
     {$ENDIF}
 
     {$IFDEF LINUX}
@@ -471,11 +549,16 @@ type
     /// Modifier could be used with EGL driver.
     /// </summary>
     modifier                : uint64;
+    {$ENDIF}
+
     /// <summary>
     /// The pixel format of the texture.
     /// </summary>
     format                  : TCefColorType;
-    {$ENDIF}
+    /// <summary>
+    /// The extra common info.
+    /// </summary>
+    extra                   : TCefAcceleratedPaintInfoCommon;
   end;
 
   /// <summary>
@@ -1239,21 +1322,6 @@ type
   end;
 
   /// <summary>
-  /// Structure representing a rectangle.
-  /// </summary>
-  /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_geometry.h">CEF source file: /include/internal/cef_types_geometry.h (cef_rect_t)</see></para>
-  /// </remarks>
-  TCefRect = record
-    x      : Integer;
-    y      : Integer;
-    width  : Integer;
-    height : Integer;
-  end;
-  TCefRectArray    = array[0..(High(Integer) div SizeOf(TCefRect))-1] of TCefRect;
-  TCefRectDynArray = array of TCefRect;
-
-  /// <summary>
   /// Structure representing a point.
   /// </summary>
   /// <remarks>
@@ -1262,17 +1330,6 @@ type
   TCefPoint = record
     x  : Integer;
     y  : Integer;
-  end;
-
-  /// <summary>
-  /// Structure representing a size.
-  /// </summary>
-  /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_geometry.h">CEF source file: /include/internal/cef_types_geometry.h (cef_size_t)</see></para>
-  /// </remarks>
-  TCefSize = record
-    width  : Integer;
-    height : Integer;
   end;
 
   /// <summary>
