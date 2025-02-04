@@ -16,6 +16,7 @@ uses
     {$IFDEF MSWINDOWS}Windows, imm, {$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase, {$IFDEF MSWINDOWS}Win32Extra,{$ENDIF}
+    {$IFDEF LINUXFPC}Messages,{$ENDIF}
     {$ELSE}
     Messages,
     {$ENDIF}
@@ -26,6 +27,10 @@ uses
 type
   TOnIMECommitTextEvent     = procedure(Sender: TObject; const aText : ustring; const replacement_range : PCefRange; relative_cursor_pos : integer) of object;
   TOnIMESetCompositionEvent = procedure(Sender: TObject; const aText : ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : TCefRange) of object;
+  {$IFDEF LINUXFPC}
+  TOnIMEPreEditChangedEvent = procedure(Sender: TObject; aFlag: cardinal; const aPreEditText: ustring) of object;
+  TOnIMECommitEvent         = procedure(Sender: TObject; const aCommitText: ustring) of object;
+  {$ENDIF}
   {$IFDEF MSWINDOWS}
   TOnHandledMessageEvent    = procedure(Sender: TObject; var aMessage: TMessage; var aHandled : boolean) of object;
   {$ENDIF}
@@ -60,6 +65,12 @@ type
       FOnPointerUpdate         : TOnHandledMessageEvent;
       {$ELSE}
       FSyncObj                 : TCriticalSection;
+      {$ENDIF}
+      {$IFDEF LINUXFPC}
+      FOnIMEPreEditStart       : TNotifyEvent;
+      FOnIMEPreEditEnd         : TNotifyEvent;
+      FOnIMEPreEditChanged     : TOnIMEPreEditChangedEvent;
+      FOnIMECommit             : TOnIMECommitEvent;
       {$ENDIF}
 
       procedure CreateSyncObj;
@@ -105,6 +116,9 @@ type
       procedure DoOnIMECancelComposition; virtual;
       procedure DoOnIMECommitText(const aText : ustring; const replacement_range : PCefRange; relative_cursor_pos : integer); virtual;
       procedure DoOnIMESetComposition(const aText : ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : TCefRange); virtual;
+      {$ENDIF}
+      {$IFDEF LINUXFPC}
+      procedure WMIMEComposition(var aMessage: TMessage); message LM_IM_COMPOSITION;
       {$ENDIF}
 
     public
@@ -319,6 +333,52 @@ type
       /// </remarks>
       property OnPointerUpdate           : TOnHandledMessageEvent    read FOnPointerUpdate           write FOnPointerUpdate;
       {$ENDIF}
+      {$IFDEF LINUXFPC}
+      /// <summary>
+      /// The preedit-start signal is emitted when a new preediting sequence starts.
+      /// </summary>
+      /// <remarks>                                                                                
+      /// <para><see href="https://docs.gtk.org/gtk4/class.IMContext.html">See the GtkIMContext article.</see></para>
+      /// <para><see href="https://docs.gtk.org/gtk4/signal.IMContext.preedit-start.html">See the preedit-start article.</see></para>
+      /// <para>This event is only triggered by Lazarus in GTK2 when WITH_GTK2_IM is defined.</para>
+      /// <para>You need to open IDE dialog "Tools / Configure 'Build Lazarus'", and there enable the define: WITH_GTK2_IM; then recompile the IDE.</para>
+      /// </remarks>
+      property OnIMEPreEditStart         : TNotifyEvent              read FOnIMEPreEditStart         write FOnIMEPreEditStart; 
+      /// <summary>
+      /// The preedit-end signal is emitted when a preediting sequence has been completed or canceled.
+      /// </summary> 
+      /// <remarks>
+      /// <para><see href="https://docs.gtk.org/gtk4/class.IMContext.html">See the GtkIMContext article.</see></para>
+      /// <para><see href="https://docs.gtk.org/gtk4/signal.IMContext.preedit-end.html">See the preedit-end article.</see></para>
+      /// <para>This event is only triggered by Lazarus in GTK2 when WITH_GTK2_IM is defined.</para>
+      /// <para>You need to open IDE dialog "Tools / Configure 'Build Lazarus'", and there enable the define: WITH_GTK2_IM; then recompile the IDE.</para>
+      /// </remarks>
+      property OnIMEPreEditEnd           : TNotifyEvent              read FOnIMEPreEditEnd           write FOnIMEPreEditEnd;  
+      /// <summary>
+      /// The preedit-changed signal is emitted whenever the preedit sequence currently being entered has changed.
+      /// It is also emitted at the end of a preedit sequence, in which case gtk_im_context_get_preedit_string() returns the empty string.
+      /// </summary>   
+      /// <remarks>                                                                                                        
+      /// <para><see href="https://docs.gtk.org/gtk4/class.IMContext.html">See the GtkIMContext article.</see></para>
+      /// <para><see href="https://docs.gtk.org/gtk4/signal.IMContext.preedit-changed.html">See the preedit-changed article.</see></para>
+      /// <para>This event is only triggered by Lazarus in GTK2 when WITH_GTK2_IM is defined.</para>
+      /// <para>You need to open IDE dialog "Tools / Configure 'Build Lazarus'", and there enable the define: WITH_GTK2_IM; then recompile the IDE.</para>
+      /// </remarks>
+      property OnIMEPreEditChanged       : TOnIMEPreEditChangedEvent read FOnIMEPreEditChanged       write FOnIMEPreEditChanged;
+      /// <summary>
+      /// The commit signal is emitted when a complete input sequence has been entered by the user.
+      /// If the commit comes after a preediting sequence, the commit signal is emitted after preedit-end.
+      /// This can be a single character immediately after a key press or the final result of preediting.
+      /// Default handler: The default handler is called after the handlers added via g_signal_connect().
+      /// </summary>  
+      /// <remarks>                                                                                                    
+      /// <para><see href="https://docs.gtk.org/gtk4/class.IMContext.html">See the GtkIMContext article.</see></para>
+      /// <para><see href="https://docs.gtk.org/gtk4/signal.IMContext.commit.html">See the preedit-start article.</see></para>
+      /// <para>This event is only triggered by Lazarus in GTK2 when WITH_GTK2_IM is defined.</para>
+      /// <para>You need to open IDE dialog "Tools / Configure 'Build Lazarus'", and there enable the define: WITH_GTK2_IM; then recompile the IDE.</para>
+      /// </remarks>
+      property OnIMECommit               : TOnIMECommitEvent         read FOnIMECommit               write FOnIMECommit;
+      {$ENDIF}
       /// <summary>
       /// Event triggered before the AlphaBlend call that transfer the web contents from the
       /// bitmap buffer to the panel when the Transparent property is True.
@@ -485,6 +545,12 @@ begin
   {$ELSE}
   FSyncObj                := nil;
   FMustInitBuffer         := True;
+  {$ENDIF}
+  {$IFDEF LINUXFPC}
+  FOnIMEPreEditStart      := nil;
+  FOnIMEPreEditEnd        := nil;
+  FOnIMEPreEditChanged    := nil;
+  FOnIMECommit            := nil;
   {$ENDIF}
 end;
 
@@ -992,6 +1058,41 @@ procedure TBufferPanel.DoOnIMESetComposition(const aText: ustring;
 begin
   if assigned(FOnIMESetComposition) then
     FOnIMESetComposition(Self, aText, underlines, replacement_range, selection_range);
+end;
+{$ENDIF}
+
+{$IFDEF LINUXFPC}
+// The LM_IM_COMPOSITION message is only used by Lazarus in GTK2 when WITH_GTK2_IM is defined.
+// You need to open IDE dialog "Tools / Configure 'Build Lazarus'", and there enable the define: WITH_GTK2_IM; then recompile the IDE.
+procedure TBufferPanel.WMIMEComposition(var aMessage: TMessage);
+var
+  TempText : ustring;
+  TempCommit : string;
+begin
+  case aMessage.WPARAM of
+    GTK_IM_FLAG_START :
+      if assigned(FOnIMEPreEditStart) then
+        FOnIMEPreEditStart(self);
+
+    GTK_IM_FLAG_END :
+      if assigned(FOnIMEPreEditEnd) then
+        FOnIMEPreEditEnd(self);
+
+    GTK_IM_FLAG_COMMIT :
+      if assigned(FOnIMECommit) then
+        begin
+          TempCommit := pchar(aMessage.LPARAM);
+          TempText   := UTF8Decode(TempCommit);
+          FOnIMECommit(self, TempText);
+        end;
+
+    else
+     if assigned(FOnIMEPreEditChanged) then
+       begin                
+         TempText := UTF8Decode(pchar(aMessage.LPARAM));
+         FOnIMEPreEditChanged(self, aMessage.WPARAM, TempText);
+       end;
+  end;
 end;
 {$ENDIF}
 
