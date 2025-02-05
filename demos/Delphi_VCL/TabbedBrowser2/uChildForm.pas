@@ -240,8 +240,6 @@ begin
   FBrowserWasCreated := False;
   FCanClose          := False;
   FClosing           := False;
-
-  Chromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 end;
 
 procedure TChildForm.FormDestroy(Sender: TObject);
