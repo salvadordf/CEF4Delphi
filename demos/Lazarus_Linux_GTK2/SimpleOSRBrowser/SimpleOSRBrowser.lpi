@@ -26,15 +26,18 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages Count="2">
+    <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="CEF4Delphi_Lazarus"/>
+        <PackageName Value="lazmouseandkeyinput"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCL"/>
+        <PackageName Value="CEF4Delphi_Lazarus"/>
       </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="SimpleOSRBrowser.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -52,6 +55,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Interfaces"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="uceflinuxosrimehandler.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uCEFLinuxOSRIMEHandler"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

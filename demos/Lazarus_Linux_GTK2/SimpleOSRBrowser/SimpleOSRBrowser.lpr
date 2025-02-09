@@ -9,7 +9,7 @@ uses
   // "Interfaces" is a custom unit used to initialize the LCL WidgetSet
   // We keep the same name to avoid a Lazarus warning.
   Interfaces, // this includes the LCL widgetset
-  Forms, uSimpleOSRBrowser,
+  Forms, lazmouseandkeyinput, uSimpleOSRBrowser, uCEFLinuxOSRIMEHandler,
   { you can add units after this }
   uCEFApplication;
 

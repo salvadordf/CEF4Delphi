@@ -30,7 +30,7 @@ type
   TOnLoadingStateChange           = procedure(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean) of object;
 
   // ICefFocusHandler
-  TOnTakeFocus                    = procedure(Sender: TObject; const browser: ICefBrowser; next: Boolean) of object;
+  TOnTakeFocus                    = procedure(Sender: TObject; const browser: ICefBrowser; next_: Boolean) of object;
   TOnSetFocus                     = procedure(Sender: TObject; const browser: ICefBrowser; source: TCefFocusSource; out Result: Boolean) of object;
   TOnGotFocus                     = procedure(Sender: TObject; const browser: ICefBrowser) of object;
 

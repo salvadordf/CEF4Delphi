@@ -2,18 +2,24 @@
 
 {$mode objfpc}{$H+}
 
+// Enable this DEFINE in case you need to use the IME
+{$DEFINE CEF_USE_IME}
+
 interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
   LCLType, ComCtrls, Types, SyncObjs, LMessages,
-  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel,
-  uCEFChromiumEvents;
+  gtk2, glib2, gdk2, gtk2proc, gtk2int,
+  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants,
+  {$IFDEF CEF_USE_IME}uCEFLinuxOSRIMEHandler,{$ENDIF} uCEFBufferPanel, uCEFChromiumEvents;
 
 type
+  TDevToolsStatus = (dtsIdle, dtsGettingNodeID, dtsGettingNodeInfo, dtsGettingNodeRect);
+
   { TForm1 }
   TForm1 = class(TForm)
-    AddressEdt: TEdit;
+    AddressCb: TComboBox;
     SaveDialog1: TSaveDialog;
     SnapshotBtn: TButton;
     GoBtn: TButton;
@@ -26,6 +32,10 @@ type
     procedure Panel1Click(Sender: TObject);
     procedure Panel1Enter(Sender: TObject);
     procedure Panel1Exit(Sender: TObject);
+    procedure Panel1IMECommit(Sender: TObject; const aCommitText: ustring);
+    procedure Panel1IMEPreEditChanged(Sender: TObject; aFlag: cardinal; const aPreEditText: ustring);
+    procedure Panel1IMEPreEditEnd(Sender: TObject);
+    procedure Panel1IMEPreEditStart(Sender: TObject);
     procedure Panel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure Panel1MouseEnter(Sender: TObject);
     procedure Panel1MouseLeave(Sender: TObject);
@@ -45,7 +55,9 @@ type
     procedure Chromium1Paint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; aWidth, aHeight: Integer);
     procedure Chromium1PopupShow(Sender: TObject; const browser: ICefBrowser; aShow: Boolean);
     procedure Chromium1PopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
-    procedure Chromium1Tooltip(Sender: TObject; const browser: ICefBrowser; var aText: ustring; out Result: Boolean);
+    procedure Chromium1Tooltip(Sender: TObject; const browser: ICefBrowser; var aText: ustring; out Result: Boolean);   
+    procedure Chromium1ProcessMessageReceived(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message: ICefProcessMessage; out Result: Boolean);
+    procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue);
 
     procedure FormActivate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -53,6 +65,10 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormWindowStateChange(Sender: TObject);
+
+    procedure Application_OnActivate(Sender: TObject);
+    procedure Application_OnDeactivate(Sender: TObject);
 
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
@@ -74,25 +90,44 @@ type
     FPanelCursor     : TCursor;
     FPanelHint       : ustring;
     FPanelOffset     : TPoint;
+    FIsEditing       : boolean;
+    FElementBounds   : TRect;
+    FDevToolsStatus  : TDevToolsStatus;
+    FCheckEditable   : boolean;
+    FWasEditing      : boolean;
+    {$IFDEF CEF_USE_IME}
+    FIMEHandler      : TCEFLinuxOSRIMEHandler;
+    {$ENDIF}
 
     function  GetPanelCursor : TCursor;
     function  GetPanelHint : ustring;
+    function  GetIsEditing : boolean;
 
     procedure SetPanelCursor(aValue : TCursor);
     procedure SetPanelHint(const aValue : ustring);
+    procedure SetIsEditing(aValue : boolean);
 
-    procedure SendCompMessage(aMsg : cardinal);
+    procedure SendCompMessage(aMsg : cardinal; aData: PtrInt = 0);
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     procedure DoResize;
     procedure UpdatePanelOffset;
+    procedure UpdateElementBounds(const aArgumentList : ICefListValue); overload;
+    procedure UpdateElementBounds(const aRect : TRect); overload;
+    function  CopyElementBounds(var aBounds : TRect) : boolean; 
+    function  SetIMECursorLocation : boolean;
+    function  HandleIMEKeyEvent(Event: PGdkEventKey) : boolean;    
+    function  HandleGettingNodeIdResult(aSuccess : boolean; const aResult: ICefValue) : boolean;
+    function  HandleGettingNodeInfoResult(aSuccess : boolean; const aResult: ICefValue) : boolean;
+    function  HandleGettingNodeRectResult(aSuccess : boolean; const aResult: ICefValue) : boolean;
 
     procedure BrowserCreatedMsg(Data: PtrInt);
     procedure BrowserCloseFormMsg(Data: PtrInt);
     procedure PendingResizeMsg(Data: PtrInt);
     procedure PendingInvalidateMsg(Data: PtrInt);
     procedure PendingCursorUpdateMsg(Data: PtrInt);
-    procedure PendingHintUpdateMsg(Data: PtrInt);      
+    procedure PendingHintUpdateMsg(Data: PtrInt);           
+    procedure FocusEnabledMsg(Data: PtrInt);
 
     // CEF needs to handle these messages to call TChromium.NotifyMoveOrResizeStarted
     procedure WMMove(var Message: TLMMove); message LM_MOVE;
@@ -101,9 +136,10 @@ type
 
     property PanelCursor  : TCursor   read GetPanelCursor   write SetPanelCursor;
     property PanelHint    : ustring   read GetPanelHint     write SetPanelHint;
+    property IsEditing    : boolean   read GetIsEditing     write SetIsEditing;
 
   public
-    procedure SendCEFKeyEvent(const aCefEvent : TCefKeyEvent);
+    function  HandleKeyEvent(Event: PGdkEventKey) : boolean;
   end;
 
 var
@@ -192,56 +228,126 @@ implementation
 //    SendCompMessage(CEF_BEFORECLOSE) to close the form asynchronously.
 
 uses
-  Math, gtk2, glib2, gdk2, gtk2proc, gtk2int,
-  uCEFMiscFunctions, uCEFApplication, uCEFBitmapBitBuffer, uCEFLinuxFunctions;
+  Math, mouseandkeyinput,
+  uCEFMiscFunctions, uCEFApplication, uCEFBitmapBitBuffer, uCEFLinuxFunctions,
+  uCEFProcessMessage, uCEFDictionaryValue, uCEFJson;
 
 const
-  CEF_UPDATE_CURSOR = $A0D;
-  CEF_UPDATE_HINT   = $A0E;
+  CEF_UPDATE_CURSOR   = $A1D;
+  CEF_UPDATE_HINT     = $A1E;
+  {$IFDEF CEF_USE_IME}
+  EDITABLE_MSGNAME    = 'editable';
+  NONEDITABLE_MSGNAME = 'noneditable';
+  {$ENDIF}
+
+{$IFDEF CEF_USE_IME}
+procedure GlobalCEFApp_OnFocusedNodeChanged(const browser : ICefBrowser;
+                                            const frame   : ICefFrame;
+                                            const node    : ICefDomNode);
+var
+  TempMsg : ICefProcessMessage;
+begin
+  if (frame <> nil) and frame.IsValid then
+    try
+      if (node <> nil) and node.IsEditable then
+        begin
+          TempMsg := TCefProcessMessageRef.New(EDITABLE_MSGNAME);
+          TempMsg.ArgumentList.SetSize(4);
+          TempMsg.ArgumentList.SetInt(0, node.ElementBounds.x);
+          TempMsg.ArgumentList.SetInt(1, node.ElementBounds.y);
+          TempMsg.ArgumentList.SetInt(2, node.ElementBounds.width);
+          TempMsg.ArgumentList.SetInt(3, node.ElementBounds.height);
+        end
+       else
+        TempMsg := TCefProcessMessageRef.New(NONEDITABLE_MSGNAME);
+
+
+      frame.SendProcessMessage(PID_BROWSER, TempMsg);
+    finally
+      TempMsg := nil;
+    end;
+end;
+{$ENDIF}
 
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.BackgroundColor            := CefColorSetARGB($FF, $FF, $FF, $FF);
-
-  //GlobalCEFApp.LogFile             := 'debug.log';
-  //GlobalCEFApp.LogSeverity         := LOGSEVERITY_INFO;
+  GlobalCEFApp.LogFile                    := 'debug.log';
+  GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
+  {$IFDEF CEF_USE_IME}
+  GlobalCEFApp.OnFocusedNodeChanged       := @GlobalCEFApp_OnFocusedNodeChanged;
+  {$ENDIF}
 end;
 
 function GTKKeyPress(Widget: PGtkWidget; Event: PGdkEventKey; Data: gPointer) : GBoolean; cdecl;
-var
-  TempCefEvent : TCefKeyEvent;
 begin
-  GdkEventKeyToCEFKeyEvent(Event, TempCefEvent);
-
-  if (Event^._type = GDK_KEY_PRESS) then
-    begin
-      TempCefEvent.kind := KEYEVENT_RAWKEYDOWN;
-      Form1.SendCEFKeyEvent(TempCefEvent);
-      TempCefEvent.kind := KEYEVENT_CHAR;
-      Form1.SendCEFKeyEvent(TempCefEvent);
-    end
-   else
-    begin
-      TempCefEvent.kind := KEYEVENT_KEYUP;
-      Form1.SendCEFKeyEvent(TempCefEvent);
-    end;
-
-  Result := True;
+  Result := Form1.HandleKeyEvent(Event);
 end;
 
 procedure ConnectKeyPressReleaseEvents(const aWidget : PGtkWidget);
 begin
-  g_signal_connect(aWidget, 'key-press-event',   TGTKSignalFunc(@GTKKeyPress), nil);
-  g_signal_connect(aWidget, 'key-release-event', TGTKSignalFunc(@GTKKeyPress), nil);
+  g_signal_connect(aWidget, 'key-press-event',   G_CALLBACK(@GTKKeyPress), nil);
+  g_signal_connect(aWidget, 'key-release-event', G_CALLBACK(@GTKKeyPress), nil);
 end;
 
 { TForm1 }
 
-procedure TForm1.SendCEFKeyEvent(const aCefEvent : TCefKeyEvent);
+function TForm1.HandleKeyEvent(Event: PGdkEventKey) : boolean;
+var
+  TempCefEvent : TCefKeyEvent;
 begin
-  Chromium1.SendKeyEvent(@aCefEvent);
+  Result := True;
+
+  if not(HandleIMEKeyEvent(Event)) then
+    begin
+      GdkEventKeyToCEFKeyEvent(Event, TempCefEvent);
+
+      if (Event^._type = GDK_KEY_PRESS) then
+        begin
+          TempCefEvent.kind := KEYEVENT_RAWKEYDOWN;
+          Chromium1.SendKeyEvent(@TempCefEvent);
+          TempCefEvent.kind := KEYEVENT_CHAR;
+          Chromium1.SendKeyEvent(@TempCefEvent);
+        end
+       else
+        begin
+          TempCefEvent.kind := KEYEVENT_KEYUP;
+          Chromium1.SendKeyEvent(@TempCefEvent);
+        end;
+    end;
+end;
+
+function TForm1.HandleIMEKeyEvent(Event: PGdkEventKey) : boolean;
+begin
+  Result := False;
+  {$IFDEF CEF_USE_IME}
+  if SetIMECursorLocation then
+    Result := FIMEHandler.FilterKeyPress(Event);
+  {$ENDIF}
+end;
+
+function TForm1.SetIMECursorLocation : boolean;
+{$IFDEF CEF_USE_IME}
+var
+  TempBounds : TRect;        
+  TempPoint : TPoint;    
+  TempScale : single;
+{$ENDIF}
+begin
+  Result := False;
+  {$IFDEF CEF_USE_IME}
+  if CopyElementBounds(TempBounds) then
+    begin
+      TempScale   := Panel1.ScreenScale;
+      TempPoint.x := DeviceToLogical(TempBounds.Left, TempScale);
+      TempPoint.y := DeviceToLogical(integer(AddressPnl.Height + TempBounds.Bottom), TempScale);
+
+      FIMEHandler.SetCursorLocation(TempPoint.x, TempPoint.y);
+      Result := True;
+    end;
+  {$ENDIF}
 end;
 
 procedure TForm1.GoBtnClick(Sender: TObject);
@@ -251,10 +357,10 @@ begin
   FPendingResize := False;
   FResizeCS.Release;
 
-  Chromium1.LoadURL(AddressEdt.Text);
+  Chromium1.LoadURL(UTF8Decode(AddressCb.Text));
 end;
 
-procedure TForm1.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
+procedure TForm1.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);   
 begin
   // Now the browser is fully initialized we can initialize the UI.
   SendCompMessage(CEF_AFTERCREATED);
@@ -270,6 +376,229 @@ begin
   Panel1.SetFocus;
 end;
 
+procedure TForm1.FormWindowStateChange(Sender: TObject);
+begin
+  if (WindowState = wsMinimized) then
+    begin
+      Chromium1.SetFocus(False);
+      Chromium1.WasHidden(True);
+    end
+   else
+    begin
+      Chromium1.WasHidden(False);
+      Chromium1.SetFocus(Panel1.Focused);
+    end;
+end;
+
+procedure TForm1.Application_OnActivate(Sender: TObject);
+begin
+  IsEditing      := FWasEditing;
+  FCheckEditable := True;
+  Chromium1.SetFocus(Panel1.Focused);
+end;      
+
+procedure TForm1.Application_OnDeactivate(Sender: TObject);
+begin
+  FWasEditing := IsEditing;
+  Chromium1.SetFocus(False);
+  {$IFDEF CEF_USE_IME}
+  FIMEHandler.Blur;
+  {$ENDIF}
+end;
+
+function TForm1.HandleGettingNodeIdResult(aSuccess : boolean; const aResult: ICefValue) : boolean;
+var
+  TempParams, TempRsltDict : ICefDictionaryValue;
+  TempNodeID : integer;
+begin   
+  Result := False;
+
+  if aSuccess and (aResult <> nil) then
+    try
+      TempRsltDict := aResult.GetDictionary;
+
+      if TCEFJson.ReadInteger(TempRsltDict, 'backendNodeId', TempNodeID) then
+        begin
+          FDevToolsStatus := dtsGettingNodeInfo;
+
+          TempParams := TCefDictionaryValueRef.New;
+          TempParams.SetInt('backendNodeId', TempNodeID);
+
+          Chromium1.ExecuteDevToolsMethod(0, 'DOM.describeNode', TempParams);
+          Result := True;
+        end
+       else
+        FDevToolsStatus := dtsIdle;
+    finally
+      TempParams := nil;
+    end;
+end;
+
+function TForm1.HandleGettingNodeInfoResult(aSuccess : boolean; const aResult: ICefValue) : boolean;
+var
+  TempParams, TempRsltDict, TempNode : ICefDictionaryValue;
+  TempAttribs : ICefListValue;
+  TempName : ustring;
+  TempNodeID : integer;
+
+  function HasDisabledAttrib : boolean;
+  var
+    i : NativeUInt;
+  begin
+    Result := False;
+
+    i := 0;
+    while (i < TempAttribs.GetSize) do
+      if (CompareText(TempAttribs.GetString(i), 'disabled') = 0) then
+        begin
+          Result := True;
+          exit;
+        end
+       else
+        inc(i, 2);
+  end;
+
+  function IsTextAreaNode : boolean;
+  begin
+    Result := (CompareText(TempName, 'textarea') = 0);
+  end;
+
+  function IsInputNode : boolean;
+  var
+    TempType : string;
+    i : NativeUInt;
+  begin
+    Result := False;
+
+    if (CompareText(TempName, 'input') = 0) then
+      begin
+        if assigned(TempAttribs) then
+          begin
+            i := 0;
+            while (i < TempAttribs.GetSize) do
+              if (CompareText(TempAttribs.GetString(i), 'type') = 0) then
+                begin
+                  if (i + 1 < TempAttribs.GetSize) then
+                    begin
+                      TempType := TempAttribs.GetString(i + 1);
+
+                      if (CompareText(TempType, 'text') = 0) or
+                         (CompareText(TempType, 'email') = 0) or
+                         (CompareText(TempType, 'month') = 0) or
+                         (CompareText(TempType, 'password') = 0) or
+                         (CompareText(TempType, 'search') = 0) or
+                         (CompareText(TempType, 'tel') = 0) or
+                         (CompareText(TempType, 'url') = 0) or
+                         (CompareText(TempType, 'week') = 0) or
+                         (CompareText(TempType, 'datetime') = 0) then
+                        begin
+                          Result := True;
+                          exit;
+                        end
+                       else
+                        exit;
+                    end
+                   else
+                    exit;
+                end
+               else
+                inc(i, 2);
+
+            Result := True; // Default input type is text
+          end
+         else
+          Result := True; // Default input type is text
+      end;
+  end;
+begin
+  Result := False;
+
+  if aSuccess and (aResult <> nil) then
+    try
+      TempRsltDict := aResult.GetDictionary;
+
+      if TCEFJson.ReadDictionary(TempRsltDict, 'node', TempNode) and
+         TCEFJson.ReadString(TempNode, 'nodeName', TempName) and
+         TCEFJson.ReadInteger(TempNode, 'backendNodeId', TempNodeID) and
+         TCEFJson.ReadList(TempNode, 'attributes', TempAttribs) and
+         not(HasDisabledAttrib) and
+         (IsTextAreaNode or IsInputNode) then
+        begin
+          FDevToolsStatus := dtsGettingNodeRect;
+
+          TempParams := TCefDictionaryValueRef.New;
+          TempParams.SetInt('backendNodeId', TempNodeID);
+
+          Chromium1.ExecuteDevToolsMethod(0, 'DOM.getContentQuads', TempParams);
+          Result := True;
+        end
+       else
+        FDevToolsStatus := dtsIdle;
+    finally
+      TempParams := nil;
+    end;
+end;
+
+function TForm1.HandleGettingNodeRectResult(aSuccess : boolean; const aResult: ICefValue) : boolean;
+var
+  TempRsltDict : ICefDictionaryValue;
+  TempList, TempQuads : ICefListValue;
+  TempRect : TRect;
+begin
+  Result := False;
+
+  if aSuccess and (aResult <> nil) then
+    begin
+      TempRsltDict := aResult.GetDictionary;
+
+      if TCEFJson.ReadList(TempRsltDict, 'quads', TempQuads) and
+         (TempQuads.GetSize = 1) then
+        begin
+          TempList := TempQuads.GetList(0);
+
+          if (TempList.GetSize = 8) then
+            begin
+              case TempList.GetType(0) of
+                VTYPE_INT    : TempRect.Left   := TempList.GetInt(0);
+                VTYPE_DOUBLE : TempRect.Left   := round(TempList.GetDouble(0));
+              end;
+
+              case TempList.GetType(1) of
+                VTYPE_INT    : TempRect.Top    := TempList.GetInt(1);
+                VTYPE_DOUBLE : TempRect.Top    := round(TempList.GetDouble(1));
+              end;
+
+              case TempList.GetType(4) of
+                VTYPE_INT    : TempRect.Right  := TempList.GetInt(4);
+                VTYPE_DOUBLE : TempRect.Right  := round(TempList.GetDouble(4));
+              end;
+
+              case TempList.GetType(5) of
+                VTYPE_INT    : TempRect.Bottom := TempList.GetInt(5);
+                VTYPE_DOUBLE : TempRect.Bottom := round(TempList.GetDouble(5));
+              end;
+
+              UpdateElementBounds(TempRect);
+
+              Result := True;
+            end;
+        end;
+
+      FDevToolsStatus := dtsIdle;
+    end;
+end;
+
+procedure TForm1.Chromium1DevToolsMethodResult(Sender: TObject;
+  const browser: ICefBrowser; message_id: integer; success: boolean;
+  const result: ICefValue);
+begin
+  case FDevToolsStatus of
+    dtsGettingNodeId   : HandleGettingNodeIdResult(success, result);
+    dtsGettingNodeInfo : HandleGettingNodeInfoResult(success, result);
+    dtsGettingNodeRect : HandleGettingNodeRectResult(success, result);
+  end;
+end;
+
 procedure TForm1.FormActivate(Sender: TObject);
 begin
   // This will trigger the AfterCreated event when the browser is fully
@@ -281,6 +610,10 @@ begin
   // Linux needs a visible form to create a browser so we need to use the
   // TForm.OnActivate event instead of the TForm.OnShow event
 
+  {$IFDEF CEF_USE_IME}
+  FIMEHandler.CreateContext;
+  {$ENDIF}
+
   if not(Chromium1.Initialized) then
     begin
       // We have to update the DeviceScaleFactor here to get the scale of the
@@ -291,7 +624,7 @@ begin
 
       // opaque white background color
       Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
-      Chromium1.DefaultURL              := UTF8Decode(AddressEdt.Text);
+      Chromium1.DefaultURL              := UTF8Decode(AddressCb.Text);
 
       if not(Chromium1.CreateBrowser) then Timer1.Enabled := True;
     end;
@@ -299,12 +632,18 @@ end;
 
 procedure TForm1.Panel1Enter(Sender: TObject);
 begin
+  IsEditing      := FWasEditing;
+  FCheckEditable := True;
   Chromium1.SetFocus(True);
 end;
 
 procedure TForm1.Panel1Exit(Sender: TObject);
 begin
+  FWasEditing := IsEditing;
   Chromium1.SetFocus(False);
+  {$IFDEF CEF_USE_IME}
+  FIMEHandler.Blur;
+  {$ENDIF}
 end;
 
 procedure TForm1.Panel1MouseDown(Sender: TObject; Button: TMouseButton;
@@ -362,13 +701,32 @@ end;
 procedure TForm1.Panel1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
-  TempEvent : TCefMouseEvent;
+  TempEvent  : TCefMouseEvent;
+  TempParams : ICefDictionaryValue;
 begin
   TempEvent.x         := X;
   TempEvent.y         := Y;
   TempEvent.modifiers := getModifiers(Shift);
   DeviceToLogical(TempEvent, Panel1.ScreenScale);
   Chromium1.SendMouseClickEvent(@TempEvent, GetButton(Button), True, 1);
+
+  // GlobalCEFApp.OnFocusedNodeChanged is not triggered the first time the
+  // browser gets the focus. We need to call a series of DevTool methods to
+  // check if the HTML element under the mouse is editable to save its position
+  // and size. This information will be used to show the IME.
+  if FCheckEditable then
+    try
+      FCheckEditable  := False;
+      FDevToolsStatus := dtsGettingNodeId;
+
+      TempParams := TCefDictionaryValueRef.New;
+      TempParams.SetInt('x', DeviceToLogical(X, Panel1.ScreenScale));
+      TempParams.SetInt('y', DeviceToLogical(Y, Panel1.ScreenScale));
+
+      Chromium1.ExecuteDevToolsMethod(0, 'DOM.getNodeForLocation', TempParams);
+    finally
+      TempParams := nil;
+    end;
 end;
 
 procedure TForm1.Panel1MouseWheel(Sender: TObject; Shift: TShiftState;
@@ -462,13 +820,9 @@ begin
   Result := True;
 end;
 
-procedure TForm1.Chromium1GetScreenPoint(      Sender  : TObject;
-                                         const browser : ICefBrowser;
-                                               viewX   : Integer;
-                                               viewY   : Integer;
-                                         var   screenX : Integer;
-                                         var   screenY : Integer;
-                                         out   Result  : Boolean);
+procedure TForm1.Chromium1GetScreenPoint(Sender: TObject;
+  const browser: ICefBrowser; viewX, viewY: Integer; var screenX,
+  screenY: Integer; out Result: Boolean);
 begin
   try
     FBrowserCS.Acquire;
@@ -646,24 +1000,37 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
+  FCheckEditable  := True;
+  FWasEditing     := False;
+  FDevToolsStatus := dtsIdle;
   FPopUpRect      := rect(0, 0, 0, 0);
   FShowPopUp      := False;
   FResizing       := False;
   FPendingResize  := False;
   FCanClose       := False;
-  FClosing        := False;
+  FClosing        := False;             
   FResizeCS       := TCriticalSection.Create;
   FBrowserCS      := TCriticalSection.Create;
+  {$IFDEF CEF_USE_IME}
+  FIMEHandler     := TCEFLinuxOSRIMEHandler.Create(Panel1);
+  {$ENDIF}
+  IsEditing       := False;
 
   Panel1.CopyOriginalBuffer := True;
 
   ConnectKeyPressReleaseEvents(PGtkWidget(Panel1.Handle));
+
+  Application.OnActivate   := @Application_OnActivate;
+  Application.OnDeactivate := @Application_OnDeactivate;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
-  if (FResizeCS  <> nil) then FreeAndNil(FResizeCS);
-  if (FBrowserCS <> nil) then FreeAndNil(FBrowserCS);
+  if (FResizeCS   <> nil) then FreeAndNil(FResizeCS);
+  if (FBrowserCS  <> nil) then FreeAndNil(FBrowserCS);
+  {$IFDEF CEF_USE_IME}
+  if (FIMEHandler <> nil) then FreeAndNil(FIMEHandler);
+  {$ENDIF}
 end;
 
 procedure TForm1.FormHide(Sender: TObject);
@@ -675,7 +1042,7 @@ end;
 procedure TForm1.FormShow(Sender: TObject);
 begin
   Chromium1.WasHidden(False);
-  Chromium1.SetFocus(True);
+  Chromium1.SetFocus(Panel1.Focused);
 end;
 
 procedure TForm1.GoBtnEnter(Sender: TObject);
@@ -727,19 +1094,20 @@ end;
 
 procedure TForm1.PendingHintUpdateMsg(Data: PtrInt);
 begin
-  Panel1.hint     := PanelHint;
+  Panel1.hint     := UTF8Encode(PanelHint);
   Panel1.ShowHint := (length(Panel1.hint) > 0);
 end;
 
-procedure TForm1.SendCompMessage(aMsg : cardinal);
+procedure TForm1.SendCompMessage(aMsg : cardinal; aData: PtrInt);
 begin
   case aMsg of
-    CEF_AFTERCREATED      : Application.QueueAsyncCall(@BrowserCreatedMsg, 0);
-    CEF_BEFORECLOSE       : Application.QueueAsyncCall(@BrowserCloseFormMsg, 0);
-    CEF_PENDINGRESIZE     : Application.QueueAsyncCall(@PendingResizeMsg, 0);
-    CEF_PENDINGINVALIDATE : Application.QueueAsyncCall(@PendingInvalidateMsg, 0);
-    CEF_UPDATE_CURSOR     : Application.QueueAsyncCall(@PendingCursorUpdateMsg, 0);
-    CEF_UPDATE_HINT       : Application.QueueAsyncCall(@PendingHintUpdateMsg, 0);
+    CEF_AFTERCREATED      : Application.QueueAsyncCall(@BrowserCreatedMsg, aData);
+    CEF_BEFORECLOSE       : Application.QueueAsyncCall(@BrowserCloseFormMsg, aData);
+    CEF_PENDINGRESIZE     : Application.QueueAsyncCall(@PendingResizeMsg, aData);
+    CEF_PENDINGINVALIDATE : Application.QueueAsyncCall(@PendingInvalidateMsg, aData);
+    CEF_UPDATE_CURSOR     : Application.QueueAsyncCall(@PendingCursorUpdateMsg, aData);
+    CEF_UPDATE_HINT       : Application.QueueAsyncCall(@PendingHintUpdateMsg, aData);
+    CEF_FOCUSENABLED      : Application.QueueAsyncCall(@FocusEnabledMsg, aData);
   end;
 end;    
 
@@ -777,6 +1145,61 @@ begin
   end;
 end;
 
+procedure TForm1.UpdateElementBounds(const aArgumentList : ICefListValue);
+begin
+  try
+    FBrowserCS.Acquire;
+
+    if assigned(aArgumentList) and (aArgumentList.GetSize = 4) then
+      begin
+        FIsEditing            := True;
+        FElementBounds.Left   := aArgumentList.GetInt(0);
+        FElementBounds.Top    := aArgumentList.GetInt(1);
+        FElementBounds.Right  := FElementBounds.Left + aArgumentList.GetInt(2) - 1;
+        FElementBounds.Bottom := FElementBounds.Top  + aArgumentList.GetInt(3) - 1;
+      end
+     else
+      begin
+        FIsEditing     := False;
+        FElementBounds := rect(0, 0, 0, 0);
+      end;
+
+    SendCompMessage(CEF_FOCUSENABLED, ord(FIsEditing));
+  finally
+    FBrowserCS.Release;
+  end;
+end;
+
+procedure TForm1.UpdateElementBounds(const aRect : TRect);
+begin
+  try
+    FBrowserCS.Acquire;
+    FIsEditing     := True;
+    FElementBounds := aRect;
+    SendCompMessage(CEF_FOCUSENABLED, ord(FIsEditing));
+  finally
+    FBrowserCS.Release;
+  end;
+end;
+
+function TForm1.CopyElementBounds(var aBounds : TRect) : boolean;
+begin
+  Result  := False;
+  aBounds := rect(0, 0, 0, 0);
+
+  try
+    FBrowserCS.Acquire;
+
+    if FIsEditing then
+      begin
+        aBounds := FElementBounds;
+        Result  := True;
+      end;
+  finally
+    FBrowserCS.Release;
+  end;
+end;
+
 function TForm1.GetPanelCursor : TCursor;
 begin
   try
@@ -792,6 +1215,16 @@ begin
   try
     FBrowserCS.Acquire;
     Result := FPanelHint;
+  finally
+    FBrowserCS.Release;
+  end;
+end;
+
+function TForm1.GetIsEditing : boolean;
+begin
+  try
+    FBrowserCS.Acquire;
+    Result := FIsEditing;
   finally
     FBrowserCS.Release;
   end;
@@ -817,6 +1250,25 @@ begin
   end;
 end;    
 
+procedure TForm1.SetIsEditing(aValue : boolean);
+begin
+  try
+    FBrowserCS.Acquire;
+
+    if aValue then
+      FIsEditing := True
+     else
+      begin
+        FIsEditing     := False;
+        FElementBounds := rect(0, 0, 0, 0);
+      end;
+
+    SendCompMessage(CEF_FOCUSENABLED, ord(FIsEditing));
+  finally
+    FBrowserCS.Release;
+  end;
+end;
+
 procedure TForm1.WMMove(var Message: TLMMove);
 begin
   inherited;
@@ -836,6 +1288,72 @@ begin
   inherited;
   UpdatePanelOffset;
   Chromium1.NotifyMoveOrResizeStarted;
+end;         
+
+procedure TForm1.FocusEnabledMsg(Data: PtrInt);
+begin
+  {$IFDEF CEF_USE_IME}
+  if (Data <> 0) then
+    FIMEHandler.Focus // Set the client window for the input context when an editable HTML element is focused
+   else
+    FIMEHandler.Blur; // Reset the input context when the editable HTML is not focused
+  {$ENDIF}
+end;
+
+procedure TForm1.Chromium1ProcessMessageReceived(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame;
+  sourceProcess: TCefProcessId; const message: ICefProcessMessage; out
+  Result: Boolean);
+begin
+  Result := False;
+  {$IFDEF CEF_USE_IME}
+  if (message = nil) then exit;
+
+  if (message.Name = EDITABLE_MSGNAME) then
+    UpdateElementBounds(message.ArgumentList)
+   else
+    IsEditing := False;
+
+  Result := True;
+  {$ENDIF}
+end;
+
+procedure TForm1.Panel1IMECommit(Sender: TObject; const aCommitText: ustring);
+{$IFDEF CEF_USE_IME}
+const
+  UINT32_MAX = high(cardinal);
+var
+  replacement_range : TCefRange;
+{$ENDIF}
+begin
+  {$IFDEF CEF_USE_IME}
+  replacement_range.from := UINT32_MAX;
+  replacement_range.to_  := UINT32_MAX;
+
+  Chromium1.IMECommitText(aCommitText, @replacement_range, 0);
+  {$ENDIF}
+end;
+
+procedure TForm1.Panel1IMEPreEditChanged(Sender: TObject; aFlag: cardinal;
+  const aPreEditText: ustring);
+begin
+  {$IFDEF CEF_USE_IME}
+  SetIMECursorLocation;
+  {$ENDIF}
+end;
+
+procedure TForm1.Panel1IMEPreEditEnd(Sender: TObject);
+begin
+  {$IFDEF CEF_USE_IME}         
+  Chromium1.IMECancelComposition;
+  {$ENDIF}
+end;
+
+procedure TForm1.Panel1IMEPreEditStart(Sender: TObject);
+begin
+  {$IFDEF CEF_USE_IME}
+  SetIMECursorLocation;
+  {$ENDIF}
 end;
 
 end.
