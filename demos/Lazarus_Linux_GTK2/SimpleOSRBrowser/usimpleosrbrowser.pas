@@ -29,7 +29,6 @@ type
     Panel2: TPanel;
     Timer1: TTimer;
 
-    procedure Panel1Click(Sender: TObject);
     procedure Panel1Enter(Sender: TObject);
     procedure Panel1Exit(Sender: TObject);
     procedure Panel1IMECommit(Sender: TObject; const aCommitText: ustring);
@@ -58,6 +57,7 @@ type
     procedure Chromium1Tooltip(Sender: TObject; const browser: ICefBrowser; var aText: ustring; out Result: Boolean);   
     procedure Chromium1ProcessMessageReceived(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message: ICefProcessMessage; out Result: Boolean);
     procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue);
+    procedure Chromium1SetFocus(Sender: TObject; const browser: ICefBrowser; source: TCefFocusSource; out Result: Boolean);
 
     procedure FormActivate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -74,8 +74,8 @@ type
     procedure GoBtnEnter(Sender: TObject);
     procedure SnapshotBtnClick(Sender: TObject);
 
-    procedure Timer1Timer(Sender: TObject);  
-    procedure AddressEdtEnter(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);       
+    procedure AddressCbEnter(Sender: TObject);
   private             
 
   protected
@@ -95,6 +95,7 @@ type
     FDevToolsStatus  : TDevToolsStatus;
     FCheckEditable   : boolean;
     FWasEditing      : boolean;
+    FBrowserIsFocused : boolean;
     {$IFDEF CEF_USE_IME}
     FIMEHandler      : TCEFLinuxOSRIMEHandler;
     {$ENDIF}
@@ -366,14 +367,15 @@ begin
   SendCompMessage(CEF_AFTERCREATED);
 end;
 
-procedure TForm1.AddressEdtEnter(Sender: TObject);
+procedure TForm1.Chromium1SetFocus(Sender: TObject; const browser: ICefBrowser;
+  source: TCefFocusSource; out Result: Boolean);
 begin
-  Chromium1.SetFocus(False);
+  Result := not(FBrowserIsFocused);
 end;
 
-procedure TForm1.Panel1Click(Sender: TObject);
+procedure TForm1.AddressCbEnter(Sender: TObject);
 begin
-  Panel1.SetFocus;
+  Chromium1.SetFocus(False);
 end;
 
 procedure TForm1.FormWindowStateChange(Sender: TObject);
@@ -386,7 +388,7 @@ begin
    else
     begin
       Chromium1.WasHidden(False);
-      Chromium1.SetFocus(Panel1.Focused);
+      Chromium1.SetFocus(FBrowserIsFocused);
     end;
 end;
 
@@ -394,7 +396,7 @@ procedure TForm1.Application_OnActivate(Sender: TObject);
 begin
   IsEditing      := FWasEditing;
   FCheckEditable := True;
-  Chromium1.SetFocus(Panel1.Focused);
+  Chromium1.SetFocus(FBrowserIsFocused);
 end;      
 
 procedure TForm1.Application_OnDeactivate(Sender: TObject);
@@ -634,12 +636,14 @@ procedure TForm1.Panel1Enter(Sender: TObject);
 begin
   IsEditing      := FWasEditing;
   FCheckEditable := True;
+  FBrowserIsFocused := True;
   Chromium1.SetFocus(True);
 end;
 
 procedure TForm1.Panel1Exit(Sender: TObject);
 begin
   FWasEditing := IsEditing;
+  FBrowserIsFocused := False;
   Chromium1.SetFocus(False);
   {$IFDEF CEF_USE_IME}
   FIMEHandler.Blur;
@@ -1008,7 +1012,8 @@ begin
   FResizing       := False;
   FPendingResize  := False;
   FCanClose       := False;
-  FClosing        := False;             
+  FClosing        := False;
+  FBrowserIsFocused := False;
   FResizeCS       := TCriticalSection.Create;
   FBrowserCS      := TCriticalSection.Create;
   {$IFDEF CEF_USE_IME}
@@ -1042,7 +1047,7 @@ end;
 procedure TForm1.FormShow(Sender: TObject);
 begin
   Chromium1.WasHidden(False);
-  Chromium1.SetFocus(Panel1.Focused);
+  Chromium1.SetFocus(FBrowserIsFocused);
 end;
 
 procedure TForm1.GoBtnEnter(Sender: TObject);
@@ -1069,6 +1074,7 @@ begin
   Caption            := 'Simple OSR Browser';
   AddressPnl.Enabled := True;
 
+  Chromium1.SetFocus(FBrowserIsFocused);
   Chromium1.NotifyMoveOrResizeStarted;
 end;
 
