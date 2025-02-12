@@ -1118,13 +1118,21 @@ end;
 procedure TMiniBrowserFrm.Chromium1PreKeyEvent(Sender: TObject;
   const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
   out isKeyboardShortcut, Result: Boolean);
+const
+  VK_U = $55;
 begin
   Result := False;
 
-  if (event <> nil) and
-     (event.kind in [KEYEVENT_KEYDOWN, KEYEVENT_KEYUP]) and
-     (event.windows_key_code = VK_F12) then
-    isKeyboardShortcut := True;
+  if (event <> nil) then
+    case event.windows_key_code of
+      VK_F12 :  // Handle the shortcut for the DevTools in Chromium1KeyEvent
+        if (event.kind in [KEYEVENT_KEYDOWN, KEYEVENT_KEYUP]) then
+          isKeyboardShortcut := True;
+
+      VK_U :  // Block the shortcut to view the HTML source code (Control+U).
+        if (event.kind in [KEYEVENT_RAWKEYDOWN, KEYEVENT_KEYUP]) then
+          Result := (event.modifiers and EVENTFLAG_CONTROL_DOWN) <> 0;
+    end;
 end;
 
 procedure TMiniBrowserFrm.Chromium1RenderCompMsg(Sender: TObject; var aMessage : TMessage; var aHandled: Boolean);
@@ -1522,6 +1530,8 @@ begin
   Chromium1.WebRTCIPHandlingPolicy := hpDisableNonProxiedUDP;
   Chromium1.WebRTCMultipleRoutes   := STATE_DISABLED;
   Chromium1.WebRTCNonproxiedUDP    := STATE_DISABLED;
+
+  //Chromium1.AcceptLanguageList := 'en-GB,en';
 
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
