@@ -196,25 +196,25 @@ end;
 
 class function TCefv8ValueRef.NewArray(len: Integer): ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_array(len));
+  Result := UnWrap(cef_v8_value_create_array(len));
 end;
 
 class function TCefv8ValueRef.NewArrayBuffer(      buffer   : Pointer;
                                                    length   : NativeUInt;
                                              const callback : ICefv8ArrayBufferReleaseCallback): ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_array_buffer(buffer, length, CefGetData(callback)));
+  Result := UnWrap(cef_v8_value_create_array_buffer(buffer, length, CefGetData(callback)));
 end;
 
 class function TCefv8ValueRef.NewArrayBufferWithCopy(buffer : Pointer;
                                                      length : NativeUInt): ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_array_buffer_with_copy(buffer, length));
+  Result := UnWrap(cef_v8_value_create_array_buffer_with_copy(buffer, length));
 end;
 
 class function TCefv8ValueRef.NewBool(value: Boolean): ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_bool(Ord(value)));
+  Result := UnWrap(cef_v8_value_create_bool(Ord(value)));
 end;
 
 class function TCefv8ValueRef.NewDate(value: TDateTime): ICefv8Value;
@@ -222,12 +222,12 @@ var
   TempValue : TCefBaseTime;
 begin
   TempValue := DateTimeToCefBaseTime(value);
-  Result    := UnWrap(cef_v8value_create_date(TempValue));
+  Result    := UnWrap(cef_v8_value_create_date(TempValue));
 end;
 
 class function TCefv8ValueRef.NewDouble(value: Double): ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_double(value));
+  Result := UnWrap(cef_v8_value_create_double(value));
 end;
 
 class function TCefv8ValueRef.NewFunction(const name: ustring; const handler: ICefv8Handler): ICefv8Value;
@@ -235,32 +235,32 @@ var
   TempName : TCefString;
 begin
   TempName := CefString(name);
-  Result   := UnWrap(cef_v8value_create_function(@TempName, CefGetData(handler)));
+  Result   := UnWrap(cef_v8_value_create_function(@TempName, CefGetData(handler)));
 end;
 
 class function TCefv8ValueRef.NewPromise: ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_promise());
+  Result := UnWrap(cef_v8_value_create_promise());
 end;
 
 class function TCefv8ValueRef.NewInt(value: Integer): ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_int(value));
+  Result := UnWrap(cef_v8_value_create_int(value));
 end;
 
 class function TCefv8ValueRef.NewUInt(value: Cardinal): ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_uint(value));
+  Result := UnWrap(cef_v8_value_create_uint(value));
 end;
 
 class function TCefv8ValueRef.NewNull: ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_null());
+  Result := UnWrap(cef_v8_value_create_null());
 end;
 
 class function TCefv8ValueRef.NewObject(const Accessor: ICefV8Accessor; const Interceptor: ICefV8Interceptor): ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_object(CefGetData(Accessor), CefGetData(Interceptor)));
+  Result := UnWrap(cef_v8_value_create_object(CefGetData(Accessor), CefGetData(Interceptor)));
 end;
 
 class function TCefv8ValueRef.NewObjectProc(const getter        : TCefV8AccessorGetterProc;
@@ -279,12 +279,12 @@ var
   TempString : TCefString;
 begin
   TempString := CefString(str);
-  Result     := UnWrap(cef_v8value_create_string(@TempString));
+  Result     := UnWrap(cef_v8_value_create_string(@TempString));
 end;
 
 class function TCefv8ValueRef.NewUndefined: ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_undefined());
+  Result := UnWrap(cef_v8_value_create_undefined());
 end;
 
 function TCefv8ValueRef.DeleteValueByIndex(index: Integer): Boolean;

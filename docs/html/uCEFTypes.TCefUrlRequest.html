@@ -19,7 +19,9 @@
 <code>type TCefUrlRequest = record</code></p>
 <h2 class="description">Description</h2>
 <p>
- Structure used to make a URL request. URL requests are not associated with a browser instance so no ICefClient callbacks will be executed. URL requests can be created on any valid CEF thread in either the browser or render process. Once created the functions of the URL request object must be accessed on the same thread that created it. </p>
+ Structure used to make a URL request. URL requests are not associated with a browser instance so no ICefClient callbacks will be executed. URL requests can be created on any valid CEF thread in either the browser or render process. Once created the functions of the URL request object must be accessed on the same thread that created it.
+
+<p>NOTE: This struct is allocated DLL-side. </p>
 <p>
 
 

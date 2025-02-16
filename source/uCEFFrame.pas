@@ -131,7 +131,7 @@ end;
 
 function TCefFrameRef.GetV8Context: ICefv8Context;
 begin
-  Result := TCefv8ContextRef.UnWrap(PCefFrame(FData)^.get_v8context(PCefFrame(FData)));
+  Result := TCefv8ContextRef.UnWrap(PCefFrame(FData)^.get_v8_context(PCefFrame(FData)));
 end;
 
 function TCefFrameRef.IsFocused: Boolean;

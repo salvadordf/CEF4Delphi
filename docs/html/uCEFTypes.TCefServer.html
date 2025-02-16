@@ -19,7 +19,9 @@
 <code>type TCefServer = record</code></p>
 <h2 class="description">Description</h2>
 <p>
- Structure representing a server that supports HTTP and WebSocket requests. Server capacity is limited and is intended to handle only a small number of simultaneous connections (e.g. for communicating between applications on localhost). The functions of this structure are safe to call from any thread in the brower process unless otherwise indicated. </p>
+ Structure representing a server that supports HTTP and WebSocket requests. Server capacity is limited and is intended to handle only a small number of simultaneous connections (e.g. for communicating between applications on localhost). The functions of this structure are safe to call from any thread in the brower process unless otherwise indicated.
+
+<p>NOTE: This struct is allocated DLL-side. </p>
 <p>
 
 
@@ -59,15 +61,15 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#send_http200response">send_http200response</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const content_type: <a href="uCEFTypes.html#PCefString">PCefString</a>; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#send_http200_response">send_http200_response</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const content_type: <a href="uCEFTypes.html#PCefString">PCefString</a>; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#send_http404response">send_http404response</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#send_http404_response">send_http404_response</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#send_http500response">send_http500response</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const error_message: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefServer.html#send_http500_response">send_http500_response</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const error_message: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -147,7 +149,7 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="send_http200response"></span><code><strong>send_http200response</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const content_type: <a href="uCEFTypes.html#PCefString">PCefString</a>; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
+<td class="itemcode"><span id="send_http200_response"></span><code><strong>send_http200_response</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const content_type: <a href="uCEFTypes.html#PCefString">PCefString</a>; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -155,7 +157,7 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="send_http404response"></span><code><strong>send_http404response</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
+<td class="itemcode"><span id="send_http404_response"></span><code><strong>send_http404_response</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -163,7 +165,7 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="send_http500response"></span><code><strong>send_http500response</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const error_message: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
+<td class="itemcode"><span id="send_http500_response"></span><code><strong>send_http500_response</strong>: procedure(self: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const error_message: <a href="uCEFTypes.html#PCefString">PCefString</a>); stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>

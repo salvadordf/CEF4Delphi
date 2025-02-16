@@ -137,6 +137,7 @@ var
 begin
   Result := False;
 
+  TempInfo.size := SizeOf(TCefTaskInfo);
   CefStringInitialize(@TempInfo.title);
 
   if (PCefTaskManager(FData)^.get_task_info(PCefTaskManager(FData), task_id, @TempInfo) <> 0) then

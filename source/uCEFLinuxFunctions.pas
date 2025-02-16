@@ -575,6 +575,7 @@ var
   windows_key_code : integer;
 begin
   windows_key_code                     := GdkEventToWindowsKeyCode(GdkEvent);
+  aCEFKeyEvent.size	                   := SizeOf(TCEFKeyEvent);
   aCEFKeyEvent.windows_key_code        := GetWindowsKeyCodeWithoutLocation(windows_key_code);
   aCEFKeyEvent.native_key_code         := GdkEvent^.hardware_keycode;
   aCEFKeyEvent.modifiers               := GetCefStateModifiers(GdkEvent^.state);

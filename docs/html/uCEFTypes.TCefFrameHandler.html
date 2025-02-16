@@ -37,7 +37,9 @@
 
 <p>Callbacks will not be executed for placeholders that may be created during pre-commit navigation for sub-frames that do not yet exist in the renderer process. Placeholders will have ICefFrame.GetIdentifier() == -4.
 
-<p>The functions of this interface will be called on the UI thread unless otherwise indicated. </p>
+<p>The functions of this interface will be called on the UI thread unless otherwise indicated.
+
+<p>NOTE: This struct is allocated client-side. </p>
 <p>
 
 

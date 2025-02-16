@@ -1371,9 +1371,11 @@ type
       /// </summary>
       procedure ExitFullscreen(will_cause_resize: boolean);
       /// <summary>
-      /// Returns true (1) if a Chrome command is supported and enabled. Values for
-      /// |command_id| can be found in the cef_command_ids.h file. This function can
-      /// only be called on the UI thread. Only used with Chrome style.
+      /// Returns true (1) if a Chrome command is supported and enabled. Use the
+      /// cef_id_for_command_id_name() function for version-safe mapping of command
+      /// IDC names from cef_command_ids.h to version-specific numerical
+      /// |command_id| values. This function can only be called on the UI thread.
+      /// Only used with Chrome style.
       /// </summary>
       /// <remarks>
       /// <para><see cref="uCEFConstants">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</see></para>
@@ -1381,9 +1383,11 @@ type
       /// </remarks>
       function CanExecuteChromeCommand(command_id: integer): boolean;
       /// <summary>
-      /// Execute a Chrome command. Values for |command_id| can be found in the
-      /// cef_command_ids.h file. |disposition| provides information about the
-      /// intended command target. Only used with Chrome style.
+      /// Returns true (1) if a Chrome command is supported and enabled. Use the
+      /// cef_id_for_command_id_name() function for version-safe mapping of command
+      /// IDC names from cef_command_ids.h to version-specific numerical
+      /// |command_id| values. This function can only be called on the UI thread.
+      /// Only used with Chrome style.
       /// </summary>
       /// <remarks>
       /// <para><see cref="uCEFConstants">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</see></para>
@@ -3847,11 +3851,13 @@ type
       property OnMainFrameChanged                     : TOnMainFrameChanged               read FOnMainFrameChanged                     write FOnMainFrameChanged;
       /// <summary>
       /// Called to execute a Chrome command triggered via menu selection or
-      /// keyboard shortcut. Values for |command_id| can be found in the
-      /// cef_command_ids.h file. |disposition| provides information about the
-      /// intended command target. Return true (1) if the command was handled or
-      /// false (0) for the default implementation. For context menu commands this
-      /// will be called after ICefContextMenuHandler.OnContextMenuCommand.
+      /// keyboard shortcut. Use the cef_id_for_command_id_name() function for
+      /// version-safe mapping of command IDC names from cef_command_ids.h to
+      /// version-specific numerical |command_id| values. |disposition| provides
+      /// information about the intended command target. Return true (1) if the
+      /// command was handled or false (0) for the default implementation. For
+      /// context menu commands this will be called after
+      /// ICefContextMenuHandler.OnContextMenuCommand.
       /// </summary>
       /// <remarks>
       /// <para>Only used with Chrome style.</para>
@@ -3860,9 +3866,11 @@ type
       /// </remarks>
       property OnChromeCommand                        : TOnChromeCommandEvent                 read FOnChromeCommand                    write FOnChromeCommand;
       /// <summary>
-      /// Called to check if a Chrome app menu item should be visible. Values for
-      /// |command_id| can be found in the cef_command_ids.h file. Only called for
-      /// menu items that would be visible by default.
+      /// Called to check if a Chrome app menu item should be visible. Use the
+      /// cef_id_for_command_id_name() function for version-safe mapping of command
+      /// IDC names from cef_command_ids.h to version-specific numerical
+      /// |command_id| values. Only called for menu items that would be visible by
+      /// default.
       /// </summary>
       /// <remarks>
       /// <para>Only used with Chrome style.</para>
@@ -3871,9 +3879,11 @@ type
       /// </remarks>
       property OnIsChromeAppMenuItemVisible           : TOnIsChromeAppMenuItemVisibleEvent    read FOnIsChromeAppMenuItemVisible       write FOnIsChromeAppMenuItemVisible;
       /// <summary>
-      /// Called to check if a Chrome app menu item should be enabled. Values for
-      /// |command_id| can be found in the cef_command_ids.h file. Only called for
-      /// menu items that would be enabled by default.
+      /// Called to check if a Chrome app menu item should be enabled. Use the
+      /// cef_id_for_command_id_name() function for version-safe mapping of command
+      /// IDC names from cef_command_ids.h to version-specific numerical
+      /// |command_id| values. Only called for menu items that would be enabled by
+      /// default.
       /// </summary>
       /// <remarks>
       /// <para>Only used with Chrome style.</para>
@@ -5096,6 +5106,7 @@ var
 begin
   if Initialized and (FPDFPrintOptions <> nil) then
     begin
+      TempSettings.size := SizeOf(TCefPdfPrintSettings);
       FPDFPrintOptions.CopyToSettings(TempSettings);
       TempCallback := TCefCustomPDFPrintCallBack.Create(self);
       Browser.Host.PrintToPdf(aFilePath, @TempSettings, TempCallback);
@@ -9213,7 +9224,10 @@ begin
   Result := False;
 
   if assigned(FOnGetScreenInfo) then
-    FOnGetScreenInfo(Self, browser, screenInfo, Result);
+    begin
+      screenInfo.size := SizeOf(screenInfo);
+      FOnGetScreenInfo(Self, browser, screenInfo, Result);
+    end;
 end;
 
 function TChromiumCore.doOnGetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean;
@@ -9716,7 +9730,12 @@ end;
 procedure TChromiumCore.SendKeyEvent(const event: PCefKeyEvent);
 begin
   if Initialized then
-    Browser.Host.SendKeyEvent(event);
+    begin
+      if assigned(event) then
+        event^.size := SizeOf(TCefKeyEvent);
+
+      Browser.Host.SendKeyEvent(event);
+    end;
 end;
 
 procedure TChromiumCore.SendMouseClickEvent(const event      : PCefMouseEvent;

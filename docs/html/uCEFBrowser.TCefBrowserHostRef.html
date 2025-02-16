@@ -1026,7 +1026,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#CanExecuteChromeCommand-integer-">ICefBrowserHost.CanExecuteChromeCommand</a>.</p><p>
- Returns true (1) if a Chrome command is supported and enabled. Values for |command_id| can be found in the cef_command_ids.h file. This function can only be called on the UI thread. Only used with Chrome style. 
+ Returns true (1) if a Chrome command is supported and enabled. Use the cef_id_for_command_id_name() function for version-safe mapping of command IDC names from cef_command_ids.h to version-specific numerical |command_id| values. This function can only be called on the UI thread. Only used with Chrome style. 
 
 <p><a class="normal" href="uCEFConstants.html">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</a>
 
@@ -1040,7 +1040,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#ExecuteChromeCommand-integer-TCefWindowOpenDisposition-">ICefBrowserHost.ExecuteChromeCommand</a>.</p><p>
- Execute a Chrome command. Values for |command_id| can be found in the cef_command_ids.h file. |disposition| provides information about the intended command target. Only used with Chrome style. 
+ Returns true (1) if a Chrome command is supported and enabled. Use the cef_id_for_command_id_name() function for version-safe mapping of command IDC names from cef_command_ids.h to version-specific numerical |command_id| values. This function can only be called on the UI thread. Only used with Chrome style. 
 
 <p><a class="normal" href="uCEFConstants.html">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</a>
 

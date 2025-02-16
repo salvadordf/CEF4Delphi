@@ -87,12 +87,12 @@ var
   TempContentType : TCefString;
 begin
   TempContentType := CefString(content_type);
-  PCefServer(FData)^.send_http200response(PCefServer(FData), connection_id, @TempContentType, data, data_size);
+  PCefServer(FData)^.send_http200_response(PCefServer(FData), connection_id, @TempContentType, data, data_size);
 end;
 
 procedure TCEFServerRef.SendHttp404response(connection_id: Integer);
 begin
-  PCefServer(FData)^.send_http404response(PCefServer(FData), connection_id);
+  PCefServer(FData)^.send_http404_response(PCefServer(FData), connection_id);
 end;
 
 procedure TCEFServerRef.SendHttp500response(connection_id: Integer; const error_message: ustring);
@@ -100,7 +100,7 @@ var
   TempError : TCefString;
 begin
   TempError := CefString(error_message);
-  PCefServer(FData)^.send_http500response(PCefServer(FData), connection_id, @TempError);
+  PCefServer(FData)^.send_http500_response(PCefServer(FData), connection_id, @TempError);
 end;
 
 procedure TCEFServerRef.SendHttpResponse(connection_id, response_code: Integer; const content_type: ustring; content_length: int64; const extra_headers: ICefStringMultimap);

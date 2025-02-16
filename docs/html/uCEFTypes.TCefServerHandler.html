@@ -19,7 +19,9 @@
 <code>type TCefServerHandler = record</code></p>
 <h2 class="description">Description</h2>
 <p>
- Implement this structure to handle HTTP server requests. A new thread will be created for each ICefServer.CreateServer call (the &quot;dedicated server thread&quot;), and the functions of this structure will be called on that thread. It is therefore recommended to use a different ICefServerHandler instance for each ICefServer.CreateServer call to avoid thread safety issues in the ICefServerHandler implementation. </p>
+ Implement this structure to handle HTTP server requests. A new thread will be created for each ICefServer.CreateServer call (the &quot;dedicated server thread&quot;), and the functions of this structure will be called on that thread. It is therefore recommended to use a different ICefServerHandler instance for each ICefServer.CreateServer call to avoid thread safety issues in the ICefServerHandler implementation.
+
+<p>NOTE: This struct is allocated client-side. </p>
 <p>
 
 

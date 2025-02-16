@@ -118,7 +118,6 @@ type
   ICefValue = interface;
   ICefPrintSettings = interface;
   ICefMediaAccessCallback = interface;
-  ICefMediaAccessHandler = interface;
   ICefPermissionPromptCallback = interface;
   ICefPermissionHandler = interface;
   ICefSharedMemoryRegion = interface;
@@ -1354,9 +1353,11 @@ type
     /// </summary>
     procedure ExitFullscreen(will_cause_resize: boolean);
     /// <summary>
-    /// Returns true (1) if a Chrome command is supported and enabled. Values for
-    /// |command_id| can be found in the cef_command_ids.h file. This function can
-    /// only be called on the UI thread. Only used with Chrome style.
+    /// Returns true (1) if a Chrome command is supported and enabled. Use the
+    /// cef_id_for_command_id_name() function for version-safe mapping of command
+    /// IDC names from cef_command_ids.h to version-specific numerical
+    /// |command_id| values. This function can only be called on the UI thread.
+    /// Only used with Chrome style.
     /// </summary>
     /// <remarks>
     /// <para><see cref="uCEFConstants">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</see></para>
@@ -1364,9 +1365,11 @@ type
     /// </remarks>
     function CanExecuteChromeCommand(command_id: integer): boolean;
     /// <summary>
-    /// Execute a Chrome command. Values for |command_id| can be found in the
-    /// cef_command_ids.h file. |disposition| provides information about the
-    /// intended command target. Only used with Chrome style.
+    /// Returns true (1) if a Chrome command is supported and enabled. Use the
+    /// cef_id_for_command_id_name() function for version-safe mapping of command
+    /// IDC names from cef_command_ids.h to version-specific numerical
+    /// |command_id| values. This function can only be called on the UI thread.
+    /// Only used with Chrome style.
     /// </summary>
     /// <remarks>
     /// <para><see cref="uCEFConstants">See the IDC_* constants in uCEFConstants.pas for all the |command_id| values.</see></para>
@@ -2778,7 +2781,7 @@ type
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefV8Exception">Implements TCefV8Exception</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8exception_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_exception_t)</see></para>
   /// </remarks>
   ICefV8Exception = interface(ICefBaseRefCounted)
     ['{7E422CF0-05AC-4A60-A029-F45105DCE6A4}']
@@ -2865,7 +2868,7 @@ type
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefv8ArrayBufferReleaseCallback">Implements TCefv8ArrayBufferReleaseCallback</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8array_buffer_release_callback_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_array_buffer_release_callback_t)</see></para>
   /// </remarks>
   ICefv8ArrayBufferReleaseCallback = interface(ICefBaseRefCounted)
     ['{4EAAB422-D046-43DF-B1F0-5503116A5816}']
@@ -2886,7 +2889,7 @@ type
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefV8Context">Implements TCefV8Context</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8context_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_context_t)</see></para>
   /// </remarks>
   ICefv8Context = interface(ICefBaseRefCounted)
     ['{2295A11A-8773-41F2-AD42-308C215062D9}']
@@ -2968,7 +2971,7 @@ type
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefv8Handler">Implements TCefv8Handler</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8handler_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_handler_t)</see></para>
   /// </remarks>
   ICefv8Handler = interface(ICefBaseRefCounted)
     ['{F94CDC60-FDCB-422D-96D5-D2A775BD5D73}']
@@ -2992,7 +2995,7 @@ type
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefV8Interceptor">Implements TCefV8Interceptor</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8interceptor_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_interceptor_t)</see></para>
   /// </remarks>
   ICefV8Interceptor = interface(ICefBaseRefCounted)
     ['{B3B8FD7C-A916-4B25-93A2-2892AC324F21}']
@@ -3042,7 +3045,7 @@ type
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefV8Accessor">Implements TCefV8Accessor</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8accessor_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_accessor_t)</see></para>
   /// </remarks>
   ICefV8Accessor = interface(ICefBaseRefCounted)
     ['{DCA6D4A2-726A-4E24-AA64-5E8C731D868A}']
@@ -3269,7 +3272,7 @@ type
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefv8Value">Implements TCefv8Value</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8value_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_value_t)</see></para>
   /// </remarks>
   ICefv8Value = interface(ICefBaseRefCounted)
     ['{52319B8D-75A8-422C-BD4B-16FA08CC7F42}']
@@ -3440,7 +3443,7 @@ type
     /// <summary>
     /// Registers an identifier and returns true (1) on success. Access to the
     /// identifier will be forwarded to the ICefV8Accessor instance passed to
-    /// cef_v8value_create_object(). Returns false (0) if this
+    /// cef_v8_value_create_object(). Returns false (0) if this
     /// function is called incorrectly or an exception is thrown. For read-only
     /// values this function will return true (1) even though assignment failed.
     /// </summary>
@@ -3561,7 +3564,7 @@ type
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefV8StackFrame">Implements TCefV8StackFrame</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8stack_frame_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_stack_frame_t)</see></para>
   /// </remarks>
   ICefV8StackFrame = interface(ICefBaseRefCounted)
     ['{BA1FFBF4-E9F2-4842-A827-DC220F324286}']
@@ -3636,7 +3639,7 @@ type
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefV8StackTrace">Implements TCefV8StackTrace</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8stack_trace_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_stack_trace_t)</see></para>
   /// </remarks>
   ICefV8StackTrace = interface(ICefBaseRefCounted)
     ['{32111C84-B7F7-4E3A-92B9-7CA1D0ADB613}']
@@ -4663,8 +4666,10 @@ type
     /// <summary>
     /// Called to retrieve a localized translation for the specified |string_id|.
     /// To provide the translation set |string| to the translation string and
-    /// return true (1). To use the default translation return false (0). Include
-    /// cef_pack_strings.h for a listing of valid string ID values.
+    /// return true (1). To use the default translation return false (0). Use the
+    /// cef_id_for_pack_string_name() function for version-safe mapping of string
+    /// IDS names from cef_pack_strings.h to version-specific numerical
+    /// |string_id| values.
     /// </summary>
     function GetLocalizedString(stringId: Integer; var stringVal: ustring): Boolean;
     /// <summary>
@@ -4672,8 +4677,9 @@ type
     /// To provide the resource data set |data| and |data_size| to the data
     /// pointer and size respectively and return true (1). To use the default
     /// resource data return false (0). The resource data will not be copied and
-    /// must remain resident in memory. Include cef_pack_resources.h for a listing
-    /// of valid resource ID values.
+    /// must remain resident in memory. Use the cef_id_for_pack_resource_name()
+    /// function for version-safe mapping of resource IDR names from
+    /// cef_pack_resources.h to version-specific numerical |resource_id| values.
     /// </summary>
     function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean;
     /// <summary>
@@ -4681,8 +4687,10 @@ type
     /// factor |scale_factor|. To provide the resource data set |data| and
     /// |data_size| to the data pointer and size respectively and return true (1).
     /// To use the default resource data return false (0). The resource data will
-    /// not be copied and must remain resident in memory. Include
-    /// cef_pack_resources.h for a listing of valid resource ID values.
+    /// not be copied and must remain resident in memory. Use the
+    /// cef_id_for_pack_resource_name() function for version-safe mapping of
+    /// resource IDR names from cef_pack_resources.h to version-specific numerical
+    /// |resource_id| values.
     /// </summary>
     function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean;
     /// <summary>
@@ -6459,24 +6467,30 @@ type
     ['{7C931B93-53DC-4607-AABB-2CB4AEF7FB96}']
     /// <summary>
     /// Called to execute a Chrome command triggered via menu selection or
-    /// keyboard shortcut. Values for |command_id| can be found in the
-    /// cef_command_ids.h file. |disposition| provides information about the
-    /// intended command target. Return true (1) if the command was handled or
-    /// false (0) for the default implementation. For context menu commands this
-    /// will be called after ICefContextMenuHandler.OnContextMenuCommand.
-    /// Only used with Chrome style.
+    /// keyboard shortcut. Use the cef_id_for_command_id_name() function for
+    /// version-safe mapping of command IDC names from cef_command_ids.h to
+    /// version-specific numerical |command_id| values. |disposition| provides
+    /// information about the intended command target. Return true (1) if the
+    /// command was handled or false (0) for the default implementation. For
+    /// context menu commands this will be called after
+    /// ICefContextMenuHandler.OnContextMenuCommand. Only used with Chrome
+    /// style.
     /// </summary>
     function  OnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
     /// <summary>
-    /// Called to check if a Chrome app menu item should be visible. Values for
-    /// |command_id| can be found in the cef_command_ids.h file. Only called for
-    /// menu items that would be visible by default. Only used with Chrome style.
+    /// Called to check if a Chrome app menu item should be visible. Use the
+    /// cef_id_for_command_id_name() function for version-safe mapping of command
+    /// IDC names from cef_command_ids.h to version-specific numerical
+    /// |command_id| values. Only called for menu items that would be visible by
+    /// default. Only used with Chrome style.
     /// </summary>
     function  OnIsChromeAppMenuItemVisible(const browser: ICefBrowser; command_id: integer): boolean;
     /// <summary>
-    /// Called to check if a Chrome app menu item should be enabled. Values for
-    /// |command_id| can be found in the cef_command_ids.h file. Only called for
-    /// menu items that would be enabled by default. Only used with Chrome style.
+    /// Called to check if a Chrome app menu item should be enabled. Use the
+    /// cef_id_for_command_id_name() function for version-safe mapping of command
+    /// IDC names from cef_command_ids.h to version-specific numerical
+    /// |command_id| values. Only called for menu items that would be enabled by
+    /// default. Only used with Chrome style.
     /// </summary>
     function  OnIsChromeAppMenuItemEnabled(const browser: ICefBrowser; command_id: integer): boolean;
     /// <summary>
@@ -8007,7 +8021,6 @@ type
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefPreferenceManager">Implements TCefPreferenceManager</see></para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">CEF source file: /include/capi/cef_preference_capi.h (cef_preference_manager_t)</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_manager_capi.h">CEF source file: /include/capi/cef_preference_manager_capi.h (cef_preference_manager_t)</see></para>
   /// </remarks>
   ICefPreferenceManager = interface(ICefBaseRefCounted)
     ['{E8231D35-D028-4E64-BFDB-7E4596027DEC}']
@@ -8581,7 +8594,7 @@ type
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefX509CertPrincipal">Implements TCefX509CertPrincipal</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h">CEF source file: /include/capi/cef_x509_certificate_capi.h (cef_x509cert_principal_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h">CEF source file: /include/capi/cef_x509_certificate_capi.h (cef_x509_cert_principal_t)</see></para>
   /// </remarks>
   ICefX509CertPrincipal = interface(ICefBaseRefCounted)
     ['{CD3621ED-7D68-4A1F-95B5-190C7001B65F}']
@@ -8622,7 +8635,7 @@ type
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefX509Certificate">Implements TCefX509Certificate</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h">CEF source file: /include/capi/cef_x509_certificate_capi.h (cef_x509certificate_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h">CEF source file: /include/capi/cef_x509_certificate_capi.h (cef_x509_certificate_t)</see></para>
   /// </remarks>
   ICefX509Certificate = interface(ICefBaseRefCounted)
     ['{C897979D-F068-4428-82DF-4221612FF7E0}']
@@ -8771,22 +8784,27 @@ type
     ['{3213CF97-C854-452B-B615-39192F8D07DC}']
     /// <summary>
     /// Returns the localized string for the specified |string_id| or an NULL
-    /// string if the value is not found. Include cef_pack_strings.h for a listing
-    /// of valid string ID values.
+    /// string if the value is not found. Use the cef_id_for_pack_string_name()
+    /// function for version-safe mapping of string IDS names from
+    /// cef_pack_strings.h to version-specific numerical |string_id| values.
     /// </summary>
     function GetLocalizedString(stringId: Integer): ustring;
     /// <summary>
-    /// Returns a ICefBinaryValue containing the decompressed contents of the
-    /// specified scale independent |resource_id| or NULL if not found. Include
-    /// cef_pack_resources.h for a listing of valid resource ID values.
+    /// Returns a cef_binary_value_t containing the decompressed contents of the
+    /// specified scale independent |resource_id| or NULL if not found. Use the
+    /// cef_id_for_pack_resource_name() function for version-safe mapping of
+    /// resource IDR names from cef_pack_resources.h to version-specific numerical
+    /// |resource_id| values.
     /// </summary>
     function GetDataResource(resourceId: Integer): ICefBinaryValue;
     /// <summary>
-    /// Returns a ICefBinaryValue containing the decompressed contents of the
+    /// Returns a cef_binary_value_t containing the decompressed contents of the
     /// specified |resource_id| nearest the scale factor |scale_factor| or NULL if
     /// not found. Use a |scale_factor| value of SCALE_FACTOR_NONE for scale
-    /// independent resources or call GetDataResource instead.Include
-    /// cef_pack_resources.h for a listing of valid resource ID values.
+    /// independent resources or call GetDataResource instead. Use the
+    /// cef_id_for_pack_resource_name() function for version-safe mapping of
+    /// resource IDR names from cef_pack_resources.h to version-specific numerical
+    /// |resource_id| values.
     /// </summary>
     function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor): ICefBinaryValue;
   end;
@@ -9156,24 +9174,6 @@ type
     /// Cancel the media access request.
     /// </summary>
     procedure cancel;
-  end;
-
-  /// <summary>
-  /// Implement this interface to handle events related to media access permission
-  /// requests. The functions of this interface will be called on the browser
-  /// process UI thread.
-  /// </summary>
-  /// <remarks>
-  /// <para><see cref="uCEFTypes|TCefMediaAccessHandler">Implements TCefMediaAccessHandler</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_access_handler_capi.h">CEF source file: /include/capi/cef_media_access_handler_capi.h (cef_media_access_handler_t)</see></para>
-  /// </remarks>
-  ICefMediaAccessHandler = interface(ICefBaseRefCounted)
-    ['{8ED04C4A-05F2-46FD-89C4-E6114000D219}']
-    function OnRequestMediaAccessPermission(const browser: ICefBrowser; const frame: ICefFrame; const requesting_url: ustring; requested_permissions: TCefMediaAccessPermissionTypes; const callback: ICefMediaAccessCallback): boolean;
-    /// <summary>
-    /// Custom procedure to clear all references.
-    /// </summary>
-    procedure RemoveReferences;
   end;
 
   /// <summary>

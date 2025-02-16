@@ -19,15 +19,13 @@
 <code>type TCefMediaAccessCallback = record</code></p>
 <h2 class="description">Description</h2>
 <p>
- Callback structure used for asynchronous continuation of media access permission requests. </p>
+ Callback structure used for asynchronous continuation of media access permission requests.
+
+<p>NOTE: This struct is allocated DLL-side. </p>
 <p>
 
 
 <p>Implemented by ICefMediaAccessCallback.
-
-<p>This record is declared twice with almost identical parameters. &quot;allowed_permissions&quot; is defined as int and uint32.
-
-<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_access_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_access_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_media_access_handler_capi.h (cef_media_access_callback_t))
 
 <p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_permission_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_permission_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_permission_handler_capi.h (cef_media_access_callback_t))</p>
 <h2 class="overview">Overview</h2>
@@ -39,7 +37,7 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMediaAccessCallback.html#cont">cont</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefMediaAccessCallback">PCefMediaAccessCallback</a>; allowed_permissions: integer); stdcall;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMediaAccessCallback.html#cont">cont</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefMediaAccessCallback">PCefMediaAccessCallback</a>; allowed_permissions: Cardinal); stdcall;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -59,7 +57,7 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="cont"></span><code><strong>cont</strong>: procedure(self: <a href="uCEFTypes.html#PCefMediaAccessCallback">PCefMediaAccessCallback</a>; allowed_permissions: integer); stdcall;</code></td>
+<td class="itemcode"><span id="cont"></span><code><strong>cont</strong>: procedure(self: <a href="uCEFTypes.html#PCefMediaAccessCallback">PCefMediaAccessCallback</a>; allowed_permissions: Cardinal); stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>

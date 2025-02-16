@@ -443,7 +443,7 @@ end;
 class function TCefRequestContextRef.Shared(const other   : ICefRequestContext;
                                             const handler : ICefRequestContextHandler): ICefRequestContext;
 begin
-  Result := UnWrap(cef_create_context_shared(CefGetData(other), CefGetData(handler)));
+  Result := UnWrap(cef_request_context_cef_create_context_shared(CefGetData(other), CefGetData(handler)));
 end;
 
 class function TCefRequestContextRef.UnWrap(data: Pointer): ICefRequestContext;

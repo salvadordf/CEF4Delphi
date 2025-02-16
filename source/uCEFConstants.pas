@@ -2161,8 +2161,6 @@ const
   IDC_VISIT_DESKTOP_OF_LRU_USER_3 = 34081;
   IDC_VISIT_DESKTOP_OF_LRU_USER_4 = 34082;
   IDC_VISIT_DESKTOP_OF_LRU_USER_5 = 34083;
-  IDC_VISIT_DESKTOP_OF_LRU_USER_NEXT = IDC_VISIT_DESKTOP_OF_LRU_USER_2;
-  IDC_VISIT_DESKTOP_OF_LRU_USER_LAST = IDC_VISIT_DESKTOP_OF_LRU_USER_5;
   IDC_BOOKMARK_THIS_TAB = 35000;
   IDC_BOOKMARK_ALL_TABS = 35001;
   IDC_VIEW_SOURCE = 35002;
@@ -2189,11 +2187,9 @@ const
   IDC_WEBAUTHN = 35027;
   IDC_SHARING_HUB = 35028;
   IDC_SHARING_HUB_MENU = 35029;
-  IDC_VIRTUAL_CARD_MANUAL_FALLBACK = 35030;
+  IDC_FILLED_CARD_INFORMATION = 35030;
   IDC_SHARING_HUB_SCREENSHOT = 35031;
   IDC_VIRTUAL_CARD_ENROLL = 35032;
-  IDC_FOLLOW = 35033;
-  IDC_UNFOLLOW = 35034;
   IDC_SAVE_IBAN_FOR_PAGE = 35035;
   IDC_AUTOFILL_MANDATORY_REAUTH = 35036;
   IDC_PROFILE_MENU_IN_APP_MENU = 35039;
@@ -2202,6 +2198,8 @@ const
   IDC_SHOW_PAYMENT_METHODS = 35042;
   IDC_SHOW_ADDRESSES = 35043;
   IDC_ORGANIZE_TABS = 35044;
+  IDC_CREATE_NEW_TAB_GROUP = 35045;
+  IDC_DECLUTTER_TABS = 35046;
   IDC_MUTE_TARGET_SITE = 35050;
   IDC_PIN_TARGET_TAB = 35051;
   IDC_GROUP_TARGET_TAB = 35052;
@@ -2266,6 +2264,7 @@ const
   IDC_SHOW_HISTORY_CLUSTERS_SIDE_PANEL = 40025;
   IDC_PROFILING_ENABLED = 40028;
   IDC_BOOKMARKS_MENU = 40029;
+  IDC_SAVED_TAB_GROUPS_MENU = 40030;
   IDC_EXTENSION_ERRORS = 40031;
   IDC_SHOW_SETTINGS_CHANGE_FIRST = 40033;
   IDC_SHOW_SETTINGS_CHANGE_LAST = 40133;
@@ -2296,7 +2295,6 @@ const
   IDC_CARET_BROWSING_TOGGLE = 40260;
   IDC_CHROME_TIPS = 40263;
   IDC_CHROME_WHATS_NEW = 40264;
-  IDC_LACROS_DATA_MIGRATION = 40265;
   IDC_PERFORMANCE = 40266;
   IDC_EXTENSIONS_SUBMENU = 40267;
   IDC_EXTENSIONS_SUBMENU_MANAGE_EXTENSIONS = 40268;
@@ -2306,18 +2304,26 @@ const
   IDC_READING_LIST_MENU_SHOW_UI = 40272;
   IDC_SHOW_READING_MODE_SIDE_PANEL = 40273;
   IDC_SHOW_BOOKMARK_SIDE_PANEL = 40274;
-  IDC_SHOW_SEARCH_COMPANION = 40275;
   IDC_SHOW_CHROME_LABS = 40276;
   IDC_RECENT_TABS_LOGIN_FOR_DEVICE_TABS = 40277;
   IDC_OPEN_RECENT_TAB = 40278;
   IDC_OPEN_SAFETY_HUB = 40279;
-  IDC_SHOW_PASSWORD_CHECKUP = 40280;
+  IDC_SAFETY_HUB_SHOW_PASSWORD_CHECKUP = 40280;
+  IDC_SAFETY_HUB_MANAGE_EXTENSIONS = 40281;
+  IDC_SHOW_GOOGLE_LENS_SHORTCUT = 40282;
+  IDC_SHOW_CUSTOMIZE_CHROME_SIDE_PANEL = 40283;
+  IDC_SHOW_CUSTOMIZE_CHROME_TOOLBAR = 40284;
+  IDC_TASK_MANAGER_APP_MENU = 40285;
+  IDC_TASK_MANAGER_SHORTCUT = 40286;
+  IDC_TASK_MANAGER_CONTEXT_MENU = 40287;
+  IDC_TASK_MANAGER_MAIN_MENU = 40288;
+  IDC_COMPARE_MENU = 40289;
+  IDC_SHOW_ALL_COMPARISON_TABLES = 40290;
   IDC_SPELLCHECK_SUGGESTION_0 = 41000;
   IDC_SPELLCHECK_SUGGESTION_1 = 41001;
   IDC_SPELLCHECK_SUGGESTION_2 = 41002;
   IDC_SPELLCHECK_SUGGESTION_3 = 41003;
   IDC_SPELLCHECK_SUGGESTION_4 = 41004;
-  IDC_SPELLCHECK_SUGGESTION_LAST = IDC_SPELLCHECK_SUGGESTION_4;
   IDC_SPELLCHECK_MENU = 41005;
   IDC_SPELLCHECK_LANGUAGES_FIRST = 41006;
   IDC_SPELLCHECK_LANGUAGES_LAST = 41106;
@@ -2362,8 +2368,6 @@ const
   IDC_CONTENT_CONTEXT_OPEN_ORIGINAL_IMAGE_NEW_TAB = 50125;
   IDC_CONTENT_CONTEXT_LOAD_IMAGE = 50126;
   IDC_CONTENT_CONTEXT_SEARCHLENSFORIMAGE = 50127;
-  IDC_CONTENT_CONTEXT_TRANSLATEIMAGEWITHWEB = 50128;
-  IDC_CONTENT_CONTEXT_TRANSLATEIMAGEWITHLENS = 50129;
   IDC_CONTENT_CONTEXT_SAVEVIDEOFRAMEAS = 50130;
   IDC_CONTENT_CONTEXT_SAVEAVAS = 50131;
   IDC_CONTENT_CONTEXT_COPYAVLOCATION = 50132;
@@ -2413,6 +2417,8 @@ const
   IDC_CONTENT_CONTEXT_GOTOURL = 50190;
   IDC_CONTENT_CONTEXT_SEARCHWEBFOR = 50191;
   IDC_CONTENT_CONTEXT_SEARCHWEBFORNEWTAB = 50192;
+  IDC_CONTENT_CONTEXT_LENS_OVERLAY = 50193;
+  IDC_CONTENT_CONTEXT_USE_PASSKEY_FROM_ANOTHER_DEVICE = 50194;
   IDC_CONTENT_CONTEXT_OPEN_WITH1 = 50200;
   IDC_CONTENT_CONTEXT_OPEN_WITH2 = 50201;
   IDC_CONTENT_CONTEXT_OPEN_WITH3 = 50202;
@@ -2427,7 +2433,6 @@ const
   IDC_CONTENT_CONTEXT_OPEN_WITH12 = 50211;
   IDC_CONTENT_CONTEXT_OPEN_WITH13 = 50212;
   IDC_CONTENT_CONTEXT_OPEN_WITH14 = 50213;
-  IDC_CONTENT_CONTEXT_OPEN_WITH_LAST = IDC_CONTENT_CONTEXT_OPEN_WITH14;
   IDC_CONTENT_CONTEXT_EMOJI = 50220;
   IDC_CONTEXT_COMPOSE = 50230;
   IDC_BOOKMARK_BAR_OPEN_ALL = 51000;
@@ -2451,13 +2456,13 @@ const
   IDC_BOOKMARK_BAR_UNTRACK_PRICE_FOR_SHOPPING_BOOKMARK = 51018;
   IDC_BOOKMARK_BAR_ADD_TO_BOOKMARKS_BAR = 51019;
   IDC_BOOKMARK_BAR_REMOVE_FROM_BOOKMARKS_BAR = 51020;
+  IDC_BOOKMARK_BAR_TOGGLE_SHOW_TAB_GROUPS = 51021;
   IDC_CONTENT_CONTEXT_SHARING_CLICK_TO_CALL_SINGLE_DEVICE = 51030;
   IDC_CONTENT_CONTEXT_SHARING_CLICK_TO_CALL_MULTIPLE_DEVICES = 51031;
   IDC_CONTENT_CONTEXT_SHARING_SHARED_CLIPBOARD_SINGLE_DEVICE = 51032;
   IDC_CONTENT_CONTEXT_SHARING_SHARED_CLIPBOARD_MULTIPLE_DEVICES = 51033;
   IDC_CONTENT_CONTEXT_GENERATE_QR_CODE = 51034;
   IDC_CONTENT_CONTEXT_SHARING_SUBMENU = 51035;
-  IDC_CONTENT_CLIPBOARD_HISTORY_MENU = 51036;
   IDC_CONTENT_PASTE_FROM_CLIPBOARD = 51037;
   IDC_STATUS_TRAY_KEEP_CHROME_RUNNING_IN_BACKGROUND = 51100;
   IDC_MEDIA_ROUTER_ABOUT = 51200;
@@ -2484,27 +2489,32 @@ const
   IDC_CONTENT_CONTEXT_START_SMART_SELECTION_ACTION3 = 52402;
   IDC_CONTENT_CONTEXT_START_SMART_SELECTION_ACTION4 = 52403;
   IDC_CONTENT_CONTEXT_START_SMART_SELECTION_ACTION5 = 52404;
-  IDC_CONTENT_CONTEXT_START_SMART_SELECTION_ACTION_LAST = IDC_CONTENT_CONTEXT_START_SMART_SELECTION_ACTION5;
   IDC_CONTENT_CONTEXT_ACCESSIBILITY_LABELS_TOGGLE = 52410;
   IDC_CONTENT_CONTEXT_ACCESSIBILITY_LABELS = 52411;
   IDC_CONTENT_CONTEXT_ACCESSIBILITY_LABELS_TOGGLE_ONCE = 52412;
   IDC_CONTENT_CONTEXT_QUICK_ANSWERS_INLINE_ANSWER = 52413;
   IDC_CONTENT_CONTEXT_QUICK_ANSWERS_INLINE_QUERY = 52414;
-  IDC_CONTENT_CONTEXT_RUN_LAYOUT_EXTRACTION = 52420;
-  IDC_CONTENT_CONTEXT_PDF_OCR = 52421;
   IDC_TAB_SEARCH = 52500;
   IDC_TAB_SEARCH_CLOSE = 52501;
   IDC_DEBUG_TOGGLE_TABLET_MODE = 52510;
   IDC_DEBUG_PRINT_VIEW_TREE = 52511;
   IDC_DEBUG_PRINT_VIEW_TREE_DETAILS = 52512;
   IDC_CONTENT_CONTEXT_AUTOFILL_FEEDBACK = 52990;
+  IDC_CONTENT_CONTEXT_AUTOFILL_PREDICTION_IMPROVEMENTS = 52993;
   IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_PLUS_ADDRESS = 52994;
-  IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_ADDRESS = 52995;
-  IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_PAYMENTS = 52996;
+  IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_PASSWORDS_SELECT_PASSWORD = 52998;
+  IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_PASSWORDS_IMPORT_PASSWORDS = 52999;
+  IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_PASSWORDS_SUGGEST_PASSWORD = 53000;
+  IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_PASSWORDS_USE_PASSKEY_FROM_ANOTHER_DEVICE = 53002;
   IDC_LIVE_CAPTION = 53251;
   IDC_DEVICE_SYSTEM_TRAY_ICON_FIRST = 53260;
   IDC_DEVICE_SYSTEM_TRAY_ICON_LAST = 53299;
-  IDC_FIRST_UNBOUNDED_MENU = COMMAND_ID_FIRST_UNBOUNDED;
+  IDC_SET_BROWSER_AS_DEFAULT = 53300;
+  IDC_COMPACT_MODE = 53301;
+  IDC_GLIC_STATUS_ICON_MENU_SHOW = 53310;
+  IDC_GLIC_STATUS_ICON_MENU_CUSTOMIZE_KEYBOARD_SHORTCUT = 53311;
+  IDC_GLIC_STATUS_ICON_MENU_SETTINGS = 53312;
+
 
   /// <summary>
   /// Supported certificate status code values. See net\cert\cert_status_flags.h
@@ -2686,6 +2696,14 @@ const
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_transition_type_t)</see></para>
   /// </remarks>
   TT_KEYWORD_GENERATED    = 10;
+  /// <summary>
+  /// Number of TCefTransitionType values.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefTransitionType value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_transition_type_t)</see></para>
+  /// </remarks>
+  TT_NUM_VALUES           = TT_KEYWORD_GENERATED + 1;
   /// <summary>
   /// General mask defining the bits used for the source values.
   /// </summary>
@@ -3124,7 +3142,7 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_NONE                 = 0;
+  EVENTFLAG_NONE                      = 0;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3132,7 +3150,7 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_CAPS_LOCK_ON         = 1 shl 0;
+  EVENTFLAG_CAPS_LOCK_ON              = 1 shl 0;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3140,7 +3158,7 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_SHIFT_DOWN           = 1 shl 1;
+  EVENTFLAG_SHIFT_DOWN                = 1 shl 1;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3148,7 +3166,7 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_CONTROL_DOWN         = 1 shl 2;
+  EVENTFLAG_CONTROL_DOWN              = 1 shl 2;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3156,7 +3174,7 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_ALT_DOWN             = 1 shl 3;
+  EVENTFLAG_ALT_DOWN                  = 1 shl 3;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3164,7 +3182,7 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_LEFT_MOUSE_BUTTON    = 1 shl 4;
+  EVENTFLAG_LEFT_MOUSE_BUTTON         = 1 shl 4;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3172,7 +3190,7 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_MIDDLE_MOUSE_BUTTON  = 1 shl 5;
+  EVENTFLAG_MIDDLE_MOUSE_BUTTON       = 1 shl 5;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3180,7 +3198,15 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_RIGHT_MOUSE_BUTTON   = 1 shl 6;
+  EVENTFLAG_RIGHT_MOUSE_BUTTON        = 1 shl 6;
+  /// <summary>
+  /// Supported event bit flag. Mac OS-X command key.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefEventFlags value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// </remarks>
+  EVENTFLAG_COMMAND_DOWN              = 1 shl 7;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3188,7 +3214,7 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_COMMAND_DOWN         = 1 shl 7;
+  EVENTFLAG_NUM_LOCK_ON               = 1 shl 8;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3196,7 +3222,7 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_NUM_LOCK_ON          = 1 shl 8;
+  EVENTFLAG_IS_KEY_PAD                = 1 shl 9;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3204,7 +3230,7 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_IS_KEY_PAD           = 1 shl 9;
+  EVENTFLAG_IS_LEFT                   = 1 shl 10;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3212,7 +3238,7 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_IS_LEFT              = 1 shl 10;
+  EVENTFLAG_IS_RIGHT                  = 1 shl 11;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3220,7 +3246,7 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_IS_RIGHT             = 1 shl 11;
+  EVENTFLAG_ALTGR_DOWN                = 1 shl 12;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3228,7 +3254,7 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_ALTGR_DOWN           = 1 shl 12;
+  EVENTFLAG_IS_REPEAT                 = 1 shl 13;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
@@ -3236,7 +3262,15 @@ const
   /// <para>TCefEventFlags value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_IS_REPEAT            = 1 shl 13;
+  EVENTFLAG_PRECISION_SCROLLING_DELTA = 1 shl 14;
+  /// <summary>
+  /// Supported event bit flag.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefEventFlags value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// </remarks>
+  EVENTFLAG_SCROLL_BY_PAGE            = 1 shl 15;
 
   /// <summary>
   /// "Verb" of a drag-and-drop operation as negotiated between the source and destination.
@@ -3336,6 +3370,14 @@ const
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_file_dialog_mode_t)</see></para>
   /// </remarks>
   FILE_DIALOG_SAVE                 = $00000003;
+  /// <summary>
+  /// Number of TCefFileDialogMode values
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefFileDialogMode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_file_dialog_mode_t)</see></para>
+  /// </remarks>
+  FILE_DIALOG_NUM_VALUES           = FILE_DIALOG_SAVE + 1;
 
   /// <summary>
   /// Don't unescape anything at all.
@@ -3575,14 +3617,15 @@ const
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_ssl_version_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:net/ssl/ssl_connection_status_flags.h">See net/ssl/ssl_connection_status_flags.h for more information.</see></para>
   /// </remarks>
-  SSL_CONNECTION_VERSION_UNKNOWN = 0;
-  SSL_CONNECTION_VERSION_SSL2    = 1;
-  SSL_CONNECTION_VERSION_SSL3    = 2;
-  SSL_CONNECTION_VERSION_TLS1    = 3;
-  SSL_CONNECTION_VERSION_TLS1_1  = 4;
-  SSL_CONNECTION_VERSION_TLS1_2  = 5;
-  SSL_CONNECTION_VERSION_TLS1_3  = 6;
-  SSL_CONNECTION_VERSION_QUIC    = 7;
+  SSL_CONNECTION_VERSION_UNKNOWN    = 0;
+  SSL_CONNECTION_VERSION_SSL2       = 1;
+  SSL_CONNECTION_VERSION_SSL3       = 2;
+  SSL_CONNECTION_VERSION_TLS1       = 3;
+  SSL_CONNECTION_VERSION_TLS1_1     = 4;
+  SSL_CONNECTION_VERSION_TLS1_2     = 5;
+  SSL_CONNECTION_VERSION_TLS1_3     = 6;
+  SSL_CONNECTION_VERSION_QUIC       = 7;
+  SSL_CONNECTION_VERSION_NUM_VALUES = SSL_CONNECTION_VERSION_QUIC + 1;
 
   /// <summary>
   /// Supported SSL content status flags. See content/public/common/ssl_status.h
@@ -3713,6 +3756,7 @@ const
   DUPLEX_MODE_SIMPLEX    = 0;
   DUPLEX_MODE_LONG_EDGE  = 1;
   DUPLEX_MODE_SHORT_EDGE = 2;
+  DUPLEX_MODE_NUM_VALUES = DUPLEX_MODE_SHORT_EDGE + 1;
 
   /// <summary>
   /// Result codes for ICefMediaRouter.CreateRoute. Should be kept in sync with
@@ -3722,16 +3766,37 @@ const
   /// <para>TCefMediaRouterCreateResult values.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_media_route_create_result_t)</see></para>
   /// </remarks>
-  CEF_MRCR_UNKNOWN_ERROR            = 0;
-  CEF_MRCR_OK                       = 1;
-  CEF_MRCR_TIMED_OUT                = 2;
-  CEF_MRCR_ROUTE_NOT_FOUND          = 3;
-  CEF_MRCR_SINK_NOT_FOUND           = 4;
-  CEF_MRCR_INVALID_ORIGIN           = 5;
-  CEF_MRCR_NO_SUPPORTED_PROVIDER    = 7;
-  CEF_MRCR_CANCELLED                = 8;
-  CEF_MRCR_ROUTE_ALREADY_EXISTS     = 9;
-  CEF_MRCR_ROUTE_ALREADY_TERMINATED = 11;
+  CEF_MRCR_UNKNOWN_ERROR                      = 0;
+  CEF_MRCR_OK                                 = 1;
+  CEF_MRCR_TIMED_OUT                          = 2;
+  CEF_MRCR_ROUTE_NOT_FOUND                    = 3;
+  CEF_MRCR_SINK_NOT_FOUND                     = 4;
+  CEF_MRCR_INVALID_ORIGIN                     = 5;
+  CEF_MRCR_OFF_THE_RECORD_MISMATCH_DEPRECATED = 6;
+  CEF_MRCR_NO_SUPPORTED_PROVIDER              = 7;
+  CEF_MRCR_CANCELLED                          = 8;
+  CEF_MRCR_ROUTE_ALREADY_EXISTS               = 9;
+  CEF_MRCR_DESKTOP_PICKER_FAILED              = 10;
+  CEF_MRCR_ROUTE_ALREADY_TERMINATED           = 11;
+  CEF_MRCR_REDUNDANT_REQUEST                  = 12;
+  CEF_MRCR_USER_NOT_ALLOWED                   = 13;
+  CEF_MRCR_NOTIFICATION_DISABLED              = 14;
+  CEF_MRCR_NUM_VALUES                         = CEF_MRCR_NOTIFICATION_DISABLED + 1;
+
+  /// <summary>
+  /// Connection state for a MediaRoute object. Should be kept in sync with
+  /// Chromium's blink::mojom::PresentationConnectionState type.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefMediaRouteConnectionState values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_media_route_connection_state_t)</see></para>
+  /// </remarks>
+  CEF_MRCS_UNKNOWN       = -1;
+  CEF_MRCS_CONNECTING    = 0;
+  CEF_MRCS_CONNECTED     = 1;
+  CEF_MRCS_CLOSED        = 2;
+  CEF_MRCS_TERMINATED    = 3;
+  CEF_MRCS_NUM_VALUES    = CEF_MRCS_TERMINATED + 1;
 
   /// <summary>
   /// Cookie priority values.
@@ -3745,18 +3810,22 @@ const
   CEF_COOKIE_PRIORITY_HIGH   = 1;
 
   /// <summary>
-  /// Represents commands available to TextField.
+  /// Represents commands available to TextField. Should be kept in sync with
+  /// Chromium's views::TextField::MenuCommands type.
   /// </summary>
   /// <remarks>
   /// <para>TCefTextFieldCommands values.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_text_field_commands_t)</see></para>
   /// </remarks>
-  CEF_TFC_CUT        = 1;
-  CEF_TFC_COPY       = 2;
-  CEF_TFC_PASTE      = 3;
-  CEF_TFC_UNDO       = 4;
-  CEF_TFC_DELETE     = 5;
-  CEF_TFC_SELECT_ALL = 6;
+  CEF_TFC_UNKNOWN     = 0;
+  CEF_TFC_CUT         = 1;
+  CEF_TFC_COPY        = 2;
+  CEF_TFC_PASTE       = 3;
+  CEF_TFC_SELECT_ALL  = 4;
+  CEF_TFC_SELECT_WORD = 5;
+  CEF_TFC_UNDO        = 6;
+  CEF_TFC_DELETE      = 7;
+  CEF_TFC_NUM_VALUES  = 8;
 
   /// <summary>
   /// Chrome toolbar types.
@@ -3765,9 +3834,11 @@ const
   /// <para>TCefChromeToolbarType values.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_chrome_toolbar_type_t)</see></para>
   /// </remarks>
+  CEF_CTT_UNKNOWN    = 0;
   CEF_CTT_NONE       = 1;
   CEF_CTT_NORMAL     = 2;
   CEF_CTT_LOCATION   = 3;
+  CEF_CTT_NUM_VALUES = 4;
 
   /// <summary>
   /// Docking modes supported by ICefWindow.AddOverlay.
@@ -3776,11 +3847,12 @@ const
   /// <para>TCefDockingMode values.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_docking_mode_t)</see></para>
   /// </remarks>
-  CEF_DOCKING_MODE_TOP_LEFT      = 1;
-  CEF_DOCKING_MODE_TOP_RIGHT     = 2;
-  CEF_DOCKING_MODE_BOTTOM_LEFT   = 3;
-  CEF_DOCKING_MODE_BOTTOM_RIGHT  = 4;
-  CEF_DOCKING_MODE_CUSTOM        = 5;
+  CEF_DOCKING_MODE_TOP_LEFT      = 0;
+  CEF_DOCKING_MODE_TOP_RIGHT     = 1;
+  CEF_DOCKING_MODE_BOTTOM_LEFT   = 2;
+  CEF_DOCKING_MODE_BOTTOM_RIGHT  = 3;
+  CEF_DOCKING_MODE_CUSTOM        = 4;
+  CEF_DOCKING_MODE_NUM_VALUES    = CEF_DOCKING_MODE_CUSTOM + 1;
 
   /// <summary>
   /// Show the window as normal.
@@ -3789,7 +3861,7 @@ const
   /// <para>TCefShowState value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_show_state_t)</see></para>
   /// </remarks>
-  CEF_SHOW_STATE_NORMAL      = 1;
+  CEF_SHOW_STATE_NORMAL      = 0;
   /// <summary>
   /// Show the window as minimized.
   /// </summary>
@@ -3797,7 +3869,7 @@ const
   /// <para>TCefShowState value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_show_state_t)</see></para>
   /// </remarks>
-  CEF_SHOW_STATE_MINIMIZED   = 2;
+  CEF_SHOW_STATE_MINIMIZED   = 1;
   /// <summary>
   /// Show the window as maximized.
   /// </summary>
@@ -3805,7 +3877,7 @@ const
   /// <para>TCefShowState value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_show_state_t)</see></para>
   /// </remarks>
-  CEF_SHOW_STATE_MAXIMIZED   = 3;
+  CEF_SHOW_STATE_MAXIMIZED   = 2;
   /// <summary>
   /// Show the window as fullscreen.
   /// </summary>
@@ -3813,7 +3885,7 @@ const
   /// <para>TCefShowState value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_show_state_t)</see></para>
   /// </remarks>
-  CEF_SHOW_STATE_FULLSCREEN  = 4;
+  CEF_SHOW_STATE_FULLSCREEN  = 3;
   /// <summary>
   /// Show the window as hidden (no dock thumbnail).
   /// Only supported on MacOS..
@@ -3822,7 +3894,15 @@ const
   /// <para>TCefShowState value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_show_state_t)</see></para>
   /// </remarks>
-  CEF_SHOW_STATE_HIDDEN      = 5;
+  CEF_SHOW_STATE_HIDDEN      = 4;
+  /// <summary>
+  /// Number of TCefShowState values
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefShowState value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_show_state_t)</see></para>
+  /// </remarks>
+  CEF_SHOW_STATE_NUM_VALUES  = CEF_SHOW_STATE_HIDDEN + 1;
 
   /// <summary>
   /// Supported quick menu state bit flags.
@@ -4744,7 +4824,15 @@ const
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
   /// </remarks>
   CEF_RESULT_CODE_SANDBOX_FATAL_LAST = 7015;
-
+  /// <summary>
+  /// Last TCefResultCode value.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_NUM_VALUES = CEF_RESULT_CODE_SANDBOX_FATAL_LAST + 1;
 
 {*
 ******************************************************

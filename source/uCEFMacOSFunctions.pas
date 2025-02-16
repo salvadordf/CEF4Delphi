@@ -143,6 +143,7 @@ end;
 // Key Code translation following the information found in these documents :
 // https://developer.apple.com/library/archive/documentation/mac/pdf/MacintoshToolboxEssentials.pdf
 // https://eastmanreference.com/complete-list-of-applescript-key-codes
+// TO-DO: Check more keycodes from here https://source.chromium.org/chromium/chromium/src/+/main:ui/events/keycodes/keyboard_code_conversion_mac.mm
 function KeyToMacOSKeyCode(aKey : Word): integer;
 begin
   case aKey of

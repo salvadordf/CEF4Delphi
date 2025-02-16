@@ -32,7 +32,7 @@ uses
 
 class function TCefV8StackTraceRef.Current(frameLimit: Integer): ICefV8StackTrace;
 begin
-  Result := UnWrap(cef_v8stack_trace_get_current(frameLimit));
+  Result := UnWrap(cef_v8_stack_trace_get_current(frameLimit));
 end;
 
 function TCefV8StackTraceRef.GetFrame(index: Integer): ICefV8StackFrame;

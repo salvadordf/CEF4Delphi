@@ -19,7 +19,9 @@
 <code>type TCefResourceBundle = record</code></p>
 <h2 class="description">Description</h2>
 <p>
- Structure used for retrieving resources from the resource bundle (*.pak) files loaded by CEF during startup or via the ICefResourceBundleHandler returned from ICefApp.GetResourceBundleHandler. See TCefSettings for additional options related to resource bundle loading. The functions of this structure may be called on any thread unless otherwise indicated. </p>
+ Structure used for retrieving resources from the resource bundle (*.pak) files loaded by CEF during startup or via the ICefResourceBundleHandler returned from ICefApp.GetResourceBundleHandler. See TCefSettings for additional options related to resource bundle loading. The functions of this structure may be called on any thread unless otherwise indicated.
+
+<p>NOTE: This struct is allocated DLL-side. </p>
 <p>
 
 

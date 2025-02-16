@@ -19,7 +19,9 @@
 <code>type TCefMenuModel = record</code></p>
 <h2 class="description">Description</h2>
 <p>
- Supports creation and modification of menus. See TCefMenuId (cef_menu_id_t) for the command ids that have default implementations. All user-defined command ids should be between MENU_ID_USER_FIRST and MENU_ID_USER_LAST. The functions of this structure can only be accessed on the browser process the UI thread. </p>
+ Supports creation and modification of menus. See TCefMenuId (cef_menu_id_t) for the command ids that have default implementations. All user-defined command ids should be between MENU_ID_USER_FIRST and MENU_ID_USER_LAST. The functions of this structure can only be accessed on the browser process the UI thread.
+
+<p>NOTE: This struct is allocated DLL-side. </p>
 <p>
 
 

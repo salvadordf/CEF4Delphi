@@ -316,7 +316,6 @@
         <DCCReference Include="..\source\uCEFArgCopy.pas"/>
         <DCCReference Include="..\source\uCEFCommandHandler.pas"/>
         <DCCReference Include="..\source\uCEFMediaAccessCallback.pas"/>
-        <DCCReference Include="..\source\uCEFMediaAccessHandler.pas"/>
         <DCCReference Include="..\source\uCEFPermissionPromptCallback.pas"/>
         <DCCReference Include="..\source\uCEFPermissionHandler.pas"/>
         <DCCReference Include="..\source\uCEFSharedMemoryRegion.pas"/>
@@ -363,6 +362,12 @@
                 <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\22.0\Bpl\CEF4DelphiVCLRTL.bpl" Configuration="Release" Class="ProjectOutput"/>
                 <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\22.0\Bpl\Win64\CEF4DelphiVCLRTL.bpl" Configuration="Release" Class="ProjectOutput"/>
                 <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\23.0\Bpl\CEF4DelphiVCLRTL.bpl" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="..\..\..\..\..\..\..\Public\Documents\Embarcadero\Studio\23.0\Bpl\CEF4DelphiVCLRTL.bpl" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>CEF4DelphiVCLRTL.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="OSX32">
                         <Operation>1</Operation>

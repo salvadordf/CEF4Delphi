@@ -246,6 +246,7 @@ begin
   inherited Create;
 
   FillChar(FWindowInfo, SizeOf(TCefWindowInfo), 0);
+  FWindowInfo.size := SizeOf(TCefWindowInfo);
 end;
 
 {$IFDEF MSWINDOWS}
@@ -476,6 +477,7 @@ var
   TempParent : TCefWindowHandle;
 {$ENDIF}
 begin
+  aWindowInfo.size          := SizeOf(TCEFWindowInfo);
   {$IFDEF MSWINDOWS}
   aWindowInfo.style         := WS_CHILD or WS_VISIBLE or WS_CLIPCHILDREN or WS_CLIPSIBLINGS or WS_TABSTOP;
   aWindowInfo.parent_window := aParent;
@@ -535,6 +537,7 @@ end;
 {$IFDEF MSWINDOWS}
 class procedure TCEFWindowInfoWrapper.AsPopup(var aWindowInfo: TCEFWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring);
 begin
+  aWindowInfo.size          := SizeOf(TCEFWindowInfo);
   aWindowInfo.window_name   := CefString(aWindowName);
   aWindowInfo.style         := WS_OVERLAPPEDWINDOW or WS_CLIPCHILDREN or WS_CLIPSIBLINGS or WS_VISIBLE;
   aWindowInfo.bounds.x      := integer(CW_USEDEFAULT);
@@ -552,6 +555,7 @@ end;
 
 class procedure TCEFWindowInfoWrapper.AsWindowless(var aWindowInfo: TCEFWindowInfo; aParent : TCefWindowHandle);
 begin
+  aWindowInfo.size                         := SizeOf(TCEFWindowInfo);
   {$IFDEF MSWINDOWS}
   aWindowInfo.windowless_rendering_enabled := ord(True);
   aWindowInfo.parent_window                := aParent;

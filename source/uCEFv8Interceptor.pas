@@ -204,7 +204,7 @@ end;
 
 constructor TCefV8InterceptorOwn.Create;
 begin
-  inherited CreateData(SizeOf(TCefV8InterceptorOwn));
+  inherited CreateData(SizeOf(TCefV8Interceptor));
 
   with PCefV8Interceptor(FData)^ do
     begin

@@ -100,6 +100,7 @@ var
   TempCookie : TCefCookie;
 begin
   TempURL                := CefString(url);
+  TempCookie.size        := SizeOf(TempCookie);
   TempCookie.name        := CefString(name);
   TempCookie.value       := CefString(value);
   TempCookie.domain      := CefString(domain);

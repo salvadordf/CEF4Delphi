@@ -59,7 +59,7 @@ end;
 
 function TCefSSLStatusRef.GetX509Certificate: ICefX509Certificate;
 begin
-  Result := TCEFX509CertificateRef.UnWrap(PCefSSLStatus(FData)^.get_x509certificate(PCefSSLStatus(FData)));
+  Result := TCEFX509CertificateRef.UnWrap(PCefSSLStatus(FData)^.get_x509_certificate(PCefSSLStatus(FData)));
 end;
 
 class function TCefSSLStatusRef.UnWrap(data: Pointer): ICefSSLStatus;

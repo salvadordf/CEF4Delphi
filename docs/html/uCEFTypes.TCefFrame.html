@@ -19,7 +19,9 @@
 <code>type TCefFrame = record</code></p>
 <h2 class="description">Description</h2>
 <p>
- Structure used to represent a frame in the browser window. When used in the browser process the functions of this structure may be called on any thread unless otherwise indicated in the comments. When used in the render process the functions of this structure may only be called on the main thread. </p>
+ Structure used to represent a frame in the browser window. When used in the browser process the functions of this structure may be called on any thread unless otherwise indicated in the comments. When used in the render process the functions of this structure may only be called on the main thread.
+
+<p>NOTE: This struct is allocated DLL-side. </p>
 <p>
 
 
@@ -123,7 +125,7 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFTypes.TCefFrame.html#get_v8context">get_v8context</a></strong>: function(self: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>): <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; stdcall;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefFrame.html#get_v8_context">get_v8_context</a></strong>: function(self: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>): <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; stdcall;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -327,7 +329,7 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="get_v8context"></span><code><strong>get_v8context</strong>: function(self: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>): <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; stdcall;</code></td>
+<td class="itemcode"><span id="get_v8_context"></span><code><strong>get_v8_context</strong>: function(self: <a href="uCEFTypes.html#PCefFrame">PCefFrame</a>): <a href="uCEFTypes.html#PCefv8Context">PCefv8Context</a>; stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>

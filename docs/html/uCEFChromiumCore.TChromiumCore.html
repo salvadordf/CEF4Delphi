@@ -9432,7 +9432,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Returns true (1) if a Chrome command is supported and enabled. Values for |command_id| can be found in the cef_command_ids.h file. This function can only be called on the UI thread. Only used with Chrome style. </p>
+ Returns true (1) if a Chrome command is supported and enabled. Use the cef_id_for_command_id_name() function for version-safe mapping of command IDC names from cef_command_ids.h to version-specific numerical |command_id| values. This function can only be called on the UI thread. Only used with Chrome style. </p>
 <p>
 
 
@@ -9448,7 +9448,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Execute a Chrome command. Values for |command_id| can be found in the cef_command_ids.h file. |disposition| provides information about the intended command target. Only used with Chrome style. </p>
+ Returns true (1) if a Chrome command is supported and enabled. Use the cef_id_for_command_id_name() function for version-safe mapping of command IDC names from cef_command_ids.h to version-specific numerical |command_id| values. This function can only be called on the UI thread. Only used with Chrome style. </p>
 <p>
 
 
@@ -13056,7 +13056,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Called to execute a Chrome command triggered via menu selection or keyboard shortcut. Values for |command_id| can be found in the cef_command_ids.h file. |disposition| provides information about the intended command target. Return true (1) if the command was handled or false (0) for the default implementation. For context menu commands this will be called after ICefContextMenuHandler.OnContextMenuCommand. </p>
+ Called to execute a Chrome command triggered via menu selection or keyboard shortcut. Use the cef_id_for_command_id_name() function for version-safe mapping of command IDC names from cef_command_ids.h to version-specific numerical |command_id| values. |disposition| provides information about the intended command target. Return true (1) if the command was handled or false (0) for the default implementation. For context menu commands this will be called after ICefContextMenuHandler.OnContextMenuCommand. </p>
 <p>
 
 
@@ -13074,7 +13074,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Called to check if a Chrome app menu item should be visible. Values for |command_id| can be found in the cef_command_ids.h file. Only called for menu items that would be visible by default. </p>
+ Called to check if a Chrome app menu item should be visible. Use the cef_id_for_command_id_name() function for version-safe mapping of command IDC names from cef_command_ids.h to version-specific numerical |command_id| values. Only called for menu items that would be visible by default. </p>
 <p>
 
 
@@ -13092,7 +13092,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Called to check if a Chrome app menu item should be enabled. Values for |command_id| can be found in the cef_command_ids.h file. Only called for menu items that would be enabled by default. </p>
+ Called to check if a Chrome app menu item should be enabled. Use the cef_id_for_command_id_name() function for version-safe mapping of command IDC names from cef_command_ids.h to version-specific numerical |command_id| values. Only called for menu items that would be enabled by default. </p>
 <p>
 
 

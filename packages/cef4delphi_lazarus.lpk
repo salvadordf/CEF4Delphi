@@ -21,8 +21,8 @@
     </CompilerOptions>
     <Description Value="CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC."/>
     <License Value="MPL 1.1"/>
-    <Version Major="132" Minor="3" Release="2"/>
-    <Files Count="214">
+    <Version Major="133" Minor="4" Release="6"/>
+    <Files Count="213">
       <Item1>
         <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
         <UnitName Value="uCEFAccessibilityHandler"/>
@@ -850,53 +850,49 @@
         <UnitName Value="uCEFRunQuickMenuCallback"/>
       </Item202>
       <Item203>
-        <Filename Value="..\source\uCEFMediaAccessHandler.pas"/>
-        <UnitName Value="uCEFMediaAccessHandler"/>
-      </Item203>
-      <Item204>
         <Filename Value="..\source\uCEFMediaAccessCallback.pas"/>
         <UnitName Value="uCEFMediaAccessCallback"/>
-      </Item204>
-      <Item205>
+      </Item203>
+      <Item204>
         <Filename Value="..\source\uCEFPermissionPromptCallback.pas"/>
         <UnitName Value="uCEFPermissionPromptCallback"/>
-      </Item205>
-      <Item206>
+      </Item204>
+      <Item205>
         <Filename Value="..\source\uCEFSharedProcessMessageBuilder.pas"/>
         <UnitName Value="uCEFSharedProcessMessageBuilder"/>
-      </Item206>
-      <Item207>
+      </Item205>
+      <Item206>
         <Filename Value="..\source\uCEFSharedMemoryRegion.pas"/>
         <UnitName Value="uCEFSharedMemoryRegion"/>
-      </Item207>
-      <Item208>
+      </Item206>
+      <Item207>
         <Filename Value="..\source\uCEFPreferenceManager.pas"/>
         <UnitName Value="uCEFPreferenceManager"/>
-      </Item208>
-      <Item209>
+      </Item207>
+      <Item208>
         <Filename Value="..\source\uCEFPreferenceRegistrar.pas"/>
         <UnitName Value="uCEFPreferenceRegistrar"/>
-      </Item209>
-      <Item210>
+      </Item208>
+      <Item209>
         <Filename Value="..\source\uCEFApplicationEvents.pas"/>
         <UnitName Value="uCEFApplicationEvents"/>
-      </Item210>
-      <Item211>
+      </Item209>
+      <Item210>
         <Filename Value="..\source\uCEFBrowserBitmap.pas"/>
         <UnitName Value="uCEFBrowserBitmap"/>
-      </Item211>
-      <Item212>
+      </Item210>
+      <Item211>
         <Filename Value="..\source\uCEFComponentIdList.pas"/>
         <UnitName Value="uCEFComponentIdList"/>
-      </Item212>
-      <Item213>
+      </Item211>
+      <Item212>
         <Filename Value="..\source\uCEFWindowInfoWrapper.pas"/>
         <UnitName Value="uCEFWindowInfoWrapper"/>
-      </Item213>
-      <Item214>
+      </Item212>
+      <Item213>
         <Filename Value="..\source\uCEFTaskManager.pas"/>
         <UnitName Value="uCEFTaskManager"/>
-      </Item214>
+      </Item213>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="5">

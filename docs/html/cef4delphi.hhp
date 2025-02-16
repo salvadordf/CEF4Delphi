@@ -352,7 +352,6 @@ uCEFInterfaces.ICefMenuModelDelegate.html
 uCEFInterfaces.ICefServer.html
 uCEFInterfaces.ICefServerHandler.html
 uCEFInterfaces.ICefMediaAccessCallback.html
-uCEFInterfaces.ICefMediaAccessHandler.html
 uCEFInterfaces.ICefPermissionPromptCallback.html
 uCEFInterfaces.ICefPermissionHandler.html
 uCEFInterfaces.ICefSharedMemoryRegion.html
@@ -420,8 +419,6 @@ uCEFMacOSFunctions.html
 uCEFMacOSInterfaces.html
 uCEFMediaAccessCallback.html
 uCEFMediaAccessCallback.TCefMediaAccessCallbackRef.html
-uCEFMediaAccessHandler.html
-uCEFMediaAccessHandler.TCefMediaAccessHandlerOwn.html
 uCEFMediaObserver.html
 uCEFMediaObserver.TCefMediaObserverOwn.html
 uCEFMediaObserver.TCustomMediaObserver.html
@@ -673,6 +670,8 @@ uCEFTypes.TCefStringWide.html
 uCEFTypes.TCefStringUtf8.html
 uCEFTypes.TCefStringUtf16.html
 uCEFTypes.TFileVersionInfo.html
+uCEFTypes.TCefVersionInfo.html
+uCEFTypes.TChromiumVersionInfo.html
 uCEFTypes.TCefMainArgs.html
 uCEFTypes.TCefPoint.html
 uCEFTypes.TCefRange.html
@@ -758,7 +757,6 @@ uCEFTypes.TCefProcessMessage.html
 uCEFTypes.TCefRenderProcessHandler.html
 uCEFTypes.TCefRequestHandler.html
 uCEFTypes.TCefMediaAccessCallback.html
-uCEFTypes.TCefMediaAccessHandler.html
 uCEFTypes.TCefPermissionPromptCallback.html
 uCEFTypes.TCefPermissionHandler.html
 uCEFTypes.TCefSharedMemoryRegion.html

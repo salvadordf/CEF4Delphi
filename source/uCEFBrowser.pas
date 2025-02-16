@@ -616,6 +616,7 @@ begin
 
         while (i < TempCount) do
           begin
+            TempItem^.size             := SizeOf(TCefCompositionUnderline);
             TempItem^.range            := underlines[i].range;
             TempItem^.color            := underlines[i].color;
             TempItem^.background_color := underlines[i].background_color;

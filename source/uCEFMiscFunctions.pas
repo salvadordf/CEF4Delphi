@@ -84,13 +84,13 @@ procedure CefStringSet(const aDstStr, aSrcStr: TCefString); overload;
 procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 
 /// <summary>
-/// Register a new V8 extension with the specified JavaScript extension code and
+/// <para>Register a new V8 extension with the specified JavaScript extension code and
 /// handler. Functions implemented by the handler are prototyped using the
 /// keyword 'native'. The calling of a native function is restricted to the
 /// scope in which the prototype of the native function is defined. This
-/// function may only be called on the render process main thread.
+/// function may only be called on the render process main thread.</para>
 ///
-/// Example JavaScript extension code: <pre>
+/// <para>Example JavaScript extension code: <code>
 ///   // create the 'example' global object if it doesn't already exist.
 ///   if (!example)
 ///     example = {};
@@ -128,9 +128,9 @@ procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_I
 ///       return myint;
 ///     };
 ///   })();
-/// </pre>
+/// </code></para>
 ///
-/// Example usage in the page: <pre>
+/// <para>Example usage in the page: <code>
 ///   // Call the function.
 ///   example.test.myfunction();
 ///   // Set the parameter.
@@ -139,7 +139,7 @@ procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_I
 ///   value = example.test.myparam;
 ///   // Call another function.
 ///   example.test.increment();
-/// </pre>
+/// </code></para>
 /// </summary>
 function CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
 /// <summary>
@@ -1815,7 +1815,6 @@ begin
       TempExists := GetAbsoluteDirPath(aResourcesDirPath, TempDir);
 
       TempList := TStringList.Create;
-      TempList.Add(TempDir + 'snapshot_blob.bin');
       TempList.Add(TempDir + 'v8_context_snapshot.bin');
       TempList.Add(TempDir + 'resources.pak');
       TempList.Add(TempDir + 'chrome_100_percent.pak');
@@ -2432,6 +2431,7 @@ begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
       FillChar(TempParts, sizeof(TempParts), 0);
+      TempParts.size := sizeof(TempParts);
       TempURL := CefString(url);
       Result  := cef_parse_url(@TempURL, TempParts) <> 0;
 
@@ -2462,6 +2462,7 @@ begin
 
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
+      TempParts.size     := sizeof(TempParts);
       TempParts.spec     := CefString(parts.spec);
       TempParts.scheme   := CefString(parts.scheme);
       TempParts.username := CefString(parts.username);
@@ -2518,7 +2519,7 @@ end;
 function CefBase64Encode(const data: Pointer; dataSize: NativeUInt): ustring;
 begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    Result := CefStringFreeAndGet(cef_base64encode(data, dataSize))
+    Result := CefStringFreeAndGet(cef_base64_encode(data, dataSize))
    else
     Result := '';
 end;
@@ -2530,7 +2531,7 @@ begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
       TempData := CefString(data);
-      Result   := TCefBinaryValueRef.UnWrap(cef_base64decode(@TempData));
+      Result   := TCefBinaryValueRef.UnWrap(cef_base64_decode(@TempData));
     end
    else
     Result := nil;

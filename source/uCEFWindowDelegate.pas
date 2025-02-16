@@ -423,6 +423,7 @@ var
 begin
   aResult := False;
 
+  TempProperties.size := SizeOf(TempProperties);
   CefStringInitialize(@TempProperties.wayland_app_id);
   CefStringInitialize(@TempProperties.wm_class_class);
   CefStringInitialize(@TempProperties.wm_class_name);
