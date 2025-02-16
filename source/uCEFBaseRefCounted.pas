@@ -67,7 +67,7 @@ type
 implementation
 
 uses
-  {$IFDEF CEF4DELHI_ALLOC_DEBUG}uCEFConstants,{$ENDIF} uCEFTypes, uCEFMiscFunctions, uCEFConstants, uCEFLibFunctions;
+  {$IFDEF CEF4DELHI_ALLOC_DEBUG}uCEFConstants,{$ENDIF} uCEFTypes, uCEFMiscFunctions;
 
 
 // ***********************************************
@@ -142,19 +142,6 @@ begin
 end;
 
 constructor TCefBaseRefCountedOwn.CreateData(size: Cardinal; owned : boolean);
-  procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
-  var
-    TempFile, TempMessage : AnsiString;
-  begin
-    if (length(aFile) > 0) and (length(aMessage) > 0) then
-      begin
-        TempFile    := AnsiString(aFile);
-        TempMessage := AnsiString(aMessage);
-
-        cef_log(@TempFile[1], aLine, aSeverity, @TempMessage[1]);
-      end;
-  end;
-
 begin
   {$IFDEF CEF4DELHI_ALLOC_DEBUG}
   GetMem(FData, size + (SizeOf(Pointer) * 3));
@@ -188,14 +175,6 @@ begin
       PCefBaseRefCounted(FData)^.has_one_ref          := {$IFDEF FPC}@{$ENDIF}cef_base_has_one_ref;
       PCefBaseRefCounted(FData)^.has_at_least_one_ref := {$IFDEF FPC}@{$ENDIF}cef_base_has_at_least_one_ref;
     end;
-
-  try
-    if (size>250) then
-      raise Exception.Create('Size incorrecto');
-  except
-    on E: Exception do
-      CefLog('CEF4Delphi', 1, CEF_LOG_SEVERITY_ERROR, e.message + 'StackTrace: ' + e.StackTrace);
-  end;
 end;
 
 destructor TCefBaseRefCountedOwn.Destroy;
