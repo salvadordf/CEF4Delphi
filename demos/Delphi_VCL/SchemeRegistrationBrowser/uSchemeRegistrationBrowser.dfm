@@ -70,7 +70,6 @@ object SchemeRegistrationBrowserFrm: TSchemeRegistrationBrowserFrm
     OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnClose = Chromium1Close
     Left = 16
     Top = 40
   end
