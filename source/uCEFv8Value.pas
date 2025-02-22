@@ -59,8 +59,8 @@ type
       function SetValueByIndex(index: Integer; const value: ICefv8Value): Boolean;
       function SetValueByAccessor(const key: ustring; attribute: TCefV8PropertyAttributes): Boolean;
       function GetKeys(const keys: TStrings): Integer;
-      function SetUserData(const data: ICefv8Value): Boolean;
-      function GetUserData: ICefv8Value;
+      function SetUserData(const data: ICefCustomUserData): Boolean;
+      function GetUserData: ICefCustomUserData;
       function GetExternallyAllocatedMemory: Integer;
       function AdjustExternallyAllocatedMemory(changeInBytes: Integer): Integer;
       function GetArrayLength: Integer;
@@ -473,7 +473,7 @@ begin
     end;
 end;
 
-function TCefv8ValueRef.SetUserData(const data: ICefv8Value): Boolean;
+function TCefv8ValueRef.SetUserData(const data: ICefCustomUserData): Boolean;
 begin
   Result := PCefV8Value(FData)^.set_user_data(PCefV8Value(FData), CefGetData(data)) <> 0;
 end;
@@ -518,9 +518,9 @@ begin
   Result := PCefV8Value(FData)^.set_rethrow_exceptions(PCefV8Value(FData), Ord(rethrow)) <> 0;
 end;
 
-function TCefv8ValueRef.GetUserData: ICefv8Value;
+function TCefv8ValueRef.GetUserData: ICefCustomUserData;
 begin
-  Result := TCefv8ValueRef.UnWrap(PCefV8Value(FData)^.get_user_data(PCefV8Value(FData)));
+  Result := TCefCustomUserData.UnWrap(PCefV8Value(FData)^.get_user_data(PCefV8Value(FData)));
 end;
 
 function TCefv8ValueRef.GetValueByIndex(index: Integer): ICefv8Value;

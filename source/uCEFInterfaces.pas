@@ -20,6 +20,7 @@ uses
   uCEFTypes, uCEFSchemeRegistrar;
 
 type
+  ICefBaseRefCounted = interface;
   ICefBrowser = interface;
   ICefFrame = interface;
   ICefFrameHandler = interface;
@@ -673,6 +674,7 @@ type
     procedure doOnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
   end;
 
+
   {*
    *******************************************
    ************** CEF interfaces *************
@@ -710,6 +712,15 @@ type
     /// Releases all other instances.
     /// </summary>
     procedure DestroyOtherRefs;
+  end;
+
+  ICefCustomUserData = interface(ICefBaseRefCounted)
+    ['{BEC09DE3-AB0A-4F5E-8461-5F9F4520FDEF}']
+    function GetUserDataType : Pointer;
+    function GetUserData : Pointer;
+
+    property UserDataType : Pointer   read GetUserDataType;
+    property UserData     : Pointer   read GetUserData;
   end;
 
   /// <summary>
@@ -3458,11 +3469,11 @@ type
     /// Returns false (0) if this function is called incorrectly. This function
     /// can only be called on user created objects.
     /// </summary>
-    function SetUserData(const data: ICefv8Value): Boolean;
+    function SetUserData(const data: ICefCustomUserData): Boolean;
     /// <summary>
     /// Returns the user data, if any, assigned to this object.
     /// </summary>
-    function GetUserData: ICefv8Value;
+    function GetUserData: ICefCustomUserData;
     /// <summary>
     /// Returns the amount of externally allocated memory registered for the
     /// object.
