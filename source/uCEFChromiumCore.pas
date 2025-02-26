@@ -297,7 +297,6 @@ type
       FOnIsChromePageActionIconVisible    : TOnIsChromePageActionIconVisibleEvent;
       FOnIsChromeToolbarButtonVisible     : TOnIsChromeToolbarButtonVisibleEvent;
 
-
       // ICefPermissionHandler
       FOnRequestMediaAccessPermission     : TOnRequestMediaAccessPermissionEvent;
       FOnShowPermissionPrompt             : TOnShowPermissionPromptEvent;

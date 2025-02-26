@@ -4018,7 +4018,7 @@ const
   /// </remarks>
   CEF_API_HASH_PLATFORM  = 0;
   /// <summary>
-  /// Universal API hash.
+  /// Universal API hash. (deprecated, same as CEF_API_HASH_PLATFORM)
   /// </summary>
   /// <remarks>
   /// <para>ucef_api_hash parameter.</para>

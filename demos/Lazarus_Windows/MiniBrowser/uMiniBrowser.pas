@@ -354,7 +354,6 @@ var
 begin
   TempInfo := 'libcef.dll : '         + CRLF + GlobalCEFApp.LibCefVersion    + CRLF + CRLF +
               'chrome_elf.dll : '     + CRLF + GlobalCEFApp.ChromeVersion    + CRLF + CRLF +
-              'Universal API hash : ' + CRLF + GlobalCEFApp.ApiHashUniversal + CRLF + CRLF +
               'Platform API hash : '  + CRLF + GlobalCEFApp.ApiHashPlatform  + CRLF + CRLF +
               'Commit API hash : '    + CRLF + GlobalCEFApp.ApiHashCommit;
 

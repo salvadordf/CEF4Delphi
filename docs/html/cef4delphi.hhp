@@ -231,6 +231,7 @@ uCEFInterfaces.ICefMenuButtonDelegateEvents.html
 uCEFInterfaces.ICefPanelDelegateEvents.html
 uCEFInterfaces.ICefWindowDelegateEvents.html
 uCEFInterfaces.ICefBaseRefCounted.html
+uCEFInterfaces.ICefCustomUserData.html
 uCEFInterfaces.ICefRunFileDialogCallback.html
 uCEFInterfaces.ICefNavigationEntryVisitor.html
 uCEFInterfaces.ICefPdfPrintCallback.html
@@ -878,6 +879,7 @@ uCEFv8Exception.TCefV8ExceptionRef.html
 uCEFv8Handler.html
 uCEFv8Handler.TCefv8HandlerRef.html
 uCEFv8Handler.TCefv8HandlerOwn.html
+uCEFv8Handler.TCefCustomUserData.html
 uCEFv8Interceptor.html
 uCEFv8Interceptor.TCefV8InterceptorOwn.html
 uCEFv8Interceptor.TCefFastV8Interceptor.html

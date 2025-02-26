@@ -262,7 +262,6 @@ type
       function  GetTotalSystemMemory : uint64;
       function  GetAvailableSystemMemory : uint64;
       function  GetSystemMemoryLoad : cardinal;
-      function  GetApiHashUniversal : ustring;
       function  GetApiHashPlatform : ustring;
       function  GetApiHashCommit : ustring;
       function  GetApiVersion : integer;
@@ -1488,10 +1487,6 @@ type
       /// Memory load in Windows.
       /// </summary>
       property SystemMemoryLoad                  : cardinal                                 read GetSystemMemoryLoad;
-      /// <summary>
-      /// Calls cef_api_hash to get the universal hash.
-      /// </summary>
-      property ApiHashUniversal                  : ustring                                  read GetApiHashUniversal;
       /// <summary>
       /// Calls cef_api_hash to get the platform hash.
       /// </summary>
@@ -3928,19 +3923,6 @@ begin
   if GetGlobalMemoryStatusEx(@TempMemStatus) then
     Result := TempMemStatus.dwMemoryLoad;
   {$ENDIF}
-end;
-
-function TCefApplicationCore.GetApiHashUniversal : ustring;
-var
-  TempHash : PAnsiChar;
-begin
-  Result := '';
-  if not(FLibLoaded) then exit;
-
-  TempHash := cef_api_hash(CEF_API_VERSION, CEF_API_HASH_UNIVERSAL);
-
-  if (TempHash <> nil) then
-    Result := ustring(AnsiString(TempHash));
 end;
 
 function TCefApplicationCore.GetApiHashPlatform : ustring;

@@ -1514,10 +1514,6 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#SystemMemoryLoad">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="ApiHashUniversal">
-<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ApiHashUniversal">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="ApiHashPlatform">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ApiHashPlatform">
 </object>
@@ -1738,10 +1734,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetSystemMemoryLoad">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetSystemMemoryLoad">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="GetApiHashUniversal">
-<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetApiHashUniversal">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetApiHashPlatform">
@@ -2390,10 +2382,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_API_HASH_PLATFORM_MAC">
 <param name="Local" value="uCEFApplicationCore.html#CEF_API_HASH_PLATFORM_MAC">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="CEF_API_HASH_PLATFORM_UNIVERSAL">
-<param name="Local" value="uCEFApplicationCore.html#CEF_API_HASH_PLATFORM_UNIVERSAL">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_API_HASH_PLATFORM_WINDOWS">
@@ -21418,6 +21406,40 @@
 <li><object type="text/sitemap">
 <param name="Name" value="DestroyOtherRefs">
 <param name="Local" value="uCEFInterfaces.ICefBaseRefCounted.html#DestroyOtherRefs">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="ICefCustomUserData">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Properties">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html#@Properties">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="UserDataType">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html#UserDataType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="UserData">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html#UserData">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="GetUserDataType">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html#GetUserDataType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetUserData">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html#GetUserData">
 </object>
 </ul>
 </ul>
@@ -51943,6 +51965,52 @@
 </object>
 </ul>
 </ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefCustomUserData">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FUserDataType">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#FUserDataType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FUserData">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#FUserData">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="GetUserDataType">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#GetUserDataType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetUserData">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#GetUserData">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#Destroy">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="UnWrap">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#UnWrap">
+</object>
+</ul>
+</ul>
 </ul>
 </ul>
 <li><object type="text/sitemap">
@@ -57990,6 +58058,40 @@
 <li><object type="text/sitemap">
 <param name="Name" value="Tell">
 <param name="Local" value="uCEFInterfaces.ICefCustomStreamReader.html#Tell">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="ICefCustomUserData">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Properties">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html#@Properties">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="UserData">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html#UserData">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="UserDataType">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html#UserDataType">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="GetUserData">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html#GetUserData">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetUserDataType">
+<param name="Local" value="uCEFInterfaces.ICefCustomUserData.html#GetUserDataType">
 </object>
 </ul>
 </ul>
@@ -67468,10 +67570,6 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ApiHashPlatform">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="ApiHashUniversal">
-<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ApiHashUniversal">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="ApiVersion">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ApiVersion">
 </object>
@@ -68180,10 +68278,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetApiHashPlatform">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetApiHashPlatform">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="GetApiHashUniversal">
-<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetApiHashUniversal">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetApiVersion">
@@ -73606,6 +73700,52 @@
 <li><object type="text/sitemap">
 <param name="Name" value="Clear">
 <param name="Local" value="uCEFStringMultimap.TCefCustomStringMultimap.html#Clear">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefCustomUserData">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FUserData">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#FUserData">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FUserDataType">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#FUserDataType">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#Destroy">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="UnWrap">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#UnWrap">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetUserData">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#GetUserData">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetUserDataType">
+<param name="Local" value="uCEFv8Handler.TCefCustomUserData.html#GetUserDataType">
 </object>
 </ul>
 </ul>
