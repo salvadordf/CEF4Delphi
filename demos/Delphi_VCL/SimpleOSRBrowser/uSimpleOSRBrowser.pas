@@ -8,10 +8,10 @@ uses
   {$IFDEF DELPHI16_UP}
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   System.SyncObjs, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  Vcl.ExtCtrls, Vcl.AppEvnts, WinApi.imm, Vcl.ComCtrls,
+  Vcl.ExtCtrls, Vcl.AppEvnts, WinApi.imm, Vcl.ComCtrls, System.UITypes,
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, SyncObjs,
-  Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts, ComCtrls,
+  Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls, AppEvnts, ComCtrls, UITypes,
   {$ENDIF}
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel,
   uCEFChromiumCore;
@@ -19,7 +19,8 @@ uses
 const
   // Set this constant to True and load "file://transparency.html" to test a
   // transparent browser.
-  TRANSPARENT_BROWSER = False;
+  TRANSPARENT_BROWSER      = False;
+  CEFBROWSER_SHOWJSDIALOG  = WM_APP + $A10;
 
 type
   TForm1 = class(TForm)
@@ -76,6 +77,7 @@ type
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrIMECompositionRangeChanged(Sender: TObject; const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect);
     procedure chrmosrCanFocus(Sender: TObject);
+    procedure chrmosrJsdialog(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage, Result: Boolean);
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
@@ -102,6 +104,14 @@ type
     FLastClickPoint  : TPoint;
     FLastClickButton : TMouseButton;
 
+    FJSDialogInfoCS    : TCriticalSection;
+    FOriginUrl         : ustring;
+    FMessageText       : ustring;
+    FDefaultPromptText : ustring;
+    FPendingDlg        : boolean;
+    FDialogType        : TCefJsDialogType;
+    FCallback          : ICefJsDialogCallback;
+
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     procedure DoResize;
@@ -124,6 +134,7 @@ type
     procedure PendingResizeMsg(var aMessage : TMessage); message CEF_PENDINGRESIZE;
     procedure RangeChangedMsg(var aMessage : TMessage); message CEF_IMERANGECHANGED;
     procedure FocusEnabledMsg(var aMessage : TMessage); message CEF_FOCUSENABLED;
+    procedure ShowJSDialogMsg(var aMessage: TMessage); message CEFBROWSER_SHOWJSDIALOG;
 
   public
     { Public declarations }
@@ -725,6 +736,14 @@ procedure TForm1.FormCreate(Sender: TObject);
 var
   TempMajorVer, TempMinorVer : DWORD;
 begin
+  FJSDialogInfoCS    := TCriticalSection.Create;
+  FOriginUrl         := '';
+  FMessageText       := '';
+  FDefaultPromptText := '';
+  FPendingDlg        := False;
+  FDialogType        := JSDIALOGTYPE_ALERT;
+  FCallback          := nil;
+
   FPopUpBitmap    := nil;
   FPopUpRect      := rect(0, 0, 0, 0);
   FShowPopUp      := False;
@@ -753,11 +772,14 @@ end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
+  FCallback := nil;
+
   chrmosr.ShutdownDragAndDrop;
 
-  if (FPopUpBitmap <> nil) then FreeAndNil(FPopUpBitmap);
-  if (FResizeCS    <> nil) then FreeAndNil(FResizeCS);
-  if (FIMECS       <> nil) then FreeAndNil(FIMECS);
+  if (FPopUpBitmap    <> nil) then FreeAndNil(FPopUpBitmap);
+  if (FResizeCS       <> nil) then FreeAndNil(FResizeCS);
+  if (FIMECS          <> nil) then FreeAndNil(FIMECS);
+  if (FJSDialogInfoCS <> nil) then FreeAndNil(FJSDialogInfoCS);
 
   if (FDeviceBounds <> nil) then
     begin
@@ -1172,6 +1194,36 @@ begin
   end;
 end;
 
+procedure TForm1.ShowJSDialogMsg(var aMessage : TMessage);
+var
+  TempCaption : string;
+begin
+  // Here we show the dialog and reset the information.
+  // showmessage, MessageDlg and InputBox should be replaced by nicer custom forms with the same functionality.
+
+  FJSDialogInfoCS.Acquire;
+
+  if FPendingDlg then
+    begin
+      TempCaption := 'JavaScript message from : ' + FOriginUrl;
+
+      case FDialogType of
+        JSDIALOGTYPE_ALERT   : showmessage(TempCaption + CRLF + CRLF + FMessageText);
+        JSDIALOGTYPE_CONFIRM : FCallback.cont((MessageDlg(TempCaption + CRLF + CRLF + FMessageText, mtConfirmation, [mbYes, mbNo], 0, mbYes) = mrYes), '');
+        JSDIALOGTYPE_PROMPT  : FCallback.cont(True, InputBox(TempCaption, FMessageText, FDefaultPromptText));
+      end;
+    end;
+
+  FOriginUrl         := '';
+  FMessageText       := '';
+  FDefaultPromptText := '';
+  FPendingDlg        := False;
+  FDialogType        := JSDIALOGTYPE_ALERT;
+  FCallback          := nil;
+
+  FJSDialogInfoCS.Release;
+end;
+
 procedure TForm1.FocusEnabledMsg(var aMessage : TMessage);
 begin
   if Panel1.Focused then
@@ -1309,6 +1361,36 @@ begin
   finally
     FIMECS.Release;
   end;
+end;
+
+procedure TForm1.chrmosrJsdialog(Sender: TObject; const browser: ICefBrowser;
+  const originUrl: ustring; dialogType: TCefJsDialogType; const messageText,
+  defaultPromptText: ustring; const callback: ICefJsDialogCallback;
+  out suppressMessage, Result: Boolean);
+begin
+  // In this event we must store the dialog information and post a message to the main form to show the dialog
+  FJSDialogInfoCS.Acquire;
+
+  if FPendingDlg then
+    begin
+      Result          := False;
+      suppressMessage := True;
+    end
+   else
+    begin
+      FOriginUrl         := originUrl;
+      FMessageText       := messageText;
+      FDefaultPromptText := defaultPromptText;
+      FDialogType        := dialogType;
+      FCallback          := callback;
+      FPendingDlg        := True;
+      Result             := True;
+      suppressMessage    := False;
+
+      PostMessage(Handle, CEFBROWSER_SHOWJSDIALOG, 0, 0);
+    end;
+
+  FJSDialogInfoCS.Release;
 end;
 
 procedure TForm1.Panel1IMECancelComposition(Sender: TObject);
