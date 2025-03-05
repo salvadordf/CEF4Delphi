@@ -20,8 +20,6 @@ type
       function GetClient : ICefClient;
 
       procedure Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
-      procedure Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
-      procedure Chromium_OnOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
 
     public
       constructor Create;
@@ -112,8 +110,15 @@ begin
   FChromium                  := TChromiumCore.Create(nil);
   FChromium.DefaultURL       := 'https://www.google.com';
   FChromium.OnBeforeClose    := Chromium_OnBeforeClose;
-  FChromium.OnBeforePopup    := Chromium_OnBeforePopup;
-  FChromium.OnOpenUrlFromTab := Chromium_OnOpenUrlFromTab;
+
+  // The MultiBrowserMode store all the browser references in TChromium.
+  // The first browser reference is the browser in the main form.
+  // When MiniBrowser allows CEF to create child popup browsers it will also
+  // store their reference inside TChromium and you can use all the TChromium's
+  // methods and properties to manipulate those browsers.
+  // To do that call TChromium.SelectBrowser with the browser ID that will be
+  // used when you call any method or property in TChromium.
+  FChromium.MultiBrowserMode := True;
 
   InitializeWindowHandle(TempHandle);
   FChromium.CreateBrowser(TempHandle, TempRect, 'Tiny Browser 2', nil, nil, True);
@@ -129,27 +134,9 @@ end;
 
 procedure TTinyBrowser2.Chromium_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  GlobalCEFApp.QuitMessageLoop;
-end;
-
-procedure TTinyBrowser2.Chromium_OnBeforePopup(Sender: TObject; const browser: ICefBrowser;
-  const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring;
-  targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
-  var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue;
-  var noJavascriptAccess: Boolean; var Result: Boolean);
-begin
-  // For simplicity, this demo blocks all popup windows and new tabs
-  Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
-end;
-
-procedure TTinyBrowser2.Chromium_OnOpenUrlFromTab(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame;
-  const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; out Result: Boolean);
-begin
-  // For simplicity, this demo blocks all popup windows and new tabs
-  Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
+  // The main browser is being destroyed
+  if (FChromium.BrowserId = 0) then
+    GlobalCEFApp.QuitMessageLoop;
 end;
 
 end.
