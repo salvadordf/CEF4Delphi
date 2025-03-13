@@ -585,8 +585,16 @@
 <td class="itemdesc"> Callback interface for ICefRequestContext.ResolveHost. </td>
 </tr>
 <tr class="list">
+<td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefPreferenceObserver.html"><code>ICefPreferenceObserver</code></a></td>
+<td class="itemdesc"> Implemented by the client to observe preference changes and registered via ICefPreferenceManager.AddPreferenceObserver. The functions of this structure will be called on the browser process UI thread. </td>
+</tr>
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefPreferenceManager.html"><code>ICefPreferenceManager</code></a></td>
 <td class="itemdesc"> Manage access to preferences. Many built-in preferences are registered by Chromium. Custom preferences can be registered in ICefBrowserProcessHandler.OnRegisterCustomPreferences. </td>
+</tr>
+<tr class="list">
+<td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefSettingObserver.html"><code>ICefSettingObserver</code></a></td>
+<td class="itemdesc"> Implemented by the client to observe content and website setting changes and registered via ICefRequestContext.AddSettingObserver. The functions of this structure will be called on the browser process UI thread. </td>
 </tr>
 <tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefRequestContext.html"><code>ICefRequestContext</code></a></td>

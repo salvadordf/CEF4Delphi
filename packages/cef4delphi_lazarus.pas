@@ -70,7 +70,8 @@ uses
   uCEFPermissionPromptCallback, uCEFSharedProcessMessageBuilder, 
   uCEFSharedMemoryRegion, uCEFPreferenceManager, uCEFPreferenceRegistrar, 
   uCEFApplicationEvents, uCEFBrowserBitmap, uCEFComponentIdList, 
-  uCEFWindowInfoWrapper, uCEFTaskManager, LazarusPackageIntf;
+  uCEFWindowInfoWrapper, uCEFTaskManager, uCEFPreferenceObserver, 
+  uCEFSettingObserver, LazarusPackageIntf;
 
 implementation
 

@@ -479,6 +479,12 @@ type
     function  doOnShowPermissionPrompt(const browser: ICefBrowser; prompt_id: uint64; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefPermissionPromptCallback): boolean;
     procedure doOnDismissPermissionPrompt(const browser: ICefBrowser; prompt_id: uint64; result: TCefPermissionRequestResult);
 
+    // ICefPreferenceObserver
+    procedure doOnPreferenceChanged(const name: ustring);
+
+    // ICefSettingObserver
+    procedure doOnSettingChanged(const requesting_url, top_level_url : ustring; content_type: TCefContentSettingTypes);
+
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
     procedure doPdfPrintFinished(aResultOK : boolean);
@@ -510,6 +516,7 @@ type
     procedure doToggleAudioMuted;
     procedure doEnableFocus;
     function  doTryCloseBrowser : boolean;
+    procedure doAddPreferenceObserver(const name : ustring);
     function  MustCreateAudioHandler : boolean;
     function  MustCreateCommandHandler : boolean;
     function  MustCreateLoadHandler : boolean;
@@ -8025,6 +8032,24 @@ type
   end;
 
   /// <summary>
+  /// Implemented by the client to observe preference changes and registered via
+  /// ICefPreferenceManager.AddPreferenceObserver. The functions of this
+  /// structure will be called on the browser process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefPreferenceObserver">Implements TCefPreferenceObserver</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">CEF source file: /include/capi/cef_preference_capi.h (cef_preference_observer_t)</see></para>
+  /// </remarks>
+  ICefPreferenceObserver = interface(ICefBaseRefCounted)
+    ['{874985B5-2DA9-47E6-9E5F-4151BAF5A444}']
+    /// <summary>
+    /// Called when a preference has changed. The new value can be retrieved using
+    /// ICefPreferenceManager.GetPreference.
+    /// </summary>
+    procedure OnPreferenceChanged(const name : ustring);
+  end;
+
+  /// <summary>
   /// Manage access to preferences. Many built-in preferences are registered by
   /// Chromium. Custom preferences can be registered in
   /// ICefBrowserProcessHandler.OnRegisterCustomPreferences.
@@ -8073,6 +8098,34 @@ type
     /// process UI thread.
     /// </summary>
     function  SetPreference(const name: ustring; const value: ICefValue; out error: ustring): Boolean;
+    /// <summary>
+    /// Add an observer for preference changes. |name| is the name of the
+    /// preference to observe. If |name| is NULL then all preferences will be
+    /// observed. Observing all preferences has performance consequences and is
+    /// not recommended outside of testing scenarios. The observer will remain
+    /// registered until the returned Registration object is destroyed. This
+    /// function must be called on the browser process UI thread.
+    /// </summary>
+    function  AddPreferenceObserver(const name: ustring; const observer: ICefPreferenceObserver): ICefRegistration;
+  end;
+
+  /// <summary>
+  /// Implemented by the client to observe content and website setting changes and
+  /// registered via ICefRequestContext.AddSettingObserver. The functions of
+  /// this structure will be called on the browser process UI thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefSettingObserver">Implements TCefSettingObserver</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">CEF source file: /include/capi/cef_preference_capi.h (cef_setting_observer_t)</see></para>
+  /// </remarks>
+  ICefSettingObserver = interface(ICefBaseRefCounted)
+    ['{84E0FD25-F337-451F-9661-3D2E5844882C}']
+    /// <summary>
+    /// Called when a content or website setting has changed. The new value can be
+    /// retrieved using ICefRequestContext.GetContentSetting or
+    /// ICefRequestContext.GetWebsiteSetting.
+    /// </summary>
+    procedure OnSettingChanged(const requesting_url, top_level_url : ustring; content_type: TCefContentSettingTypes);
   end;
 
   /// <summary>
@@ -8253,6 +8306,12 @@ type
     /// browser process UI thread.
     /// </summary>
     function GetChromeColorSchemeVariant: TCefColorVariant;
+    /// <summary>
+    /// Add an observer for content and website setting changes. The observer will
+    /// remain registered until the returned Registration object is destroyed.
+    /// This function must be called on the browser process UI thread.
+    /// </summary>
+    function AddSettingObserver(const observer: ICefSettingObserver): ICefRegistration;
     /// <summary>
     /// Returns the cache path for this object. If NULL an "incognito mode" in-
     /// memory cache is being used.

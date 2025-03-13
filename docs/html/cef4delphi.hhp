@@ -335,7 +335,9 @@ uCEFInterfaces.ICefDragHandler.html
 uCEFInterfaces.ICefFindHandler.html
 uCEFInterfaces.ICefRequestContextHandler.html
 uCEFInterfaces.ICefResolveCallback.html
+uCEFInterfaces.ICefPreferenceObserver.html
 uCEFInterfaces.ICefPreferenceManager.html
+uCEFInterfaces.ICefSettingObserver.html
 uCEFInterfaces.ICefRequestContext.html
 uCEFInterfaces.ICefPrintSettings.html
 uCEFInterfaces.ICefPrintDialogCallback.html
@@ -644,6 +646,7 @@ uCEFTask.TCefSetAudioMutedTask.html
 uCEFTask.TCefToggleAudioMutedTask.html
 uCEFTask.TCefEnableFocusTask.html
 uCEFTask.TCefTryCloseBrowserTask.html
+uCEFTask.TCefAddPreferenceObserverTask.html
 uCEFTaskManager.html
 uCEFTaskManager.TCefTaskManagerRef.html
 uCEFTaskRunner.html
@@ -738,6 +741,7 @@ uCEFTypes.TCefAudioHandler.html
 uCEFTypes.TCefLoadHandler.html
 uCEFTypes.TCefRenderHandler.html
 uCEFTypes.TCefPreferenceRegistrar.html
+uCEFTypes.TCefPreferenceObserver.html
 uCEFTypes.TCefPreferenceManager.html
 uCEFTypes.TCefV8StackTrace.html
 uCEFTypes.TCefV8StackFrame.html
@@ -771,6 +775,7 @@ uCEFTypes.TCefResponse.html
 uCEFTypes.TCefResponseFilter.html
 uCEFTypes.TCefAuthCallback.html
 uCEFTypes.TCefCallback.html
+uCEFTypes.TCefSettingObserver.html
 uCEFTypes.TCefRequestContext.html
 uCEFTypes.TCefRequestContextHandler.html
 uCEFTypes.TCefCompletionCallback.html

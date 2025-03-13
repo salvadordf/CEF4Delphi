@@ -504,6 +504,14 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnPreferenceChanged-ustring-">doOnPreferenceChanged</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnSettingChanged-ustring-ustring-TCefContentSettingTypes-">doOnSettingChanged</a></strong>(const requesting_url, top_level_url : <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IChromiumEvents.html#doCookiesDeleted-integer-">doCookiesDeleted</a></strong>(numDeleted : integer);</code></td>
 </tr>
 <tr class="list2">
@@ -624,89 +632,93 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateAudioHandler">MustCreateAudioHandler</a></strong>: boolean;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IChromiumEvents.html#doAddPreferenceObserver-ustring-">doAddPreferenceObserver</a></strong>(const name : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateAudioHandler">MustCreateAudioHandler</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateCommandHandler">MustCreateCommandHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateLoadHandler">MustCreateLoadHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateFocusHandler">MustCreateFocusHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateContextMenuHandler">MustCreateContextMenuHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateDialogHandler">MustCreateDialogHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateKeyboardHandler">MustCreateKeyboardHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateDisplayHandler">MustCreateDisplayHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateDownloadHandler">MustCreateDownloadHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateJsDialogHandler">MustCreateJsDialogHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateLifeSpanHandler">MustCreateLifeSpanHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateRenderHandler">MustCreateRenderHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateRequestHandler">MustCreateRequestHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateDragHandler">MustCreateDragHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateFindHandler">MustCreateFindHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateResourceRequestHandler">MustCreateResourceRequestHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateCookieAccessFilter">MustCreateCookieAccessFilter</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateMediaObserver">MustCreateMediaObserver</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreatePrintHandler">MustCreatePrintHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateFrameHandler">MustCreateFrameHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreatePermissionHandler">MustCreatePermissionHandler</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#GetComponentID">GetComponentID</a></strong>: integer;</code></td>
 </tr>
@@ -1715,6 +1727,26 @@ ICefPermissionHandler</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnPreferenceChanged-ustring-"></span><code>procedure <strong>doOnPreferenceChanged</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefPreferenceObserver</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doOnSettingChanged-ustring-ustring-TCefContentSettingTypes-"></span><code>procedure <strong>doOnSettingChanged</strong>(const requesting_url, top_level_url : <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefSettingObserver</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><span id="doCookiesDeleted-integer-"></span><code>procedure <strong>doCookiesDeleted</strong>(numDeleted : integer);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -1950,6 +1982,14 @@ Custom</p>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><span id="doTryCloseBrowser"></span><code>function <strong>doTryCloseBrowser</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="doAddPreferenceObserver-ustring-"></span><code>procedure <strong>doAddPreferenceObserver</strong>(const name : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>

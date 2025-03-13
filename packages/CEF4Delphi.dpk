@@ -234,7 +234,9 @@ contains
   uCEFComponentIdList in '..\source\uCEFComponentIdList.pas',
   uCEFUnresponsiveProcessCallback in '..\source\uCEFUnresponsiveProcessCallback.pas',
   uCEFWindowInfoWrapper in '..\source\uCEFWindowInfoWrapper.pas',
-  uCEFTaskManager in '..\source\uCEFTaskManager.pas';
+  uCEFTaskManager in '..\source\uCEFTaskManager.pas',
+  uCEFPreferenceObserver in '..\source\uCEFPreferenceObserver.pas',
+  uCEFSettingObserver in '..\source\uCEFSettingObserver.pas';
 
 end.
 

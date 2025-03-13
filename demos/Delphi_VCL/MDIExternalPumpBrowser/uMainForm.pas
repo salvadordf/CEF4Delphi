@@ -62,7 +62,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uChildForm, uCEFApplication;
+  uChildForm, uCEFApplication, uCEFConstants;
 
 // Destruction steps
 // =================
@@ -88,8 +88,10 @@ begin
   GlobalCEFApp.MultiThreadedMessageLoop  := False;
   GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
   GlobalCEFApp.OnContextInitialized      := GlobalCEFApp_OnContextInitialized;
-  GlobalCEFApp.RootCache                 := ExtractFileDir(ParamStr(0));
+  GlobalCEFApp.RootCache                 := ExtractFileDir(ParamStr(0)) + '\RootCache';
   GlobalCEFApp.cache                     := GlobalCEFApp.RootCache + '\cache';
+  GlobalCEFApp.LogFile                   := 'debug.log';
+  GlobalCEFApp.LogSeverity               := LOGSEVERITY_INFO;
 
   // TCEFWorkScheduler will call cef_do_message_loop_work when
   // it's told in the GlobalCEFApp.OnScheduleMessagePumpWork event.

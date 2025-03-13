@@ -66,7 +66,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uChildForm, uCEFApplication;
+  uChildForm, uCEFApplication, uCEFConstants;
 
 // Destruction steps
 // =================
@@ -85,8 +85,10 @@ begin
   // used by the browsers in the application.
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
-  GlobalCEFApp.RootCache            := ExtractFileDir(ParamStr(0));
+  GlobalCEFApp.RootCache            := ExtractFileDir(ParamStr(0)) + '\RootCache';
   GlobalCEFApp.cache                := GlobalCEFApp.RootCache + '\cache';
+  GlobalCEFApp.LogFile              := 'debug.log';
+  GlobalCEFApp.LogSeverity          := LOGSEVERITY_INFO;
 end;
 
 procedure TMainForm.CreateMDIChild(const Name: string);

@@ -116,22 +116,26 @@
 <td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#GetChromeColorSchemeVariant">GetChromeColorSchemeVariant</a></strong>: <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#AddSettingObserver-ICefSettingObserver-">AddSettingObserver</a></strong>(const observer: <a href="uCEFInterfaces.ICefSettingObserver.html">ICefSettingObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; reintroduce;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#Global">Global</a></strong>: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; reintroduce;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#New-PCefRequestContextSettings-ICefRequestContextHandler-">New</a></strong>(const settings: <a href="uCEFTypes.html#PCefRequestContextSettings">PCefRequestContextSettings</a>; const handler: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a> = nil): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#New-ustring-ustring-ustring-boolean-boolean-ICefRequestContextHandler-">New</a></strong>(const aCache, aAcceptLanguageList, aCookieableSchemesList : <a href="uCEFTypes.html#ustring">ustring</a>; aCookieableSchemesExcludeDefaults, aPersistSessionCookies : boolean; const handler: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a> = nil): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#Shared-ICefRequestContext-ICefRequestContextHandler-">Shared</a></strong>(const other: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; const handler: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>;</code></td>
 </tr>
@@ -360,6 +364,16 @@
 <tr><td colspan="2">
 <p>
  Returns the current Chrome color scheme variant. Must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="AddSettingObserver-ICefSettingObserver-"></span><code>function <strong>AddSettingObserver</strong>(const observer: <a href="uCEFInterfaces.ICefSettingObserver.html">ICefSettingObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add an observer for content and website setting changes. The observer will remain registered until the returned Registration object is destroyed. This function must be called on the browser process UI thread. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

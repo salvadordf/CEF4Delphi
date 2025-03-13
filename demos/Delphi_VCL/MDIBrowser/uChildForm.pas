@@ -122,7 +122,7 @@ end;
 
 procedure TChildForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  CanClose := FCanClose;
+  CanClose := (Chromium1.BrowserId =  0) or FCanClose;
 
   if not(FClosing) and Panel1.Enabled then
     begin

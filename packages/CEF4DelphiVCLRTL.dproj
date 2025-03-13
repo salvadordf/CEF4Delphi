@@ -329,6 +329,8 @@
         <DCCReference Include="..\source\uCEFUnresponsiveProcessCallback.pas"/>
         <DCCReference Include="..\source\uCEFWindowInfoWrapper.pas"/>
         <DCCReference Include="..\source\uCEFTaskManager.pas"/>
+        <DCCReference Include="..\source\uCEFPreferenceObserver.pas"/>
+        <DCCReference Include="..\source\uCEFSettingObserver.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

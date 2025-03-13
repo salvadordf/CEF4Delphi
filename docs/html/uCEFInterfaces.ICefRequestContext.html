@@ -121,6 +121,10 @@
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefRequestContext.html#GetChromeColorSchemeVariant">GetChromeColorSchemeVariant</a></strong>: <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>;</code></td>
 </tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefRequestContext.html#AddSettingObserver-ICefSettingObserver-">AddSettingObserver</a></strong>(const observer: <a href="uCEFInterfaces.ICefSettingObserver.html">ICefSettingObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
 </table>
 <span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
 <table class="summary wide_list">
@@ -374,6 +378,16 @@
 <tr><td colspan="2">
 <p>
  Returns the current Chrome color scheme variant. Must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddSettingObserver-ICefSettingObserver-"></span><code>function <strong>AddSettingObserver</strong>(const observer: <a href="uCEFInterfaces.ICefSettingObserver.html">ICefSettingObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add an observer for content and website setting changes. The observer will remain registered until the returned Registration object is destroyed. This function must be called on the browser process UI thread. </p>
 </td></tr>
 </table>
 <h3 class="detail">Properties</h3>

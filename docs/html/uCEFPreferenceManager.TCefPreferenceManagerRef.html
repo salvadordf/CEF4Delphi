@@ -18,7 +18,13 @@
 <p class="declaration">
 <code>type TCefPreferenceManagerRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefPreferenceManager.html">ICefPreferenceManager</a>)</code></p>
 <h2 class="description">Description</h2>
-<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<p>
+ Manage access to preferences. Many built-in preferences are registered by Chromium. Custom preferences can be registered in ICefBrowserProcessHandler.OnRegisterCustomPreferences. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_preference_capi.h (cef_preference_manager_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
 <ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
 <li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a></li>
 <li class="thisitem">TCefPreferenceManagerRef</li></ul><h2 class="overview">Overview</h2>
@@ -45,12 +51,24 @@
 <td class="itemcode"><code>function <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#SetPreference-ustring-ICefValue-ustring-">SetPreference</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; out error: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
 <tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefPreferenceManager.html">ICefPreferenceManager</a>;</code></td>
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#AddPreferenceObserver-ustring-ICefPreferenceObserver-">AddPreferenceObserver</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const observer: <a href="uCEFInterfaces.ICefPreferenceObserver.html">ICefPreferenceObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefPreferenceManager.html">ICefPreferenceManager</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#Global">Global</a></strong>: <a href="uCEFInterfaces.ICefPreferenceManager.html">ICefPreferenceManager</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class procedure <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#GetChromeVariationsAsSwitches-TStrings-">GetChromeVariationsAsSwitches</a></strong>(const switches: TStrings);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class procedure <strong><a href="uCEFPreferenceManager.TCefPreferenceManagerRef.html#GetChromeVariationsAsStrings-TStrings-">GetChromeVariationsAsStrings</a></strong>(const strings: TStrings);</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -61,7 +79,7 @@
 <td class="itemcode"><span id="HasPreference-ustring-"></span><code>function <strong>HasPreference</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPreferenceManager.html#HasPreference-ustring-">ICefPreferenceManager.HasPreference</a>.</p><p>
+<p>
  Returns true (1) if a preference with the specified |name| exists. This function must be called on the browser process UI thread. </p>
 </td></tr>
 </table>
@@ -71,7 +89,7 @@
 <td class="itemcode"><span id="GetPreference-ustring-"></span><code>function <strong>GetPreference</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPreferenceManager.html#GetPreference-ustring-">ICefPreferenceManager.GetPreference</a>.</p><p>
+<p>
  Returns the value for the preference with the specified |name|. Returns NULL if the preference does not exist. The returned object contains a copy of the underlying preference value and modifications to the returned object will not modify the underlying preference value. This function must be called on the browser process UI thread. </p>
 </td></tr>
 </table>
@@ -81,8 +99,8 @@
 <td class="itemcode"><span id="GetAllPreferences-Boolean-"></span><code>function <strong>GetAllPreferences</strong>(includeDefaults: Boolean): <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>;</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPreferenceManager.html#GetAllPreferences-Boolean-">ICefPreferenceManager.GetAllPreferences</a>.</p><p>
- Returns all preferences as a dictionary. If |include_defaults| is true (1) then preferences currently at their default value will be included. The returned object contains a copy of the underlying preference values and modifications to the returned object will not modify the underlying preference values. This function must be called on the browser process UI thread. </p>
+<p>
+ Returns the value for the preference with the specified |name|. Returns NULL if the preference does not exist. The returned object contains a copy of the underlying preference value and modifications to the returned object will not modify the underlying preference value. This function must be called on the browser process UI thread. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -91,7 +109,7 @@
 <td class="itemcode"><span id="CanSetPreference-ustring-"></span><code>function <strong>CanSetPreference</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPreferenceManager.html#CanSetPreference-ustring-">ICefPreferenceManager.CanSetPreference</a>.</p><p>
+<p>
  Returns true (1) if the preference with the specified |name| can be modified using SetPreference. As one example preferences set via the command-line usually cannot be modified. This function must be called on the browser process UI thread. </p>
 </td></tr>
 </table>
@@ -101,8 +119,18 @@
 <td class="itemcode"><span id="SetPreference-ustring-ICefValue-ustring-"></span><code>function <strong>SetPreference</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>; out error: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefPreferenceManager.html#SetPreference-ustring-ICefValue-ustring-">ICefPreferenceManager.SetPreference</a>.</p><p>
- Set the |value| associated with preference |name|. Returns true (1) if the value is set successfully and false (0) otherwise. If |value| is NULL the preference will be restored to its default value. If setting the preference fails then |error| will be populated with a detailed description of the problem. This function must be called on the browser process UI thread. </p>
+<p>
+ Returns true (1) if the preference with the specified |name| can be modified using SetPreference. As one example preferences set via the command-line usually cannot be modified. This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="AddPreferenceObserver-ustring-ICefPreferenceObserver-"></span><code>function <strong>AddPreferenceObserver</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const observer: <a href="uCEFInterfaces.ICefPreferenceObserver.html">ICefPreferenceObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add an observer for preference changes. |name| is the name of the preference to observe. If |name| is NULL then all preferences will be observed. Observing all preferences has performance consequences and is not recommended outside of testing scenarios. The observer will remain registered until the returned Registration object is destroyed. This function must be called on the browser process UI thread. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -119,7 +147,29 @@
 <td class="itemcode"><span id="Global"></span><code>class function <strong>Global</strong>: <a href="uCEFInterfaces.ICefPreferenceManager.html">ICefPreferenceManager</a>;</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+ Returns the global preference manager object. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetChromeVariationsAsSwitches-TStrings-"></span><code>class procedure <strong>GetChromeVariationsAsSwitches</strong>(const switches: TStrings);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current Chrome Variations configuration (combination of field trials and <a href="chrome://flags">chrome://flags</a>) as equivalent command-line switches (`&ndash;[enable|disable]-features=XXXX`, etc). These switches can be used to apply the same configuration when launching a CEF-based application. See <a href="https://developer.chrome.com/docs/web-platform/chrome-variations">https://developer.chrome.com/docs/web-platform/chrome-variations</a> for background and details. Note that field trial tests are disabled by default in Official CEF builds (via the `disable_fieldtrial_testing_config=true (1)` GN flag). This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetChromeVariationsAsStrings-TStrings-"></span><code>class procedure <strong>GetChromeVariationsAsStrings</strong>(const strings: TStrings);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the current Chrome Variations configuration (combination of field trials and <a href="chrome://flags">chrome://flags</a>) as human-readable strings. This is the human- readable equivalent of the &quot;Active Variations&quot; section of <a href="chrome://version">chrome://version</a>. See <a href="https://developer.chrome.com/docs/web-platform/chrome-variations">https://developer.chrome.com/docs/web-platform/chrome-variations</a> for background and details. Note that field trial tests are disabled by default in Official CEF builds (via the `disable_fieldtrial_testing_config=true (1)` GN flag). This function must be called on the browser process UI thread. </p>
+</td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
 </span>

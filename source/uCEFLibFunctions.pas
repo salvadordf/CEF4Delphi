@@ -120,7 +120,9 @@ var
   cef_get_path : function(key: TCefPathKey; path: PCefString): Integer; cdecl;
 
   // /include/capi/cef_preference_capi.h
-  cef_preference_manager_get_global : function : PCefPreferenceManager; cdecl;
+  cef_preference_manager_get_global                          : function : PCefPreferenceManager; cdecl;
+  cef_preference_manager_get_chrome_variations_as_switches   : procedure(switches: TCefStringList); cdecl;  {* CEF_API_ADDED(13401) *}
+  cef_preference_manager_get_chrome_variations_as_strings    : procedure(strings: TCefStringList); cdecl;   {* CEF_API_ADDED(13401) *}
 
   // /include/capi/cef_print_settings_capi.h
   cef_print_settings_create : function : PCefPrintSettings; cdecl;

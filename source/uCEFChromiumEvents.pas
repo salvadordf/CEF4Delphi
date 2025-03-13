@@ -188,6 +188,12 @@ type
   TOnShowPermissionPromptEvent         = procedure(Sender: TObject; const browser: ICefBrowser; prompt_id: uint64; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefPermissionPromptCallback; var aResult: boolean) of object;
   TOnDismissPermissionPromptEvent      = procedure(Sender: TObject; const browser: ICefBrowser; prompt_id: uint64; result: TCefPermissionRequestResult) of object;
 
+  // ICefPreferenceObserver
+  TOnPreferenceChangedEvent            = procedure(Sender: TObject; const name: ustring) of object;
+
+  // ICefSettingObserver
+  TOnSettingChangedEvent               = procedure(Sender: TObject; const requesting_url, top_level_url : ustring; content_type: TCefContentSettingTypes) of object;
+
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;
   TOnPdfPrintFinishedEvent                 = procedure(Sender: TObject; aResultOK : boolean) of object;

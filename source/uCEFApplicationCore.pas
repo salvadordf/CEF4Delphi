@@ -4351,9 +4351,13 @@ end;
 
 function TCefApplicationCore.Load_cef_preference_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_preference_manager_get_global{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_preference_manager_get_global');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_preference_manager_get_global{$IFDEF FPC}){$ENDIF}                        := GetProcAddress(FLibHandle, 'cef_preference_manager_get_global');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_preference_manager_get_chrome_variations_as_switches{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_preference_manager_get_chrome_variations_as_switches');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_preference_manager_get_chrome_variations_as_strings{$IFDEF FPC}){$ENDIF}  := GetProcAddress(FLibHandle, 'cef_preference_manager_get_chrome_variations_as_strings');
 
-  Result := assigned(cef_preference_manager_get_global);
+  Result := assigned(cef_preference_manager_get_global) and
+            assigned(cef_preference_manager_get_chrome_variations_as_switches) and
+            assigned(cef_preference_manager_get_chrome_variations_as_strings);
 end;
 
 function TCefApplicationCore.Load_cef_print_settings_capi_h : boolean;

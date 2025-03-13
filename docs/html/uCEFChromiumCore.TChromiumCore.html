@@ -77,6 +77,22 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FSettingObserver">FSettingObserver</a></strong>: <a href="uCEFInterfaces.ICefSettingObserver.html">ICefSettingObserver</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FSettingObserverReg">FSettingObserverReg</a></strong>: <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FPreferenceInfoList">FPreferenceInfoList</a></strong>: TPreferenceInfoList;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FPreferenceInfoCS">FPreferenceInfoCS</a></strong>: TCriticalSection;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FDefaultUrl">FDefaultUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
 </tr>
 <tr class="list2">
@@ -833,6 +849,14 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnPreferenceChanged">FOnPreferenceChanged</a></strong>: <a href="uCEFChromiumEvents.html#TOnPreferenceChangedEvent">TOnPreferenceChangedEvent</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnSettingChanged">FOnSettingChanged</a></strong>: <a href="uCEFChromiumEvents.html#TOnSettingChangedEvent">TOnSettingChangedEvent</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnTextResultAvailable">FOnTextResultAvailable</a></strong>: <a href="uCEFChromiumEvents.html#TOnTextResultAvailableEvent">TOnTextResultAvailableEvent</a>;</code></td>
 </tr>
 <tr class="list">
@@ -1316,6 +1340,14 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DestroySettingObserver">DestroySettingObserver</a></strong>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DestroyPreferenceObserver">DestroyPreferenceObserver</a></strong>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DestroyAllHandlersAndObservers">DestroyAllHandlersAndObservers</a></strong>;</code></td>
 </tr>
 <tr class="list2">
@@ -1329,6 +1361,14 @@
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateDevToolsMsgObserver">CreateDevToolsMsgObserver</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateSettingObserver">CreateSettingObserver</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreatePreferenceObserver">CreatePreferenceObserver</a></strong>; virtual;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
@@ -1984,6 +2024,14 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doOnPreferenceChanged-ustring-">doOnPreferenceChanged</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doOnSettingChanged-ustring-ustring-TCefContentSettingTypes-">doOnSettingChanged</a></strong>(const requesting_url, top_level_url : <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetSettings-TCefBrowserSettings-">GetSettings</a></strong>(var aSettings : <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>);</code></td>
 </tr>
 <tr class="list">
@@ -2108,15 +2156,23 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateAudioHandler">MustCreateAudioHandler</a></strong>: boolean; virtual;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doAddPreferenceObserver-ustring-">doAddPreferenceObserver</a></strong>(const name : <a href="uCEFTypes.html#ustring">ustring</a>); virtual;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateCommandHandler">MustCreateCommandHandler</a></strong>: boolean; virtual;</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateAudioHandler">MustCreateAudioHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateCommandHandler">MustCreateCommandHandler</a></strong>: boolean; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateDevToolsMessageObserver">MustCreateDevToolsMessageObserver</a></strong>: boolean; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateSettingObserver">MustCreateSettingObserver</a></strong>: boolean; virtual;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
@@ -2428,6 +2484,14 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddPreferenceObserver-ustring-">AddPreferenceObserver</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#RemovePreferenceObserver-ustring-">RemovePreferenceObserver</a></strong>(const name : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#DeleteCookies-ustring-ustring-boolean-">DeleteCookies</a></strong>(const url : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const cookieName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; aDeleteImmediately : boolean = False) : boolean;</code></td>
 </tr>
 <tr class="list2">
@@ -2472,269 +2536,273 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#Find-ustring-Boolean-Boolean-Boolean-">Find</a></strong>(const aSearchText : <a href="uCEFTypes.html#ustring">ustring</a>; aForward, aMatchCase, aFindNext : Boolean);</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddSettingObserver-ICefSettingObserver-">AddSettingObserver</a></strong>(const observer: <a href="uCEFInterfaces.ICefSettingObserver.html">ICefSettingObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#Find-ustring-Boolean-Boolean-Boolean-">Find</a></strong>(const aSearchText : <a href="uCEFTypes.html#ustring">ustring</a>; aForward, aMatchCase, aFindNext : Boolean);</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#StopFinding-Boolean-">StopFinding</a></strong>(aClearSelection : Boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#Print">Print</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#PrintToPDF-ustring-">PrintToPDF</a></strong>(const aFilePath : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardCopy">ClipboardCopy</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardPaste">ClipboardPaste</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardPasteAndMatchStyle">ClipboardPasteAndMatchStyle</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardCut">ClipboardCut</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardUndo">ClipboardUndo</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardRedo">ClipboardRedo</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardDel">ClipboardDel</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SelectAll">SelectAll</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IncZoomStep">IncZoomStep</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DecZoomStep">DecZoomStep</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IncZoomPct">IncZoomPct</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DecZoomPct">DecZoomPct</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResetZoomStep">ResetZoomStep</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResetZoomLevel">ResetZoomLevel</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResetZoomPct">ResetZoomPct</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ReadZoom">ReadZoom</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IncZoomCommand">IncZoomCommand</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DecZoomCommand">DecZoomCommand</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResetZoomCommand">ResetZoomCommand</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#WasResized">WasResized</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#WasHidden-Boolean-">WasHidden</a></strong>(hidden: Boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyScreenInfoChanged">NotifyScreenInfoChanged</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyMoveOrResizeStarted">NotifyMoveOrResizeStarted</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#Invalidate-TCefPaintElementType-">Invalidate</a></strong>(type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a> = <a href="uCEFTypes.html#PET_VIEW">PET_VIEW</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExitFullscreen-boolean-">ExitFullscreen</a></strong>(will_cause_resize: boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CanExecuteChromeCommand-integer-">CanExecuteChromeCommand</a></strong>(command_id: integer): boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExecuteChromeCommand-integer-TCefWindowOpenDisposition-">ExecuteChromeCommand</a></strong>(command_id: integer; disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendExternalBeginFrame">SendExternalBeginFrame</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendKeyEvent-PCefKeyEvent-">SendKeyEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefKeyEvent">PCefKeyEvent</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendMouseClickEvent-PCefMouseEvent-TCefMouseButtonType-Boolean-Integer-">SendMouseClickEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; type_: <a href="uCEFTypes.html#TCefMouseButtonType">TCefMouseButtonType</a>; mouseUp: Boolean; clickCount: Integer);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendMouseMoveEvent-PCefMouseEvent-Boolean-">SendMouseMoveEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; mouseLeave: Boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendMouseWheelEvent-PCefMouseEvent-Integer-Integer-">SendMouseWheelEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; deltaX, deltaY: Integer);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendTouchEvent-PCefTouchEvent-">SendTouchEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefTouchEvent">PCefTouchEvent</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendCaptureLostEvent">SendCaptureLostEvent</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendProcessMessage-TCefProcessId-ICefProcessMessage-ustring-ustring-">SendProcessMessage</a></strong>(targetProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const ProcMessage: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendProcessMessage-TCefProcessId-ICefProcessMessage-ICefFrame-">SendProcessMessage</a></strong>(targetProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const ProcMessage: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateUrlRequest-ICefRequest-ICefUrlrequestClient-ustring-ustring-">CreateUrlRequest</a></strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const client: <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''): <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateUrlRequest-ICefRequest-ICefUrlrequestClient-ICefFrame-">CreateUrlRequest</a></strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const client: <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>): <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetFocus-Boolean-">SetFocus</a></strong>(focus: Boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetAccessibilityState-TCefState-">SetAccessibilityState</a></strong>(accessibilityState: <a href="uCEFTypes.html#TCefState">TCefState</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDragEnter-ICefDragData-PCefMouseEvent-TCefDragOperations-">DragTargetDragEnter</a></strong>(const dragData: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDragOver-PCefMouseEvent-TCefDragOperations-">DragTargetDragOver</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDragLeave">DragTargetDragLeave</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDrop-PCefMouseEvent-">DragTargetDrop</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragSourceEndedAt-Integer-Integer-TCefDragOperation-">DragSourceEndedAt</a></strong>(x, y: Integer; op: <a href="uCEFTypes.html#TCefDragOperation">TCefDragOperation</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragSourceSystemDragEnded">DragSourceSystemDragEnded</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMESetComposition-ustring-TCefCompositionUnderlineDynArray-PCefRange-PCefRange-">IMESetComposition</a></strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; const underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>; const replacement_range, selection_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMECommitText-ustring-PCefRange-integer-">IMECommitText</a></strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; const replacement_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>; relative_cursor_pos : integer);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMEFinishComposingText-boolean-">IMEFinishComposingText</a></strong>(keep_selection : boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMECancelComposition">IMECancelComposition</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ReplaceMisspelling-ustring-">ReplaceMisspelling</a></strong>(const aWord : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddWordToDictionary-ustring-">AddWordToDictionary</a></strong>(const aWord : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddObserver-ICefMediaObserver-">AddObserver</a></strong>(const observer: <a href="uCEFInterfaces.ICefMediaObserver.html">ICefMediaObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetSource-ustring-">GetSource</a></strong>(const urn: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefMediaSource.html">ICefMediaSource</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyCurrentSinks">NotifyCurrentSinks</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyCurrentRoutes">NotifyCurrentRoutes</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateRoute-ICefMediaSource-ICefMediaSink-">CreateRoute</a></strong>(const source: <a href="uCEFInterfaces.ICefMediaSource.html">ICefMediaSource</a>; const sink: <a href="uCEFInterfaces.ICefMediaSink.html">ICefMediaSink</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetDeviceInfo-ICefMediaSink-">GetDeviceInfo</a></strong>(const aMediaSink: <a href="uCEFInterfaces.ICefMediaSink.html">ICefMediaSink</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetWebsiteSetting-ustring-ustring-TCefContentSettingTypes-">GetWebsiteSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetWebsiteSetting-ustring-ustring-TCefContentSettingTypes-ICefValue-">SetWebsiteSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetContentSetting-ustring-ustring-TCefContentSettingTypes-">GetContentSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetContentSetting-ustring-ustring-TCefContentSettingTypes-TCefContentSettingValues-">SetContentSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; value: <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetChromeColorScheme-TCefColorVariant-TCefColor-">SetChromeColorScheme</a></strong>(variant: <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>; user_color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
 </tr>
@@ -3701,6 +3769,14 @@
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDismissPermissionPrompt">OnDismissPermissionPrompt</a></strong>              : <a href="uCEFChromiumEvents.html#TOnDismissPermissionPromptEvent">TOnDismissPermissionPromptEvent</a>      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDismissPermissionPrompt">FOnDismissPermissionPrompt</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDismissPermissionPrompt">FOnDismissPermissionPrompt</a>;</code></td>
 </tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnPreferenceChanged">OnPreferenceChanged</a></strong>                    : <a href="uCEFChromiumEvents.html#TOnPreferenceChangedEvent">TOnPreferenceChangedEvent</a>            read <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreferenceChanged">FOnPreferenceChanged</a>                 write <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreferenceChanged">FOnPreferenceChanged</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnSettingChanged">OnSettingChanged</a></strong>                      : <a href="uCEFChromiumEvents.html#TOnSettingChangedEvent">TOnSettingChangedEvent</a>                read <a href="uCEFChromiumCore.TChromiumCore.html#FOnSettingChanged">FOnSettingChanged</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnSettingChanged">FOnSettingChanged</a>;</code></td>
+</tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Fields</h3>
@@ -3796,6 +3872,38 @@
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="FDevToolsMsgObserverReg"></span><code><strong>FDevToolsMsgObserverReg</strong>: <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FSettingObserver"></span><code><strong>FSettingObserver</strong>: <a href="uCEFInterfaces.ICefSettingObserver.html">ICefSettingObserver</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FSettingObserverReg"></span><code><strong>FSettingObserverReg</strong>: <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FPreferenceInfoList"></span><code><strong>FPreferenceInfoList</strong>: TPreferenceInfoList;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FPreferenceInfoCS"></span><code><strong>FPreferenceInfoCS</strong>: TCriticalSection;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -5363,6 +5471,26 @@ ICefPermissionHandler</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnPreferenceChanged"></span><code><strong>FOnPreferenceChanged</strong>: <a href="uCEFChromiumEvents.html#TOnPreferenceChangedEvent">TOnPreferenceChangedEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefPreferenceObserver</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnSettingChanged"></span><code><strong>FOnSettingChanged</strong>: <a href="uCEFChromiumEvents.html#TOnSettingChangedEvent">TOnSettingChangedEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefSettingObserver</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="FOnTextResultAvailable"></span><code><strong>FOnTextResultAvailable</strong>: <a href="uCEFChromiumEvents.html#TOnTextResultAvailableEvent">TOnTextResultAvailableEvent</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -6326,6 +6454,22 @@ Custom</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroySettingObserver"></span><code>procedure <strong>DestroySettingObserver</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="DestroyPreferenceObserver"></span><code>procedure <strong>DestroyPreferenceObserver</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="DestroyAllHandlersAndObservers"></span><code>procedure <strong>DestroyAllHandlersAndObservers</strong>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -6351,6 +6495,22 @@ Custom</p>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="CreateDevToolsMsgObserver"></span><code>procedure <strong>CreateDevToolsMsgObserver</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CreateSettingObserver"></span><code>procedure <strong>CreateSettingObserver</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CreatePreferenceObserver"></span><code>procedure <strong>CreatePreferenceObserver</strong>; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -7712,6 +7872,26 @@ ICefPermissionHandler</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnPreferenceChanged-ustring-"></span><code>procedure <strong>doOnPreferenceChanged</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefPreferenceObserver</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnSettingChanged-ustring-ustring-TCefContentSettingTypes-"></span><code>procedure <strong>doOnSettingChanged</strong>(const requesting_url, top_level_url : <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefSettingObserver</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="GetSettings-TCefBrowserSettings-"></span><code>procedure <strong>GetSettings</strong>(var aSettings : <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -7964,6 +8144,14 @@ Custom</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doAddPreferenceObserver-ustring-"></span><code>procedure <strong>doAddPreferenceObserver</strong>(const name : <a href="uCEFTypes.html#ustring">ustring</a>); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="MustCreateAudioHandler"></span><code>function <strong>MustCreateAudioHandler</strong>: boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -7981,6 +8169,14 @@ Custom</p>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="MustCreateDevToolsMessageObserver"></span><code>function <strong>MustCreateDevToolsMessageObserver</strong>: boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="MustCreateSettingObserver"></span><code>function <strong>MustCreateSettingObserver</strong>: boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -8976,6 +9172,34 @@ Custom</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddPreferenceObserver-ustring-"></span><code>procedure <strong>AddPreferenceObserver</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add an observer for preference changes. |name| is the name of the preference to observe. If |name| is NULL then all preferences will be observed. Observing all preferences has performance consequences and is not recommended outside of testing scenarios. The observer will remain registered until the returned Registration object is destroyed. This function must be called on the browser process UI thread. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_preference_capi.h (cef_preference_manager_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemovePreferenceObserver-ustring-"></span><code>procedure <strong>RemovePreferenceObserver</strong>(const name : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Remove an observer for preference changes. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_preference_capi.h (cef_preference_manager_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><span id="DeleteCookies-ustring-ustring-boolean-"></span><code>function <strong>DeleteCookies</strong>(const url : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const cookieName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; aDeleteImmediately : boolean = False) : boolean;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -9121,6 +9345,20 @@ Custom</p>
 <tr><td colspan="2">
 <p>
  Add an observer for DevTools protocol messages (function results and events). The observer will remain registered until the returned Registration object is destroyed. See the SendDevToolsMessage documentation for additional usage information. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddSettingObserver-ICefSettingObserver-"></span><code>function <strong>AddSettingObserver</strong>(const observer: <a href="uCEFInterfaces.ICefSettingObserver.html">ICefSettingObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Add an observer for content and website setting changes. The observer will remain registered until the returned Registration object is destroyed. This function must be called on the browser process UI thread. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_context_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_context_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_request_context_capi.h (cef_request_context_t))</p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -13207,6 +13445,38 @@ Custom</p>
 <p>This event will be called on the browser process CEF UI thread.
 
 <p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_permission_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_permission_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_permission_handler_capi.h (cef_permission_handler_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnPreferenceChanged"></span><code>property <strong>OnPreferenceChanged</strong>                    : <a href="uCEFChromiumEvents.html#TOnPreferenceChangedEvent">TOnPreferenceChangedEvent</a>            read <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreferenceChanged">FOnPreferenceChanged</a>                 write <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreferenceChanged">FOnPreferenceChanged</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when a preference has changed. The new value can be retrieved using ICefRequestContext.GetPreference. </p>
+<p>
+
+
+<p>This event will be called on the browser process CEF UI thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_preference_capi.h (cef_preference_observer_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnSettingChanged"></span><code>property <strong>OnSettingChanged</strong>                      : <a href="uCEFChromiumEvents.html#TOnSettingChangedEvent">TOnSettingChangedEvent</a>                read <a href="uCEFChromiumCore.TChromiumCore.html#FOnSettingChanged">FOnSettingChanged</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnSettingChanged">FOnSettingChanged</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Called when a content or website setting has changed. The new value can be retrieved using ICefRequestContext.GetContentSetting or ICefRequestContext.GetWebsiteSetting. </p>
+<p>
+
+
+<p>This event will be called on the browser process CEF UI thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_preference_capi.h (cef_setting_observer_t))</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>

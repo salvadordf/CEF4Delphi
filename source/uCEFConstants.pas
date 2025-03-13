@@ -290,6 +290,14 @@ const
   /// </remarks>
   ERR_NETWORK_ACCESS_REVOKED                                  = -33;
   /// <summary>
+  /// The request was blocked by fingerprinting protections.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_BLOCKED_BY_FINGERPRINTING_PROTECTION                    = -34;
+  /// <summary>
   /// A connection was closed (corresponding to a TCP FIN).
   /// </summary>
   /// <remarks>
@@ -2319,6 +2327,8 @@ const
   IDC_TASK_MANAGER_MAIN_MENU = 40288;
   IDC_COMPARE_MENU = 40289;
   IDC_SHOW_ALL_COMPARISON_TABLES = 40290;
+  IDC_ADD_TO_COMPARISON_TABLE_MENU = 40291;
+  IDC_CREATE_NEW_COMPARISON_TABLE_WITH_TAB = 40292;
   IDC_SPELLCHECK_SUGGESTION_0 = 41000;
   IDC_SPELLCHECK_SUGGESTION_1 = 41001;
   IDC_SPELLCHECK_SUGGESTION_2 = 41002;
@@ -2435,6 +2445,8 @@ const
   IDC_CONTENT_CONTEXT_OPEN_WITH14 = 50213;
   IDC_CONTENT_CONTEXT_EMOJI = 50220;
   IDC_CONTEXT_COMPOSE = 50230;
+  IDC_CONTENT_CONTEXT_CLOSE_GLIC = 50231;
+  IDC_CONTENT_CONTEXT_RELOAD_GLIC = 50232;
   IDC_BOOKMARK_BAR_OPEN_ALL = 51000;
   IDC_BOOKMARK_BAR_OPEN_ALL_NEW_WINDOW = 51001;
   IDC_BOOKMARK_BAR_OPEN_ALL_INCOGNITO = 51002;
@@ -2510,10 +2522,11 @@ const
   IDC_DEVICE_SYSTEM_TRAY_ICON_FIRST = 53260;
   IDC_DEVICE_SYSTEM_TRAY_ICON_LAST = 53299;
   IDC_SET_BROWSER_AS_DEFAULT = 53300;
-  IDC_COMPACT_MODE = 53301;
   IDC_GLIC_STATUS_ICON_MENU_SHOW = 53310;
   IDC_GLIC_STATUS_ICON_MENU_CUSTOMIZE_KEYBOARD_SHORTCUT = 53311;
-  IDC_GLIC_STATUS_ICON_MENU_SETTINGS = 53312;
+  IDC_GLIC_STATUS_ICON_MENU_REMOVE_ICON = 53312;
+  IDC_GLIC_STATUS_ICON_MENU_SETTINGS = 53313;
+  IDC_GLIC_STATUS_ICON_MENU_EXIT = 53314;
 
 
   /// <summary>

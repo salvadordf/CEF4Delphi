@@ -210,6 +210,13 @@ type
       /// </summary>
       function GetChromeColorSchemeVariant: TCefColorVariant;
 
+      /// <summary>
+      /// Add an observer for content and website setting changes. The observer will
+      /// remain registered until the returned Registration object is destroyed.
+      /// This function must be called on the browser process UI thread.
+      /// </summary>
+      function AddSettingObserver(const observer: ICefSettingObserver): ICefRegistration;
+
     public
       class function UnWrap(data: Pointer): ICefRequestContext; reintroduce;
       /// <summary>
@@ -262,7 +269,7 @@ implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFCookieManager, uCEFRequestContextHandler,
-  uCEFStringList, uCEFMediaRouter, uCEFValue;
+  uCEFStringList, uCEFMediaRouter, uCEFValue, uCEFRegistration;
 
 function TCefRequestContextRef.ClearSchemeHandlerFactories: Boolean;
 begin
@@ -424,6 +431,11 @@ end;
 function TCefRequestContextRef.GetChromeColorSchemeVariant: TCefColorVariant;
 begin
   Result := PCefRequestContext(FData)^.get_chrome_color_scheme_variant(PCefRequestContext(FData));
+end;
+
+function TCefRequestContextRef.AddSettingObserver(const observer: ICefSettingObserver): ICefRegistration;
+begin
+  Result := TCefRegistrationRef.UnWrap(PCefRequestContext(FData)^.add_setting_observer(PCefRequestContext(FData), CefGetData(observer)));
 end;
 
 function TCefRequestContextRef.RegisterSchemeHandlerFactory(const schemeName : ustring;

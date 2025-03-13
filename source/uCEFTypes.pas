@@ -34,6 +34,7 @@ type
   PCefBinaryValue = ^TCefBinaryValue;
   PCefSchemeRegistrar = ^TCefSchemeRegistrar;
   PCefPreferenceRegistrar = ^TCefPreferenceRegistrar;
+  PCefPreferenceObserver = ^TCefPreferenceObserver;
   PCefPreferenceManager = ^TCefPreferenceManager;
   PCefCommandLine = ^TCefCommandLine;
   PCefCommandHandler = ^TCefCommandHandler;
@@ -140,6 +141,7 @@ type
   PCefSSLStatus = ^TCefSSLStatus;
   PCefSelectClientCertificateCallback = ^TCefSelectClientCertificateCallback;
   PCefCallback = ^TCefCallback;
+  PCefSettingObserver = ^TCefSettingObserver;
   PCefCookie = ^TCefCookie;
   PCefRequestContext = ^TCefRequestContext;
   PCefRequestContextHandler = ^TCefRequestContextHandler;
@@ -3340,6 +3342,7 @@ type
     CEF_CPAIT_DISCOUNTS,
     CEF_CPAIT_OPTIMIZATION_GUIDE,
     CEF_CPAIT_COLLABORATION_MESSAGING, {* CEF_API_ADDED(13304) *}
+    CEF_CPAIT_CHANGE_PASSWORD,         {* CEF_API_ADDED(13400) *}
     CEF_CPAIT_NUM_VALUES
   );
 
@@ -5430,7 +5433,15 @@ type
     /// or legacy behavior.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_LEGACY_COOKIE_SCOPE,
-
+    /// <summary>
+    /// Website setting to indicate whether the user has allowlisted suspicious
+    /// notifications for the origin.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_ARE_SUSPICIOUS_NOTIFICATIONS_ALLOWLISTED_BY_USER,   {* CEF_API_ADDED(13400) *}
+    /// <summary>
+    /// Content settings for access to the Controlled Frame API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_CONTROLLED_FRAME,                                   {* CEF_API_ADDED(13400) *}
     CEF_CONTENT_SETTING_TYPE_NUM_VALUES
   );
 
@@ -6054,6 +6065,23 @@ type
   end;
 
   /// <summary>
+  /// Implemented by the client to observe preference changes and registered via
+  /// cef_preference_manager_t::AddPreferenceObserver. The functions of this
+  /// structure will be called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
+  /// </summary>
+  /// <remarks>
+  /// <para>Implemented by ICefPreferenceObserver.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">CEF source file: /include/capi/cef_preference_capi.h (cef_preference_observer_t)</see></para>
+  /// </remarks>
+  {* CEF_API_ADDED(13401) *}
+  TCefPreferenceObserver = record
+    base                    : TCefBaseRefCounted;
+    on_preference_changed   : procedure(self: PCefPreferenceObserver; const name: PCefString); stdcall;
+  end;
+
+  /// <summary>
   /// Manage access to preferences. Many built-in preferences are registered by
   /// Chromium. Custom preferences can be registered in
   /// ICefBrowserProcessHandler.OnRegisterCustomPreferences.
@@ -6071,6 +6099,7 @@ type
     get_all_preferences             : function(self: PCefPreferenceManager; include_defaults: Integer): PCefDictionaryValue; stdcall;
     can_set_preference              : function(self: PCefPreferenceManager; const name: PCefString): Integer; stdcall;
     set_preference                  : function(self: PCefPreferenceManager; const name: PCefString; value: PCefValue; error: PCefString): Integer; stdcall;
+    add_preference_observer         : function(self: PCefPreferenceManager; const name: PCefString; observer: PCefPreferenceObserver): PCefRegistration; stdcall; {* CEF_API_ADDED(13401) *}
   end;
 
   /// <summary>
@@ -6743,6 +6772,23 @@ type
   end;
 
   /// <summary>
+  /// Implemented by the client to observe content and website setting changes and
+  /// registered via cef_request_context_t::AddSettingObserver. The functions of
+  /// this structure will be called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
+  /// </summary>
+  /// <remarks>
+  /// <para>Implemented by ICefSettingObserver.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_context_capi.h">CEF source file: /include/capi/cef_request_context_capi.h (cef_setting_observer_t)</see></para>
+  /// </remarks>
+  {* CEF_API_ADDED(13401) *}
+  TCefSettingObserver = record
+    base                : TCefBaseRefCounted;
+    on_setting_changed  : procedure(self: PCefSettingObserver; const requesting_url, top_level_url: PCefString; content_type: TCefContentSettingTypes); stdcall;
+  end;
+
+  /// <summary>
   /// A request context provides request handling for a set of related browser or
   /// URL request objects. A request context can be specified when creating a new
   /// browser via the ICefBrowserHost static factory functions or when creating
@@ -6787,6 +6833,7 @@ type
     get_chrome_color_scheme_mode    : function(self: PCefRequestContext): TCefColorVariant; stdcall;
     get_chrome_color_scheme_color   : function(self: PCefRequestContext): TCefColor; stdcall;
     get_chrome_color_scheme_variant : function(self: PCefRequestContext): TCefColorVariant; stdcall;
+    add_setting_observer            : function(self: PCefRequestContext; observer: PCefSettingObserver): PCefRegistration; stdcall;   {* CEF_API_ADDED(13401) *}
   end;
 
   /// <summary>
