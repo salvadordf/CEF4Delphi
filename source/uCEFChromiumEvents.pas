@@ -189,7 +189,7 @@ type
   TOnDismissPermissionPromptEvent      = procedure(Sender: TObject; const browser: ICefBrowser; prompt_id: uint64; result: TCefPermissionRequestResult) of object;
 
   // ICefPreferenceObserver
-  TOnPreferenceChangedEvent            = procedure(Sender: TObject; const name: ustring) of object;
+  TOnPreferenceChangedEvent            = procedure(Sender: TObject; const name_: ustring) of object;
 
   // ICefSettingObserver
   TOnSettingChangedEvent               = procedure(Sender: TObject; const requesting_url, top_level_url : ustring; content_type: TCefContentSettingTypes) of object;
