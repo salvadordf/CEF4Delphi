@@ -177,6 +177,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
           
             'https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/acc' +
             'ept'
+          
+            'https://codesandbox.io/p/sandbox/image-blob-example-0igon?file=%' +
+            '2Fsrc%2FApp.js'
           'chrome://version/'
           'chrome://net-internals/'
           'chrome://tracing/'
@@ -383,6 +386,10 @@ object MiniBrowserFrm: TMiniBrowserFrm
     object Downloadimage1: TMenuItem
       Caption = 'Download image...'
       OnClick = Downloadimage1Click
+    end
+    object Downloadfile1: TMenuItem
+      Caption = 'Download file...'
+      OnClick = Downloadfile1Click
     end
     object Simulatekeyboardpresses1: TMenuItem
       Caption = 'Simulate keyboard presses'

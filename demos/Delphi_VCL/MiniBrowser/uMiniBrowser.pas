@@ -132,6 +132,7 @@ type
     SaveasMHTML1: TMenuItem;
     Allowdownloads1: TMenuItem;
     Toggleaudio1: TMenuItem;
+    Downloadfile1: TMenuItem;
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -209,6 +210,7 @@ type
     procedure SaveasMHTML1Click(Sender: TObject);
     procedure Allowdownloads1Click(Sender: TObject);
     procedure Toggleaudio1Click(Sender: TObject);
+    procedure Downloadfile1Click(Sender: TObject);
 
   protected
     FPendingMsgID        : integer;
@@ -2116,6 +2118,16 @@ begin
     HideDevTools
    else
     ShowDevTools;
+end;
+
+procedure TMiniBrowserFrm.Downloadfile1Click(Sender: TObject);
+var
+  TempURL : string;
+begin
+  TempURL := InputBox('Download File', 'URL:', '');
+
+  if (length(TempURL) > 0) then
+    Chromium1.StartDownload(TempURL);
 end;
 
 procedure TMiniBrowserFrm.Downloadimage1Click(Sender: TObject);
