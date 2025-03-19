@@ -161,6 +161,9 @@ type
       FDisableHangMonitor                : boolean;
       FHideCrashRestoreBubble            : boolean;
       FPostQuantumKyber                  : TCefState;
+      {$IFDEF LINUX}
+      FPasswordStorage                   : TCefPasswordStorage;
+      {$ENDIF}
 
 
       // Fields used during the CEF initialization
@@ -1322,6 +1325,15 @@ type
       /// This option enables a combination of X25519 and Kyber in TLS 1.3.
       /// </summary>
       property TLS13HybridizedKyberSupport       : TCefState                                read FPostQuantumKyber                  write FPostQuantumKyber;
+      {$IFDEF LINUX}
+      /// <summary>
+      /// Specifies which encryption storage backend to use in Linux.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:docs/linux/password_storage.md">Chromium document: docs/linux/password_storage.md</see></para>
+      /// </remarks>
+      property PasswordStorage                   : TCefPasswordStorage                      read FPasswordStorage                   write FPasswordStorage;
+      {$ENDIF}
       /// <summary>
       /// Ignores certificate-related errors.
       /// </summary>
@@ -1997,6 +2009,9 @@ begin
   FDisableHangMonitor                := False;
   FHideCrashRestoreBubble            := True;
   FPostQuantumKyber                  := STATE_DEFAULT;
+  {$IFDEF LINUX}
+  FPasswordStorage                   := psDefault;
+  {$ENDIF}
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
@@ -3677,6 +3692,16 @@ begin
     STATE_ENABLED  : ReplaceSwitch(aKeys, aValues, '--enable-features',  'PostQuantumKyber');
     STATE_DISABLED : ReplaceSwitch(aKeys, aValues, '--disable-features', 'PostQuantumKyber');
   end;
+
+  {$IFDEF LINUX}
+  case FPasswordStorage of
+    psGnomeLibsecret : ReplaceSwitch(aKeys, aValues, '--password-store', 'gnome-libsecret');
+    psKWallet        : ReplaceSwitch(aKeys, aValues, '--password-store', 'kwallet');
+    psKWallet5       : ReplaceSwitch(aKeys, aValues, '--password-store', 'kwallet5');
+    psKWallet6       : ReplaceSwitch(aKeys, aValues, '--password-store', 'kwallet6');
+    psBasic          : ReplaceSwitch(aKeys, aValues, '--password-store', 'basic');
+  end;
+  {$ENDIF}
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc

@@ -424,6 +424,38 @@ type
     /// </summary>
     fd      : integer;
   end;
+
+  /// <summary>
+  /// Specifies which encryption storage backend to use in Linux.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:docs/linux/password_storage.md">Chromium document: docs/linux/password_storage.md</see></para>
+  /// </remarks>
+  TCefPasswordStorage = (
+    /// <summary>
+    /// Chromium chooses which store to use automatically, based on your desktop environment.
+    /// </summary>
+    psDefault,
+    /// <summary>
+    /// GNOME Libsecret.
+    /// </summary>
+    psGnomeLibsecret,
+    /// <summary>
+    /// KWallet 4.
+    /// </summary>
+    psKWallet,
+    /// <summary>
+    /// KWallet 5.
+    /// </summary>
+    psKWallet5,
+    /// <summary>
+    /// KWallet 6.
+    /// </summary>
+    psKWallet6,
+    /// <summary>
+    /// Plain text.
+    /// </summary>
+    psBasic);
   {$ENDIF}
 
   /// <summary>
