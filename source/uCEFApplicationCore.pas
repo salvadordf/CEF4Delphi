@@ -487,31 +487,23 @@ type
       /// </summary>
       procedure   RemoveComponentID(aComponentID : integer);
       /// <summary>
-      /// DumpWithoutCrashing allows for generating crash dumps with a throttling
+      /// <para>This function allows for generating of crash dumps with a throttling
       /// mechanism, preventing frequent dumps from being generated in a short period
-      /// of time from the same location. The |function_name|, |file_name|, and
-      /// |line_number| determine the location of the dump. The
+      /// of time from the same location. If should only be called after CefInitialize
+      /// has been successfully called. The |function_name|, |file_name|, and
+      /// |line_number| parameters specify the origin location of the dump. The
       /// |mseconds_between_dumps| is an interval between consecutive dumps in
-      /// milliseconds from the same location.
+      /// milliseconds from the same location.</para>
+      /// <para>For detailed behavior, usage instructions, and considerations, refer to the
+      /// documentation of DumpWithoutCrashing in base/debug/dump_without_crashing.h.</para>
       /// </summary>
       /// <returns>
-      /// Returns true if the dump was successfully generated, false otherwise
+      /// Returns true if the dump was successfully generated, false otherwise.
       /// </returns>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_dump_without_crashing.h">CEF source file: /include/base/cef_dump_without_crashing.h (CefDumpWithoutCrashing)</see></para>
       /// </remarks>
       function    DumpWithoutCrashing(mseconds_between_dumps: int64; const function_name, file_name: ustring; line_number: integer): boolean;
-      /// <summary>
-      /// DumpWithoutCrashingUnthrottled allows for immediate crash dumping without
-      /// any throttling constraints.
-      /// </summary>
-      /// <returns>
-      /// Returns true if the dump was successfully generated, false otherwise
-      /// </returns>
-      /// <remarks>
-      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_dump_without_crashing.h">CEF source file: /include/base/cef_dump_without_crashing.h (CefDumpWithoutCrashingUnthrottled)</see></para>
-      /// </remarks>
-      function    DumpWithoutCrashingUnthrottled : boolean;
       /// <summary>
       /// Returns CEF version information for the libcef library.
       /// </summary>
@@ -2897,12 +2889,6 @@ begin
     end;
 end;
 
-function TCefApplicationCore.DumpWithoutCrashingUnthrottled : boolean;
-begin
-  Result := (FStatus = asInitialized) and
-            (cef_dump_without_crashing_unthrottled() <> 0);
-end;
-
 function TCefApplicationCore.GetCEFVersionInfo(var aCEFVersionInfo : TCefVersionInfo) : boolean;
 const
   CEF_VERSION_MAJOR = 0;
@@ -4267,11 +4253,9 @@ end;
 
 function TCefApplicationCore.Load_cef_dump_without_crashing_internal_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_dump_without_crashing{$IFDEF FPC}){$ENDIF}             := GetProcAddress(FLibHandle, 'cef_dump_without_crashing');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_dump_without_crashing_unthrottled{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_dump_without_crashing_unthrottled');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_dump_without_crashing{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_dump_without_crashing');
 
-  Result := assigned(cef_dump_without_crashing) and
-            assigned(cef_dump_without_crashing_unthrottled);
+  Result := assigned(cef_dump_without_crashing);
 end;
 
 function TCefApplicationCore.Load_cef_file_util_capi_h : boolean;

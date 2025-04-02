@@ -5474,6 +5474,11 @@ type
     /// Content settings for access to the Controlled Frame API.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_CONTROLLED_FRAME,                                   {* CEF_API_ADDED(13400) *}
+    /// <summary>
+    /// Website setting which is used for UnusedSitePermissionsService to
+    /// store revoked notification permissions of disruptive sites.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_REVOKED_DISRUPTIVE_NOTIFICATION_PERMISSIONS,        {* CEF_API_ADDED(13500) *}
     CEF_CONTENT_SETTING_TYPE_NUM_VALUES
   );
 

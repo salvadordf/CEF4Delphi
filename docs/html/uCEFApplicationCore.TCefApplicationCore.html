@@ -1234,25 +1234,21 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#DumpWithoutCrashingUnthrottled">DumpWithoutCrashingUnthrottled</a></strong>: boolean;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#GetCEFVersionInfo-TCefVersionInfo-">GetCEFVersionInfo</a></strong>(var aCEFVersionInfo : <a href="uCEFTypes.TCefVersionInfo.html">TCefVersionInfo</a>) : boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#GetChromiumVersionInfo-TChromiumVersionInfo-">GetChromiumVersionInfo</a></strong>(var aChromiumVersionInfo : <a href="uCEFTypes.TChromiumVersionInfo.html">TChromiumVersionInfo</a>) : boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#GetIdForPackResourceName-ustring-">GetIdForPackResourceName</a></strong>(const name : <a href="uCEFTypes.html#ustring">ustring</a>): Integer;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#GetIdForPackStringName-ustring-">GetIdForPackStringName</a></strong>(const name : <a href="uCEFTypes.html#ustring">ustring</a>): Integer;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#GetIdForCommandIdName-ustring-">GetIdForCommandIdName</a></strong>(const name : <a href="uCEFTypes.html#ustring">ustring</a>): Integer;</code></td>
 </tr>
@@ -4360,28 +4356,19 @@ ICefLoadHandler</p>
 </tr>
 <tr><td colspan="2">
 <p>
- DumpWithoutCrashing allows for generating crash dumps with a throttling mechanism, preventing frequent dumps from being generated in a short period of time from the same location. The |function_name|, |file_name|, and |line_number| determine the location of the dump. The |mseconds_between_dumps| is an interval between consecutive dumps in milliseconds from the same location. </p>
+
+
+<p>This function allows for generating of crash dumps with a throttling mechanism, preventing frequent dumps from being generated in a short period of time from the same location. If should only be called after CefInitialize has been successfully called. The |function_name|, |file_name|, and |line_number| parameters specify the origin location of the dump. The |mseconds_between_dumps| is an interval between consecutive dumps in milliseconds from the same location.
+
+<p>For detailed behavior, usage instructions, and considerations, refer to the documentation of DumpWithoutCrashing in base/debug/dump_without_crashing.h.
+
+<p></p>
 <p>
  
 
 <p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_dump_without_crashing.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_dump_without_crashing.h</a>&quot;&gt;CEF source file: /include/base/cef_dump_without_crashing.h (CefDumpWithoutCrashing))</p>
 <h6 class="description_section">Returns</h6>
-<p class="return"> Returns true if the dump was successfully generated, false otherwise </p></td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="DumpWithoutCrashingUnthrottled"></span><code>function <strong>DumpWithoutCrashingUnthrottled</strong>: boolean;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
- DumpWithoutCrashingUnthrottled allows for immediate crash dumping without any throttling constraints. </p>
-<p>
- 
-
-<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_dump_without_crashing.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_dump_without_crashing.h</a>&quot;&gt;CEF source file: /include/base/cef_dump_without_crashing.h (CefDumpWithoutCrashingUnthrottled))</p>
-<h6 class="description_section">Returns</h6>
-<p class="return"> Returns true if the dump was successfully generated, false otherwise </p></td></tr>
+<p class="return"> Returns true if the dump was successfully generated, false otherwise. </p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">

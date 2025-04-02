@@ -1126,13 +1126,24 @@ const
   /// </remarks>
   ERR_CERT_KNOWN_INTERCEPTION_BLOCKED                         = -217;
   /// <summary>
+  /// -218 was SSL_OBSOLETE_VERSION which is not longer used. TLS 1.0/1.1 instead
+  /// cause SSL_VERSION_OR_CIPHER_MISMATCH now.
+  /// The certificate is self signed and it's being used for either an RFC1918 IP
+  /// literal URL, or a url ending in .local.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_CERT_SELF_SIGNED_LOCAL_NETWORK                          = -219;
+  /// <summary>
   /// The value immediately past the last certificate error code.
   /// </summary>
   /// <remarks>
   /// <para>TCefErrorCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
   /// </remarks>
-  ERR_CERT_END                                                = -219;
+  ERR_CERT_END                                                = -220;
   /// <summary>
   /// The URL is invalid.
   /// </summary>
@@ -1560,6 +1571,14 @@ const
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
   /// </remarks>
   ERR_PAC_SCRIPT_TERMINATED                                   = -367;
+  /// <summary>
+  /// Signals that the request requires the IPP proxy.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_PROXY_REQUIRED                                          = -368;
   /// <summary>
   /// The server was expected to return an HTTP/1.x response, but did not. Rather
   /// than treat it as HTTP/0.9, this error is returned.
@@ -2208,6 +2227,7 @@ const
   IDC_ORGANIZE_TABS = 35044;
   IDC_CREATE_NEW_TAB_GROUP = 35045;
   IDC_DECLUTTER_TABS = 35046;
+  IDC_SEND_SHARED_TAB_GROUP_FEEDBACK = 35047;
   IDC_MUTE_TARGET_SITE = 35050;
   IDC_PIN_TARGET_TAB = 35051;
   IDC_GROUP_TARGET_TAB = 35052;
@@ -2477,6 +2497,7 @@ const
   IDC_CONTENT_CONTEXT_SHARING_SUBMENU = 51035;
   IDC_CONTENT_PASTE_FROM_CLIPBOARD = 51037;
   IDC_STATUS_TRAY_KEEP_CHROME_RUNNING_IN_BACKGROUND = 51100;
+  IDC_STATUS_TRAY_KEEP_CHROME_RUNNING_IN_BACKGROUND_SETTING = 51101;
   IDC_MEDIA_ROUTER_ABOUT = 51200;
   IDC_MEDIA_ROUTER_HELP = 51201;
   IDC_MEDIA_ROUTER_LEARN_MORE = 51202;
@@ -2527,6 +2548,7 @@ const
   IDC_GLIC_STATUS_ICON_MENU_REMOVE_ICON = 53312;
   IDC_GLIC_STATUS_ICON_MENU_SETTINGS = 53313;
   IDC_GLIC_STATUS_ICON_MENU_EXIT = 53314;
+  IDC_GLIC_TOGGLE_PIN = 53320;
 
 
   /// <summary>

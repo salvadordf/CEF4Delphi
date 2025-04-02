@@ -276,7 +276,6 @@ var
 
   // /include/internal/cef_dump_without_crashing_internal.h
   cef_dump_without_crashing             : function(mseconds_between_dumps: int64; const function_name, file_name: PAnsiChar; line_number: integer): Integer; cdecl;
-  cef_dump_without_crashing_unthrottled : function : Integer; cdecl;
 
   // /include/internal/cef_logging_internal.h
   cef_get_min_log_level : function : Integer; cdecl;

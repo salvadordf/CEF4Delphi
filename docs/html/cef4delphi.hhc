@@ -2256,10 +2256,6 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#DumpWithoutCrashing">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="DumpWithoutCrashingUnthrottled">
-<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#DumpWithoutCrashingUnthrottled">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="GetCEFVersionInfo">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#GetCEFVersionInfo">
 </object>
@@ -12054,6 +12050,10 @@
 <param name="Local" value="uCEFConstants.html#ERR_CERT_KNOWN_INTERCEPTION_BLOCKED">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="ERR_CERT_SELF_SIGNED_LOCAL_NETWORK">
+<param name="Local" value="uCEFConstants.html#ERR_CERT_SELF_SIGNED_LOCAL_NETWORK">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="ERR_CERT_END">
 <param name="Local" value="uCEFConstants.html#ERR_CERT_END">
 </object>
@@ -12260,6 +12260,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_PAC_SCRIPT_TERMINATED">
 <param name="Local" value="uCEFConstants.html#ERR_PAC_SCRIPT_TERMINATED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_PROXY_REQUIRED">
+<param name="Local" value="uCEFConstants.html#ERR_PROXY_REQUIRED">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_INVALID_HTTP_RESPONSE">
@@ -12876,6 +12880,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_DECLUTTER_TABS">
 <param name="Local" value="uCEFConstants.html#IDC_DECLUTTER_TABS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_SEND_SHARED_TAB_GROUP_FEEDBACK">
+<param name="Local" value="uCEFConstants.html#IDC_SEND_SHARED_TAB_GROUP_FEEDBACK">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_MUTE_TARGET_SITE">
@@ -13954,6 +13962,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_STATUS_TRAY_KEEP_CHROME_RUNNING_IN_BACKGROUND">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_STATUS_TRAY_KEEP_CHROME_RUNNING_IN_BACKGROUND_SETTING">
+<param name="Local" value="uCEFConstants.html#IDC_STATUS_TRAY_KEEP_CHROME_RUNNING_IN_BACKGROUND_SETTING">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_MEDIA_ROUTER_ABOUT">
 <param name="Local" value="uCEFConstants.html#IDC_MEDIA_ROUTER_ABOUT">
 </object>
@@ -14152,6 +14164,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_GLIC_STATUS_ICON_MENU_EXIT">
 <param name="Local" value="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_EXIT">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_GLIC_TOGGLE_PIN">
+<param name="Local" value="uCEFConstants.html#IDC_GLIC_TOGGLE_PIN">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CERT_STATUS_NONE">
@@ -68538,10 +68554,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="DumpWithoutCrashing">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#DumpWithoutCrashing">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="DumpWithoutCrashingUnthrottled">
-<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#DumpWithoutCrashingUnthrottled">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetCEFVersionInfo">
