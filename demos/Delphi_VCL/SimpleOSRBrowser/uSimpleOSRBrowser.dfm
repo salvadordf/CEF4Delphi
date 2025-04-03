@@ -120,7 +120,6 @@ object Form1: TForm1
     OnCanFocus = chrmosrCanFocus
     OnTooltip = chrmosrTooltip
     OnCursorChange = chrmosrCursorChange
-    OnJsdialog = chrmosrJsdialog
     OnBeforePopup = chrmosrBeforePopup
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose
