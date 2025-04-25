@@ -456,6 +456,27 @@ type
     /// Plain text.
     /// </summary>
     psBasic);
+
+  /// <summary>
+  /// Preferred GTK version loaded by Chromium.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://github.com/chromium/chromium/blob/main/ui/gtk/gtk_compat.cc">See the LoadGtkImpl function in ui/gtk/gtk_compat.cc</see></para>
+  /// </remarks>
+  TCefGTKVersion = (
+    /// <summary>
+    /// Chromium tries to load the default GTK version.
+    /// </summary>
+    gtkVersionDefault,   
+    /// <summary>
+    /// Chromium tries to load GTK 3 first.
+    /// </summary>
+    gtkVersion3, 
+    /// <summary>
+    /// Chromium tries to load GTK 4 first.
+    /// </summary>
+    gtkVersion4
+  );
   {$ENDIF}
 
   /// <summary>

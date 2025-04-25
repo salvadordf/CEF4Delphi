@@ -93,6 +93,7 @@ begin
   GlobalCEFApp.SetCurrentDir              := True;
   GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;     
   GlobalCEFApp.OnGetDefaultClient         := GlobalCEFApp_OnGetDefaultClient;
+  GlobalCEFApp.GTKVersion                 := gtkVersion3;
 
   // Add a debug log in the BIN directory
   //GlobalCEFApp.LogFile     := 'cef.log';

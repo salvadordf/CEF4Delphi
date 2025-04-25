@@ -239,6 +239,7 @@ begin
   GlobalCEFApp.SetCurrentDir            := True;
   GlobalCEFApp.OnContextInitialized     := GlobalCEFApp_OnContextInitialized;
   GlobalCEFApp.OnGetDefaultClient       := GlobalCEFApp_OnGetDefaultClient;
+  GlobalCEFApp.GTKVersion               := gtkVersion3;
 end;
 
 procedure DestroyTinyBrowser;

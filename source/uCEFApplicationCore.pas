@@ -163,6 +163,7 @@ type
       FPostQuantumKyber                  : TCefState;
       {$IFDEF LINUX}
       FPasswordStorage                   : TCefPasswordStorage;
+      FGTKVersion                        : TCefGTKVersion;
       {$ENDIF}
 
 
@@ -1325,6 +1326,13 @@ type
       /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:docs/linux/password_storage.md">Chromium document: docs/linux/password_storage.md</see></para>
       /// </remarks>
       property PasswordStorage                   : TCefPasswordStorage                      read FPasswordStorage                   write FPasswordStorage;
+      /// <summary>
+      /// Preferred GTK version loaded by Chromium.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://github.com/chromium/chromium/blob/main/ui/gtk/gtk_compat.cc">See the LoadGtkImpl function in ui/gtk/gtk_compat.cc</see></para>
+      /// </remarks>
+      property GTKVersion                        : TCefGTKVersion                           read FGTKVersion                        write FGTKVersion;
       {$ENDIF}
       /// <summary>
       /// Ignores certificate-related errors.
@@ -2003,6 +2011,7 @@ begin
   FPostQuantumKyber                  := STATE_DEFAULT;
   {$IFDEF LINUX}
   FPasswordStorage                   := psDefault;
+  FGTKVersion                        := gtkVersionDefault;
   {$ENDIF}
 
   // Fields used during the CEF initialization
@@ -3686,6 +3695,11 @@ begin
     psKWallet5       : ReplaceSwitch(aKeys, aValues, '--password-store', 'kwallet5');
     psKWallet6       : ReplaceSwitch(aKeys, aValues, '--password-store', 'kwallet6');
     psBasic          : ReplaceSwitch(aKeys, aValues, '--password-store', 'basic');
+  end;
+
+  case FGTKVersion of
+    gtkVersion3      : ReplaceSwitch(aKeys, aValues, '--gtk-version', '3');       
+    gtkVersion4      : ReplaceSwitch(aKeys, aValues, '--gtk-version', '4');
   end;
   {$ENDIF}
 
