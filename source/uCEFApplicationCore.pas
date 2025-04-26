@@ -1940,9 +1940,7 @@ begin
   FCookieableSchemesExcludeDefaults  := False;
   FChromePolicyId                    := '';
   FChromeAppIconId                   := 0;
-  {$IF DEFINED(OS_POSIX) AND NOT(DEFINED(ANDROID))}
   FDisableSignalHandlers             := False;
-  {$IFEND}
 
   // Fields used to set command line switches
   FSingleProcess                     := False;
