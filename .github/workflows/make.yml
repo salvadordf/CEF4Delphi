@@ -1,0 +1,64 @@
+---
+name: Make
+
+on:
+  schedule:
+    - cron:  '0 0 1 * *'
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - master
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          # - windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Build on Linux
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        set -xeuo pipefail
+        sudo bash -c '
+          apt-get update; apt-get -y install lazarus
+        ' >/dev/null
+        declare -rx INSTANTFPCOPTIONS=-Fu/usr/lib/lazarus/*/components/lazutils
+        instantfpc '.github/workflows/make.pas' build
+
+    - name: Build on Windows
+      if: runner.os == 'Windows'
+      shell: powershell
+      run: |
+        $ErrorActionPreference = 'stop'
+        Set-PSDebug -Strict
+        New-Variable -Option Constant -Name VAR -Value @{
+          Uri = 'https://is.gd/Yuk8a1'
+          OutFile = (New-TemporaryFile).FullName + '.exe'
+        }
+        Invoke-WebRequest @VAR
+        & $VAR.OutFile.Replace('Temp', 'Temp\.') /SP- /VERYSILENT /NORESTART `
+          /SUPPRESSMSGBOXES | Out-Null
+        $Env:PATH+=';C:\Lazarus'
+        (Get-Command 'lazbuild').Source | Out-Host
+        $Env:PATH+=';C:\Lazarus\fpc\3.2.2\bin\x86_64-win64'
+        (Get-Command 'instantfpc').Source | Out-Host
+        $Env:INSTANTFPCOPTIONS='-FuC:\Lazarus\components\lazutils'
+        instantfpc '.github\workflows\make.pas' build
