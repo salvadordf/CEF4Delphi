@@ -68,6 +68,10 @@
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGetBrowserRuntimeStyle">FOnGetBrowserRuntimeStyle</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetBrowserRuntimeStyleEvent">TOnGetBrowserRuntimeStyleEvent</a>;</code></td>
 </tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnAllowMoveForPictureInPicture">FOnAllowMoveForPictureInPicture</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnAllowMoveForPictureInPictureEvent">TOnAllowMoveForPictureInPictureEvent</a>;</code></td>
+</tr>
 </table>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
@@ -136,14 +140,18 @@
 <td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnGetBrowserRuntimeStyle-TCefRuntimeStyle-">doOnGetBrowserRuntimeStyle</a></strong>(var aResult : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
 </tr>
 <tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>function <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#CreateBrowserView-ICefClient-ustring-TCefBrowserSettings-ICefDictionaryValue-ICefRequestContext-">CreateBrowserView</a></strong>(const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; const url: <a href="uCEFTypes.html#ustring">ustring</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const request_context: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>): boolean;</code></td>
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnAllowMoveForPictureInPicture-ICefBrowserView-boolean-">doOnAllowMoveForPictureInPicture</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean);</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>function <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#GetForBrowser-ICefBrowser-">GetForBrowser</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>): boolean;</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#CreateBrowserView-ICefClient-ustring-TCefBrowserSettings-ICefDictionaryValue-ICefRequestContext-">CreateBrowserView</a></strong>(const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; const url: <a href="uCEFTypes.html#ustring">ustring</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const extra_info: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>; const request_context: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>): boolean;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#GetForBrowser-ICefBrowser-">GetForBrowser</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#SetPreferAccelerators-boolean-">SetPreferAccelerators</a></strong>(prefer_accelerators: boolean);</code></td>
 </tr>
@@ -197,6 +205,10 @@
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#OnGetBrowserRuntimeStyle">OnGetBrowserRuntimeStyle</a></strong>                 : <a href="uCEFViewsFrameworkEvents.html#TOnGetBrowserRuntimeStyleEvent">TOnGetBrowserRuntimeStyleEvent</a>            read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGetBrowserRuntimeStyle">FOnGetBrowserRuntimeStyle</a>                 write <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGetBrowserRuntimeStyle">FOnGetBrowserRuntimeStyle</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#OnAllowMoveForPictureInPicture">OnAllowMoveForPictureInPicture</a></strong>           : <a href="uCEFViewsFrameworkEvents.html#TOnAllowMoveForPictureInPictureEvent">TOnAllowMoveForPictureInPictureEvent</a>      read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnAllowMoveForPictureInPicture">FOnAllowMoveForPictureInPicture</a>           write <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnAllowMoveForPictureInPicture">FOnAllowMoveForPictureInPicture</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -279,6 +291,14 @@ ICefBrowserViewDelegateEvents</p>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="FOnGetBrowserRuntimeStyle"></span><code><strong>FOnGetBrowserRuntimeStyle</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetBrowserRuntimeStyleEvent">TOnGetBrowserRuntimeStyleEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnAllowMoveForPictureInPicture"></span><code><strong>FOnAllowMoveForPictureInPicture</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnAllowMoveForPictureInPictureEvent">TOnAllowMoveForPictureInPictureEvent</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -410,6 +430,14 @@ ICefBrowserViewDelegateEvents</p>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="doOnGetBrowserRuntimeStyle-TCefRuntimeStyle-"></span><code>procedure <strong>doOnGetBrowserRuntimeStyle</strong>(var aResult : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doOnAllowMoveForPictureInPicture-ICefBrowserView-boolean-"></span><code>procedure <strong>doOnAllowMoveForPictureInPicture</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean);</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -563,6 +591,16 @@ ICefBrowserViewDelegateEvents</p>
 <tr><td colspan="2">
 <p>
  Optionally change the runtime style for this BrowserView. See TCefRuntimeStyle documentation for details. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnAllowMoveForPictureInPicture"></span><code>property <strong>OnAllowMoveForPictureInPicture</strong>           : <a href="uCEFViewsFrameworkEvents.html#TOnAllowMoveForPictureInPictureEvent">TOnAllowMoveForPictureInPictureEvent</a>      read <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnAllowMoveForPictureInPicture">FOnAllowMoveForPictureInPicture</a>           write <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnAllowMoveForPictureInPicture">FOnAllowMoveForPictureInPicture</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return true (1) to allow the use of JavaScript moveTo/By() and resizeTo/By() (without user activation) with Document picture-in-picture popups. </p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>

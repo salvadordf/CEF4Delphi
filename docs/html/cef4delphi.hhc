@@ -3973,6 +3973,10 @@
 <param name="Name" value="FOnGetBrowserRuntimeStyle">
 <param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnGetBrowserRuntimeStyle">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="FOnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnAllowMoveForPictureInPicture">
+</object>
 </ul>
 <li><object type="text/sitemap">
 <param name="Name" value="Properties">
@@ -4026,6 +4030,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnGetBrowserRuntimeStyle">
 <param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#OnGetBrowserRuntimeStyle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#OnAllowMoveForPictureInPicture">
 </object>
 </ul>
 <li><object type="text/sitemap">
@@ -4096,6 +4104,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnGetBrowserRuntimeStyle">
 <param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnGetBrowserRuntimeStyle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnAllowMoveForPictureInPicture">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CreateBrowserView">
@@ -4176,6 +4188,10 @@
 <param name="Local" value="uCEFBrowserViewDelegate.TCefBrowserViewDelegateRef.html#OnGetBrowserRuntimeStyle">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFBrowserViewDelegate.TCefBrowserViewDelegateRef.html#OnAllowMoveForPictureInPicture">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="UnWrap">
 <param name="Local" value="uCEFBrowserViewDelegate.TCefBrowserViewDelegateRef.html#UnWrap">
 </object>
@@ -4222,6 +4238,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnGetBrowserRuntimeStyle">
 <param name="Local" value="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#OnGetBrowserRuntimeStyle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#OnAllowMoveForPictureInPicture">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="InitializeCEFMethods">
@@ -4328,6 +4348,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnGetBrowserRuntimeStyle">
 <param name="Local" value="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnGetBrowserRuntimeStyle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnAllowMoveForPictureInPicture">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="Create">
@@ -12042,10 +12066,6 @@
 <param name="Local" value="uCEFConstants.html#ERR_CERTIFICATE_TRANSPARENCY_REQUIRED">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="ERR_CERT_SYMANTEC_LEGACY">
-<param name="Local" value="uCEFConstants.html#ERR_CERT_SYMANTEC_LEGACY">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="ERR_CERT_KNOWN_INTERCEPTION_BLOCKED">
 <param name="Local" value="uCEFConstants.html#ERR_CERT_KNOWN_INTERCEPTION_BLOCKED">
 </object>
@@ -13370,6 +13390,14 @@
 <param name="Local" value="uCEFConstants.html#IDC_CREATE_NEW_COMPARISON_TABLE_WITH_TAB">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_SHOW_HISTORY_SIDE_PANEL">
+<param name="Local" value="uCEFConstants.html#IDC_SHOW_HISTORY_SIDE_PANEL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_OPEN_GLIC">
+<param name="Local" value="uCEFConstants.html#IDC_OPEN_GLIC">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_SPELLCHECK_SUGGESTION_0">
 <param name="Local" value="uCEFConstants.html#IDC_SPELLCHECK_SUGGESTION_0">
 </object>
@@ -13930,6 +13958,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_BAR_TOGGLE_SHOW_TAB_GROUPS">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_BOOKMARK_BAR_MOVE">
+<param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_BAR_MOVE">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_SHARING_CLICK_TO_CALL_SINGLE_DEVICE">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_SHARING_CLICK_TO_CALL_SINGLE_DEVICE">
 </object>
@@ -14106,10 +14138,6 @@
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_AUTOFILL_FEEDBACK">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="IDC_CONTENT_CONTEXT_AUTOFILL_PREDICTION_IMPROVEMENTS">
-<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_AUTOFILL_PREDICTION_IMPROVEMENTS">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_PLUS_ADDRESS">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_PLUS_ADDRESS">
 </object>
@@ -14166,8 +14194,16 @@
 <param name="Local" value="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_EXIT">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_GLIC_STATUS_ICON_MENU_CLOSE">
+<param name="Local" value="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_CLOSE">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_GLIC_TOGGLE_PIN">
 <param name="Local" value="uCEFConstants.html#IDC_GLIC_TOGGLE_PIN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_GLIC_TOGGLE_FOCUS">
+<param name="Local" value="uCEFConstants.html#IDC_GLIC_TOGGLE_FOCUS">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CERT_STATUS_NONE">
@@ -15360,6 +15396,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS">
 <param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_PERMISSION_TYPE_LOCAL_NETWORK_ACCESS">
+<param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_LOCAL_NETWORK_ACCESS">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_API_HASH_PLATFORM">
@@ -21360,6 +21400,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnGetBrowserRuntimeStyle">
 <param name="Local" value="uCEFInterfaces.ICefBrowserViewDelegateEvents.html#doOnGetBrowserRuntimeStyle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFInterfaces.ICefBrowserViewDelegateEvents.html#doOnAllowMoveForPictureInPicture">
 </object>
 </ul>
 </ul>
@@ -29054,6 +29098,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnGetBrowserRuntimeStyle">
 <param name="Local" value="uCEFInterfaces.ICefBrowserViewDelegate.html#OnGetBrowserRuntimeStyle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFInterfaces.ICefBrowserViewDelegate.html#OnAllowMoveForPictureInPicture">
 </object>
 </ul>
 </ul>
@@ -49553,6 +49601,10 @@
 <param name="Name" value="get_browser_runtime_style">
 <param name="Local" value="uCEFTypes.TCefBrowserViewDelegate.html#get_browser_runtime_style">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="allow_move_for_picture_in_picture">
+<param name="Local" value="uCEFTypes.TCefBrowserViewDelegate.html#allow_move_for_picture_in_picture">
+</object>
 </ul>
 </ul>
 <li><object type="text/sitemap">
@@ -54004,6 +54056,10 @@
 <param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetBrowserRuntimeStyleEvent">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="TOnAllowMoveForPictureInPictureEvent">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnAllowMoveForPictureInPictureEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="TOnButtonPressedEvent">
 <param name="Local" value="uCEFViewsFrameworkEvents.html#TOnButtonPressedEvent">
 </object>
@@ -57580,6 +57636,10 @@
 </object>
 <ul>
 <li><object type="text/sitemap">
+<param name="Name" value="OnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFInterfaces.ICefBrowserViewDelegate.html#OnAllowMoveForPictureInPicture">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnBrowserCreated">
 <param name="Local" value="uCEFInterfaces.ICefBrowserViewDelegate.html#OnBrowserCreated">
 </object>
@@ -57623,6 +57683,10 @@
 <param name="Local" value="uCEFInterfaces.ICefBrowserViewDelegateEvents.html#@Methods">
 </object>
 <ul>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFInterfaces.ICefBrowserViewDelegateEvents.html#doOnAllowMoveForPictureInPicture">
+</object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnBrowserCreated">
 <param name="Local" value="uCEFInterfaces.ICefBrowserViewDelegateEvents.html#doOnBrowserCreated">
@@ -71204,6 +71268,10 @@
 <param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FBrowserViewDlg">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FOnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnAllowMoveForPictureInPicture">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOnBrowserCreated">
 <param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#FOnBrowserCreated">
 </object>
@@ -71252,6 +71320,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ChromeToolbar">
 <param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#ChromeToolbar">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#OnAllowMoveForPictureInPicture">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnBrowserCreated">
@@ -71336,6 +71408,10 @@
 <param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#DestroyView">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doOnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnAllowMoveForPictureInPicture">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="doOnBrowserCreated">
 <param name="Local" value="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html#doOnBrowserCreated">
 </object>
@@ -71383,6 +71459,10 @@
 <param name="Local" value="uCEFTypes.TCefBrowserViewDelegate.html#@Fields">
 </object>
 <ul>
+<li><object type="text/sitemap">
+<param name="Name" value="allow_move_for_picture_in_picture">
+<param name="Local" value="uCEFTypes.TCefBrowserViewDelegate.html#allow_move_for_picture_in_picture">
+</object>
 <li><object type="text/sitemap">
 <param name="Name" value="base">
 <param name="Local" value="uCEFTypes.TCefBrowserViewDelegate.html#base">
@@ -71440,6 +71520,10 @@
 <param name="Local" value="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#InitializeCEFMethods">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#OnAllowMoveForPictureInPicture">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnBrowserCreated">
 <param name="Local" value="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#OnBrowserCreated">
 </object>
@@ -71486,6 +71570,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="UnWrap">
 <param name="Local" value="uCEFBrowserViewDelegate.TCefBrowserViewDelegateRef.html#UnWrap">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFBrowserViewDelegate.TCefBrowserViewDelegateRef.html#OnAllowMoveForPictureInPicture">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnBrowserCreated">
@@ -98328,6 +98416,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="Create">
 <param name="Local" value="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnAllowMoveForPictureInPicture">
+<param name="Local" value="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnAllowMoveForPictureInPicture">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnBlur">

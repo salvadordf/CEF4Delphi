@@ -48,6 +48,7 @@ type
   TOnUseFramelessWindowForPictureInPicture = procedure(const Sender: TObject; const browser_view: ICefBrowserView; var aResult : boolean) of object;
   TOnGestureCommandEvent                   = procedure(const Sender: TObject; const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean) of object;
   TOnGetBrowserRuntimeStyleEvent           = procedure(const Sender: TObject; var aResult : TCefRuntimeStyle) of object;
+  TOnAllowMoveForPictureInPictureEvent     = procedure(const Sender: TObject; const browser_view: ICefBrowserView; var aResult : boolean) of object;
 
   // ICefButtonDelegate
   TOnButtonPressedEvent      = procedure(const Sender: TObject; const button: ICefButton) of object;

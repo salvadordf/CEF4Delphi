@@ -30,6 +30,7 @@ type
       procedure OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
       procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
       procedure OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
+      procedure OnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
 
     public
       /// <summary>
@@ -105,6 +106,12 @@ type
       /// </summary>
       procedure OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle); virtual;
       /// <summary>
+      /// Return true (1) to allow the use of JavaScript moveTo/By() and
+      /// resizeTo/By() (without user activation) with Document picture-in-picture
+      /// popups.
+      /// </summary>
+      procedure OnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean); virtual;
+      /// <summary>
       /// Links the methods in the internal CEF record data pointer with the methods in this class.
       /// </summary>
       procedure InitializeCEFMethods; override;
@@ -143,6 +150,7 @@ type
       procedure OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean); override;
       procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean); override;
       procedure OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle); override;
+      procedure OnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean); override;
 
     public
       constructor Create(const events: ICefBrowserViewDelegateEvents); reintroduce;
@@ -222,6 +230,12 @@ end;
 procedure TCefBrowserViewDelegateRef.OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
 begin
   aResult := PCefBrowserViewDelegate(FData)^.get_browser_runtime_style(PCefBrowserViewDelegate(FData));
+end;
+
+procedure TCefBrowserViewDelegateRef.OnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
+begin
+  aResult := (PCefBrowserViewDelegate(FData)^.allow_move_for_picture_in_picture(PCefBrowserViewDelegate(FData),
+                                                                                CefGetData(browser_view)) <> 0);
 end;
 
 class function TCefBrowserViewDelegateRef.UnWrap(data: Pointer): ICefBrowserViewDelegate;
@@ -363,6 +377,22 @@ begin
     TCefBrowserViewDelegateOwn(TempObject).OnGetBrowserRuntimeStyle(Result);
 end;
 
+function cef_browserview_delegate_allow_move_for_picture_in_picture(self         : PCefBrowserViewDelegate;
+                                                                    browser_view : PCefBrowserView): integer; stdcall;
+var
+  TempObject : TObject;
+  TempResult : boolean;
+begin
+  TempObject := CefGetObject(self);
+  TempResult := False;
+
+  if (TempObject <> nil) and (TempObject is TCefBrowserViewDelegateOwn) then
+    TCefBrowserViewDelegateOwn(TempObject).OnAllowMoveForPictureInPicture(TCefBrowserViewRef.UnWrap(browser_view),
+                                                                          TempResult);
+
+  Result := ord(TempResult);
+end;
+
 constructor TCefBrowserViewDelegateOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefBrowserViewDelegate));
@@ -384,6 +414,7 @@ begin
       use_frameless_window_for_picture_in_picture := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_use_frameless_window_for_picture_in_picture;
       on_gesture_command                          := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_gesture_command;
       get_browser_runtime_style                   := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_browser_runtime_style;
+      allow_move_for_picture_in_picture           := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_allow_move_for_picture_in_picture;
     end;
 end;
 
@@ -425,6 +456,11 @@ end;
 procedure TCefBrowserViewDelegateOwn.OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
 begin
   aResult := CEF_RUNTIME_STYLE_DEFAULT;
+end;
+
+procedure TCefBrowserViewDelegateOwn.OnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
+begin
+  aResult := False;
 end;
 
 // **************************************************************
@@ -664,6 +700,19 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomBrowserViewDelegate.OnGetBrowserRuntimeStyle', e) then raise;
+  end;
+end;
+
+procedure TCustomBrowserViewDelegate.OnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
+begin
+  aResult := False;
+
+  try
+    if (FEvents <> nil) then
+      ICefBrowserViewDelegateEvents(FEvents).doOnAllowMoveForPictureInPicture(browser_view, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomBrowserViewDelegate.OnAllowMoveForPictureInPicture', e) then raise;
   end;
 end;
 

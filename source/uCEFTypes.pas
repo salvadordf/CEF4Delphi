@@ -1779,7 +1779,7 @@ type
     PDE_TYPE_EMPTY  = 0,
     PDE_TYPE_BYTES,
     PDE_TYPE_FILE,
-    PDF_TYPE_NUM_VALUES
+    PDE_TYPE_NUM_VALUES
   );
 
   /// <summary>
@@ -3573,8 +3573,8 @@ type
   /// </remarks>
   TCefChromeToolbarButtonType = (
     CEF_CTBT_CAST,
-    CEF_CTBT_DOWNLOAD,
-    CEF_CTBT_SEND_TAB_TO_SELF,
+    CEF_CTBT_DOWNLOAD_DEPRECATED,
+    CEF_CTBT_SEND_TAB_TO_SELF_DEPRECATED,
     CEF_CTBT_SIDE_PANEL,
     CEF_CTBT_NUM_VALUES
   );
@@ -5365,7 +5365,7 @@ type
     /// not blocked otherwise).</para>
     /// <para>BLOCK: third-party cookies blocked, but 3PCD mitigations enabled.</para>
     /// </summary>
-    CEF_CONTENT_SETTING_TOP_LEVEL_TPCD_ORIGIN_TRIAL,
+    CEF_CONTENT_SETTING_TYPE_TOP_LEVEL_TPCD_ORIGIN_TRIAL,
     /// <summary>
     /// Content setting used to indicate whether entering picture-in-picture
     /// automatically should be enabled.
@@ -5500,6 +5500,11 @@ type
     /// store revoked notification permissions of disruptive sites.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_REVOKED_DISRUPTIVE_NOTIFICATION_PERMISSIONS,        {* CEF_API_ADDED(13500) *}
+    /// <summary>
+    /// Content setting for whether the site is allowed to make local network
+    /// requests.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_LOCAL_NETWORK_ACCESS,                               {* CEF_API_ADDED(13600) *}
     CEF_CONTENT_SETTING_TYPE_NUM_VALUES
   );
 
@@ -8917,6 +8922,7 @@ type
     use_frameless_window_for_picture_in_picture : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): integer; stdcall;
     on_gesture_command                          : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; gesture_command: TCefGestureCommand): Integer; stdcall;
     get_browser_runtime_style                   : function(self: PCefBrowserViewDelegate): TCefRuntimeStyle; stdcall;
+    allow_move_for_picture_in_picture           : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): integer; stdcall; {* CEF_API_ADDED(13601) *}
   end;
 
   /// <summary>

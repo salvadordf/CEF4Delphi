@@ -625,6 +625,7 @@ type
     procedure doOnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
     procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
     procedure doOnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
+    procedure doOnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
   end;
 
   /// <summary>
@@ -10674,6 +10675,12 @@ type
     /// TCefRuntimeStyle documentation for details.
     /// </summary>
     procedure OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
+    /// <summary>
+    /// Return true (1) to allow the use of JavaScript moveTo/By() and
+    /// resizeTo/By() (without user activation) with Document picture-in-picture
+    /// popups.
+    /// </summary>
+    procedure OnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
   end;
 
   /// <summary>

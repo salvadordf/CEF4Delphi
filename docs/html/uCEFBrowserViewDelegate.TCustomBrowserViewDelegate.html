@@ -112,6 +112,10 @@
 <td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnGetBrowserRuntimeStyle-TCefRuntimeStyle-">OnGetBrowserRuntimeStyle</a></strong>(var aResult : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>); override;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#OnAllowMoveForPictureInPicture-ICefBrowserView-boolean-">OnAllowMoveForPictureInPicture</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean); override;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>constructor <strong><a href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html#Create-ICefBrowserViewDelegateEvents-">Create</a></strong>(const events: <a href="uCEFInterfaces.ICefBrowserViewDelegateEvents.html">ICefBrowserViewDelegateEvents</a>); reintroduce;</code></td>
 </tr>
@@ -334,6 +338,16 @@ ICefBrowserViewDelegate</p>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#OnGetBrowserRuntimeStyle-TCefRuntimeStyle-">TCefBrowserViewDelegateOwn.OnGetBrowserRuntimeStyle</a>.</p><p>
  Optionally change the runtime style for this BrowserView. See TCefRuntimeStyle documentation for details. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnAllowMoveForPictureInPicture-ICefBrowserView-boolean-"></span><code>procedure <strong>OnAllowMoveForPictureInPicture</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#OnAllowMoveForPictureInPicture-ICefBrowserView-boolean-">TCefBrowserViewDelegateOwn.OnAllowMoveForPictureInPicture</a>.</p><p>
+ Return true (1) to allow the use of JavaScript moveTo/By() and resizeTo/By() (without user activation) with Document picture-in-picture popups. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

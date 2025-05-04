@@ -41,6 +41,7 @@ type
       FOnUseFramelessWindowForPictureInPicture  : TOnUseFramelessWindowForPictureInPicture;
       FOnGestureCommand                         : TOnGestureCommandEvent;
       FOnGetBrowserRuntimeStyle                 : TOnGetBrowserRuntimeStyleEvent;
+      FOnAllowMoveForPictureInPicture           : TOnAllowMoveForPictureInPictureEvent;
 
       procedure DestroyView; override;
       procedure Initialize; override;
@@ -61,6 +62,7 @@ type
       procedure doOnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
       procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
       procedure doOnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
+      procedure doOnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
 
     public
       /// <summary>
@@ -172,6 +174,12 @@ type
       /// TCefRuntimeStyle documentation for details.
       /// </summary>
       property OnGetBrowserRuntimeStyle                 : TOnGetBrowserRuntimeStyleEvent            read FOnGetBrowserRuntimeStyle                 write FOnGetBrowserRuntimeStyle;
+      /// <summary>
+      /// Return true (1) to allow the use of JavaScript moveTo/By() and
+      /// resizeTo/By() (without user activation) with Document picture-in-picture
+      /// popups.
+      /// </summary>
+      property OnAllowMoveForPictureInPicture           : TOnAllowMoveForPictureInPictureEvent      read FOnAllowMoveForPictureInPicture           write FOnAllowMoveForPictureInPicture;
   end;
 
 {$IFDEF FPC}
@@ -224,6 +232,7 @@ begin
   FOnUseFramelessWindowForPictureInPicture := nil;
   FOnGestureCommand                        := nil;
   FOnGetBrowserRuntimeStyle                := nil;
+  FOnAllowMoveForPictureInPicture          := nil;
 end;
 
 procedure TCEFBrowserViewComponent.DestroyView;
@@ -370,6 +379,12 @@ begin
 
   if assigned(FOnGetBrowserRuntimeStyle) then
     FOnGetBrowserRuntimeStyle(self, aResult);
+end;
+
+procedure TCEFBrowserViewComponent.doOnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
+begin
+  if assigned(FOnAllowMoveForPictureInPicture) then
+    FOnAllowMoveForPictureInPicture(self, browser_view, aResult);
 end;
 
 {$IFDEF FPC}

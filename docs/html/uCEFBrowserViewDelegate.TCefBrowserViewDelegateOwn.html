@@ -65,9 +65,13 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#InitializeCEFMethods">InitializeCEFMethods</a></strong>; override;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#OnAllowMoveForPictureInPicture-ICefBrowserView-boolean-">OnAllowMoveForPictureInPicture</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean); virtual;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#InitializeCEFMethods">InitializeCEFMethods</a></strong>; override;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>constructor <strong><a href="uCEFBrowserViewDelegate.TCefBrowserViewDelegateOwn.html#Create">Create</a></strong>; override;</code></td>
 </tr>
@@ -152,6 +156,16 @@
 <tr><td colspan="2">
 <p>
  Optionally change the runtime style for this BrowserView. See TCefRuntimeStyle documentation for details. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnAllowMoveForPictureInPicture-ICefBrowserView-boolean-"></span><code>procedure <strong>OnAllowMoveForPictureInPicture</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return true (1) to allow the use of JavaScript moveTo/By() and resizeTo/By() (without user activation) with Document picture-in-picture popups. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
