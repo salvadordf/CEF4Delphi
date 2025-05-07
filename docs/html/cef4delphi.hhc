@@ -784,6 +784,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FPostQuantumKyber">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FProxySettings">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FProxySettings">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FWindowsSandboxInfo">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FWindowsSandboxInfo">
 </object>
@@ -1368,6 +1372,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="TLS13HybridizedKyberSupport">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#TLS13HybridizedKyberSupport">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ProxySettings">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ProxySettings">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IgnoreCertificateErrors">
@@ -2304,6 +2312,74 @@
 <li><object type="text/sitemap">
 <param name="Name" value="Create">
 <param name="Local" value="uCEFApplicationCore.TCEFDirectoryDeleterThread.html#Create">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCEFProxySettings">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FNoProxyServer">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#FNoProxyServer">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FAutoDetect">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#FAutoDetect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FByPassList">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#FByPassList">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FPacUrl">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#FPacUrl">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FServer">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#FServer">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Properties">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#@Properties">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="NoProxyServer">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#NoProxyServer">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AutoDetect">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#AutoDetect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ByPassList">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#ByPassList">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PacUrl">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#PacUrl">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Server">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#Server">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#Create">
 </object>
 </ul>
 </ul>
@@ -67876,6 +67952,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FProcessType">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FProxySettings">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FProxySettings">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FRemoteAllowOrigins">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FRemoteAllowOrigins">
 </object>
@@ -68496,6 +68576,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ProcessType">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ProcessType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ProxySettings">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ProxySettings">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="RemoteAllowOrigins">
@@ -82690,6 +82774,74 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IsValid">
 <param name="Local" value="uCEFProcessMessage.TCefProcessMessageRef.html#IsValid">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCEFProxySettings">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FAutoDetect">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#FAutoDetect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FByPassList">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#FByPassList">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FNoProxyServer">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#FNoProxyServer">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FPacUrl">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#FPacUrl">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FServer">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#FServer">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Properties">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#@Properties">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="AutoDetect">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#AutoDetect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ByPassList">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#ByPassList">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="NoProxyServer">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#NoProxyServer">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PacUrl">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#PacUrl">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Server">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#Server">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFApplicationCore.TCEFProxySettings.html#Create">
 </object>
 </ul>
 </ul>

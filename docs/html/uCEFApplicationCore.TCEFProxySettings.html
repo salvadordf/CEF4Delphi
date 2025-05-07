@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFApplicationCore: Class TCEFProxySettings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCEFProxySettings"></span><h1 class="cio">Class TCEFProxySettings</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFApplicationCore.html">uCEFApplicationCore</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCEFProxySettings = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Class used by the TWVLoader.ProxySettigns property to configure a custom proxy server using the following command line switches: &ndash;no-proxy-server, &ndash;proxy-auto-detect, &ndash;proxy-bypass-list, &ndash;proxy-pac-url and &ndash;proxy-server. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://peter.sh/experiments/chromium-command-line-switches/">https://peter.sh/experiments/chromium-command-line-switches/</a>&quot;&gt;Uses the following command line switch: &ndash;no-proxy-server)
+
+<p>&lt;see href=&quot;<a href="https://peter.sh/experiments/chromium-command-line-switches/">https://peter.sh/experiments/chromium-command-line-switches/</a>&quot;&gt;Uses the following command line switch: &ndash;proxy-auto-detect)
+
+<p>&lt;see href=&quot;<a href="https://peter.sh/experiments/chromium-command-line-switches/">https://peter.sh/experiments/chromium-command-line-switches/</a>&quot;&gt;Uses the following command line switch: &ndash;proxy-bypass-list)
+
+<p>&lt;see href=&quot;<a href="https://peter.sh/experiments/chromium-command-line-switches/">https://peter.sh/experiments/chromium-command-line-switches/</a>&quot;&gt;Uses the following command line switch: &ndash;proxy-pac-url)
+
+<p>&lt;see href=&quot;<a href="https://peter.sh/experiments/chromium-command-line-switches/">https://peter.sh/experiments/chromium-command-line-switches/</a>&quot;&gt;Uses the following command line switch: &ndash;proxy-server)
+
+<p>&lt;see href=&quot;<a href="https://www.chromium.org/developers/design-documents/network-settings/">https://www.chromium.org/developers/design-documents/network-settings/</a>&quot;&gt;See the Network Settings article.)
+
+<p>&lt;see href=&quot;<a href="https://github.com/chromium/chromium/blob/main/net/docs/proxy.md">https://github.com/chromium/chromium/blob/main/net/docs/proxy.md</a>&quot;/&quot;&gt;See the Proxy Support article.)
+
+<p>&lt;see href=&quot;<a href="https://developer.chrome.com/docs/extensions/reference/api/proxy">https://developer.chrome.com/docs/extensions/reference/api/proxy</a>&quot;&gt;See the chrome.proxy API article.)</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TCEFProxySettings</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationCore.TCEFProxySettings.html#FNoProxyServer">FNoProxyServer</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationCore.TCEFProxySettings.html#FAutoDetect">FAutoDetect</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationCore.TCEFProxySettings.html#FByPassList">FByPassList</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationCore.TCEFProxySettings.html#FPacUrl">FPacUrl</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationCore.TCEFProxySettings.html#FServer">FServer</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFApplicationCore.TCEFProxySettings.html#Create">Create</a></strong>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFApplicationCore.TCEFProxySettings.html#NoProxyServer">NoProxyServer</a></strong> : boolean   read <a href="uCEFApplicationCore.TCEFProxySettings.html#FNoProxyServer">FNoProxyServer</a>  write <a href="uCEFApplicationCore.TCEFProxySettings.html#FNoProxyServer">FNoProxyServer</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFApplicationCore.TCEFProxySettings.html#AutoDetect">AutoDetect</a></strong>    : boolean   read <a href="uCEFApplicationCore.TCEFProxySettings.html#FAutoDetect">FAutoDetect</a>     write <a href="uCEFApplicationCore.TCEFProxySettings.html#FAutoDetect">FAutoDetect</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFApplicationCore.TCEFProxySettings.html#ByPassList">ByPassList</a></strong>    : <a href="uCEFTypes.html#ustring">ustring</a>   read <a href="uCEFApplicationCore.TCEFProxySettings.html#FByPassList">FByPassList</a>     write <a href="uCEFApplicationCore.TCEFProxySettings.html#FByPassList">FByPassList</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFApplicationCore.TCEFProxySettings.html#PacUrl">PacUrl</a></strong>        : <a href="uCEFTypes.html#ustring">ustring</a>   read <a href="uCEFApplicationCore.TCEFProxySettings.html#FPacUrl">FPacUrl</a>         write <a href="uCEFApplicationCore.TCEFProxySettings.html#FPacUrl">FPacUrl</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFApplicationCore.TCEFProxySettings.html#Server">Server</a></strong>        : <a href="uCEFTypes.html#ustring">ustring</a>   read <a href="uCEFApplicationCore.TCEFProxySettings.html#FServer">FServer</a>         write <a href="uCEFApplicationCore.TCEFProxySettings.html#FServer">FServer</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FNoProxyServer"></span><code><strong>FNoProxyServer</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FAutoDetect"></span><code><strong>FAutoDetect</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FByPassList"></span><code><strong>FByPassList</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FPacUrl"></span><code><strong>FPacUrl</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FServer"></span><code><strong>FServer</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="NoProxyServer"></span><code>property <strong>NoProxyServer</strong> : boolean   read <a href="uCEFApplicationCore.TCEFProxySettings.html#FNoProxyServer">FNoProxyServer</a>  write <a href="uCEFApplicationCore.TCEFProxySettings.html#FNoProxyServer">FNoProxyServer</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AutoDetect"></span><code>property <strong>AutoDetect</strong>    : boolean   read <a href="uCEFApplicationCore.TCEFProxySettings.html#FAutoDetect">FAutoDetect</a>     write <a href="uCEFApplicationCore.TCEFProxySettings.html#FAutoDetect">FAutoDetect</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ByPassList"></span><code>property <strong>ByPassList</strong>    : <a href="uCEFTypes.html#ustring">ustring</a>   read <a href="uCEFApplicationCore.TCEFProxySettings.html#FByPassList">FByPassList</a>     write <a href="uCEFApplicationCore.TCEFProxySettings.html#FByPassList">FByPassList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PacUrl"></span><code>property <strong>PacUrl</strong>        : <a href="uCEFTypes.html#ustring">ustring</a>   read <a href="uCEFApplicationCore.TCEFProxySettings.html#FPacUrl">FPacUrl</a>         write <a href="uCEFApplicationCore.TCEFProxySettings.html#FPacUrl">FPacUrl</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Server"></span><code>property <strong>Server</strong>        : <a href="uCEFTypes.html#ustring">ustring</a>   read <a href="uCEFApplicationCore.TCEFProxySettings.html#FServer">FServer</a>         write <a href="uCEFApplicationCore.TCEFProxySettings.html#FServer">FServer</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+</span>
+</body></html>

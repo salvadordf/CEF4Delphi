@@ -2509,593 +2509,598 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
+<td class="itemname"><a class="bold" href="uCEFApplicationCore.TCEFProxySettings.html">TCEFProxySettings</a></td>
+<td class="itemunit"><a class="bold" href="uCEFApplicationCore.html">uCEFApplicationCore</a></td>
+<td class="itemdesc"><p> Class used by the TWVLoader.ProxySettigns property to configure a custom proxy server using the following command line switches: &ndash;no-proxy-server, &ndash;proxy-auto-detect, &ndash;proxy-bypass-list, &ndash;proxy-pac-url and &ndash;proxy-server. </p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefRange.html">TCefRange</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing a range. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefReadHandler.html">TCefReadHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure the client can implement to provide a custom stream reader. The functions of this structure may be called on any thread.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefReadZoomTask.html">TCefReadZoomTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefRect.html">TCefRect</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing a rectangle. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefRegistration.html">TCefRegistration</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Generic callback structure used for managing the lifespan of a registration.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFRegistration.TCefRegistrationRef.html">TCefRegistrationRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRegistration.html">uCEFRegistration</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefRenderHandler.html">TCefRenderHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Implement this structure to handle events when window rendering is disabled. The functions of this structure will be called on the UI thread.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFRenderHandler.TCefRenderHandlerOwn.html">TCefRenderHandlerOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRenderHandler.html">uCEFRenderHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefRenderProcessHandler.html">TCefRenderProcessHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure used to implement render process callbacks. The functions of this structure will be called on the render process main thread (TID_RENDERER) unless otherwise indicated.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFRenderProcessHandler.TCefRenderProcessHandlerOwn.html">TCefRenderProcessHandlerOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRenderProcessHandler.html">uCEFRenderProcessHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefRequest.html">TCefRequest</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure used to represent a web request. The functions of this structure may be called on any thread.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefRequestContext.html">TCefRequestContext</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> A request context provides request handling for a set of related browser or URL request objects. A request context can be specified when creating a new browser via the ICefBrowserHost static factory functions or when creating a new URL request via the ICefUrlRequest static factory functions. Browser objects with different request contexts will never be hosted in the same render process. Browser objects with the same request context may or may not be hosted in the same render process depending on the process model. Browser objects created indirectly via the JavaScript window.open function or targeted links will share the same render process and the same request context as the source browser. When running in single-process mode there is only a single render process (the main process) and so all browsers created in single-process mode will share the same request context. This will be the first request context passed into a ICefBrowserHost static factory function and all other request context objects will be ignored.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefRequestContextHandler.html">TCefRequestContextHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Implement this structure to provide handler implementations. The handler instance will not be released until all objects related to the context have been destroyed.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFRequestContextHandler.TCefRequestContextHandlerOwn.html">TCefRequestContextHandlerOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRequestContextHandler.html">uCEFRequestContextHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFRequestContextHandler.TCefRequestContextHandlerRef.html">TCefRequestContextHandlerRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRequestContextHandler.html">uCEFRequestContextHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFRequestContext.TCefRequestContextRef.html">TCefRequestContextRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRequestContext.html">uCEFRequestContext</a></td>
 <td class="itemdesc"><p> A request context provides request handling for a set of related browser or URL request objects. A request context can be specified when creating a new browser via the cef_browser_host_t static factory functions or when creating a new URL request via the cef_urlrequest_t static factory functions. Browser objects with different request contexts will never be hosted in the same render process. Browser objects with the same request context may or may not be hosted in the same render process depending on the process model. Browser objects created indirectly via the JavaScript window.open function or targeted links will share the same render process and the same request context as the source browser. When running in single-process mode there is only a single render process (the main process) and so all browsers created in single-process mode will share the same request context. This will be the first request context passed into a cef_browser_host_t static factory function and all other request context objects will be ignored. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefRequestContextSettings.html">TCefRequestContextSettings</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Request context initialization settings. Specify NULL or 0 to get the recommended default values. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefRequestHandler.html">TCefRequestHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Implement this structure to handle events related to browser requests. The functions of this structure will be called on the thread indicated.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFRequestHandler.TCefRequestHandlerOwn.html">TCefRequestHandlerOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRequestHandler.html">uCEFRequestHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFRequest.TCefRequestRef.html">TCefRequestRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRequest.html">uCEFRequest</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefResolveCallback.html">TCefResolveCallback</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Callback structure for ICefRequestContext.ResolveHost.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFResolveCallback.TCefResolveCallbackOwn.html">TCefResolveCallbackOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResolveCallback.html">uCEFResolveCallback</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefResourceBundle.html">TCefResourceBundle</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure used for retrieving resources from the resource bundle (*.pak) files loaded by CEF during startup or via the ICefResourceBundleHandler returned from ICefApp.GetResourceBundleHandler. See TCefSettings for additional options related to resource bundle loading. The functions of this structure may be called on any thread unless otherwise indicated.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefResourceBundleHandler.html">TCefResourceBundleHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure used to implement a custom resource bundle structure. See TCefSettings for additional options related to resource bundle loading. The functions of this structure may be called on multiple threads.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFResourceBundleHandler.TCefResourceBundleHandlerOwn.html">TCefResourceBundleHandlerOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResourceBundleHandler.html">uCEFResourceBundleHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFResourceBundle.TCefResourceBundleRef.html">TCefResourceBundleRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResourceBundle.html">uCEFResourceBundle</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefResourceHandler.html">TCefResourceHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure used to implement a custom request handler structure. The functions of this structure will be called on the IO thread unless otherwise indicated.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFResourceHandler.TCefResourceHandlerOwn.html">TCefResourceHandlerOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResourceHandler.html">uCEFResourceHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFResourceHandler.TCefResourceHandlerRef.html">TCefResourceHandlerRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResourceHandler.html">uCEFResourceHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefResourceReadCallback.html">TCefResourceReadCallback</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Callback for asynchronous continuation of ICefResourceHandler.read().
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFResourceReadCallback.TCefResourceReadCallbackRef.html">TCefResourceReadCallbackRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResourceReadCallback.html">uCEFResourceReadCallback</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefResourceRequestHandler.html">TCefResourceRequestHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Implement this structure to handle events related to browser requests. The functions of this structure will be called on the IO thread unless otherwise indicated.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFResourceRequestHandler.TCefResourceRequestHandlerOwn.html">TCefResourceRequestHandlerOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResourceRequestHandler.html">uCEFResourceRequestHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFResourceRequestHandler.TCefResourceRequestHandlerRef.html">TCefResourceRequestHandlerRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResourceRequestHandler.html">uCEFResourceRequestHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefResourceSkipCallback.html">TCefResourceSkipCallback</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Callback for asynchronous continuation of ICefResourceHandler.skip().
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFResourceSkipCallback.TCefResourceSkipCallbackRef.html">TCefResourceSkipCallbackRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResourceSkipCallback.html">uCEFResourceSkipCallback</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefResponse.html">TCefResponse</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure used to represent a web response. The functions of this structure may be called on any thread.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefResponseFilter.html">TCefResponseFilter</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Implement this structure to filter resource response content. The functions of this structure will be called on the browser process IO thread.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFResponseFilter.TCefResponseFilterOwn.html">TCefResponseFilterOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResponseFilter.html">uCEFResponseFilter</a></td>
 <td class="itemdesc"><p> Owned class implementing a resource filter. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFResponseFilter.TCefResponseFilterRef.html">TCefResponseFilterRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResponseFilter.html">uCEFResponseFilter</a></td>
 <td class="itemdesc"><p> Reference class implementing a resource filter. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFResponse.TCefResponseRef.html">TCefResponseRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResponse.html">uCEFResponse</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefRunContextMenuCallback.html">TCefRunContextMenuCallback</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Callback structure used for continuation of custom context menu display.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFRunContextMenuCallback.TCefRunContextMenuCallbackRef.html">TCefRunContextMenuCallbackRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRunContextMenuCallback.html">uCEFRunContextMenuCallback</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefRunFileDialogCallback.html">TCefRunFileDialogCallback</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Callback structure for ICefBrowserHost.RunFileDialog. The functions of this structure will be called on the browser process UI thread.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFRunFileDialogCallback.TCefRunFileDialogCallbackOwn.html">TCefRunFileDialogCallbackOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRunFileDialogCallback.html">uCEFRunFileDialogCallback</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefRunQuickMenuCallback.html">TCefRunQuickMenuCallback</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Callback structure used for continuation of custom quick menu display.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFRunQuickMenuCallback.TCefRunQuickMenuCallbackRef.html">TCefRunQuickMenuCallbackRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRunQuickMenuCallback.html">uCEFRunQuickMenuCallback</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefSavePrefsTask.html">TCefSavePrefsTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefSchemeHandlerFactory.html">TCefSchemeHandlerFactory</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure that creates ICefResourceHandler instances for handling scheme requests. The functions of this structure will always be called on the IO thread.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFSchemeHandlerFactory.TCefSchemeHandlerFactoryOwn.html">TCefSchemeHandlerFactoryOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFSchemeHandlerFactory.html">uCEFSchemeHandlerFactory</a></td>
 <td class="itemdesc"><p> Class that creates ICefResourceHandler instances for handling scheme requests. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefSchemeRegistrar.html">TCefSchemeRegistrar</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure that manages custom scheme registrations.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFSchemeRegistrar.TCefSchemeRegistrarRef.html">TCefSchemeRegistrarRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFSchemeRegistrar.html">uCEFSchemeRegistrar</a></td>
 <td class="itemdesc"><p> Class that manages custom scheme registrations. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefScreenInfo.html">TCefScreenInfo</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Screen information used when window rendering is disabled. This structure is passed as a parameter to ICefRenderHandler.GetScreenInfo and should be filled in by the client. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefScrollView.html">TCefScrollView</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> A ScrollView will show horizontal and/or vertical scrollbars when necessary based on the size of the attached content view. Methods must be called on the browser process UI thread unless otherwise indicated.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFScrollViewComponent.TCEFScrollViewComponent.html">TCEFScrollViewComponent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFScrollViewComponent.html">uCEFScrollViewComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFScrollView.TCefScrollViewRef.html">TCefScrollViewRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFScrollView.html">uCEFScrollView</a></td>
 <td class="itemdesc"><p> A ScrollView will show horizontal and/or vertical scrollbars when necessary based on the size of the attached content view. Methods must be called on the browser process UI thread unless otherwise indicated. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefSelectClientCertificateCallback.html">TCefSelectClientCertificateCallback</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Callback structure used to select a client certificate for authentication.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFSelectClientCertificateCallback.TCefSelectClientCertificateCallbackRef.html">TCefSelectClientCertificateCallbackRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFSelectClientCertificateCallback.html">uCEFSelectClientCertificateCallback</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFSentinel.TCEFSentinel.html">TCEFSentinel</a></td>
 <td class="itemunit"><a class="bold" href="uCEFSentinel.html">uCEFSentinel</a></td>
 <td class="itemdesc"><p> TCEFSentinel is used as a timer that checks the number of running CEF processes when you close all browsers before shutdown. This component is only used as a last resort when there's an unresolved shutdown issue in CEF or CEF4Delphi that generates exceptions when the application is closed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefServer.html">TCefServer</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing a server that supports HTTP and WebSocket requests. Server capacity is limited and is intended to handle only a small number of simultaneous connections (e.g. for communicating between applications on localhost). The functions of this structure are safe to call from any thread in the brower process unless otherwise indicated.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFServerComponent.TCEFServerComponent.html">TCEFServerComponent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServerComponent.html">uCEFServerComponent</a></td>
 <td class="itemdesc"><p> The TCEFServerComponent class puts together all CEF server procedures, functions, properties and events in one place. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefServerHandler.html">TCefServerHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Implement this structure to handle HTTP server requests. A new thread will be created for each ICefServer.CreateServer call (the &quot;dedicated server thread&quot;), and the functions of this structure will be called on that thread. It is therefore recommended to use a different ICefServerHandler instance for each ICefServer.CreateServer call to avoid thread safety issues in the ICefServerHandler implementation.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFServerHandler.TCEFServerHandlerOwn.html">TCEFServerHandlerOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServerHandler.html">uCEFServerHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFServer.TCEFServerRef.html">TCEFServerRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServer.html">uCEFServer</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefSetAudioMutedTask.html">TCefSetAudioMutedTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefSetCookieCallback.html">TCefSetCookieCallback</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure to implement to be notified of asynchronous completion via ICefCookieManager.SetCookie().
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFSetCookieCallback.TCefSetCookieCallbackOwn.html">TCefSetCookieCallbackOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFSetCookieCallback.html">uCEFSetCookieCallback</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefSettingObserver.html">TCefSettingObserver</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p>* CEF_API_ADDED(13401) *</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefSettings.html">TCefSettings</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Initialization settings. Specify NULL or 0 to get the recommended default values. Many of these and other settings can also configured using command- line switches. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefSetZoomLevelTask.html">TCefSetZoomLevelTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefSetZoomPctTask.html">TCefSetZoomPctTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefSetZoomStepTask.html">TCefSetZoomStepTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefSharedMemoryRegion.html">TCefSharedMemoryRegion</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure that wraps platform-dependent share memory region mapping.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFSharedMemoryRegion.TCefSharedMemoryRegionRef.html">TCefSharedMemoryRegionRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFSharedMemoryRegion.html">uCEFSharedMemoryRegion</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefSharedProcessMessageBuilder.html">TCefSharedProcessMessageBuilder</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure that builds a ICefProcessMessage containing a shared memory region. This structure is not thread-safe but may be used exclusively on a different thread from the one which constructed it.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFSharedProcessMessageBuilder.TCefSharedProcessMessageBuilderRef.html">TCefSharedProcessMessageBuilderRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFSharedProcessMessageBuilder.html">uCEFSharedProcessMessageBuilder</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefSimulatedTouchPoint.html">TCefSimulatedTouchPoint</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing a simulated touch point. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefSize.html">TCefSize</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing a size. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefSslInfo.html">TCefSslInfo</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing SSL information.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFSslInfo.TCefSslInfoRef.html">TCefSslInfoRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFSslInfo.html">uCEFSslInfo</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefSSLStatus.html">TCefSSLStatus</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing the SSL information for a navigation entry.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFSSLStatus.TCefSSLStatusRef.html">TCefSSLStatusRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFSSLStatus.html">uCEFSSLStatus</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefStreamReader.html">TCefStreamReader</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure used to read data from a stream. The functions of this structure may be called on any thread.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFStreamReader.TCefStreamReaderRef.html">TCefStreamReaderRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFStreamReader.html">uCEFStreamReader</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefStreamWriter.html">TCefStreamWriter</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure used to write data to a stream. The functions of this structure may be called on any thread.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFStreamWriter.TCefStreamWriterRef.html">TCefStreamWriterRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFStreamWriter.html">uCEFStreamWriter</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFStringList.TCefStringListOwn.html">TCefStringListOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFStringList.html">uCEFStringList</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFStringList.TCefStringListRef.html">TCefStringListRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFStringList.html">uCEFStringList</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFStringMap.TCefStringMapOwn.html">TCefStringMapOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFStringMap.html">uCEFStringMap</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFStringMap.TCefStringMapRef.html">TCefStringMapRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFStringMap.html">uCEFStringMap</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFStringMultimap.TCefStringMultimapOwn.html">TCefStringMultimapOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFStringMultimap.html">uCEFStringMultimap</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFStringMultimap.TCefStringMultimapRef.html">TCefStringMultimapRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFStringMultimap.html">uCEFStringMultimap</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefStringUtf16.html">TCefStringUtf16</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> CEF utf16 string type definition. Whomever allocates |str| is responsible for providing an appropriate |dtor| implementation that will free the string in the same memory space. When reusing an existing string structure make sure to call |dtor| for the old value before assigning new |str| and |dtor| values. Static strings will have a NULL |dtor| value. Using the below functions if you want this managed for you. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefStringUtf8.html">TCefStringUtf8</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> CEF utf8 string type definition. Whomever allocates |str| is responsible for providing an appropriate |dtor| implementation that will free the string in the same memory space. When reusing an existing string structure make sure to call |dtor| for the old value before assigning new |str| and |dtor| values. Static strings will have a NULL |dtor| value. Using the below functions if you want this managed for you. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefStringVisitor.html">TCefStringVisitor</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Implement this structure to receive string values asynchronously.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFStringVisitor.TCefStringVisitorOwn.html">TCefStringVisitorOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFStringVisitor.html">uCEFStringVisitor</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefStringWide.html">TCefStringWide</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> CEF wide string type definition. Whomever allocates |str| is responsible for providing an appropriate |dtor| implementation that will free the string in the same memory space. When reusing an existing string structure make sure to call |dtor| for the old value before assigning new |str| and |dtor| values. Static strings will have a NULL |dtor| value. Using the below functions if you want this managed for you. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefTask.html">TCefTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Implement this structure for asynchronous task execution. If the task is posted successfully and if the associated message loop is still running then the execute() function will be called on the target thread. If the task fails to post then the task object may be destroyed on the source thread instead of the target thread. For this reason be cautious when performing work in the task object destructor.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefTaskInfo.html">TCefTaskInfo</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing task information provided by ICefTaskManager. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefTaskManager.html">TCefTaskManager</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure that facilitates managing the browser-related tasks. The functions of this structure may only be called on the UI thread.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTaskManager.TCefTaskManagerRef.html">TCefTaskManagerRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTaskManager.html">uCEFTaskManager</a></td>
 <td class="itemdesc"><p> Class that facilitates managing the browser-related tasks. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefTaskOwn.html">TCefTaskOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefTaskRef.html">TCefTaskRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefTaskRunner.html">TCefTaskRunner</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure that asynchronously executes tasks on the associated thread. It is safe to call the functions of this structure on any thread.
@@ -3104,404 +3109,404 @@
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTaskRunner.TCefTaskRunnerRef.html">TCefTaskRunnerRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTaskRunner.html">uCEFTaskRunner</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefTextfield.html">TCefTextfield</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> A Textfield supports editing of text. This control is custom rendered with no platform-specific code. Methods must be called on the browser process UI thread unless otherwise indicated.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTextfieldComponent.TCEFTextfieldComponent.html">TCEFTextfieldComponent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTextfieldComponent.html">uCEFTextfieldComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefTextfieldDelegate.html">TCefTextfieldDelegate</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Implement this structure to handle Textfield events. The functions of this structure will be called on the browser process UI thread unless otherwise indicated.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTextfieldDelegate.TCefTextfieldDelegateOwn.html">TCefTextfieldDelegateOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTextfieldDelegate.html">uCEFTextfieldDelegate</a></td>
 <td class="itemdesc"><p> Implement this interface to handle Textfield events. The functions of this interface will be called on the browser process UI thread unless otherwise indicated. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTextfieldDelegate.TCefTextfieldDelegateRef.html">TCefTextfieldDelegateRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTextfieldDelegate.html">uCEFTextfieldDelegate</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTextfield.TCefTextfieldRef.html">TCefTextfieldRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTextfield.html">uCEFTextfield</a></td>
 <td class="itemdesc"><p> A Textfield supports editing of text. This control is custom rendered with no platform-specific code. Methods must be called on the browser process UI thread unless otherwise indicated. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefThread.html">TCefThread</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> A simple thread abstraction that establishes a message loop on a new thread. The consumer uses ICefTaskRunner to execute code on the thread's message loop. The thread is terminated when the ICefThread object is destroyed or stop() is called. All pending tasks queued on the thread's message loop will run to completion before the thread is terminated. cef_thread_create() can be called on any valid CEF thread in either the browser or render process. This structure should only be used for tasks that require a dedicated thread. In most cases you can post tasks to an existing CEF thread instead of creating a new one; see cef_task.h for details.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFThread.TCefThreadRef.html">TCefThreadRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFThread.html">uCEFThread</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefTime.html">TCefTime</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Time information. Values should always be in UTC. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTimerWorkScheduler.TCEFTimerWorkScheduler.html">TCEFTimerWorkScheduler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTimerWorkScheduler.html">uCEFTimerWorkScheduler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefToggleAudioMutedTask.html">TCefToggleAudioMutedTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefTouchEvent.html">TCefTouchEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing touch event information. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefTouchHandleState.html">TCefTouchHandleState</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Touch handle state. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefTryCloseBrowserTask.html">TCefTryCloseBrowserTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefUnresponsiveProcessCallback.html">TCefUnresponsiveProcessCallback</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Callback structure for asynchronous handling of an unresponsive process.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFUnresponsiveProcessCallback.TCefUnresponsiveProcessCallbackRef.html">TCefUnresponsiveProcessCallbackRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFUnresponsiveProcessCallback.html">uCEFUnresponsiveProcessCallback</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefUpdatePrefsTask.html">TCefUpdatePrefsTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefUpdateZoomPctTask.html">TCefUpdateZoomPctTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefUpdateZoomStepTask.html">TCefUpdateZoomStepTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefUrlParts.html">TCefUrlParts</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> URL component parts. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefUrlRequest.html">TCefUrlRequest</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure used to make a URL request. URL requests are not associated with a browser instance so no ICefClient callbacks will be executed. URL requests can be created on any valid CEF thread in either the browser or render process. Once created the functions of the URL request object must be accessed on the same thread that created it.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefUrlrequestClient.html">TCefUrlrequestClient</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure that should be implemented by the ICefUrlRequest client. The functions of this structure will be called on the same thread that created the request unless otherwise documented.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFUrlRequestClientComponent.TCEFUrlRequestClientComponent.html">TCEFUrlRequestClientComponent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFUrlRequestClientComponent.html">uCEFUrlRequestClientComponent</a></td>
 <td class="itemdesc"><p> The TCEFUrlRequestClientComponent class puts together all CEF URL request procedures, functions, properties and events in one place. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFUrlrequestClient.TCefUrlrequestClientOwn.html">TCefUrlrequestClientOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFUrlrequestClient.html">uCEFUrlrequestClient</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFUrlrequestClient.TCefUrlrequestClientRef.html">TCefUrlrequestClientRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFUrlrequestClient.html">uCEFUrlrequestClient</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefURLRequestClientTask.html">TCefURLRequestClientTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p> Custom class used to execute CEF tasks with a TCEFUrlRequestClientComponent component. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFUrlRequest.TCefUrlRequestRef.html">TCefUrlRequestRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFUrlRequest.html">uCEFUrlRequest</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefURLRequestTask.html">TCefURLRequestTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefV8Accessor.html">TCefV8Accessor</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure that should be implemented to handle V8 accessor calls. Accessor identifiers are registered by calling ICefv8value.SetValue(). The functions of this structure will be called on the thread associated with the V8 accessor.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFv8Accessor.TCefV8AccessorOwn.html">TCefV8AccessorOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFv8Accessor.html">uCEFv8Accessor</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefv8ArrayBufferReleaseCallback.html">TCefv8ArrayBufferReleaseCallback</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Callback structure that is passed to ICefv8value.CreateArrayBuffer.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFv8ArrayBufferReleaseCallback.TCefv8ArrayBufferReleaseCallbackOwn.html">TCefv8ArrayBufferReleaseCallbackOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFv8ArrayBufferReleaseCallback.html">uCEFv8ArrayBufferReleaseCallback</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFv8ArrayBufferReleaseCallback.TCefv8ArrayBufferReleaseCallbackRef.html">TCefv8ArrayBufferReleaseCallbackRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFv8ArrayBufferReleaseCallback.html">uCEFv8ArrayBufferReleaseCallback</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefV8Context.html">TCefV8Context</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing a V8 context handle. V8 handles can only be accessed from the thread on which they are created. Valid threads for creating a V8 handle include the render process main thread (TID_RENDERER) and WebWorker threads. A task runner for posting tasks on the associated thread can be retrieved via the ICefv8context.GetTaskRunner() function.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFv8Context.TCefv8ContextRef.html">TCefv8ContextRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFv8Context.html">uCEFv8Context</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefV8Exception.html">TCefV8Exception</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing a V8 exception. The functions of this structure may be called on any render process thread.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFv8Exception.TCefV8ExceptionRef.html">TCefV8ExceptionRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFv8Exception.html">uCEFv8Exception</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefv8Handler.html">TCefv8Handler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure that should be implemented to handle V8 function calls. The functions of this structure will be called on the thread associated with the V8 function.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFv8Handler.TCefv8HandlerOwn.html">TCefv8HandlerOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFv8Handler.html">uCEFv8Handler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFv8Handler.TCefv8HandlerRef.html">TCefv8HandlerRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFv8Handler.html">uCEFv8Handler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefV8Interceptor.html">TCefV8Interceptor</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure that should be implemented to handle V8 interceptor calls. The functions of this structure will be called on the thread associated with the V8 interceptor. Interceptor's named property handlers (with first argument of type CefString) are called when object is indexed by string. Indexed property handlers (with first argument of type int) are called when object is indexed by integer.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFv8Interceptor.TCefV8InterceptorOwn.html">TCefV8InterceptorOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFv8Interceptor.html">uCEFv8Interceptor</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefV8StackFrame.html">TCefV8StackFrame</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing a V8 stack frame handle. V8 handles can only be accessed from the thread on which they are created. Valid threads for creating a V8 handle include the render process main thread (TID_RENDERER) and WebWorker threads. A task runner for posting tasks on the associated thread can be retrieved via the ICefv8context.GetTaskRunner() function.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFv8StackFrame.TCefV8StackFrameRef.html">TCefV8StackFrameRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFv8StackFrame.html">uCEFv8StackFrame</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefV8StackTrace.html">TCefV8StackTrace</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing a V8 stack trace handle. V8 handles can only be accessed from the thread on which they are created. Valid threads for creating a V8 handle include the render process main thread (TID_RENDERER) and WebWorker threads. A task runner for posting tasks on the associated thread can be retrieved via the ICefv8context.GetTaskRunner() function.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFv8StackTrace.TCefV8StackTraceRef.html">TCefV8StackTraceRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFv8StackTrace.html">uCEFv8StackTrace</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefv8Value.html">TCefv8Value</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing a V8 value handle. V8 handles can only be accessed from the thread on which they are created. Valid threads for creating a V8 handle include the render process main thread (TID_RENDERER) and WebWorker threads. A task runner for posting tasks on the associated thread can be retrieved via the ICefv8context.GetTaskRunner() function.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFv8Value.TCefv8ValueRef.html">TCefv8ValueRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFv8Value.html">uCEFv8Value</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefValue.html">TCefValue</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure that wraps other data value types. Complex types (binary, dictionary and list) will be referenced but not owned by this object. Can be used on any process and thread.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFValue.TCefValueRef.html">TCefValueRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFValue.html">uCEFValue</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefVersionInfo.html">TCefVersionInfo</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Record used by cef_version_info to get the CEF version information </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefView.html">TCefView</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> A View is a rectangle within the views View hierarchy. It is the base structure for all Views. All size and position values are in density independent pixels (DIP) unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewComponent.TCEFViewComponent.html">TCEFViewComponent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewComponent.html">uCEFViewComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefViewDelegate.html">TCefViewDelegate</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Implement this structure to handle view events. All size and position values are in density independent pixels (DIP) unless otherwise indicated. The functions of this structure will be called on the browser process UI thread unless otherwise indicated.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFViewDelegate.TCefViewDelegateOwn.html">TCefViewDelegateOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewDelegate.html">uCEFViewDelegate</a></td>
 <td class="itemdesc"><p> Implement this interface to handle view events. All size and position values are in density independent pixels (DIP) unless otherwise indicated. The functions of this interface will be called on the browser process UI thread unless otherwise indicated. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewDelegate.TCefViewDelegateRef.html">TCefViewDelegateRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewDelegate.html">uCEFViewDelegate</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTask.TCefViewDelegateTask.html">TCefViewDelegateTask</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTask.html">uCEFTask</a></td>
 <td class="itemdesc"><p> Custom class used to execute CEF tasks with a TCEFViewComponent component. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFView.TCefViewRef.html">TCefViewRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFView.html">uCEFView</a></td>
 <td class="itemdesc"><p> A View is a rectangle within the views View hierarchy. It is the base interface for all Views. All size and position values are in density independent pixels (DIP) unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefWaitableEvent.html">TCefWaitableEvent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> WaitableEvent is a thread synchronization tool that allows one thread to wait for another thread to finish some work. This is equivalent to using a Lock+ConditionVariable to protect a simple boolean value. However, using WaitableEvent in conjunction with a Lock to wait for a more complex state change (e.g., for an item to be added to a queue) is not recommended. In that case consider using a ConditionVariable instead of a WaitableEvent. It is safe to create and/or signal a WaitableEvent from any thread. Blocking on a WaitableEvent by calling the *wait() functions is not allowed on the browser process UI or IO threads.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFWaitableEvent.TCefWaitableEventRef.html">TCefWaitableEventRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWaitableEvent.html">uCEFWaitableEvent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFWinControl.TCEFWinControl.html">TCEFWinControl</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWinControl.html">uCEFWinControl</a></td>
 <td class="itemdesc"><p> Custom TWinControl used by CEF browsers. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefWindow.html">TCefWindow</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> A Window is a top-level Window/widget in the Views hierarchy. By default it will have a non-client area with title bar, icon and buttons that supports moving and resizing. All size and position values are in density independent pixels (DIP) unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFWindowComponent.TCEFWindowComponent.html">TCEFWindowComponent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWindowComponent.html">uCEFWindowComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefWindowDelegate.html">TCefWindowDelegate</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Implement this structure to handle window events. The functions of this structure will be called on the browser process UI thread unless otherwise indicated.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFWindowDelegate.TCefWindowDelegateOwn.html">TCefWindowDelegateOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWindowDelegate.html">uCEFWindowDelegate</a></td>
 <td class="itemdesc"><p> Implement this interface to handle window events. The functions of this interface will be called on the browser process UI thread unless otherwise indicated. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFWindowDelegate.TCefWindowDelegateRef.html">TCefWindowDelegateRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWindowDelegate.html">uCEFWindowDelegate</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefWindowInfo.html">TCefWindowInfo</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing window information. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFWindowInfoWrapper.TCEFWindowInfoWrapper.html">TCEFWindowInfoWrapper</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWindowInfoWrapper.html">uCEFWindowInfoWrapper</a></td>
 <td class="itemdesc"><p> Wrapper class used to initialize a TCEFWindowInfo record. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFWindowParent.TCEFWindowParent.html">TCEFWindowParent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWindowParent.html">uCEFWindowParent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFWindow.TCefWindowRef.html">TCefWindowRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWindow.html">uCEFWindow</a></td>
 <td class="itemdesc"><p> A Window is a top-level Window/widget in the Views hierarchy. By default it will have a non-client area with title bar, icon and buttons that supports moving and resizing. All size and position values are in density independent pixels (DIP) unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFWorkScheduler.TCEFWorkScheduler.html">TCEFWorkScheduler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWorkScheduler.html">uCEFWorkScheduler</a></td>
 <td class="itemdesc"><p>
@@ -3512,102 +3517,102 @@
 
 <p></p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFWorkSchedulerQueueThread.TCEFWorkSchedulerQueueThread.html">TCEFWorkSchedulerQueueThread</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWorkSchedulerQueueThread.html">uCEFWorkSchedulerQueueThread</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFWorkSchedulerThread.TCEFWorkSchedulerThread.html">TCEFWorkSchedulerThread</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWorkSchedulerThread.html">uCEFWorkSchedulerThread</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefWriteHandler.html">TCefWriteHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure the client can implement to provide a custom stream writer. The functions of this structure may be called on any thread.
 
 <p>NOTE: This struct is allocated client-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFWriteHandler.TCefWriteHandlerOwn.html">TCefWriteHandlerOwn</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWriteHandler.html">uCEFWriteHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefX509Certificate.html">TCefX509Certificate</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing a X.509 certificate.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFX509Certificate.TCEFX509CertificateRef.html">TCEFX509CertificateRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFX509Certificate.html">uCEFX509Certificate</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefX509CertPrincipal.html">TCefX509CertPrincipal</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure representing the issuer or subject field of an X.509 certificate.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFX509CertPrincipal.TCefX509CertPrincipalRef.html">TCefX509CertPrincipalRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFX509CertPrincipal.html">uCEFX509CertPrincipal</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefXmlReader.html">TCefXmlReader</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure that supports the reading of XML data via the libxml streaming API. The functions of this structure should only be called on the thread that creates the object.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFXmlReader.TCefXmlReaderRef.html">TCefXmlReaderRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFXmlReader.html">uCEFXmlReader</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCefZipReader.html">TCefZipReader</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Structure that supports the reading of zip archives via the zlib unzip API. The functions of this structure should only be called on the thread that creates the object.
 
 <p>NOTE: This struct is allocated DLL-side. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFZipReader.TCefZipReaderRef.html">TCefZipReaderRef</a></td>
 <td class="itemunit"><a class="bold" href="uCEFZipReader.html">uCEFZipReader</a></td>
 <td class="itemdesc"><p> Class that supports the reading of zip archives via the zlib unzip API. The functions of this interface should only be called on the thread that creates the object. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromium.TChromium.html">TChromium</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromium.html">uCEFChromium</a></td>
 <td class="itemdesc"><p> VCL and LCL version of TChromiumCore that puts together all browser procedures, functions, properties and events in one place. It has all you need to create, modify and destroy a web browser. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumCore.TChromiumCore.html">TChromiumCore</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumCore.html">uCEFChromiumCore</a></td>
 <td class="itemdesc"><p> Parent class of TChromium and TFMXChromium that puts together all browser procedures, functions, properties and events in one place. It has all you need to create, modify and destroy a web browser. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFChromiumFontOptions.TChromiumFontOptions.html">TChromiumFontOptions</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumFontOptions.html">uCEFChromiumFontOptions</a></td>
 <td class="itemdesc"><p> The TChromiumFontOptions properties are used to fill the TCefBrowserSettings record which is used during the browser creation. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumOptions.TChromiumOptions.html">TChromiumOptions</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumOptions.html">uCEFChromiumOptions</a></td>
 <td class="itemdesc"><p> The TChromiumOptions properties used to fill the TCefBrowserSettings record which is used during the browser creation. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TChromiumVersionInfo.html">TChromiumVersionInfo</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Record used by cef_version_info to get the Chromium version information </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFChromiumWindow.TChromiumWindow.html">TChromiumWindow</a></td>
 <td class="itemunit"><a class="bold" href="uCEFChromiumWindow.html">uCEFChromiumWindow</a></td>
 <td class="itemdesc"><p>
@@ -3618,217 +3623,217 @@
 
 <p></p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFBrowserWindow.TChromiumWrapper.html">TChromiumWrapper</a></td>
 <td class="itemunit"><a class="bold" href="uCEFBrowserWindow.html">uCEFBrowserWindow</a></td>
 <td class="itemdesc"><p>TChromiumWrapper</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCookie.html">TCookie</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Cookie information. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFAccessibilityHandler.TCustomAccessibilityHandler.html">TCustomAccessibilityHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFAccessibilityHandler.html">uCEFAccessibilityHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFAudioHandler.TCustomAudioHandler.html">TCustomAudioHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFAudioHandler.html">uCEFAudioHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFBrowserViewDelegate.TCustomBrowserViewDelegate.html">TCustomBrowserViewDelegate</a></td>
 <td class="itemunit"><a class="bold" href="uCEFBrowserViewDelegate.html">uCEFBrowserViewDelegate</a></td>
 <td class="itemdesc"><p> This class handles all the ICefBrowserViewDelegate methods which call the ICefBrowserViewDelegateEvents methods. ICefBrowserViewDelegateEvents will be implemented by the control receiving the ICefBrowserViewDelegate events. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFButtonDelegate.TCustomButtonDelegate.html">TCustomButtonDelegate</a></td>
 <td class="itemunit"><a class="bold" href="uCEFButtonDelegate.html">uCEFButtonDelegate</a></td>
 <td class="itemdesc"><p> This class handles all the ICefButtonDelegate methods which call the ICefButtonDelegateEvents methods. ICefButtonDelegateEvents will be implemented by the control receiving the ICefButtonDelegate events. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApp.TCustomCefApp.html">TCustomCefApp</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApp.html">uCEFApp</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFNavigationEntryVisitor.TCustomCefNavigationEntryVisitor.html">TCustomCefNavigationEntryVisitor</a></td>
 <td class="itemunit"><a class="bold" href="uCEFNavigationEntryVisitor.html">uCEFNavigationEntryVisitor</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFStringVisitor.TCustomCefStringVisitor.html">TCustomCefStringVisitor</a></td>
 <td class="itemunit"><a class="bold" href="uCEFStringVisitor.html">uCEFStringVisitor</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFUrlrequestClient.TCustomCefUrlrequestClient.html">TCustomCefUrlrequestClient</a></td>
 <td class="itemunit"><a class="bold" href="uCEFUrlrequestClient.html">uCEFUrlrequestClient</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFClient.TCustomClientHandler.html">TCustomClientHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFClient.html">uCEFClient</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFCommandHandler.TCustomCommandHandler.html">TCustomCommandHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFCommandHandler.html">uCEFCommandHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFContextMenuHandler.TCustomContextMenuHandler.html">TCustomContextMenuHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFContextMenuHandler.html">uCEFContextMenuHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFCookieAccessFilter.TCustomCookieAccessFilter.html">TCustomCookieAccessFilter</a></td>
 <td class="itemunit"><a class="bold" href="uCEFCookieAccessFilter.html">uCEFCookieAccessFilter</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFDevToolsMessageObserver.TCustomDevToolsMessageObserver.html">TCustomDevToolsMessageObserver</a></td>
 <td class="itemunit"><a class="bold" href="uCEFDevToolsMessageObserver.html">uCEFDevToolsMessageObserver</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFDialogHandler.TCustomDialogHandler.html">TCustomDialogHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFDialogHandler.html">uCEFDialogHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFDisplayHandler.TCustomDisplayHandler.html">TCustomDisplayHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFDisplayHandler.html">uCEFDisplayHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFDownloadHandler.TCustomDownloadHandler.html">TCustomDownloadHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFDownloadHandler.html">uCEFDownloadHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFDragHandler.TCustomDragHandler.html">TCustomDragHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFDragHandler.html">uCEFDragHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFFindHandler.TCustomFindHandler.html">TCustomFindHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFFindHandler.html">uCEFFindHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFFocusHandler.TCustomFocusHandler.html">TCustomFocusHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFFocusHandler.html">uCEFFocusHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFFrameHandler.TCustomFrameHandler.html">TCustomFrameHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFFrameHandler.html">uCEFFrameHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFJsDialogHandler.TCustomJsDialogHandler.html">TCustomJsDialogHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFJsDialogHandler.html">uCEFJsDialogHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFKeyboardHandler.TCustomKeyboardHandler.html">TCustomKeyboardHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFKeyboardHandler.html">uCEFKeyboardHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFLifeSpanHandler.TCustomLifeSpanHandler.html">TCustomLifeSpanHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFLifeSpanHandler.html">uCEFLifeSpanHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFLoadHandler.TCustomLoadHandler.html">TCustomLoadHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFLoadHandler.html">uCEFLoadHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMediaObserver.TCustomMediaObserver.html">TCustomMediaObserver</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMediaObserver.html">uCEFMediaObserver</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMenuButtonDelegate.TCustomMenuButtonDelegate.html">TCustomMenuButtonDelegate</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMenuButtonDelegate.html">uCEFMenuButtonDelegate</a></td>
 <td class="itemdesc"><p> This class handles all the ICefMenuButtonDelegate methods which call the ICefMenuButtonDelegateEvents methods. ICefMenuButtonDelegateEvents will be implemented by the control receiving the ICefMenuButtonDelegate events. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFPanelDelegate.TCustomPanelDelegate.html">TCustomPanelDelegate</a></td>
 <td class="itemunit"><a class="bold" href="uCEFPanelDelegate.html">uCEFPanelDelegate</a></td>
 <td class="itemdesc"><p> This class handles all the ICefPanelDelegate methods which call the ICefPanelDelegateEvents methods. ICefPanelDelegateEvents will be implemented by the control receiving the ICefPanelDelegate events. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFPermissionHandler.TCustomPermissionHandler.html">TCustomPermissionHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFPermissionHandler.html">uCEFPermissionHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFPrintHandler.TCustomPrintHandler.html">TCustomPrintHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFPrintHandler.html">uCEFPrintHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFRenderHandler.TCustomRenderHandler.html">TCustomRenderHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRenderHandler.html">uCEFRenderHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFLoadHandler.TCustomRenderLoadHandler.html">TCustomRenderLoadHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFLoadHandler.html">uCEFLoadHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFRequestContextHandler.TCustomRequestContextHandler.html">TCustomRequestContextHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRequestContextHandler.html">uCEFRequestContextHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFRequestHandler.TCustomRequestHandler.html">TCustomRequestHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFRequestHandler.html">uCEFRequestHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFResourceRequestHandler.TCustomResourceRequestHandler.html">TCustomResourceRequestHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResourceRequestHandler.html">uCEFResourceRequestHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFResponseFilter.TCustomResponseFilter.html">TCustomResponseFilter</a></td>
 <td class="itemunit"><a class="bold" href="uCEFResponseFilter.html">uCEFResponseFilter</a></td>
 <td class="itemdesc"><p> Custom class implementing a resource filter with events. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFServerHandler.TCustomServerHandler.html">TCustomServerHandler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServerHandler.html">uCEFServerHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TCustomTaskInfo.html">TCustomTaskInfo</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Pascal version of TCefTaskInfo. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTextfieldDelegate.TCustomTextfieldDelegate.html">TCustomTextfieldDelegate</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTextfieldDelegate.html">uCEFTextfieldDelegate</a></td>
 <td class="itemdesc"><p> This class handles all the ICefTextfieldDelegate and ICefViewDelegate methods which call the ICefTextfieldDelegateEvents methods. ICefTextfieldDelegateEvents will be implemented by the control receiving the ICefTextfieldDelegate events. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFViewDelegate.TCustomViewDelegate.html">TCustomViewDelegate</a></td>
 <td class="itemunit"><a class="bold" href="uCEFViewDelegate.html">uCEFViewDelegate</a></td>
 <td class="itemdesc"><p> This class handles all the ICefViewDelegate methods which call the ICefViewDelegateEvents methods. ICefViewDelegateEvents will be implemented by the control receiving the ICefViewDelegate events. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFWindowDelegate.TCustomWindowDelegate.html">TCustomWindowDelegate</a></td>
 <td class="itemunit"><a class="bold" href="uCEFWindowDelegate.html">uCEFWindowDelegate</a></td>
 <td class="itemdesc"><p> This class handles all the TCustomWindowDelegate methods which call the ICefWindowDelegateEvents methods. ICefWindowDelegateEvents will be implemented by the control receiving the TCustomWindowDelegate events. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFBrowserWindow.TEmbeddedChromium.html">TEmbeddedChromium</a></td>
 <td class="itemunit"><a class="bold" href="uCEFBrowserWindow.html">uCEFBrowserWindow</a></td>
 <td class="itemdesc"><p>TEmbeddedChromium
@@ -3837,34 +3842,34 @@
 
 <p>2) TEmbeddedChromium adds InternalEvents that can be hooked by the component that owns the TEmbeddedChromium. This means the default published events are available to the end user. Published events that should not be available are hidden via THiddenPropertyEditor * Hidden event properties must not be assigned by any end user code. *</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFOsrBrowserWindow.TEmbeddedOsrChromium.html">TEmbeddedOsrChromium</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOsrBrowserWindow.html">uCEFOsrBrowserWindow</a></td>
 <td class="itemdesc"><p>TEmbeddedOsrChromium
 
 <p>Hides (THiddenPropertyEditor) any published event that is used by TOsrBrowserWindow * Hidden events must also not be used by user code *</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TFileVersionInfo.html">TFileVersionInfo</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Record used by GetDLLVersion to get the DLL version information </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFFMXBufferPanel.TFMXBufferPanel.html">TFMXBufferPanel</a></td>
 <td class="itemunit"><a class="bold" href="uCEFFMXBufferPanel.html">uCEFFMXBufferPanel</a></td>
 <td class="itemdesc"><p> TBufferPanel is used by FMX applications with browsers in OSR mode to draw the browser contents. See the FMXExternalPumpBrowser demo for more details. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFFMXChromium.TFMXChromium.html">TFMXChromium</a></td>
 <td class="itemunit"><a class="bold" href="uCEFFMXChromium.html">uCEFFMXChromium</a></td>
 <td class="itemdesc"><p> FMX version of TChromiumCore that puts together all browser procedures, functions, properties and events in one place. It has all you need to create, modify and destroy a web browser. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFFMXWindowParent.TFMXWindowParent.html">TFMXWindowParent</a></td>
 <td class="itemunit"><a class="bold" href="uCEFFMXWindowParent.html">uCEFFMXWindowParent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFFMXWorkScheduler.TFMXWorkScheduler.html">TFMXWorkScheduler</a></td>
 <td class="itemunit"><a class="bold" href="uCEFFMXWorkScheduler.html">uCEFFMXWorkScheduler</a></td>
 <td class="itemdesc"><p>
@@ -3875,47 +3880,47 @@
 
 <p></p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TLinuxWindowProperties.html">TLinuxWindowProperties</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> String version of TCefLinuxWindowProperties </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFBaseRefCounted.TLoggingInterfacedObject.html">TLoggingInterfacedObject</a></td>
 <td class="itemunit"><a class="bold" href="uCEFBaseRefCounted.html">uCEFBaseRefCounted</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFTypes.TMyMemoryStatusEx.html">TMyMemoryStatusEx</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Record used with GetGlobalMemoryStatusEx to get the memory status. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFOLEDragAndDrop.TOLEDataObject.html">TOLEDataObject</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOLEDragAndDrop.html">uCEFOLEDragAndDrop</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFOLEDragAndDrop.TOLEDragAndDropMgr.html">TOLEDragAndDropMgr</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOLEDragAndDrop.html">uCEFOLEDragAndDrop</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFOLEDragAndDrop.TOLEDropSource.html">TOLEDropSource</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOLEDragAndDrop.html">uCEFOLEDragAndDrop</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFOLEDragAndDrop.TOLEDropTarget.html">TOLEDropTarget</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOLEDragAndDrop.html">uCEFOLEDragAndDrop</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFOLEDragAndDrop.TOLEEnumFormatEtc.html">TOLEEnumFormatEtc</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOLEDragAndDrop.html">uCEFOLEDragAndDrop</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFOsrBrowserWindow.TOsrBrowserWindow.html">TOsrBrowserWindow</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOsrBrowserWindow.html">uCEFOsrBrowserWindow</a></td>
 <td class="itemdesc"><p>TOsrBrowserWindow - Off-Screen-Rendering
@@ -3926,17 +3931,17 @@
 
 <p>This component is still experimental. - On MacOS Keyboard support is not complete</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TOSVersionInfoEx.html">TOSVersionInfoEx</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> Record used with RtlGetVersion to get the Windows version information. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFPDFPrintOptions.TPDFPrintOptions.html">TPDFPrintOptions</a></td>
 <td class="itemunit"><a class="bold" href="uCEFPDFPrintOptions.html">uCEFPDFPrintOptions</a></td>
 <td class="itemdesc"><p> The TPDFPrintOptions properties are used to fill the TCefPdfPrintSettings record which is used in the TChromiumCore.PrintToPDF call. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFTypes.TUrlParts.html">TUrlParts</a></td>
 <td class="itemunit"><a class="bold" href="uCEFTypes.html">uCEFTypes</a></td>
 <td class="itemdesc"><p> String version of TCefUrlParts </p></td>

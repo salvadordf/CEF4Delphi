@@ -59,6 +59,8 @@ const
   LIBCEF_LOCALE_ENUS = 'en-US.pak';
 
 type
+  TCEFProxySettings = class;
+
   /// <summary>
   ///  Parent class of TCefApplication used to simplify the CEF initialization and destruction.
   /// </summary>
@@ -161,6 +163,7 @@ type
       FDisableHangMonitor                : boolean;
       FHideCrashRestoreBubble            : boolean;
       FPostQuantumKyber                  : TCefState;
+      FProxySettings                     : TCEFProxySettings;
       {$IFDEF LINUX}
       FPasswordStorage                   : TCefPasswordStorage;
       FGTKVersion                        : TCefGTKVersion;
@@ -1318,6 +1321,21 @@ type
       /// This option enables a combination of X25519 and Kyber in TLS 1.3.
       /// </summary>
       property TLS13HybridizedKyberSupport       : TCefState                                read FPostQuantumKyber                  write FPostQuantumKyber;
+      /// <summary>
+      /// Configure all the browsers to use a proxy server.
+      /// </summary>
+      /// <remarks>
+      /// <para>If you use the proxy settings in GlobalCEFApp you will not be able to use the proxy properties in TChromiumCore.</para>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --no-proxy-server</see></para>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-auto-detect</see></para>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-bypass-list</see></para>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-pac-url</see></para>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-server</see></para>
+      /// <para><see href="https://www.chromium.org/developers/design-documents/network-settings/">See the Network Settings article.</see></para>
+      /// <para><see href="https://github.com/chromium/chromium/blob/main/net/docs/proxy.md"/">See the Proxy Support article.</see></para>
+      /// <para><see href="https://developer.chrome.com/docs/extensions/reference/api/proxy">See the chrome.proxy API article.</see></para>
+      /// </remarks>
+      property ProxySettings                     : TCEFProxySettings                        read FProxySettings;
       {$IFDEF LINUX}
       /// <summary>
       /// Specifies which encryption storage backend to use in Linux.
@@ -1844,6 +1862,40 @@ type
       constructor Create(const aDirectory : string);
   end;
 
+  /// <summary>
+  /// Class used by the TWVLoader.ProxySettigns property to configure
+  /// a custom proxy server using the following command line switches:
+  /// --no-proxy-server, --proxy-auto-detect, --proxy-bypass-list,
+  /// --proxy-pac-url and --proxy-server.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --no-proxy-server</see></para>
+  /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-auto-detect</see></para>
+  /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-bypass-list</see></para>
+  /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-pac-url</see></para>
+  /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-server</see></para>
+  /// <para><see href="https://www.chromium.org/developers/design-documents/network-settings/">See the Network Settings article.</see></para>
+  /// <para><see href="https://github.com/chromium/chromium/blob/main/net/docs/proxy.md"/">See the Proxy Support article.</see></para>
+  /// <para><see href="https://developer.chrome.com/docs/extensions/reference/api/proxy">See the chrome.proxy API article.</see></para>
+  /// </remarks>
+  TCEFProxySettings = class
+    protected
+      FNoProxyServer : boolean;
+      FAutoDetect    : boolean;
+      FByPassList    : ustring;
+      FPacUrl        : ustring;
+      FServer        : ustring;
+
+    public
+      constructor Create;
+
+      property NoProxyServer : boolean   read FNoProxyServer  write FNoProxyServer;
+      property AutoDetect    : boolean   read FAutoDetect     write FAutoDetect;
+      property ByPassList    : ustring   read FByPassList     write FByPassList;
+      property PacUrl        : ustring   read FPacUrl         write FPacUrl;
+      property Server        : ustring   read FServer         write FServer;
+  end;
+
 var
   GlobalCEFApp : TCefApplicationCore = nil;
 
@@ -2007,6 +2059,7 @@ begin
   FDisableHangMonitor                := False;
   FHideCrashRestoreBubble            := True;
   FPostQuantumKyber                  := STATE_DEFAULT;
+  FProxySettings                     := nil;
   {$IFDEF LINUX}
   FPasswordStorage                   := psDefault;
   FGTKVersion                        := gtkVersionDefault;
@@ -2125,6 +2178,7 @@ begin
     if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
     if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
     if (FComponentIDList         <> nil) then FreeAndNil(FComponentIDList);
+    if (FProxySettings           <> nil) then FreeAndNil(FProxySettings);
   finally
     inherited Destroy;
   end;
@@ -2352,6 +2406,7 @@ procedure TCefApplicationCore.AfterConstruction;
 begin
   inherited AfterConstruction;
 
+  FProxySettings           := TCEFProxySettings.Create;
   FCustomCommandLines      := TStringList.Create;
   FCustomCommandLineValues := TStringList.Create;
   FComponentIDList         := TCEFComponentIDList.Create;
@@ -3742,6 +3797,23 @@ begin
   if (length(FForceFieldTrialParams) > 0) then
     ReplaceSwitch(aKeys, aValues, '--force-fieldtrial-params', FForceFieldTrialParams);
 
+  if FProxySettings.NoProxyServer then
+    ReplaceSwitch(aKeys, aValues, '--no-proxy-server')
+   else
+    begin
+      if FProxySettings.AutoDetect then
+        ReplaceSwitch(aKeys, aValues, '--proxy-auto-detect');
+
+      if (length(FProxySettings.ByPassList) > 0) then
+        ReplaceSwitch(aKeys, aValues, '--proxy-bypass-list', FProxySettings.ByPassList);
+
+      if (length(FProxySettings.PacUrl) > 0) then
+        ReplaceSwitch(aKeys, aValues, '--proxy-pac-url', FProxySettings.PacUrl);
+
+      if (length(FProxySettings.Server) > 0) then
+        ReplaceSwitch(aKeys, aValues, '--proxy-server', FProxySettings.Server);
+    end;
+
   if (FCustomCommandLines       <> nil) and
      (FCustomCommandLineValues  <> nil) and
      (FCustomCommandLines.Count =  FCustomCommandLineValues.Count) then
@@ -4900,6 +4972,20 @@ begin
     on e : exception do
       if CustomExceptionHandler('TCEFDirectoryDeleterThread.Execute', e) then raise;
   end;
+end;
+
+
+// TCEFProxySettings
+
+constructor TCEFProxySettings.Create;
+begin
+  inherited Create;
+
+  FNoProxyServer := False;
+  FAutoDetect    := False;
+  FByPassList    := '';
+  FPacUrl        := '';
+  FServer        := '';
 end;
 
 end.

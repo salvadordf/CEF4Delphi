@@ -35,6 +35,7 @@ uCEFApplication.TCefApplication.html
 uCEFApplicationCore.html
 uCEFApplicationCore.TCefApplicationCore.html
 uCEFApplicationCore.TCEFDirectoryDeleterThread.html
+uCEFApplicationCore.TCEFProxySettings.html
 uCEFApplicationEvents.html
 uCEFArgCopy.html
 uCEFArgCopy.TCEFArgCopy.html

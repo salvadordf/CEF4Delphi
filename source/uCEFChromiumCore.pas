@@ -2156,34 +2156,82 @@ type
       /// <summary>
       /// Proxy type: CEF_PROXYTYPE_DIRECT, CEF_PROXYTYPE_AUTODETECT, CEF_PROXYTYPE_SYSTEM, CEF_PROXYTYPE_FIXED_SERVERS or CEF_PROXYTYPE_PAC_SCRIPT.
       /// </summary>
+      /// <remarks>
+      /// <para>If you use the proxy settings in GlobalCEFApp you will not be able to use the proxy properties in TChromiumCore.</para>
+      /// <para><see href="https://www.chromium.org/developers/design-documents/network-settings/">See the Network Settings article.</see></para>
+      /// <para><see href="https://github.com/chromium/chromium/blob/main/net/docs/proxy.md"/">See the Proxy Support article.</see></para>
+      /// <para><see href="https://developer.chrome.com/docs/extensions/reference/api/proxy">See the chrome.proxy API article.</see></para>
+      /// </remarks>
       property  ProxyType                     : integer                      read FProxyType                   write SetProxyType;
       /// <summary>
       /// Proxy scheme
       /// </summary>
+      /// <remarks>
+      /// <para>If you use the proxy settings in GlobalCEFApp you will not be able to use the proxy properties in TChromiumCore.</para>
+      /// <para><see href="https://www.chromium.org/developers/design-documents/network-settings/">See the Network Settings article.</see></para>
+      /// <para><see href="https://github.com/chromium/chromium/blob/main/net/docs/proxy.md"/">See the Proxy Support article.</see></para>
+      /// <para><see href="https://developer.chrome.com/docs/extensions/reference/api/proxy">See the chrome.proxy API article.</see></para>
+      /// </remarks>
       property  ProxyScheme                   : TCefProxyScheme              read FProxyScheme                 write SetProxyScheme;
       /// <summary>
       /// Proxy server address
       /// </summary>
+      /// <remarks>
+      /// <para>If you use the proxy settings in GlobalCEFApp you will not be able to use the proxy properties in TChromiumCore.</para>
+      /// <para><see href="https://www.chromium.org/developers/design-documents/network-settings/">See the Network Settings article.</see></para>
+      /// <para><see href="https://github.com/chromium/chromium/blob/main/net/docs/proxy.md"/">See the Proxy Support article.</see></para>
+      /// <para><see href="https://developer.chrome.com/docs/extensions/reference/api/proxy">See the chrome.proxy API article.</see></para>
+      /// </remarks>
       property  ProxyServer                   : ustring                      read FProxyServer                 write SetProxyServer;
       /// <summary>
       /// Proxy server port
       /// </summary>
+      /// <remarks>
+      /// <para>If you use the proxy settings in GlobalCEFApp you will not be able to use the proxy properties in TChromiumCore.</para>
+      /// <para><see href="https://www.chromium.org/developers/design-documents/network-settings/">See the Network Settings article.</see></para>
+      /// <para><see href="https://github.com/chromium/chromium/blob/main/net/docs/proxy.md"/">See the Proxy Support article.</see></para>
+      /// <para><see href="https://developer.chrome.com/docs/extensions/reference/api/proxy">See the chrome.proxy API article.</see></para>
+      /// </remarks>
       property  ProxyPort                     : integer                      read FProxyPort                   write SetProxyPort;
       /// <summary>
       /// Proxy username
       /// </summary>
+      /// <remarks>
+      /// <para>If you use the proxy settings in GlobalCEFApp you will not be able to use the proxy properties in TChromiumCore.</para>
+      /// <para><see href="https://www.chromium.org/developers/design-documents/network-settings/">See the Network Settings article.</see></para>
+      /// <para><see href="https://github.com/chromium/chromium/blob/main/net/docs/proxy.md"/">See the Proxy Support article.</see></para>
+      /// <para><see href="https://developer.chrome.com/docs/extensions/reference/api/proxy">See the chrome.proxy API article.</see></para>
+      /// </remarks>
       property  ProxyUsername                 : ustring                      read FProxyUsername               write SetProxyUsername;
       /// <summary>
       /// Proxy password
       /// </summary>
+      /// <remarks>
+      /// <para>If you use the proxy settings in GlobalCEFApp you will not be able to use the proxy properties in TChromiumCore.</para>
+      /// <para><see href="https://www.chromium.org/developers/design-documents/network-settings/">See the Network Settings article.</see></para>
+      /// <para><see href="https://github.com/chromium/chromium/blob/main/net/docs/proxy.md"/">See the Proxy Support article.</see></para>
+      /// <para><see href="https://developer.chrome.com/docs/extensions/reference/api/proxy">See the chrome.proxy API article.</see></para>
+      /// </remarks>
       property  ProxyPassword                 : ustring                      read FProxyPassword               write SetProxyPassword;
       /// <summary>
       /// URL of the PAC script file.
       /// </summary>
+      /// <remarks>
+      /// <para>If you use the proxy settings in GlobalCEFApp you will not be able to use the proxy properties in TChromiumCore.</para>
+      /// <para><see href="https://www.chromium.org/developers/design-documents/network-settings/">See the Network Settings article.</see></para>
+      /// <para><see href="https://github.com/chromium/chromium/blob/main/net/docs/proxy.md"/">See the Proxy Support article.</see></para>
+      /// <para><see href="https://developer.chrome.com/docs/extensions/reference/api/proxy">See the chrome.proxy API article.</see></para>
+      /// </remarks>
       property  ProxyScriptURL                : ustring                      read FProxyScriptURL              write SetProxyScriptURL;
       /// <summary>
       /// This tells chromium to bypass any specified proxy for the given semi-colon-separated list of hosts.
       /// </summary>
+      /// <remarks>
+      /// <para>If you use the proxy settings in GlobalCEFApp you will not be able to use the proxy properties in TChromiumCore.</para>
+      /// <para><see href="https://www.chromium.org/developers/design-documents/network-settings/">See the Network Settings article.</see></para>
+      /// <para><see href="https://github.com/chromium/chromium/blob/main/net/docs/proxy.md"/">See the Proxy Support article.</see></para>
+      /// <para><see href="https://developer.chrome.com/docs/extensions/reference/api/proxy">See the chrome.proxy API article.</see></para>
+      /// </remarks>
       property  ProxyByPassList               : ustring                      read FProxyByPassList             write SetProxyByPassList;
       /// <summary>
       /// Sets the maximum connections per proxy value in the browser preferences (experimental).
