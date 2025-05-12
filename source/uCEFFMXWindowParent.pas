@@ -32,7 +32,7 @@ type
       /// <summary>
       /// Set a new parent for this control.
       /// </summary>
-      procedure Reparent(const aNewParentHandle : {$IFDEF DELPHI18_UP}TWindowHandle{$ELSE}TFmxHandle{$ENDIF});
+      procedure Reparent(const aNewParentHandle : {$IFDEF DELPHI18_UP}TWindowHandle{$ELSE}TFmxHandle{$ENDIF}; aNewWindowStyle: NativeInt = NativeInt(WS_POPUPWINDOW or WS_CHILDWINDOW));
       /// <summary>
       /// Updates the size of the child windows created by the browser.
       /// </summary>
@@ -134,7 +134,7 @@ begin
   end;
 end;
 
-procedure TFMXWindowParent.Reparent(const aNewParentHandle : {$IFDEF DELPHI18_UP}TWindowHandle{$ELSE}TFmxHandle{$ENDIF});
+procedure TFMXWindowParent.Reparent(const aNewParentHandle : {$IFDEF DELPHI18_UP}TWindowHandle{$ELSE}TFmxHandle{$ENDIF}; aNewWindowStyle: NativeInt);
 var
   TempChildHandle, TempParentHandle : HWND;
 begin
@@ -149,7 +149,7 @@ begin
 
       if (TempChildHandle <> 0) and (TempParentHandle <> 0) then
         begin
-          SetWindowLong(TempChildHandle, GWL_STYLE, WS_CHILDWINDOW);
+          SetWindowLong(TempChildHandle, GWL_STYLE, aNewWindowStyle);
           WinApi.Windows.SetParent(TempChildHandle, TempParentHandle);
         end;
     end;
