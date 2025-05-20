@@ -6,16 +6,17 @@ object MainForm: TMainForm
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'MainForm'
-  ClientHeight = 728
+  ClientHeight = 751
   ClientWidth = 1396
   Color = clBtnFace
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  LCLVersion = '4.0.0.4'
+  WindowState = wsMaximized
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
-  WindowState = wsMaximized
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Height = 728

@@ -5,20 +5,14 @@
 {$I ..\..\..\source\cef.inc}
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
-  WinApi.Windows,
-  {$ELSE}
   Windows,
   Forms,
-  LCLIntf, LCLType, LMessages, Interfaces,
-  {$ENDIF }
+  Interfaces,
   uCEFApplication,
   uMediaRouterFrm in 'uMediaRouterFrm.pas' {MediaRouterFrm};
 
-{.$R *.res}
-
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+// CEF needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+{$IFDEF WIN32}{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}{$ENDIF}
 
 {$R *.res}
 

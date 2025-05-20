@@ -5,13 +5,8 @@ unit uMainForm;
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls,
-  {$ELSE}
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, ComCtrls,
-  {$ENDIF}
   uCEFInterfaces, uCEFTypes, uCEFConstants, uCEFViewComponent,
   uCEFPanelComponent, uCEFWindowComponent,
   uCEFBrowserViewComponent, uCEFChromiumCore, uCEFChromium, uCEFViewsFrameworkEvents;

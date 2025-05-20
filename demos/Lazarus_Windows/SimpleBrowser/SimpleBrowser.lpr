@@ -7,11 +7,8 @@ uses
   uCEFApplication,
   uSimpleBrowser in 'uSimpleBrowser.pas' {Form1};
 
-{$IFDEF WIN32}
-  // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-  // If you don't add this flag the rederer process will crash when you try to load large images.
-  {$SetPEFlags $20}
-{$ENDIF}
+// CEF needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+{$IFDEF WIN32}{$SetPEFlags $20}{$ENDIF}
 
 {$R *.res}
 

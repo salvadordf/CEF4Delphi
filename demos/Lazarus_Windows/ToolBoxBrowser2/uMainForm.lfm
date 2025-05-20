@@ -12,9 +12,9 @@ object MainForm: TMainForm
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
-  OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '4.0.0.4'
+  OnShow = FormShow
   object ButtonPnl: TPanel
     Left = 0
     Height = 37
@@ -25,6 +25,7 @@ object MainForm: TMainForm
     ClientHeight = 37
     ClientWidth = 357
     Enabled = False
+    ParentBackground = False
     TabOrder = 0
     object Edit1: TEdit
       Left = 6
@@ -40,8 +41,8 @@ object MainForm: TMainForm
       Top = 4
       Width = 51
       Caption = 'Open'
-      OnClick = Button1Click
       TabOrder = 1
+      OnClick = Button1Click
     end
   end
   object CEFWindowComponent1: TCEFWindowComponent

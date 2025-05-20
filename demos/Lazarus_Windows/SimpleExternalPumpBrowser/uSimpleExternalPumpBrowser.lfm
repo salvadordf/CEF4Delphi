@@ -10,11 +10,11 @@ object SimpleExternalPumpBrowserFrm: TSimpleExternalPumpBrowserFrm
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  LCLVersion = '4.0.0.4'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
-  Position = poScreenCenter
-  LCLVersion = '3.4.0.0'
   object AddressPnl: TPanel
     Left = 0
     Height = 21

@@ -10,11 +10,12 @@ object JSExecutingFunctionsFrm: TJSExecutingFunctionsFrm
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  LCLVersion = '4.0.0.4'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  Position = poScreenCenter
   object NavControlPnl: TPanel
     Left = 0
     Height = 21

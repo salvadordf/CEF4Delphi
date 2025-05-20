@@ -7,13 +7,8 @@
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, WinApi.ShellApi,
-  {$ELSE}
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
-  {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes,
   uCEFWinControl, uCEFChromiumCore, uCEFServerComponent,
   uCEFUrlRequestClientComponent, uCEFRequest, uCEFUrlRequest, uCEFOAuth2Helper;

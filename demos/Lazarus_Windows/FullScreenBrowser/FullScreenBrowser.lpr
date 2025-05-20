@@ -5,19 +5,14 @@ program FullScreenBrowser;
 {$I ..\..\..\source\cef.inc}
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
-  WinApi.Windows,
-  {$ELSE}
-  Forms, Windows,
-  LCLIntf, LCLType, LMessages, Interfaces,
-  {$ENDIF }
+  Forms,
+  Windows,
+  Interfaces,
   uCEFApplication,
   uMainForm in 'uMainForm.pas' {MainForm};
 
-{.$R *.res}
-
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+// CEF needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+{$IFDEF WIN32}{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}{$ENDIF}
 
 {$R *.res}
 

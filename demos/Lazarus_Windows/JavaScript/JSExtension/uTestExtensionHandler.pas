@@ -7,11 +7,7 @@
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Winapi.Windows,
-  {$ELSE}
   LCLIntf, LCLType, LMessages,
-  {$ENDIF}
   uCEFRenderProcessHandler, uCEFBrowserProcessHandler, uCEFInterfaces, uCEFProcessMessage,
   uCEFv8Context, uCEFTypes, uCEFv8Handler;
 

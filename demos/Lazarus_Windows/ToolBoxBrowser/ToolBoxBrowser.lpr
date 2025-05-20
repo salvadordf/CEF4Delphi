@@ -5,20 +5,14 @@ program ToolBoxBrowser;
 {$I ..\..\..\source\cef.inc}
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
-  WinApi.Windows,
-  {$ELSE}
   Forms,
   LCLIntf, LCLType, LMessages, Interfaces,
-  {$ENDIF }
   uCEFApplication,
   uMainForm in 'uMainForm.pas' {MainForm},
   uChildForm in 'uChildForm.pas' {ChildForm};
 
-{.$R *.RES}
-
-{$SetPEFlags $20}
+// CEF needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+{$IFDEF WIN32}{$SetPEFlags $20}{$ENDIF}
 
 {$R *.res}
 

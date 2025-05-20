@@ -16,6 +16,9 @@
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
+      <XPManifest>
+        <DpiAware Value="True/PM_V2"/>
+      </XPManifest>
     </General>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -35,7 +38,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="2">
       <Unit0>
         <Filename Value="OAuth2Tester.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -47,10 +50,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
-      <Unit2>
-        <Filename Value="..\..\..\source\uCEFApplication.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -61,7 +60,6 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="..\..\..\source;$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\..\..\source"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

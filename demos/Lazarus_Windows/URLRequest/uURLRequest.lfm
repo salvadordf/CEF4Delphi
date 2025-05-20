@@ -12,11 +12,11 @@ object URLRequestFrm: TURLRequestFrm
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  LCLVersion = '4.0.0.4'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  Position = poScreenCenter
-  LCLVersion = '3.0.0.3'
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23

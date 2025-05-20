@@ -12,11 +12,11 @@ object OAuth2TesterFrm: TOAuth2TesterFrm
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  LCLVersion = '4.0.0.4'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
   object LoginGrp: TGroupBox
     Left = 0
     Height = 230
@@ -26,6 +26,7 @@ object OAuth2TesterFrm: TOAuth2TesterFrm
     Caption = 'Login information '
     ClientHeight = 212
     ClientWidth = 605
+    ParentBackground = False
     TabOrder = 0
     object ClientIDLbl: TLabel
       Left = 12
@@ -116,8 +117,8 @@ object OAuth2TesterFrm: TOAuth2TesterFrm
       Top = 169
       Width = 196
       Caption = 'User login'
-      OnClick = LoginBtnClick
       TabOrder = 5
+      OnClick = LoginBtnClick
     end
     object RefreshBtn: TButton
       Left = 392
@@ -125,8 +126,8 @@ object OAuth2TesterFrm: TOAuth2TesterFrm
       Top = 169
       Width = 196
       Caption = 'Request new token'
-      OnClick = RefreshBtnClick
       TabOrder = 6
+      OnClick = RefreshBtnClick
     end
   end
   object LogGrp: TGroupBox
@@ -138,6 +139,7 @@ object OAuth2TesterFrm: TOAuth2TesterFrm
     Caption = ' Log '
     ClientHeight = 346
     ClientWidth = 605
+    ParentBackground = False
     TabOrder = 1
     object LogMem: TMemo
       Left = 0
@@ -160,6 +162,7 @@ object OAuth2TesterFrm: TOAuth2TesterFrm
     BevelOuter = bvNone
     ClientHeight = 64
     ClientWidth = 609
+    ParentBackground = False
     TabOrder = 2
     object ApiGrp: TGroupBox
       Left = 0
@@ -170,6 +173,7 @@ object OAuth2TesterFrm: TOAuth2TesterFrm
       Caption = 'API information '
       ClientHeight = 46
       ClientWidth = 605
+      ParentBackground = False
       TabOrder = 0
       object EndpointLbl: TLabel
         Left = 12
@@ -193,23 +197,23 @@ object OAuth2TesterFrm: TOAuth2TesterFrm
         Top = 7
         Width = 69
         Caption = 'Request'
-        OnClick = RequestBtnClick
         TabOrder = 1
+        OnClick = RequestBtnClick
       end
     end
   end
   object CEFServerComponent1: TCEFServerComponent
     OnServerDestroyed = CEFServerComponent1ServerDestroyed
     OnHttpRequest = CEFServerComponent1HttpRequest
-    left = 383
-    top = 480
+    Left = 383
+    Top = 480
   end
   object CEFUrlRequestClientComponent1: TCEFUrlRequestClientComponent
     OnRequestComplete = CEFUrlRequestClientComponent1RequestComplete
     OnDownloadProgress = CEFUrlRequestClientComponent1DownloadProgress
     OnDownloadData = CEFUrlRequestClientComponent1DownloadData
     OnCreateURLRequest = CEFUrlRequestClientComponent1CreateURLRequest
-    left = 383
-    top = 544
+    Left = 383
+    Top = 544
   end
 end

@@ -5,18 +5,14 @@ program SubProcess;
 {$I ..\..\..\..\source\cef.inc}
 
 uses
-  {$IFDEF DELPHI16_UP}
-  WinApi.Windows,
-  {$ELSE}
   LCLIntf, LCLType, LMessages, Forms, Interfaces,
-  {$ENDIF}
   uCEFApplicationCore,
   uCEFConstants,
   uCEFv8Value,
   uCEFInterfaces;
 
-// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-{$SetPEFlags $20}
+// CEF needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+{$IFDEF WIN32}{$SetPEFlags $20}{$ENDIF}
 
 procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 var

@@ -12,10 +12,10 @@ object SimpleServerFrm: TSimpleServerFrm
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  LCLVersion = '4.0.0.4'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
   object ButtonPnl: TPanel
     Left = 0
     Height = 94
@@ -25,6 +25,7 @@ object SimpleServerFrm: TSimpleServerFrm
     BevelOuter = bvNone
     ClientHeight = 94
     ClientWidth = 554
+    ParentBackground = False
     TabOrder = 0
     object AddressLbl: TLabel
       Left = 14
@@ -55,9 +56,9 @@ object SimpleServerFrm: TSimpleServerFrm
       Height = 21
       Top = 8
       Width = 211
-      OnChange = AddressEdtChange
       TabOrder = 0
       Text = '127.0.0.1'
+      OnChange = AddressEdtChange
     end
     object PortEdt: TSpinEdit
       Left = 87
@@ -85,8 +86,8 @@ object SimpleServerFrm: TSimpleServerFrm
       Top = 8
       Width = 105
       Caption = 'Start'
-      OnClick = StartBtnClick
       TabOrder = 3
+      OnClick = StartBtnClick
     end
     object StopBtn: TButton
       Left = 434
@@ -95,8 +96,8 @@ object SimpleServerFrm: TSimpleServerFrm
       Width = 105
       Caption = 'Stop'
       Enabled = False
-      OnClick = StopBtnClick
       TabOrder = 4
+      OnClick = StopBtnClick
     end
   end
   object ConnectionLogMem: TMemo
@@ -118,7 +119,7 @@ object SimpleServerFrm: TSimpleServerFrm
     OnWebSocketRequest = CEFServerComponent1WebSocketRequest
     OnWebSocketConnected = CEFServerComponent1WebSocketConnected
     OnWebSocketMessage = CEFServerComponent1WebSocketMessage
-    left = 456
-    top = 304
+    Left = 456
+    Top = 304
   end
 end

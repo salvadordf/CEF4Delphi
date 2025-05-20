@@ -13,7 +13,7 @@ object SimpleTextViewerFrm: TSimpleTextViewerFrm
   Font.Height = -11
   Font.Name = 'Tahoma'
   Position = poScreenCenter
-  LCLVersion = '2.0.1.0'
+  LCLVersion = '4.0.0.4'
   object Memo1: TMemo
     Left = 0
     Height = 572

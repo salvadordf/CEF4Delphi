@@ -7,13 +7,8 @@
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Winapi.Windows, System.Classes, Winapi.Messages, Vcl.ComCtrls, Vcl.Controls,
-  Vcl.Forms, System.SysUtils,
-  {$ELSE}
   LCLIntf, LCLType, LMessages, Classes, Messages, ComCtrls, Controls,
   Forms, SysUtils,
-  {$ENDIF}
   uCEFInterfaces, uCEFTypes, uBrowserFrame;
 
 type

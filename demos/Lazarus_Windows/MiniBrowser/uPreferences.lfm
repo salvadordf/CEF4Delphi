@@ -14,7 +14,7 @@ object PreferencesFrm: TPreferencesFrm
   Font.Name = 'Tahoma'
   FormStyle = fsStayOnTop
   Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '4.0.0.4'
   object Button1: TButton
     Left = 232
     Height = 25
@@ -41,6 +41,7 @@ object PreferencesFrm: TPreferencesFrm
     Caption = ' Proxy '
     ClientHeight = 230
     ClientWidth = 408
+    ParentBackground = False
     TabOrder = 0
     object ProxyTypeLbl: TLabel
       Left = 12
@@ -206,6 +207,7 @@ object PreferencesFrm: TPreferencesFrm
     Caption = ' Custom header '
     ClientHeight = 66
     ClientWidth = 408
+    ParentBackground = False
     TabOrder = 1
     object HeaderNameLbl: TLabel
       Left = 12

@@ -3,14 +3,14 @@ program DOMVisitor;
 {$I ..\..\..\source\cef.inc}
 
 uses
-  Forms, Interfaces,
+  Forms,
+  Interfaces,
   Windows,
   uCEFApplication,
   uDOMVisitor in 'uDOMVisitor.pas' {DOMVisitorFrm};
 
-//{$R *.res}
-
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+// CEF needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+{$IFDEF WIN32}{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}{$ENDIF}
 
 {$R *.res}
 
@@ -21,8 +21,6 @@ begin
 
   if GlobalCEFApp.StartMainProcess then
     begin
-      //ReportMemoryLeaksOnShutdown := True;
-
       Application.Initialize;
       Application.MainFormOnTaskbar := True;
       Application.CreateForm(TDOMVisitorFrm, DOMVisitorFrm);

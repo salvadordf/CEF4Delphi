@@ -5,21 +5,16 @@ program MiniBrowser;
 {$I ..\..\..\source\cef.inc}
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
-  WinApi.Windows,
-  {$ELSE}
-  Forms, Windows,
-  LCLIntf, LCLType, LMessages, Interfaces,
-  {$ENDIF }
+  Forms,
+  Windows,
+  Interfaces,
   uCEFApplication,
   uMiniBrowser in 'uMiniBrowser.pas' {MiniBrowserFrm},
   uPreferences in 'uPreferences.pas' {PreferencesFrm},
   uSimpleTextViewer in 'uSimpleTextViewer.pas' {SimpleTextViewerFrm};
 
-{.$R *.res}
-
-{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}
+// CEF needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+{$IFDEF WIN32}{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}{$ENDIF}
 
 {$R *.res}
 
@@ -29,9 +24,6 @@ begin
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;
-      {$IFDEF DELPHI11_UP}
-      Application.MainFormOnTaskbar := True;
-      {$ENDIF}
       Application.CreateForm(TMiniBrowserFrm, MiniBrowserFrm);
       Application.CreateForm(TPreferencesFrm, PreferencesFrm);
       Application.CreateForm(TSimpleTextViewerFrm, SimpleTextViewerFrm);

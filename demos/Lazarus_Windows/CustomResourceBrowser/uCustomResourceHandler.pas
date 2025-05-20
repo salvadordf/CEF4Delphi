@@ -4,11 +4,7 @@ unit uCustomResourceHandler;
 
 interface
 uses
-  {$IFDEF DELPHI16_UP}
-  System.Classes, WinApi.Windows, System.SysUtils,
-  {$ELSE}
   Classes, Windows, SysUtils,
-  {$ENDIF}
   uCEFInterfaces, uCEFTypes, uCEFResourceHandler;
 
 type

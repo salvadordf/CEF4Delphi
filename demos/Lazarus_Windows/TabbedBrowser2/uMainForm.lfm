@@ -10,12 +10,12 @@ object MainForm: TMainForm
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  LCLVersion = '4.0.0.4'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  Position = poScreenCenter
-  LCLVersion = '3.6.0.0'
   object BrowserPageCtrl: TPageControl
     Left = 32
     Height = 703
@@ -46,8 +46,8 @@ object MainForm: TMainForm
       Font.Color = clWindowText
       Font.Height = -24
       Font.Name = 'Arial Black'
-      OnClick = AddTabBtnClick
       ParentFont = False
+      OnClick = AddTabBtnClick
     end
     object RemoveTabBtn: TSpeedButton
       Left = 1
@@ -58,8 +58,8 @@ object MainForm: TMainForm
       Font.Color = clWindowText
       Font.Height = -24
       Font.Name = 'Arial Black'
-      OnClick = RemoveTabBtnClick
       ParentFont = False
+      OnClick = RemoveTabBtnClick
     end
   end
 end

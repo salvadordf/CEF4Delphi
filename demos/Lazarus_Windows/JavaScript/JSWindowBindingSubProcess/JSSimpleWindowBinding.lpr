@@ -6,14 +6,13 @@ program JSSimpleWindowBinding;
 
 uses
   Forms,
-  LCLIntf, LCLType, LMessages, Interfaces,
+  Windows,
+  Interfaces,
   uCEFApplication,
   uJSSimpleWindowBinding in 'uJSSimpleWindowBinding.pas' {JSSimpleWindowBindingFrm};
 
-{.$R *.res}
-
-// CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-{$SetPEFlags $20}
+// CEF needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+{$IFDEF WIN32}{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}{$ENDIF}
 
 {$R *.res}
 
@@ -35,9 +34,6 @@ begin
   if GlobalCEFApp.StartMainProcess then
     begin
       Application.Initialize;
-      {$IFDEF DELPHI11_UP}
-      Application.MainFormOnTaskbar := True;
-      {$ENDIF}
       Application.CreateForm(TJSSimpleWindowBindingFrm, JSSimpleWindowBindingFrm);
       Application.Run;
     end;

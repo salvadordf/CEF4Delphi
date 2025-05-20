@@ -10,10 +10,10 @@ object WebpageSnapshotFrm: TWebpageSnapshotFrm
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  LCLVersion = '4.0.0.4'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  Position = poScreenCenter
-  LCLVersion = '3.2.0.0'
   object Image1: TImage
     Left = 0
     Height = 438

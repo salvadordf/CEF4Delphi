@@ -7,13 +7,8 @@
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, System.SyncObjs,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ToolWin, Vcl.Buttons, Vcl.ExtCtrls,
-  {$ELSE}
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, Graphics, SyncObjs,
   Controls, Forms, Dialogs, ComCtrls, ToolWin, Buttons, ExtCtrls,
-  {$ENDIF}
   uCEFApplication, uCEFInterfaces, uCEFTypes, uCEFConstants, uChildForm, uBrowserTab;
 
 const

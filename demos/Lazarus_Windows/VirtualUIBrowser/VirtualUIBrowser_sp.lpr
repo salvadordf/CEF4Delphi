@@ -8,10 +8,8 @@ uses
   LCLIntf, LCLType, LMessages, Forms, Interfaces,
   uCEFApplicationCore;
 
-{$IFDEF MSWINDOWS}
-  // CEF needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-  {$SetPEFlags $20}
-{$ENDIF}
+// CEF needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+{$IFDEF WIN32}{$SetPEFlags IMAGE_FILE_LARGE_ADDRESS_AWARE}{$ENDIF}
 
 {$R *.res}
 

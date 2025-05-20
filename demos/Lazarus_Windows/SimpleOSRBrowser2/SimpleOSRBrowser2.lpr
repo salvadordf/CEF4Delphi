@@ -9,10 +9,8 @@ uses
   uCEFWorkScheduler,
   usimplelazosrbrowser2 in 'uSimpleOSRBrowser2.pas' {Form1};
 
-{$IFDEF MSWINDOWS}
-  // CEF3 needs to set the LARGEADDRESSAWARE flag which allows 32-bit processes to use up to 3GB of RAM.
-  {$SetPEFlags $20}
-{$ENDIF}
+// CEF needs to set the LARGEADDRESSAWARE ($20) flag which allows 32-bit processes to use up to 3GB of RAM.
+{$IFDEF WIN32}{$SetPEFlags $20}{$ENDIF}
 
 {$R *.res}
 
