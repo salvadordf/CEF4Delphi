@@ -124,6 +124,10 @@ type
       FCredentialsService       : TCefState;
       FAutofillCreditCard       : TCefState;
       FAutofillProfile          : TCefState;
+      FAutofillSaveData         : TCefState;
+      FCanMakePayment           : TCefState;
+      FSearchSuggestEnabled     : TCefState;
+      FURLDataCollection        : TCefState;
       FTryingToCloseBrowser     : boolean;
 
       {$IFDEF LINUX}
@@ -2267,6 +2271,34 @@ type
       /// <para>Disabling this property is a suggested workaround for some autofill crashes in Alloy style.</para>
       /// </remarks>
       property AutofillProfile                : TCefState                    read FAutofillProfile             write FAutofillProfile;
+      /// <summary>
+      /// Browser preference used to enable the autofill feature for saving data.
+      /// </summary>
+      /// <remarks>
+      /// <para>Disabling this property is a suggested workaround for some autofill crashes in Alloy style.</para>
+      /// </remarks>
+      property AutofillSaveData               : TCefState                    read FAutofillSaveData            write FAutofillSaveData;
+      /// <summary>
+      /// Browser preference used to enable saving information about payments.
+      /// </summary>
+      /// <remarks>
+      /// <para>Disabling this property is a suggested workaround for some autofill crashes in Alloy style.</para>
+      /// </remarks>
+      property CanMakePayment                 : TCefState                    read FCanMakePayment              write FCanMakePayment;
+      /// <summary>
+      /// Browser preference used to enable search suggestions.
+      /// </summary>
+      /// <remarks>
+      /// <para>Disabling this property is a suggested workaround for some autofill crashes in Alloy style.</para>
+      /// </remarks>
+      property SearchSuggestEnabled           : TCefState                    read FSearchSuggestEnabled        write FSearchSuggestEnabled;
+      /// <summary>
+      /// Browser preference used to enable url keyed anonymized data collection.
+      /// </summary>
+      /// <remarks>
+      /// <para>Disabling this property is a suggested workaround for some autofill crashes in Alloy style.</para>
+      /// </remarks>
+      property URLDataCollection              : TCefState                    read FURLDataCollection           write FURLDataCollection;
 
     published
       /// <summary>
@@ -4235,6 +4267,10 @@ begin
   FCredentialsService      := STATE_DEFAULT;
   FAutofillCreditCard      := STATE_DEFAULT;
   FAutofillProfile         := STATE_DEFAULT;
+  FAutofillSaveData        := STATE_DEFAULT;
+  FCanMakePayment          := STATE_DEFAULT;
+  FSearchSuggestEnabled    := STATE_DEFAULT;
+  FURLDataCollection       := STATE_DEFAULT;
   FTryingToCloseBrowser    := False;
   {$IFDEF LINUX}
   FXDisplay                := nil;
@@ -7492,6 +7528,18 @@ begin
 
   if (FAutofillProfile <> STATE_DEFAULT) then
     UpdatePreference(aBrowser, 'autofill.profile_enabled', (FAutofillProfile = STATE_ENABLED));
+
+  if (FAutofillSaveData <> STATE_DEFAULT) then
+    UpdatePreference(aBrowser, 'autofill.save_data', (FAutofillSaveData = STATE_ENABLED));
+
+  if (FCanMakePayment <> STATE_DEFAULT) then
+    UpdatePreference(aBrowser, 'payments.can_make_payment_enabled', (FCanMakePayment = STATE_ENABLED));
+
+  if (FSearchSuggestEnabled <> STATE_DEFAULT) then
+    UpdatePreference(aBrowser, 'search.suggest_enabled', (FSearchSuggestEnabled = STATE_ENABLED));
+
+  if (FURLDataCollection <> STATE_DEFAULT) then
+    UpdatePreference(aBrowser, 'url_keyed_anonymized_data_collection.enabled', (FURLDataCollection = STATE_ENABLED));
 
   if assigned(FOnPrefsUpdated) then
     FOnPrefsUpdated(self);

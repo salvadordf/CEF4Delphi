@@ -6214,6 +6214,22 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAutofillProfile">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FAutofillSaveData">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAutofillSaveData">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FCanMakePayment">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FCanMakePayment">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FSearchSuggestEnabled">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FSearchSuggestEnabled">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FURLDataCollection">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FURLDataCollection">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FTryingToCloseBrowser">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FTryingToCloseBrowser">
 </object>
@@ -7238,6 +7254,22 @@
 <li><object type="text/sitemap">
 <param name="Name" value="AutofillProfile">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#AutofillProfile">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AutofillSaveData">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#AutofillSaveData">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CanMakePayment">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#CanMakePayment">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SearchSuggestEnabled">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SearchSuggestEnabled">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="URLDataCollection">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#URLDataCollection">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnTextResultAvailable">
@@ -94128,6 +94160,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAutofillProfile">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FAutofillSaveData">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAutofillSaveData">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FBatterySaverModeState">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FBatterySaverModeState">
 </object>
@@ -94162,6 +94198,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="FCanFocus">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FCanFocus">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FCanMakePayment">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FCanMakePayment">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FCompHandle">
@@ -94956,6 +94996,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FSafeSearch">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FSearchSuggestEnabled">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FSearchSuggestEnabled">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FSendReferrer">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FSendReferrer">
 </object>
@@ -94982,6 +95026,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="FUpdatePreferences">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FUpdatePreferences">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FURLDataCollection">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FURLDataCollection">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FWebRTCIPHandlingPolicy">
@@ -95050,6 +95098,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#AutofillProfile">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="AutofillSaveData">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#AutofillSaveData">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="BatterySaverModeState">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#BatterySaverModeState">
 </object>
@@ -95100,6 +95152,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CanIncZoom">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#CanIncZoom">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CanMakePayment">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#CanMakePayment">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CanResetZoom">
@@ -95934,6 +95990,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SafeSearch">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SearchSuggestEnabled">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SearchSuggestEnabled">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="SendReferrer">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendReferrer">
 </object>
@@ -95944,6 +96004,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SpellChecking">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SpellChecking">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="URLDataCollection">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#URLDataCollection">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="VisibleNavigationEntry">
