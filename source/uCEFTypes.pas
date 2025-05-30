@@ -5293,7 +5293,7 @@ type
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_FEDERATED_IDENTITY_IDENTITY_PROVIDER_SIGNIN_STATUS,
     /// <summary>
-    /// Website setting which is used for UnusedSitePermissionsService to
+    /// Website setting which is used for RevokedPermissionsService to
     /// store revoked permissions of unused sites from unused site permissions
     /// feature.
     /// </summary>
@@ -5428,7 +5428,7 @@ type
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_POINTER_LOCK,
     /// <summary>
-    /// Website setting which is used for UnusedSitePermissionsService to store
+    /// Website setting which is used for RevokedPermissionsService to store
     /// auto-revoked notification permissions from abusive sites.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_REVOKED_ABUSIVE_NOTIFICATION_PERMISSIONS,
@@ -5496,7 +5496,7 @@ type
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_CONTROLLED_FRAME,                                   {* CEF_API_ADDED(13400) *}
     /// <summary>
-    /// Website setting which is used for UnusedSitePermissionsService to
+    /// Website setting which is used for RevokedPermissionsService to
     /// store revoked notification permissions of disruptive sites.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_REVOKED_DISRUPTIVE_NOTIFICATION_PERMISSIONS,        {* CEF_API_ADDED(13500) *}
@@ -5732,18 +5732,20 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_display_handler_capi.h">CEF source file: /include/capi/cef_display_handler_capi.h (cef_display_handler_t)</see></para>
   /// </remarks>
   TCefDisplayHandler = record
-    base                       : TCefBaseRefCounted;
-    on_address_change          : procedure(self: PCefDisplayHandler; browser: PCefBrowser; frame: PCefFrame; const url: PCefString); stdcall;
-    on_title_change            : procedure(self: PCefDisplayHandler; browser: PCefBrowser; const title: PCefString); stdcall;
-    on_favicon_urlchange       : procedure(self: PCefDisplayHandler; browser: PCefBrowser; icon_urls: TCefStringList); stdcall;
-    on_fullscreen_mode_change  : procedure(self: PCefDisplayHandler; browser: PCefBrowser; fullscreen: Integer); stdcall;
-    on_tooltip                 : function(self: PCefDisplayHandler; browser: PCefBrowser; text: PCefString): Integer; stdcall;
-    on_status_message          : procedure(self: PCefDisplayHandler; browser: PCefBrowser; const value: PCefString); stdcall;
-    on_console_message         : function(self: PCefDisplayHandler; browser: PCefBrowser; level: TCefLogSeverity; const message_, source: PCefString; line: Integer): Integer; stdcall;
-    on_auto_resize             : function(self: PCefDisplayHandler; browser: PCefBrowser; const new_size: PCefSize): Integer; stdcall;
-    on_loading_progress_change : procedure(self: PCefDisplayHandler; browser: PCefBrowser; progress: double); stdcall;
-    on_cursor_change           : function(self: PCefDisplayHandler; browser: PCefBrowser; cursor: TCefCursorHandle; type_: TCefCursorType; const custom_cursor_info: PCefCursorInfo): Integer; stdcall;
-    on_media_access_change     : procedure(self: PCefDisplayHandler; browser: PCefBrowser; has_video_access, has_audio_access: integer); stdcall;
+    base                         : TCefBaseRefCounted;
+    on_address_change            : procedure(self: PCefDisplayHandler; browser: PCefBrowser; frame: PCefFrame; const url: PCefString); stdcall;
+    on_title_change              : procedure(self: PCefDisplayHandler; browser: PCefBrowser; const title: PCefString); stdcall;
+    on_favicon_urlchange         : procedure(self: PCefDisplayHandler; browser: PCefBrowser; icon_urls: TCefStringList); stdcall;
+    on_fullscreen_mode_change    : procedure(self: PCefDisplayHandler; browser: PCefBrowser; fullscreen: Integer); stdcall;
+    on_tooltip                   : function(self: PCefDisplayHandler; browser: PCefBrowser; text: PCefString): Integer; stdcall;
+    on_status_message            : procedure(self: PCefDisplayHandler; browser: PCefBrowser; const value: PCefString); stdcall;
+    on_console_message           : function(self: PCefDisplayHandler; browser: PCefBrowser; level: TCefLogSeverity; const message_, source: PCefString; line: Integer): Integer; stdcall;
+    on_auto_resize               : function(self: PCefDisplayHandler; browser: PCefBrowser; const new_size: PCefSize): Integer; stdcall;
+    on_loading_progress_change   : procedure(self: PCefDisplayHandler; browser: PCefBrowser; progress: double); stdcall;
+    on_cursor_change             : function(self: PCefDisplayHandler; browser: PCefBrowser; cursor: TCefCursorHandle; type_: TCefCursorType; const custom_cursor_info: PCefCursorInfo): Integer; stdcall;
+    on_media_access_change       : procedure(self: PCefDisplayHandler; browser: PCefBrowser; has_video_access, has_audio_access: integer); stdcall;
+    on_contents_bounds_change    : function(self: PCefDisplayHandler; browser: PCefBrowser; const new_bounds: PCefRect): integer; stdcall;  {* CEF_API_ADDED(13700) *}
+    get_root_window_screen_rect  : function(self: PCefDisplayHandler; browser: PCefBrowser; rect: PCefRect): integer; stdcall;  {* CEF_API_ADDED(13700) *}
   end;
 
   /// <summary>

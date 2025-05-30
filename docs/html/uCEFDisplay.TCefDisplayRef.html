@@ -19,7 +19,13 @@
 <code>type TCefDisplayRef = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedRef.html">TCefBaseRefCountedRef</a>, <a class="normal" href="uCEFInterfaces.ICefDisplay.html">ICefDisplay</a>)</code></p>
 <h2 class="description">Description</h2>
 <p>
- This class typically, but not always, corresponds to a physical display connected to the system. A fake Display may exist on a headless system, or a Display may correspond to a remote, virtual display. All size and position values are in density independent pixel (DIP) coordinates unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated. </p>
+
+
+<p>This interface typically, but not always, corresponds to a physical display connected to the system. A fake Display may exist on a headless system, or a Display may correspond to a remote, virtual display. All size and position values are in density independent pixel (DIP) coordinates unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated.
+
+<p>For details on coordinate systems and usage see <a href="https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage#markdown">https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage#markdown</a>- header-coordinate-systems
+
+<p></p>
 <p>
 
 
@@ -118,7 +124,7 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Returns this Display's device pixel scale factor. This specifies how much the UI should be scaled when the actual output has more pixels than standard displays (which is around 100~120dpi). The potential return values differ by platform. </p>
+ Returns this Display's device pixel scale factor. This specifies how much the UI should be scaled when the actual output has more pixels than standard displays (which is around 100~120dpi). The potential return values differ by platform. Windowed browsers with 1.0 zoom will have a JavaScript `window.devicePixelRatio` value matching the associated Display's get_device_scale_factor() value. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

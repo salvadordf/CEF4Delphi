@@ -353,6 +353,8 @@ type
     procedure doOnLoadingProgressChange(const browser: ICefBrowser; const progress: double);
     procedure doOnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
     procedure doOnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean);
+    function  doOnContentsBoundsChange(const browser: ICefBrowser; const new_bounds: PCefRect): Boolean;
+    function  doOnGetRootWindowScreenRect(const browser: ICefBrowser; rect_: PCefRect): Boolean;
 
     // ICefDownloadHandler
     function  doOnCanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean;
@@ -1134,12 +1136,26 @@ type
     /// </summary>
     procedure WasHidden(hidden: Boolean);
     /// <summary>
-    /// Send a notification to the browser that the screen info has changed. The
-    /// browser will then call ICefRenderHandler.GetScreenInfo to update the
-    /// screen information with the new values. This simulates moving the webview
-    /// window from one display to another, or changing the properties of the
-    /// current display. This function is only used when window rendering is
-    /// disabled.
+    /// <para>Notify the browser that screen information has changed. Updated
+    /// information will be sent to the renderer process to configure screen size
+    /// and position values used by CSS and JavaScript (window.deviceScaleFactor,
+    /// window.screenX/Y, window.outerWidth/Height, etc.). For background see
+    /// https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage.md#markdown-
+    /// header-coordinate-systems</para>
+    ///
+    /// <para>This function is used with (a) windowless rendering and (b) windowed
+    /// rendering with external (client-provided) root window.</para>
+    ///
+    /// <para>With windowless rendering the browser will call
+    /// ICefRenderHandler.GetScreenInfo,
+    /// ICefRenderHandler.GetRootScreenRect and
+    /// ICefRenderHandler.GetViewRect. This simulates moving or resizing the
+    /// root window in the current display, moving the root window from one
+    /// display to another, or changing the properties of the current display.</para>
+    ///
+    /// <para>With windowed rendering the browser will call
+    /// ICefDisplayHandler.GetRootWindowScreenRect and use the associated
+    /// display properties.</para>
     /// </summary>
     procedure NotifyScreenInfoChanged;
     /// <summary>
@@ -6982,7 +6998,7 @@ type
     /// <summary>
     /// Called when auto-resize is enabled via
     /// ICefBrowserHost.SetAutoResizeEnabled and the contents have auto-
-    /// resized. |new_size| will be the desired size in view coordinates. Return
+    /// resized. |new_size| will be the desired size in DIP coordinates. Return
     /// true (1) if the resize was handled or false (0) for default handling.
     /// </summary>
     function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean;
@@ -7003,6 +7019,35 @@ type
     /// changed.
     /// </summary>
     procedure OnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean);
+    /// <summary>
+    /// <para>Called when JavaScript is requesting new bounds via window.moveTo/By() or
+    /// window.resizeTo/By(). |new_bounds| are in DIP screen coordinates.</para>
+    ///
+    /// <para>With Views-hosted browsers |new_bounds| are the desired bounds for the
+    /// containing ICefWindow and may be passed directly to
+    /// ICefWindow.SetBounds. With external (client-provided) parent on macOS
+    /// and Windows |new_bounds| are the desired frame bounds for the containing
+    /// root window. With other non-Views browsers |new_bounds| are the desired
+    /// bounds for the browser content only unless the client implements either
+    /// ICefDisplayHandler.GetRootWindowScreenRect for windowed browsers or
+    /// ICefRenderHandler.GetWindowScreenRect for windowless browsers. Clients
+    /// may expand browser content bounds to window bounds using OS-specific or
+    /// ICefDisplay functions.</para>
+    ///
+    /// <para>Return true (1) if this function was handled or false (0) for default
+    /// handling. Default move/resize behavior is only provided with Views-hosted
+    /// Chrome style browsers.</para>
+    /// </summary>
+    function OnContentsBoundsChange(const browser: ICefBrowser; const new_bounds: PCefRect): Boolean;
+    /// <summary>
+    /// Called to retrieve the external (client-provided) root window rectangle in
+    /// screen DIP coordinates. Only called for windowed browsers on Windows and
+    /// Linux. Return true (1) if the rectangle was provided. Return false (0) to
+    /// use the root window bounds on Windows or the browser content bounds on
+    /// Linux. For additional usage details see
+    /// ICefBrowserHost.NotifyScreenInfoChanged.
+    /// </summary>
+    function GetRootWindowScreenRect(const browser: ICefBrowser; rect: PCefRect): Boolean;
     /// <summary>
     /// Custom procedure to clear all references.
     /// </summary>
@@ -9382,12 +9427,16 @@ type
   *}
 
   /// <summary>
-  /// This interface typically, but not always, corresponds to a physical display
+  /// <para>This interface typically, but not always, corresponds to a physical display
   /// connected to the system. A fake Display may exist on a headless system, or a
   /// Display may correspond to a remote, virtual display. All size and position
   /// values are in density independent pixel (DIP) coordinates unless otherwise
   /// indicated. Methods must be called on the browser process UI thread unless
-  /// otherwise indicated.
+  /// otherwise indicated.</para>
+  ///
+  /// <para>For details on coordinate systems and usage see
+  /// https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage#markdown-
+  /// header-coordinate-systems</para>
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefDisplay">Implements TCefDisplay</see></para>
@@ -9403,7 +9452,9 @@ type
     /// Returns this Display's device pixel scale factor. This specifies how much
     /// the UI should be scaled when the actual output has more pixels than
     /// standard displays (which is around 100~120dpi). The potential return
-    /// values differ by platform.
+    /// values differ by platform. Windowed browsers with 1.0 zoom will have a
+    /// JavaScript `window.devicePixelRatio` value matching the associated
+    /// Display's get_device_scale_factor() value.
     /// </summary>
     function  GetDeviceScaleFactor : Single;
     /// <summary>

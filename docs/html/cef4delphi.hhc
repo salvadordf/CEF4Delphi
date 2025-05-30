@@ -6370,6 +6370,14 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnMediaAccessChange">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FOnContentsBoundsChange">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnContentsBoundsChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FOnGetRootWindowScreenRect">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetRootWindowScreenRect">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOnCanDownload">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnCanDownload">
 </object>
@@ -7472,6 +7480,14 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnMediaAccessChange">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnContentsBoundsChange">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnContentsBoundsChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnGetRootWindowScreenRect">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnGetRootWindowScreenRect">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnCanDownload">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnCanDownload">
 </object>
@@ -8548,6 +8564,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnMediaAccessChange">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnMediaAccessChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnContentsBoundsChange">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnContentsBoundsChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnGetRootWindowScreenRect">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnGetRootWindowScreenRect">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnCanDownload">
@@ -9970,6 +9994,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="TOnMediaAccessChange">
 <param name="Local" value="uCEFChromiumEvents.html#TOnMediaAccessChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TOnContentsBoundsChange">
+<param name="Local" value="uCEFChromiumEvents.html#TOnContentsBoundsChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TOnGetRootWindowScreenRect">
+<param name="Local" value="uCEFChromiumEvents.html#TOnGetRootWindowScreenRect">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnCanDownloadEvent">
@@ -12822,6 +12854,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_MOVE_TAB_TO_NEW_WINDOW">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_NEW_SPLIT_TAB">
+<param name="Local" value="uCEFConstants.html#IDC_NEW_SPLIT_TAB">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_COPY_URL">
 <param name="Local" value="uCEFConstants.html#IDC_COPY_URL">
 </object>
@@ -12852,6 +12888,26 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_VISIT_DESKTOP_OF_LRU_USER_5">
 <param name="Local" value="uCEFConstants.html#IDC_VISIT_DESKTOP_OF_LRU_USER_5">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_ADD_NEW_TAB_TO_GROUP">
+<param name="Local" value="uCEFConstants.html#IDC_ADD_NEW_TAB_TO_GROUP">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CREATE_NEW_TAB_GROUP">
+<param name="Local" value="uCEFConstants.html#IDC_CREATE_NEW_TAB_GROUP">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_FOCUS_NEXT_TAB_GROUP">
+<param name="Local" value="uCEFConstants.html#IDC_FOCUS_NEXT_TAB_GROUP">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_FOCUS_PREV_TAB_GROUP">
+<param name="Local" value="uCEFConstants.html#IDC_FOCUS_PREV_TAB_GROUP">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CLOSE_TAB_GROUP">
+<param name="Local" value="uCEFConstants.html#IDC_CLOSE_TAB_GROUP">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_BOOKMARK_THIS_TAB">
@@ -13000,10 +13056,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_ORGANIZE_TABS">
 <param name="Local" value="uCEFConstants.html#IDC_ORGANIZE_TABS">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="IDC_CREATE_NEW_TAB_GROUP">
-<param name="Local" value="uCEFConstants.html#IDC_CREATE_NEW_TAB_GROUP">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_DECLUTTER_TABS">
@@ -13504,6 +13556,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_OPEN_GLIC">
 <param name="Local" value="uCEFConstants.html#IDC_OPEN_GLIC">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_FIND_EXTENSIONS">
+<param name="Local" value="uCEFConstants.html#IDC_FIND_EXTENSIONS">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SPELLCHECK_SUGGESTION_0">
@@ -14070,6 +14126,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_BAR_MOVE">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_BOOKMARK_BAR_OPEN_SPLIT_VIEW">
+<param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_BAR_OPEN_SPLIT_VIEW">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_SHARING_CLICK_TO_CALL_SINGLE_DEVICE">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_SHARING_CLICK_TO_CALL_SINGLE_DEVICE">
 </object>
@@ -14308,10 +14368,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_GLIC_TOGGLE_PIN">
 <param name="Local" value="uCEFConstants.html#IDC_GLIC_TOGGLE_PIN">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="IDC_GLIC_TOGGLE_FOCUS">
-<param name="Local" value="uCEFConstants.html#IDC_GLIC_TOGGLE_FOCUS">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CERT_STATUS_NONE">
@@ -17490,6 +17546,14 @@
 <param name="Local" value="uCEFDisplayHandler.TCefDisplayHandlerOwn.html#OnMediaAccessChange">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnContentsBoundsChange">
+<param name="Local" value="uCEFDisplayHandler.TCefDisplayHandlerOwn.html#OnContentsBoundsChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetRootWindowScreenRect">
+<param name="Local" value="uCEFDisplayHandler.TCefDisplayHandlerOwn.html#GetRootWindowScreenRect">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="RemoveReferences">
 <param name="Local" value="uCEFDisplayHandler.TCefDisplayHandlerOwn.html#RemoveReferences">
 </object>
@@ -17562,6 +17626,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnMediaAccessChange">
 <param name="Local" value="uCEFDisplayHandler.TCustomDisplayHandler.html#OnMediaAccessChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnContentsBoundsChange">
+<param name="Local" value="uCEFDisplayHandler.TCustomDisplayHandler.html#OnContentsBoundsChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetRootWindowScreenRect">
+<param name="Local" value="uCEFDisplayHandler.TCustomDisplayHandler.html#GetRootWindowScreenRect">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="RemoveReferences">
@@ -20700,6 +20772,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnMediaAccessChange">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnMediaAccessChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnContentsBoundsChange">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnContentsBoundsChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnGetRootWindowScreenRect">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnGetRootWindowScreenRect">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnCanDownload">
@@ -26336,6 +26416,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnMediaAccessChange">
 <param name="Local" value="uCEFInterfaces.ICefDisplayHandler.html#OnMediaAccessChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnContentsBoundsChange">
+<param name="Local" value="uCEFInterfaces.ICefDisplayHandler.html#OnContentsBoundsChange">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetRootWindowScreenRect">
+<param name="Local" value="uCEFInterfaces.ICefDisplayHandler.html#GetRootWindowScreenRect">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="RemoveReferences">
@@ -43169,6 +43257,14 @@
 <param name="Name" value="on_media_access_change">
 <param name="Local" value="uCEFTypes.TCefDisplayHandler.html#on_media_access_change">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="on_contents_bounds_change">
+<param name="Local" value="uCEFTypes.TCefDisplayHandler.html#on_contents_bounds_change">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="get_root_window_screen_rect">
+<param name="Local" value="uCEFTypes.TCefDisplayHandler.html#get_root_window_screen_rect">
+</object>
 </ul>
 </ul>
 <li><object type="text/sitemap">
@@ -58818,12 +58914,20 @@
 </object>
 <ul>
 <li><object type="text/sitemap">
+<param name="Name" value="GetRootWindowScreenRect">
+<param name="Local" value="uCEFInterfaces.ICefDisplayHandler.html#GetRootWindowScreenRect">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnAutoResize">
 <param name="Local" value="uCEFInterfaces.ICefDisplayHandler.html#OnAutoResize">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnConsoleMessage">
 <param name="Local" value="uCEFInterfaces.ICefDisplayHandler.html#OnConsoleMessage">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnContentsBoundsChange">
+<param name="Local" value="uCEFInterfaces.ICefDisplayHandler.html#OnContentsBoundsChange">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnTooltip">
@@ -65610,6 +65714,10 @@
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnConsoleMessage">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doOnContentsBoundsChange">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnContentsBoundsChange">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="doOnContextMenuCommand">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnContextMenuCommand">
 </object>
@@ -65628,6 +65736,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnGetRootScreenRect">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnGetRootScreenRect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnGetRootWindowScreenRect">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnGetRootWindowScreenRect">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnGetScreenInfo">
@@ -74822,6 +74934,10 @@
 <param name="Local" value="uCEFTypes.TCefDisplayHandler.html#base">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="get_root_window_screen_rect">
+<param name="Local" value="uCEFTypes.TCefDisplayHandler.html#get_root_window_screen_rect">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="on_address_change">
 <param name="Local" value="uCEFTypes.TCefDisplayHandler.html#on_address_change">
 </object>
@@ -74832,6 +74948,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="on_console_message">
 <param name="Local" value="uCEFTypes.TCefDisplayHandler.html#on_console_message">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="on_contents_bounds_change">
+<param name="Local" value="uCEFTypes.TCefDisplayHandler.html#on_contents_bounds_change">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="on_cursor_change">
@@ -74882,12 +75002,20 @@
 <param name="Local" value="uCEFDisplayHandler.TCefDisplayHandlerOwn.html#Create">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="GetRootWindowScreenRect">
+<param name="Local" value="uCEFDisplayHandler.TCefDisplayHandlerOwn.html#GetRootWindowScreenRect">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnAutoResize">
 <param name="Local" value="uCEFDisplayHandler.TCefDisplayHandlerOwn.html#OnAutoResize">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnConsoleMessage">
 <param name="Local" value="uCEFDisplayHandler.TCefDisplayHandlerOwn.html#OnConsoleMessage">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnContentsBoundsChange">
+<param name="Local" value="uCEFDisplayHandler.TCefDisplayHandlerOwn.html#OnContentsBoundsChange">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnTooltip">
@@ -94452,6 +94580,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnConsoleMessage">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FOnContentsBoundsChange">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnContentsBoundsChange">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOnContextMenuCommand">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnContextMenuCommand">
 </object>
@@ -94614,6 +94746,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="FOnGetRootScreenRect">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetRootScreenRect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FOnGetRootWindowScreenRect">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetRootWindowScreenRect">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FOnGetScreenInfo">
@@ -95458,6 +95594,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnConsoleMessage">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnContentsBoundsChange">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnContentsBoundsChange">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnContextMenuCommand">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnContextMenuCommand">
 </object>
@@ -95616,6 +95756,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnGetRootScreenRect">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnGetRootScreenRect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnGetRootWindowScreenRect">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnGetRootWindowScreenRect">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnGetScreenInfo">
@@ -96268,6 +96412,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnConsoleMessage">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doOnContentsBoundsChange">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnContentsBoundsChange">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="doOnContextMenuCommand">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnContextMenuCommand">
 </object>
@@ -96286,6 +96434,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnGetRootScreenRect">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnGetRootScreenRect">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnGetRootWindowScreenRect">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnGetRootWindowScreenRect">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnGetScreenInfo">
@@ -99446,12 +99598,20 @@
 <param name="Local" value="uCEFDisplayHandler.TCustomDisplayHandler.html#Destroy">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="GetRootWindowScreenRect">
+<param name="Local" value="uCEFDisplayHandler.TCustomDisplayHandler.html#GetRootWindowScreenRect">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnAutoResize">
 <param name="Local" value="uCEFDisplayHandler.TCustomDisplayHandler.html#OnAutoResize">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnConsoleMessage">
 <param name="Local" value="uCEFDisplayHandler.TCustomDisplayHandler.html#OnConsoleMessage">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnContentsBoundsChange">
+<param name="Local" value="uCEFDisplayHandler.TCustomDisplayHandler.html#OnContentsBoundsChange">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnTooltip">

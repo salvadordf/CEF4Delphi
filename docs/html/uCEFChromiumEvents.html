@@ -100,6 +100,12 @@
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnMediaAccessChange">TOnMediaAccessChange</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; has_video_access, has_audio_access: boolean) of Object;</code></td>
 </tr>
 <tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnContentsBoundsChange">TOnContentsBoundsChange</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const new_bounds: <a href="uCEFTypes.html#PCefRect">PCefRect</a>; var aResult : boolean) of Object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnGetRootWindowScreenRect">TOnGetRootWindowScreenRect</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; rect_: <a href="uCEFTypes.html#PCefRect">PCefRect</a>; var aResult : boolean) of Object;</code></td>
+</tr>
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnCanDownloadEvent">TOnCanDownloadEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const url, request_method: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: boolean) of object;</code></td>
 </tr>
 <tr class="list2">
@@ -630,6 +636,20 @@ ICefDisplayHandler</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="itemcode"><span id="TOnMediaAccessChange"></span><code><strong>TOnMediaAccessChange</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; has_video_access, has_audio_access: boolean) of Object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnContentsBoundsChange"></span><code><strong>TOnContentsBoundsChange</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const new_bounds: <a href="uCEFTypes.html#PCefRect">PCefRect</a>; var aResult : boolean) of Object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TOnGetRootWindowScreenRect"></span><code><strong>TOnGetRootWindowScreenRect</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; rect_: <a href="uCEFTypes.html#PCefRect">PCefRect</a>; var aResult : boolean) of Object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>

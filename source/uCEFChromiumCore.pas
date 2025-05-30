@@ -182,6 +182,8 @@ type
       FOnLoadingProgressChange        : TOnLoadingProgressChange;
       FOnCursorChange                 : TOnCursorChange;
       FOnMediaAccessChange            : TOnMediaAccessChange;
+      FOnContentsBoundsChange         : TOnContentsBoundsChange;
+      FOnGetRootWindowScreenRect      : TOnGetRootWindowScreenRect;
 
       // ICefDownloadHandler
       FOnCanDownload                  : TOnCanDownloadEvent;
@@ -558,6 +560,8 @@ type
       procedure doOnLoadingProgressChange(const browser: ICefBrowser; const progress: double); virtual;
       procedure doOnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); virtual;
       procedure doOnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean); virtual;
+      function  doOnContentsBoundsChange(const browser: ICefBrowser; const new_bounds: PCefRect): Boolean; virtual;
+      function  doOnGetRootWindowScreenRect(const browser: ICefBrowser; rect_: PCefRect): Boolean; virtual;
 
       // ICefDownloadHandler
       function  doOnCanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean;
@@ -1393,12 +1397,26 @@ type
       /// </summary>
       procedure   WasHidden(hidden: Boolean);
       /// <summary>
-      /// Send a notification to the browser that the screen info has changed. The
-      /// browser will then call ICefRenderHandler.GetScreenInfo to update the
-      /// screen information with the new values. This simulates moving the webview
-      /// window from one display to another, or changing the properties of the
-      /// current display. This function is only used when window rendering is
-      /// disabled.
+      /// <para>Notify the browser that screen information has changed. Updated
+      /// information will be sent to the renderer process to configure screen size
+      /// and position values used by CSS and JavaScript (window.deviceScaleFactor,
+      /// window.screenX/Y, window.outerWidth/Height, etc.). For background see
+      /// https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage.md#markdown-
+      /// header-coordinate-systems</para>
+      ///
+      /// <para>This function is used with (a) windowless rendering and (b) windowed
+      /// rendering with external (client-provided) root window.</para>
+      ///
+      /// <para>With windowless rendering the browser will trigger
+      /// TChromiumCore.OnGetScreenInfo, TChromiumCore.OnGetRootScreenRect and
+      /// TChromiumCore.OnGetViewRect.
+      /// This simulates moving or resizing the
+      /// root window in the current display, moving the root window from one
+      /// display to another, or changing the properties of the current display.</para>
+      ///
+      /// <para>With windowed rendering the browser will trigger
+      /// TChromiumCore.OnGetRootWindowScreenRect and use the associated
+      /// display properties.</para>
       /// </summary>
       procedure   NotifyScreenInfoChanged;
       /// <summary>
@@ -2667,7 +2685,7 @@ type
       /// <summary>
       /// Called when auto-resize is enabled via
       /// cef_browser_host_t::SetAutoResizeEnabled and the contents have auto-
-      /// resized. |new_size| will be the desired size in view coordinates. Return
+      /// resized. |new_size| will be the desired size in DIP coordinates. Return
       /// true (1) if the resize was handled or false (0) for default handling.
       /// </summary>
       /// <remarks>
@@ -2704,7 +2722,43 @@ type
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_display_handler_capi.h">CEF source file: /include/capi/cef_display_handler_capi.h (cef_display_handler_t)</see></para>
       /// </remarks>
       property OnMediaAccessChange              : TOnMediaAccessChange              read FOnMediaAccessChange              write FOnMediaAccessChange;
-
+      /// <summary>
+      /// <para>Called when JavaScript is requesting new bounds via window.moveTo/By() or
+      /// window.resizeTo/By(). |new_bounds| are in DIP screen coordinates.</para>
+      ///
+      /// <para>With Views-hosted browsers |new_bounds| are the desired bounds for the
+      /// containing cef_window_t and may be passed directly to
+      /// ICefWindow.SetBounds. With external (client-provided) parent on macOS
+      /// and Windows |new_bounds| are the desired frame bounds for the containing
+      /// root window. With other non-Views browsers |new_bounds| are the desired
+      /// bounds for the browser content only unless the client implements either
+      /// ICefDisplayHandler.GetRootWindowScreenRect for windowed browsers or
+      /// ICefRenderHandler.GetWindowScreenRect for windowless browsers. Clients
+      /// may expand browser content bounds to window bounds using OS-specific or
+      /// ICefDisplay functions.</para>
+      ///
+      /// <para>Return true (1) if this function was handled or false (0) for default
+      /// handling. Default move/resize behavior is only provided with Views-hosted
+      /// Chrome style browsers.</para>
+      /// </summary>
+      /// <remarks>
+      /// <para>This event will be called on the browser process CEF UI thread.</para>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_display_handler_capi.h">CEF source file: /include/capi/cef_display_handler_capi.h (cef_display_handler_t)</see></para>
+      /// </remarks>
+      property OnContentsBoundsChange           : TOnContentsBoundsChange           read FOnContentsBoundsChange           write FOnContentsBoundsChange;
+      /// <summary>
+      /// Called to retrieve the external (client-provided) root window rectangle in
+      /// screen DIP coordinates. Only called for windowed browsers on Windows and
+      /// Linux. Return true (1) if the rectangle was provided. Return false (0) to
+      /// use the root window bounds on Windows or the browser content bounds on
+      /// Linux. For additional usage details see
+      /// ICefBrowserHost.NotifyScreenInfoChanged.
+      /// </summary>
+      /// <remarks>
+      /// <para>This event will be called on the browser process CEF UI thread.</para>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_display_handler_capi.h">CEF source file: /include/capi/cef_display_handler_capi.h (cef_display_handler_t)</see></para>
+      /// </remarks>
+      property OnGetRootWindowScreenRect        : TOnGetRootWindowScreenRect        read FOnGetRootWindowScreenRect        write FOnGetRootWindowScreenRect;
       /// <summary>
       /// Called before a download begins in response to a user-initiated action
       /// (e.g. alt + link click or link click that returns a `Content-Disposition:
@@ -4748,6 +4802,8 @@ begin
   FOnLoadingProgressChange        := nil;
   FOnCursorChange                 := nil;
   FOnMediaAccessChange            := nil;
+  FOnContentsBoundsChange         := nil;
+  FOnGetRootWindowScreenRect      := nil;
 
   // ICefDownloadHandler
   FOnCanDownload                  := nil;
@@ -8275,7 +8331,9 @@ begin
             assigned(FOnAutoResize)            or
             assigned(FOnLoadingProgressChange) or
             assigned(FOnCursorChange)          or
-            assigned(FOnMediaAccessChange);
+            assigned(FOnMediaAccessChange)     or
+            assigned(FOnContentsBoundsChange)  or
+            assigned(FOnGetRootWindowScreenRect);
 end;
 
 function TChromiumCore.MustCreateDownloadHandler : boolean;
@@ -9045,6 +9103,22 @@ procedure TChromiumCore.doOnMediaAccessChange(const browser: ICefBrowser; has_vi
 begin
   if assigned(FOnMediaAccessChange) then
     FOnMediaAccessChange(self, browser, has_video_access, has_audio_access);
+end;
+
+function TChromiumCore.doOnContentsBoundsChange(const browser: ICefBrowser; const new_bounds: PCefRect): Boolean;
+begin
+  Result := False;
+
+  if assigned(FOnContentsBoundsChange) then
+    FOnContentsBoundsChange(self, browser, new_bounds, Result);
+end;
+
+function TChromiumCore.doOnGetRootWindowScreenRect(const browser: ICefBrowser; rect_: PCefRect): Boolean;
+begin
+  Result := False;
+
+  if assigned(FOnGetRootWindowScreenRect) then
+    FOnGetRootWindowScreenRect(self, browser, rect_, Result);
 end;
 
 procedure TChromiumCore.doOnDialogClosed(const browser: ICefBrowser);

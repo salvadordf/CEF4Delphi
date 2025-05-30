@@ -75,7 +75,7 @@ type
       /// <summary>
       /// Called when auto-resize is enabled via
       /// ICefBrowserHost.SetAutoResizeEnabled and the contents have auto-
-      /// resized. |new_size| will be the desired size in view coordinates. Return
+      /// resized. |new_size| will be the desired size in DIP coordinates. Return
       /// true (1) if the resize was handled or false (0) for default handling.
       /// </summary>
       function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean; virtual;
@@ -96,6 +96,35 @@ type
       /// changed.
       /// </summary>
       procedure OnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean); virtual;
+      /// <summary>
+      /// <para>Called when JavaScript is requesting new bounds via window.moveTo/By() or
+      /// window.resizeTo/By(). |new_bounds| are in DIP screen coordinates.</para>
+      ///
+      /// <para>With Views-hosted browsers |new_bounds| are the desired bounds for the
+      /// containing ICefWindow and may be passed directly to
+      /// ICefWindow.SetBounds. With external (client-provided) parent on macOS
+      /// and Windows |new_bounds| are the desired frame bounds for the containing
+      /// root window. With other non-Views browsers |new_bounds| are the desired
+      /// bounds for the browser content only unless the client implements either
+      /// ICefDisplayHandler.GetRootWindowScreenRect for windowed browsers or
+      /// ICefRenderHandler.GetWindowScreenRect for windowless browsers. Clients
+      /// may expand browser content bounds to window bounds using OS-specific or
+      /// ICefDisplay functions.</para>
+      ///
+      /// <para>Return true (1) if this function was handled or false (0) for default
+      /// handling. Default move/resize behavior is only provided with Views-hosted
+      /// Chrome style browsers.</para>
+      /// </summary>
+      function  OnContentsBoundsChange(const browser: ICefBrowser; const new_bounds: PCefRect): Boolean; virtual;
+      /// <summary>
+      /// Called to retrieve the external (client-provided) root window rectangle in
+      /// screen DIP coordinates. Only called for windowed browsers on Windows and
+      /// Linux. Return true (1) if the rectangle was provided. Return false (0) to
+      /// use the root window bounds on Windows or the browser content bounds on
+      /// Linux. For additional usage details see
+      /// ICefBrowserHost.NotifyScreenInfoChanged.
+      /// </summary>
+      function  GetRootWindowScreenRect(const browser: ICefBrowser; rect_: PCefRect): Boolean; virtual;
       /// <summary>
       /// Custom procedure to clear all references.
       /// </summary>
@@ -120,6 +149,8 @@ type
       procedure OnLoadingProgressChange(const browser: ICefBrowser; const progress: double); override;
       procedure OnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean); override;
       procedure OnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean); override;
+      function  OnContentsBoundsChange(const browser: ICefBrowser; const new_bounds: PCefRect): Boolean; override;
+      function  GetRootWindowScreenRect(const browser: ICefBrowser; rect_: PCefRect): Boolean; override;
 
       procedure RemoveReferences; override;
 
@@ -326,23 +357,49 @@ begin
                                                           has_audio_access <> 0);
 end;
 
+function cef_display_handler_on_contents_bounds_change(self: PCefDisplayHandler; browser: PCefBrowser; const new_bounds: PCefRect): integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefDisplayHandlerOwn) then
+    Result := Ord(TCefDisplayHandlerOwn(TempObject).OnContentsBoundsChange(TCefBrowserRef.UnWrap(browser),
+                                                                           new_bounds));
+end;
+
+function cef_display_handler_get_root_window_screen_rect(self: PCefDisplayHandler; browser: PCefBrowser; rect: PCefRect): integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(False);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefDisplayHandlerOwn) then
+    Result := Ord(TCefDisplayHandlerOwn(TempObject).GetRootWindowScreenRect(TCefBrowserRef.UnWrap(browser),
+                                                                            rect));
+end;
+
 constructor TCefDisplayHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefDisplayHandler));
 
   with PCefDisplayHandler(FData)^ do
     begin
-      on_address_change          := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_address_change;
-      on_title_change            := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_title_change;
-      on_favicon_urlchange       := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_favicon_urlchange;
-      on_fullscreen_mode_change  := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_fullscreen_mode_change;
-      on_tooltip                 := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_tooltip;
-      on_status_message          := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_status_message;
-      on_console_message         := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_console_message;
-      on_auto_resize             := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_auto_resize;
-      on_loading_progress_change := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_loading_progress_change;
-      on_cursor_change           := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_cursor_change;
-      on_media_access_change     := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_media_access_change;
+      on_address_change            := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_address_change;
+      on_title_change              := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_title_change;
+      on_favicon_urlchange         := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_favicon_urlchange;
+      on_fullscreen_mode_change    := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_fullscreen_mode_change;
+      on_tooltip                   := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_tooltip;
+      on_status_message            := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_status_message;
+      on_console_message           := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_console_message;
+      on_auto_resize               := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_auto_resize;
+      on_loading_progress_change   := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_loading_progress_change;
+      on_cursor_change             := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_cursor_change;
+      on_media_access_change       := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_media_access_change;
+      on_contents_bounds_change    := {$IFDEF FPC}@{$ENDIF}cef_display_handler_on_contents_bounds_change;
+      get_root_window_screen_rect  := {$IFDEF FPC}@{$ENDIF}cef_display_handler_get_root_window_screen_rect;
     end;
 end;
 
@@ -374,6 +431,16 @@ end;
 procedure TCefDisplayHandlerOwn.OnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean);
 begin
   //
+end;
+
+function TCefDisplayHandlerOwn.OnContentsBoundsChange(const browser: ICefBrowser; const new_bounds: PCefRect): Boolean;
+begin
+  Result := False;
+end;
+
+function TCefDisplayHandlerOwn.GetRootWindowScreenRect(const browser: ICefBrowser; rect_: PCefRect): Boolean;
+begin
+  Result := False;
 end;
 
 procedure TCefDisplayHandlerOwn.OnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings);
@@ -475,6 +542,22 @@ procedure TCustomDisplayHandler.OnMediaAccessChange(const browser: ICefBrowser; 
 begin
   if (FEvents <> nil) then
     IChromiumEvents(FEvents).doOnMediaAccessChange(browser, has_video_access, has_audio_access);
+end;
+
+function TCustomDisplayHandler.OnContentsBoundsChange(const browser: ICefBrowser; const new_bounds: PCefRect): Boolean;
+begin
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnContentsBoundsChange(browser, new_bounds)
+   else
+    Result := inherited OnContentsBoundsChange(browser, new_bounds);
+end;
+
+function TCustomDisplayHandler.GetRootWindowScreenRect(const browser: ICefBrowser; rect_: PCefRect): Boolean;
+begin
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnGetRootWindowScreenRect(browser, rect_)
+   else
+    Result := inherited GetRootWindowScreenRect(browser, rect_);
 end;
 
 procedure TCustomDisplayHandler.OnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings);

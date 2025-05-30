@@ -21,12 +21,16 @@ uses
 
 type
   /// <summary>
-  /// This class typically, but not always, corresponds to a physical display
+  /// <para>This interface typically, but not always, corresponds to a physical display
   /// connected to the system. A fake Display may exist on a headless system, or a
   /// Display may correspond to a remote, virtual display. All size and position
   /// values are in density independent pixel (DIP) coordinates unless otherwise
   /// indicated. Methods must be called on the browser process UI thread unless
-  /// otherwise indicated.
+  /// otherwise indicated.</para>
+  ///
+  /// <para>For details on coordinate systems and usage see
+  /// https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage#markdown-
+  /// header-coordinate-systems</para>
   /// </summary>
   /// <remarks>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_display_capi.h">CEF source file: /include/capi/views/cef_display_capi.h (cef_display_t)</see></para>
@@ -41,7 +45,9 @@ type
       /// Returns this Display's device pixel scale factor. This specifies how much
       /// the UI should be scaled when the actual output has more pixels than
       /// standard displays (which is around 100~120dpi). The potential return
-      /// values differ by platform.
+      /// values differ by platform. Windowed browsers with 1.0 zoom will have a
+      /// JavaScript `window.devicePixelRatio` value matching the associated
+      /// Display's get_device_scale_factor() value.
       /// </summary>
       function  GetDeviceScaleFactor : Single;
       /// <summary>

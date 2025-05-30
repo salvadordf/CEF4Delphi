@@ -59,6 +59,8 @@ type
   TOnLoadingProgressChange        = procedure(Sender: TObject; const browser: ICefBrowser; const progress: double) of object;
   TOnCursorChange                 = procedure(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean) of Object;
   TOnMediaAccessChange            = procedure(Sender: TObject; const browser: ICefBrowser; has_video_access, has_audio_access: boolean) of Object;
+  TOnContentsBoundsChange         = procedure(Sender: TObject; const browser: ICefBrowser; const new_bounds: PCefRect; var aResult : boolean) of Object;
+  TOnGetRootWindowScreenRect      = procedure(Sender: TObject; const browser: ICefBrowser; rect_: PCefRect; var aResult : boolean) of Object;
 
   // ICefDownloadHandler
   TOnCanDownloadEvent             = procedure(Sender: TObject; const browser: ICefBrowser; const url, request_method: ustring; var aResult: boolean) of object;

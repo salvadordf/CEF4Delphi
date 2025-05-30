@@ -82,6 +82,14 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDisplayHandler.TCustomDisplayHandler.html#OnContentsBoundsChange-ICefBrowser-PCefRect-">OnContentsBoundsChange</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const new_bounds: <a href="uCEFTypes.html#PCefRect">PCefRect</a>): Boolean; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFDisplayHandler.TCustomDisplayHandler.html#GetRootWindowScreenRect-ICefBrowser-PCefRect-">GetRootWindowScreenRect</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; rect_: <a href="uCEFTypes.html#PCefRect">PCefRect</a>): Boolean; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFDisplayHandler.TCustomDisplayHandler.html#RemoveReferences">RemoveReferences</a></strong>; override;</code></td>
 </tr>
 <tr class="list">
@@ -181,7 +189,7 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFDisplayHandler.TCefDisplayHandlerOwn.html#OnAutoResize-ICefBrowser-PCefSize-">TCefDisplayHandlerOwn.OnAutoResize</a>.</p><p>
- Called when auto-resize is enabled via ICefBrowserHost.SetAutoResizeEnabled and the contents have auto- resized. |new_size| will be the desired size in view coordinates. Return true (1) if the resize was handled or false (0) for default handling. </p>
+ Called when auto-resize is enabled via ICefBrowserHost.SetAutoResizeEnabled and the contents have auto- resized. |new_size| will be the desired size in DIP coordinates. Return true (1) if the resize was handled or false (0) for default handling. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -212,6 +220,34 @@
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFDisplayHandler.TCefDisplayHandlerOwn.html#OnMediaAccessChange-ICefBrowser-boolean-boolean-">TCefDisplayHandlerOwn.OnMediaAccessChange</a>.</p><p>
  Called when the browser's access to an audio and/or video source has changed. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OnContentsBoundsChange-ICefBrowser-PCefRect-"></span><code>function <strong>OnContentsBoundsChange</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const new_bounds: <a href="uCEFTypes.html#PCefRect">PCefRect</a>): Boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFDisplayHandler.TCefDisplayHandlerOwn.html#OnContentsBoundsChange-ICefBrowser-PCefRect-">TCefDisplayHandlerOwn.OnContentsBoundsChange</a>.</p><p>
+
+
+<p>Called when JavaScript is requesting new bounds via window.moveTo/By() or window.resizeTo/By(). |new_bounds| are in DIP screen coordinates.
+
+<p>With Views-hosted browsers |new_bounds| are the desired bounds for the containing ICefWindow and may be passed directly to ICefWindow.SetBounds. With external (client-provided) parent on macOS and Windows |new_bounds| are the desired frame bounds for the containing root window. With other non-Views browsers |new_bounds| are the desired bounds for the browser content only unless the client implements either ICefDisplayHandler.GetRootWindowScreenRect for windowed browsers or ICefRenderHandler.GetWindowScreenRect for windowless browsers. Clients may expand browser content bounds to window bounds using OS-specific or ICefDisplay functions.
+
+<p>Return true (1) if this function was handled or false (0) for default handling. Default move/resize behavior is only provided with Views-hosted Chrome style browsers.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetRootWindowScreenRect-ICefBrowser-PCefRect-"></span><code>function <strong>GetRootWindowScreenRect</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; rect_: <a href="uCEFTypes.html#PCefRect">PCefRect</a>): Boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFDisplayHandler.TCefDisplayHandlerOwn.html#GetRootWindowScreenRect-ICefBrowser-PCefRect-">TCefDisplayHandlerOwn.GetRootWindowScreenRect</a>.</p><p>
+ Called to retrieve the external (client-provided) root window rectangle in screen DIP coordinates. Only called for windowed browsers on Windows and Linux. Return true (1) if the rectangle was provided. Return false (0) to use the root window bounds on Windows or the browser content bounds on Linux. For additional usage details see ICefBrowserHost.NotifyScreenInfoChanged. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

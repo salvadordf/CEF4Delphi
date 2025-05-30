@@ -716,7 +716,17 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#NotifyScreenInfoChanged">ICefBrowserHost.NotifyScreenInfoChanged</a>.</p><p>
- Send a notification to the browser that the screen info has changed. The browser will then call ICefRenderHandler.GetScreenInfo to update the screen information with the new values. This simulates moving the webview window from one display to another, or changing the properties of the current display. This function is only used when window rendering is disabled. </p>
+
+
+<p>Notify the browser that screen information has changed. Updated information will be sent to the renderer process to configure screen size and position values used by CSS and JavaScript (window.deviceScaleFactor, window.screenX/Y, window.outerWidth/Height, etc.). For background see <a href="https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage.md#markdown">https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage.md#markdown</a>- header-coordinate-systems
+
+<p>This function is used with (a) windowless rendering and (b) windowed rendering with external (client-provided) root window.
+
+<p>With windowless rendering the browser will call ICefRenderHandler.GetScreenInfo, ICefRenderHandler.GetRootScreenRect and ICefRenderHandler.GetViewRect. This simulates moving or resizing the root window in the current display, moving the root window from one display to another, or changing the properties of the current display.
+
+<p>With windowed rendering the browser will call ICefDisplayHandler.GetRootWindowScreenRect and use the associated display properties.
+
+<p></p>
 </td></tr>
 </table>
 <table class="detail wide_list">
