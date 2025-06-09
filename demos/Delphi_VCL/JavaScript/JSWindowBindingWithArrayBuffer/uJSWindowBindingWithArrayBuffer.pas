@@ -78,10 +78,10 @@ const
   BUFFER_FILL_VALUE = 42; // Some ramdom value to fill the buffer
 var
   TempObject   : ICefv8Value;
-  TempBuffer   : Pointer;
+  TempBuffer : TBytes;
 begin
-  GetMem(TempBuffer, BUFFER_LENGTH);
-  FillChar(TempBuffer^, BUFFER_LENGTH, BUFFER_FILL_VALUE);
+  SetLength(TempBuffer, BUFFER_LENGTH);
+  TempBuffer[0] := BUFFER_FILL_VALUE;
 
   TempObject := TCefv8ValueRef.NewArrayBufferWithCopy(TempBuffer, BUFFER_LENGTH);
 
