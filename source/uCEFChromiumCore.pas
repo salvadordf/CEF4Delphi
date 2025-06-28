@@ -5522,7 +5522,7 @@ begin
       aSettings.text_area_resize                := FOptions.TextAreaResize;
       aSettings.tab_to_links                    := FOptions.TabToLinks;
       aSettings.local_storage                   := FOptions.LocalStorage;
-      aSettings.databases                       := FOptions.Databases;
+      aSettings.databases_deprecated            := FOptions.Databases;
       aSettings.webgl                           := FOptions.Webgl;
       aSettings.background_color                := FOptions.BackgroundColor;
       aSettings.chrome_status_bubble            := FOptions.ChromeStatusBubble;

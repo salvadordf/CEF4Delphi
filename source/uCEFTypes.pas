@@ -223,6 +223,7 @@ type
   PCefAcceleratedPaintInfo = ^TCefAcceleratedPaintInfo;
   PCefLinuxWindowProperties = ^TCefLinuxWindowProperties;
   PCefTaskInfo = ^TCefTaskInfo;
+  PCefVersionInfoEx = ^TCefVersionInfoEx;
 
 {$IFDEF FPC}
   NativeInt   = PtrInt;
@@ -672,6 +673,7 @@ type
   ///   600-699 <Obsolete: FTP errors>
   ///   700-799 Certificate manager errors
   ///   800-899 DNS resolver errors
+  ///   900-999 Blob errors
   /// </code>
   /// </summary>
   /// <remarks>
@@ -1027,6 +1029,28 @@ type
   /// Custom array of int64.
   /// </summary>
   TCefCustomInt64Array = array of int64;
+
+  /// <summary>
+  /// Structure representing all CEF version information.
+  /// </summary>
+  /// <remarks>
+  /// <para>CEF4Delphi already had a TCefVersionInfo type. This record has more information than TCefVersionInfo so we call it TCefVersionInfoEx.
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/cef_version_info.h">CEF source file: /include/cef_version_info.h (cef_version_info_t)</see></para>
+  /// </remarks>
+  TCefVersionInfoEx = record    {* CEF_API_ADDED(13800) *}
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size                 : NativeUInt;
+    cef_version_major    : integer;
+    cef_version_minor    : integer;
+    cef_version_patch    : integer;
+    cef_commit_number    : integer;
+    chrome_version_major : integer;
+    chrome_version_minor : integer;
+    chrome_version_build : integer;
+    chrome_version_patch : integer;
+  end;
 
   {$IFDEF MSWINDOWS}
   /// <summary>
@@ -3396,6 +3420,7 @@ type
     CEF_CPAIT_OPTIMIZATION_GUIDE,
     CEF_CPAIT_COLLABORATION_MESSAGING, {* CEF_API_ADDED(13304) *}
     CEF_CPAIT_CHANGE_PASSWORD,         {* CEF_API_ADDED(13400) *}
+    CEF_CPAIT_LENS_OVERLAY_HOMEWORK,   {* CEF_API_ADDED(13800) *}
     CEF_CPAIT_NUM_VALUES
   );
 
@@ -4447,7 +4472,7 @@ type
     /// Controls whether databases can be used. Also configurable using the
     /// "disable-databases" command-line switch.
     /// </summary>
-    databases                       : TCefState;
+    databases_deprecated            : TCefState;         {* CEF_API_ADDED(13800) *}
     /// <summary>
     /// Controls whether WebGL can be used. Note that WebGL requires hardware
     /// support and may not work on all systems even when enabled. Also
@@ -5186,7 +5211,7 @@ type
     /// See also: https://wicg.github.io/cors-rfc1918
     /// Set through enterprise policies only.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_INSECURE_PRIVATE_NETWORK,
+    CEF_CONTENT_SETTING_TYPE_INSECURE_PRIVATE_NETWORK_DEPRECATED,     {* CEF_API_ADDED(13800) *}
     /// <summary>
     /// Content setting which stores whether or not a site can access low-level
     /// locally installed font data using the Local Fonts Access API.
@@ -5505,6 +5530,22 @@ type
     /// requests.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_LOCAL_NETWORK_ACCESS,                               {* CEF_API_ADDED(13600) *}
+    /// <summary>
+    /// Stores information on-device language packs for which a site has
+    /// installed using the Web Speech API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_ON_DEVICE_SPEECH_RECOGNITION_LANGUAGES_DOWNLOADED,  {* CEF_API_ADDED(13800) *}
+    /// <summary>
+    /// Stores which Translator API language packs the site has initialized.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_INITIALIZED_TRANSLATIONS,                           {* CEF_API_ADDED(13800) *}
+    /// <summary>
+    /// Stores a list of notification ids where content detection found the
+    /// notification to be suspicious and a warning has already been shown for the
+    /// site. Used for recovering notification contents from the database if the
+    /// user decides they would like to see all of these notifications.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_SUSPICIOUS_NOTIFICATION_IDS,                        {* CEF_API_ADDED(13800) *}
     CEF_CONTENT_SETTING_TYPE_NUM_VALUES
   );
 

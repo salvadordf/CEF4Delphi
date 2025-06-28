@@ -34,6 +34,7 @@ var
 
   // /include/cef_version_info.h
   cef_version_info           : function(entry: integer) : integer; cdecl;
+  cef_version_info_all       : procedure(info: PCefVersionInfoEx); cdecl;   {* CEF_API_ADDED(13800) *}
 
   // /include/cef_id_mappers.h
   cef_id_for_pack_resource_name : function(const name : PAnsiChar) : integer; cdecl;

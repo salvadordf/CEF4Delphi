@@ -2116,6 +2116,69 @@ const
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
   /// </remarks>
   ERR_DNS_SECURE_PROBE_RECORD_INVALID                         = -814;
+  /// <summary>
+  /// The following errors are for mapped from a subset of invalid
+  /// storage::BlobStatus.
+  /// The construction arguments are invalid. This is considered a bad IPC.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_BLOB_INVALID_CONSTRUCTION_ARGUMENTS                     = -900;
+  /// <summary>
+  /// We don't have enough memory for the blob.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_BLOB_OUT_OF_MEMORY                                      = -901;
+  /// <summary>
+  /// We couldn't create or write to a file. File system error, like a full disk.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_BLOB_FILE_WRITE_FAILED                                  = -902;
+  /// <summary>
+  /// The renderer was destroyed while data was in transit.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_BLOB_SOURCE_DIED_IN_TRANSIT                             = -903;
+  /// <summary>
+  /// The renderer destructed the blob before it was done transferring, and there
+  /// were no outstanding references (no one is waiting to read) to keep the
+  /// blob alive.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_BLOB_DEREFERENCED_WHILE_BUILDING                        = -904;
+  /// <summary>
+  /// A blob that we referenced during construction is broken, or a browser-side
+  /// builder tries to build a blob with a blob reference that isn't finished
+  /// constructing.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_BLOB_REFERENCED_BLOB_BROKEN                             = -905;
+  /// <summary>
+  /// A file that we referenced during construction is not accessible to the
+  /// renderer trying to create the blob.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_BLOB_REFERENCED_FILE_UNAVAILABLE                        = -906;
 
 
   /// <summary>
@@ -2389,6 +2452,7 @@ const
   IDC_CONTENT_CONTEXT_OPENLINKINPROFILE = 50108;
   IDC_CONTENT_CONTEXT_OPENLINKBOOKMARKAPP = 50109;
   IDC_CONTENT_CONTEXT_OPENLINKPREVIEW = 50110;
+  IDC_CONTENT_CONTEXT_OPENLINKSPLITVIEW = 50111;
   IDC_CONTENT_CONTEXT_SAVEIMAGEAS = 50120;
   IDC_CONTENT_CONTEXT_COPYIMAGELOCATION = 50121;
   IDC_CONTENT_CONTEXT_COPYIMAGE = 50122;
@@ -4453,7 +4517,7 @@ IDC_GLIC_TOGGLE_PIN = 53320;
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
   /// </remarks>
-  CEF_RESULT_CODE_BAD_PROCESS_TYPE = 6;
+  CEF_RESULT_CODE_BAD_PROCESS_TYPE = 6;     {* CEF_API_ADDED(13800) *}
   /// <summary>
   /// A critical chrome file is missing.
   /// </summary>
@@ -4754,6 +4818,15 @@ IDC_GLIC_TOGGLE_PIN = 53320;
   /// </remarks>
   CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED = 37;
   /// <summary>
+  /// The browser process exited because it was re-launched without elevation.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_NORMAL_EXIT_AUTO_DE_ELEVATED = 38;  {* CEF_API_ADDED(13800) *}
+  /// <summary>
   /// Last Chrome result code.
   /// </summary>
   /// <remarks>
@@ -4761,7 +4834,7 @@ IDC_GLIC_TOGGLE_PIN = 53320;
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
   /// </remarks>
-  CEF_RESULT_CODE_CHROME_LAST = 38;
+  CEF_RESULT_CODE_CHROME_LAST = 39;
   /// <summary>
   /// First Sandbox result code.
   /// </summary>

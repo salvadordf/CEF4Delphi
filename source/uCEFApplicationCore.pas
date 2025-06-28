@@ -4246,9 +4246,11 @@ end;
 
 function TCefApplicationCore.Load_cef_version_info_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_version_info{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_version_info');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_version_info{$IFDEF FPC}){$ENDIF}     := GetProcAddress(FLibHandle, 'cef_version_info');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_version_info_all{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_version_info_all');
 
-  Result := assigned(cef_version_info);
+  Result := assigned(cef_version_info) and
+            assigned(cef_version_info_all);
 end;
 
 function TCefApplicationCore.Load_cef_id_mappers_h : boolean;

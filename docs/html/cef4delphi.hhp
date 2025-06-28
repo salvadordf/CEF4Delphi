@@ -669,6 +669,7 @@ uCEFTypes.TCefSize.html
 uCEFTypes.TCefRect.html
 uCEFTypes.TCefAcceleratedPaintInfoCommon.html
 uCEFTypes.TCefAcceleratedPaintInfo.html
+uCEFTypes.TCefVersionInfoEx.html
 uCEFTypes.TMyMemoryStatusEx.html
 uCEFTypes.TOSVersionInfoEx.html
 uCEFTypes.TCefStringWide.html

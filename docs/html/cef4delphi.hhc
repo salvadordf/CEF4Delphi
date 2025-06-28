@@ -12674,6 +12674,34 @@
 <param name="Local" value="uCEFConstants.html#ERR_DNS_SECURE_PROBE_RECORD_INVALID">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="ERR_BLOB_INVALID_CONSTRUCTION_ARGUMENTS">
+<param name="Local" value="uCEFConstants.html#ERR_BLOB_INVALID_CONSTRUCTION_ARGUMENTS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_BLOB_OUT_OF_MEMORY">
+<param name="Local" value="uCEFConstants.html#ERR_BLOB_OUT_OF_MEMORY">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_BLOB_FILE_WRITE_FAILED">
+<param name="Local" value="uCEFConstants.html#ERR_BLOB_FILE_WRITE_FAILED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_BLOB_SOURCE_DIED_IN_TRANSIT">
+<param name="Local" value="uCEFConstants.html#ERR_BLOB_SOURCE_DIED_IN_TRANSIT">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_BLOB_DEREFERENCED_WHILE_BUILDING">
+<param name="Local" value="uCEFConstants.html#ERR_BLOB_DEREFERENCED_WHILE_BUILDING">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_BLOB_REFERENCED_BLOB_BROKEN">
+<param name="Local" value="uCEFConstants.html#ERR_BLOB_REFERENCED_BLOB_BROKEN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_BLOB_REFERENCED_FILE_UNAVAILABLE">
+<param name="Local" value="uCEFConstants.html#ERR_BLOB_REFERENCED_FILE_UNAVAILABLE">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="COMMAND_ID_FIRST_UNBOUNDED">
 <param name="Local" value="uCEFConstants.html#COMMAND_ID_FIRST_UNBOUNDED">
 </object>
@@ -13724,6 +13752,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_OPENLINKPREVIEW">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_OPENLINKPREVIEW">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_OPENLINKSPLITVIEW">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_OPENLINKSPLITVIEW">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_SAVEIMAGEAS">
@@ -15876,6 +15908,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED">
 <param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_RESULT_CODE_NORMAL_EXIT_AUTO_DE_ELEVATED">
+<param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_AUTO_DE_ELEVATED">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_RESULT_CODE_CHROME_LAST">
@@ -41112,6 +41148,54 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="TCefVersionInfoEx">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="size">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="cef_version_major">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#cef_version_major">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="cef_version_minor">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#cef_version_minor">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="cef_version_patch">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#cef_version_patch">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="cef_commit_number">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#cef_commit_number">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="chrome_version_major">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#chrome_version_major">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="chrome_version_minor">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#chrome_version_minor">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="chrome_version_build">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#chrome_version_build">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="chrome_version_patch">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#chrome_version_patch">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="TMyMemoryStatusEx">
 <param name="Local" value="uCEFTypes.TMyMemoryStatusEx.html">
 </object>
@@ -42346,8 +42430,8 @@
 <param name="Local" value="uCEFTypes.TCefBrowserSettings.html#local_storage">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="databases">
-<param name="Local" value="uCEFTypes.TCefBrowserSettings.html#databases">
+<param name="Name" value="databases_deprecated">
+<param name="Local" value="uCEFTypes.TCefBrowserSettings.html#databases_deprecated">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="webgl">
@@ -51080,6 +51164,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="PCefTaskInfo">
 <param name="Local" value="uCEFTypes.html#PCefTaskInfo">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PCefVersionInfoEx">
+<param name="Local" value="uCEFTypes.html#PCefVersionInfoEx">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="NativeInt">
@@ -71348,8 +71436,8 @@
 <param name="Local" value="uCEFTypes.TCefBrowserSettings.html#cursive_font_family">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="databases">
-<param name="Local" value="uCEFTypes.TCefBrowserSettings.html#databases">
+<param name="Name" value="databases_deprecated">
+<param name="Local" value="uCEFTypes.TCefBrowserSettings.html#databases_deprecated">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="default_encoding">
@@ -90172,6 +90260,54 @@
 <li><object type="text/sitemap">
 <param name="Name" value="VersionPatch">
 <param name="Local" value="uCEFTypes.TCefVersionInfo.html#VersionPatch">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefVersionInfoEx">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="cef_commit_number">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#cef_commit_number">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="cef_version_major">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#cef_version_major">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="cef_version_minor">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#cef_version_minor">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="cef_version_patch">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#cef_version_patch">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="chrome_version_build">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#chrome_version_build">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="chrome_version_major">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#chrome_version_major">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="chrome_version_minor">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#chrome_version_minor">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="chrome_version_patch">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#chrome_version_patch">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="size">
+<param name="Local" value="uCEFTypes.TCefVersionInfoEx.html#size">
 </object>
 </ul>
 </ul>

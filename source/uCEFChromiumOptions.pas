@@ -104,6 +104,9 @@ type
       /// Controls whether databases can be used. Also configurable using the
       /// "disable-databases" command-line switch.
       /// </summary>
+      /// <remarks>
+      /// <para>Deprecated since CEF 138</para>
+      /// </remarks>
       property Databases                   : TCefState read FDatabases                    write FDatabases                   default STATE_DEFAULT;
       /// <summary>
       /// Controls whether WebGL can be used. Note that WebGL requires hardware
