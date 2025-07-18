@@ -6234,6 +6234,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FTryingToCloseBrowser">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FStorageNotificationService">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FStorageNotificationService">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOldBrowserCompWndPrc">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOldBrowserCompWndPrc">
 </object>
@@ -7278,6 +7282,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="URLDataCollection">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#URLDataCollection">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="StorageNotificationService">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#StorageNotificationService">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnTextResultAvailable">
@@ -95292,6 +95300,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FSpellChecking">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FStorageNotificationService">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FStorageNotificationService">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FTryingToCloseBrowser">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FTryingToCloseBrowser">
 </object>
@@ -96284,6 +96296,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SpellChecking">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SpellChecking">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="StorageNotificationService">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#StorageNotificationService">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="URLDataCollection">

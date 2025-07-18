@@ -129,6 +129,7 @@ type
       FSearchSuggestEnabled     : TCefState;
       FURLDataCollection        : TCefState;
       FTryingToCloseBrowser     : boolean;
+      FStorageNotificationService : TCefState;
 
       {$IFDEF LINUX}
       FXDisplay                 : PXDisplay;
@@ -2317,6 +2318,10 @@ type
       /// <para>Disabling this property is a suggested workaround for some autofill crashes in Alloy style.</para>
       /// </remarks>
       property URLDataCollection              : TCefState                    read FURLDataCollection           write FURLDataCollection;
+      /// <summary>
+      /// Used to disable the "Free up space to continue" notification for the current profile.
+      /// </summary>
+      property StorageNotificationService     : TCefState                    read FStorageNotificationService  write FStorageNotificationService;
 
     published
       /// <summary>
@@ -4326,6 +4331,7 @@ begin
   FSearchSuggestEnabled    := STATE_DEFAULT;
   FURLDataCollection       := STATE_DEFAULT;
   FTryingToCloseBrowser    := False;
+  FStorageNotificationService := STATE_DEFAULT;
   {$IFDEF LINUX}
   FXDisplay                := nil;
   {$ENDIF}
@@ -7596,6 +7602,9 @@ begin
 
   if (FURLDataCollection <> STATE_DEFAULT) then
     UpdatePreference(aBrowser, 'url_keyed_anonymized_data_collection.enabled', (FURLDataCollection = STATE_ENABLED));
+
+  if (FStorageNotificationService <> STATE_DEFAULT) then
+    UpdatePreference(aBrowser, 'cef.storage_notification_service_enabled', (FStorageNotificationService = STATE_ENABLED));
 
   if assigned(FOnPrefsUpdated) then
     FOnPrefsUpdated(self);
