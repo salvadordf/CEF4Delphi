@@ -107,7 +107,6 @@ type
       FWebRTCIPHandlingPolicy   : TCefWebRTCHandlingPolicy;
       FWebRTCMultipleRoutes     : TCefState;
       FWebRTCNonProxiedUDP      : TCefState;
-      FAcceptLanguageList       : ustring;
       FAcceptCookies            : TCefCookiePref;
       FBlock3rdPartyCookies     : boolean;
       FQuicAllowed              : boolean;
@@ -430,7 +429,6 @@ type
       procedure SetOffline(aValue : boolean);
       procedure SetYouTubeRestrict(aValue : integer);
       procedure SetPrintingEnabled(aValue : boolean);
-      procedure SetAcceptLanguageList(const aValue : ustring);
       procedure SetAcceptCookies(const aValue : TCefCookiePref);
       procedure SetBlock3rdPartyCookies(const aValue : boolean);
       procedure SetMultiBrowserMode(aValue : boolean);
@@ -2104,10 +2102,6 @@ type
       /// Enables printing in the browser preferences.
       /// </summary>
       property  PrintingEnabled               : boolean                      read FPrintingEnabled             write SetPrintingEnabled;
-      /// <summary>
-      /// Set the accept language list in the browser preferences.
-      /// </summary>
-      property  AcceptLanguageList            : ustring                      read FAcceptLanguageList          write SetAcceptLanguageList;
       /// <summary>
       /// Sets the cookies policy value in the browser preferences.
       /// </summary>
@@ -4308,7 +4302,6 @@ begin
   FSafeSearch              := False;
   FYouTubeRestrict         := YOUTUBE_RESTRICT_OFF;
   FPrintingEnabled         := True;
-  FAcceptLanguageList      := '';
   FAcceptCookies           := cpAllow;
   FBlock3rdPartyCookies    := False;
   FOffline                 := False;
@@ -6562,15 +6555,6 @@ begin
     end;
 end;
 
-procedure TChromiumCore.SetAcceptLanguageList(const aValue : ustring);
-begin
-  if (FAcceptLanguageList <> aValue) then
-    begin
-      FAcceptLanguageList := aValue;
-      FUpdatePreferences  := True;
-    end;
-end;
-
 procedure TChromiumCore.SetAcceptCookies(const aValue : TCefCookiePref);
 begin
   if (FAcceptCookies <> aValue) then
@@ -7504,8 +7488,6 @@ begin
 end;
 
 procedure TChromiumCore.doUpdatePreferences(const aBrowser: ICefBrowser);
-var
-  TempLanguagesList : ustring;
 begin
   FUpdatePreferences := False;
 
@@ -7521,16 +7503,6 @@ begin
   UpdatePreference(aBrowser, 'settings.force_google_safesearch',     FSafeSearch);
   UpdatePreference(aBrowser, 'settings.force_youtube_restrict',      FYouTubeRestrict);
   UpdatePreference(aBrowser, 'printing.enabled',                     FPrintingEnabled);
-
-  TempLanguagesList := FAcceptLanguageList;
-
-  if (length(TempLanguagesList) = 0) then
-    TempLanguagesList := GlobalCEFApp.AcceptLanguageList;
-
-  if (length(TempLanguagesList) = 0) then
-    TempLanguagesList := 'en-US,en';
-
-  UpdatePreference(aBrowser, 'intl.accept_languages', TempLanguagesList);
 
   case FAcceptCookies of
     cpAllow : UpdatePreference(aBrowser, 'profile.default_content_setting_values.cookies', CEF_COOKIE_PREF_ALLOW);

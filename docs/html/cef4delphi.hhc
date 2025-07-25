@@ -6146,10 +6146,6 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FWebRTCNonProxiedUDP">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FAcceptLanguageList">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAcceptLanguageList">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="FAcceptCookies">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAcceptCookies">
 </object>
@@ -7142,10 +7138,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="PrintingEnabled">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#PrintingEnabled">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="AcceptLanguageList">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#AcceptLanguageList">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="AcceptCookies">
@@ -8164,10 +8156,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SetPrintingEnabled">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetPrintingEnabled">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="SetAcceptLanguageList">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAcceptLanguageList">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetAcceptCookies">
@@ -94404,10 +94392,6 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAcceptCookies">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FAcceptLanguageList">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAcceptLanguageList">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="FAddCustomHeader">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAddCustomHeader">
 </object>
@@ -95352,10 +95336,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="AcceptCookies">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#AcceptCookies">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="AcceptLanguageList">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#AcceptLanguageList">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="AllowOutdatedPlugins">
@@ -98030,10 +98010,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SetAcceptCookies">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAcceptCookies">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="SetAcceptLanguageList">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAcceptLanguageList">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetAllowOutdatedPlugins">
