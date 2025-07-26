@@ -122,7 +122,6 @@ type
     Downloadimage1: TMenuItem;
     Simulatekeyboardpresses1: TMenuItem;
     Flushcookies1: TMenuItem;
-    Acceptlanguage1: TMenuItem;
     FindText1: TMenuItem;
     Clearcache1: TMenuItem;
     akescreenshot1: TMenuItem;
@@ -198,7 +197,6 @@ type
     procedure Downloadimage1Click(Sender: TObject);
     procedure Simulatekeyboardpresses1Click(Sender: TObject);
     procedure Flushcookies1Click(Sender: TObject);
-    procedure Acceptlanguage1Click(Sender: TObject);
     procedure PopupMenu1Popup(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure FindText1Click(Sender: TObject);
@@ -1561,16 +1559,6 @@ procedure TMiniBrowserFrm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
   CEFWindowParent1.UpdateSize;
   NavControlPnl.Enabled := True;
-end;
-
-procedure TMiniBrowserFrm.Acceptlanguage1Click(Sender: TObject);
-var
-  TempLanguageList : ustring;
-begin
-  TempLanguageList := Chromium1.AcceptLanguageList;
-  if (length(TempLanguageList) = 0) then TempLanguageList := GlobalCEFApp.AcceptLanguageList;
-
-  Chromium1.AcceptLanguageList := InputBox('Language', 'Accept language list', TempLanguageList);
 end;
 
 procedure TMiniBrowserFrm.AddURL(const aURL : string);
