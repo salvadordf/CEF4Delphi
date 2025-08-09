@@ -11842,10 +11842,6 @@
 <param name="Local" value="uCEFConstants.html#ERR_BLOCKED_BY_CSP">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="ERR_H2_OR_QUIC_REQUIRED">
-<param name="Local" value="uCEFConstants.html#ERR_H2_OR_QUIC_REQUIRED">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="ERR_BLOCKED_BY_ORB">
 <param name="Local" value="uCEFConstants.html#ERR_BLOCKED_BY_ORB">
 </object>
@@ -13584,6 +13580,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_FIND_EXTENSIONS">
 <param name="Local" value="uCEFConstants.html#IDC_FIND_EXTENSIONS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_SHOW_SEARCH_TOOLS">
+<param name="Local" value="uCEFConstants.html#IDC_SHOW_SEARCH_TOOLS">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SPELLCHECK_SUGGESTION_0">
@@ -15908,6 +15908,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_RESULT_CODE_NORMAL_EXIT_AUTO_DE_ELEVATED">
 <param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_AUTO_DE_ELEVATED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_RESULT_CODE_TERMINATED_BY_OTHER_PROCESS_ON_COMMIT_FAILURE">
+<param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_TERMINATED_BY_OTHER_PROCESS_ON_COMMIT_FAILURE">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_RESULT_CODE_CHROME_LAST">

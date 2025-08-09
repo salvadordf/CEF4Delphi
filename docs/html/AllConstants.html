@@ -1136,66 +1136,71 @@
 <td class="itemdesc"><p> The browser process exited because system resource are exhausted. The system state can't be recovered and will be unstable. </p></td>
 </tr>
 <tr class="list">
+<td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_RESULT_CODE_TERMINATED_BY_OTHER_PROCESS_ON_COMMIT_FAILURE">CEF_RESULT_CODE_TERMINATED_BY_OTHER_PROCESS_ON_COMMIT_FAILURE</a></td>
+<td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
+<td class="itemdesc"><p> Upon encountering a commit failure in a process, PartitionAlloc terminated another process deemed less important. </p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_RESULT_CODE_UNINSTALL_CHROME_ALIVE">CEF_RESULT_CODE_UNINSTALL_CHROME_ALIVE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Uninstall detected another chrome instance. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_RESULT_CODE_UNINSTALL_DELETE_PROFILE">CEF_RESULT_CODE_UNINSTALL_DELETE_PROFILE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Delete profile as well during uninstall. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_RESULT_CODE_UNINSTALL_EXTENSION_ERROR">CEF_RESULT_CODE_UNINSTALL_EXTENSION_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Failed to silently uninstall an extension. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_RESULT_CODE_UNINSTALL_USER_CANCEL">CEF_RESULT_CODE_UNINSTALL_USER_CANCEL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The user changed their mind. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_RESULT_CODE_UNSUPPORTED_PARAM">CEF_RESULT_CODE_UNSUPPORTED_PARAM</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Command line parameter is not supported. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SCHEME_OPTION_CORS_ENABLED">CEF_SCHEME_OPTION_CORS_ENABLED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If CEF_SCHEME_OPTION_CORS_ENABLED is set the scheme can be sent CORS requests. This value should be set in most cases where CEF_SCHEME_OPTION_STANDARD is set. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SCHEME_OPTION_CSP_BYPASSING">CEF_SCHEME_OPTION_CSP_BYPASSING</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If CEF_SCHEME_OPTION_CSP_BYPASSING is set the scheme can bypass Content- Security-Policy (CSP) checks. This value should not be set in most cases where CEF_SCHEME_OPTION_STANDARD is set. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SCHEME_OPTION_DISPLAY_ISOLATED">CEF_SCHEME_OPTION_DISPLAY_ISOLATED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If CEF_SCHEME_OPTION_DISPLAY_ISOLATED is set the scheme can only be displayed from other content hosted with the same scheme. For example, pages in other origins cannot create iframes or hyperlinks to URLs with the scheme. For schemes that must be accessible from other schemes don't set this, set CEF_SCHEME_OPTION_CORS_ENABLED, and use CORS &quot;Access-Control-Allow-Origin&quot; headers to further restrict access. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SCHEME_OPTION_FETCH_ENABLED">CEF_SCHEME_OPTION_FETCH_ENABLED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If CEF_SCHEME_OPTION_FETCH_ENABLED is set the scheme can perform Fetch API requests. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SCHEME_OPTION_LOCAL">CEF_SCHEME_OPTION_LOCAL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If CEF_SCHEME_OPTION_LOCAL is set the scheme will be treated with the same security rules as those applied to &quot;file&quot; URLs. Normal pages cannot link to or access local URLs. Also, by default, local URLs can only perform XMLHttpRequest calls to the same URL (origin + path) that originated the request. To allow XMLHttpRequest calls from a local URL to other URLs with the same origin set the CefSettings.file_access_from_file_urls_allowed value to true (1). To allow XMLHttpRequest calls from a local URL to all origins set the CefSettings.universal_access_from_file_urls_allowed value to true (1). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SCHEME_OPTION_NONE">CEF_SCHEME_OPTION_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> No options. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SCHEME_OPTION_SECURE">CEF_SCHEME_OPTION_SECURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If CEF_SCHEME_OPTION_SECURE is set the scheme will be treated with the same security rules as those applied to &quot;https&quot; URLs. For example, loading this scheme from other secure schemes will not trigger mixed content warnings. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SCHEME_OPTION_STANDARD">CEF_SCHEME_OPTION_STANDARD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If CEF_SCHEME_OPTION_STANDARD is set the scheme will be treated as a standard scheme. Standard schemes are subject to URL canonicalization and parsing rules as defined in the Common Internet Scheme Syntax RFC 1738 Section 3.1 available at <a href="http://www.ietf.org/rfc/rfc1738.txt">http://www.ietf.org/rfc/rfc1738.txt</a>
@@ -1204,877 +1209,877 @@
 
 <p>For non-standard scheme URLs only the &quot;scheme:&quot; component is parsed and canonicalized. The remainder of the URL will be passed to the handler as- is. For example, &quot;<a href="scheme:///some%20text">scheme:///some%20text</a>&quot; will remain the same. Non-standard scheme URLs cannot be used as a target for form submission. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SENTINEL_DOCLOSE">CEF_SENTINEL_DOCLOSE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SENTINEL_START">CEF_SENTINEL_START</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SETTINGS_URL">CEF_SETTINGS_URL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SHOW_STATE_FULLSCREEN">CEF_SHOW_STATE_FULLSCREEN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Show the window as fullscreen. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SHOW_STATE_HIDDEN">CEF_SHOW_STATE_HIDDEN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Show the window as hidden (no dock thumbnail). Only supported on MacOS.. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SHOW_STATE_MAXIMIZED">CEF_SHOW_STATE_MAXIMIZED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Show the window as maximized. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SHOW_STATE_MINIMIZED">CEF_SHOW_STATE_MINIMIZED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Show the window as minimized. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SHOW_STATE_NORMAL">CEF_SHOW_STATE_NORMAL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Show the window as normal. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_SHOW_STATE_NUM_VALUES">CEF_SHOW_STATE_NUM_VALUES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Number of TCefShowState values </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_STARTDRAGGING">CEF_STARTDRAGGING</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplication.html#CEF_SUPPORTED_VERSION_BUILD">CEF_SUPPORTED_VERSION_BUILD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplication.html">uCEFApplication</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationCore.html#CEF_SUPPORTED_VERSION_BUILD">CEF_SUPPORTED_VERSION_BUILD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationCore.html">uCEFApplicationCore</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplication.html#CEF_SUPPORTED_VERSION_MAJOR">CEF_SUPPORTED_VERSION_MAJOR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplication.html">uCEFApplication</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationCore.html#CEF_SUPPORTED_VERSION_MAJOR">CEF_SUPPORTED_VERSION_MAJOR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationCore.html">uCEFApplicationCore</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplication.html#CEF_SUPPORTED_VERSION_MINOR">CEF_SUPPORTED_VERSION_MINOR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplication.html">uCEFApplication</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationCore.html#CEF_SUPPORTED_VERSION_MINOR">CEF_SUPPORTED_VERSION_MINOR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationCore.html">uCEFApplicationCore</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplication.html#CEF_SUPPORTED_VERSION_RELEASE">CEF_SUPPORTED_VERSION_RELEASE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplication.html">uCEFApplication</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationCore.html#CEF_SUPPORTED_VERSION_RELEASE">CEF_SUPPORTED_VERSION_RELEASE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationCore.html">uCEFApplicationCore</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TFC_COPY">CEF_TFC_COPY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TFC_CUT">CEF_TFC_CUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TFC_DELETE">CEF_TFC_DELETE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TFC_NUM_VALUES">CEF_TFC_NUM_VALUES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TFC_PASTE">CEF_TFC_PASTE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TFC_SELECT_ALL">CEF_TFC_SELECT_ALL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TFC_SELECT_WORD">CEF_TFC_SELECT_WORD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TFC_UNDO">CEF_TFC_UNDO</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TFC_UNKNOWN">CEF_TFC_UNKNOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Represents commands available to TextField. Should be kept in sync with Chromium's views::TextField::MenuCommands type. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_THS_FLAG_ALPHA">CEF_THS_FLAG_ALPHA</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_THS_FLAG_ENABLED">CEF_THS_FLAG_ENABLED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_THS_FLAG_NONE">CEF_THS_FLAG_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Values indicating what state of the touch handle is set. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_THS_FLAG_ORIENTATION">CEF_THS_FLAG_ORIENTATION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_THS_FLAG_ORIGIN">CEF_THS_FLAG_ORIGIN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TIMER_DEPLETEWORK_CYCLES">CEF_TIMER_DEPLETEWORK_CYCLES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TIMER_DEPLETEWORK_DELAY">CEF_TIMER_DEPLETEWORK_DELAY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TIMER_MAXDELAY">CEF_TIMER_MAXDELAY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TIMER_MAXIMUM">CEF_TIMER_MAXIMUM</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_TIMER_MINIMUM">CEF_TIMER_MINIMUM</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Used when the shared textures are enabled.</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_URLS_URL">CEF_URLS_URL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_VERSION_URL">CEF_VERSION_URL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_AUTHORITY_INVALID">CERT_STATUS_AUTHORITY_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_COMMON_NAME_INVALID">CERT_STATUS_COMMON_NAME_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_CT_COMPLIANCE_FAILED">CERT_STATUS_CT_COMPLIANCE_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_DATE_INVALID">CERT_STATUS_DATE_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_FIRST_ERROR">CERT_STATUS_FIRST_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_INVALID">CERT_STATUS_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_IS_EV">CERT_STATUS_IS_EV</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_LAST_ERROR">CERT_STATUS_LAST_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_NAME_CONSTRAINT_VIOLATION">CERT_STATUS_NAME_CONSTRAINT_VIOLATION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_NONE">CERT_STATUS_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported certificate status code values. See net\cert\cert_status_flags.h for more information. CERT_STATUS_NONE is new in CEF because we use an enum while cert_status_flags.h uses a typedef and static const variables. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_NON_UNIQUE_NAME">CERT_STATUS_NON_UNIQUE_NAME</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_NO_REVOCATION_MECHANISM">CERT_STATUS_NO_REVOCATION_MECHANISM</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_PINNED_KEY_MISSING">CERT_STATUS_PINNED_KEY_MISSING</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_REVOKED">CERT_STATUS_REVOKED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_REV_CHECKING_ENABLED">CERT_STATUS_REV_CHECKING_ENABLED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_SHA1_SIGNATURE_PRESENT">CERT_STATUS_SHA1_SIGNATURE_PRESENT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_UNABLE_TO_CHECK_REVOCATION">CERT_STATUS_UNABLE_TO_CHECK_REVOCATION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_VALIDITY_TOO_LONG">CERT_STATUS_VALIDITY_TOO_LONG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_WEAK_KEY">CERT_STATUS_WEAK_KEY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CERT_STATUS_WEAK_SIGNATURE_ALGORITHM">CERT_STATUS_WEAK_SIGNATURE_ALGORITHM</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplication.html#CHROMEELF_DLL">CHROMEELF_DLL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplication.html">uCEFApplication</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplicationCore.html#CHROMEELF_DLL">CHROMEELF_DLL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationCore.html">uCEFApplicationCore</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CHROMIUM_NONBROWSERSHUTDOWNPRIORITY">CHROMIUM_NONBROWSERSHUTDOWNPRIORITY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>This constant is defined by Chromium in chrome/app/main_dll_loader_win.cc It's used with SetProcessShutdownParameters to set a shutdown priority for the subprocesses. $280 is the default value for applications.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_EDITFLAG_CAN_COPY">CM_EDITFLAG_CAN_COPY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_EDITFLAG_CAN_CUT">CM_EDITFLAG_CAN_CUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_EDITFLAG_CAN_DELETE">CM_EDITFLAG_CAN_DELETE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_EDITFLAG_CAN_EDIT_RICHLY">CM_EDITFLAG_CAN_EDIT_RICHLY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_EDITFLAG_CAN_PASTE">CM_EDITFLAG_CAN_PASTE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_EDITFLAG_CAN_REDO">CM_EDITFLAG_CAN_REDO</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_EDITFLAG_CAN_SELECT_ALL">CM_EDITFLAG_CAN_SELECT_ALL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_EDITFLAG_CAN_TRANSLATE">CM_EDITFLAG_CAN_TRANSLATE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_EDITFLAG_CAN_UNDO">CM_EDITFLAG_CAN_UNDO</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_EDITFLAG_NONE">CM_EDITFLAG_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported context menu edit state bit flags. These constants match their equivalents in Chromium's ContextMenuDataEditFlags and should not be renumbered. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_CAN_LOOP">CM_MEDIAFLAG_CAN_LOOP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_CAN_PICTURE_IN_PICTURE">CM_MEDIAFLAG_CAN_PICTURE_IN_PICTURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_CAN_PRINT">CM_MEDIAFLAG_CAN_PRINT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_CAN_ROTATE">CM_MEDIAFLAG_CAN_ROTATE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_CAN_SAVE">CM_MEDIAFLAG_CAN_SAVE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_CAN_TOGGLE_CONTROLS">CM_MEDIAFLAG_CAN_TOGGLE_CONTROLS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_CONTROLS">CM_MEDIAFLAG_CONTROLS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_HAS_AUDIO">CM_MEDIAFLAG_HAS_AUDIO</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_IN_ERROR">CM_MEDIAFLAG_IN_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_LOOP">CM_MEDIAFLAG_LOOP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_MUTED">CM_MEDIAFLAG_MUTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_NONE">CM_MEDIAFLAG_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported context menu media state bit flags. These constants match their equivalents in Chromium's ContextMenuData::MediaFlags and should not be renumbered. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_PAUSED">CM_MEDIAFLAG_PAUSED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_MEDIAFLAG_PICTURE_IN_PICTURE">CM_MEDIAFLAG_PICTURE_IN_PICTURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_TYPEFLAG_EDITABLE">CM_TYPEFLAG_EDITABLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An editable element is selected. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_TYPEFLAG_FRAME">CM_TYPEFLAG_FRAME</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A subframe page is selected. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_TYPEFLAG_LINK">CM_TYPEFLAG_LINK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A link is selected. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_TYPEFLAG_MEDIA">CM_TYPEFLAG_MEDIA</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A media node is selected. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_TYPEFLAG_NONE">CM_TYPEFLAG_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> No node is selected. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_TYPEFLAG_PAGE">CM_TYPEFLAG_PAGE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The top page is selected. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CM_TYPEFLAG_SELECTION">CM_TYPEFLAG_SELECTION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> There is a textual or mixed selection that is selected. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#COMMAND_ID_FIRST_UNBOUNDED">COMMAND_ID_FIRST_UNBOUNDED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> command_id constants declared in cef_command_ids.h and used by some callbacks in ICefCommandHandler cef_command_ids.h is generated in /include/cef_command_ids.h </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CRLF">CRLF</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFOLEDragAndDrop.html#CUSTOM_ARRAY_LENGTH">CUSTOM_ARRAY_LENGTH</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOLEDragAndDrop.html">uCEFOLEDragAndDrop</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFOSRIMEHandler.html#DEFAULT_BLINK_BACKGROUND_COLOR">DEFAULT_BLINK_BACKGROUND_COLOR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOSRIMEHandler.html">uCEFOSRIMEHandler</a></td>
 <td class="itemdesc"><p>Black SkColor</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFOSRIMEHandler.html#DEFAULT_BLINK_UNDERLINE_COLOR">DEFAULT_BLINK_UNDERLINE_COLOR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOSRIMEHandler.html">uCEFOSRIMEHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFOSRIMEHandler.html#DEFAULT_BLINK_UNDERLINE_STYLE">DEFAULT_BLINK_UNDERLINE_STYLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOSRIMEHandler.html">uCEFOSRIMEHandler</a></td>
 <td class="itemdesc"><p>White SkColor</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFServerComponent.html#DEFAULT_CEFSERVER_ADDRESS">DEFAULT_CEFSERVER_ADDRESS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServerComponent.html">uCEFServerComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFServerComponent.html#DEFAULT_CEFSERVER_BACKLOG">DEFAULT_CEFSERVER_BACKLOG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServerComponent.html">uCEFServerComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFServerComponent.html#DEFAULT_CEFSERVER_PORT">DEFAULT_CEFSERVER_PORT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFServerComponent.html">uCEFServerComponent</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFOAuth2Helper.html#DEFAULT_REDIRECT_IPV4_HOST">DEFAULT_REDIRECT_IPV4_HOST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOAuth2Helper.html">uCEFOAuth2Helper</a></td>
 <td class="itemdesc"><p>REFERENCES : ============ <a href="https://tools.ietf.org/html/rfc6749">https://tools.ietf.org/html/rfc6749</a> <a href="https://tools.ietf.org/html/rfc6750">https://tools.ietf.org/html/rfc6750</a> <a href="https://tools.ietf.org/html/rfc8252">https://tools.ietf.org/html/rfc8252</a> <a href="https://tools.ietf.org/html/rfc6819">https://tools.ietf.org/html/rfc6819</a> <a href="https://tools.ietf.org/html/rfc7636">https://tools.ietf.org/html/rfc7636</a> <a href="https://tools.ietf.org/html/draft-ietf-oauth-native-apps-12">https://tools.ietf.org/html/draft-ietf-oauth-native-apps-12</a> <a href="https://tools.ietf.org/html/draft-ietf-oauth-security-topics-13">https://tools.ietf.org/html/draft-ietf-oauth-security-topics-13</a> <a href="https://developers.google.com/identity/protocols/OAuth2">https://developers.google.com/identity/protocols/OAuth2</a> <a href="https://developers.google.com/identity/protocols/OAuth2InstalledApp">https://developers.google.com/identity/protocols/OAuth2InstalledApp</a> <a href="https://developers.google.com/identity/protocols/googlescopes">https://developers.google.com/identity/protocols/googlescopes</a> <a href="https://developers.google.com/identity/protocols/OpenIDConnect">https://developers.google.com/identity/protocols/OpenIDConnect</a> <a href="https://aaronparecki.com/oauth-2-simplified/">https://aaronparecki.com/oauth-2-simplified/</a> <a href="https://example-app.com/pkce">https://example-app.com/pkce</a></p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFOAuth2Helper.html#DEFAULT_REDIRECT_IPV6_HOST">DEFAULT_REDIRECT_IPV6_HOST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOAuth2Helper.html">uCEFOAuth2Helper</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFOAuth2Helper.html#DEFAULT_REDIRECT_PORT">DEFAULT_REDIRECT_PORT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOAuth2Helper.html">uCEFOAuth2Helper</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DEVTOOLS_WINDOWNAME">DEVTOOLS_WINDOWNAME</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_BEFORE_TEXT_INSERTED">DOM_EVENT_CATEGORY_BEFORE_TEXT_INSERTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_CLIPBOARD">DOM_EVENT_CATEGORY_CLIPBOARD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_COMPOSITION">DOM_EVENT_CATEGORY_COMPOSITION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_DRAG">DOM_EVENT_CATEGORY_DRAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_KEYBOARD">DOM_EVENT_CATEGORY_KEYBOARD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_MESSAGE">DOM_EVENT_CATEGORY_MESSAGE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_MOUSE">DOM_EVENT_CATEGORY_MOUSE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_MUTATION">DOM_EVENT_CATEGORY_MUTATION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_OVERFLOW">DOM_EVENT_CATEGORY_OVERFLOW</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_PAGE_TRANSITION">DOM_EVENT_CATEGORY_PAGE_TRANSITION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_POPSTATE">DOM_EVENT_CATEGORY_POPSTATE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_PROGRESS">DOM_EVENT_CATEGORY_PROGRESS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_TEXT">DOM_EVENT_CATEGORY_TEXT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_UI">DOM_EVENT_CATEGORY_UI</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_UNKNOWN">DOM_EVENT_CATEGORY_UNKNOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_WHEEL">DOM_EVENT_CATEGORY_WHEEL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DOM_EVENT_CATEGORY_XMLHTTPREQUEST_PROGRESS">DOM_EVENT_CATEGORY_XMLHTTPREQUEST_PROGRESS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DOM event category flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DRAG_OPERATION_COPY">DRAG_OPERATION_COPY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> &quot;Verb&quot; of a drag-and-drop operation as negotiated between the source and destination. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DRAG_OPERATION_DELETE">DRAG_OPERATION_DELETE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> &quot;Verb&quot; of a drag-and-drop operation as negotiated between the source and destination. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DRAG_OPERATION_EVERY">DRAG_OPERATION_EVERY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> &quot;Verb&quot; of a drag-and-drop operation as negotiated between the source and destination. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DRAG_OPERATION_GENERIC">DRAG_OPERATION_GENERIC</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> &quot;Verb&quot; of a drag-and-drop operation as negotiated between the source and destination. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DRAG_OPERATION_LINK">DRAG_OPERATION_LINK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> &quot;Verb&quot; of a drag-and-drop operation as negotiated between the source and destination. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DRAG_OPERATION_MOVE">DRAG_OPERATION_MOVE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> &quot;Verb&quot; of a drag-and-drop operation as negotiated between the source and destination. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DRAG_OPERATION_NONE">DRAG_OPERATION_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> &quot;Verb&quot; of a drag-and-drop operation as negotiated between the source and destination. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DRAG_OPERATION_PRIVATE">DRAG_OPERATION_PRIVATE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> &quot;Verb&quot; of a drag-and-drop operation as negotiated between the source and destination. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DUPLEX_MODE_LONG_EDGE">DUPLEX_MODE_LONG_EDGE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DUPLEX_MODE_NUM_VALUES">DUPLEX_MODE_NUM_VALUES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DUPLEX_MODE_SHORT_EDGE">DUPLEX_MODE_SHORT_EDGE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DUPLEX_MODE_SIMPLEX">DUPLEX_MODE_SIMPLEX</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#DUPLEX_MODE_UNKNOWN">DUPLEX_MODE_UNKNOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Print job duplex mode values. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ABORTED">ERR_ABORTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An operation was aborted (due to user action). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ACCESS_DENIED">ERR_ACCESS_DENIED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Permission to access a resource, other than the network, was denied. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ADDRESS_INVALID">ERR_ADDRESS_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The IP address or port number is invalid (e.g., cannot connect to the IP address 0 or the port 0). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ADDRESS_IN_USE">ERR_ADDRESS_IN_USE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Returned when attempting to bind an address that is already in use. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ADDRESS_UNREACHABLE">ERR_ADDRESS_UNREACHABLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The IP address is unreachable. This usually means that there is no route to the specified host or network. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ADD_USER_CERT_FAILED">ERR_ADD_USER_CERT_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An error adding a certificate to the OS certificate database. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ALPN_NEGOTIATION_FAILED">ERR_ALPN_NEGOTIATION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The request to negotiate an alternate protocol failed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BAD_SSL_CLIENT_AUTH_CERT">ERR_BAD_SSL_CLIENT_AUTH_CERT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The SSL handshake failed because of a bad or missing client certificate. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOB_DEREFERENCED_WHILE_BUILDING">ERR_BLOB_DEREFERENCED_WHILE_BUILDING</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The renderer destructed the blob before it was done transferring, and there were no outstanding references (no one is waiting to read) to keep the blob alive. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOB_FILE_WRITE_FAILED">ERR_BLOB_FILE_WRITE_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> We couldn't create or write to a file. File system error, like a full disk. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOB_INVALID_CONSTRUCTION_ARGUMENTS">ERR_BLOB_INVALID_CONSTRUCTION_ARGUMENTS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The following errors are for mapped from a subset of invalid storage::BlobStatus. The construction arguments are invalid. This is considered a bad IPC. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOB_OUT_OF_MEMORY">ERR_BLOB_OUT_OF_MEMORY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> We don't have enough memory for the blob. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOB_REFERENCED_BLOB_BROKEN">ERR_BLOB_REFERENCED_BLOB_BROKEN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A blob that we referenced during construction is broken, or a browser-side builder tries to build a blob with a blob reference that isn't finished constructing. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOB_REFERENCED_FILE_UNAVAILABLE">ERR_BLOB_REFERENCED_FILE_UNAVAILABLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A file that we referenced during construction is not accessible to the renderer trying to create the blob. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOB_SOURCE_DIED_IN_TRANSIT">ERR_BLOB_SOURCE_DIED_IN_TRANSIT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The renderer was destroyed while data was in transit. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOCKED_BY_ADMINISTRATOR">ERR_BLOCKED_BY_ADMINISTRATOR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The request was blocked by the URL block list configured by the domain administrator. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOCKED_BY_CLIENT">ERR_BLOCKED_BY_CLIENT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The client chose to block the request. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOCKED_BY_CSP">ERR_BLOCKED_BY_CSP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The request was blocked by a Content Security Policy </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOCKED_BY_FINGERPRINTING_PROTECTION">ERR_BLOCKED_BY_FINGERPRINTING_PROTECTION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The request was blocked by fingerprinting protections. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOCKED_BY_ORB">ERR_BLOCKED_BY_ORB</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The request was blocked by CORB or ORB. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_CHECKS">ERR_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_CHECKS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The connection is blocked by private network access checks. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOCKED_BY_RESPONSE">ERR_BLOCKED_BY_RESPONSE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The request failed because the response was delivered along with requirements which are not met ('X-Frame-Options' and 'Content-Security-Policy' ancestor checks and 'Cross-Origin-Resource-Policy' for instance). </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_POLICY">ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_POLICY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The IP address space of the cached remote endpoint is blocked by private network access check. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_AUTH_FAILURE_AFTER_READ">ERR_CACHE_AUTH_FAILURE_AFTER_READ</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Received a challenge after the transaction has read some data, and the credentials aren't available. There isn't a way to get them at that point. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_CHECKSUM_MISMATCH">ERR_CACHE_CHECKSUM_MISMATCH</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The cache found an entry with an invalid checksum. This can be returned from attempts to read from the cache. It is an internal error, returned by the SimpleCache backend, but not by any URLRequest methods or members. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_CHECKSUM_READ_FAILURE">ERR_CACHE_CHECKSUM_READ_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The cache was unable to read a checksum record on an entry. This can be returned from attempts to read from the cache. It is an internal error, returned by the SimpleCache backend, but not by any URLRequest methods or members. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_CREATE_FAILURE">ERR_CACHE_CREATE_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The disk cache is unable to create this entry. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_DOOM_FAILURE">ERR_CACHE_DOOM_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The disk cache is unable to doom this entry. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_ENTRY_NOT_SUITABLE">ERR_CACHE_ENTRY_NOT_SUITABLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Internal not-quite error code for the HTTP cache. In-memory hints suggest that the cache entry would not have been usable with the transaction's current configuration (e.g. load flags, mode, etc.) </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_LOCK_TIMEOUT">ERR_CACHE_LOCK_TIMEOUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Internal error code for the HTTP cache. The cache lock timeout has fired. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_MISS">ERR_CACHE_MISS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The cache does not have the requested entry. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_OPEN_FAILURE">ERR_CACHE_OPEN_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The disk cache is unable to open this entry. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_OPEN_OR_CREATE_FAILURE">ERR_CACHE_OPEN_OR_CREATE_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The disk cache is unable to open or create this entry. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_OPERATION_NOT_SUPPORTED">ERR_CACHE_OPERATION_NOT_SUPPORTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The operation is not supported for this entry. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_RACE">ERR_CACHE_RACE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Multiple transactions are racing to create disk cache entries. This is an internal error returned from the HttpCache to the HttpCacheTransaction that tells the transaction to restart the entry-creation logic because the state of the cache has changed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_READ_FAILURE">ERR_CACHE_READ_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Unable to read from the disk cache. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_WRITE_FAILURE">ERR_CACHE_WRITE_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Unable to write to the disk cache. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERTIFICATE_TRANSPARENCY_REQUIRED">ERR_CERTIFICATE_TRANSPARENCY_REQUIRED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Certificate Transparency was required for this connection, but the server did not provide CT information that complied with the policy. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_AUTHORITY_INVALID">ERR_CERT_AUTHORITY_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate that is signed by an authority we don't trust. The could mean:
@@ -2085,7 +2090,7 @@
 
 <p>3. The server is presenting a self-signed certificate, providing no defense against active attackers (but foiling passive attackers). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_COMMON_NAME_INVALID">ERR_CERT_COMMON_NAME_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate whose common name did not match the host name. This could mean:
@@ -2098,19 +2103,19 @@
 
 <p>4. The OS has used a DNS search suffix and the server doesn't have a certificate for the abbreviated name in the address bar. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_CONTAINS_ERRORS">ERR_CERT_CONTAINS_ERRORS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate that contains errors. This error is not recoverable.
 
 <p>MSDN describes this error as follows: &quot;The SSL certificate contains errors.&quot; NOTE: It's unclear how this differs from ERR_CERT_INVALID. For consistency, use that code instead of this one from now on. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_DATABASE_CHANGED">ERR_CERT_DATABASE_CHANGED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate database changed in some way. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_DATE_INVALID">ERR_CERT_DATE_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate that, by our clock, appears to either not yet be valid or to have expired. This could mean:
@@ -2121,49 +2126,49 @@
 
 <p>3. Our clock is wrong. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_END">ERR_CERT_END</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The value immediately past the last certificate error code. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_INVALID">ERR_CERT_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate that is invalid. This error is not recoverable.
 
 <p>MSDN describes this error as follows: &quot;The SSL certificate is invalid.&quot; </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_KNOWN_INTERCEPTION_BLOCKED">ERR_CERT_KNOWN_INTERCEPTION_BLOCKED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate is known to be used for interception by an entity other the device owner. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_NAME_CONSTRAINT_VIOLATION">ERR_CERT_NAME_CONSTRAINT_VIOLATION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate claimed DNS names that are in violation of name constraints. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_NON_UNIQUE_NAME">ERR_CERT_NON_UNIQUE_NAME</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The host name specified in the certificate is not unique. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_NO_REVOCATION_MECHANISM">ERR_CERT_NO_REVOCATION_MECHANISM</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate has no mechanism for determining if it is revoked. In effect, this certificate cannot be revoked. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_REVOKED">ERR_CERT_REVOKED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate has been revoked. We have the capability to ignore this error, but it is probably not the thing to do. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_SELF_SIGNED_LOCAL_NETWORK">ERR_CERT_SELF_SIGNED_LOCAL_NETWORK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> -218 was SSL_OBSOLETE_VERSION which is not longer used. TLS 1.0/1.1 instead cause SSL_VERSION_OR_CIPHER_MISMATCH now. The certificate is self signed and it's being used for either an RFC1918 IP literal URL, or a url ending in .local. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_UNABLE_TO_CHECK_REVOCATION">ERR_CERT_UNABLE_TO_CHECK_REVOCATION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Revocation information for the security certificate for this site is not available. This could mean:
@@ -2172,235 +2177,230 @@
 
 <p>2. The certificate is unrevoked, but the revocation server is busy or unavailable. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_VALIDITY_TOO_LONG">ERR_CERT_VALIDITY_TOO_LONG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate's validity period is too long. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_VERIFIER_CHANGED">ERR_CERT_VERIFIER_CHANGED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate verifier configuration changed in some way. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_WEAK_KEY">ERR_CERT_WEAK_KEY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate that contains a weak key (e.g. a too-small RSA key). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_WEAK_SIGNATURE_ALGORITHM">ERR_CERT_WEAK_SIGNATURE_ALGORITHM</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate that is signed using a weak signature algorithm. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CLEARTEXT_NOT_PERMITTED">ERR_CLEARTEXT_NOT_PERMITTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The request was blocked by system policy disallowing some or all cleartext requests. Used for NetworkSecurityPolicy on Android. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CLIENT_AUTH_CERT_TYPE_UNSUPPORTED">ERR_CLIENT_AUTH_CERT_TYPE_UNSUPPORTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Server request for client certificate did not contain any types we support. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONNECTION_ABORTED">ERR_CONNECTION_ABORTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A connection timed out as a result of not receiving an ACK for data sent. This can include a FIN packet that did not get ACK'd. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONNECTION_CLOSED">ERR_CONNECTION_CLOSED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A connection was closed (corresponding to a TCP FIN). </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONNECTION_FAILED">ERR_CONNECTION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A connection attempt failed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONNECTION_REFUSED">ERR_CONNECTION_REFUSED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A connection attempt was refused. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONNECTION_RESET">ERR_CONNECTION_RESET</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A connection was reset (corresponding to a TCP RST). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONNECTION_TIMED_OUT">ERR_CONNECTION_TIMED_OUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A connection attempt timed out. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONTENT_DECODING_FAILED">ERR_CONTENT_DECODING_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Content decoding of the response body failed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONTENT_DECODING_INIT_FAILED">ERR_CONTENT_DECODING_INIT_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Initializing content decoding failed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONTENT_LENGTH_MISMATCH">ERR_CONTENT_LENGTH_MISMATCH</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The HTTP response body transferred fewer bytes than were advertised by the Content-Length header when the connection is closed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONTEXT_SHUT_DOWN">ERR_CONTEXT_SHUT_DOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The request failed because the URLRequestContext is shutting down, or has been shut down. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CT_CONSISTENCY_PROOF_PARSING_FAILED">ERR_CT_CONSISTENCY_PROOF_PARSING_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Certificate Transparency: Failed to parse the received consistency proof. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CT_STH_INCOMPLETE">ERR_CT_STH_INCOMPLETE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Certificate Transparency: Received a signed tree head whose JSON parsing was OK but was missing some of the fields. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CT_STH_PARSING_FAILED">ERR_CT_STH_PARSING_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Certificate Transparency: Received a signed tree head that failed to parse. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DICTIONARY_LOAD_FAILED">ERR_DICTIONARY_LOAD_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The compression dictionary cannot be loaded. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DISALLOWED_URL_SCHEME">ERR_DISALLOWED_URL_SCHEME</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The scheme of the URL is disallowed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_MALFORMED_RESPONSE">ERR_DNS_MALFORMED_RESPONSE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DNS resolver received a malformed response. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_NAME_HTTPS_ONLY">ERR_DNS_NAME_HTTPS_ONLY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DNS identified the request as disallowed for insecure connection (http/ws). Error should be handled as if an HTTP redirect was received to redirect to https or wss. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_NO_MATCHING_SUPPORTED_ALPN">ERR_DNS_NO_MATCHING_SUPPORTED_ALPN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The hostname resolution of HTTPS record was expected to be resolved with alpn values of supported protocols, but did not. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_REQUEST_CANCELLED">ERR_DNS_REQUEST_CANCELLED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> All DNS requests associated with this job have been cancelled. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_SEARCH_EMPTY">ERR_DNS_SEARCH_EMPTY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Suffix search list rules prevent resolution of the given host name. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_SECURE_PROBE_RECORD_INVALID">ERR_DNS_SECURE_PROBE_RECORD_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> When checking whether secure DNS can be used, the response returned for the requested probe record either had no answer or was invalid. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_SECURE_RESOLVER_HOSTNAME_RESOLUTION_FAILED">ERR_DNS_SECURE_RESOLVER_HOSTNAME_RESOLUTION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Failed to resolve the hostname of a DNS-over-HTTPS server. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_SERVER_FAILED">ERR_DNS_SERVER_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DNS server failed. This error is returned for all of the following error conditions: 1 - Format error - The name server was unable to interpret the query. 2 - Server failure - The name server was unable to process this query due to a problem with the name server. 4 - Not Implemented - The name server does not support the requested kind of query. 5 - Refused - The name server refuses to perform the specified operation for policy reasons. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_SERVER_REQUIRES_TCP">ERR_DNS_SERVER_REQUIRES_TCP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DNS server requires TCP </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_SORT_ERROR">ERR_DNS_SORT_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Failed to sort addresses according to RFC3484. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_TIMED_OUT">ERR_DNS_TIMED_OUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DNS transaction timed out. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_EARLY_DATA_REJECTED">ERR_EARLY_DATA_REJECTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> TLS 1.3 early data was rejected by the server. This will be received before any data is returned from the socket. The request should be retried with early data disabled. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ECH_FALLBACK_CERTIFICATE_INVALID">ERR_ECH_FALLBACK_CERTIFICATE_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> ECH was enabled, the server was unable to decrypt the encrypted ClientHello, and additionally did not present a certificate valid for the public name. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ECH_NOT_NEGOTIATED">ERR_ECH_NOT_NEGOTIATED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> ECH was enabled, but the server was unable to decrypt the encrypted ClientHello. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_EMPTY_RESPONSE">ERR_EMPTY_RESPONSE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server closed the connection without sending any data. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ENCODING_CONVERSION_FAILED">ERR_ENCODING_CONVERSION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Converting the response to target encoding failed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ENCODING_DETECTION_FAILED">ERR_ENCODING_DETECTION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Detecting the encoding of the response failed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FAILED">ERR_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A generic failure occurred. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FILE_EXISTS">ERR_FILE_EXISTS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The file already exists. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FILE_NOT_FOUND">ERR_FILE_NOT_FOUND</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The file or directory cannot be found. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FILE_NO_SPACE">ERR_FILE_NO_SPACE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Not enough room left on the disk. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FILE_PATH_TOO_LONG">ERR_FILE_PATH_TOO_LONG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The path or file name is too long. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FILE_TOO_BIG">ERR_FILE_TOO_BIG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The file is too large. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FILE_VIRUS_INFECTED">ERR_FILE_VIRUS_INFECTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The file has a virus. </p></td>
-</tr>
-<tr class="list">
-<td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_H2_OR_QUIC_REQUIRED">ERR_H2_OR_QUIC_REQUIRED</a></td>
-<td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
-<td class="itemdesc"><p> The request was blocked because of no H/2 or QUIC session. </p></td>
 </tr>
 <tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_HOST_RESOLVER_QUEUE_TOO_LARGE">ERR_HOST_RESOLVER_QUEUE_TOO_LARGE</a></td>
@@ -5056,1111 +5056,1116 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
+<td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SHOW_SEARCH_TOOLS">IDC_SHOW_SEARCH_TOOLS</a></td>
+<td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SHOW_SETTINGS_CHANGE_FIRST">IDC_SHOW_SETTINGS_CHANGE_FIRST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SHOW_SETTINGS_CHANGE_LAST">IDC_SHOW_SETTINGS_CHANGE_LAST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SHOW_SETTINGS_RESET_BUBBLE">IDC_SHOW_SETTINGS_RESET_BUBBLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SHOW_SIGNIN_WHEN_PAUSED">IDC_SHOW_SIGNIN_WHEN_PAUSED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SHOW_SRT_BUBBLE">IDC_SHOW_SRT_BUBBLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SHOW_SYNC_SETTINGS">IDC_SHOW_SYNC_SETTINGS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SHOW_TRANSLATE">IDC_SHOW_TRANSLATE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SPELLCHECK_ADD_TO_DICTIONARY">IDC_SPELLCHECK_ADD_TO_DICTIONARY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SPELLCHECK_LANGUAGES_FIRST">IDC_SPELLCHECK_LANGUAGES_FIRST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SPELLCHECK_LANGUAGES_LAST">IDC_SPELLCHECK_LANGUAGES_LAST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SPELLCHECK_MENU">IDC_SPELLCHECK_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SPELLCHECK_MULTI_LINGUAL">IDC_SPELLCHECK_MULTI_LINGUAL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SPELLCHECK_SUGGESTION_0">IDC_SPELLCHECK_SUGGESTION_0</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SPELLCHECK_SUGGESTION_1">IDC_SPELLCHECK_SUGGESTION_1</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SPELLCHECK_SUGGESTION_2">IDC_SPELLCHECK_SUGGESTION_2</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SPELLCHECK_SUGGESTION_3">IDC_SPELLCHECK_SUGGESTION_3</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SPELLCHECK_SUGGESTION_4">IDC_SPELLCHECK_SUGGESTION_4</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_SPELLPANEL_TOGGLE">IDC_SPELLPANEL_TOGGLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_STATUS_TRAY_KEEP_CHROME_RUNNING_IN_BACKGROUND">IDC_STATUS_TRAY_KEEP_CHROME_RUNNING_IN_BACKGROUND</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_STATUS_TRAY_KEEP_CHROME_RUNNING_IN_BACKGROUND_SETTING">IDC_STATUS_TRAY_KEEP_CHROME_RUNNING_IN_BACKGROUND_SETTING</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_STOP">IDC_STOP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TAB_MENU">IDC_TAB_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TAB_SEARCH">IDC_TAB_SEARCH</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TAB_SEARCH_CLOSE">IDC_TAB_SEARCH_CLOSE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TAKE_SCREENSHOT">IDC_TAKE_SCREENSHOT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TASK_MANAGER">IDC_TASK_MANAGER</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TASK_MANAGER_APP_MENU">IDC_TASK_MANAGER_APP_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TASK_MANAGER_CONTEXT_MENU">IDC_TASK_MANAGER_CONTEXT_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TASK_MANAGER_MAIN_MENU">IDC_TASK_MANAGER_MAIN_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TASK_MANAGER_SHORTCUT">IDC_TASK_MANAGER_SHORTCUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TOGGLE_FULLSCREEN_TOOLBAR">IDC_TOGGLE_FULLSCREEN_TOOLBAR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TOGGLE_JAVASCRIPT_APPLE_EVENTS">IDC_TOGGLE_JAVASCRIPT_APPLE_EVENTS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TOGGLE_MULTITASK_MENU">IDC_TOGGLE_MULTITASK_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TOGGLE_REQUEST_TABLET_SITE">IDC_TOGGLE_REQUEST_TABLET_SITE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TRANSLATE_ORIGINAL_LANGUAGE_BASE">IDC_TRANSLATE_ORIGINAL_LANGUAGE_BASE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TRANSLATE_TARGET_LANGUAGE_BASE">IDC_TRANSLATE_TARGET_LANGUAGE_BASE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_TURN_ON_SYNC">IDC_TURN_ON_SYNC</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_UPDATE_SIDE_PANEL_PIN_STATE">IDC_UPDATE_SIDE_PANEL_PIN_STATE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_UPGRADE_DIALOG">IDC_UPGRADE_DIALOG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_USE_SYSTEM_TITLE_BAR">IDC_USE_SYSTEM_TITLE_BAR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_VIEW_MENU">IDC_VIEW_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_VIEW_PASSWORDS">IDC_VIEW_PASSWORDS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_VIEW_SOURCE">IDC_VIEW_SOURCE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_VIRTUAL_CARD_ENROLL">IDC_VIRTUAL_CARD_ENROLL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_VISIT_DESKTOP_OF_LRU_USER_2">IDC_VISIT_DESKTOP_OF_LRU_USER_2</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_VISIT_DESKTOP_OF_LRU_USER_3">IDC_VISIT_DESKTOP_OF_LRU_USER_3</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_VISIT_DESKTOP_OF_LRU_USER_4">IDC_VISIT_DESKTOP_OF_LRU_USER_4</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_VISIT_DESKTOP_OF_LRU_USER_5">IDC_VISIT_DESKTOP_OF_LRU_USER_5</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_WEBAUTHN">IDC_WEBAUTHN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_WEB_APP_MENU_APP_INFO">IDC_WEB_APP_MENU_APP_INFO</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_WEB_APP_SETTINGS">IDC_WEB_APP_SETTINGS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_WINDOW_CLOSE_OTHER_TABS">IDC_WINDOW_CLOSE_OTHER_TABS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_WINDOW_CLOSE_TABS_TO_RIGHT">IDC_WINDOW_CLOSE_TABS_TO_RIGHT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_WINDOW_GROUP_TAB">IDC_WINDOW_GROUP_TAB</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_WINDOW_MENU">IDC_WINDOW_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_WINDOW_MUTE_SITE">IDC_WINDOW_MUTE_SITE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_WINDOW_PIN_TAB">IDC_WINDOW_PIN_TAB</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_WRITING_DIRECTION_DEFAULT">IDC_WRITING_DIRECTION_DEFAULT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_WRITING_DIRECTION_LTR">IDC_WRITING_DIRECTION_LTR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_WRITING_DIRECTION_MENU">IDC_WRITING_DIRECTION_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_WRITING_DIRECTION_RTL">IDC_WRITING_DIRECTION_RTL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_ZOOM_MENU">IDC_ZOOM_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_ZOOM_MINUS">IDC_ZOOM_MINUS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_ZOOM_NORMAL">IDC_ZOOM_NORMAL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_ZOOM_PLUS">IDC_ZOOM_PLUS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#INFINITE">INFINITE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#JSON_WRITER_DEFAULT">JSON_WRITER_DEFAULT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Default behavior. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#JSON_WRITER_OMIT_BINARY_VALUES">JSON_WRITER_OMIT_BINARY_VALUES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> This option instructs the writer that if a Binary value is encountered, the value (and key if within a dictionary) will be omitted from the output, and success will be returned. Otherwise, if a binary value is encountered, failure will be returned. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#JSON_WRITER_OMIT_DOUBLE_TYPE_PRESERVATION">JSON_WRITER_OMIT_DOUBLE_TYPE_PRESERVATION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> This option instructs the writer to write doubles that have no fractional part as a normal integer (i.e., without using exponential notation or appending a '.0') as long as the value is within the range of a 64-bit int. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#JSON_WRITER_PRETTY_PRINT">JSON_WRITER_PRETTY_PRINT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Return a slightly nicer formatted json string (pads with whitespace to help with readability). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#Kernel32DLL">Kernel32DLL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFOSRIMEHandler.html#KEYBOARD_LAYOUT_EN_US">KEYBOARD_LAYOUT_EN_US</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOSRIMEHandler.html">uCEFOSRIMEHandler</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplication.html#LIBCEF_DLL">LIBCEF_DLL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplication.html">uCEFApplication</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplicationCore.html#LIBCEF_DLL">LIBCEF_DLL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationCore.html">uCEFApplicationCore</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationCore.html#LIBCEF_LOCALE_DIR">LIBCEF_LOCALE_DIR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationCore.html">uCEFApplicationCore</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFApplicationCore.html#LIBCEF_LOCALE_ENUS">LIBCEF_LOCALE_ENUS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationCore.html">uCEFApplicationCore</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFApplicationCore.html#LIBCEF_PAK">LIBCEF_PAK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFApplicationCore.html">uCEFApplicationCore</a></td>
 <td class="itemdesc"><p>for InitLibLocationFromArgs</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOGSEVERITY_DEBUG">LOGSEVERITY_DEBUG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DEBUG logging. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOGSEVERITY_DEFAULT">LOGSEVERITY_DEFAULT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Default logging (currently INFO logging). </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOGSEVERITY_DISABLE">LOGSEVERITY_DISABLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Disable logging to file for all messages, and to stderr for messages with severity less than FATAL. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOGSEVERITY_ERROR">LOGSEVERITY_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> ERROR logging. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOGSEVERITY_FATAL">LOGSEVERITY_FATAL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> FATAL logging. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOGSEVERITY_INFO">LOGSEVERITY_INFO</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> INFO logging. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOGSEVERITY_VERBOSE">LOGSEVERITY_VERBOSE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Verbose logging. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOGSEVERITY_WARNING">LOGSEVERITY_WARNING</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> WARNING logging. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOG_ITEMS_DEFAULT">LOG_ITEMS_DEFAULT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Prepend the default list of items. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOG_ITEMS_FLAG_PROCESS_ID">LOG_ITEMS_FLAG_PROCESS_ID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Prepend the process ID. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOG_ITEMS_FLAG_THREAD_ID">LOG_ITEMS_FLAG_THREAD_ID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Prepend the thread ID. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOG_ITEMS_FLAG_TICK_COUNT">LOG_ITEMS_FLAG_TICK_COUNT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Prepend the tickcount. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOG_ITEMS_FLAG_TIME_STAMP">LOG_ITEMS_FLAG_TIME_STAMP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Prepend the timestamp. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#LOG_ITEMS_NONE">LOG_ITEMS_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Prepend no items. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_ADD_TO_DICTIONARY">MENU_ID_ADD_TO_DICTIONARY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_BACK">MENU_ID_BACK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Navigation.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_COPY">MENU_ID_COPY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_CUSTOM_FIRST">MENU_ID_CUSTOM_FIRST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Custom menu items originating from the renderer process.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_CUSTOM_LAST">MENU_ID_CUSTOM_LAST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_CUT">MENU_ID_CUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_DELETE">MENU_ID_DELETE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_FIND">MENU_ID_FIND</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Miscellaneous.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_FORWARD">MENU_ID_FORWARD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_NO_SPELLING_SUGGESTIONS">MENU_ID_NO_SPELLING_SUGGESTIONS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_PASTE">MENU_ID_PASTE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_PASTE_MATCH_STYLE">MENU_ID_PASTE_MATCH_STYLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_PRINT">MENU_ID_PRINT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_REDO">MENU_ID_REDO</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_RELOAD">MENU_ID_RELOAD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_RELOAD_NOCACHE">MENU_ID_RELOAD_NOCACHE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_SELECT_ALL">MENU_ID_SELECT_ALL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_SPELLCHECK_SUGGESTION_0">MENU_ID_SPELLCHECK_SUGGESTION_0</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Spell checking word correction suggestions.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_SPELLCHECK_SUGGESTION_1">MENU_ID_SPELLCHECK_SUGGESTION_1</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_SPELLCHECK_SUGGESTION_2">MENU_ID_SPELLCHECK_SUGGESTION_2</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_SPELLCHECK_SUGGESTION_3">MENU_ID_SPELLCHECK_SUGGESTION_3</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_SPELLCHECK_SUGGESTION_4">MENU_ID_SPELLCHECK_SUGGESTION_4</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_SPELLCHECK_SUGGESTION_LAST">MENU_ID_SPELLCHECK_SUGGESTION_LAST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_STOPLOAD">MENU_ID_STOPLOAD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_UNDO">MENU_ID_UNDO</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Editing.</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_USER_FIRST">MENU_ID_USER_FIRST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> All user-defined menu IDs should come between MENU_ID_USER_FIRST and MENU_ID_USER_LAST to avoid overlapping the Chromium and CEF ID ranges defined in the tools/gritsettings/resource_ids file. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_USER_LAST">MENU_ID_USER_LAST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#MENU_ID_VIEW_SOURCE">MENU_ID_VIEW_SOURCE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#Netapi32DLL">Netapi32DLL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#NTDLL">NTDLL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#pfidLinux">pfidLinux</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#pfidOSX">pfidOSX</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#pfidWindows">pfidWindows</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#pidLinux64">pidLinux64</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#pidOSX32">pidOSX32</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#pidOSX64">pidOSX64</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#pidOSXArm64">pidOSXArm64</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#pidWin32">pidWin32</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>If any of the platform IDs are not defined then we set them as 0 to avoid build errors on older Delphi versions.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#pidWin64">pidWin64</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#QM_EDITFLAG_CAN_COPY">QM_EDITFLAG_CAN_COPY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#QM_EDITFLAG_CAN_CUT">QM_EDITFLAG_CAN_CUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#QM_EDITFLAG_CAN_ELLIPSIS">QM_EDITFLAG_CAN_ELLIPSIS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#QM_EDITFLAG_CAN_PASTE">QM_EDITFLAG_CAN_PASTE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#QM_EDITFLAG_NONE">QM_EDITFLAG_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported quick menu state bit flags. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#SHLWAPIDLL">SHLWAPIDLL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#SSL_CONNECTION_VERSION_NUM_VALUES">SSL_CONNECTION_VERSION_NUM_VALUES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#SSL_CONNECTION_VERSION_QUIC">SSL_CONNECTION_VERSION_QUIC</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#SSL_CONNECTION_VERSION_SSL2">SSL_CONNECTION_VERSION_SSL2</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#SSL_CONNECTION_VERSION_SSL3">SSL_CONNECTION_VERSION_SSL3</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#SSL_CONNECTION_VERSION_TLS1">SSL_CONNECTION_VERSION_TLS1</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#SSL_CONNECTION_VERSION_TLS1_1">SSL_CONNECTION_VERSION_TLS1_1</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#SSL_CONNECTION_VERSION_TLS1_2">SSL_CONNECTION_VERSION_TLS1_2</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#SSL_CONNECTION_VERSION_TLS1_3">SSL_CONNECTION_VERSION_TLS1_3</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#SSL_CONNECTION_VERSION_UNKNOWN">SSL_CONNECTION_VERSION_UNKNOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported SSL version values. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#SSL_CONTENT_DISPLAYED_INSECURE_CONTENT">SSL_CONTENT_DISPLAYED_INSECURE_CONTENT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#SSL_CONTENT_NORMAL_CONTENT">SSL_CONTENT_NORMAL_CONTENT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported SSL content status flags. See content/public/common/ssl_status.h for more information. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#SSL_CONTENT_RAN_INSECURE_CONTENT">SSL_CONTENT_RAN_INSECURE_CONTENT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_AUTO_BOOKMARK">TT_AUTO_BOOKMARK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> User got to this page through a suggestion in the UI (for example, via the destinations page). Chrome style only. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_AUTO_SUBFRAME">TT_AUTO_SUBFRAME</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Source is a subframe navigation. This is any content that is automatically loaded in a non-toplevel frame. For example, if a page consists of several frames containing ads, those ad URLs will have this transition type. The user may not even realize the content in these pages is a separate frame, so may not care about the URL. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_AUTO_TOPLEVEL">TT_AUTO_TOPLEVEL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> This is a toplevel navigation. This is any content that is automatically loaded in a toplevel frame. For example, opening a tab to show the ASH screen saver, opening the devtools window, opening the NTP after the safe browsing warning, opening web-based dialog boxes are examples of AUTO_TOPLEVEL navigations. Chrome style only. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_BLOCKED_FLAG">TT_BLOCKED_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Attempted to visit a URL but was blocked. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_CHAIN_END_FLAG">TT_CHAIN_END_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The last transition in a redirect chain. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_CHAIN_START_FLAG">TT_CHAIN_START_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The beginning of a navigation chain. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_CLIENT_REDIRECT_FLAG">TT_CLIENT_REDIRECT_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Redirects caused by JavaScript or a meta refresh tag on the page. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_DIRECT_LOAD_FLAG">TT_DIRECT_LOAD_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Loaded a URL directly via CreateBrowser, LoadURL or LoadRequest. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_EXPLICIT">TT_EXPLICIT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Source is some other &quot;explicit&quot; navigation. This is the default value for navigations where the actual type is unknown. See also TT_DIRECT_LOAD_FLAG. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_FORM_SUBMIT">TT_FORM_SUBMIT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Source is a form submission by the user. NOTE: In some situations submitting a form does not result in this transition type. This can happen if the form uses a script to submit the contents. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_FORWARD_BACK_FLAG">TT_FORWARD_BACK_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Used the Forward or Back function to navigate among browsing history. Will be ORed to the transition type for the original load. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_FROM_API_FLAG">TT_FROM_API_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The transition originated from an external application; the exact definition of this is embedder dependent. Chrome style only. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_GENERATED">TT_GENERATED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> User got to this page by typing in the URL bar and selecting an entry that did not look like a URL. For example, a match might have the URL of a Google search result page, but appear like &quot;Search Google for ...&quot;. These are not quite the same as EXPLICIT navigations because the user didn't type or see the destination URL. Chrome style only. See also TT_KEYWORD. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_HOME_PAGE_FLAG">TT_HOME_PAGE_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> User is navigating to the home page. Chrome style only. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_IS_REDIRECT_MASK">TT_IS_REDIRECT_MASK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Used to test whether a transition involves a redirect. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_KEYWORD">TT_KEYWORD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The url was generated from a replaceable keyword other than the default search provider. If the user types a keyword (which also applies to tab-to-search) in the omnibox this qualifier is applied to the transition type of the generated url. TemplateURLModel then may generate an additional visit with a transition type of TT_KEYWORD_GENERATED against the url '<a href="http://">http://</a>' + keyword. For example, if you do a tab-to-search against wikipedia the generated url has a transition qualifer of TT_KEYWORD, and TemplateURLModel generates a visit for 'wikipedia.org' with a transition type of TT_KEYWORD_GENERATED. Chrome style only. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_KEYWORD_GENERATED">TT_KEYWORD_GENERATED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Corresponds to a visit generated for a keyword. See description of TT_KEYWORD for more details. Chrome style only. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_LINK">TT_LINK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Source is a link click or the JavaScript window.open function. This is also the default value for requests like sub-resource loads that are not navigations. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_MANUAL_SUBFRAME">TT_MANUAL_SUBFRAME</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Source is a subframe navigation explicitly requested by the user that will generate new navigation entries in the back/forward list. These are probably more important than frames that were automatically loaded in the background because the user probably cares about the fact that this link was loaded. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_NUM_VALUES">TT_NUM_VALUES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Number of TCefTransitionType values. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_QUALIFIER_MASK">TT_QUALIFIER_MASK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> General mask defining the bits used for the qualifiers. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_RELOAD">TT_RELOAD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Source is a &quot;reload&quot; of the page via the Reload function or by re-visiting the same URL. NOTE: This is distinct from the concept of whether a particular load uses &quot;reload semantics&quot; (i.e. bypasses cached data). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_SERVER_REDIRECT_FLAG">TT_SERVER_REDIRECT_FLAG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Redirects sent from the server by HTTP headers. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#TT_SOURCE_MASK">TT_SOURCE_MASK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> General mask defining the bits used for the source values. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_ALLOW_STORED_CREDENTIALS">UR_FLAG_ALLOW_STORED_CREDENTIALS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set user name, password, and cookies may be sent with the request, and cookies may be saved from the response. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_DISABLE_CACHE">UR_FLAG_DISABLE_CACHE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set the cache will not be used at all. Setting this value is equivalent to specifying the &quot;Cache-Control: no-store&quot; request header. Setting this value in combination with UR_FLAG_ONLY_FROM_CACHE will cause the request to fail. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_NONE">UR_FLAG_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Default behavior. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_NO_DOWNLOAD_DATA">UR_FLAG_NO_DOWNLOAD_DATA</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set the ICefURLRequestClient.OnDownloadData method will not be called. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_NO_RETRY_ON_5XX">UR_FLAG_NO_RETRY_ON_5XX</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set 5XX redirect errors will be propagated to the observer instead of automatically re-tried. This currently only applies for requests originated in the browser process. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_ONLY_FROM_CACHE">UR_FLAG_ONLY_FROM_CACHE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set the request will fail if it cannot be served from the cache (or some equivalent local store). Setting this value is equivalent to specifying the &quot;Cache-Control: only-if-cached&quot; request header. Setting this value in combination with UR_FLAG_SKIP_CACHE or UR_FLAG_DISABLE_CACHE will cause the request to fail. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_REPORT_UPLOAD_PROGRESS">UR_FLAG_REPORT_UPLOAD_PROGRESS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set upload progress events will be generated when a request has a body. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_SKIP_CACHE">UR_FLAG_SKIP_CACHE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set the cache will be skipped when handling the request. Setting this value is equivalent to specifying the &quot;Cache-Control: no-cache&quot; request header. Setting this value in combination with UR_FLAG_ONLY_FROM_CACHE will cause the request to fail. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UR_FLAG_STOP_ON_REDIRECT">UR_FLAG_STOP_ON_REDIRECT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> If set 3XX responses will cause the fetch to halt immediately rather than continue through the redirect. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#User32DLL">User32DLL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#USER_DEFAULT_SCREEN_DPI">USER_DEFAULT_SCREEN_DPI</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UU_NONE">UU_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Don't unescape anything at all. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UU_NORMAL">UU_NORMAL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Don't unescape anything special, but all normal unescaping will happen. This is a placeholder and can't be combined with other flags (since it's just the absence of them). All other unescape rules imply &quot;normal&quot; in addition to their special meaning. Things like escaped letters, digits, and most symbols will get unescaped with this mode. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UU_PATH_SEPARATORS">UU_PATH_SEPARATORS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Unescapes '/' and '\\'. If these characters were unescaped, the resulting URL won't be the same as the source one. Moreover, they are dangerous to unescape in strings that will be used as file paths or names. This value should only be used when slashes don't have special meaning, like data URLs. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UU_REPLACE_PLUS_WITH_SPACE">UU_REPLACE_PLUS_WITH_SPACE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> URL queries use &quot;+&quot; for space. This flag controls that replacement. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UU_SPACES">UU_SPACES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Convert %20 to spaces. In some places where we're showing URLs, we may want this. In places where the URL may be copied and pasted out, then you wouldn't want this since it might not be interpreted in one piece by other applications. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#UU_URL_SPECIAL_CHARS_EXCEPT_PATH_SEPARATORS">UU_URL_SPECIAL_CHARS_EXCEPT_PATH_SEPARATORS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Unescapes various characters that will change the meaning of URLs, including '%', '+', '&amp;', '#'. Does not unescape path separators. If these characters were unescaped, the resulting URL won't be the same as the source one. This flag is used when generating final output like filenames for URLs where we won't be interpreting as a URL and want to do as much unescaping as possible. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#V8_PROPERTY_ATTRIBUTE_DONTDELETE">V8_PROPERTY_ATTRIBUTE_DONTDELETE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Not configurable</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#V8_PROPERTY_ATTRIBUTE_DONTENUM">V8_PROPERTY_ATTRIBUTE_DONTENUM</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Not enumerable</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#V8_PROPERTY_ATTRIBUTE_NONE">V8_PROPERTY_ATTRIBUTE_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Writeable, Enumerable, Configurable</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#V8_PROPERTY_ATTRIBUTE_READONLY">V8_PROPERTY_ATTRIBUTE_READONLY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Not writeable</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#WM_POINTERDOWN">WM_POINTERDOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#WM_POINTERUP">WM_POINTERUP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#WM_POINTERUPDATE">WM_POINTERUPDATE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#WM_TOUCH">WM_TOUCH</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>Lazarus and some old Delphi versions don't have these message contants</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#YOUTUBE_RESTRICT_MODERATE">YOUTUBE_RESTRICT_MODERATE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#YOUTUBE_RESTRICT_OFF">YOUTUBE_RESTRICT_OFF</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>delay in ms to enable the browser focus &lt;summary&gt; YouTube restrict mode. &lt;/summary&gt; &lt;remarks&gt; &lt;para&gt;&lt;see href=&quot;<a href="https://chromium.googlesource.com/chromium/src/">https://chromium.googlesource.com/chromium/src/</a>+/refs/tags/77.0.3865.90/chrome/common/net/safe_search_util.h&quot;&gt;Chromium source file: /chrome/common/net/safe_search_util.h (YouTubeRestrictMode)&lt;/see&gt;&lt;/para&gt; &lt;para&gt;&lt;see href=&quot;<a href="https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict">https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict</a>&quot;&gt;Chromium policy list: <a href="https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict">https://www.chromium.org/administrators/policy-list-3#ForceYouTubeRestrict</a>&lt;/see&gt;&lt;/para&gt; &lt;/remarks&gt;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#YOUTUBE_RESTRICT_STRICT">YOUTUBE_RESTRICT_STRICT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZoomStepValues">ZoomStepValues</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_PCT_DELTA">ZOOM_PCT_DELTA</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_100">ZOOM_STEP_100</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_110">ZOOM_STEP_110</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_125">ZOOM_STEP_125</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_150">ZOOM_STEP_150</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_175">ZOOM_STEP_175</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_200">ZOOM_STEP_200</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_25">ZOOM_STEP_25</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_250">ZOOM_STEP_250</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_300">ZOOM_STEP_300</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_33">ZOOM_STEP_33</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_400">ZOOM_STEP_400</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_50">ZOOM_STEP_50</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_500">ZOOM_STEP_500</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_67">ZOOM_STEP_67</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_75">ZOOM_STEP_75</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_90">ZOOM_STEP_90</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_DEF">ZOOM_STEP_DEF</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_MAX">ZOOM_STEP_MAX</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_MIN">ZOOM_STEP_MIN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ZOOM_STEP_UNK">ZOOM_STEP_UNK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>

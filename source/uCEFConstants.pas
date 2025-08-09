@@ -265,14 +265,6 @@ const
   /// </remarks>
   ERR_BLOCKED_BY_CSP                                          = -30;
   /// <summary>
-  /// The request was blocked because of no H/2 or QUIC session.
-  /// </summary>
-  /// <remarks>
-  /// <para>TCefErrorCode value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
-  /// </remarks>
-  ERR_H2_OR_QUIC_REQUIRED                                     = -31;
-  /// <summary>
   /// The request was blocked by CORB or ORB.
   /// </summary>
   /// <remarks>
@@ -2411,6 +2403,7 @@ const
   IDC_SHOW_HISTORY_SIDE_PANEL = 40293;
   IDC_OPEN_GLIC = 40294;
   IDC_FIND_EXTENSIONS = 40295;
+  IDC_SHOW_SEARCH_TOOLS = 40296;
   IDC_SPELLCHECK_SUGGESTION_0 = 41000;
   IDC_SPELLCHECK_SUGGESTION_1 = 41001;
   IDC_SPELLCHECK_SUGGESTION_2 = 41002;
@@ -4827,6 +4820,16 @@ IDC_GLIC_TOGGLE_PIN = 53320;
   /// </remarks>
   CEF_RESULT_CODE_NORMAL_EXIT_AUTO_DE_ELEVATED = 38;  {* CEF_API_ADDED(13800) *}
   /// <summary>
+  /// Upon encountering a commit failure in a process, PartitionAlloc terminated
+  /// another process deemed less important.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// </remarks>
+  CEF_RESULT_CODE_TERMINATED_BY_OTHER_PROCESS_ON_COMMIT_FAILURE = 39;   {* CEF_API_ADDED(13900) *}
+  /// <summary>
   /// Last Chrome result code.
   /// </summary>
   /// <remarks>
@@ -4834,7 +4837,7 @@ IDC_GLIC_TOGGLE_PIN = 53320;
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
   /// </remarks>
-  CEF_RESULT_CODE_CHROME_LAST = 39;
+  CEF_RESULT_CODE_CHROME_LAST = 40;
   /// <summary>
   /// First Sandbox result code.
   /// </summary>

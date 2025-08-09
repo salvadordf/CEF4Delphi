@@ -3,15 +3,15 @@ CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chro
 
 CEF4Delphi is based on DCEF3 and fpCEF3. The original license of those projects still applies to CEF4Delphi. Read the license terms in the LICENSE.md file.
 
-CEF4Delphi uses CEF 138.0.36 which includes Chromium 138.0.7204.184.
+CEF4Delphi uses CEF 139.0.17 which includes Chromium 139.0.7258.31.
 
 The CEF binaries used by CEF4Delphi are available for download at Spotify :
-* [Windows   32 bits](https://cef-builds.spotifycdn.com/cef_binary_138.0.36%2Bg52669d7%2Bchromium-138.0.7204.184_windows32.tar.bz2)
-* [Windows   64 bits](https://cef-builds.spotifycdn.com/cef_binary_138.0.36%2Bg52669d7%2Bchromium-138.0.7204.184_windows64.tar.bz2)
-* [Linux x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_138.0.36%2Bg52669d7%2Bchromium-138.0.7204.184_linux64.tar.bz2)
-* [Linux ARM 32 bits](https://cef-builds.spotifycdn.com/cef_binary_138.0.36%2Bg52669d7%2Bchromium-138.0.7204.184_linuxarm.tar.bz2)
-* [Linux ARM 64 bits](https://cef-builds.spotifycdn.com/cef_binary_138.0.36%2Bg52669d7%2Bchromium-138.0.7204.184_linuxarm64.tar.bz2)
-* [MacOS x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_138.0.36%2Bg52669d7%2Bchromium-138.0.7204.184_macosx64.tar.bz2)
+* [Windows   32 bits](https://cef-builds.spotifycdn.com/cef_binary_139.0.17%2Bg6c347eb%2Bchromium-139.0.7258.31_windows32.tar.bz2)
+* [Windows   64 bits](https://cef-builds.spotifycdn.com/cef_binary_139.0.17%2Bg6c347eb%2Bchromium-139.0.7258.31_windows64.tar.bz2)
+* [Linux x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_139.0.17%2Bg6c347eb%2Bchromium-139.0.7258.31_linux64.tar.bz2)
+* [Linux ARM 32 bits](https://cef-builds.spotifycdn.com/cef_binary_139.0.17%2Bg6c347eb%2Bchromium-139.0.7258.31_linuxarm.tar.bz2)
+* [Linux ARM 64 bits](https://cef-builds.spotifycdn.com/cef_binary_139.0.17%2Bg6c347eb%2Bchromium-139.0.7258.31_linuxarm64.tar.bz2)
+* [MacOS x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_139.0.17%2Bg6c347eb%2Bchromium-139.0.7258.31_macosx64.tar.bz2)
 
 CEF4Delphi was developed and tested on Delphi 12.3 and it has been tested in Delphi 6, Delphi XE, Delphi 10, Delphi 11 and Lazarus 4.2/FPC 3.2.2. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
 
