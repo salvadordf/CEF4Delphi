@@ -1,13 +1,11 @@
 program KioskBrowser;
 
+{$MODE Delphi}
+
 {$I ..\..\..\source\cef.inc}
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Vcl.Forms,
-  {$ELSE}
-  Forms,
-  {$ENDIF }
+  Forms, Interfaces,
   uCEFApplication,
   uKioskBrowser in 'uKioskBrowser.pas' {Form1},
   uVirtualTouchKeyboard in 'uVirtualTouchKeyboard.pas';
@@ -34,7 +32,7 @@ begin
       Application.MainFormOnTaskbar := True;
       {$ENDIF}
       Application.CreateForm(TForm1, Form1);
-  Application.Run;
+      Application.Run;
     end;
 
   DestroyGlobalCEFApp;

@@ -1,13 +1,14 @@
 unit uKioskBrowser;
 
+{$MODE Delphi}
+
 {$I ..\..\..\source\cef.inc}
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Vcl.StdCtrls, Vcl.ExtCtrls,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics,
+  Controls, Forms, Dialogs, StdCtrls, ExtCtrls, 
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes,
   uCEFWinControl, uCEFChromiumCore, uVirtualTouchKeyboard;
 
@@ -34,7 +35,6 @@ type
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
@@ -47,6 +47,7 @@ type
     procedure Chromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
     procedure Chromium1PreKeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut, Result: Boolean);
     procedure Chromium1ProcessMessageReceived(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message: ICefProcessMessage; out Result: Boolean);
+    procedure FormDestroy(Sender: TObject);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -81,10 +82,10 @@ procedure CreateGlobalCEFApp;
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
 uses
-  uCEFApplication, uCefMiscFunctions, uCEFProcessMessage;
+  uCEFApplication, uCEFMiscFunctions, uCEFProcessMessage;
 
 // This is a simplified Kiosk browser using a virtual keyboard.
 // The default URL is defined in the HOMEPAGE_URL constant.
@@ -180,11 +181,7 @@ begin
       FClosing := True;
       Visible  := False;
       Chromium1.CloseBrowser(True);
-      TThread.ForceQueue(nil,
-        procedure
-        begin
-          CEFWindowParent1.Free;
-        end);
+      CEFWindowParent1.Free;
     end;
 end;
 
