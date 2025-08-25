@@ -15,10 +15,12 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, imm, {$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
-    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase, {$IFDEF MSWINDOWS}Win32Extra,{$ENDIF}
-    {$IFDEF LINUXFPC}Messages,{$ENDIF}
+      LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase, {$IFDEF MSWINDOWS}Win32Extra,{$ENDIF}
+      {$IFDEF LINUXFPC}Messages,{$ENDIF}
+      {$IFDEF LCLGTK2}glib2, gdk2, gtk2,{$ENDIF}
+      {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGObject2, LazGLib2, gtk3procs, gtk3objects, gtk3widgets,{$ENDIF}
     {$ELSE}
-    Messages,
+      Messages,
     {$ENDIF}
     ExtCtrls, SyncObjs, SysUtils,
   {$ENDIF}
@@ -30,6 +32,9 @@ type
   {$IFDEF LINUXFPC}
   TOnIMEPreEditChangedEvent = procedure(Sender: TObject; aFlag: cardinal; const aPreEditText: ustring) of object;
   TOnIMECommitEvent         = procedure(Sender: TObject; const aCommitText: ustring) of object;
+  {$ENDIF}
+  {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
+  TOnGdkKeyEvent            = procedure(Sender: TObject; aEvent: PGdkEventKey; var aHandled: boolean) of object;
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   TOnHandledMessageEvent    = procedure(Sender: TObject; var aMessage: TMessage; var aHandled : boolean) of object;
@@ -71,6 +76,10 @@ type
       FOnIMEPreEditEnd         : TNotifyEvent;
       FOnIMEPreEditChanged     : TOnIMEPreEditChangedEvent;
       FOnIMECommit             : TOnIMECommitEvent;
+      {$ENDIF}
+      {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
+      FOnGdkKeyPress           : TOnGdkKeyEvent;
+      FOnGdkKeyRelease         : TOnGdkKeyEvent;
       {$ENDIF}
 
       procedure CreateSyncObj;
@@ -118,7 +127,11 @@ type
       procedure DoOnIMESetComposition(const aText : ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : TCefRange); virtual;
       {$ENDIF}
       {$IFDEF LINUXFPC}
-      procedure WMIMEComposition(var aMessage: TMessage); message LM_IM_COMPOSITION;
+      procedure WMIMEComposition(var aMessage : TMessage); message LM_IM_COMPOSITION;
+      {$ENDIF}
+      {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
+      function  DoOnGdkKeyPress(aEvent : PGdkEventKey) : boolean; virtual;
+      function  DoOnGdkKeyRelease(aEvent : PGdkEventKey) : boolean; virtual;
       {$ENDIF}
 
     public
@@ -187,6 +200,14 @@ type
       /// Copy the contents from the original popup buffer copy to the main buffer copy.
       /// </summary>
       procedure   DrawOrigPopupBuffer(const aSrcRect, aDstRect : TRect);
+
+      {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
+      /// <summary>
+      /// Connects the GTK signals used to receive key press events.
+      /// </summary>
+      function    ConnectSignals: boolean;
+      {$ENDIF}
+
       /// <summary>
       /// Returns the scanline size.
       /// </summary>
@@ -379,6 +400,24 @@ type
       /// </remarks>
       property OnIMECommit               : TOnIMECommitEvent         read FOnIMECommit               write FOnIMECommit;
       {$ENDIF}
+      {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
+      /// <summary>
+      /// Event triggered when the key-press-event signal is received.
+      /// </summary>        
+      /// <remarks>
+      /// <para><see href="https://docs.gtk.org/gtk3/signal.Widget.key-press-event.html">See the key-press-event article.</see></para>
+      /// <para>This event only works in GTK2 and GTK3 projects.</para>
+      /// </remarks>
+      property OnGdkKeyPress             : TOnGdkKeyEvent            read FOnGdkKeyPress             write FOnGdkKeyPress;  
+      /// <summary>
+      /// Event triggered when the key-release-event signal is received.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://docs.gtk.org/gtk3/signal.Widget.key-release-event.html">See the key-release-event article.</see></para>
+      /// <para>This event only works in GTK2 and GTK3 projects.</para>
+      /// </remarks>
+      property OnGdkKeyRelease           : TOnGdkKeyEvent            read FOnGdkKeyRelease           write FOnGdkKeyRelease;
+      {$ENDIF}
       /// <summary>
       /// Event triggered before the AlphaBlend call that transfer the web contents from the
       /// bitmap buffer to the panel when the Transparent property is True.
@@ -552,6 +591,11 @@ begin
   FOnIMEPreEditChanged    := nil;
   FOnIMECommit            := nil;
   {$ENDIF}
+  {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
+  FOnGdkKeyPress          := nil;
+  FOnGdkKeyRelease        := nil;
+  ControlStyle            := ControlStyle - [csNoFocus];
+  {$ENDIF}
 end;
 
 destructor TBufferPanel.Destroy;
@@ -565,6 +609,24 @@ begin
 
   inherited Destroy;
 end;
+
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
+function GdkKeyPressCallback(Widget: PGtkWidget; Event: PGdkEventKey; Data: gPointer) : GBoolean; cdecl;
+begin
+  if assigned(Data) then
+    Result := TBufferPanel(Data).DoOnGdkKeyPress(Event)
+   else
+    Result := False;
+end;
+
+function GdkKeyReleaseCallback(Widget: PGtkWidget; Event: PGdkEventKey; Data: gPointer) : GBoolean; cdecl;
+begin
+  if assigned(Data) then
+    Result := TBufferPanel(Data).DoOnGdkKeyRelease(Event)
+   else
+    Result := False;
+end;
+{$ENDIF}
 
 procedure TBufferPanel.AfterConstruction;
 begin
@@ -580,6 +642,38 @@ begin
     {$ENDIF}
   {$ENDIF}
 end;
+
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
+function TBufferPanel.ConnectSignals: boolean;
+var
+  TempHandlerID1, TempHandlerID2 : gulong;
+begin
+  TempHandlerID1 := 0;
+  TempHandlerID2 := 0;
+  try
+    try
+      if assigned(Parent) then
+        begin
+          {$IFDEF LCLGTK2}
+          TempHandlerID1 := g_signal_connect(PGtkWidget(Handle), 'key-press-event',   G_CALLBACK(@GdkKeyPressCallback),   gpointer(self));
+          TempHandlerID2 := g_signal_connect(PGtkWidget(Handle), 'key-release-event', G_CALLBACK(@GdkKeyReleaseCallback), gpointer(self));
+          {$ENDIF}
+          {$IFDEF LCLGTK3}
+          gtk_widget_set_can_focus(TGtk3Widget(Handle).Widget, True);
+          gtk_widget_add_events(TGtk3Widget(Handle).Widget, gint(GDK_KEY_PRESS_MASK));
+          TempHandlerID1 := g_signal_connect_data(TGtk3Widget(Handle).Widget, 'key-press-event',   TGCallback(@GdkKeyPressCallback),   gpointer(self), nil, G_CONNECT_DEFAULT);
+          TempHandlerID2 := g_signal_connect_data(TGtk3Widget(Handle).Widget, 'key-release-event', TGCallback(@GdkKeyReleaseCallback), gpointer(self), nil, G_CONNECT_DEFAULT);
+          {$ENDIF}
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TBufferPanel.ConnectSignals', e) then raise;
+    end;
+  finally
+    Result := (TempHandlerID1 > 0) and (TempHandlerID2 > 0);
+  end;
+end;
+{$ENDIF}
 
 procedure TBufferPanel.CreateIMEHandler;
 begin
@@ -1064,7 +1158,7 @@ end;
 {$IFDEF LINUXFPC}
 // The LM_IM_COMPOSITION message is only used by Lazarus in GTK2 when WITH_GTK2_IM is defined.
 // You need to open IDE dialog "Tools / Configure 'Build Lazarus'", and there enable the define: WITH_GTK2_IM; then recompile the IDE.
-procedure TBufferPanel.WMIMEComposition(var aMessage: TMessage);
+procedure TBufferPanel.WMIMEComposition(var aMessage : TMessage);
 var
   TempText : ustring;
   TempCommit : string;
@@ -1093,6 +1187,21 @@ begin
          FOnIMEPreEditChanged(self, aMessage.WPARAM, TempText);
        end;
   end;
+end;
+{$ENDIF}
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
+function TBufferPanel.DoOnGdkKeyPress(aEvent : PGdkEventKey) : boolean;
+begin
+  Result := True;
+  if assigned(FOnGdkKeyPress) then
+     FOnGdkKeyPress(self, aEvent, Result);
+end;
+
+function TBufferPanel.DoOnGdkKeyRelease(aEvent : PGdkEventKey) : boolean;
+begin
+  Result := True;
+  if assigned(FOnGdkKeyRelease) then
+     FOnGdkKeyRelease(self, aEvent, Result);
 end;
 {$ENDIF}
 

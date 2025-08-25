@@ -901,6 +901,10 @@
         <Filename Value="..\source\uCEFSettingObserver.pas"/>
         <UnitName Value="uCEFSettingObserver"/>
       </Item215>
+      <Item216>
+        <Filename Value="..\source\uceflinuxosrimehandler.pas"/>
+        <UnitName Value="uCEFLinuxOSRIMEHandler"/>
+      </Item216>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="5">

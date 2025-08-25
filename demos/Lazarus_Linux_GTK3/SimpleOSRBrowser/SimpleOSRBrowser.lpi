@@ -16,8 +16,14 @@
       </XPManifest>
       <Icon Value="0"/>
     </General>
+    <MacroValues Count="1">
+      <Macro1 Name="LCLWidgetType" Value="gtk3"/>
+    </MacroValues>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
+      <SharedMatrixOptions Count="1">
+        <Item1 ID="996268604706" Modes="Default" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
+      </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -45,7 +51,7 @@
       <Unit1>
         <Filename Value="usimpleosrbrowser.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form1"/>
+        <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uSimpleOSRBrowser"/>
@@ -53,7 +59,6 @@
       <Unit2>
         <Filename Value="interfaces.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Interfaces"/>
       </Unit2>
     </Units>
   </ProjectOptions>
@@ -78,10 +83,6 @@
     </Linking>
     <Other>
       <CustomOptions Value="-dUseCthreads"/>
-      <OtherDefines Count="2">
-        <Define0 Value="UseCthreads"/>
-        <Define1 Value="EnabledGtkThreading"/>
-      </OtherDefines>
     </Other>
   </CompilerOptions>
   <Debugging>

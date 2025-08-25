@@ -6,6 +6,7 @@ interface
 
 uses
   {$IFDEF LCLGTK2}gtk2, glib2, gdk2,{$ENDIF}
+  {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGObject2, LazGLib2, gtk3procs, gtk3widgets,{$ENDIF}
   Classes, ExtCtrls, Forms;
 
 type
@@ -14,9 +15,9 @@ type
       FPanel           : TCustomPanel;
       FForm            : TCustomForm;
       FHasFocus        : boolean;
-      {$IFDEF LCLGTK2}
+      {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
       FIMContext       : PGtkIMContext;
-      {$ENDIF}
+      {$IFEND}
 
       function    GetInitialized : boolean;
       procedure   SetPanel(aValue : TCustomPanel);
@@ -33,9 +34,9 @@ type
       procedure   Blur;
       procedure   Reset;
       procedure   SetCursorLocation(X, Y: integer);
-      {$IFDEF LCLGTK2}
+      {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
       function    FilterKeyPress(aEvent : PGdkEventKey) : boolean;
-      {$ENDIF}
+      {$ENDIF}                                            
 
       property Initialized : boolean      read GetInitialized;
       property HasFocus    : boolean      read FHasFocus;
@@ -48,11 +49,11 @@ implementation
 // https://chromium.googlesource.com/chromium/src/+/refs/heads/main/ui/gtk/input_method_context_impl_gtk.cc
 
 uses
-  {$IFDEF LCLGTK2}pango,{$ENDIF}
+  {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}pango,{$ENDIF}
   {$IFDEF FPC}LCLType, LCLIntf, LMessages,{$ENDIF}
   SysUtils;
 
-{$IFDEF LCLGTK2}
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
 procedure gtk_commit_cb({%H-}context: PGtkIMContext; const Str: Pgchar; {%H-}Data: Pointer); cdecl;
 begin
   SendMessage(HWND(Data), LM_IM_COMPOSITION, GTK_IM_FLAG_COMMIT, LPARAM(Str));
@@ -74,7 +75,7 @@ var
   TempPangoAttr : PPangoAttrList;
   TempCurpos    : gint;
 begin
-  gtk_im_context_get_preedit_string(context, @TempStr, TempPangoAttr, @TempCurpos);
+  gtk_im_context_get_preedit_string(context, @TempStr, {$IFDEF LCLGTK3}@{$ENDIF}TempPangoAttr, @TempCurpos);
   SendMessage(HWND(Data), LM_IM_COMPOSITION, GTK_IM_FLAG_PREEDIT, LPARAM(pchar(TempStr)));
   g_free(TempStr);
   pango_attr_list_unref(TempPangoAttr);
@@ -87,7 +88,7 @@ begin
 
   FPanel     := aPanel;
   FHasFocus  := False;
-  {$IFDEF LCLGTK2}
+  {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   FIMContext := nil;
   {$ENDIF}
 
@@ -107,7 +108,7 @@ end;
 
 function TCEFLinuxOSRIMEHandler.GetInitialized : boolean;
 begin
-  {$IFDEF LCLGTK2}
+  {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   Result := assigned(FPanel) and assigned(FIMContext);
   {$ELSE}
   Result := False;
@@ -127,7 +128,7 @@ end;
 
 procedure TCEFLinuxOSRIMEHandler.CreateContext;
 begin
-  {$IFDEF LCLGTK2}
+  {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   if not(assigned(FIMContext)) then
     begin
       FIMContext := gtk_im_multicontext_new();
@@ -139,7 +140,7 @@ end;
 
 procedure TCEFLinuxOSRIMEHandler.DestroyContext;
 begin
-  {$IFDEF LCLGTK2}
+  {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   if assigned(FIMContext) then
     begin
       g_object_unref(FIMContext);
@@ -149,7 +150,7 @@ begin
 end;
 
 procedure TCEFLinuxOSRIMEHandler.SetClientWindow;
-{$IFDEF LCLGTK2}
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
 var
   TempWidget : PGtkWidget;
 {$ENDIF}
@@ -160,6 +161,10 @@ begin
       TempWidget := PGtkWidget(FForm.Handle);
       gtk_im_context_set_client_window(FIMContext, TempWidget^.window);
       {$ENDIF}
+      {$IFDEF LCLGTK3}
+      TempWidget := TGtk3Widget(FForm.Handle).Widget;
+      gtk_im_context_set_client_window(FIMContext, TempWidget^.window);
+      {$ENDIF}
     end;
 end;
 
@@ -167,7 +172,7 @@ procedure TCEFLinuxOSRIMEHandler.ResetClientWindow;
 begin
   if Initialized then
     begin
-      {$IFDEF LCLGTK2}
+      {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
       gtk_im_context_reset(FIMContext);
       gtk_im_context_set_client_window(FIMContext, nil);
       {$ENDIF}
@@ -178,6 +183,12 @@ procedure TCEFLinuxOSRIMEHandler.ConnectSignals;
 begin
   if Initialized then
     begin
+      {$IFDEF LCLGTK3}
+      g_signal_connect_data(PGObject(@FIMContext), 'commit',          TGCallback(@gtk_commit_cb),          GPointer(FPanel.Handle), nil, G_CONNECT_DEFAULT);
+      g_signal_connect_data(PGObject(@FIMContext), 'preedit-start',   TGCallback(@gtk_preedit_start_cb),   GPointer(FPanel.Handle), nil, G_CONNECT_DEFAULT);
+      g_signal_connect_data(PGObject(@FIMContext), 'preedit-end',     TGCallback(@gtk_preedit_end_cb),     GPointer(FPanel.Handle), nil, G_CONNECT_DEFAULT);
+      g_signal_connect_data(PGObject(@FIMContext), 'preedit-changed', TGCallback(@gtk_preedit_changed_cb), GPointer(FPanel.Handle), nil, G_CONNECT_DEFAULT);
+      {$ENDIF}
       {$IFDEF LCLGTK2}
       g_signal_connect(G_OBJECT(FIMContext), 'commit',          G_CALLBACK(@gtk_commit_cb),          GPointer(FPanel.Handle));
       g_signal_connect(G_OBJECT(FIMContext), 'preedit-start',   G_CALLBACK(@gtk_preedit_start_cb),   GPointer(FPanel.Handle));
@@ -191,7 +202,7 @@ procedure TCEFLinuxOSRIMEHandler.Focus;
 begin
   if Initialized then
     begin
-      {$IFDEF LCLGTK2}
+      {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
       gtk_im_context_focus_in(FIMContext);
       {$ENDIF}
       FHasFocus := True;
@@ -202,7 +213,7 @@ procedure TCEFLinuxOSRIMEHandler.Blur;
 begin
   if Initialized then
     begin
-      {$IFDEF LCLGTK2}
+      {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
       gtk_im_context_focus_out(FIMContext);
       {$ENDIF}
       FHasFocus := False;
@@ -213,7 +224,7 @@ procedure TCEFLinuxOSRIMEHandler.Reset;
 begin
   if Initialized then
     begin
-      {$IFDEF LCLGTK2}
+      {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
       gtk_im_context_reset(FIMContext);
 
       // Some input methods may not honour the reset call.
@@ -228,14 +239,14 @@ begin
 end;
 
 procedure TCEFLinuxOSRIMEHandler.SetCursorLocation(X, Y: integer);
-{$IFDEF LCLGTK2}
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
 var
   TempCurPos: TGdkRectangle;
 {$ENDIF}
 begin
   if Initialized then
     begin
-      {$IFDEF LCLGTK2}
+      {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
       TempCurPos.x      := x;
       TempCurPos.y      := y;
       TempCurPos.width  := 0;
@@ -246,7 +257,7 @@ begin
     end;
 end;
 
-{$IFDEF LCLGTK2}
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
 function TCEFLinuxOSRIMEHandler.FilterKeyPress(aEvent : PGdkEventKey) : boolean;
 begin
   if Initialized then
