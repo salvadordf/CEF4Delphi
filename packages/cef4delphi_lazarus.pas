@@ -71,7 +71,7 @@ uses
   uCEFSharedMemoryRegion, uCEFPreferenceManager, uCEFPreferenceRegistrar, 
   uCEFApplicationEvents, uCEFBrowserBitmap, uCEFComponentIdList, 
   uCEFWindowInfoWrapper, uCEFTaskManager, uCEFPreferenceObserver, 
-  uCEFSettingObserver, LazarusPackageIntf;
+  uCEFSettingObserver, uCEFLinuxOSRIMEHandler, LazarusPackageIntf;
 
 implementation
 
