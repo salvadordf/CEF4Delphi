@@ -3129,6 +3129,8 @@ begin
 
   {$IFDEF LINUX}
     {$IFDEF FPC}
+      Result := 0;
+
       if (Application                  <> nil) and
          (Application.MainForm         <> nil) and
          (Application.MainForm.Monitor <> nil) then
@@ -3140,9 +3142,11 @@ begin
               Result := screen.PrimaryMonitor.PixelsPerInch
              else
               Result := screen.PixelsPerInch;
-          end
-         else
-          Result := USER_DEFAULT_SCREEN_DPI;
+          end;
+
+      // Workaround for a VirtualBox issue.
+      if (Result = 0) then
+        Result := USER_DEFAULT_SCREEN_DPI;
     {$ELSE}
     Result := -1;
     if TPlatformServices.Current.SupportsPlatformService(IFMXScreenService, TempService) then
