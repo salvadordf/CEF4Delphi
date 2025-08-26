@@ -207,8 +207,8 @@ begin
 end;
 
 function TCEFLinuxOSRIMEHandler.ConnectSignals: boolean;
-var
-  TempHandlerID1, TempHandlerID2, TempHandlerID3, TempHandlerID4 : gulong;
+var                                        
+  TempHandlerID1, TempHandlerID2, TempHandlerID3, TempHandlerID4 : {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}gulong{$ELSE}cardinal{$ENDIF};
   {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   TempData : GPointer;
   {$ENDIF}
