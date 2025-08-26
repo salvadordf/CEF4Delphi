@@ -207,6 +207,12 @@ type
       /// </summary>
       function    ConnectSignals: boolean;
       {$ENDIF}
+      {$IFDEF LCLGTK3}               
+      /// <summary>
+      /// This is just a workaround for the missing implementation of SendMessage in GTK3. Don't use!
+      /// </summary>
+      procedure   SendMessage(var aMessage : TMessage);
+      {$ENDIF}
 
       /// <summary>
       /// Returns the scanline size.
@@ -672,6 +678,15 @@ begin
   finally
     Result := (TempHandlerID1 > 0) and (TempHandlerID2 > 0);
   end;
+end;
+{$ENDIF}
+
+{$IFDEF LCLGTK3}
+// This is just a workaround for the missing implementation of SendMessage in GTK3.
+procedure TBufferPanel.SendMessage(var aMessage : TMessage);
+begin
+  if (aMessage.Msg = LM_IM_COMPOSITION) and Focused then
+    WMIMEComposition(aMessage);
 end;
 {$ENDIF}
 
@@ -1162,7 +1177,7 @@ procedure TBufferPanel.WMIMEComposition(var aMessage : TMessage);
 var
   TempText : ustring;
   TempCommit : string;
-begin
+begin                     
   case aMessage.WPARAM of
     GTK_IM_FLAG_START :
       if assigned(FOnIMEPreEditStart) then

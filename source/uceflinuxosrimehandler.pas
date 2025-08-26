@@ -25,11 +25,11 @@ type
     public
       constructor Create(aPanel : TCustomPanel);
       destructor  Destroy; override;
-      procedure   CreateContext;
+      function    CreateContext : boolean;
       procedure   DestroyContext;
       procedure   SetClientWindow;
       procedure   ResetClientWindow;
-      procedure   ConnectSignals;
+      function    ConnectSignals : boolean;
       procedure   Focus;
       procedure   Blur;
       procedure   Reset;
@@ -51,7 +51,29 @@ implementation
 uses
   {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}pango,{$ENDIF}
   {$IFDEF FPC}LCLType, LCLIntf, LMessages,{$ENDIF}
-  SysUtils;
+  {$IFDEF LCLGTK3}uCEFBufferPanel,{$ENDIF}
+  SysUtils, uCEFMiscFunctions;
+
+{$IFDEF LCLGTK3}
+// This is just a workaround for the missing implementation of SendMessage in GTK3.
+function SendMessage(HandleWnd: HWND; Msg: Cardinal; wParam: WParam; lParam: LParam): LResult;
+var
+  LMessage : TLMessage;
+  LPanel   : TBufferPanel;
+begin
+  LMessage.Msg    := Msg;
+  LMessage.WParam := WParam;
+  LMessage.LParam := LParam;
+  LMessage.Result := 0;
+
+  LPanel := TBufferPanel(HandleWnd);
+
+  if (LPanel <> nil) then
+    LPanel.SendMessage(LMessage);
+
+  Result := LMessage.Result;
+end;
+{$ENDIF}
 
 {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
 procedure gtk_commit_cb({%H-}context: PGtkIMContext; const Str: Pgchar; {%H-}Data: Pointer); cdecl;
@@ -126,14 +148,19 @@ begin
     FForm := nil;
 end;
 
-procedure TCEFLinuxOSRIMEHandler.CreateContext;
+function TCEFLinuxOSRIMEHandler.CreateContext : boolean;
 begin
+  Result := False;
   {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   if not(assigned(FIMContext)) then
     begin
       FIMContext := gtk_im_multicontext_new();
-      SetClientWindow;
-      ConnectSignals;
+
+      if assigned(FIMContext) then
+        begin
+          SetClientWindow;
+          Result := ConnectSignals;
+        end;
     end;
   {$ENDIF}
 end;
@@ -152,18 +179,18 @@ end;
 procedure TCEFLinuxOSRIMEHandler.SetClientWindow;
 {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
 var
-  TempWidget : PGtkWidget;
+  TempWindow : PGdkWindow;
 {$ENDIF}
 begin
   if Initialized then
     begin
       {$IFDEF LCLGTK2}
-      TempWidget := PGtkWidget(FForm.Handle);
-      gtk_im_context_set_client_window(FIMContext, TempWidget^.window);
+      TempWindow := PGtkWidget(FForm.Handle)^.window;
+      gtk_im_context_set_client_window(FIMContext, TempWindow);
       {$ENDIF}
       {$IFDEF LCLGTK3}
-      TempWidget := TGtk3Widget(FForm.Handle).Widget;
-      gtk_im_context_set_client_window(FIMContext, TempWidget^.window);
+      TempWindow := TGtk3Widget(FForm.Handle).Widget^.window;
+      gtk_im_context_set_client_window(FIMContext, TempWindow);
       {$ENDIF}
     end;
 end;
@@ -179,23 +206,48 @@ begin
     end;
 end;
 
-procedure TCEFLinuxOSRIMEHandler.ConnectSignals;
-begin
-  if Initialized then
-    begin
-      {$IFDEF LCLGTK3}
-      g_signal_connect_data(PGObject(@FIMContext), 'commit',          TGCallback(@gtk_commit_cb),          GPointer(FPanel.Handle), nil, G_CONNECT_DEFAULT);
-      g_signal_connect_data(PGObject(@FIMContext), 'preedit-start',   TGCallback(@gtk_preedit_start_cb),   GPointer(FPanel.Handle), nil, G_CONNECT_DEFAULT);
-      g_signal_connect_data(PGObject(@FIMContext), 'preedit-end',     TGCallback(@gtk_preedit_end_cb),     GPointer(FPanel.Handle), nil, G_CONNECT_DEFAULT);
-      g_signal_connect_data(PGObject(@FIMContext), 'preedit-changed', TGCallback(@gtk_preedit_changed_cb), GPointer(FPanel.Handle), nil, G_CONNECT_DEFAULT);
-      {$ENDIF}
-      {$IFDEF LCLGTK2}
-      g_signal_connect(G_OBJECT(FIMContext), 'commit',          G_CALLBACK(@gtk_commit_cb),          GPointer(FPanel.Handle));
-      g_signal_connect(G_OBJECT(FIMContext), 'preedit-start',   G_CALLBACK(@gtk_preedit_start_cb),   GPointer(FPanel.Handle));
-      g_signal_connect(G_OBJECT(FIMContext), 'preedit-end',     G_CALLBACK(@gtk_preedit_end_cb),     GPointer(FPanel.Handle));
-      g_signal_connect(G_OBJECT(FIMContext), 'preedit-changed', G_CALLBACK(@gtk_preedit_changed_cb), GPointer(FPanel.Handle));
-      {$ENDIF}
+function TCEFLinuxOSRIMEHandler.ConnectSignals: boolean;
+var
+  TempHandlerID1, TempHandlerID2, TempHandlerID3, TempHandlerID4 : gulong;
+  {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
+  TempData : GPointer;
+  {$ENDIF}
+begin             
+  TempHandlerID1 := 0;
+  TempHandlerID2 := 0;
+  TempHandlerID3 := 0;
+  TempHandlerID4 := 0;
+
+  try
+    try
+      if Initialized then
+        begin
+          {$IFDEF LCLGTK3}
+          // This should be the data passed to the callback. We'll enable this line as soon as Lazarus implements SendMessage in GTK3.
+          //TempData := GPointer(TGtk3Widget(FPanel.Handle).Widget);
+          TempData := GPointer(FPanel);
+
+          TempHandlerID1 := g_signal_connect_data(PGObject(FIMContext), 'commit',          TGCallback(@gtk_commit_cb),          TempData, nil, G_CONNECT_DEFAULT);
+          TempHandlerID2 := g_signal_connect_data(PGObject(FIMContext), 'preedit-start',   TGCallback(@gtk_preedit_start_cb),   TempData, nil, G_CONNECT_DEFAULT);
+          TempHandlerID3 := g_signal_connect_data(PGObject(FIMContext), 'preedit-end',     TGCallback(@gtk_preedit_end_cb),     TempData, nil, G_CONNECT_DEFAULT);
+          TempHandlerID4 := g_signal_connect_data(PGObject(FIMContext), 'preedit-changed', TGCallback(@gtk_preedit_changed_cb), TempData, nil, G_CONNECT_DEFAULT);
+          {$ENDIF}
+          {$IFDEF LCLGTK2}
+          TempData := GPointer(FPanel.Handle);
+
+          TempHandlerID1 := g_signal_connect(G_OBJECT(FIMContext), 'commit',          G_CALLBACK(@gtk_commit_cb),          TempData);
+          TempHandlerID2 := g_signal_connect(G_OBJECT(FIMContext), 'preedit-start',   G_CALLBACK(@gtk_preedit_start_cb),   TempData);
+          TempHandlerID3 := g_signal_connect(G_OBJECT(FIMContext), 'preedit-end',     G_CALLBACK(@gtk_preedit_end_cb),     TempData);
+          TempHandlerID4 := g_signal_connect(G_OBJECT(FIMContext), 'preedit-changed', G_CALLBACK(@gtk_preedit_changed_cb), TempData);
+          {$ENDIF}
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCEFLinuxOSRIMEHandler.ConnectSignals', e) then raise;
     end;
+  finally
+    Result := (TempHandlerID1 > 0) and (TempHandlerID2 > 0) and (TempHandlerID3 > 0) and (TempHandlerID4 > 0);
+  end;
 end;
 
 procedure TCEFLinuxOSRIMEHandler.Focus;
