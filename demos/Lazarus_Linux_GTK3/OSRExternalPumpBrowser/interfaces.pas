@@ -33,8 +33,7 @@ procedure CustomWidgetSetFinalization;
 implementation
 
 uses
-  gtk3int, Forms, xlib,
-  uCEFLinuxFunctions;
+  gtk3int, Forms, xlib;
 
 function CustomX11ErrorHandler(Display:PDisplay; ErrorEv:PXErrorEvent):longint;cdecl;
 begin

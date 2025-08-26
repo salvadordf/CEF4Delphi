@@ -1,27 +1,29 @@
 ﻿unit uOSRExternalPumpBrowser;
 
-{$mode objfpc}{$H+}
+{$mode objfpc}{$H+}  
 
 interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  LCLType, ComCtrls, Types, SyncObjs, LMessages,
+  LCLType, ComCtrls, Types, LMessages,
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel,
-  uCEFChromiumEvents;
+  LazGdk3;
 
 type
   { TForm1 }
   TForm1 = class(TForm)
     AddressEdt: TEdit;
-    FocusWorkaroundEdt: TEdit;
     SaveDialog1: TSaveDialog;
     GoBtn: TButton;
     Panel1: TBufferPanel;
     Chromium1: TChromium;
     AddressPnl: TPanel;
 
-    procedure Panel1Click(Sender: TObject);
+    procedure Panel1Enter(Sender: TObject);
+    procedure Panel1Exit(Sender: TObject);
+    procedure Panel1GdkKeyPress(Sender: TObject; aEvent: PGdkEventKey; var aHandled: boolean);
+    procedure Panel1GdkKeyRelease(Sender: TObject; aEvent: PGdkEventKey; var aHandled: boolean);
     procedure Panel1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure Panel1MouseEnter(Sender: TObject);
     procedure Panel1MouseLeave(Sender: TObject);
@@ -40,25 +42,23 @@ type
     procedure Chromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
     procedure Chromium1Paint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; aWidth, aHeight: Integer);
     procedure Chromium1PopupShow(Sender: TObject; const browser: ICefBrowser; aShow: Boolean);
-    procedure Chromium1PopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
+    procedure Chromium1PopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);                  
+    procedure Chromium1SetFocus(Sender: TObject; const browser: ICefBrowser; source: TCefFocusSource; out Result: Boolean);
     procedure Chromium1Tooltip(Sender: TObject; const browser: ICefBrowser; var aText: ustring; out Result: Boolean);
-    procedure Chromium1CanFocus(Sender: TObject);
 
-    procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);     
     procedure FormActivate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);     
     procedure FormHide(Sender: TObject);
-    procedure FormShow(Sender: TObject);
+    procedure FormShow(Sender: TObject);    
+
+    procedure Application_OnActivate(Sender: TObject);
+    procedure Application_OnDeactivate(Sender: TObject);
 
     procedure GoBtnClick(Sender: TObject);
     procedure GoBtnEnter(Sender: TObject);
-                                                    
-    procedure FocusWorkaroundEdtEnter(Sender: TObject);
-    procedure FocusWorkaroundEdtExit(Sender: TObject);
-
     procedure AddressEdtEnter(Sender: TObject);
-  private             
 
   protected                      
     FPopUpBitmap      : TBitmap;
@@ -68,8 +68,6 @@ type
     FPendingResize    : boolean;
     FCanClose         : boolean;
     FClosing          : boolean;
-    FFirstLoad        : boolean;
-    FConnectedSignals : boolean;
 
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
@@ -79,9 +77,6 @@ type
     procedure WMMove(var Message: TLMMove); message LM_MOVE;
     procedure WMSize(var Message: TLMSize); message LM_SIZE;
     procedure WMWindowPosChanged(var Message: TLMWindowPosChanged); message LM_WINDOWPOSCHANGED;
-
-  public
-    function SendCEFKeyEvent(const aCefEvent : TCefKeyEvent): boolean;
   end;
 
 var
@@ -96,11 +91,6 @@ implementation
 // This is a simple CEF browser in "off-screen rendering" mode (a.k.a OSR mode)
 // with a different executable for the Chromium subprocesses and an external
 // message pump
-
-// Chromium needs the key press data available in the GDK signals
-// "key-press-event" and "key-release-event" but Lazarus doesn't expose that
-// information so we have to call g_signal_connect to receive that information
-// in the GTKKeyPress function.
 
 // Chromium renders the web contents asynchronously. It uses multiple processes
 // and threads which makes it complicated to keep the correct browser size.
@@ -155,11 +145,11 @@ implementation
 //    destroyed. FCanClose is set to True and we can close the form safely.
 
 uses
-  Math,
-  LazGdk3, LazGtk3, LazGObject2, LazGLib2, gtk3procs, gtk3objects, gtk3widgets,
-  uCEFMiscFunctions, uCEFApplication, uCEFBitmapBitBuffer, uCEFWorkScheduler,
-  uCEFLinuxFunctions, uCEFLinuxConstants;
+  Math, gtk3procs,
+  uCEFMiscFunctions, uCEFApplication, uCEFWorkScheduler, uCEFLinuxFunctions;
 
+{GlobalCEFApp functions}
+{%Region}
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
 begin
   if (GlobalCEFWorkScheduler <> nil) then
@@ -192,118 +182,47 @@ begin
   GlobalCEFApp.StartMainProcess;
   GlobalCEFWorkScheduler.CreateThread;
 end;
+{%Endregion}
 
-function GTKKeyPress(Widget: PGtkWidget; Event: PGdkEventKey; Data: gPointer) : GBoolean; cdecl;
-var
-  TempCefEvent : TCefKeyEvent;
-begin
-  Result := False;
-  GdkEventKeyToCEFKeyEvent(Event, TempCefEvent);
-
-  if (Event^.type_ = GDK_KEY_PRESS) or (TempCefEvent.windows_key_code = VKEY_RETURN) then
-    begin
-      TempCefEvent.kind := KEYEVENT_RAWKEYDOWN;
-      if Form1.SendCEFKeyEvent(TempCefEvent) then
-        begin
-          TempCefEvent.kind := KEYEVENT_CHAR;
-          Result := Form1.SendCEFKeyEvent(TempCefEvent);
-        end;
-    end
-   else
-    begin
-      TempCefEvent.kind := KEYEVENT_KEYUP;
-      Result := Form1.SendCEFKeyEvent(TempCefEvent);
-    end;
-end;
-
-function ConnectKeyPressReleaseEvents(const aWidget : PGtkWidget): boolean;
-begin
-  Result := (g_signal_connect_data(aWidget, 'key-press-event',   TGCallback(@GTKKeyPress), nil, nil, G_CONNECT_DEFAULT) <> 0) and
-            (g_signal_connect_data(aWidget, 'key-release-event', TGCallback(@GTKKeyPress), nil, nil, G_CONNECT_DEFAULT) <> 0);
-end;
-
-{ TForm1 }
-
-function TForm1.SendCEFKeyEvent(const aCefEvent : TCefKeyEvent): boolean;
-begin
-  if FocusWorkaroundEdt.Focused then
-    begin                             
-      Chromium1.SendKeyEvent(@aCefEvent);
-      Result := True;
-    end
-   else
-    Result := False;
-end;
-
-procedure TForm1.GoBtnClick(Sender: TObject);
-begin
-  FResizing      := False;
-  FPendingResize := False;
-
-  Chromium1.LoadURL(AddressEdt.Text);
-end;
-
-procedure TForm1.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
-begin
-  // Now the browser is fully initialized we can initialize the UI.
-  Caption := 'OSR External Pump Browser';
-
-  Chromium1.NotifyMoveOrResizeStarted;
-end;
-
-procedure TForm1.AddressEdtEnter(Sender: TObject);
-begin
-  Chromium1.SetFocus(False);
-end;
-
-procedure TForm1.Panel1Click(Sender: TObject);
-begin
-  // GTK3 can't set the focus on a custom panel so we use an invisible edit box
-  FocusWorkaroundEdt.SetFocus;
-end;
-
-procedure TForm1.Chromium1CanFocus(Sender: TObject);
-begin
-  if FocusWorkaroundEdt.Focused then
-    Chromium1.SetFocus(True)
-   else
-    FocusWorkaroundEdt.SetFocus;
-end;
-
-procedure TForm1.FocusWorkaroundEdtExit(Sender: TObject);
-begin
-  Chromium1.SetFocus(False);
-end;
-
-procedure TForm1.FocusWorkaroundEdtEnter(Sender: TObject);
+{TBufferPanel events}
+{%Region}
+procedure TForm1.Panel1Enter(Sender: TObject);
 begin
   Chromium1.SetFocus(True);
 end;
 
-procedure TForm1.FormActivate(Sender: TObject);
+procedure TForm1.Panel1Exit(Sender: TObject);
 begin
-  // You *MUST* call CreateBrowser to create and initialize the browser.
-  // This will trigger the AfterCreated event when the browser is fully
-  // initialized and ready to receive commands.
-
-  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
-  // If it's not initialized yet, we use a simple timer to create the browser later.
-
-  // Linux needs a visible form to create a browser so we need to use the
-  // TForm.OnActivate event instead of the TForm.OnShow event
-
-  if not(Chromium1.Initialized) then
-    begin
-      // We have to update the DeviceScaleFactor here to get the scale of the
-      // monitor where the main application form is located.
-      GlobalCEFApp.UpdateDeviceScaleFactor;
-
-      // opaque white background color
-      Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
-      Chromium1.DefaultURL              := UTF8Decode(AddressEdt.Text);
-      Chromium1.CreateBrowser;
-    end;
+  Chromium1.SetFocus(False);
 end;
+
+procedure TForm1.Panel1GdkKeyPress(Sender: TObject; aEvent: PGdkEventKey;
+  var aHandled: boolean);
+var
+  TempCefEvent : TCefKeyEvent;
+begin
+  aHandled := True;
+
+  GdkEventKeyToCEFKeyEvent(aEvent, TempCefEvent);
+
+  TempCefEvent.kind := KEYEVENT_RAWKEYDOWN;
+  Chromium1.SendKeyEvent(@TempCefEvent);
+  TempCefEvent.kind := KEYEVENT_CHAR;
+  Chromium1.SendKeyEvent(@TempCefEvent);
+end;
+
+procedure TForm1.Panel1GdkKeyRelease(Sender: TObject; aEvent: PGdkEventKey;
+  var aHandled: boolean);
+var
+  TempCefEvent : TCefKeyEvent;
+begin
+  aHandled := True;
+
+  GdkEventKeyToCEFKeyEvent(aEvent, TempCefEvent);
+
+  TempCefEvent.kind := KEYEVENT_KEYUP;
+  Chromium1.SendKeyEvent(@TempCefEvent);
+end;                
 
 procedure TForm1.Panel1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
@@ -385,26 +304,16 @@ procedure TForm1.Panel1Resize(Sender: TObject);
 begin
   DoResize;
 end;
+{%Endregion}
 
-function TForm1.getModifiers(Shift: TShiftState): TCefEventFlags;
+{TChromium events}
+{%Region}
+procedure TForm1.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
-  Result := EVENTFLAG_NONE;
+  // Now the browser is fully initialized we can initialize the UI.
+  Caption := 'OSR External Pump Browser';
 
-  if (ssShift  in Shift) then Result := Result or EVENTFLAG_SHIFT_DOWN;
-  if (ssAlt    in Shift) then Result := Result or EVENTFLAG_ALT_DOWN;
-  if (ssCtrl   in Shift) then Result := Result or EVENTFLAG_CONTROL_DOWN;
-  if (ssLeft   in Shift) then Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
-  if (ssRight  in Shift) then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
-  if (ssMiddle in Shift) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
-end;       
-
-function TForm1.GetButton(Button: TMouseButton): TCefMouseButtonType;
-begin
-  case Button of
-    TMouseButton.mbRight  : Result := MBT_RIGHT;
-    TMouseButton.mbMiddle : Result := MBT_MIDDLE;
-    else                    Result := MBT_LEFT;
-  end;
+  Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TForm1.Chromium1BeforeClose(Sender: TObject;
@@ -428,7 +337,7 @@ end;
 
 procedure TForm1.Chromium1CursorChange(Sender: TObject;
   const browser: ICefBrowser; cursor_: TCefCursorHandle;
-  cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; 
+  cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo;
   var aResult : boolean);
 begin
   Panel1.Cursor := CefCursorToWindowsCursor(cursorType);
@@ -441,7 +350,7 @@ procedure TForm1.Chromium1GetScreenInfo(Sender: TObject;
 var
   TempRect  : TCEFRect;
   TempScale : single;
-begin           
+begin
   TempScale       := Panel1.ScreenScale;
   TempRect.x      := 0;
   TempRect.y      := 0;
@@ -478,7 +387,7 @@ procedure TForm1.Chromium1GetViewRect(Sender: TObject;
   const browser: ICefBrowser; var rect: TCefRect);
 var
   TempScale : single;
-begin                     
+begin
   TempScale   := Panel1.ScreenScale;
   rect.x      := 0;
   rect.y      := 0;
@@ -635,13 +544,48 @@ begin
   FPopUpRect.Top    := rect^.y;
   FPopUpRect.Right  := rect^.x + rect^.width  - 1;
   FPopUpRect.Bottom := rect^.y + rect^.height - 1;
+end;    
+
+procedure TForm1.Chromium1SetFocus(Sender: TObject; const browser: ICefBrowser;
+  source: TCefFocusSource; out Result: Boolean);
+begin
+  Result := not(Panel1.Focused);
 end;
 
 procedure TForm1.Chromium1Tooltip(Sender: TObject; const browser: ICefBrowser; var aText: ustring; out Result: Boolean);
 begin
-  Panel1.hint     := aText;
+  Panel1.hint     := UTF8Encode(aText);
   Panel1.ShowHint := (length(aText) > 0);
   Result          := True;
+end;
+{%Endregion}
+
+{TForm events}
+{%Region}
+procedure TForm1.FormActivate(Sender: TObject);
+begin
+  // You *MUST* call CreateBrowser to create and initialize the browser.
+  // This will trigger the AfterCreated event when the browser is fully
+  // initialized and ready to receive commands.
+
+  // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
+  // If it's not initialized yet, we use a simple timer to create the browser later.
+
+  // Linux needs a visible form to create a browser so we need to use the
+  // TForm.OnActivate event instead of the TForm.OnShow event
+
+  if not(Chromium1.Initialized) then
+    begin
+      // We have to update the DeviceScaleFactor here to get the scale of the
+      // monitor where the main application form is located.
+      GlobalCEFApp.UpdateDeviceScaleFactor;
+      Panel1.ConnectSignals;
+
+      // opaque white background color
+      Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+      Chromium1.DefaultURL              := UTF8Decode(AddressEdt.Text);
+      Chromium1.CreateBrowser;
+    end;
 end;
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -657,8 +601,7 @@ begin
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
-begin                             
-  FConnectedSignals := False;
+begin
   FPopUpBitmap      := nil;
   FPopUpRect        := rect(0, 0, 0, 0);
   FShowPopUp        := False;
@@ -666,13 +609,15 @@ begin
   FPendingResize    := False;
   FCanClose         := False;
   FClosing          := False;
-  FFirstLoad        := True;
 
-  Chromium1.DefaultURL := AddressEdt.Text;
+  Chromium1.DefaultURL := UTF8Decode(AddressEdt.Text);
+
+  Application.OnActivate   := @Application_OnActivate;
+  Application.OnDeactivate := @Application_OnDeactivate;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
-begin                                              
+begin
   if (FPopUpBitmap <> nil) then
      FreeAndNil(FPopUpBitmap);
 end;
@@ -685,11 +630,32 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
-  if not(FConnectedSignals) then
-    FConnectedSignals := ConnectKeyPressReleaseEvents(TGtk3Window(FocusWorkaroundEdt.Handle).widget);
-
   Chromium1.WasHidden(False);
   Chromium1.SetFocus(True);
+end;
+{%Endregion}
+
+{TApplication events}
+{%Region}
+procedure TForm1.Application_OnActivate(Sender: TObject);
+begin
+  Chromium1.SetFocus(Panel1.Focused);
+end;
+
+procedure TForm1.Application_OnDeactivate(Sender: TObject);
+begin
+  Chromium1.SetFocus(False);
+end;
+{%Endregion}
+
+{Other events}
+{%Region}
+procedure TForm1.GoBtnClick(Sender: TObject);
+begin
+  FResizing      := False;
+  FPendingResize := False;
+
+  Chromium1.LoadURL(UTF8Decode(AddressEdt.Text));
 end;
 
 procedure TForm1.GoBtnEnter(Sender: TObject);
@@ -697,6 +663,14 @@ begin
   Chromium1.SetFocus(False);
 end;
 
+procedure TForm1.AddressEdtEnter(Sender: TObject);
+begin
+  Chromium1.SetFocus(False);
+end;
+{%Endregion}
+
+{Misc functions}
+{%Region}
 procedure TForm1.DoResize;
 begin
   if FResizing then
@@ -711,6 +685,30 @@ begin
       end;
 end;
 
+function TForm1.getModifiers(Shift: TShiftState): TCefEventFlags;
+begin
+  Result := EVENTFLAG_NONE;
+
+  if (ssShift  in Shift) then Result := Result or EVENTFLAG_SHIFT_DOWN;
+  if (ssAlt    in Shift) then Result := Result or EVENTFLAG_ALT_DOWN;
+  if (ssCtrl   in Shift) then Result := Result or EVENTFLAG_CONTROL_DOWN;
+  if (ssLeft   in Shift) then Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
+  if (ssRight  in Shift) then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
+  if (ssMiddle in Shift) then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+end;       
+
+function TForm1.GetButton(Button: TMouseButton): TCefMouseButtonType;
+begin
+  case Button of
+    TMouseButton.mbRight  : Result := MBT_RIGHT;
+    TMouseButton.mbMiddle : Result := MBT_MIDDLE;
+    else                    Result := MBT_LEFT;
+  end;
+end;
+{%Endregion}
+
+{Message handlers}
+{%Region}
 procedure TForm1.WMMove(var Message: TLMMove);
 begin
   inherited;
@@ -728,6 +726,7 @@ begin
   inherited;
   Chromium1.NotifyMoveOrResizeStarted;
 end;
+{%Endregion}
 
 end.
 

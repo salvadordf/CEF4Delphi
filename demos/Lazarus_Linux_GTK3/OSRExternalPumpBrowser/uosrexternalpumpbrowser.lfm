@@ -6,13 +6,13 @@ object Form1: TForm1
   Caption = ' Initializing browser. Please wait...'
   ClientHeight = 630
   ClientWidth = 1001
+  LCLVersion = '4.2.0.0'
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
-  LCLVersion = '3.0.0.3'
   object AddressPnl: TPanel
     Left = 0
     Height = 30
@@ -21,7 +21,7 @@ object Form1: TForm1
     Align = alTop
     ClientHeight = 30
     ClientWidth = 1001
-    TabOrder = 1
+    TabOrder = 0
     object AddressEdt: TEdit
       Left = 1
       Height = 28
@@ -50,12 +50,16 @@ object Form1: TForm1
     Height = 600
     Top = 30
     Width = 1001
+    OnGdkKeyPress = Panel1GdkKeyPress
+    OnGdkKeyRelease = Panel1GdkKeyRelease
     Align = alClient
     Caption = 'Panel1'
     Color = clWhite
     ParentColor = False
-    TabOrder = 0
-    OnClick = Panel1Click
+    TabOrder = 1
+    TabStop = True
+    OnEnter = Panel1Enter
+    OnExit = Panel1Exit
     OnMouseDown = Panel1MouseDown
     OnMouseMove = Panel1MouseMove
     OnMouseUp = Panel1MouseUp
@@ -63,20 +67,9 @@ object Form1: TForm1
     OnResize = Panel1Resize
     OnMouseEnter = Panel1MouseEnter
     OnMouseLeave = Panel1MouseLeave
-    object FocusWorkaroundEdt: TEdit
-      Left = -9000
-      Height = 20
-      Top = -9000
-      Width = 80
-      BorderStyle = bsNone
-      ReadOnly = True
-      TabOrder = 0
-      OnEnter = FocusWorkaroundEdtEnter
-      OnExit = FocusWorkaroundEdtExit
-    end
   end
   object Chromium1: TChromium
-    OnCanFocus = Chromium1CanFocus
+    OnSetFocus = Chromium1SetFocus
     OnTooltip = Chromium1Tooltip
     OnCursorChange = Chromium1CursorChange
     OnBeforePopup = Chromium1BeforePopup
