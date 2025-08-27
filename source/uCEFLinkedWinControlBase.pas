@@ -47,6 +47,9 @@ type
       {$IFDEF MSWINDOWS}
       procedure WndProc(var aMessage: TMessage); override;
       {$ENDIF}
+      {$IFDEF LCLGTK3}
+      procedure Paint; override;
+      {$ENDIF}
       /// <summary>
       /// TChromium instance used by this component.
       /// </summary>
@@ -73,6 +76,13 @@ begin
   {$IFDEF MSWINDOWS}
   FUseSetFocus := True;
   {$ENDIF}
+  {$IFDEF LCLGTK3}
+  BevelOuter   := bvNone;
+  BevelWidth   := 0;
+  Caption      := '';
+  ControlStyle := ControlStyle - [csNoFocus];
+  TabStop      := True;
+  {$ENDIF}
 end;
 
 {$IFDEF MSWINDOWS}
@@ -84,6 +94,14 @@ end;
 procedure TCEFLinkedWinControlBase.SetUseSetFocus(aValue : boolean);
 begin
   FUseSetFocus := aValue;
+end;
+{$ENDIF}
+
+{$IFDEF LCLGTK3}
+procedure TCEFLinkedWinControlBase.Paint;
+begin
+  if (Chromium = nil) or not(Chromium.Initialized) then
+    inherited Paint;
 end;
 {$ENDIF}
 
@@ -178,11 +196,11 @@ begin
      (Chromium <> nil) and
      Chromium.Initialized then
     begin
-      TempPoint.x:= 0;
-      TempPoint.y:= 0;
+      TempPoint.x := 0;
+      TempPoint.y := 0;
       NSView(Chromium.WindowHandle).setFrameOrigin(TempPoint);
-      TempSize.width:= Width;
-      TempSize.height:= Height;
+      TempSize.width  := Width;
+      TempSize.height := Height;
       NSView(Chromium.WindowHandle).setFrameSize(TempSize);
     end;
   {$ENDIF}

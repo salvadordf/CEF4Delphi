@@ -19,6 +19,7 @@ uses
     {$IFDEF MSWINDOWS}WinApi.Windows, {$ENDIF} System.Classes, Vcl.Controls, Vcl.Graphics,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
+    {$IFDEF LCLGTK3}ExtCtrls,{$ENDIF}
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ENDIF}
@@ -32,7 +33,7 @@ type
   /// <summary>
   /// Custom TWinControl used by CEF browsers.
   /// </summary>
-  TCEFWinControl = class(TWinControl)
+  TCEFWinControl = class({$IFDEF LCLGTK3}TCustomPanel{$ELSE}TWinControl{$ENDIF})
     protected
       function  GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle; virtual;
       procedure Resize; override;
