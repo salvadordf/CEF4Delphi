@@ -35,7 +35,7 @@ type
   {$ENDIF}
   {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   TOnGdkKeyEvent            = procedure(Sender: TObject; aEvent: PGdkEventKey; var aHandled: boolean) of object;
-  {$ENDIF}
+  {$IFEND}
   {$IFDEF MSWINDOWS}
   TOnHandledMessageEvent    = procedure(Sender: TObject; var aMessage: TMessage; var aHandled : boolean) of object;
   {$ENDIF}
@@ -80,7 +80,7 @@ type
       {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
       FOnGdkKeyPress           : TOnGdkKeyEvent;
       FOnGdkKeyRelease         : TOnGdkKeyEvent;
-      {$ENDIF}
+      {$IFEND}
 
       procedure CreateSyncObj;
 
@@ -132,7 +132,7 @@ type
       {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
       function  DoOnGdkKeyPress(aEvent : PGdkEventKey) : boolean; virtual;
       function  DoOnGdkKeyRelease(aEvent : PGdkEventKey) : boolean; virtual;
-      {$ENDIF}
+      {$IFEND}
 
     public
       constructor Create(AOwner: TComponent); override;
@@ -206,7 +206,7 @@ type
       /// Connects the GTK signals used to receive key press events.
       /// </summary>
       function    ConnectSignals: boolean;
-      {$ENDIF}
+      {$IFEND}
       {$IFDEF LCLGTK3}               
       /// <summary>
       /// This is just a workaround for the missing implementation of SendMessage in GTK3. Don't use!
@@ -423,7 +423,7 @@ type
       /// <para>This event only works in GTK2 and GTK3 projects.</para>
       /// </remarks>
       property OnGdkKeyRelease           : TOnGdkKeyEvent            read FOnGdkKeyRelease           write FOnGdkKeyRelease;
-      {$ENDIF}
+      {$IFEND}
       /// <summary>
       /// Event triggered before the AlphaBlend call that transfer the web contents from the
       /// bitmap buffer to the panel when the Transparent property is True.
@@ -601,7 +601,7 @@ begin
   FOnGdkKeyPress          := nil;
   FOnGdkKeyRelease        := nil;
   ControlStyle            := ControlStyle - [csNoFocus];
-  {$ENDIF}
+  {$IFEND}
 end;
 
 destructor TBufferPanel.Destroy;
@@ -632,7 +632,7 @@ begin
    else
     Result := False;
 end;
-{$ENDIF}
+{$IFEND}
 
 procedure TBufferPanel.AfterConstruction;
 begin
@@ -679,7 +679,7 @@ begin
     Result := (TempHandlerID1 > 0) and (TempHandlerID2 > 0);
   end;
 end;
-{$ENDIF}
+{$IFEND}
 
 {$IFDEF LCLGTK3}
 // This is just a workaround for the missing implementation of SendMessage in GTK3.
@@ -1218,7 +1218,7 @@ begin
   if assigned(FOnGdkKeyRelease) then
      FOnGdkKeyRelease(self, aEvent, Result);
 end;
-{$ENDIF}
+{$IFEND}
 
 function TBufferPanel.GetBufferBits : pointer;
 begin
