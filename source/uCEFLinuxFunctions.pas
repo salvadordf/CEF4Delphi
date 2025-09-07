@@ -62,6 +62,13 @@ function gdk_screen_get_resolution(screen:PGdkScreen):gdouble; cdecl; external '
 function gdk_x11_window_get_xid(window: PGdkWindow): TXID; cdecl; external 'libgdk-3.so.0';
 function gdk_x11_get_default_xdisplay: PDisplay; cdecl; external 'libgdk-3.so.0';
 procedure gdk_set_allowed_backends(const backends: PGchar); cdecl; external 'libgdk-3.so.0';
+function gdk_x11_display_get_xdisplay(display: PGdkDisplay): PDisplay; cdecl; external 'libgdk-3.so.0';
+function gdk_x11_screen_get_screen_number(screen: PGdkScreen): longint; cdecl; external 'libgdk-3.so.0';
+function gdk_x11_visual_get_xvisual(visual: PGdkVisual): PVisual; cdecl; external 'libgdk-3.so.0';
+procedure UseDefaultX11VisualForGtk(widget : PGtkWidget); overload;
+procedure UseDefaultX11VisualForGtk(aHandle : TCefWindowHandle); overload;
+procedure FlushDisplay(widget : PGtkWidget); overload;
+procedure FlushDisplay(aHandle : TCefWindowHandle); overload;
 {$ENDIF}
 procedure ShowX11Message(const aMessage : string);
 {$ENDIF}{$ENDIF}
@@ -74,6 +81,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
+  {$IFDEF LCLGTK3}gtk3widgets,{$ENDIF}
   uCEFLinuxConstants, uCEFConstants;
 
 {$IFDEF LINUX}
@@ -657,6 +665,96 @@ begin
 
   XCloseDisplay(TempDisplay);
 end;
-{$ENDIF}{$ENDIF}
+{$ENDIF}
+
+{$IFDEF LCLGTK3}
+procedure UseDefaultX11VisualForGtk(widget : PGtkWidget);
+type
+  PGdkX11Screen = type PGdkScreen;
+var
+  screen : PGdkScreen;
+  visuals, cursor : PGList;
+  x11_screen : PGdkX11Screen;
+  default_xvisual : PVisual;
+  visual : PGdkVisual;
+
+  function GDK_X11_VISUAL(obj : pointer) : PGdkVisual;
+  begin
+    Result := PGdkVisual(obj);
+  end;
+
+  function GDK_SCREEN_X11(obj : pointer) : PGdkX11Screen;
+  begin
+     GDK_SCREEN_X11 := PGdkX11Screen(obj);
+  end;
+
+  function GDK_SCREEN_XDISPLAY(screen : PGdkScreen) : PDisplay;
+  begin
+     GDK_SCREEN_XDISPLAY := gdk_x11_display_get_xdisplay(gdk_screen_get_display(screen));
+  end;
+
+  function GDK_SCREEN_XNUMBER(screen : PGdkScreen) : longint;
+  begin
+     GDK_SCREEN_XNUMBER := gdk_x11_screen_get_screen_number(screen);
+  end;
+
+begin
+  // GTK+ > 3.15.1 uses an X11 visual optimized for GTK+'s OpenGL stuff
+  // since revid dae447728d: https://github.com/GNOME/gtk/commit/dae447728d
+  // However, it breaks CEF: https://github.com/cztomczak/cefcapi/issues/9
+  // Let's use the default X11 visual instead of the GTK's blessed one.
+  // Copied from: https://github.com/cztomczak/cefcapi.
+  screen     := gdk_screen_get_default();
+  visuals    := gdk_screen_list_visuals(screen);
+  x11_screen := GDK_SCREEN_X11(screen);
+
+  if (x11_screen <> nil) then
+    begin
+      default_xvisual := DefaultVisual(GDK_SCREEN_XDISPLAY(x11_screen),
+                                       GDK_SCREEN_XNUMBER(x11_screen));
+
+      if (default_xvisual <> nil) then
+        begin
+          cursor := visuals;
+
+          while (cursor <> nil) do
+            begin
+              visual := GDK_X11_VISUAL(cursor^.data);
+
+              if (default_xvisual^.visualid = gdk_x11_visual_get_xvisual(visual)^.visualid) then
+                begin
+                  gtk_widget_set_visual(widget, visual);
+                  break;
+                end;
+
+              cursor := cursor^.next;
+            end;
+        end;
+    end;
+
+  g_list_free(visuals);
+end;
+
+procedure UseDefaultX11VisualForGtk(aHandle : TCefWindowHandle);
+begin
+  UseDefaultX11VisualForGtk(TGtk3Widget(aHandle).Widget);
+end;
+
+procedure FlushDisplay(widget : PGtkWidget);
+var
+  gdk_window : PGdkWindow;
+  display : PGdkDisplay;
+begin
+  gdk_window := gtk_widget_get_window(widget);
+  display    := gdk_window_get_display(gdk_window);
+  gdk_display_flush(display);
+end;
+
+procedure FlushDisplay(aHandle : TCefWindowHandle);
+begin
+  FlushDisplay(TGtk3Widget(aHandle).Widget);
+end;
+{$ENDIF}
+{$ENDIF}
 
 end.

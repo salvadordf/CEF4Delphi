@@ -167,6 +167,7 @@ type
       {$IFDEF LINUX}
       FPasswordStorage                   : TCefPasswordStorage;
       FGTKVersion                        : TCefGTKVersion;
+      FOzonePlatform                     : TCefOzonePlatform;
       {$ENDIF}
 
 
@@ -1351,6 +1352,13 @@ type
       /// <para><see href="https://github.com/chromium/chromium/blob/main/ui/gtk/gtk_compat.cc">See the LoadGtkImpl function in ui/gtk/gtk_compat.cc</see></para>
       /// </remarks>
       property GTKVersion                        : TCefGTKVersion                           read FGTKVersion                        write FGTKVersion;
+      /// <summary>
+      /// Preferred GTK version loaded by Chromium.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#ozone-platform">Uses the following command line switch: --ozone-platform</see></para>
+      /// </remarks>
+      property OzonePlatform                     : TCefOzonePlatform                        read FOzonePlatform                     write FOzonePlatform;
       {$ENDIF}
       /// <summary>
       /// Ignores certificate-related errors.
@@ -2063,6 +2071,7 @@ begin
   {$IFDEF LINUX}
   FPasswordStorage                   := psDefault;
   FGTKVersion                        := gtkVersionDefault;
+  FOzonePlatform                     := ozpDefault;
   {$ENDIF}
 
   // Fields used during the CEF initialization
@@ -3753,6 +3762,12 @@ begin
   case FGTKVersion of
     gtkVersion3      : ReplaceSwitch(aKeys, aValues, '--gtk-version', '3');       
     gtkVersion4      : ReplaceSwitch(aKeys, aValues, '--gtk-version', '4');
+  end;
+
+  case FOzonePlatform of
+    ozpWayland       : ReplaceSwitch(aKeys, aValues, '--ozone-platform', 'wayland');
+    ozpX11           : ReplaceSwitch(aKeys, aValues, '--ozone-platform', 'x11');
+    ozpHeadless      : ReplaceSwitch(aKeys, aValues, '--ozone-platform', 'headless');
   end;
   {$ENDIF}
 

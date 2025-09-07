@@ -478,6 +478,31 @@ type
     /// </summary>
     gtkVersion4
   );
+               
+  /// <summary>
+  /// Ozone platform implementation type.     
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#ozone-platform">Used by the --ozone-platform switch</see></para>
+  /// </remarks>
+  TCefOzonePlatform = ( 
+    /// <summary>
+    /// Default platform.
+    /// </summary>
+    ozpDefault,   
+    /// <summary>
+    /// Wayland platform.
+    /// </summary>
+    ozpWayland,   
+    /// <summary>
+    /// X11 platform.
+    /// </summary>
+    ozpX11,   
+    /// <summary>
+    /// Headless platform. Not supported by CEF.
+    /// </summary>
+    ozpHeadless
+  );
   {$ENDIF}
 
   /// <summary>

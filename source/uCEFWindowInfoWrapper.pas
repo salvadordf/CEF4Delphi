@@ -13,9 +13,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF}System.Classes, System.Types,
+    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF}System.Classes, System.Types, System.SysUtils,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF}Classes, Types,
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF}Classes, Types, SysUtils,
   {$ENDIF}
   uCEFTypes;
 
@@ -236,7 +236,7 @@ uses
   {$IFDEF LINUX}{$IFDEF FPC}
     ctypes, keysym, xf86keysym, x, xlib,
     {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
-    {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGLib2, gtk3widgets,{$ENDIF}
+    {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGLib2, Gtk3Widgets, Gtk3Procs, LazGObject2,{$ENDIF}
     uCEFLinuxFunctions,
   {$ENDIF}{$ENDIF}
   uCEFMiscFunctions;
@@ -475,6 +475,9 @@ class procedure TCEFWindowInfoWrapper.AsChild(var aWindowInfo: TCEFWindowInfo; a
 {$IFDEF LINUX}
 var
   TempParent : TCefWindowHandle;
+  {$IFDEF LCLGTK3}
+  TempWidget : PGtkWidget;
+  {$ENDIF}
 {$ENDIF}
 begin
   aWindowInfo.size          := SizeOf(TCEFWindowInfo);
@@ -499,24 +502,34 @@ begin
 
   {$IFDEF FPC}
     {$IFDEF LCLGTK2}
-    if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
-      TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
+    if ValidCefWindowHandle(aParent) then
+      begin
+        // This is a translation of the GetXWindowForWidget function found in
+        // tests/cefclient/browser/browser_window_std_gtk.cc
+        // That function calls GDK_WINDOW_XID(gtk_widget_get_window(widget)) to get the TempParent value.
+
+        // /usr/include/gtk-2.0/gdk/gdkx.h defines GDK_WINDOW_XID as gdk_x11_drawable_get_xid
+        // /usr/share/lazarus/4.2.0/lcl/interfaces/gtk2/gtk2extrah.inc renames gdk_x11_drawable_get_xid as gdk_window_xwindow
+
+        // aParent is an LCL Handle which can be casted as a PGtkWidget in GTK2.
+        TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
+      end;
     {$ENDIF}
     {$IFDEF LCLGTK3}
-    if ValidCefWindowHandle(aParent) and (TGtk3Widget(aParent).Widget <> nil) then
+    if ValidCefWindowHandle(aParent) then
       begin
-        // cefclient creates the main window with this code in root_window_gtk.cc
-        //   window_ = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-        // Then if populates window_info with :
-        //   window_info.SetAsChild(GetXWindowForWidget(parent_handle), rect);
-        // GetXWindowForWidget returns this :
-        //   GDK_WINDOW_XID(gtk_widget_get_window(widget));
-        // GDK_WINDOW_XID is a macro equivalent to gdk_x11_drawable_get_xid in gtk2 but
-        // in gtk3 we use gdk_x11_window_get_xid instead.
-        // LCL sets TGtk3Widget.Widget to gtk_window_new(GTK_WINDOW_TOPLEVEL) for the main form.
-        // When we call TChromium.CreateBrowser with the main form as parent we get this error in the console (not in the log) :
-        //   [19140:19166:0604/174851.690766:ERROR:x11_software_bitmap_presenter.cc(144)] XGetWindowAttributes failed for window XXXXXXX
-        TempParent := gdk_x11_window_get_xid(gtk_widget_get_window(TGtk3Widget(aParent).Widget));
+        // This is a translation of the GetXWindowForWidget function found in
+        // tests/cefclient/browser/browser_window_std_gtk.cc
+        // That function calls GDK_WINDOW_XID(gtk_widget_get_window(widget)) to get the TempParent value.
+
+        // /usr/include/gtk-3.0/gdk/x11/gdkx11window.h defines GDK_WINDOW_XID as gdk_x11_window_get_xid
+
+        if Gtk3IsWidget(PGObject(aParent)) then
+          TempWidget := PGtkWidget(aParent)
+         else
+          TempWidget := TGtk3Widget(aParent).Widget; // aParent is an LCL Handle which can be casted as a TGtk3Widget in GTK3.
+
+        TempParent := gdk_x11_window_get_xid(gtk_widget_get_window(TempWidget));
       end;
     {$ENDIF}
   {$ENDIF}
