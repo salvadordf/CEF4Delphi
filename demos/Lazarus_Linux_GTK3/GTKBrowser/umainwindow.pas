@@ -15,8 +15,6 @@ type
     private                     
       FCanClose     : boolean;
       FClosing      : boolean;
-      FInitializing : boolean;
-      FLoading      : boolean;
       FWindow       : PGtkWidget;
       FChromium     : TChromium;
 
@@ -62,6 +60,30 @@ procedure CreateGlobalCEFApp;
 function StartMainProcess: boolean;
 
 implementation
+
+// This demo is a rough and incomplete translation of the official cefclient
+// application for GTK3.
+
+// There are several missing features and pending issues. This demo was just
+// used to test the CEF initialization in GTK3 using low level API functions in
+// Lazarus.
+
+// If you need to add a CEF browser to your GTK3 application then use the code
+// in SimpleOSRBrowser.
+
+// Trying to use the GTK3 WidgetSet in Lazarus to initialize CEF is not possible
+// at this moment because:
+// - GTK >3.15.1 uses an X11 visual optimized for GTK+'s OpenGL stuff which
+//   breaks CEF/Chromium.
+// - It's necessary to call the UseDefaultX11VisualForGtk procedure before the
+//   GtkWindow is realized to use the default X11 visual.
+// - TGtk3Window.CreateWidget (Gtk3Widgets.pas) realizes the window almost
+//   immediately after its creation.
+
+// At this point we can only wait until the CEF/Chromium requirements change.
+// Perhaps with Wayland support.
+
+// Meanwhile GTK3 applications can use CEF browsers in OSR mode only.
 
 var
   MainAppEvent : TEventObject = nil;
@@ -151,8 +173,6 @@ begin
 
   FCanClose              := False;
   FClosing               := False;
-  FInitializing          := True;
-  FLoading               := False;
   FWindow                := nil;
   FChromium              := nil;
 end;
@@ -195,6 +215,7 @@ procedure TMainWindow.Show;
 begin
   // Show the GTK window.
   UseDefaultX11VisualForGtk(FWindow);
+
   gtk_widget_show_all(FWindow);
 
   // Flush the display to make sure the underlying X11 window gets created
@@ -235,13 +256,20 @@ end;
 {%Region}
 procedure TMainWindow.OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
-  TThread.Synchronize(nil, @DoAfterCreated);
+  if GlobalCEFApp.MultiThreadedMessageLoop then
+    TThread.Synchronize(nil, @DoAfterCreated)
+   else
+    DoAfterCreated;
 end;
 
 procedure TMainWindow.OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   FCanClose := True;
-  TThread.Synchronize(nil, @DoBeforeClose);
+
+  if GlobalCEFApp.MultiThreadedMessageLoop then
+    TThread.Synchronize(nil, @DoBeforeClose)
+   else
+    DoBeforeClose;
 end;              
 
 procedure TMainWindow.OnBeforePopup(Sender: TObject;

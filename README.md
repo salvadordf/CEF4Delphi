@@ -15,7 +15,7 @@ The CEF binaries used by CEF4Delphi are available for download at Spotify :
 
 CEF4Delphi was developed and tested on Delphi 12.3 and it has been tested in Delphi 6, Delphi XE, Delphi 10, Delphi 11 and Lazarus 4.2/FPC 3.2.2. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
 
-CEF4Delphi demos have been tested in Windows 10, Windows 11, Linux Mint 22.1 and Raspberry Pi OS.
+CEF4Delphi demos have been tested in Windows 10, Windows 11, Linux Mint 22.2 and Raspberry Pi OS.
 
 ## Links
 * [Installation instructions and more information about CEF4Delphi](https://www.briskbard.com/index.php?lang=en&pageid=cef)

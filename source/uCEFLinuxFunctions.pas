@@ -65,10 +65,8 @@ procedure gdk_set_allowed_backends(const backends: PGchar); cdecl; external 'lib
 function gdk_x11_display_get_xdisplay(display: PGdkDisplay): PDisplay; cdecl; external 'libgdk-3.so.0';
 function gdk_x11_screen_get_screen_number(screen: PGdkScreen): longint; cdecl; external 'libgdk-3.so.0';
 function gdk_x11_visual_get_xvisual(visual: PGdkVisual): PVisual; cdecl; external 'libgdk-3.so.0';
-procedure UseDefaultX11VisualForGtk(widget : PGtkWidget); overload;
-procedure UseDefaultX11VisualForGtk(aHandle : TCefWindowHandle); overload;
-procedure FlushDisplay(widget : PGtkWidget); overload;
-procedure FlushDisplay(aHandle : TCefWindowHandle); overload;
+procedure UseDefaultX11VisualForGtk(widget : PGtkWidget); 
+procedure FlushDisplay(widget : PGtkWidget); 
 {$ENDIF}
 procedure ShowX11Message(const aMessage : string);
 {$ENDIF}{$ENDIF}
@@ -735,11 +733,6 @@ begin
   g_list_free(visuals);
 end;
 
-procedure UseDefaultX11VisualForGtk(aHandle : TCefWindowHandle);
-begin
-  UseDefaultX11VisualForGtk(TGtk3Widget(aHandle).Widget);
-end;
-
 procedure FlushDisplay(widget : PGtkWidget);
 var
   gdk_window : PGdkWindow;
@@ -748,11 +741,6 @@ begin
   gdk_window := gtk_widget_get_window(widget);
   display    := gdk_window_get_display(gdk_window);
   gdk_display_flush(display);
-end;
-
-procedure FlushDisplay(aHandle : TCefWindowHandle);
-begin
-  FlushDisplay(TGtk3Widget(aHandle).Widget);
 end;
 {$ENDIF}
 {$ENDIF}
