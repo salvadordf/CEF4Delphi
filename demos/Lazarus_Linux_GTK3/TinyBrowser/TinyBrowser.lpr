@@ -8,7 +8,6 @@ uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
-  //LCLIntf, LCLType, LMessages,
   uTinyBrowser in 'uTinyBrowser.pas',
   uCEFApplicationCore;
 

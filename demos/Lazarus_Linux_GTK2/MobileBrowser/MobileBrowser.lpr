@@ -10,8 +10,6 @@ uses
   Forms, uCEFApplication, uCEFConstants,
   uMobileBrowser in 'uMobileBrowser.pas' {Form1};
 
-{.$R *.res}
-
 begin
   CreateGlobalCEFApp;
 
