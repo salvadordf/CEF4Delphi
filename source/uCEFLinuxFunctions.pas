@@ -28,7 +28,6 @@ const
 {$ENDIF}
 
 {$IFDEF LINUX}
-procedure GdkEventKeyToCEFKeyEvent(GdkEvent: PGdkEventKey; var aCEFKeyEvent : TCEFKeyEvent);
 function  KeyboardCodeFromXKeysym(keysym : uint32) : integer;
 {$IF DEFINED(LINUXFMX) or DEFINED(LCLGTK2) or (DEFINED(LCLGTK3) and (LCL_FULLVERSION<3000000))}
 function  GetCefStateModifiers(state : uint32) : integer;
@@ -36,9 +35,12 @@ function  GetCefStateModifiers(state : uint32) : integer;
 {$IF DEFINED(LCLGTK3) and (LCL_FULLVERSION>3000000)}
 function  GetCefStateModifiers(state : TGdkModifierType) : integer;
 {$IFEND}
-function  GdkEventToWindowsKeyCode(Event: PGdkEventKey) : integer;
 function  GetWindowsKeyCodeWithoutLocation(key_code : integer) : integer;
 function  GetControlCharacter(windows_key_code : integer; shift : boolean) : integer;
+{$IF DEFINED(LINUXFMX) or DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
+procedure GdkEventKeyToCEFKeyEvent(GdkEvent: PGdkEventKey; var aCEFKeyEvent : TCEFKeyEvent);
+function  GdkEventToWindowsKeyCode(Event: PGdkEventKey) : integer;
+{$IFEND}
 
 {$IFDEF FMX}
 type
@@ -520,30 +522,6 @@ begin
 end;
 {$IFEND}
 
-function GdkEventToWindowsKeyCode(event: PGdkEventKey) : integer;
-var
-  windows_key_code, keyval : integer;
-begin
-  windows_key_code := KeyboardCodeFromXKeysym(event^.keyval);
-  if (windows_key_code <> 0) then
-    begin
-      Result := windows_key_code;
-      exit;
-    end;
-
-  if (event^.hardware_keycode < length(kHardwareCodeToGDKKeyval)) then
-    begin
-      keyval := kHardwareCodeToGDKKeyval[event^.hardware_keycode];
-      if (keyval <> 0) then
-        begin
-          Result := KeyboardCodeFromXKeysym(keyval);
-          exit;
-        end;
-    end;
-
-  Result := KeyboardCodeFromXKeysym(event^.keyval);
-end;
-
 function GetWindowsKeyCodeWithoutLocation(key_code : integer) : integer;
 begin
   case key_code of
@@ -576,6 +554,7 @@ begin
       end;
 end;
 
+{$IF DEFINED(LINUXFMX) or DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
 procedure GdkEventKeyToCEFKeyEvent(GdkEvent: PGdkEventKey; var aCEFKeyEvent : TCEFKeyEvent);
 var
   windows_key_code : integer;
@@ -602,6 +581,31 @@ begin
    else
     aCEFKeyEvent.character := aCEFKeyEvent.unmodified_character;
 end;
+
+function GdkEventToWindowsKeyCode(event: PGdkEventKey) : integer;
+var
+  windows_key_code, keyval : integer;
+begin
+  windows_key_code := KeyboardCodeFromXKeysym(event^.keyval);
+  if (windows_key_code <> 0) then
+    begin
+      Result := windows_key_code;
+      exit;
+    end;
+
+  if (event^.hardware_keycode < length(kHardwareCodeToGDKKeyval)) then
+    begin
+      keyval := kHardwareCodeToGDKKeyval[event^.hardware_keycode];
+      if (keyval <> 0) then
+        begin
+          Result := KeyboardCodeFromXKeysym(keyval);
+          exit;
+        end;
+    end;
+
+  Result := KeyboardCodeFromXKeysym(event^.keyval);
+end;
+{$IFEND}
 
 {$IFDEF FMX}
 function g_signal_connect(instance: gpointer; detailed_signal: Pgchar; c_handler: TGCallback; data: gpointer): gulong;
