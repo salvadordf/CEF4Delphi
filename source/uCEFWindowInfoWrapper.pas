@@ -237,6 +237,9 @@ uses
     ctypes, keysym, xf86keysym, x, xlib,
     {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
     {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGLib2, Gtk3Widgets, Gtk3Procs, LazGObject2,{$ENDIF}
+    {$IFDEF LCLQT}qtwidgets, qt4,{$ENDIF}
+    {$IFDEF LCLQT5}qtwidgets, qt5,{$ENDIF}
+    {$IFDEF LCLQT6}qtwidgets, qt6,{$ENDIF}
     uCEFLinuxFunctions,
   {$ENDIF}{$ENDIF}
   uCEFMiscFunctions;
@@ -532,6 +535,12 @@ begin
         TempParent := gdk_x11_window_get_xid(gtk_widget_get_window(TempWidget));
       end;
     {$ENDIF}
+    {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+    if ValidCefWindowHandle(aParent) then
+      begin
+        TempParent := QWidget_winId(TQtWidget(aParent).Widget);
+      end;
+    {$IFEND}
   {$ENDIF}
 
   aWindowInfo.parent_window := TempParent;

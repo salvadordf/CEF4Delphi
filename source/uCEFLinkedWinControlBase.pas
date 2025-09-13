@@ -47,9 +47,9 @@ type
       {$IFDEF MSWINDOWS}
       procedure WndProc(var aMessage: TMessage); override;
       {$ENDIF}
-      {$IFDEF LCLGTK3}
+      {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6) OR DEFINED(LCLGTK3)}
       procedure Paint; override;
-      {$ENDIF}
+      {$IFEND}
       /// <summary>
       /// TChromium instance used by this component.
       /// </summary>
@@ -76,13 +76,13 @@ begin
   {$IFDEF MSWINDOWS}
   FUseSetFocus := True;
   {$ENDIF}
-  {$IFDEF LCLGTK3}
+  {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6) OR DEFINED(LCLGTK3)}
   BevelOuter   := bvNone;
   BevelWidth   := 0;
   Caption      := '';
   ControlStyle := ControlStyle - [csNoFocus];
   TabStop      := True;
-  {$ENDIF}
+  {$IFEND}
 end;
 
 {$IFDEF MSWINDOWS}
@@ -97,13 +97,13 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF LCLGTK3}
+{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6) OR DEFINED(LCLGTK3)}
 procedure TCEFLinkedWinControlBase.Paint;
 begin
   if (Chromium = nil) or not(Chromium.Initialized) then
     inherited Paint;
 end;
-{$ENDIF}
+{$IFEND}
 
 {$IFDEF FPC}
 procedure TCEFLinkedWinControlBase.SetVisible(Value: Boolean);
