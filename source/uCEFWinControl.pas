@@ -59,6 +59,12 @@ type
       /// Updates the size of the child windows created by the browser.
       /// </summary>
       procedure   UpdateSize; virtual;
+      {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+      /// <summary>
+      /// Set this widget as native with a native window handle.
+      /// </summary>
+      procedure   SetQTWidgetAsNative;
+      {$IFEND}
       /// <summary>
       /// Handle of the first child window created by the browser.
       /// </summary>
@@ -101,6 +107,9 @@ type
 implementation
 
 uses
+  {$IFDEF LCLQT}qtwidgets, qt4,{$ENDIF}
+  {$IFDEF LCLQT5}qtwidgets, qt5,{$ENDIF}
+  {$IFDEF LCLQT6}qtwidgets, qt6,{$ENDIF}
   uCEFMiscFunctions, uCEFClient, uCEFConstants;
 
 function TCEFWinControl.GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle;
@@ -117,6 +126,14 @@ procedure TCEFWinControl.CreateHandle;
 begin
   inherited CreateHandle;
 end;
+
+{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+procedure TCEFWinControl.SetQTWidgetAsNative;
+begin
+  TQtWidget(Handle).setAttribute(QtWA_NativeWindow); // This widget becomes native...
+  TQtWidget(Handle).setAttribute(QtWA_DontCreateNativeAncestors); // ...but not the ancestors.
+end;
+{$IFEND}
 
 procedure TCEFWinControl.InvalidateChildren;
 begin

@@ -187,7 +187,13 @@ begin
   if not(csDesigning in ComponentState) and
      (Chromium <> nil) and
      Chromium.Initialized then
-    Chromium.UpdateBrowserSize(Left, Top, Width, Height);
+    begin
+      {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+      Chromium.UpdateBrowserSize(0, 0, Width, Height);
+      {$ELSE}
+      Chromium.UpdateBrowserSize(Left, Top, Width, Height);
+      {$IFEND}
+    end;
   {$ENDIF}
 
   {$IFDEF MACOSX}

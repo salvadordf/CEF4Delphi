@@ -538,6 +538,7 @@ begin
     {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
     if ValidCefWindowHandle(aParent) then
       begin
+        // CEF requires a native widget with an associated native window handle.
         TempParent := QWidget_winId(TQtWidget(aParent).Widget);
       end;
     {$IFEND}

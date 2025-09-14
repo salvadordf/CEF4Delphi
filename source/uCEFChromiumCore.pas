@@ -4246,6 +4246,9 @@ uses
       {$IFDEF LINUX}x, xatom,
         {$IFDEF LCLGTK2}gdk2x, gtk2,{$ENDIF}
         {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGLib2,{$ENDIF}
+        {$IFDEF LCLQT}qt4,{$ENDIF}
+        {$IFDEF LCLQT5}qt5,{$ENDIF}
+        {$IFDEF LCLQT6}qtint,{$ENDIF}
       {$ENDIF}
     {$ENDIF}
   {$ENDIF}
@@ -5887,7 +5890,7 @@ end;
 
 {$IFDEF LINUX}
 function TChromiumCore.GetXDisplay : PXDisplay;
-{$IFDEF FPC}
+{$IFDEF LCLGTK2}
 var
   TempParent : TCefWindowHandle;
 {$ENDIF}
@@ -5903,12 +5906,13 @@ begin
           FXDisplay := GDK_WINDOW_XDISPLAY(PGtkWidget(TempParent)^.Window);
         {$ENDIF}
         {$IFDEF LCLGTK3}
-        TempParent := ParentFormHandle;
-        {
-        if ValidCefWindowHandle(TempParent) and
-           (PGtkWidget(TempParent)^.Window <> nil) then
-          FXDisplay := GDK_WINDOW_XDISPLAY(PGtkWidget(TempParent)^.Window);  }
         FXDisplay := gdk_x11_get_default_xdisplay();
+        {$ENDIF}
+        {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5)}
+        FXDisplay := QX11Info_display();
+        {$IFEND}
+        {$IFDEF LCLQT6}
+        FXDisplay := TQtWidgetSet(WidgetSet).x11Display;  
         {$ENDIF}
       {$ENDIF}
 
