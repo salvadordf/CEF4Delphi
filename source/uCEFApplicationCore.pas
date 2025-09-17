@@ -3208,7 +3208,7 @@ begin
   try
     TempFiles.Add('Cookies');
     TempFiles.Add('Cookies-journal');
-    TempFiles.Add('LocalPrefs.json');
+    TempFiles.Add('Local State');
 
     DeleteDirContents(aDirectory, TempFiles);
   finally
@@ -3288,7 +3288,7 @@ begin
           TempNewDir := TempOldDir + '_' + inttostr(i);
         until not(DirectoryExists(TempNewDir));
 
-        if RenameFile(TempOldDir, TempNewDir) then
+        if TryRenameDir(TempOldDir, TempNewDir) then
           begin
             if aKeepCookies then
               MoveCookiesDB(TempNewDir, TempOldDir);
@@ -4983,7 +4983,8 @@ begin
     {$IFDEF DELPHI14_UP}
     TDirectory.Delete(FDirectory, True);
     {$ELSE}
-    if DeleteDirContents(FDirectory) then RemoveDir(FDirectory);
+    if DeleteDirContents(FDirectory) then
+      TryRemoveDir(FDirectory);
     {$ENDIF}
   except
     on e : exception do

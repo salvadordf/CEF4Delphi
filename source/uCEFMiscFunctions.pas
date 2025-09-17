@@ -800,6 +800,11 @@ procedure LogicalToDevice(var aRect : TCEFRect; const aDeviceScaleFactor : doubl
 function GetScreenDPI : integer;
 function GetDeviceScaleFactor : single;
 
+function TryRemoveDir(const aDirectory : string): boolean;
+function TryDeleteFile(const aFileName : string): boolean;
+function TryRenameDir(const aOldName, aNewName : string): boolean;
+function TryRenameFile(const aOldName, aNewName : string): boolean;
+
 function DeleteDirContents(const aDirectory : string; const aExcludeFiles : TStringList = nil) : boolean;
 function DeleteFileList(const aFileList : TStringList) : boolean;
 function MoveFileList(const aFileList : TStringList; const aSrcDirectory, aDstDirectory : string) : boolean;
@@ -3202,6 +3207,54 @@ begin
   {$ENDIF}
 end;
 
+function TryRemoveDir(const aDirectory : string): boolean;
+begin
+  Result := False;
+  try
+    if DirectoryExists(aDirectory) then
+      Result := RemoveDir(aDirectory);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TryRemoveDir', e) then raise;
+  end;
+end;
+
+function TryDeleteFile(const aFileName : string): boolean;
+begin
+  Result := False;
+  try
+    if FileExists(aFileName) then
+      Result := DeleteFile(aFileName);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TryDeleteFile', e) then raise;
+  end;
+end;
+
+function TryRenameFile(const aOldName, aNewName : string): boolean;
+begin
+  Result := False;
+  try
+    if FileExists(aOldName) and not(FileExists(aNewName)) then
+      Result := RenameFile(aOldName, aNewName);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TryRenameFile', e) then raise;
+  end;
+end;
+
+function TryRenameDir(const aOldName, aNewName : string): boolean;
+begin
+  Result := False;
+  try
+    if DirectoryExists(aOldName) and not(DirectoryExists(aNewName)) then
+      Result := RenameFile(aOldName, aNewName);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TryRenameDir', e) then raise;
+  end;
+end;
+
 function DeleteDirContents(const aDirectory : string; const aExcludeFiles : TStringList) : boolean;
 var
   TempRec  : TSearchRec;
@@ -3223,7 +3276,7 @@ begin
               if (TempRec.Name <> '.') and (TempRec.Name <> '..') then
                 begin
                   if DeleteDirContents(TempPath, aExcludeFiles) then
-                    Result := ((TempRec.Name = 'Network') or RemoveDir(TempPath)) and Result
+                    Result := TryRemoveDir(TempPath) and Result
                    else
                     Result := False;
                 end;
@@ -3233,13 +3286,13 @@ begin
               begin
                 TempIdx := aExcludeFiles.IndexOf(TempRec.Name);
                 Result  := ((TempIdx >= 0) or
-                            ((TempIdx < 0) and DeleteFile(TempPath))) and
+                            ((TempIdx < 0) and TryDeleteFile(TempPath))) and
                            Result;
               end
              else
-              Result := DeleteFile(TempPath) and Result;
+              Result := TryDeleteFile(TempPath) and Result;
 
-        until (FindNext(TempRec) <> 0) or not(Result);
+        until (FindNext(TempRec) <> 0);
       finally
         FindClose(TempRec);
       end;
@@ -3255,24 +3308,19 @@ var
 begin
   Result := False;
 
-  try
-    if (aFileList <> nil) then
-      begin
-        i         := 0;
-        TempCount := 0;
+  if (aFileList <> nil) then
+    begin
+      i         := 0;
+      TempCount := 0;
 
-        while (i < aFileList.Count) do
-          begin
-            if FileExists(aFileList[i]) and DeleteFile(aFileList[i]) then inc(TempCount);
-            inc(i);
-          end;
+      while (i < aFileList.Count) do
+        begin
+          if TryDeleteFile(aFileList[i]) then inc(TempCount);
+          inc(i);
+        end;
 
-        Result := (aFileList.Count = TempCount);
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('DeleteFileList', e) then raise;
-  end;
+      Result := (aFileList.Count = TempCount);
+    end;
 end;
 
 function MoveFileList(const aFileList : TStringList; const aSrcDirectory, aDstDirectory : string) : boolean;
@@ -3287,7 +3335,7 @@ begin
        (length(aSrcDirectory) > 0) and
        (length(aDstDirectory) > 0) and
        DirectoryExists(aSrcDirectory) and
-       (DirectoryExists(aDstDirectory) or CreateDir(aDstDirectory)) then
+       (DirectoryExists(aDstDirectory) or ForceDirectories(aDstDirectory)) then
       begin
         i         := 0;
         TempCount := 0;
@@ -3297,7 +3345,7 @@ begin
             TempSrcPath := IncludeTrailingPathDelimiter(aSrcDirectory) + aFileList[i];
             TempDstPath := IncludeTrailingPathDelimiter(aDstDirectory) + aFileList[i];
 
-            if FileExists(TempSrcPath) and RenameFile(TempSrcPath, TempDstPath) then inc(TempCount);
+            if TryRenameFile(TempSrcPath, TempDstPath) then inc(TempCount);
 
             inc(i);
           end;

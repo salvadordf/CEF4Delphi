@@ -321,12 +321,14 @@ end;
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                            := TCefApplication.Create;
-  GlobalCEFApp.cache                      := 'cache';
+  GlobalCEFApp.RootCache                  := 'RootCache';
   GlobalCEFApp.EnablePrintPreview         := True;
   GlobalCEFApp.EnableGPU                  := True;
   GlobalCEFApp.LogFile                    := 'debug.log';
   GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
   GlobalCEFApp.UncaughtExceptionStackSize := 50;
+  //GlobalCEFApp.DeleteCache                := True;
+  //GlobalCEFApp.DeleteCookies              := True;
   GlobalCEFApp.OnUncaughtException        := GlobalCEFApp_OnUncaughtException;
 end;
 
