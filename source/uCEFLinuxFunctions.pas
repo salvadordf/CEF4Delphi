@@ -15,8 +15,11 @@ uses
   {$IFDEF LINUX}
     {$IFDEF FPC}
       ctypes, keysym, xf86keysym, x, xlib, LCLVersion,
-      {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}         
+      {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
       {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGObject2, LazGLib2, gtk3objects, gtk3procs,{$ENDIF}
+      {$IFDEF LCLQT}qt4,{$ENDIF}
+      {$IFDEF LCLQT5}qt5,{$ENDIF}
+      {$IFDEF LCLQT6}qt6,{$ENDIF}
     {$ENDIF}
   {$ENDIF}
   uCEFLinuxTypes, uCEFTypes;
@@ -40,6 +43,11 @@ function  GetControlCharacter(windows_key_code : integer; shift : boolean) : int
 {$IF DEFINED(LINUXFMX) or DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
 procedure GdkEventKeyToCEFKeyEvent(GdkEvent: PGdkEventKey; var aCEFKeyEvent : TCEFKeyEvent);
 function  GdkEventToWindowsKeyCode(Event: PGdkEventKey) : integer;
+{$IFEND}
+{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+function  GetCefStateModifiers(KeyboardModifiers : QtKeyboardModifiers; NativeModifiers : LongWord) : TCefEventFlags;
+function  GetCefWindowsKeyCode(key : QtKey) : integer;
+procedure QTKeyEventToCEFKeyEvent(Event_ : QKeyEventH; var aCEFKeyEvent : TCEFKeyEvent);
 {$IFEND}
 
 {$IFDEF FMX}
@@ -560,7 +568,7 @@ var
   windows_key_code : integer;
 begin
   windows_key_code                     := GdkEventToWindowsKeyCode(GdkEvent);
-  aCEFKeyEvent.size	                   := SizeOf(TCEFKeyEvent);
+  aCEFKeyEvent.size	               := SizeOf(TCEFKeyEvent);
   aCEFKeyEvent.windows_key_code        := GetWindowsKeyCodeWithoutLocation(windows_key_code);
   aCEFKeyEvent.native_key_code         := GdkEvent^.hardware_keycode;
   aCEFKeyEvent.modifiers               := GetCefStateModifiers(GdkEvent^.state);
@@ -604,6 +612,132 @@ begin
     end;
 
   Result := KeyboardCodeFromXKeysym(event^.keyval);
+end;
+{$IFEND}
+
+{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+function  GetCefStateModifiers(KeyboardModifiers : QtKeyboardModifiers; NativeModifiers : LongWord) : TCefEventFlags;
+Const
+  GDK_SHIFT_MASK   = 1 shl 0;
+  GDK_LOCK_MASK    = 1 shl 1;
+  GDK_CONTROL_MASK = 1 shl 2;
+  GDK_MOD1_MASK    = 1 shl 3;
+  GDK_BUTTON1_MASK = 1 shl 8;
+  GDK_BUTTON2_MASK = 1 shl 9;
+  GDK_BUTTON3_MASK = 1 shl 10;
+begin
+  Result := EVENTFLAG_NONE;
+
+  if (KeyboardModifiers and QtShiftModifier)   <> 0 then Result := Result or EVENTFLAG_SHIFT_DOWN;
+  if (KeyboardModifiers and QtControlModifier) <> 0 then Result := Result or EVENTFLAG_CONTROL_DOWN;
+  if (KeyboardModifiers and QtAltModifier)     <> 0 then Result := Result or EVENTFLAG_ALT_DOWN;
+  if (KeyboardModifiers and QtKeypadModifier)  <> 0 then Result := Result or EVENTFLAG_IS_KEY_PAD;
+
+  if (NativeModifiers   and GDK_SHIFT_MASK)    <> 0 then Result := Result or EVENTFLAG_SHIFT_DOWN;
+  if (NativeModifiers   and GDK_LOCK_MASK)     <> 0 then Result := Result or EVENTFLAG_CAPS_LOCK_ON;
+  if (NativeModifiers   and GDK_CONTROL_MASK)  <> 0 then Result := Result or EVENTFLAG_CONTROL_DOWN;
+  if (NativeModifiers   and GDK_MOD1_MASK)     <> 0 then Result := Result or EVENTFLAG_ALT_DOWN;
+  if (NativeModifiers   and GDK_BUTTON1_MASK)  <> 0 then Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
+  if (NativeModifiers   and GDK_BUTTON2_MASK)  <> 0 then Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+  if (NativeModifiers   and GDK_BUTTON3_MASK)  <> 0 then Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
+end;
+
+function GetCefWindowsKeyCode(key : QtKey): integer;
+begin
+  case key of
+    QtKey_Escape        : Result := VKEY_ESCAPE;
+    QtKey_Tab,
+    QtKey_Backtab       : Result := VKEY_TAB;
+    QtKey_Backspace     : Result := VKEY_BACK;
+    QtKey_Return,
+    QtKey_Enter         : Result := VKEY_RETURN;
+    QtKey_Insert        : Result := VKEY_INSERT;
+    QtKey_Delete        : Result := VKEY_DELETE;
+    QtKey_Pause         : Result := VKEY_PAUSE;
+    QtKey_Print         : Result := VKEY_PRINT;
+    QtKey_Clear         : Result := VKEY_CLEAR;
+    QtKey_Home          : Result := VKEY_HOME;
+    QtKey_End           : Result := VKEY_END;
+    QtKey_Left          : Result := VKEY_LEFT;
+    QtKey_Up            : Result := VKEY_UP;
+    QtKey_Right         : Result := VKEY_RIGHT;
+    QtKey_Down          : Result := VKEY_DOWN;
+    QtKey_PageUp        : Result := VKEY_PRIOR;
+    QtKey_PageDown      : Result := VKEY_NEXT;
+    QtKey_Shift         : Result := VKEY_SHIFT;
+    QtKey_Control       : Result := VKEY_CONTROL;
+    QtKey_Alt           : Result := VKEY_MENU;
+    QtKey_CapsLock      : Result := VKEY_CAPITAL;
+    QtKey_NumLock       : Result := VKEY_NUMLOCK;
+    QtKey_ScrollLock    : Result := VKEY_SCROLL;
+    QtKey_F1..QtKey_F24 : Result := key - QtKey_F1 + VKEY_F1;
+    QtKey_Help          : Result := VKEY_HELP;
+    QtKey_Space         : Result := VKEY_SPACE;
+    QtKey_Exclam        : Result := VKEY_1;
+    QtKey_QuoteDbl      : Result := VKEY_OEM_7;
+    QtKey_NumberSign    : Result := VKEY_3;
+    QtKey_Dollar        : Result := VKEY_4;
+    QtKey_Percent       : Result := VKEY_5;
+    QtKey_Ampersand     : Result := VKEY_7;
+    QtKey_Apostrophe    : Result := VKEY_OEM_7;
+    QtKey_ParenLeft     : Result := VKEY_9;
+    QtKey_ParenRight    : Result := VKEY_0;
+    QtKey_Asterisk      : Result := VKEY_8;
+    QtKey_Plus          : Result := VKEY_OEM_PLUS;
+    QtKey_Comma         : Result := VKEY_OEM_COMMA;
+    QtKey_Minus         : Result := VKEY_OEM_MINUS;
+    QtKey_Period        : Result := VKEY_OEM_PERIOD;
+    QtKey_Slash         : Result := VKEY_OEM_2;
+    QtKey_0..QtKey_9    : Result := key;
+    QtKey_Colon,
+    QtKey_Semicolon     : Result := VKEY_OEM_1;
+    QtKey_Less          : Result := VKEY_OEM_COMMA;
+    QtKey_Equal         : Result := VKEY_OEM_PLUS;
+    QtKey_Greater       : Result := VKEY_OEM_PERIOD;
+    QtKey_Question      : Result := VKEY_OEM_2;
+    QtKey_At            : Result := VKEY_2;
+    QtKey_A..QtKey_Z    : Result := key;
+    QtKey_BracketLeft   : Result := VKEY_OEM_4;
+    QtKey_Backslash     : Result := VKEY_OEM_5;
+    QtKey_BracketRight  : Result := VKEY_OEM_6;
+    QtKey_AsciiCircum   : Result := VKEY_6;
+    QtKey_Underscore    : Result := VKEY_OEM_MINUS;
+    QtKey_QuoteLeft     : Result := VKEY_OEM_3;
+    QtKey_BraceLeft     : Result := VKEY_OEM_4;
+    QtKey_Bar           : Result := VKEY_OEM_5;
+    QtKey_BraceRight    : Result := VKEY_OEM_6;
+    QtKey_AsciiTilde    : Result := VKEY_OEM_3;
+    QtKey_multiply      : Result := VKEY_MULTIPLY;
+    QtKey_VolumeDown    : Result := VKEY_VOLUME_DOWN;
+    QtKey_VolumeMute    : Result := VKEY_VOLUME_MUTE;
+    QtKey_VolumeUp      : Result := VKEY_VOLUME_UP;
+    QtKey_MediaPlay     : Result := VKEY_MEDIA_PLAY_PAUSE;
+    QtKey_MediaStop     : Result := VKEY_MEDIA_STOP;
+    QtKey_Select        : Result := VKEY_SELECT;
+    QtKey_Printer       : Result := VKEY_SNAPSHOT;
+    QtKey_Execute       : Result := VKEY_EXECUTE;
+    else                  Result := 0;
+  end;
+end;
+
+procedure QTKeyEventToCEFKeyEvent(Event_: QKeyEventH; var aCEFKeyEvent : TCEFKeyEvent);  
+var
+  windows_key_code : integer;
+begin                                                 
+  windows_key_code                     := GetCefWindowsKeyCode(QKeyEvent_key(Event_));
+
+  aCEFKeyEvent.size	               := SizeOf(TCEFKeyEvent);
+  aCEFKeyEvent.modifiers               := GetCefStateModifiers(QKeyEvent_modifiers(Event_), QKeyEvent_nativeModifiers(Event_));
+  aCEFKeyEvent.windows_key_code        := GetWindowsKeyCodeWithoutLocation(windows_key_code);
+  aCEFKeyEvent.native_key_code         := QKeyEvent_nativeScanCode(Event_);
+  aCEFKeyEvent.is_system_key           := ord((aCEFKeyEvent.modifiers and EVENTFLAG_ALT_DOWN) <> 0);
+  aCEFKeyEvent.unmodified_character    := WideChar(QKeyEvent_nativeVirtualKey(Event_));
+  aCEFKeyEvent.focus_on_editable_field := ord(False);
+
+  if ((aCEFKeyEvent.modifiers and EVENTFLAG_CONTROL_DOWN) <> 0) then
+    aCEFKeyEvent.character := WideChar(GetControlCharacter(windows_key_code, ((aCEFKeyEvent.modifiers and EVENTFLAG_SHIFT_DOWN) <> 0)))
+   else
+    aCEFKeyEvent.character := aCEFKeyEvent.unmodified_character;
 end;
 {$IFEND}
 

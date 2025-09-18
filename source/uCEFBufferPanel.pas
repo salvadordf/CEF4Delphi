@@ -17,8 +17,11 @@ uses
     {$IFDEF FPC}
       LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase, {$IFDEF MSWINDOWS}Win32Extra,{$ENDIF}
       {$IFDEF LINUXFPC}Messages,{$ENDIF}
-      {$IFDEF LCLGTK2}glib2, gdk2, gtk2,{$ENDIF}
+      {$IFDEF LCLGTK2}glib2, gdk2, gtk2,{$ENDIF}         
       {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGObject2, LazGLib2, gtk3procs, gtk3objects, gtk3widgets,{$ENDIF}
+      {$IFDEF LCLQT}qtobjects, qtwidgets, qt4, QtWSExtCtrls, QtWSControls, WSLCLClasses,{$ENDIF}
+      {$IFDEF LCLQT5}qtobjects, qtwidgets, qt5, QtWSExtCtrls, QtWSControls, WSLCLClasses,{$ENDIF}
+      {$IFDEF LCLQT6}qtobjects, qtwidgets, qt6, QtWSExtCtrls, QtWSControls, WSLCLClasses,{$ENDIF}
     {$ELSE}
       Messages,
     {$ENDIF}
@@ -39,6 +42,21 @@ type
   {$IFDEF MSWINDOWS}
   TOnHandledMessageEvent    = procedure(Sender: TObject; var aMessage: TMessage; var aHandled : boolean) of object;
   {$ENDIF}
+  {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+  TOnQTKeyPress             = procedure(Sender: TObject; Event_: QEventH) of object;
+  TOnQTKeyRelease           = procedure(Sender: TObject; Event_: QEventH) of object;
+
+  TQtFrameEx = class(TQtFrame)
+    public
+      function EventFilter(Sender: QObjectH; Event: QEventH): Boolean; cdecl; override;
+  end;
+
+  TQtWSBufferPanel = class(TQtWSCustomPanel)
+  published
+    class function CreateHandle(const AWinControl: TWinControl;
+          const AParams: TCreateParams): TLCLHandle; override;
+  end;
+  {$IFEND}
 
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
   /// <summary>
@@ -80,6 +98,10 @@ type
       {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
       FOnGdkKeyPress           : TOnGdkKeyEvent;
       FOnGdkKeyRelease         : TOnGdkKeyEvent;
+      {$IFEND}
+      {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+      FOnQTKeyPress            : TOnQTKeyPress;
+      FOnQTKeyRelease          : TOnQTKeyRelease;
       {$IFEND}
 
       procedure CreateSyncObj;
@@ -133,7 +155,13 @@ type
       function  DoOnGdkKeyPress(aEvent : PGdkEventKey) : boolean; virtual;
       function  DoOnGdkKeyRelease(aEvent : PGdkEventKey) : boolean; virtual;
       {$IFEND}
-
+      {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+      procedure DoOnQTKeyPress(Event_: QEventH); virtual;
+      procedure DoOnQTKeyRelease(Event_: QEventH); virtual;
+      {$IFEND}
+      {$IFDEF FPC}
+      class procedure WSRegisterClass; override;
+      {$ENDIF}
     public
       constructor Create(AOwner: TComponent); override;
       destructor  Destroy; override;
@@ -424,6 +452,24 @@ type
       /// </remarks>
       property OnGdkKeyRelease           : TOnGdkKeyEvent            read FOnGdkKeyRelease           write FOnGdkKeyRelease;
       {$IFEND}
+      {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+      /// <summary>
+      /// Event triggered when the QEventKeyPress event is received.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://doc.qt.io/qt-6/qkeyevent.html">See the QKeyEvent article.</see></para>
+      /// <para>This event only works in QT, QT5 and QT6 projects.</para>
+      /// </remarks>
+      property OnQTKeyPress              : TOnQTKeyPress             read FOnQTKeyPress              write FOnQTKeyPress;
+      /// <summary>
+      /// Event triggered when the QEventKeyRelease event is received.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://doc.qt.io/qt-6/qkeyevent.html">See the QKeyEvent article.</see></para>
+      /// <para>This event only works in QT, QT5 and QT6 projects.</para>
+      /// </remarks>
+      property OnQTKeyRelease            : TOnQTKeyRelease           read FOnQTKeyRelease            write FOnQTKeyRelease;
+      {$IFEND}
       /// <summary>
       /// Event triggered before the AlphaBlend call that transfer the web contents from the
       /// bitmap buffer to the panel when the Transparent property is True.
@@ -557,6 +603,45 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFApplicationCore;
 
+{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+class function TQtWSBufferPanel.CreateHandle(const AWinControl: TWinControl;
+      const AParams: TCreateParams): TLCLHandle;
+var
+  QtFrame: TQtFrameEx;
+begin
+  QtFrame := TQtFrameEx.Create(AWinControl, AParams);
+  QtFrame.AttachEvents;
+
+  // Set's initial properties
+  QtFrame.setFrameShape(TBorderStyleToQtFrameShapeMap[TCustomPanel(AWinControl).BorderStyle]);
+  QtFrame.setFocusPolicy(QtStrongFocus);
+
+  // Return the Handle
+  Result := TLCLHandle(QtFrame);
+end;
+
+function TQtFrameEx.EventFilter(Sender: QObjectH; Event: QEventH): Boolean; cdecl;
+begin   
+  QEvent_accept(Event);
+
+  BeginEventProcessing;
+  try
+    if (LCLObject <> nil) and
+       (Event     <> nil) and
+       (Sender    <> nil) and
+       (Sender    =  TheObject) then
+      case QEvent_type(Event) of
+        QEventKeyPress   : TBufferPanel(LCLObject).DoOnQTKeyPress(Event);
+        QEventKeyRelease : TBufferPanel(LCLObject).DoOnQTKeyRelease(Event);
+      end;
+
+    Result := inherited EventFilter(Sender, Event);
+  finally
+    EndEventProcessing;
+  end;
+end;
+{$IFEND}
+
 constructor TBufferPanel.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -595,12 +680,17 @@ begin
   FOnIMEPreEditStart      := nil;
   FOnIMEPreEditEnd        := nil;
   FOnIMEPreEditChanged    := nil;
-  FOnIMECommit            := nil;
+  FOnIMECommit            := nil;     
+  ControlStyle            := ControlStyle - [csNoFocus];
+  TabStop                 := True;
   {$ENDIF}
   {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}
   FOnGdkKeyPress          := nil;
   FOnGdkKeyRelease        := nil;
-  ControlStyle            := ControlStyle - [csNoFocus];
+  {$IFEND}
+  {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+  FOnQTKeyPress           := nil;
+  FOnQTKeyRelease         := nil;
   {$IFEND}
 end;
 
@@ -687,6 +777,27 @@ procedure TBufferPanel.SendMessage(var aMessage : TMessage);
 begin
   if (aMessage.Msg = LM_IM_COMPOSITION) and Focused then
     WMIMEComposition(aMessage);
+end;
+{$ENDIF}
+
+{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+procedure RegisterQtBufferPanel;
+const
+  Done : boolean = False;
+begin        
+  if Done then exit;
+  RegisterWSComponent(TBufferPanel, TQtWSBufferPanel);
+  Done := True;
+end;          
+{$IFEND}
+
+{$IFDEF FPC}
+class procedure TBufferPanel.WSRegisterClass;
+begin
+  inherited WSRegisterClass;
+  {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+  RegisterQtBufferPanel;
+  {$IFEND}
 end;
 {$ENDIF}
 
@@ -1217,6 +1328,20 @@ begin
   Result := True;
   if assigned(FOnGdkKeyRelease) then
      FOnGdkKeyRelease(self, aEvent, Result);
+end;
+{$IFEND}
+
+{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6)}
+procedure TBufferPanel.DoOnQTKeyPress(Event_: QEventH);
+begin
+  if assigned(FOnQTKeyPress) then
+    FOnQTKeyPress(self, Event_);
+end;
+
+procedure TBufferPanel.DoOnQTKeyRelease(Event_: QEventH);
+begin
+  if assigned(FOnQTKeyRelease) then
+    FOnQTKeyRelease(self, Event_);
 end;
 {$IFEND}
 

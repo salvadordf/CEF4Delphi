@@ -1,0 +1,145 @@
+object MainForm: TMainForm
+  Left = 393
+  Height = 768
+  Top = 250
+  Width = 1024
+  Caption = 'SimpleOSRBrowser. Initializing...'
+  ClientHeight = 768
+  ClientWidth = 1024
+  KeyPreview = True
+  Position = poScreenCenter
+  LCLVersion = '4.2.0.0'
+  OnActivate = FormActivate
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnHide = FormHide
+  OnShow = FormShow
+  OnWindowStateChange = FormWindowStateChange
+  object AddressPnl: TPanel
+    Left = 0
+    Height = 26
+    Top = 0
+    Width = 1024
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 26
+    ClientWidth = 1024
+    TabOrder = 0
+    object AddressCb: TComboBox
+      Left = 0
+      Height = 26
+      Top = 0
+      Width = 965
+      Align = alClient
+      ItemHeight = 0
+      ItemIndex = 0
+      Items.Strings = (
+        'https://www.google.com'
+        'https://www.bing.com'
+        'https://duckduckgo.com'
+        'https://www.qwant.com'
+        'https://yandex.com'
+        'https://www.startpage.com'
+        'https://www.ecosia.org'
+        'https://www.baidu.com'
+        'https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending'
+        'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
+        'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
+        'https://www.w3schools.com/js/tryit.asp?filename=tryjs_loc_assign'
+        'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_backgroundcolor'
+        'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe_name'
+        'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_file'
+        'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_state_throw_error'
+        'https://www.htmlquick.com/es/reference/tags/input-file.html'
+        'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file'
+        'https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/webkitdirectory'
+        'https://www.w3schools.com/html/html5_video.asp'
+        'http://html5test.com/'
+        'https://webrtc.github.io/samples/src/content/devices/input-output/'
+        'https://test.webrtc.org/'
+        'https://www.browserleaks.com/webrtc'
+        'https://shaka-player-demo.appspot.com/demo/'
+        'http://webglsamples.org/'
+        'https://get.webgl.org/'
+        'https://www.briskbard.com'
+        'https://www.youtube.com'
+        'https://html5demos.com/drag/'
+        'https://frames-per-second.appspot.com/'
+        'https://www.sede.fnmt.gob.es/certificados/persona-fisica/verificar-estado'
+        'https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm'
+        'https://www.xdumaine.com/enumerateDevices/test/'
+        'https://dagrs.berkeley.edu/sites/default/files/2020-01/sample.pdf'
+        'https://codepen.io/udaymanvar/pen/MWaePBY'
+        'https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept'
+        'chrome://version/'
+        'chrome://net-internals/'
+        'chrome://tracing/'
+        'chrome://appcache-internals/'
+        'chrome://blob-internals/'
+        'chrome://view-http-cache/'
+        'chrome://credits/'
+        'chrome://histograms/'
+        'chrome://media-internals/'
+        'chrome://kill'
+        'chrome://crash'
+        'chrome://hang'
+        'chrome://shorthang'
+        'chrome://gpuclean'
+        'chrome://gpucrash'
+        'chrome://gpuhang'
+        'chrome://extensions-support'
+        'chrome://process-internals'
+      )
+      TabOrder = 0
+      Text = 'https://www.google.com'
+      OnEnter = AddressCbEnter
+    end
+    object GoBtn: TButton
+      Left = 965
+      Height = 26
+      Top = 0
+      Width = 59
+      Align = alRight
+      Caption = 'Go'
+      TabOrder = 1
+      OnClick = GoBtnClick
+      OnEnter = GoBtnEnter
+    end
+  end
+  object Panel1: TBufferPanel
+    Left = 0
+    Height = 742
+    Top = 26
+    Width = 1024
+    Align = alClient
+    TabOrder = 1
+    TabStop = True
+    OnEnter = Panel1Enter
+    OnExit = Panel1Exit
+    OnMouseDown = Panel1MouseDown
+    OnMouseMove = Panel1MouseMove
+    OnMouseUp = Panel1MouseUp
+    OnMouseWheel = Panel1MouseWheel
+    OnResize = Panel1Resize
+    OnMouseEnter = Panel1MouseEnter
+    OnMouseLeave = Panel1MouseLeave
+  end
+  object Chromium1: TChromium
+    OnSetFocus = Chromium1SetFocus
+    OnTooltip = Chromium1Tooltip
+    OnCursorChange = Chromium1CursorChange
+    OnBeforePopup = Chromium1BeforePopup
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnOpenUrlFromTab = Chromium1OpenUrlFromTab
+    OnGetViewRect = Chromium1GetViewRect
+    OnGetScreenPoint = Chromium1GetScreenPoint
+    OnGetScreenInfo = Chromium1GetScreenInfo
+    OnPopupShow = Chromium1PopupShow
+    OnPopupSize = Chromium1PopupSize
+    OnPaint = Chromium1Paint
+    Left = 101
+    Top = 109
+  end
+end
