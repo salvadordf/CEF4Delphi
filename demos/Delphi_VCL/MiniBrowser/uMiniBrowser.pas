@@ -2032,19 +2032,19 @@ begin
               TempResult := TempResult + 'id: ' + inttostr(TempInfo.id) + ', type: ';
 
               case TempInfo.type_ of
-                CEF_TASK_TYPE_BROWSER          : TempResult := TempResult + 'browser';
-                CEF_TASK_TYPE_GPU              : TempResult := TempResult + 'GPU';
-                CEF_TASK_TYPE_ZYGOTE           : TempResult := TempResult + 'zygote';
-                CEF_TASK_TYPE_UTILITY          : TempResult := TempResult + 'utility';
-                CEF_TASK_TYPE_RENDERER         : TempResult := TempResult + 'renderer';
-                CEF_TASK_TYPE_EXTENSION        : TempResult := TempResult + 'extension';
-                CEF_TASK_TYPE_GUEST            : TempResult := TempResult + 'guest';
-                CEF_TASK_TYPE_PLUGIN           : TempResult := TempResult + 'plugin';
-                CEF_TASK_TYPE_SANDBOX_HELPER   : TempResult := TempResult + 'sandbox helper';
-                CEF_TASK_TYPE_DEDICATED_WORKER : TempResult := TempResult + 'dedicated worker';
-                CEF_TASK_TYPE_SHARED_WORKER    : TempResult := TempResult + 'shared worker';
-                CEF_TASK_TYPE_SERVICE_WORKER   : TempResult := TempResult + 'service worker';
-                else                             TempResult := TempResult + 'unknown';
+                CEF_TASK_TYPE_BROWSER           : TempResult := TempResult + 'browser';
+                CEF_TASK_TYPE_GPU               : TempResult := TempResult + 'GPU';
+                CEF_TASK_TYPE_ZYGOTE            : TempResult := TempResult + 'zygote';
+                CEF_TASK_TYPE_UTILITY           : TempResult := TempResult + 'utility';
+                CEF_TASK_TYPE_RENDERER          : TempResult := TempResult + 'renderer';
+                CEF_TASK_TYPE_EXTENSION         : TempResult := TempResult + 'extension';
+                CEF_TASK_TYPE_GUEST             : TempResult := TempResult + 'guest';
+                CEF_TASK_TYPE_PLUGIN_DEPRECATED : TempResult := TempResult + 'plugin';
+                CEF_TASK_TYPE_SANDBOX_HELPER    : TempResult := TempResult + 'sandbox helper';
+                CEF_TASK_TYPE_DEDICATED_WORKER  : TempResult := TempResult + 'dedicated worker';
+                CEF_TASK_TYPE_SHARED_WORKER     : TempResult := TempResult + 'shared worker';
+                CEF_TASK_TYPE_SERVICE_WORKER    : TempResult := TempResult + 'service worker';
+                else                              TempResult := TempResult + 'unknown';
               end;
 
               TempResult := TempResult + ', title: ' + TempInfo.title + CRLF;

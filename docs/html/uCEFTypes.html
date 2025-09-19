@@ -1750,6 +1750,12 @@
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefColorType">TCefColorType</a></strong> = (...);</code></td>
 </tr>
 <tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefGLImplementation">TCefGLImplementation</a></strong> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefAngleImplementation">TCefAngleImplementation</a></strong> = (...);</code></td>
+</tr>
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefRectArray">TCefRectArray</a></strong>    = array[0..(High(Integer) div SizeOf(<a href="uCEFTypes.TCefRect.html">TCefRect</a>))-1] of <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
 </tr>
 <tr class="list">
@@ -3697,6 +3703,84 @@
 <span id="CEF_COLOR_TYPE_BGRA_8888">CEF_COLOR_TYPE_BGRA_8888</span>:  BGRA with 8 bits per pixel (32bits total). </li>
 <li>
 <span id="CEF_COLOR_TYPE_NUM_VALUES">CEF_COLOR_TYPE_NUM_VALUES</span></li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TCefGLImplementation"></span><code><strong>TCefGLImplementation</strong> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Select which implementation of GL the GPU process should use. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://peter.sh/experiments/chromium-command-line-switches/#use-gl">https://peter.sh/experiments/chromium-command-line-switches/#use-gl</a>&quot;&gt;Uses the following command line switch: &ndash;use-gl)
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:ui/gl/gl_switches.cc&quot;&gt;See the gl_switches.cc file)</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="glimDefault">glimDefault</span></li>
+<li>
+<span id="glimEGL">glimEGL</span></li>
+<li>
+<span id="glimANGLE">glimANGLE</span></li>
+<li>
+<span id="glimMock">glimMock</span></li>
+<li>
+<span id="glimStub">glimStub</span></li>
+<li>
+<span id="glimDisabled">glimDisabled</span></li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TCefAngleImplementation"></span><code><strong>TCefAngleImplementation</strong> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Select which ANGLE backend to use. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://peter.sh/experiments/chromium-command-line-switches/#use-angle">https://peter.sh/experiments/chromium-command-line-switches/#use-angle</a>&quot;&gt;Uses the following command line switch: &ndash;use-angle)
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:ui/gl/gl_switches.cc&quot;&gt;See the gl_switches.cc file)</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="animDefault">animDefault</span></li>
+<li>
+<span id="animD3D9">animD3D9</span></li>
+<li>
+<span id="animD3D11">animD3D11</span></li>
+<li>
+<span id="animD3D11on12">animD3D11on12</span></li>
+<li>
+<span id="animD3D11Warp">animD3D11Warp</span></li>
+<li>
+<span id="animD3D11WarpForWebGL">animD3D11WarpForWebGL</span></li>
+<li>
+<span id="animOpenGL">animOpenGL</span></li>
+<li>
+<span id="animOpenGLEGL">animOpenGLEGL</span></li>
+<li>
+<span id="animOpenGLES">animOpenGLES</span></li>
+<li>
+<span id="animOpenGLESEGL">animOpenGLESEGL</span></li>
+<li>
+<span id="animNull">animNull</span></li>
+<li>
+<span id="animVulkan">animVulkan</span></li>
+<li>
+<span id="animSwiftShader">animSwiftShader</span></li>
+<li>
+<span id="animSwiftShaderForWebGL">animSwiftShaderForWebGL</span></li>
+<li>
+<span id="animMetal">animMetal</span></li>
 </ul>
 </td></tr>
 </table>
@@ -7141,7 +7225,9 @@ Ranges:
 <li>
 <span id="CEF_CPAIT_LENS_OVERLAY_HOMEWORK">CEF_CPAIT_LENS_OVERLAY_HOMEWORK</span>: * CEF_API_ADDED(13400) *</li>
 <li>
-<span id="CEF_CPAIT_NUM_VALUES">CEF_CPAIT_NUM_VALUES</span>: * CEF_API_ADDED(13800) *</li>
+<span id="CEF_CPAIT_AI_MODE">CEF_CPAIT_AI_MODE</span>: * CEF_API_ADDED(13800) *</li>
+<li>
+<span id="CEF_CPAIT_NUM_VALUES">CEF_CPAIT_NUM_VALUES</span>: * CEF_API_ADDED(14000) *</li>
 </ul>
 </td></tr>
 </table>
@@ -7175,7 +7261,7 @@ Ranges:
 <li>
 <span id="CEF_TASK_TYPE_GUEST">CEF_TASK_TYPE_GUEST</span>:  A browser plugin guest process. </li>
 <li>
-<span id="CEF_TASK_TYPE_PLUGIN">CEF_TASK_TYPE_PLUGIN</span>:  A plugin process. </li>
+<span id="CEF_TASK_TYPE_PLUGIN_DEPRECATED">CEF_TASK_TYPE_PLUGIN_DEPRECATED</span>:  A plugin process. </li>
 <li>
 <span id="CEF_TASK_TYPE_SANDBOX_HELPER">CEF_TASK_TYPE_SANDBOX_HELPER</span>:  A sandbox helper process. </li>
 <li>
@@ -7203,15 +7289,23 @@ Ranges:
 <h6 class="description_section">Values</h6>
 <ul>
 <li>
-<span id="CEF_CTBT_CAST">CEF_CTBT_CAST</span></li>
+<span id="CEF_CTBT_CAST_DEPRECATED">CEF_CTBT_CAST_DEPRECATED</span></li>
 <li>
-<span id="CEF_CTBT_DOWNLOAD_DEPRECATED">CEF_CTBT_DOWNLOAD_DEPRECATED</span></li>
+<span id="CEF_CTBT_DOWNLOAD_DEPRECATED">CEF_CTBT_DOWNLOAD_DEPRECATED</span>: * CEF_API_ADDED(14000) *</li>
 <li>
-<span id="CEF_CTBT_SEND_TAB_TO_SELF_DEPRECATED">CEF_CTBT_SEND_TAB_TO_SELF_DEPRECATED</span></li>
+<span id="CEF_CTBT_SEND_TAB_TO_SELF_DEPRECATED">CEF_CTBT_SEND_TAB_TO_SELF_DEPRECATED</span>: * CEF_API_ADDED(13600) *</li>
 <li>
-<span id="CEF_CTBT_SIDE_PANEL">CEF_CTBT_SIDE_PANEL</span></li>
+<span id="CEF_CTBT_SIDE_PANEL_DEPRECATED">CEF_CTBT_SIDE_PANEL_DEPRECATED</span>: * CEF_API_ADDED(13600) *</li>
 <li>
-<span id="CEF_CTBT_NUM_VALUES">CEF_CTBT_NUM_VALUES</span></li>
+<span id="CEF_CTBT_MEDIA">CEF_CTBT_MEDIA</span>: * CEF_API_ADDED(14000) *</li>
+<li>
+<span id="CEF_CTBT_TAB_SEARCH">CEF_CTBT_TAB_SEARCH</span>: * CEF_API_ADDED(14000) *</li>
+<li>
+<span id="CEF_CTBT_BATTERY_SAVER">CEF_CTBT_BATTERY_SAVER</span>: * CEF_API_ADDED(14000) *</li>
+<li>
+<span id="CEF_CTBT_AVATAR">CEF_CTBT_AVATAR</span>: * CEF_API_ADDED(14000) *</li>
+<li>
+<span id="CEF_CTBT_NUM_VALUES">CEF_CTBT_NUM_VALUES</span>: * CEF_API_ADDED(14000) *</li>
 </ul>
 </td></tr>
 </table>
@@ -7455,9 +7549,9 @@ Ranges:
 <li>
 <span id="CEF_CONTENT_SETTING_TYPE_NOTIFICATION_PERMISSION_REVIEW">CEF_CONTENT_SETTING_TYPE_NOTIFICATION_PERMISSION_REVIEW</span>:  Website setting which is used for NotificationPermissionReviewService to store origin blocklist from review notification permissions feature. </li>
 <li>
-<span id="CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_GUARD">CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_GUARD</span>:  Website setting to store permissions granted to access particular devices in private network. </li>
+<span id="CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_GUARD_DEPRECATED">CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_GUARD_DEPRECATED</span>:  Website setting to store permissions granted to access particular devices in private network. </li>
 <li>
-<span id="CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_CHOOSER_DATA">CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_CHOOSER_DATA</span></li>
+<span id="CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_CHOOSER_DATA_DEPRECATED">CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_CHOOSER_DATA_DEPRECATED</span>: * CEF_API_ADDED(14000) *</li>
 <li>
 <span id="CEF_CONTENT_SETTING_TYPE_FEDERATED_IDENTITY_IDENTITY_PROVIDER_SIGNIN_STATUS">CEF_CONTENT_SETTING_TYPE_FEDERATED_IDENTITY_IDENTITY_PROVIDER_SIGNIN_STATUS</span>:  Website setting which stores whether the browser has observed the user signing into an identity-provider based on observing the IdP-SignIn-Status HTTP header. </li>
 <li>
@@ -7575,7 +7669,11 @@ Ranges:
 <li>
 <span id="CEF_CONTENT_SETTING_TYPE_SUSPICIOUS_NOTIFICATION_IDS">CEF_CONTENT_SETTING_TYPE_SUSPICIOUS_NOTIFICATION_IDS</span>:  Stores a list of notification ids where content detection found the notification to be suspicious and a warning has already been shown for the site. Used for recovering notification contents from the database if the user decides they would like to see all of these notifications. </li>
 <li>
-<span id="CEF_CONTENT_SETTING_TYPE_NUM_VALUES">CEF_CONTENT_SETTING_TYPE_NUM_VALUES</span>: * CEF_API_ADDED(13800) *</li>
+<span id="CEF_CONTENT_SETTING_TYPE_GEOLOCATION_WITH_OPTIONS">CEF_CONTENT_SETTING_TYPE_GEOLOCATION_WITH_OPTIONS</span>:  To support approximate geolocation, the permission is migrating to use permissions with options, which won't be stored as ContentSettings. Upon launch of the feature, GEOLOCATION and GEOLOCATION_WITH_OPTIONS should be merged. </li>
+<li>
+<span id="CEF_CONTENT_SETTING_TYPE_DEVICE_ATTRIBUTES">CEF_CONTENT_SETTING_TYPE_DEVICE_ATTRIBUTES</span>:  Setting for enabling the Device Attributes API. Spec link: <a href="https://wicg.github.io/WebApiDevice/device_attributes/">https://wicg.github.io/WebApiDevice/device_attributes/</a> </li>
+<li>
+<span id="CEF_CONTENT_SETTING_TYPE_NUM_VALUES">CEF_CONTENT_SETTING_TYPE_NUM_VALUES</span>: * CEF_API_ADDED(14000) *</li>
 </ul>
 </td></tr>
 </table>
@@ -7603,9 +7701,9 @@ Ranges:
 <li>
 <span id="CEF_CONTENT_SETTING_VALUE_SESSION_ONLY">CEF_CONTENT_SETTING_VALUE_SESSION_ONLY</span></li>
 <li>
-<span id="CEF_CONTENT_SETTING_VALUE_DETECT_IMPORTANT_CONTENT">CEF_CONTENT_SETTING_VALUE_DETECT_IMPORTANT_CONTENT</span></li>
+<span id="CEF_CONTENT_SETTING_VALUE_DETECT_IMPORTANT_CONTENT_DEPRECATED">CEF_CONTENT_SETTING_VALUE_DETECT_IMPORTANT_CONTENT_DEPRECATED</span></li>
 <li>
-<span id="CEF_CONTENT_SETTING_VALUE_NUM_VALUES">CEF_CONTENT_SETTING_VALUE_NUM_VALUES</span></li>
+<span id="CEF_CONTENT_SETTING_VALUE_NUM_VALUES">CEF_CONTENT_SETTING_VALUE_NUM_VALUES</span>: * CEF_API_ADDED(14000) *</li>
 </ul>
 </td></tr>
 </table>

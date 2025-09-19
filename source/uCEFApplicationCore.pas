@@ -200,6 +200,10 @@ type
       FMissingLibFiles                   : string;
       FMustFreeLibrary                   : boolean;
       FLastErrorMessage                  : ustring;
+      FSharedTextureEnabled              : boolean;
+      FExternalBeginFrameEnabled         : boolean;
+      FUseGL                             : TCefGLImplementation;
+      FUseAngle                          : TCefAngleImplementation;
 
       // Internal fields
       FLibHandle                         : {$IFDEF FPC}TLibHandle{$ELSE}THandle{$ENDIF};
@@ -1556,6 +1560,33 @@ type
       /// Last error message that is usually shown when CEF finds a problem at initialization.
       /// </summary>
       property LastErrorMessage                  : ustring                                  read FLastErrorMessage;
+      /// <summary>
+      /// Set to true (1) to enable shared textures for windowless rendering. Only
+      /// valid if windowless_rendering_enabled above is also set to true. Currently
+      /// only supported on Windows (D3D11).
+      /// </summary>
+      property SharedTextureEnabled              : boolean                                  read FSharedTextureEnabled              write FSharedTextureEnabled;
+      /// <summary>
+      /// Set to true (1) to enable the ability to issue BeginFrame requests from
+      /// the client application by calling ICefBrowserHost.SendExternalBeginFrame.
+      /// </summary>
+      property ExternalBeginFrameEnabled         : boolean                                  read FExternalBeginFrameEnabled         write FExternalBeginFrameEnabled;
+      /// <summary>
+      /// Select which implementation of GL the GPU process should use.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#use-gl">Uses the following command line switch: --use-gl</see></para>
+      /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:ui/gl/gl_switches.cc">See the gl_switches.cc file</see></para>
+      /// </remarks>
+      property UseGL                             : TCefGLImplementation                     read FUseGL                             write FUseGL;
+      /// <summary>
+      /// Select which ANGLE backend to use.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#use-angle">Uses the following command line switch: --use-angle</see></para>
+      /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:ui/gl/gl_switches.cc">See the gl_switches.cc file</see></para>
+      /// </remarks>
+      property UseAngle                          : TCefAngleImplementation                  read FUseAngle                          write FUseAngle;
       {$IFDEF LINUX}
       /// <summary>
       /// Return the singleton X11 display shared with Chromium. The display is not
@@ -2106,6 +2137,10 @@ begin
   FMissingLibFiles                   := '';
   FMustFreeLibrary                   := False;
   FLastErrorMessage                  := '';
+  FSharedTextureEnabled              := False;
+  FExternalBeginFrameEnabled         := False;
+  FUseGL                             := glimDefault;
+  FUseAngle                          := animDefault;
   {$IFDEF MSWINDOWS}
   case FProcessType of
     ptBrowser  : GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
@@ -3751,6 +3786,24 @@ begin
   end;
 
   {$IFDEF LINUX}
+  if FWindowlessRenderingEnabled and FSharedTextureEnabled then
+    begin
+      // On Linux, in off screen rendering (OSR) shared texture mode, we must
+      // ensure that ANGLE uses the EGL backend. Without this, DMABUF based
+      // rendering will fail. The Chromium fallback path uses X11 pixmaps,
+      // which are only supported by Mesa drivers (e.g., AMD and Intel).
+      //
+      // While Mesa supports DMABUFs via both EGL and pixmaps, the EGL based
+      // DMA BUF import path is more robust and required for compatibility with
+      // drivers like NVIDIA that do not support pixmaps.
+      //
+      // We also append the kOzonePlatform switch with value x11 to ensure
+      // that X11 semantics are preserved, which is necessary for compatibility
+      // with some GDK/X11 integrations (e.g. Wayland with AMD).
+      if (FUseAngle      = animDefault) then FUseAngle      := animOpenGLEGL;
+      if (FOzonePlatform = ozpDefault)  then FOzonePlatform := ozpX11;
+    end;
+
   case FPasswordStorage of
     psGnomeLibsecret : ReplaceSwitch(aKeys, aValues, '--password-store', 'gnome-libsecret');
     psKWallet        : ReplaceSwitch(aKeys, aValues, '--password-store', 'kwallet');
@@ -3770,6 +3823,31 @@ begin
     ozpHeadless      : ReplaceSwitch(aKeys, aValues, '--ozone-platform', 'headless');
   end;
   {$ENDIF}
+
+  case FUseGL of
+    glimEGL          : ReplaceSwitch(aKeys, aValues, '--use-gl', 'egl');
+    glimANGLE        : ReplaceSwitch(aKeys, aValues, '--use-gl', 'angle');
+    glimMock         : ReplaceSwitch(aKeys, aValues, '--use-gl', 'mock');
+    glimStub         : ReplaceSwitch(aKeys, aValues, '--use-gl', 'stub');
+    glimDisabled     : ReplaceSwitch(aKeys, aValues, '--use-gl', 'disabled');
+  end;
+
+  case FUseAngle of
+    animD3D9                : ReplaceSwitch(aKeys, aValues, '--use-angle', 'd3d9');
+    animD3D11               : ReplaceSwitch(aKeys, aValues, '--use-angle', 'd3d11');
+    animD3D11on12           : ReplaceSwitch(aKeys, aValues, '--use-angle', 'd3d11on12');
+    animD3D11Warp           : ReplaceSwitch(aKeys, aValues, '--use-angle', 'd3d11-warp');
+    animD3D11WarpForWebGL   : ReplaceSwitch(aKeys, aValues, '--use-angle', 'd3d11-warp-webgl');
+    animOpenGL              : ReplaceSwitch(aKeys, aValues, '--use-angle', 'gl');
+    animOpenGLEGL           : ReplaceSwitch(aKeys, aValues, '--use-angle', 'gl-egl');
+    animOpenGLES            : ReplaceSwitch(aKeys, aValues, '--use-angle', 'gles');
+    animOpenGLESEGL         : ReplaceSwitch(aKeys, aValues, '--use-angle', 'gles-egl');
+    animNull                : ReplaceSwitch(aKeys, aValues, '--use-angle', 'null');
+    animVulkan              : ReplaceSwitch(aKeys, aValues, '--use-angle', 'vulkan');
+    animSwiftShader         : ReplaceSwitch(aKeys, aValues, '--use-angle', 'swiftshader');
+    animSwiftShaderForWebGL : ReplaceSwitch(aKeys, aValues, '--use-angle', 'swiftshader-webgl');
+    animMetal               : ReplaceSwitch(aKeys, aValues, '--use-angle', 'metal');
+  end;
 
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc

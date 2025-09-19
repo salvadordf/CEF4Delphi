@@ -152,9 +152,16 @@ type
 
 implementation
 
+uses
+  uCEFApplication;
+
 constructor TChromiumOptions.Create;
 begin
-  FWindowlessFrameRate         := CEF_OSR_FRAMERATE_DEFAULT;
+  if assigned(GlobalCEFApp) and GlobalCEFApp.SharedTextureEnabled then
+    FWindowlessFrameRate := CEF_OSR_SHARED_TEXTURES_FRAMERATE_DEFAULT
+   else
+    FWindowlessFrameRate := CEF_OSR_FRAMERATE_DEFAULT;
+
   FJavascript                  := STATE_DEFAULT;
   FJavascriptCloseWindows      := STATE_DEFAULT;
   FJavascriptAccessClipboard   := STATE_DEFAULT;

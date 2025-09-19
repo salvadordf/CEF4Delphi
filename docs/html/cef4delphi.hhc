@@ -880,6 +880,22 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FLastErrorMessage">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FSharedTextureEnabled">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FSharedTextureEnabled">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FExternalBeginFrameEnabled">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FExternalBeginFrameEnabled">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FUseGL">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FUseGL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FUseAngle">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FUseAngle">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FLibHandle">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FLibHandle">
 </object>
@@ -1544,6 +1560,22 @@
 <li><object type="text/sitemap">
 <param name="Name" value="LastErrorMessage">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#LastErrorMessage">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SharedTextureEnabled">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#SharedTextureEnabled">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ExternalBeginFrameEnabled">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ExternalBeginFrameEnabled">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="UseGL">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#UseGL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="UseAngle">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#UseAngle">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnRegCustomSchemes">
@@ -5340,6 +5372,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="DoOnIMESetComposition">
 <param name="Local" value="uCEFBufferPanel.TBufferPanel.html#DoOnIMESetComposition">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="WSRegisterClass">
+<param name="Local" value="uCEFBufferPanel.TBufferPanel.html#WSRegisterClass">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="Create">
@@ -12142,6 +12178,10 @@
 <param name="Local" value="uCEFConstants.html#ERR_ECH_FALLBACK_CERTIFICATE_INVALID">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="ERR_PROXY_UNABLE_TO_CONNECT_TO_DESTINATION">
+<param name="Local" value="uCEFConstants.html#ERR_PROXY_UNABLE_TO_CONNECT_TO_DESTINATION">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="ERR_CERT_COMMON_NAME_INVALID">
 <param name="Local" value="uCEFConstants.html#ERR_CERT_COMMON_NAME_INVALID">
 </object>
@@ -12894,6 +12934,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_WEB_APP_MENU_APP_INFO">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_WEB_APP_UPGRADE_DIALOG">
+<param name="Local" value="uCEFConstants.html#IDC_WEB_APP_UPGRADE_DIALOG">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_VISIT_DESKTOP_OF_LRU_USER_2">
 <param name="Local" value="uCEFConstants.html#IDC_VISIT_DESKTOP_OF_LRU_USER_2">
 </object>
@@ -13584,6 +13628,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SHOW_SEARCH_TOOLS">
 <param name="Local" value="uCEFConstants.html#IDC_SHOW_SEARCH_TOOLS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_SHOW_COMMENTS_SIDE_PANEL">
+<param name="Local" value="uCEFConstants.html#IDC_SHOW_COMMENTS_SIDE_PANEL">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SPELLCHECK_SUGGESTION_0">
@@ -32982,6 +33030,22 @@
 <param name="Local" value="uCEFMiscFunctions.html#GetDeviceScaleFactor">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="TryRemoveDir">
+<param name="Local" value="uCEFMiscFunctions.html#TryRemoveDir">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TryDeleteFile">
+<param name="Local" value="uCEFMiscFunctions.html#TryDeleteFile">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TryRenameDir">
+<param name="Local" value="uCEFMiscFunctions.html#TryRenameDir">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TryRenameFile">
+<param name="Local" value="uCEFMiscFunctions.html#TryRenameFile">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="DeleteDirContents">
 <param name="Local" value="uCEFMiscFunctions.html#DeleteDirContents">
 </object>
@@ -51214,6 +51278,14 @@
 <param name="Local" value="uCEFTypes.html#TCefColorType">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="TCefGLImplementation">
+<param name="Local" value="uCEFTypes.html#TCefGLImplementation">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefAngleImplementation">
+<param name="Local" value="uCEFTypes.html#TCefAngleImplementation">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="TCefRectArray">
 <param name="Local" value="uCEFTypes.html#TCefRectArray">
 </object>
@@ -67389,6 +67461,10 @@
 <param name="Name" value="WndProc">
 <param name="Local" value="uCEFBufferPanel.TBufferPanel.html#WndProc">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="WSRegisterClass">
+<param name="Local" value="uCEFBufferPanel.TBufferPanel.html#WSRegisterClass">
+</object>
 </ul>
 </ul>
 <li><object type="text/sitemap">
@@ -67928,6 +68004,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FEnableUsermediaScreenCapturing">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FExternalBeginFrameEnabled">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FExternalBeginFrameEnabled">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FExternalMessagePump">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FExternalMessagePump">
 </object>
@@ -68212,6 +68292,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FSetCurrentDir">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FSharedTextureEnabled">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FSharedTextureEnabled">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FShowMessageDlg">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FShowMessageDlg">
 </object>
@@ -68248,8 +68332,16 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FUncaughtExceptionStackSize">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FUseAngle">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FUseAngle">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FUseFakeUIForMediaStream">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FUseFakeUIForMediaStream">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FUseGL">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FUseGL">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FUseMockKeyChain">
@@ -68550,6 +68642,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ExitCode">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="ExternalBeginFrameEnabled">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ExternalBeginFrameEnabled">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="ExternalMessagePump">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ExternalMessagePump">
 </object>
@@ -68838,6 +68934,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#SetCurrentDir">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SharedTextureEnabled">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#SharedTextureEnabled">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="ShowMessageDlg">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ShowMessageDlg">
 </object>
@@ -68886,12 +68986,20 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#UncaughtExceptionStackSize">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="UseAngle">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#UseAngle">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="UsedMemory">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#UsedMemory">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="UseFakeUIForMediaStream">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#UseFakeUIForMediaStream">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="UseGL">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#UseGL">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="UseMockKeyChain">

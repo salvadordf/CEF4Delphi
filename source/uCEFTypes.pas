@@ -506,6 +506,47 @@ type
   {$ENDIF}
 
   /// <summary>
+  /// Select which implementation of GL the GPU process should use.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#use-gl">Uses the following command line switch: --use-gl</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:ui/gl/gl_switches.cc">See the gl_switches.cc file</see></para>
+  /// </remarks>
+  TCefGLImplementation = (
+    glimDefault,
+    glimEGL,
+    glimANGLE,
+    glimMock,
+    glimStub,
+    glimDisabled
+  );
+
+  /// <summary>
+  /// Select which ANGLE backend to use.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#use-angle">Uses the following command line switch: --use-angle</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:ui/gl/gl_switches.cc">See the gl_switches.cc file</see></para>
+  /// </remarks>
+  TCefAngleImplementation = (
+    animDefault,
+    animD3D9,
+    animD3D11,
+    animD3D11on12,
+    animD3D11Warp,
+    animD3D11WarpForWebGL,
+    animOpenGL,
+    animOpenGLEGL,
+    animOpenGLES,
+    animOpenGLESEGL,
+    animNull,
+    animVulkan,
+    animSwiftShader,
+    animSwiftShaderForWebGL,
+    animMetal
+  );
+
+  /// <summary>
   /// Structure representing a size.
   /// </summary>
   /// <remarks>
@@ -3446,6 +3487,7 @@ type
     CEF_CPAIT_COLLABORATION_MESSAGING, {* CEF_API_ADDED(13304) *}
     CEF_CPAIT_CHANGE_PASSWORD,         {* CEF_API_ADDED(13400) *}
     CEF_CPAIT_LENS_OVERLAY_HOMEWORK,   {* CEF_API_ADDED(13800) *}
+    CEF_CPAIT_AI_MODE,                 {* CEF_API_ADDED(14000) *}
     CEF_CPAIT_NUM_VALUES
   );
 
@@ -3489,7 +3531,7 @@ type
     /// <summary>
     /// A plugin process.
     /// </summary>
-    CEF_TASK_TYPE_PLUGIN,
+    CEF_TASK_TYPE_PLUGIN_DEPRECATED,               {* CEF_API_ADDED(14000) *}
     /// <summary>
     /// A sandbox helper process.
     /// </summary>
@@ -3622,10 +3664,14 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_chrome_toolbar_button_type_t)</see></para>
   /// </remarks>
   TCefChromeToolbarButtonType = (
-    CEF_CTBT_CAST,
-    CEF_CTBT_DOWNLOAD_DEPRECATED,
-    CEF_CTBT_SEND_TAB_TO_SELF_DEPRECATED,
-    CEF_CTBT_SIDE_PANEL,
+    CEF_CTBT_CAST_DEPRECATED,               {* CEF_API_ADDED(14000) *}
+    CEF_CTBT_DOWNLOAD_DEPRECATED,           {* CEF_API_ADDED(13600) *}
+    CEF_CTBT_SEND_TAB_TO_SELF_DEPRECATED,   {* CEF_API_ADDED(13600) *}
+    CEF_CTBT_SIDE_PANEL_DEPRECATED,         {* CEF_API_ADDED(14000) *}
+    CEF_CTBT_MEDIA,                         {* CEF_API_ADDED(14000) *}
+    CEF_CTBT_TAB_SEARCH,                    {* CEF_API_ADDED(14000) *}
+    CEF_CTBT_BATTERY_SAVER,                 {* CEF_API_ADDED(14000) *}
+    CEF_CTBT_AVATAR,                        {* CEF_API_ADDED(14000) *}
     CEF_CTBT_NUM_VALUES
   );
 
@@ -5334,8 +5380,8 @@ type
     /// Website setting to store permissions granted to access particular devices
     /// in private network.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_GUARD,
-    CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_CHOOSER_DATA,
+    CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_GUARD_DEPRECATED,         {* CEF_API_ADDED(14000) *}
+    CEF_CONTENT_SETTING_TYPE_PRIVATE_NETWORK_CHOOSER_DATA_DEPRECATED,  {* CEF_API_ADDED(14000) *}
     /// <summary>
     /// Website setting which stores whether the browser has observed the user
     /// signing into an identity-provider based on observing the IdP-SignIn-Status
@@ -5571,6 +5617,18 @@ type
     /// user decides they would like to see all of these notifications.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_SUSPICIOUS_NOTIFICATION_IDS,                        {* CEF_API_ADDED(13800) *}
+    /// <summary>
+    /// To support approximate geolocation, the permission is migrating to use
+    /// permissions with options, which won't be stored as ContentSettings. Upon
+    /// launch of the feature, GEOLOCATION and GEOLOCATION_WITH_OPTIONS should be
+    /// merged.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_GEOLOCATION_WITH_OPTIONS,                           {* CEF_API_ADDED(14000) *}
+    /// <summary>
+    /// Setting for enabling the Device Attributes API. Spec link:
+    /// https://wicg.github.io/WebApiDevice/device_attributes/
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_DEVICE_ATTRIBUTES,                                  {* CEF_API_ADDED(14000) *}
     CEF_CONTENT_SETTING_TYPE_NUM_VALUES
   );
 
@@ -5587,7 +5645,7 @@ type
     CEF_CONTENT_SETTING_VALUE_BLOCK,
     CEF_CONTENT_SETTING_VALUE_ASK,
     CEF_CONTENT_SETTING_VALUE_SESSION_ONLY,
-    CEF_CONTENT_SETTING_VALUE_DETECT_IMPORTANT_CONTENT,
+    CEF_CONTENT_SETTING_VALUE_DETECT_IMPORTANT_CONTENT_DEPRECATED,               {* CEF_API_ADDED(14000) *}
     CEF_CONTENT_SETTING_VALUE_NUM_VALUES
   );
 

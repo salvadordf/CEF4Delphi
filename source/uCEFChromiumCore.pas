@@ -4998,7 +4998,6 @@ begin
         begin
           GetSettings(FBrowserSettings);
 
-
           if aForceAsPopup then
             begin
               {$IFDEF MSWINDOWS}
@@ -5093,7 +5092,15 @@ procedure TChromiumCore.InitializeWindowInfo(      aParentHandle : TCefWindowHan
                                              const aWindowName   : ustring);
 begin
   if FIsOSR then
-    FWindowInfo.SetAsWindowless(ParentFormHandle)
+    begin
+      FWindowInfo.SetAsWindowless(ParentFormHandle);
+
+      if assigned(GlobalCEFApp) then
+        begin
+          FWindowInfo.SharedTextureEnabled      := GlobalCEFApp.SharedTextureEnabled;
+          FWindowInfo.ExternalBeginFrameEnabled := GlobalCEFApp.ExternalBeginFrameEnabled;
+        end;
+    end
    else
     begin
       FWindowInfo.SetAsChild(aParentHandle, aParentRect);
@@ -5535,8 +5542,12 @@ end;
 procedure TChromiumCore.InitializeSettings(var aSettings : TCefBrowserSettings);
 begin
   FillChar(aSettings, SizeOf(TCefBrowserSettings), 0);
-  aSettings.size                  := SizeOf(TCefBrowserSettings);
-  aSettings.windowless_frame_rate := CEF_OSR_FRAMERATE_DEFAULT;  // Use CEF_OSR_SHARED_TEXTURES_FRAMERATE_DEFAULT if the shared textures are enabled.
+  aSettings.size := SizeOf(TCefBrowserSettings);
+
+  if assigned(GlobalCEFApp) and GlobalCEFApp.SharedTextureEnabled then
+    aSettings.windowless_frame_rate := CEF_OSR_SHARED_TEXTURES_FRAMERATE_DEFAULT
+   else
+    aSettings.windowless_frame_rate := CEF_OSR_FRAMERATE_DEFAULT;
 end;
 
 procedure TChromiumCore.LoadURL(const aURL : ustring; const aFrameName, aFrameIdentifier : ustring);

@@ -381,7 +381,8 @@ const
   /// </remarks>
   ERR_SSL_CLIENT_AUTH_CERT_NEEDED                             = -110;
   /// <summary>
-  /// A tunnel connection through the proxy could not be established.
+  /// A tunnel connection through the proxy could not be established. For more info
+  /// see the comment on PROXY_UNABLE_TO_CONNECT_TO_DESTINATION.
   /// </summary>
   /// <remarks>
   /// <para>TCefErrorCode value.</para>
@@ -934,6 +935,26 @@ const
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
   /// </remarks>
   ERR_ECH_FALLBACK_CERTIFICATE_INVALID                        = -184;
+  /// <summary>
+  /// An attempt to proxy a request failed because the proxy wasn't able to
+  /// successfully connect to the destination. This likely indicates an issue with
+  /// the request itself (for instance, the hostname failed to resolve to an IP
+  /// address or the destination server refused the connection). This error code
+  /// is used to indicate that the error is outside the control of the proxy server
+  /// and thus the proxy chain should not be marked as bad. This is in contrast to
+  /// ERR_TUNNEL_CONNECTION_FAILED which is used for general purpose errors
+  /// connecting to the proxy and by the proxy request response handling when a
+  /// proxy delegate doesn't indicate via a different error code whether proxy
+  /// fallback should occur. Note that for IP Protection proxies this error code
+  /// causes the proxy to be marked as bad since the preference is to fail open for
+  /// general purpose errors, but for other proxies this error does not cause the
+  /// proxy to be marked as bad.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_PROXY_UNABLE_TO_CONNECT_TO_DESTINATION                  = -186;
   /// <summary>
   /// The server responded with a certificate whose common name did not match
   /// the host name.  This could mean:
@@ -2231,6 +2252,7 @@ const
   IDC_OPEN_IN_CHROME = 34061;
   IDC_WEB_APP_SETTINGS = 34062;
   IDC_WEB_APP_MENU_APP_INFO = 34063;
+  IDC_WEB_APP_UPGRADE_DIALOG = 34064;
   IDC_VISIT_DESKTOP_OF_LRU_USER_2 = 34080;
   IDC_VISIT_DESKTOP_OF_LRU_USER_3 = 34081;
   IDC_VISIT_DESKTOP_OF_LRU_USER_4 = 34082;
@@ -2404,6 +2426,7 @@ const
   IDC_OPEN_GLIC = 40294;
   IDC_FIND_EXTENSIONS = 40295;
   IDC_SHOW_SEARCH_TOOLS = 40296;
+  IDC_SHOW_COMMENTS_SIDE_PANEL = 40297;
   IDC_SPELLCHECK_SUGGESTION_0 = 41000;
   IDC_SPELLCHECK_SUGGESTION_1 = 41001;
   IDC_SPELLCHECK_SUGGESTION_2 = 41002;
