@@ -259,9 +259,15 @@ begin
   QTKeyEventToCEFKeyEvent(QKeyEventH(Event_), TempCefEvent);
 
   TempCefEvent.kind := KEYEVENT_RAWKEYDOWN;
-  Chromium1.SendKeyEvent(@TempCefEvent);  CefKeyEventLog(TempCefEvent);
-  TempCefEvent.kind := KEYEVENT_CHAR;
-  Chromium1.SendKeyEvent(@TempCefEvent);  CefKeyEventLog(TempCefEvent);
+  //CefKeyEventLog(TempCefEvent);
+  Chromium1.SendKeyEvent(@TempCefEvent);
+
+  if AdjustCefKeyCharEvent(QKeyEventH(Event_), TempCefEvent) then
+    begin
+      TempCefEvent.kind := KEYEVENT_CHAR;
+      //CefKeyEventLog(TempCefEvent);
+      Chromium1.SendKeyEvent(@TempCefEvent);
+    end;
 end;
 
 procedure TMainForm.Panel1QTKeyRelease(Sender: TObject; Event_: QEventH);  
@@ -271,7 +277,8 @@ begin
   QTKeyEventToCEFKeyEvent(QKeyEventH(Event_), TempCefEvent);
 
   TempCefEvent.kind := KEYEVENT_KEYUP;
-  Chromium1.SendKeyEvent(@TempCefEvent);  CefKeyEventLog(TempCefEvent);
+  //CefKeyEventLog(TempCefEvent);
+  Chromium1.SendKeyEvent(@TempCefEvent);
 end;
 
 procedure TMainForm.Panel1Resize(Sender: TObject);

@@ -48,6 +48,7 @@ function  GdkEventToWindowsKeyCode(Event: PGdkEventKey) : integer;
 function  GetCefStateModifiers(KeyboardModifiers : QtKeyboardModifiers; NativeModifiers : LongWord) : TCefEventFlags;
 function  GetCefWindowsKeyCode(key : QtKey) : integer;
 procedure QTKeyEventToCEFKeyEvent(Event_ : QKeyEventH; var aCEFKeyEvent : TCEFKeyEvent);
+function  AdjustCefKeyCharEvent(Event_ : QKeyEventH; var aCEFKeyEvent : TCEFKeyEvent): boolean;
 {$IFEND}
 
 {$IFDEF FMX}
@@ -739,6 +740,23 @@ begin
    else
     aCEFKeyEvent.character := aCEFKeyEvent.unmodified_character;
 end;
+
+function AdjustCefKeyCharEvent(Event_ : QKeyEventH; var aCEFKeyEvent : TCEFKeyEvent): boolean;
+var
+  TempKey : WideString;
+begin
+  Result := False;
+
+  QKeyEvent_text(Event_, @TempKey);
+  if (length(TempKey) > 0) then
+    begin
+      aCEFKeyEvent.windows_key_code     := ord(TempKey[1]);
+      aCEFKeyEvent.unmodified_character := TempKey[1];
+      aCEFKeyEvent.character            := aCEFKeyEvent.unmodified_character;
+      Result                            := True;
+    end;
+end;
+
 {$IFEND}
 
 {$IFDEF FMX}
