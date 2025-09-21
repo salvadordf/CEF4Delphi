@@ -26,7 +26,6 @@ type
     procedure Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
-    procedure Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
     procedure Chromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
 
@@ -68,6 +67,33 @@ function StartMainProcess: boolean;
 implementation
 
 {$R *.lfm}
+
+// This is a demo with the simplest web browser you can build using CEF4Delphi and
+// it doesn't show any sign of progress like other web browsers do.
+
+// Remember that it may take a few seconds to load if Windows update, your antivirus or
+// any other windows service is using your hard drive.
+
+// Depending on your internet connection it may take longer than expected.
+
+// Please check that your firewall or antivirus are not blocking this application
+// or the domain "google.com". If you don't live in the US, you'll be redirected to
+// another domain which will take a little time too.
+
+// This demo uses a TChromium and a TCEFLinkedWindowParent
+
+// We need to use TCEFLinkedWindowParent in Linux to update the browser
+// visibility and size automatically.
+
+// Most of the TChromium events are executed in a CEF thread and this causes
+// issues with most QT API functions. If you need to update the GUI, store the
+// TChromium event parameters and use SendCompMessage (Application.QueueAsyncCall)
+// to do it in the main application thread.
+
+// Destruction steps
+// =================
+// 1. FormCloseQuery sets CanClose to FALSE, destroys CEFLinkedWindowParent1 and calls TChromium.CloseBrowser which triggers the TChromium.OnBeforeClose event.
+// 2. TChromium.OnBeforeClose sets FCanClose := True and sends CEF_BEFORECLOSE to close the form.
 
 uses
   Math,  
@@ -145,9 +171,7 @@ begin
       FClosing := True;
       Visible  := False;
       Chromium1.CloseBrowser(True);
-
-      if Chromium1.RuntimeStyle = CEF_RUNTIME_STYLE_CHROME then
-        CEFLinkedWindowParent1.Free;
+      CEFLinkedWindowParent1.Free;
     end;
 end;
 {%Endregion}
@@ -260,13 +284,6 @@ procedure TMainForm.Chromium1BeforePopup(Sender: TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
-end;
-
-procedure TMainForm.Chromium1Close(Sender: TObject; const browser: ICefBrowser;
-  var aAction: TCefCloseBrowserAction);
-begin
-  // continue closing the browser
-  aAction := cbaClose;
 end;
 
 procedure TMainForm.Chromium1GotFocus(Sender: TObject;

@@ -119,6 +119,77 @@ implementation
 
 {$R *.lfm}     
 
+// This is a simple CEF browser in "off-screen rendering" mode (a.k.a OSR mode)
+
+// It uses the default CEF configuration with a multithreaded message loop and
+// that means that the TChromium events are executed in a CEF thread.
+
+// QT is not thread safe so we have to save all the information given in the
+// TChromium events and use it later in the main application thread. We use
+// critical sections to protect all that information.
+
+// For example, the browser updates the mouse cursor in the
+// TChromium.OnCursorChange event so we have to save the cursor in FPanelCursor
+// and use Application.QueueAsyncCall to update the Panel1.Cursor value in the
+// main application thread.
+
+// The raw bitmap information given in the TChromium.OnPaint event also needs to
+// be stored in a TCEFBitmapBitBuffer class instead of a simple TBitmap to avoid
+// issues with QT.
+
+// Chromium renders the web contents asynchronously. It uses multiple processes
+// and threads which makes it complicated to keep the correct browser size.
+
+// In one hand you have the main application thread where the form is resized by
+// the user. On the other hand, Chromium renders the contents asynchronously
+// with the last browser size available, which may have changed by the time
+// Chromium renders the page.
+
+// For this reason we need to keep checking the real size and call
+// TChromium.WasResized when we detect that Chromium has an incorrect size.
+
+// TChromium.WasResized triggers the TChromium.OnGetViewRect event to let CEF
+// read the current browser size and then it triggers TChromium.OnPaint when the
+// contents are finally rendered.
+
+// TChromium.WasResized --> (time passes) --> TChromium.OnGetViewRect --> (time passes) --> TChromium.OnPaint
+
+// You have to assume that the real browser size can change between those calls
+// and events.
+
+// This demo uses a couple of fields called "FResizing" and "FPendingResize" to
+// reduce the number of TChromium.WasResized calls.
+
+// FResizing is set to True before the TChromium.WasResized call and it's set to
+// False at the end of the TChromium.OnPaint event.
+
+// FPendingResize is set to True when the browser changed its size while
+// FResizing was True. The FPendingResize value is checked at the end of
+// TChromium.OnPaint to check the browser size again because it changed while
+// Chromium was rendering the page.
+
+// The TChromium.OnPaint event in the demo also calls
+// TBufferPanel.UpdateOrigBufferDimensions and TBufferPanel.BufferIsResized to check
+// the width and height of the buffer parameter, and the internal buffer size in
+// the TBufferPanel component.
+
+// Lazarus usually initializes the QT WidgetSet in the initialization section
+// of the "Interfaces" unit which is included in the LPR file. This causes
+// initialization problems in CEF and we need to call "CreateWidgetset" after
+// the GlobalCEFApp.StartMainProcess call.
+
+// Lazarus shows a warning if we remove the "Interfaces" unit from the LPR file
+// so we created a custom unit with the same name that includes two procedures
+// to initialize and finalize the WidgetSet at the right time.
+
+// This is the destruction sequence in OSR mode :
+// 1- FormCloseQuery sets CanClose to the initial FCanClose value (False) and
+//    calls Chromium1.CloseBrowser(True) which will destroy the internal browser
+//    immediately.
+// 2- Chromium1.OnBeforeClose is triggered because the internal browser was
+//    destroyed. FCanClose is set to True and calls
+//    SendCompMessage(CEF_BEFORECLOSE) to close the form asynchronously.
+
 uses
   Math,
   uCEFMiscFunctions, uCEFApplication, uCEFConstants, uCEFBitmapBitBuffer,
@@ -143,6 +214,7 @@ begin
   GlobalCEFApp                            := TCefApplication.Create;
   GlobalCEFApp.LogFile                    := 'debug.log';
   GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
+  GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.RootCache                  := 'RootCache';
   GlobalCEFApp.SetCurrentDir              := True;
   GlobalCEFApp.DisableZygote              := True;

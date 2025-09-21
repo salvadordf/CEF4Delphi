@@ -14,7 +14,7 @@
       <Icon Value="0"/>
     </General>
     <MacroValues Count="1">
-      <Macro2 Name="LCLWidgetType" Value="qt5"/>
+      <Macro1 Name="LCLWidgetType" Value="qt5"/>
     </MacroValues>
     <BuildModes>
       <Item Name="Default" Default="True"/>
@@ -59,7 +59,7 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="../../../bin/SimpleOSRBrowserQT"/>
+      <Filename Value="../../../bin/SimpleOSRBrowser"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
