@@ -10,7 +10,12 @@ uses
   {$IFDEF LCLQT}qt4,{$ENDIF}
   {$IFDEF LCLQT5}qt5,{$ENDIF}
   {$IFDEF LCLQT6}qt6,{$ENDIF}
-  uCEFBufferPanel, uCEFChromium, uCEFInterfaces, uCEFTypes;
+  uCEFBufferPanel, uCEFChromium, uCEFInterfaces, uCEFTypes;      
+
+const
+  // Set this constant to True and load "file:///<path-to-CEF4Delphi>/bin/transparency.html" to test a
+  // transparent browser.
+  TRANSPARENT_BROWSER      = True;
 
 type
 
@@ -219,6 +224,13 @@ begin
   GlobalCEFApp.DisableZygote              := True;              
   GlobalCEFApp.WindowlessRenderingEnabled := True;
   GlobalCEFApp.OnContextInitialized       := @GlobalCEFApp_OnContextInitialized;
+
+  // If you need transparency leave the GlobalCEFApp.BackgroundColor property
+  // with the default value or set the alpha channel to 0
+  if TRANSPARENT_BROWSER then
+    GlobalCEFApp.BackgroundColor := CefColorSetARGB($00, $00, $00, $00)
+   else
+    GlobalCEFApp.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
 end;
 
 function StartMainProcess: boolean;
@@ -612,11 +624,16 @@ begin
       // monitor where the main application form is located.
       GlobalCEFApp.UpdateDeviceScaleFactor;
 
-       UpdatePanelOffset;
+       UpdatePanelOffset;                  
 
-      // opaque white background color
-      Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
-      Chromium1.DefaultURL              := UTF8Decode(AddressCb.Text);
+      // If you need transparency leave the Chromium1.Options.BackgroundColor property
+      // with the default value or set the alpha channel to 0
+      if TRANSPARENT_BROWSER then
+        Chromium1.Options.BackgroundColor := CefColorSetARGB($00, $00, $00, $00)
+       else
+        Chromium1.Options.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
+
+      Chromium1.DefaultURL := UTF8Decode(AddressCb.Text);
 
       Chromium1.CreateBrowser;
     end;
