@@ -1136,6 +1136,10 @@ type
       /// <summary>
       /// This procedure calls the Storage.clearDataForOrigin DevTools method to clear the storage data for a given origin.
       /// </summary>
+      /// <remarks>
+      /// <para><see href="https://chromedevtools.github.io/devtools-protocol/tot/Storage/#method-clearDataForOrigin">See the documentation for the Storage.clearDataForOrigin DevTools method.</see></para>
+      /// <para><see href="https://chromedevtools.github.io/devtools-protocol/tot/Storage/#type-StorageType">See the documentation for the Storage.StorageType type.</see></para>
+      /// </remarks>
       procedure   ClearDataForOrigin(const aOrigin : ustring; aStorageTypes : TCefClearDataStorageTypes = cdstAll);
       /// <summary>
       /// This procedure calls the Network.clearBrowserCache DevTools method to clear the cache data.
@@ -6534,7 +6538,6 @@ begin
     TempParams.SetString('origin', aOrigin);
 
     case aStorageTypes of
-      cdstAppCache        : TempParams.SetString('storageTypes', 'appcache');
       cdstCookies         : TempParams.SetString('storageTypes', 'cookies');
       cdstFileSystems     : TempParams.SetString('storageTypes', 'file_systems');
       cdstIndexeddb       : TempParams.SetString('storageTypes', 'indexeddb');
@@ -6543,6 +6546,10 @@ begin
       cdstWebsql          : TempParams.SetString('storageTypes', 'websql');
       cdstServiceWorkers  : TempParams.SetString('storageTypes', 'service_workers');
       cdstCacheStorage    : TempParams.SetString('storageTypes', 'cache_storage');
+      cdstInterestGroups  : TempParams.SetString('storageTypes', 'interest_groups');
+      cdstSharedStorage   : TempParams.SetString('storageTypes', 'shared_storage');
+      cdstStorageBuckets  : TempParams.SetString('storageTypes', 'storage_buckets');
+      cdstOther           : TempParams.SetString('storageTypes', 'other');
       else                  TempParams.SetString('storageTypes', 'all');
     end;
 

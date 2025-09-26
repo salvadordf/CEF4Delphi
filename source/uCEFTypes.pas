@@ -1355,8 +1355,10 @@ type
   /// <summary>
   /// Storage types used by the Storage.clearDataForOrigin DevTools method in TChromiumCore.ClearDataForOrigin.
   /// </summary>
-  TCefClearDataStorageTypes = (cdstAppCache,
-                               cdstCookies,
+  /// <remarks>
+  /// <para><see href="https://chromedevtools.github.io/devtools-protocol/tot/Storage/#type-StorageType">See the documentation for the Storage.StorageType type.</see></para>
+  /// </remarks>
+  TCefClearDataStorageTypes = (cdstCookies,
                                cdstFileSystems,
                                cdstIndexeddb,
                                cdstLocalStorage,
@@ -1364,7 +1366,11 @@ type
                                cdstWebsql,
                                cdstServiceWorkers,
                                cdstCacheStorage,
-                               cdstAll);
+                               cdstInterestGroups,
+                               cdstSharedStorage,
+                               cdstStorageBuckets,
+                               cdstAll,
+                               cdstOther);
 
   /// <summary>
   /// Autoplay policy types used by TCefApplicationCore.AutoplayPolicy. See the --autoplay-policy switch.
