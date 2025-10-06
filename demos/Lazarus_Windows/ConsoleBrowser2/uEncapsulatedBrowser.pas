@@ -2,16 +2,10 @@
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
-
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  System.SyncObjs, System.SysUtils,
-  {$ELSE}
   SyncObjs, SysUtils,
-  {$ENDIF}
   uCEFTypes, uCEFBrowserThread;
 
 type

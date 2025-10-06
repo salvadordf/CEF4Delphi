@@ -2,7 +2,7 @@ program EditorBrowser;
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+
 
 uses
   Forms,

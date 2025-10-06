@@ -2,7 +2,7 @@ program TabbedBrowser2;
 
 {$mode objfpc}{$H+}
 
-{$I ../../../source/cef.inc}
+
 
 uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}

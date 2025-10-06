@@ -2,7 +2,7 @@ program VirtualUIBrowser_sp;
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+
 
 uses
   LCLIntf, LCLType, LMessages, Forms, Interfaces,

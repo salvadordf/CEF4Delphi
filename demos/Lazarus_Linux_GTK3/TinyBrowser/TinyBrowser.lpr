@@ -2,8 +2,6 @@ program TinyBrowser;
 
 {$MODE Delphi}
 
-{$I ../../../source/cef.inc}
-
 uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,

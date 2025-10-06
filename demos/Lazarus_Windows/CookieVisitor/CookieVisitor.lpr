@@ -1,6 +1,6 @@
 program CookieVisitor;
 
-{$I ..\..\..\source\cef.inc}
+
 
 uses
   Forms,

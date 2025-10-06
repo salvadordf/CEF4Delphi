@@ -2,7 +2,7 @@ unit uResponseFilterBrowser;
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+
 
 interface
 

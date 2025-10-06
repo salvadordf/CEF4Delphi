@@ -1,6 +1,6 @@
 program TabBrowser;
 
-{$I ..\..\..\source\cef.inc}
+
 
 uses
   Forms, Interfaces,

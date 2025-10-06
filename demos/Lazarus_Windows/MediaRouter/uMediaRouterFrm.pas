@@ -2,8 +2,6 @@
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
-
 interface
 
 uses
@@ -113,11 +111,7 @@ implementation
 {$R *.lfm}
 
 uses
-  {$IFDEF DELPHI16_UP}
-  System.Math,
-  {$ELSE}
   Math,
-  {$ENDIF}
   uCEFMiscFunctions;
 
 // This demo can use a MediaRouter to communicate with devices on the local

@@ -2,7 +2,7 @@ program SchemeRegistrationBrowser_sp;
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+
 
 uses
   Forms,

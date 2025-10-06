@@ -1,6 +1,6 @@
 program SchemeRegistrationBrowser;
 
-{$I ..\..\..\source\cef.inc}
+
 
 uses
   Forms,

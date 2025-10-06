@@ -2,7 +2,7 @@ unit uKioskBrowser;
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+
 
 interface
 

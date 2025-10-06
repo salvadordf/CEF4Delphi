@@ -2,7 +2,7 @@ program JSWindowBindingWithArrayBuffer;
 
 {$MODE Delphi}
 
-{$I ..\..\..\..\source\cef.inc}
+
 
 uses
   Forms,

@@ -2,7 +2,7 @@ program JSExtensionWithObjectParameter;
 
 {$MODE Delphi}
 
-{$I ..\..\..\..\source\cef.inc}
+
 
 uses
   Forms,

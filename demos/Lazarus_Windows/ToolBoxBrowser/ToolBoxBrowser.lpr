@@ -2,7 +2,7 @@ program ToolBoxBrowser;
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+
 
 uses
   Forms,

@@ -2,7 +2,7 @@ program JSSimpleExtension;
 
 {$MODE Delphi}
 
-{$I ..\..\..\..\source\cef.inc}
+
 
 uses
   Forms,

@@ -1,6 +1,6 @@
 program JSDialogBrowser;
 
-{$I ..\..\..\..\source\cef.inc}
+
 
 uses
   Forms,

@@ -2,16 +2,10 @@ unit uCEFBrowserThread;
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
-
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Classes, Vcl.Graphics, System.SyncObjs, System.Math,
-  {$ELSE}
   Windows, Messages, SysUtils, Classes, Graphics, SyncObjs, Math,
-  {$ENDIF}
   uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFBufferPanel, uCEFChromiumCore, uCEFMiscFunctions;
 
 type

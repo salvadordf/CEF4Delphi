@@ -2,7 +2,7 @@ program TabbedBrowser2;
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+
 
 uses
   Forms,

@@ -2,7 +2,7 @@ unit uChildForm;
 
 {$MODE OBJFPC}{$H+}
 
-{$I ..\..\..\source\cef.inc}
+
 
 interface
 

@@ -2,7 +2,7 @@ program ResponseFilterBrowser;
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+
 
 uses
   Forms,

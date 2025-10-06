@@ -1,6 +1,6 @@
 program SimpleBrowser;
 
-{$I ..\..\..\source\cef.inc}
+
 
 uses
   Forms, Interfaces,

@@ -2,7 +2,7 @@ program ConsoleBrowser2_sp;
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+
 
 uses
   uCEFApplicationCore;

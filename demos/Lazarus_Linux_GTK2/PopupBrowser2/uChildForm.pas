@@ -2,7 +2,7 @@ unit uChildForm;
 
 {$mode objfpc}{$H+}
 
-{$I ../../../source/cef.inc}
+
 
 interface
 

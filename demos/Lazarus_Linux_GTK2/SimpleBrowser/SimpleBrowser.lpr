@@ -2,7 +2,7 @@ program SimpleBrowser;
 
 {$mode objfpc}{$H+}         
 
-{$I ../../../source/cef.inc}
+
 
 uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}

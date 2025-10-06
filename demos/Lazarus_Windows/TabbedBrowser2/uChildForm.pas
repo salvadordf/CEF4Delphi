@@ -2,7 +2,7 @@
 
 {$MODE Delphi}
 
-{$I ..\..\..\source\cef.inc}
+
 
 interface
 
@@ -63,11 +63,7 @@ implementation
 {$R *.lfm}
 
 uses
-  {$IFDEF DELPHI16_UP}
-  System.Math,
-  {$ELSE}
   Math,
-  {$ENDIF}
   uCEFMiscFunctions, uCEFApplication, uCEFWindowInfoWrapper, uMainForm;
 
 // Destruction steps

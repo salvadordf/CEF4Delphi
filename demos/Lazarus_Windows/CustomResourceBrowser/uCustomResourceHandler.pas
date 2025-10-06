@@ -1,6 +1,6 @@
 unit uCustomResourceHandler;
 
-{$I ..\..\..\source\cef.inc}
+
 
 interface
 uses

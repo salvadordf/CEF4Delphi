@@ -1,6 +1,6 @@
 unit uSimpleBrowser;
 
-{$I ..\..\..\source\cef.inc}
+
 
 interface
 

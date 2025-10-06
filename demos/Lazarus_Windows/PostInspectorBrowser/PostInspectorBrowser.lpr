@@ -1,6 +1,6 @@
 program PostInspectorBrowser;
 
-{$I ..\..\..\source\cef.inc}
+
 
 uses
   Forms,

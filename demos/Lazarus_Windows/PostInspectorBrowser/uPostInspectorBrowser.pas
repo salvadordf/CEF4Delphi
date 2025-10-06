@@ -1,6 +1,6 @@
 unit uPostInspectorBrowser;
 
-{$I ..\..\..\source\cef.inc}
+
 
 interface
 
