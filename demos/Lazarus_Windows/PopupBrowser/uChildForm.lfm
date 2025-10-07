@@ -11,15 +11,14 @@ object ChildForm: TChildForm
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  ShowInTaskBar = stAlways
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnHide = FormHide
   OnShow = FormShow
-  Position = poScreenCenter
-  ShowInTaskBar = stAlways
-  LCLVersion = '3.4.0.0'
   object Panel1: TBufferPanel
     Left = 0
     Height = 256
@@ -50,6 +49,7 @@ object ChildForm: TChildForm
     OnCursorChange = chrmosrCursorChange
     OnBeforePopup = chrmosrBeforePopup
     OnBeforeClose = chrmosrBeforeClose
+    OnOpenUrlFromTab = chrmosrOpenUrlFromTab
     OnGetViewRect = chrmosrGetViewRect
     OnGetScreenPoint = chrmosrGetScreenPoint
     OnGetScreenInfo = chrmosrGetScreenInfo

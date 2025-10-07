@@ -10,12 +10,11 @@ object MainForm: TMainForm
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  Position = poScreenCenter
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  Position = poScreenCenter
-  LCLVersion = '3.4.0.0'
   object AddressPnl: TPanel
     Left = 0
     Height = 21
@@ -68,6 +67,7 @@ object MainForm: TMainForm
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
     OnClose = Chromium1Close
+    OnOpenUrlFromTab = Chromium1OpenUrlFromTab
     Left = 56
     Top = 152
   end

@@ -52,10 +52,11 @@ type
     procedure chrmosrPopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
     procedure chrmosrAfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrTooltip(Sender: TObject; const browser: ICefBrowser; var aText: ustring; out Result: Boolean);
-    procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure chrmosrTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrCanFocus(Sender: TObject);
+    procedure chrmosrOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
 
   protected
     FPopUpBitmap       : TBitmap;
@@ -175,20 +176,6 @@ begin
           chrmosr.SendKeyEvent(@TempKeyEvent);
         end;
     end;
-end;
-
-procedure TChildForm.chrmosrBeforePopup(Sender: TObject;
-  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
-  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
-  var windowInfo: TCefWindowInfo; var client: ICefClient;
-  var settings: TCefBrowserSettings;
-  var extra_info: ICefDictionaryValue;
-  var noJavascriptAccess: Boolean;
-  var Result: Boolean);
-begin
-  // For simplicity, this demo blocks all popup windows and new tabs
-  Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
 end;
 
 procedure TChildForm.chrmosrCursorChange(      Sender           : TObject;
@@ -556,14 +543,19 @@ end;
 
 procedure TChildForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  CanClose := FCanClose;
-
-  if not(FClosing) then
+  if FClientInitialized then
     begin
-      FClosing := True;
-      Visible  := False;
-      chrmosr.CloseBrowser(True);
-    end;
+      CanClose := FCanClose;
+
+      if not(FClosing) then
+        begin
+          FClosing := True;
+          Visible  := False;
+          chrmosr.CloseBrowser(True);
+        end;
+    end
+   else
+    CanClose := True;
 end;
 
 procedure TChildForm.FormCreate(Sender: TObject);
@@ -747,6 +739,28 @@ begin
   chrmosr.SetFocus(True);
 end;
 
+procedure TChildForm.chrmosrBeforePopup(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer;
+  const targetUrl, targetFrameName: ustring;
+  targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
+  const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
+  var client: ICefClient; var settings: TCefBrowserSettings;
+  var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean;
+  var Result: Boolean);
+begin
+  // For simplicity, this demo blocks all popup windows and new tabs
+  Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
+end;
+
+procedure TChildForm.chrmosrOpenUrlFromTab(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
+  targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out
+  Result: Boolean);
+begin
+  // For simplicity, this demo blocks all popup windows and new tabs
+  Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
+end;
+
 procedure TChildForm.chrmosrCanFocus(Sender: TObject);
 begin
   // The browser required some time to create associated internal objects
@@ -826,7 +840,7 @@ end;
 
 procedure TChildForm.FormClose(Sender: TObject; var aAction: TCloseAction);
 begin
-  aAction := caFree;
+  aAction := TCloseAction.caFree;
 end;
 
 procedure TChildForm.ShowChildMsg(var aMessage : TMessage);
