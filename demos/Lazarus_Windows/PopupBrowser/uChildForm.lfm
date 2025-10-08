@@ -59,4 +59,10 @@ object ChildForm: TChildForm
     Left = 24
     Top = 56
   end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 127
+    Top = 70
+  end
 end

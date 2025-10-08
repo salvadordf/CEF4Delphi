@@ -22,6 +22,9 @@ type
   TChildForm = class(TForm)
     chrmosr: TChromium;
     Panel1: TBufferPanel;
+    Timer1: TTimer;
+
+    procedure Timer1Timer(Sender: TObject);
 
     procedure Panel1Enter(Sender: TObject);
     procedure Panel1Exit(Sender: TObject);
@@ -124,7 +127,7 @@ function TChildForm.CreateClientHandler(var   windowInfo      : TCefWindowInfo;
                                         var   client          : ICefClient;
                                         const targetFrameName : ustring;
                                         const popupFeatures   : TCefPopupFeatures) : boolean;
-begin                                      
+begin
   Panel1.CreateIMEHandler;
   chrmosr.InitializeDragAndDrop(Panel1);
 
@@ -149,8 +152,8 @@ end;
 
 procedure TChildForm.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  FCanClose := True;
-  PostMessage(Handle, WM_CLOSE, 0, 0);
+  FCanClose      := True;
+  Timer1.Enabled := True; // Workaround for an access violation in CallDefaultWindowProc (win32callback.inc)
 end;
 
 procedure TChildForm.Panel1UTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
@@ -560,14 +563,15 @@ end;
 
 procedure TChildForm.FormCreate(Sender: TObject);
 begin
-  FPopUpBitmap    := nil;
-  FPopUpRect      := rect(0, 0, 0, 0);
-  FShowPopUp      := False;
-  FResizing       := False;
-  FPendingResize  := False;
-  FCanClose       := False;
-  FClosing        := False;
-  FResizeCS       := TCriticalSection.Create;
+  FPopUpBitmap       := nil;
+  FPopUpRect         := rect(0, 0, 0, 0);
+  FShowPopUp         := False;
+  FResizing          := False;
+  FPendingResize     := False;
+  FCanClose          := False;
+  FClosing           := False;        
+  FClientInitialized := False;
+  FResizeCS          := TCriticalSection.Create;
 
   InitializeLastClick;
 end;
@@ -580,7 +584,7 @@ begin
   if (FResizeCS    <> nil) then FreeAndNil(FResizeCS);
 
   if FClientInitialized and MainForm.HandleAllocated then
-    PostMessage(MainForm.Handle, CEF_CHILDDESTROYED, 0, 0);
+    PostMessage(MainForm.Handle, CEF_CHILDDESTROYED, Tag, 0);
 end;
 
 procedure TChildForm.FormHide(Sender: TObject);
@@ -759,6 +763,12 @@ procedure TChildForm.chrmosrOpenUrlFromTab(Sender: TObject;
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
+end;
+
+procedure TChildForm.Timer1Timer(Sender: TObject);
+begin
+  Timer1.Enabled := False;
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TChildForm.chrmosrCanFocus(Sender: TObject);

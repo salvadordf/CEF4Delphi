@@ -12,7 +12,7 @@ uses
 
 const
   CEF_CREATENEXTCHILD  = WM_APP + $A50;
-  CEF_CHILDDESTROYED   = WM_APP + $A51;  
+  CEF_CHILDDESTROYED   = WM_APP + $A51;
 
 type
 
@@ -140,6 +140,7 @@ end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
+  FChildForm                        := nil;
   FClosingChildren                  := False;
   FClosingMainForm                  := False;
   FCanClose                         := False;
@@ -260,9 +261,9 @@ begin
    else
     FChildCounter := 1;
 
-  FChildForm         := TChildForm.Create(self);
-  FChildForm.Name    := 'ChildForm_' + IntToStr(FChildCounter);
-  FChildForm.Tag     := FChildCounter;
+  FChildForm      := TChildForm.Create(self);
+  FChildForm.Name := 'ChildForm_' + IntToStr(FChildCounter);
+  FChildForm.Tag  := FChildCounter;
 end;
 
 procedure TMainForm.BrowserCreatedMsg(var aMessage : TMessage);
@@ -336,28 +337,32 @@ procedure TMainForm.WMMove(var aMessage : TWMMove);
 begin
   inherited;
 
-  if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
+  if (Chromium1 <> nil) then
+    Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TMainForm.WMMoving(var aMessage : TMessage);
 begin
   inherited;
 
-  if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
+  if (Chromium1 <> nil) then
+    Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TMainForm.WMEnterMenuLoop(var aMessage: TMessage);
 begin
   inherited;
 
-  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then
+    GlobalCEFApp.OsmodalLoop := True;
 end;
 
 procedure TMainForm.WMExitMenuLoop(var aMessage: TMessage);
 begin
   inherited;
 
-  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
+  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then
+    GlobalCEFApp.OsmodalLoop := False;
 end;
 
 end.
