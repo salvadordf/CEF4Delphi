@@ -132,6 +132,7 @@ type
 
       {$IFDEF LINUX}
       FXDisplay                 : PXDisplay;
+      FGlobalXDisplay           : PXDisplay;
       {$ENDIF}
 
       {$IFDEF MSWINDOWS}
@@ -513,6 +514,10 @@ type
       procedure RenderCompWndProc(var aMessage: TMessage);
       procedure RestoreOldCompWndProc;
       function  CopyDCToBitmapStream(aSrcDC : HDC; const aSrcRect : TRect; const aStream : TStream) : boolean;
+      {$ENDIF}
+
+      {$IFDEF LINUX}
+      procedure ReadGlobalXDisplay;
       {$ENDIF}
 
       procedure DragDropManager_OnDragEnter(Sender: TObject; const aDragData : ICefDragData; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint);
@@ -4334,6 +4339,7 @@ begin
   FStorageNotificationService := STATE_DEFAULT;
   {$IFDEF LINUX}
   FXDisplay                := nil;
+  FGlobalXDisplay          := nil;
   {$ENDIF}
 
   if (GlobalCEFApp <> nil) then
@@ -5910,33 +5916,51 @@ var
   TempParent : TCefWindowHandle;
 {$ENDIF}
 begin
-  if (FXDisplay = nil) then
-    begin
-      {$IFDEF FPC}
-        {$IFDEF LCLGTK2}
-        TempParent := ParentFormHandle;
+  Result := nil;
 
-        if ValidCefWindowHandle(TempParent) and
-           (PGtkWidget(TempParent)^.Window <> nil) then
-          FXDisplay := GDK_WINDOW_XDISPLAY(PGtkWidget(TempParent)^.Window);
-        {$ENDIF}
-        {$IFDEF LCLGTK3}
-        FXDisplay := gdk_x11_get_default_xdisplay();
-        {$ENDIF}
-        {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5)}
-        FXDisplay := QX11Info_display();
-        {$IFEND}
-        {$IFDEF LCLQT6}
-        FXDisplay := TQtWidgetSet(WidgetSet).x11Display;  
-        {$ENDIF}
-      {$ENDIF}
+  try
+    if (FXDisplay = nil) then
+      begin
+        {$IFDEF FPC}
+          {$IFDEF LCLGTK2}
+          TempParent := ParentFormHandle;
 
-      // GlobalCEFApp.XDisplay can only be called in the CEF UI thread.
-      if (FXDisplay = nil) and (GlobalCEFApp <> nil) then
-        FXDisplay := GlobalCEFApp.XDisplay;
-    end;
+          if ValidCefWindowHandle(TempParent) and
+             (PGtkWidget(TempParent)^.Window <> nil) then
+            FXDisplay := GDK_WINDOW_XDISPLAY(PGtkWidget(TempParent)^.Window);
+          {$ENDIF}
+          {$IFDEF LCLGTK3}
+          FXDisplay := gdk_x11_get_default_xdisplay();
+          {$ENDIF}
+          {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5)}
+          FXDisplay := QX11Info_display();
+          {$IFEND}
+          {$IFDEF LCLQT6}
+          FXDisplay := TQtWidgetSet(WidgetSet).x11Display;
+          {$ENDIF}
+        {$ENDIF}
+      end;
 
-  Result := FXDisplay;
+    if (FXDisplay = nil) then
+      Result := FGlobalXDisplay
+     else
+      Result := FXDisplay;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromiumCore.GetXDisplay', e) then raise;
+  end;
+end;
+
+procedure TChromiumCore.ReadGlobalXDisplay;
+begin
+  try
+    // GlobalCEFApp.XDisplay can only be called in the CEF UI thread.
+    if (GlobalCEFApp <> nil) then
+      FGlobalXDisplay := GlobalCEFApp.XDisplay;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TChromiumCore.ReadGlobalXDisplay', e) then raise;
+  end;
 end;
 {$ENDIF}
 
@@ -8840,6 +8864,9 @@ var
 begin
   AddBrowser(browser);
   doUpdatePreferences(browser);
+  {$IFDEF LINUX}
+  ReadGlobalXDisplay;
+  {$ENDIF}
 
   if (FMediaObserver <> nil) and (FMediaObserverReg = nil) then
     FMediaObserverReg := AddObserver(FMediaObserver);

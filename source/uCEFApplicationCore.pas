@@ -4168,7 +4168,7 @@ function TCefApplicationCore.GetXDisplay : PXDisplay;
 begin
   // This property can only be called in the CEF UI thread.
   if FLibLoaded then
-    Result := cef_get_xdisplay{$IFDEF FPC}(){$ENDIF}
+    Result := cef_get_xdisplay()
    else
     Result := nil;
 end;
