@@ -101,12 +101,15 @@ begin
   GlobalCEFApp.LogFile                    := 'debug.log';
   GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
   GlobalCEFApp.RootCache                  := 'RootCache';
+  GlobalCEFApp.Cache                      := GlobalCEFApp.RootCache + '/cache';
   GlobalCEFApp.DisableZygote              := True;
   GlobalCEFApp.SetCurrentDir              := True;
   GlobalCEFApp.MultiThreadedMessageLoop   := False;
   GlobalCEFApp.ExternalMessagePump        := False;
-  GlobalCEFApp.GTKVersion                 := gtkVersion3;          
-  GlobalCEFApp.OzonePlatform              := ozpX11;
+  GlobalCEFApp.GTKVersion                 := gtkVersion3;
+  GlobalCEFApp.EnableGPU                  := True;
+  //GlobalCEFApp.OzonePlatform              := ozpWayland;
+  //GlobalCEFApp.OzonePlatform              := ozpX11;
   GlobalCEFApp.OnContextInitialized       := @GlobalCEFApp_OnContextInitialized;
 end;
 
@@ -214,7 +217,8 @@ end;
 procedure TMainWindow.Show;
 begin
   // Show the GTK window.
-  UseDefaultX11VisualForGtk(FWindow);
+  if (GlobalCEFApp.DisplayServer = ldsX11) then
+    UseDefaultX11VisualForGtk(FWindow);
 
   gtk_widget_show_all(FWindow);
 

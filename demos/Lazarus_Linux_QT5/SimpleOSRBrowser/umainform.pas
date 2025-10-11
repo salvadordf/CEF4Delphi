@@ -220,9 +220,12 @@ begin
   GlobalCEFApp.LogFile                    := 'debug.log';
   GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
   GlobalCEFApp.RootCache                  := 'RootCache';
+  GlobalCEFApp.Cache                      := GlobalCEFApp.RootCache + '/cache';
   GlobalCEFApp.SetCurrentDir              := True;
-  GlobalCEFApp.DisableZygote              := True;              
-  GlobalCEFApp.WindowlessRenderingEnabled := True;
+  GlobalCEFApp.DisableZygote              := True;
+  GlobalCEFApp.EnableGPU                  := True;
+  GlobalCEFApp.WindowlessRenderingEnabled := True;     
+  GlobalCEFApp.GTKVersion                 := gtkVersion3;
   GlobalCEFApp.OnContextInitialized       := @GlobalCEFApp_OnContextInitialized;
 
   // If you need transparency leave the GlobalCEFApp.BackgroundColor property

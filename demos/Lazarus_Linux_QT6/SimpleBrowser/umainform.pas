@@ -115,8 +115,11 @@ begin
   GlobalCEFApp.LogFile                    := 'debug.log';
   GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
   GlobalCEFApp.RootCache                  := 'RootCache';
+  GlobalCEFApp.Cache                      := GlobalCEFApp.RootCache + '/cache';
   GlobalCEFApp.SetCurrentDir              := True;                             
   GlobalCEFApp.DisableZygote              := True;
+  GlobalCEFApp.EnableGPU                  := True;
+  GlobalCEFApp.GTKVersion                 := gtkVersion3;
   GlobalCEFApp.OnContextInitialized       := @GlobalCEFApp_OnContextInitialized;
 end;
 
