@@ -174,7 +174,8 @@ type
       // Fields used during the CEF initialization
       FWindowsSandboxInfo                : pointer;
       {$IFDEF LINUX}
-      FArgCopy                           : TCEFArgCopy;
+      FArgCopy                           : TCEFArgCopy;     
+      FDisplayServer                     : TCefLinuxDisplayServer;
       {$ENDIF}
 
       // Fields used by custom properties
@@ -402,6 +403,9 @@ type
       {$ENDIF}
       {$IFDEF MACOSX}
       function  CheckMacOSVersion : boolean; virtual;
+      {$ENDIF}
+      {$IFDEF LINUX}
+      procedure ReadDisplayServer;
       {$ENDIF}
       function  CheckOSVersion: boolean; virtual;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
@@ -1363,6 +1367,10 @@ type
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#ozone-platform">Uses the following command line switch: --ozone-platform</see></para>
       /// </remarks>
       property OzonePlatform                     : TCefOzonePlatform                        read FOzonePlatform                     write FOzonePlatform;
+      /// <summary>
+      /// Linux display server type.
+      /// </summary>
+      property DisplayServer                     : TCefLinuxDisplayServer                   read FDisplayServer;
       {$ENDIF}
       /// <summary>
       /// Ignores certificate-related errors.
@@ -2103,6 +2111,7 @@ begin
   FPasswordStorage                   := psDefault;
   FGTKVersion                        := gtkVersionDefault;
   FOzonePlatform                     := ozpDefault;
+  FDisplayServer                     := ldsUnknown;
   {$ENDIF}
 
   // Fields used during the CEF initialization
@@ -2454,7 +2463,32 @@ begin
   FCustomCommandLines      := TStringList.Create;
   FCustomCommandLineValues := TStringList.Create;
   FComponentIDList         := TCEFComponentIDList.Create;
+  {$IFDEF LINUX}
+  ReadDisplayServer;
+  {$ENDIF}
 end;
+
+{$IFDEF LINUX}
+procedure TCefApplicationCore.ReadDisplayServer;
+{$IFDEF FPC}
+var
+  TempSession : AnsiString;
+{$ENDIF}
+begin
+  {$IFDEF FPC}
+  TempSession := GetEnvironmentVariable('XDG_SESSION_TYPE');
+
+  if (TempSession = 'wayland') then
+    FDisplayServer := ldsWayland
+   else
+    if (TempSession = 'x11') then
+      FDisplayServer := ldsX11
+     else
+      FDisplayServer := ldsUnknown;
+  {$ENDIF}
+  // TO-DO : Find a way to get read the value of an environment variable or the display server type in FMXLinux.
+end;
+{$ENDIF}
 
 procedure TCefApplicationCore.AddCustomCommandLine(const aCommandLine, aValue : string);
 begin

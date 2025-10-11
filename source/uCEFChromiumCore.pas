@@ -5916,38 +5916,38 @@ var
   TempParent : TCefWindowHandle;
 {$ENDIF}
 begin
-  Result := nil;
-
   try
-    if (FXDisplay = nil) then
-      begin
-        {$IFDEF FPC}
-          {$IFDEF LCLGTK2}
-          TempParent := ParentFormHandle;
+    try
+      if (FXDisplay = nil) and (GlobalCEFApp.DisplayServer = ldsX11) then
+        begin
+          {$IFDEF FPC}
+            {$IFDEF LCLGTK2}
+            TempParent := ParentFormHandle;
 
-          if ValidCefWindowHandle(TempParent) and
-             (PGtkWidget(TempParent)^.Window <> nil) then
-            FXDisplay := GDK_WINDOW_XDISPLAY(PGtkWidget(TempParent)^.Window);
+            if ValidCefWindowHandle(TempParent) and
+               (PGtkWidget(TempParent)^.Window <> nil) then
+              FXDisplay := GDK_WINDOW_XDISPLAY(PGtkWidget(TempParent)^.Window);
+            {$ENDIF}
+            {$IFDEF LCLGTK3}
+            FXDisplay := gdk_x11_get_default_xdisplay();
+            {$ENDIF}
+            {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5)}
+            FXDisplay := QX11Info_display();
+            {$IFEND}
+            {$IFDEF LCLQT6}
+            FXDisplay := TQtWidgetSet(WidgetSet).x11Display;
+            {$ENDIF}
           {$ENDIF}
-          {$IFDEF LCLGTK3}
-          FXDisplay := gdk_x11_get_default_xdisplay();
-          {$ENDIF}
-          {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5)}
-          FXDisplay := QX11Info_display();
-          {$IFEND}
-          {$IFDEF LCLQT6}
-          FXDisplay := TQtWidgetSet(WidgetSet).x11Display;
-          {$ENDIF}
-        {$ENDIF}
-      end;
-
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TChromiumCore.GetXDisplay', e) then raise;
+    end;
+  finally
     if (FXDisplay = nil) then
       Result := FGlobalXDisplay
      else
       Result := FXDisplay;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TChromiumCore.GetXDisplay', e) then raise;
   end;
 end;
 
@@ -5955,8 +5955,7 @@ procedure TChromiumCore.ReadGlobalXDisplay;
 begin
   try
     // GlobalCEFApp.XDisplay can only be called in the CEF UI thread.
-    if (GlobalCEFApp <> nil) then
-      FGlobalXDisplay := GlobalCEFApp.XDisplay;
+    FGlobalXDisplay := GlobalCEFApp.XDisplay;
   except
     on e : exception do
       if CustomExceptionHandler('TChromiumCore.ReadGlobalXDisplay', e) then raise;

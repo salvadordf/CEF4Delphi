@@ -1486,6 +1486,11 @@ type
   );
 
   /// <summary>
+  /// Linux session type. Used to check whether the display server is Xorg or Wayland.
+  /// </summary>
+  TCefLinuxDisplayServer = (ldsX11, ldsWayland, ldsUnknown);
+
+  /// <summary>
   /// Used by TCEFFileDialogInfo.
   /// </summary>
   TCEFDialogType = (dtOpen, dtOpenMultiple, dtOpenFolder, dtSave);
