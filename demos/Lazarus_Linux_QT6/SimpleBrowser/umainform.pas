@@ -174,7 +174,7 @@ begin
       FClosing := True;
       Visible  := False;
       Chromium1.CloseBrowser(True);
-      CEFLinkedWindowParent1.Free;
+      FreeAndNil(CEFLinkedWindowParent1);
     end;
 end;
 {%Endregion}
@@ -219,7 +219,8 @@ end;
 
 procedure TMainForm.BrowserSetFocusMsg(Data: PtrInt);
 begin
-  CEFLinkedWindowParent1.SetFocus;
+  if assigned(CEFLinkedWindowParent1) then
+    CEFLinkedWindowParent1.SetFocus;
 end;
 
 procedure TMainForm.WMMove(var Message: TLMMove);
