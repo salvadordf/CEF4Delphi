@@ -28,6 +28,7 @@ object ChildForm: TChildForm
     OnTitleChange = Chromium1TitleChange
     OnBeforePopup = Chromium1BeforePopup
     OnBeforeClose = Chromium1BeforeClose
+    OnOpenUrlFromTab = Chromium1OpenUrlFromTab
     Left = 24
     Top = 56
   end

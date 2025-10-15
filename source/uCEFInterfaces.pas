@@ -4357,6 +4357,11 @@ type
     /// </summary>
     procedure PrependWrapper(const wrapper: ustring);
     /// <summary>
+    /// Remove a switch from the command line. If no such switch is present, this
+    /// has no effect.
+    /// </summary>
+    procedure RemoveSwitch(const name_: ustring);
+    /// <summary>
     /// Constructs and returns the represented command line string. Use this
     /// function cautiously because quoting behavior is unclear.
     /// </summary>

@@ -49,10 +49,11 @@ type
     procedure Chromium1PopupShow(Sender: TObject; const browser: ICefBrowser; show: Boolean);
     procedure Chromium1PopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
     procedure Chromium1Tooltip(Sender: TObject; const browser: ICefBrowser; var text: ustring; out Result: Boolean);
-    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1CanFocus(Sender: TObject);
+    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
+    procedure Chromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
 
    protected
     FPopUpBitmap       : TBitmap;
@@ -287,21 +288,13 @@ begin
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
-procedure TChildForm.Chromium1BeforePopup(      Sender             : TObject;
-                                          const browser            : ICefBrowser;
-                                          const frame              : ICefFrame;
-                                                popup_id           : Integer;
-                                          const targetUrl          : ustring;
-                                          const targetFrameName    : ustring;
-                                                targetDisposition  : TCefWindowOpenDisposition;
-                                                userGesture        : Boolean;
-                                          const popupFeatures      : TCefPopupFeatures;
-                                          var   windowInfo         : TCefWindowInfo;
-                                          var   client             : ICefClient;
-                                          var   settings           : TCefBrowserSettings;
-                                          var   extra_info         : ICefDictionaryValue;
-                                          var   noJavascriptAccess : Boolean;
-                                          var   Result             : Boolean);
+procedure TChildForm.Chromium1BeforePopup(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer;
+  const targetUrl, targetFrameName: ustring;
+  targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
+  const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
+  var client: ICefClient; var settings: TCefBrowserSettings;
+  var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
 begin
   case targetDisposition of
     CEF_WOD_NEW_FOREGROUND_TAB,
@@ -394,6 +387,15 @@ begin
       rect.width  := DeviceToLogical(Panel1.Width,  GlobalCEFApp.DeviceScaleFactor);
       rect.height := DeviceToLogical(Panel1.Height, GlobalCEFApp.DeviceScaleFactor);
     end;
+end;
+
+procedure TChildForm.Chromium1OpenUrlFromTab(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
+  targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
+  out Result: Boolean);
+begin
+  // For simplicity, this demo blocks all popup windows and new tabs
+  Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
 end;
 
 procedure TChildForm.Chromium1Paint(      Sender          : TObject;

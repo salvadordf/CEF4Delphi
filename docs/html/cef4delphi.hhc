@@ -2276,6 +2276,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#QuitMessageLoop">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SetNestableTasksAllowed">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#SetNestableTasksAllowed">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="UpdateDeviceScaleFactor">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#UpdateDeviceScaleFactor">
 </object>
@@ -11516,6 +11520,10 @@
 <param name="Local" value="uCEFCommandLine.TCefCommandLineRef.html#PrependWrapper">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="RemoveSwitch">
+<param name="Local" value="uCEFCommandLine.TCefCommandLineRef.html#RemoveSwitch">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="UnWrap">
 <param name="Local" value="uCEFCommandLine.TCefCommandLineRef.html#UnWrap">
 </object>
@@ -12918,6 +12926,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_NEW_SPLIT_TAB">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_TOGGLE_VERTICAL_TABS">
+<param name="Local" value="uCEFConstants.html#IDC_TOGGLE_VERTICAL_TABS">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_COPY_URL">
 <param name="Local" value="uCEFConstants.html#IDC_COPY_URL">
 </object>
@@ -13224,6 +13236,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_MANAGE_CHROME_PROFILES">
 <param name="Local" value="uCEFConstants.html#IDC_MANAGE_CHROME_PROFILES">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_SHOW_SIGNIN">
+<param name="Local" value="uCEFConstants.html#IDC_SHOW_SIGNIN">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_ZOOM_MENU">
@@ -24708,6 +24724,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="PrependWrapper">
 <param name="Local" value="uCEFInterfaces.ICefCommandLine.html#PrependWrapper">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveSwitch">
+<param name="Local" value="uCEFInterfaces.ICefCommandLine.html#RemoveSwitch">
 </object>
 </ul>
 </ul>
@@ -46297,6 +46317,10 @@
 <param name="Name" value="prepend_wrapper">
 <param name="Local" value="uCEFTypes.TCefCommandLine.html#prepend_wrapper">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="remove_switch">
+<param name="Local" value="uCEFTypes.TCefCommandLine.html#remove_switch">
+</object>
 </ul>
 </ul>
 <li><object type="text/sitemap">
@@ -51572,6 +51596,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="TCefHighEfficiencyModeState">
 <param name="Local" value="uCEFTypes.html#TCefHighEfficiencyModeState">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefLinuxDisplayServer">
+<param name="Local" value="uCEFTypes.html#TCefLinuxDisplayServer">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCEFDialogType">
@@ -58414,6 +58442,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="PrependWrapper">
 <param name="Local" value="uCEFInterfaces.ICefCommandLine.html#PrependWrapper">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveSwitch">
+<param name="Local" value="uCEFInterfaces.ICefCommandLine.html#RemoveSwitch">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="Reset">
@@ -69484,6 +69516,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#RunMessageLoop">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SetNestableTasksAllowed">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#SetNestableTasksAllowed">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="UpdateDeviceScaleFactor">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#UpdateDeviceScaleFactor">
 </object>
@@ -72970,6 +73006,10 @@
 <param name="Local" value="uCEFTypes.TCefCommandLine.html#prepend_wrapper">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="remove_switch">
+<param name="Local" value="uCEFTypes.TCefCommandLine.html#remove_switch">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="reset">
 <param name="Local" value="uCEFTypes.TCefCommandLine.html#reset">
 </object>
@@ -73076,6 +73116,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="PrependWrapper">
 <param name="Local" value="uCEFCommandLine.TCefCommandLineRef.html#PrependWrapper">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveSwitch">
+<param name="Local" value="uCEFCommandLine.TCefCommandLineRef.html#RemoveSwitch">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="Reset">

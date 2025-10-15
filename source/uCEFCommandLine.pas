@@ -43,6 +43,7 @@ type
       procedure GetArguments(var arguments: TStrings);
       procedure AppendArgument(const argument: ustring);
       procedure PrependWrapper(const wrapper: ustring);
+      procedure RemoveSwitch(const name_: ustring);
 
     public
       /// <summary>
@@ -281,6 +282,14 @@ var
 begin
   TempWrapper := CefString(wrapper);
   PCefCommandLine(FData)^.prepend_wrapper(PCefCommandLine(FData), @TempWrapper);
+end;
+
+procedure TCefCommandLineRef.RemoveSwitch(const name_: ustring);
+var
+  TempName : TCefString;
+begin
+  TempName := CefString(name_);
+  PCefCommandLine(FData)^.remove_switch(PCefCommandLine(FData), @TempName);
 end;
 
 procedure TCefCommandLineRef.Reset;

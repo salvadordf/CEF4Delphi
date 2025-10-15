@@ -477,6 +477,39 @@ type
       /// </summary>
       procedure   QuitMessageLoop;
       /// <summary>
+      /// <para>Set to true (1) before calling OS APIs on the CEF UI thread that will enter
+      /// a native message loop (see usage restrictions below). Set to false (0) after
+      /// exiting the native message loop. On Windows, use the CefSetOSModalLoop
+      /// function instead in cases like native top menus where resize of the browser
+      /// content is not required, or in cases like printer APIs where reentrancy
+      /// safety cannot be guaranteed.</para>
+      ///
+      /// <para>Nested processing of Chromium tasks is disabled by default because common
+      /// controls and/or printer functions may use nested native message loops that
+      /// lead to unplanned reentrancy. This function re-enables nested processing in
+      /// the scope of an upcoming native message loop. It must only be used in cases
+      /// where the stack is reentrancy safe and processing nestable tasks is
+      /// explicitly safe. Do not use in cases (like the printer example) where an OS
+      /// API may experience unplanned reentrancy as a result of a new task executing
+      /// immediately.</para>
+      ///
+      /// <para>For instance,</para>
+      /// <code>
+      /// - The UI thread is running a message loop.
+      /// - It receives a task #1 and executes it.
+      /// - The task #1 implicitly starts a nested message loop. For example, via
+      ///   Windows APIs such as MessageBox or GetSaveFileName, or default handling of
+      ///   a user-initiated drag/resize operation (e.g. DefWindowProc handling of
+      ///   WM_SYSCOMMAND for SC_MOVE/SC_SIZE).
+      /// - The UI thread receives a task #2 before or while in this second message
+      ///   loop.
+      /// - With NestableTasksAllowed set to true (1), the task #2 will run right
+      ///   away. Otherwise, it will be executed right after task #1 completes at
+      ///   "thread message loop level".
+      /// </code>
+      /// </summary>
+      procedure   SetNestableTasksAllowed(allowed: boolean);
+      /// <summary>
       /// Update the DeviceScaleFactor value with the current monitor scale.
       /// </summary>
       procedure   UpdateDeviceScaleFactor; virtual;
@@ -1497,8 +1530,11 @@ type
       property MustCreateLoadHandler             : boolean                                  read GetMustCreateLoadHandler           write FMustCreateLoadHandler;
       {$IFDEF MSWINDOWS}
       /// <summary>
-      /// Set to true (1) before calling Windows APIs like TrackPopupMenu that enter a
-      /// modal message loop. Set to false (0) after exiting the modal message loop.
+      /// Set to true before calling Windows APIs like TrackPopupMenu that enter a
+      /// modal message loop. Set to false after exiting the modal message loop.
+      /// Use the SetNestableTasksAllowed procedure instead in cases where the
+      /// browser content may be resized during native message loop execution (see
+      /// that procedure for usage restrictions).
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_app_win.h">CEF source file: /include/internal/cef_app_win.h (cef_set_osmodal_loop)</see></para>
@@ -2969,10 +3005,17 @@ begin
     cef_quit_message_loop();
 end;
 
+procedure TCefApplicationCore.SetNestableTasksAllowed(allowed: boolean);
+begin
+  if (FStatus = asInitialized) then
+    cef_set_nestable_tasks_allowed(ord(allowed));
+end;
+
 {$IFDEF MSWINDOWS}
 procedure TCefApplicationCore.SetOsmodalLoop(aValue : boolean);
 begin
-  if (FStatus = asInitialized) then cef_set_osmodal_loop(Ord(aValue));
+  if (FStatus = asInitialized) then
+    cef_set_osmodal_loop(Ord(aValue));
 end;
 {$ENDIF}
 
@@ -4393,13 +4436,14 @@ end;
 
 function TCefApplicationCore.Load_cef_app_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_initialize{$IFDEF FPC}){$ENDIF}             := GetProcAddress(FLibHandle, 'cef_initialize');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_get_exit_code{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_get_exit_code');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_shutdown{$IFDEF FPC}){$ENDIF}               := GetProcAddress(FLibHandle, 'cef_shutdown');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_execute_process{$IFDEF FPC}){$ENDIF}        := GetProcAddress(FLibHandle, 'cef_execute_process');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_do_message_loop_work{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_do_message_loop_work');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_run_message_loop{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_run_message_loop');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_quit_message_loop{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_quit_message_loop');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_initialize{$IFDEF FPC}){$ENDIF}                 := GetProcAddress(FLibHandle, 'cef_initialize');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_get_exit_code{$IFDEF FPC}){$ENDIF}              := GetProcAddress(FLibHandle, 'cef_get_exit_code');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_shutdown{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_shutdown');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_execute_process{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_execute_process');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_do_message_loop_work{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_do_message_loop_work');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_run_message_loop{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_run_message_loop');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_quit_message_loop{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_quit_message_loop');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_set_nestable_tasks_allowed{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_set_nestable_tasks_allowed');
 
   Result := assigned(cef_initialize) and
             assigned(cef_get_exit_code) and
@@ -4407,7 +4451,8 @@ begin
             assigned(cef_execute_process) and
             assigned(cef_do_message_loop_work) and
             assigned(cef_run_message_loop) and
-            assigned(cef_quit_message_loop);
+            assigned(cef_quit_message_loop) and
+            assigned(cef_set_nestable_tasks_allowed);
 end;
 
 function TCefApplicationCore.Load_cef_app_win_h : boolean;

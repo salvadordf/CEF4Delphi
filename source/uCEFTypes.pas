@@ -7440,6 +7440,7 @@ type
     get_arguments             : procedure(self: PCefCommandLine; arguments: TCefStringList); stdcall;
     append_argument           : procedure(self: PCefCommandLine; const argument: PCefString); stdcall;
     prepend_wrapper           : procedure(self: PCefCommandLine; const wrapper: PCefString); stdcall;
+    remove_switch             : procedure(self: PCefCommandLine; const name_: PCefString); stdcall;
   end;
 
   /// <summary>

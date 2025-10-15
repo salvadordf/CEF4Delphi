@@ -109,14 +109,18 @@
 <td class="itemcode"><code>procedure <strong><a href="uCEFCommandLine.TCefCommandLineRef.html#PrependWrapper-ustring-">PrependWrapper</a></strong>(const wrapper: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
 <tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="uCEFCommandLine.TCefCommandLineRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>;</code></td>
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFCommandLine.TCefCommandLineRef.html#RemoveSwitch-ustring-">RemoveSwitch</a></strong>(const name_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>class function <strong><a href="uCEFCommandLine.TCefCommandLineRef.html#New">New</a></strong>: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>;</code></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFCommandLine.TCefCommandLineRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <strong><a href="uCEFCommandLine.TCefCommandLineRef.html#New">New</a></strong>: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFCommandLine.TCefCommandLineRef.html#Global">Global</a></strong>: <a href="uCEFInterfaces.ICefCommandLine.html">ICefCommandLine</a>;</code></td>
 </tr>
@@ -331,6 +335,16 @@
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefCommandLine.html#PrependWrapper-ustring-">ICefCommandLine.PrependWrapper</a>.</p><p>
  Insert a command before the current command. Common for debuggers, like &quot;valgrind&quot; or &quot;gdb &ndash;args&quot;. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RemoveSwitch-ustring-"></span><code>procedure <strong>RemoveSwitch</strong>(const name_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefCommandLine.html#RemoveSwitch-ustring-">ICefCommandLine.RemoveSwitch</a>.</p><p>
+ Remove a switch from the command line. If no such switch is present, this has no effect. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

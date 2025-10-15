@@ -116,6 +116,10 @@
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefCommandLine.html#PrependWrapper-ustring-">PrependWrapper</a></strong>(const wrapper: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefCommandLine.html#RemoveSwitch-ustring-">RemoveSwitch</a></strong>(const name_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
 </table>
 <span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
 <table class="summary wide_list">
@@ -339,6 +343,16 @@
 <tr><td colspan="2">
 <p>
  Insert a command before the current command. Common for debuggers, like &quot;valgrind&quot; or &quot;gdb &ndash;args&quot;. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RemoveSwitch-ustring-"></span><code>procedure <strong>RemoveSwitch</strong>(const name_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Remove a switch from the command line. If no such switch is present, this has no effect. </p>
 </td></tr>
 </table>
 <h3 class="detail">Properties</h3>

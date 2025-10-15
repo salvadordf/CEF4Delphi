@@ -1234,41 +1234,45 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#UpdateDeviceScaleFactor">UpdateDeviceScaleFactor</a></strong>; virtual;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#SetNestableTasksAllowed-boolean-">SetNestableTasksAllowed</a></strong>(allowed: boolean);</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#UpdateDeviceScaleFactor">UpdateDeviceScaleFactor</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#ValidComponentID-integer-">ValidComponentID</a></strong>(aComponentID : integer) : boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#NextComponentID">NextComponentID</a></strong>: integer;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#RemoveComponentID-integer-">RemoveComponentID</a></strong>(aComponentID : integer);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#DumpWithoutCrashing-int64-ustring-ustring-integer-">DumpWithoutCrashing</a></strong>(mseconds_between_dumps: int64; const function_name, file_name: <a href="uCEFTypes.html#ustring">ustring</a>; line_number: integer): boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#GetCEFVersionInfo-TCefVersionInfo-">GetCEFVersionInfo</a></strong>(var aCEFVersionInfo : <a href="uCEFTypes.TCefVersionInfo.html">TCefVersionInfo</a>) : boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#GetChromiumVersionInfo-TChromiumVersionInfo-">GetChromiumVersionInfo</a></strong>(var aChromiumVersionInfo : <a href="uCEFTypes.TChromiumVersionInfo.html">TChromiumVersionInfo</a>) : boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#GetIdForPackResourceName-ustring-">GetIdForPackResourceName</a></strong>(const name : <a href="uCEFTypes.html#ustring">ustring</a>): Integer;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#GetIdForPackStringName-ustring-">GetIdForPackStringName</a></strong>(const name : <a href="uCEFTypes.html#ustring">ustring</a>): Integer;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#GetIdForCommandIdName-ustring-">GetIdForCommandIdName</a></strong>(const name : <a href="uCEFTypes.html#ustring">ustring</a>): Integer;</code></td>
 </tr>
@@ -4392,6 +4396,39 @@ ICefLoadHandler</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SetNestableTasksAllowed-boolean-"></span><code>procedure <strong>SetNestableTasksAllowed</strong>(allowed: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Set to true (1) before calling OS APIs on the CEF UI thread that will enter a native message loop (see usage restrictions below). Set to false (0) after exiting the native message loop. On Windows, use the CefSetOSModalLoop function instead in cases like native top menus where resize of the browser content is not required, or in cases like printer APIs where reentrancy safety cannot be guaranteed.
+
+<p>Nested processing of Chromium tasks is disabled by default because common controls and/or printer functions may use nested native message loops that lead to unplanned reentrancy. This function re-enables nested processing in the scope of an upcoming native message loop. It must only be used in cases where the stack is reentrancy safe and processing nestable tasks is explicitly safe. Do not use in cases (like the printer example) where an OS API may experience unplanned reentrancy as a result of a new task executing immediately.
+
+<p>For instance,
+
+<p></p>
+
+<pre class="preformatted">
+- The UI thread is running a message loop.
+- It receives a task #1 and executes it.
+- The task #1 implicitly starts a nested message loop. For example, via
+  Windows APIs such as MessageBox or GetSaveFileName, or default handling of
+  a user-initiated drag/resize operation (e.g. DefWindowProc handling of
+  WM_SYSCOMMAND for SC_MOVE/SC_SIZE).
+- The UI thread receives a task #2 before or while in this second message
+  loop.
+- With NestableTasksAllowed set to true (1), the task #2 will run right
+  away. Otherwise, it will be executed right after task #1 completes at
+  &quot;thread message loop level&quot;.</pre>
+
+<p> </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><span id="UpdateDeviceScaleFactor"></span><code>procedure <strong>UpdateDeviceScaleFactor</strong>; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -6070,7 +6107,7 @@ ICefLoadHandler</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Set to true (1) before calling Windows APIs like TrackPopupMenu that enter a modal message loop. Set to false (0) after exiting the modal message loop. </p>
+ Set to true before calling Windows APIs like TrackPopupMenu that enter a modal message loop. Set to false after exiting the modal message loop. Use the SetNestableTasksAllowed procedure instead in cases where the browser content may be resized during native message loop execution (see that procedure for usage restrictions). </p>
 <p>
 
 

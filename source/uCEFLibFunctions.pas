@@ -47,13 +47,14 @@ var
   // *********************************
 
   // /include/capi/cef_app_capi.h
-  cef_initialize             : function(const args: PCefMainArgs; const settings: PCefSettings; application: PCefApp; windows_sandbox_info: Pointer): Integer; cdecl;
-  cef_get_exit_code          : function : integer; cdecl;
-  cef_shutdown               : procedure; cdecl;
-  cef_execute_process        : function(const args: PCefMainArgs; application: PCefApp; windows_sandbox_info: Pointer): Integer; cdecl;
-  cef_do_message_loop_work   : procedure; cdecl;
-  cef_run_message_loop       : procedure; cdecl;
-  cef_quit_message_loop      : procedure; cdecl;
+  cef_initialize                 : function(const args: PCefMainArgs; const settings: PCefSettings; application: PCefApp; windows_sandbox_info: Pointer): Integer; cdecl;
+  cef_get_exit_code              : function : integer; cdecl;
+  cef_shutdown                   : procedure; cdecl;
+  cef_execute_process            : function(const args: PCefMainArgs; application: PCefApp; windows_sandbox_info: Pointer): Integer; cdecl;
+  cef_do_message_loop_work       : procedure; cdecl;
+  cef_run_message_loop           : procedure; cdecl;
+  cef_quit_message_loop          : procedure; cdecl;
+  cef_set_nestable_tasks_allowed : procedure(allowed: integer); cdecl;
 
   // /include/capi/cef_browser_capi.h
   cef_browser_host_create_browser            : function(const windowInfo: PCefWindowInfo; client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; extra_info: PCefDictionaryValue; request_context: PCefRequestContext): Integer; cdecl;
@@ -276,7 +277,7 @@ var
   cef_set_osmodal_loop       : procedure(osModalLoop: Integer); cdecl;
 
   // /include/internal/cef_dump_without_crashing_internal.h
-  cef_dump_without_crashing             : function(mseconds_between_dumps: int64; const function_name, file_name: PAnsiChar; line_number: integer): Integer; cdecl;
+  cef_dump_without_crashing  : function(mseconds_between_dumps: int64; const function_name, file_name: PAnsiChar; line_number: integer): Integer; cdecl;
 
   // /include/internal/cef_logging_internal.h
   cef_get_min_log_level : function : Integer; cdecl;
