@@ -4475,7 +4475,7 @@ ICefLoadHandler</p>
 <p>
 
 
-<p>This function allows for generating of crash dumps with a throttling mechanism, preventing frequent dumps from being generated in a short period of time from the same location. If should only be called after CefInitialize has been successfully called. The |function_name|, |file_name|, and |line_number| parameters specify the origin location of the dump. The |mseconds_between_dumps| is an interval between consecutive dumps in milliseconds from the same location.
+<p>This function allows for generating of crash dumps with a throttling mechanism, preventing frequent dumps from being generated in a short period of time from the same location. If should only be called after cef_initialize has been successfully called. The |function_name|, |file_name|, and |line_number| parameters specify the origin location of the dump. The |mseconds_between_dumps| is an interval between consecutive dumps in milliseconds from the same location.
 
 <p>For detailed behavior, usage instructions, and considerations, refer to the documentation of DumpWithoutCrashing in base/debug/dump_without_crashing.h.
 
@@ -6231,7 +6231,7 @@ ICefLoadHandler</p>
 </tr>
 <tr><td colspan="2">
 <p>
- This property can optionally be read on the main application thread after CefInitialize to retrieve the initialization exit code. When CefInitialize returns true (1) the exit code will be 0 (CEF_RESULT_CODE_NORMAL_EXIT). Otherwise, see TCefResultCode for possible exit code values including browser process initialization errors and normal early exit conditions (such as CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED for process singleton relaunch behavior). </p>
+ This property can optionally be read on the main application thread after cef_initialize to retrieve the initialization exit code. When cef_initialize returns true (1) the exit code will be 0 (CEF_RESULT_CODE_NORMAL_EXIT). Otherwise, see TCefResultCode for possible exit code values including browser process initialization errors and normal early exit conditions (such as CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED for process singleton relaunch behavior). </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

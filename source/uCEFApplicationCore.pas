@@ -535,7 +535,7 @@ type
       /// <summary>
       /// <para>This function allows for generating of crash dumps with a throttling
       /// mechanism, preventing frequent dumps from being generated in a short period
-      /// of time from the same location. If should only be called after CefInitialize
+      /// of time from the same location. If should only be called after cef_initialize
       /// has been successfully called. The |function_name|, |file_name|, and
       /// |line_number| parameters specify the origin location of the dump. The
       /// |mseconds_between_dumps| is an interval between consecutive dumps in
@@ -1588,7 +1588,7 @@ type
       property ApiVersion                        : integer                                  read GetApiVersion;
       /// <summary>
       /// This property can optionally be read on the main application thread after
-      /// CefInitialize to retrieve the initialization exit code. When CefInitialize
+      /// cef_initialize to retrieve the initialization exit code. When cef_initialize
       /// returns true (1) the exit code will be 0 (CEF_RESULT_CODE_NORMAL_EXIT).
       /// Otherwise, see TCefResultCode for possible exit code values including
       /// browser process initialization errors and normal early exit conditions (such
@@ -2607,7 +2607,7 @@ begin
 
           if (ExecuteProcess(TempApp) < 0) and
              InitializeLibrary(TempApp) then
-            Result  := True
+            Result := True
            else
             TempApp.RemoveReferences;
         end;
@@ -3272,42 +3272,53 @@ function TCefApplicationCore.InitializeLibrary(const aApp : ICefApp) : boolean;
 var
   TempArgs : TCefMainArgs;
   TempRootDir : string;
+  TempErrorCode : TCefResultCode;
 begin
   Result := False;
 
   try
-    try
-      if (aApp <> nil) then
-        begin
-          if (length(FRootCache) > 0) then
-            TempRootDir := FRootCache
+    if (aApp <> nil) then
+      begin
+        if (length(FRootCache) > 0) then
+          TempRootDir := FRootCache
+         else
+          TempRootDir := FCache;
+
+        if FDeleteCache and FDeleteCookies then
+          RenameAndDeleteDir(TempRootDir)
+         else
+          if FDeleteCookies then
+            DeleteCookiesDB(TempRootDir)
            else
-            TempRootDir := FCache;
+            if FDeleteCache then
+              RenameAndDeleteDir(TempRootDir, True);
 
-          if FDeleteCache and FDeleteCookies then
-            RenameAndDeleteDir(TempRootDir)
-           else
-            if FDeleteCookies then
-              DeleteCookiesDB(TempRootDir)
-             else
-              if FDeleteCache then
-                RenameAndDeleteDir(TempRootDir, True);
+        InitializeSettings(FAppSettings);
+        InitializeCefMainArgs(TempArgs);
 
-          InitializeSettings(FAppSettings);
-          InitializeCefMainArgs(TempArgs);
-
-          if (cef_initialize(@TempArgs, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0) then
+        if (cef_initialize(@TempArgs, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0) then
+          begin
+            Result  := True;
+            FStatus := asInitialized;
+          end
+         else
+          if (FProcessType = ptBrowser) then
             begin
-              Result  := True;
-              FStatus := asInitialized;
+              FStatus       := asErrorInitializingLibrary;
+              TempErrorCode := ExitCode;
+
+              if (TempErrorCode <> CEF_RESULT_CODE_NORMAL_EXIT) then
+                begin
+                  FLastErrorMessage := 'InitializeLibrary failed.' + CRLF +
+                                       ' ExitCode(' + inttostr(ExitCode) + ') : ' +
+                                       CefResultCodeToString(ExitCode);
+                  ShowErrorMessageDlg(FLastErrorMessage);
+                end;
             end;
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCefApplicationCore.InitializeLibrary', e) then raise;
-    end;
-  finally
-    if not(Result) then FStatus := asErrorInitializingLibrary;
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCefApplicationCore.InitializeLibrary', e) then raise;
   end;
 end;
 

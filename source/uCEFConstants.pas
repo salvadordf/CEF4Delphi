@@ -4471,6 +4471,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/result_codes.h">See Chromium's content::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_NORMAL_EXIT = 0;
   /// <summary>
@@ -4480,6 +4481,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/result_codes.h">See Chromium's content::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_KILLED = 1;
   /// <summary>
@@ -4489,6 +4491,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/result_codes.h">See Chromium's content::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_HUNG = 2;
   /// <summary>
@@ -4498,6 +4501,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/result_codes.h">See Chromium's content::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_KILLED_BAD_MESSAGE = 3;
   /// <summary>
@@ -4507,6 +4511,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/result_codes.h">See Chromium's content::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_GPU_DEAD_ON_ARRIVAL = 4;
   /// <summary>
@@ -4516,6 +4521,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_CHROME_FIRST = 5;
   /// <summary>
@@ -4525,6 +4531,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_INVALID_CMDLINE_URL = CEF_RESULT_CODE_CHROME_FIRST;
   /// <summary>
@@ -4534,6 +4541,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_BAD_PROCESS_TYPE = 6;     {* CEF_API_ADDED(13800) *}
   /// <summary>
@@ -4543,6 +4551,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_MISSING_DATA = 7;
   /// <summary>
@@ -4552,6 +4561,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SHELL_INTEGRATION_FAILED = 8;
   /// <summary>
@@ -4561,6 +4571,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_MACHINE_LEVEL_INSTALL_EXISTS = 9;
   /// <summary>
@@ -4570,6 +4581,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_UNINSTALL_CHROME_ALIVE = 10;
   /// <summary>
@@ -4579,6 +4591,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_UNINSTALL_USER_CANCEL = 11;
   /// <summary>
@@ -4588,6 +4601,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_UNINSTALL_DELETE_PROFILE = 12;
   /// <summary>
@@ -4597,6 +4611,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_UNSUPPORTED_PARAM = 13;
   /// <summary>
@@ -4606,6 +4621,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_IMPORTER_HUNG = 14;
   /// <summary>
@@ -4615,6 +4631,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_RESPAWN_FAILED = 15;
   /// <summary>
@@ -4626,6 +4643,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_NORMAL_EXIT_EXP1 = 16;
   /// <summary>
@@ -4637,6 +4655,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_NORMAL_EXIT_EXP2 = 17;
   /// <summary>
@@ -4648,6 +4667,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_NORMAL_EXIT_EXP3 = 18;
   /// <summary>
@@ -4659,6 +4679,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_NORMAL_EXIT_EXP4 = 19;
   /// <summary>
@@ -4670,6 +4691,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_NORMAL_EXIT_CANCEL = 20;
   /// <summary>
@@ -4679,6 +4701,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_PROFILE_IN_USE = 21;
   /// <summary>
@@ -4688,6 +4711,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_PACK_EXTENSION_ERROR = 22;
   /// <summary>
@@ -4697,6 +4721,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_UNINSTALL_EXTENSION_ERROR = 23;
   /// <summary>
@@ -4707,6 +4732,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED = 24;
   /// <summary>
@@ -4716,6 +4742,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_NOTUSED_1 = 25;
   /// <summary>
@@ -4728,6 +4755,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_INSTALL_FROM_WEBSTORE_ERROR_2 = 26;
   /// <summary>
@@ -4737,6 +4765,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_NOTUSED_2 = 27;
   /// <summary>
@@ -4746,6 +4775,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_EULA_REFUSED = 28;
   /// <summary>
@@ -4756,6 +4786,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SXS_MIGRATION_FAILED_NOT_USED = 29;
   /// <summary>
@@ -4765,6 +4796,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_ACTION_DISALLOWED_BY_POLICY = 30;
   /// <summary>
@@ -4774,6 +4806,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_INVALID_SANDBOX_STATE = 31;
   /// <summary>
@@ -4783,6 +4816,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED = 32;
   /// <summary>
@@ -4793,6 +4827,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_DOWNGRADE_AND_RELAUNCH = 33;
   /// <summary>
@@ -4802,6 +4837,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST = 34;
   /// <summary>
@@ -4814,6 +4850,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_NORMAL_EXIT_UPGRADE_RELAUNCHED = 35;
   /// <summary>
@@ -4823,6 +4860,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS = 36;
   /// <summary>
@@ -4833,6 +4871,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED = 37;
   /// <summary>
@@ -4842,6 +4881,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_NORMAL_EXIT_AUTO_DE_ELEVATED = 38;  {* CEF_API_ADDED(13800) *}
   /// <summary>
@@ -4852,6 +4892,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_TERMINATED_BY_OTHER_PROCESS_ON_COMMIT_FAILURE = 39;   {* CEF_API_ADDED(13900) *}
   /// <summary>
@@ -4861,6 +4902,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_CHROME_LAST = 40;
   /// <summary>
@@ -4870,6 +4912,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SANDBOX_FATAL_FIRST = 7006;
   /// <summary>
@@ -4879,6 +4922,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY = CEF_RESULT_CODE_SANDBOX_FATAL_FIRST;
   /// <summary>
@@ -4888,6 +4932,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN = 7007;
   /// <summary>
@@ -4897,6 +4942,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES = 7008;
   /// <summary>
@@ -4906,6 +4952,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SANDBOX_FATAL_CACHEDISABLE = 7009;
   /// <summary>
@@ -4915,6 +4962,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SANDBOX_FATAL_CLOSEHANDLES = 7010;
   /// <summary>
@@ -4924,6 +4972,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SANDBOX_FATAL_MITIGATION = 7011;
   /// <summary>
@@ -4933,6 +4982,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SANDBOX_FATAL_MEMORY_EXCEEDED = 7012;
   /// <summary>
@@ -4942,6 +4992,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP = 7013;
   /// <summary>
@@ -4951,6 +5002,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SANDBOX_FATAL_BROKER_SHUTDOWN_HUNG = 7014;
   /// <summary>
@@ -4960,6 +5012,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_SANDBOX_FATAL_LAST = 7015;
   /// <summary>
@@ -4969,6 +5022,7 @@ const
   /// <para>TCefResultCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
   CEF_RESULT_CODE_NUM_VALUES = CEF_RESULT_CODE_SANDBOX_FATAL_LAST + 1;
 

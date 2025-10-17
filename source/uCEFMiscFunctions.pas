@@ -836,6 +836,15 @@ function PosEx(const SubStr, S: string; Offset: Cardinal = 1): Integer;
 /// Convert an editting command to string.
 /// </summary>
 function EditingCommandToString(aEditingCommand : TCefEditingCommand): ustring;
+/// <summary>
+/// Convert the GlobalCEFApp.ExitCode value to a human readable message.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+/// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/result_codes.h">See Chromium's content::ResultCode type.</see></para>
+/// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:sandbox/win/src/sandbox_types.h">See sandbox::TerminationCodes type.</see></para>
+/// </remarks>
+function CefResultCodeToString(aExitCode : TCefResultCode) : ustring;
 
 implementation
 
@@ -3588,6 +3597,59 @@ begin
     ecYank                                         : Result := 'Yank';
     ecYankAndSelect                                : Result := 'YankAndSelect';
     else                                             Result := '';
+  end;
+end;
+
+function CefResultCodeToString(aExitCode : TCefResultCode) : ustring;
+begin
+  case aExitCode of
+    CEF_RESULT_CODE_NORMAL_EXIT                                        : Result := 'Normal exit code.';
+    CEF_RESULT_CODE_KILLED                                             : Result := 'Process was killed by user or system.';
+    CEF_RESULT_CODE_HUNG                                               : Result := 'Process hung.';
+    CEF_RESULT_CODE_KILLED_BAD_MESSAGE                                 : Result := 'A bad message caused the process termination.';
+    CEF_RESULT_CODE_GPU_DEAD_ON_ARRIVAL                                : Result := 'The GPU process exited because initialization failed.';
+    CEF_RESULT_CODE_INVALID_CMDLINE_URL                                : Result := 'An invalid command line url was given.';
+    CEF_RESULT_CODE_BAD_PROCESS_TYPE                                   : Result := 'The process is of an unknown type.';
+    CEF_RESULT_CODE_MISSING_DATA                                       : Result := 'A critical chrome file is missing.';
+    CEF_RESULT_CODE_SHELL_INTEGRATION_FAILED                           : Result := 'Failed to make Chrome default browser (not used?).';
+    CEF_RESULT_CODE_MACHINE_LEVEL_INSTALL_EXISTS                       : Result := 'Machine level install exists.';
+    CEF_RESULT_CODE_UNINSTALL_CHROME_ALIVE                             : Result := 'Uninstall detected another chrome instance.';
+    CEF_RESULT_CODE_UNINSTALL_USER_CANCEL                              : Result := 'The user changed their mind.';
+    CEF_RESULT_CODE_UNINSTALL_DELETE_PROFILE                           : Result := 'Delete profile as well during uninstall.';
+    CEF_RESULT_CODE_UNSUPPORTED_PARAM                                  : Result := 'Command line parameter is not supported.';
+    CEF_RESULT_CODE_IMPORTER_HUNG                                      : Result := 'Browser import hung and was killed.';
+    CEF_RESULT_CODE_RESPAWN_FAILED                                     : Result := 'Trying to restart the browser we crashed.';
+    CEF_RESULT_CODE_NORMAL_EXIT_EXP1..CEF_RESULT_CODE_NORMAL_EXIT_EXP4 : Result := 'Generic code used to communicate some simple outcome back to the process that launched us. This is used for experiments and the actual meaning depends on the experiment.';
+    CEF_RESULT_CODE_NORMAL_EXIT_CANCEL                                 : Result := 'For experiments this return code means that the user canceled causes the did_run "dr" signal to be reset soi this chrome run does not count as active chrome usage.';
+    CEF_RESULT_CODE_PROFILE_IN_USE                                     : Result := 'The profile was in use on another host.';
+    CEF_RESULT_CODE_PACK_EXTENSION_ERROR                               : Result := 'Failed to pack an extension via the cmd line.';
+    CEF_RESULT_CODE_UNINSTALL_EXTENSION_ERROR                          : Result := 'Failed to silently uninstall an extension.';
+    CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED                       : Result := 'The browser process exited early by passing the command line to another running browser.';
+    CEF_RESULT_CODE_NOTUSED_1,
+    CEF_RESULT_CODE_NOTUSED_2                                          : Result := 'A dummy value we should not use. See crbug.com/152285.';
+    CEF_RESULT_CODE_INSTALL_FROM_WEBSTORE_ERROR_2                      : Result := 'Failed to install an item from the webstore when the kInstallEphemeralAppFromWebstore command line flag was present. As this flag is no longer supported, this return code should never be returned.';
+    CEF_RESULT_CODE_EULA_REFUSED                                       : Result := 'Returned when the user has not yet accepted the EULA.';
+    CEF_RESULT_CODE_SXS_MIGRATION_FAILED_NOT_USED                      : Result := 'Failed to migrate user data directory for side-by-side package support (Linux-only).';
+    CEF_RESULT_CODE_ACTION_DISALLOWED_BY_POLICY                        : Result := 'The action is not allowed by a policy.';
+    CEF_RESULT_CODE_INVALID_SANDBOX_STATE                              : Result := 'A browser process was sandboxed. This should never happen.';
+    CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED                     : Result := 'Cloud policy enrollment is failed or given up by user.';
+    CEF_RESULT_CODE_DOWNGRADE_AND_RELAUNCH                             : Result := 'Chrome was downgraded since the last launch. Perform downgrade processing and relaunch.';
+    CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST                           : Result := 'The GPU process was terminated due to context lost.';
+    CEF_RESULT_CODE_NORMAL_EXIT_UPGRADE_RELAUNCHED                     : Result := 'Chrome detected that there was a new version waiting to launch and renamed the files and launched the new version. This result code is never returned from the main process, but is instead used as a signal for early termination of browser. See `IsNormalResultCode` below.';
+    CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS                 : Result := 'An early startup command was executed and the browser must exit.';
+    CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED                          : Result := 'The browser process exited because system resource are exhausted. The system state can' + #39 + 't be recovered and will be unstable.';
+    CEF_RESULT_CODE_NORMAL_EXIT_AUTO_DE_ELEVATED                       : Result := 'The browser process exited because it was re-launched without elevation.';
+    CEF_RESULT_CODE_TERMINATED_BY_OTHER_PROCESS_ON_COMMIT_FAILURE      : Result := 'Upon encountering a commit failure in a process, PartitionAlloc terminated another process deemed less important.';
+    CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY                            : Result := 'Windows sandbox could not set the integrity level.';
+    CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN                            : Result := 'Windows sandbox could not lower the token.';
+    CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES                          : Result := 'Windows sandbox failed to flush registry handles.';
+    CEF_RESULT_CODE_SANDBOX_FATAL_CACHEDISABLE                         : Result := 'Windows sandbox failed to forbid HCKU caching.';
+    CEF_RESULT_CODE_SANDBOX_FATAL_CLOSEHANDLES                         : Result := 'Windows sandbox failed to close pending handles.';
+    CEF_RESULT_CODE_SANDBOX_FATAL_MITIGATION                           : Result := 'Windows sandbox could not set the mitigation policy.';
+    CEF_RESULT_CODE_SANDBOX_FATAL_MEMORY_EXCEEDED                      : Result := 'Windows sandbox exceeded the job memory limit.';
+    CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP                               : Result := 'Windows sandbox failed to warmup.';
+    CEF_RESULT_CODE_SANDBOX_FATAL_BROKER_SHUTDOWN_HUNG                 : Result := 'Windows sandbox broker terminated in shutdown.';
+    else                                                                 Result := 'Unknown error code.';
   end;
 end;
 

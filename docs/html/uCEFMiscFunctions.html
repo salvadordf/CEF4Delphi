@@ -507,6 +507,9 @@
 <tr class="list2">
 <td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#EditingCommandToString-TCefEditingCommand-">EditingCommandToString</a></strong>(aEditingCommand : <a href="uCEFTypes.html#TCefEditingCommand">TCefEditingCommand</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
 </tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefResultCodeToString-TCefResultCode-">CefResultCodeToString</a></strong>(aExitCode : <a href="uCEFTypes.html#TCefResultCode">TCefResultCode</a>) : <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
 </table>
 <span id="PasDoc-Constants"></span><h3 class="summary">Constants</h3>
 <table class="summary wide_list">
@@ -2033,6 +2036,23 @@ example.test.increment();</pre>
 <tr><td colspan="1">
 <p>
  Convert an editting command to string. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CefResultCodeToString-TCefResultCode-"></span><code>function <strong>CefResultCodeToString</strong>(aExitCode : <a href="uCEFTypes.html#TCefResultCode">TCefResultCode</a>) : <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Convert the GlobalCEFApp.ExitCode value to a human readable message. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_resultcode_t))
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:content/public/common/result_codes.h&quot;&gt;See Chromium's content::ResultCode type.)
+
+<p>&lt;see href=&quot;<a href="https://source.chromium.org/chromium/chromium/src/">https://source.chromium.org/chromium/chromium/src/</a>+/main:sandbox/win/src/sandbox_types.h&quot;&gt;See sandbox::TerminationCodes type.)</p>
 </td></tr>
 </table>
 <h3 class="detail">Constants</h3>

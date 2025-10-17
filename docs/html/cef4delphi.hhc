@@ -33105,6 +33105,10 @@
 <param name="Name" value="EditingCommandToString">
 <param name="Local" value="uCEFMiscFunctions.html#EditingCommandToString">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="CefResultCodeToString">
+<param name="Local" value="uCEFMiscFunctions.html#CefResultCodeToString">
+</object>
 </ul>
 <li><object type="text/sitemap">
 <param name="Name" value="Constants">
