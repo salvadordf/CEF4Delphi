@@ -3310,8 +3310,8 @@ begin
               if (TempErrorCode <> CEF_RESULT_CODE_NORMAL_EXIT) then
                 begin
                   FLastErrorMessage := 'InitializeLibrary failed.' + CRLF +
-                                       ' ExitCode(' + inttostr(ExitCode) + ') : ' +
-                                       CefResultCodeToString(ExitCode);
+                                       ' ExitCode(' + inttostr(TempErrorCode) + ') : ' +
+                                       CefResultCodeToString(TempErrorCode);
                   ShowErrorMessageDlg(FLastErrorMessage);
                 end;
             end;
