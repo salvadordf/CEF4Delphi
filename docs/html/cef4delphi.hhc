@@ -788,6 +788,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FProxySettings">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FFieldTrialConfig">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FFieldTrialConfig">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FWindowsSandboxInfo">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FWindowsSandboxInfo">
 </object>
@@ -1392,6 +1396,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ProxySettings">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ProxySettings">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FieldTrialConfig">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FieldTrialConfig">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IgnoreCertificateErrors">
@@ -68048,6 +68056,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FExternalMessagePump">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FFieldTrialConfig">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FFieldTrialConfig">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FForcedDeviceScaleFactor">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FForcedDeviceScaleFactor">
 </object>
@@ -68684,6 +68696,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ExternalMessagePump">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#ExternalMessagePump">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FieldTrialConfig">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FieldTrialConfig">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ForcedDeviceScaleFactor">

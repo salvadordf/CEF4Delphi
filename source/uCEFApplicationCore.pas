@@ -164,6 +164,7 @@ type
       FHideCrashRestoreBubble            : boolean;
       FPostQuantumKyber                  : TCefState;
       FProxySettings                     : TCEFProxySettings;
+      FFieldTrialConfig                  : TCefState;
       {$IFDEF LINUX}
       FPasswordStorage                   : TCefPasswordStorage;
       FGTKVersion                        : TCefGTKVersion;
@@ -1378,6 +1379,20 @@ type
       /// <para><see href="https://developer.chrome.com/docs/extensions/reference/api/proxy">See the chrome.proxy API article.</see></para>
       /// </remarks>
       property ProxySettings                     : TCEFProxySettings                        read FProxySettings;
+      /// <summary>
+      /// Enable field trial tests configured in fieldtrial_testing_config.json.
+      /// If the "disable_fieldtrial_testing_config" GN flag is set to true, then this switch is a no-op.
+      /// Otherwise, for non-Chrome branded builds, the testing config is already applied by default,
+      /// unless the "--disable-field-trial-config", "--force-fieldtrials", and/or "--variations-server-url"
+      /// switches are passed. It is however possible to apply the testing config as well as specify
+      /// additional field trials (using "--force-fieldtrials") by using this switch. For Chrome-branded
+      /// builds, the testing config is not enabled by default, so this switch is required to enable it.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#enable-field-trial-config">Uses the following command line switch: --enable-field-trial-config</see></para>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#disable-field-trial-config">Uses the following command line switch: --disable-field-trial-config</see></para>
+      /// </remarks>
+      property FieldTrialConfig                  : TCefState                                read FFieldTrialConfig                  write FFieldTrialConfig;
       {$IFDEF LINUX}
       /// <summary>
       /// Specifies which encryption storage backend to use in Linux.
@@ -2142,6 +2157,7 @@ begin
   FDisableHangMonitor                := False;
   FHideCrashRestoreBubble            := True;
   FPostQuantumKyber                  := STATE_DEFAULT;
+  FFieldTrialConfig                  := STATE_DEFAULT;
   FProxySettings                     := nil;
   {$IFDEF LINUX}
   FPasswordStorage                   := psDefault;
@@ -3871,6 +3887,11 @@ begin
   case FPostQuantumKyber of
     STATE_ENABLED  : ReplaceSwitch(aKeys, aValues, '--enable-features',  'PostQuantumKyber');
     STATE_DISABLED : ReplaceSwitch(aKeys, aValues, '--disable-features', 'PostQuantumKyber');
+  end;
+
+  case FFieldTrialConfig of
+    STATE_ENABLED  : ReplaceSwitch(aKeys, aValues, '--enable-field-trial-config');
+    STATE_DISABLED : ReplaceSwitch(aKeys, aValues, '--disable-field-trial-config');
   end;
 
   {$IFDEF LINUX}

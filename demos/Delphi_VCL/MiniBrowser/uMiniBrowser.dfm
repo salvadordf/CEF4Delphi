@@ -180,6 +180,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
           
             'https://codesandbox.io/p/sandbox/image-blob-example-0igon?file=%' +
             '2Fsrc%2FApp.js'
+          'https://authenticationtest.com/simpleFormAuth/'
           'chrome://version/'
           'chrome://net-internals/'
           'chrome://tracing/'
