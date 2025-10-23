@@ -9,12 +9,11 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Menus, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.StdCtrls, Vcl.ExtCtrls, System.Types, Vcl.ComCtrls, Vcl.ClipBrd,
-  System.UITypes, Vcl.AppEvnts, Winapi.ActiveX, Winapi.ShlObj,
-  System.NetEncoding,
+  System.UITypes, Vcl.AppEvnts, Winapi.ActiveX, Winapi.ShlObj, {$IFDEF DELPHI21_UP}System.NetEncoding,{$ENDIF}
   {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Menus,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, Types, ComCtrls, ClipBrd,
-  AppEvnts, ActiveX, ShlObj, NetEncoding,
+  AppEvnts, ActiveX, ShlObj,
   {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes,
   uCEFConstants, uCEFWinControl, uCEFChromiumCore, uCEFFileDialogInfo;
