@@ -3635,7 +3635,7 @@ begin
     CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED                     : Result := 'Cloud policy enrollment is failed or given up by user.';
     CEF_RESULT_CODE_DOWNGRADE_AND_RELAUNCH                             : Result := 'Chrome was downgraded since the last launch. Perform downgrade processing and relaunch.';
     CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST                           : Result := 'The GPU process was terminated due to context lost.';
-    CEF_RESULT_CODE_NORMAL_EXIT_UPGRADE_RELAUNCHED                     : Result := 'Chrome detected that there was a new version waiting to launch and renamed the files and launched the new version. This result code is never returned from the main process, but is instead used as a signal for early termination of browser. See `IsNormalResultCode` below.';
+    CEF_RESULT_CODE_NORMAL_EXIT_UPGRADE_RELAUNCHED                     : Result := 'Chrome detected that there was a new version waiting to launch and renamed the files and launched the new version.';
     CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS                 : Result := 'An early startup command was executed and the browser must exit.';
     CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED                          : Result := 'The browser process exited because system resource are exhausted. The system state can' + #39 + 't be recovered and will be unstable.';
     CEF_RESULT_CODE_NORMAL_EXIT_AUTO_DE_ELEVATED                       : Result := 'The browser process exited because it was re-launched without elevation.';
