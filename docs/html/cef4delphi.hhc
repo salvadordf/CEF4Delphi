@@ -792,6 +792,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FFieldTrialConfig">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FDoNotDeElevate">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FDoNotDeElevate">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FWindowsSandboxInfo">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FWindowsSandboxInfo">
 </object>
@@ -1400,6 +1404,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="FieldTrialConfig">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FieldTrialConfig">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="DoNotDeElevate">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#DoNotDeElevate">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IgnoreCertificateErrors">
@@ -68016,6 +68024,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FDisableZygote">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FDoNotDeElevate">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FDoNotDeElevate">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FEnableBlinkFeatures">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FEnableBlinkFeatures">
 </object>
@@ -68652,6 +68664,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="DisableZygote">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#DisableZygote">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="DoNotDeElevate">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#DoNotDeElevate">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="EnableBlinkFeatures">

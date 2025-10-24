@@ -165,6 +165,7 @@ type
       FPostQuantumKyber                  : TCefState;
       FProxySettings                     : TCEFProxySettings;
       FFieldTrialConfig                  : TCefState;
+      FDoNotDeElevate                    : boolean;
       {$IFDEF LINUX}
       FPasswordStorage                   : TCefPasswordStorage;
       FGTKVersion                        : TCefGTKVersion;
@@ -1393,6 +1394,13 @@ type
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#disable-field-trial-config">Uses the following command line switch: --disable-field-trial-config</see></para>
       /// </remarks>
       property FieldTrialConfig                  : TCefState                                read FFieldTrialConfig                  write FFieldTrialConfig;
+      /// <summary>
+      /// Do not de-elevate the browser on launch. Used after de-elevating to prevent infinite loops.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#do-not-de-elevate">Uses the following command line switch: --do-not-de-elevate</see></para>
+      /// </remarks>
+      property DoNotDeElevate                    : boolean                                  read FDoNotDeElevate                    write FDoNotDeElevate;
       {$IFDEF LINUX}
       /// <summary>
       /// Specifies which encryption storage backend to use in Linux.
@@ -2158,6 +2166,7 @@ begin
   FHideCrashRestoreBubble            := True;
   FPostQuantumKyber                  := STATE_DEFAULT;
   FFieldTrialConfig                  := STATE_DEFAULT;
+  FDoNotDeElevate                    := False;
   FProxySettings                     := nil;
   {$IFDEF LINUX}
   FPasswordStorage                   := psDefault;
@@ -3893,6 +3902,9 @@ begin
     STATE_ENABLED  : ReplaceSwitch(aKeys, aValues, '--enable-field-trial-config');
     STATE_DISABLED : ReplaceSwitch(aKeys, aValues, '--disable-field-trial-config');
   end;
+
+  if FDoNotDeElevate then
+    ReplaceSwitch(aKeys, aValues, '--do-not-de-elevate');
 
   {$IFDEF LINUX}
   if FWindowlessRenderingEnabled and FSharedTextureEnabled then
