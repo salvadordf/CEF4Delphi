@@ -3484,7 +3484,8 @@ begin
         if (WidgetSet <> nil) then
           Application.MessageBox(PChar(aError + #0), PChar('Error' + #0), MB_ICONERROR or MB_OK)
          else
-          ShowX11Message(aError);
+          if (DisplayServer = ldsX11) then
+            ShowX11Message(aError);
         {$ELSE}
         // TO-DO: Find a way to show message boxes in FMXLinux
         {$ENDIF}
