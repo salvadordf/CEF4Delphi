@@ -2533,11 +2533,11 @@ end;
 procedure TCefApplicationCore.ReadDisplayServer;
 {$IFDEF FPC}
 var
-  TempSession : AnsiString;
+  TempSession, TempDisplay : AnsiString;
 {$ENDIF}
 begin
   {$IFDEF FPC}
-  TempSession := GetEnvironmentVariable('XDG_SESSION_TYPE');
+  TempSession := lowercase(GetEnvironmentVariable('XDG_SESSION_TYPE'));
 
   if (TempSession = 'wayland') then
     FDisplayServer := ldsWayland
@@ -2545,7 +2545,24 @@ begin
     if (TempSession = 'x11') then
       FDisplayServer := ldsX11
      else
-      FDisplayServer := ldsUnknown;
+      if (TempSession = 'tty') then
+        FDisplayServer := ldsTTY
+       else
+        begin
+          TempDisplay := lowercase(GetEnvironmentVariable('WAYLAND_DISPLAY'));
+
+          if (length(TempDisplay) > 0) then
+            FDisplayServer := ldsWayland
+           else
+            begin
+              TempDisplay := lowercase(GetEnvironmentVariable('DISPLAY'));
+
+              if (length(TempDisplay) > 0) then
+                FDisplayServer := ldsX11
+               else
+                FDisplayServer := ldsUnknown;
+            end;
+        end;
   {$ENDIF}
   // TO-DO : Find a way to get read the value of an environment variable or the display server type in FMXLinux.
 end;
