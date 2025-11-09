@@ -5640,6 +5640,18 @@ type
     /// https://wicg.github.io/WebApiDevice/device_attributes/
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_DEVICE_ATTRIBUTES,                                  {* CEF_API_ADDED(14000) *}
+    /// <summary>
+    /// Stores per-origin state for permission heuristics. Currently used for
+    /// auto-granting geolocation element permission request after repeated
+    /// temporary grants.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_PERMISSION_ACTIONS_HISTORY,                         {* CEF_API_ADDED(14200) *}
+    /// <summary>
+    /// Website setting to indicate whether the user has selected "show original"
+    /// when suspicious warning is shown. If the user has selected this, the
+    /// notification permission will not be revoked based on suspicious verdict.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_SUSPICIOUS_NOTIFICATION_SHOW_ORIGINAL,              {* CEF_API_ADDED(14200) *}
     CEF_CONTENT_SETTING_TYPE_NUM_VALUES
   );
 

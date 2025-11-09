@@ -13002,6 +13002,14 @@
 <param name="Local" value="uCEFConstants.html#IDC_CLOSE_TAB_GROUP">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_GROUP_UNGROUPED_TABS">
+<param name="Local" value="uCEFConstants.html#IDC_GROUP_UNGROUPED_TABS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CREATE_NEW_TAB_GROUP_TOP_LEVEL">
+<param name="Local" value="uCEFConstants.html#IDC_CREATE_NEW_TAB_GROUP_TOP_LEVEL">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_BOOKMARK_THIS_TAB">
 <param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_THIS_TAB">
 </object>
@@ -13666,6 +13674,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_SHOW_COMMENTS_SIDE_PANEL">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_RECENT_TABS_SEE_DEVICE_TABS">
+<param name="Local" value="uCEFConstants.html#IDC_RECENT_TABS_SEE_DEVICE_TABS">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_SPELLCHECK_SUGGESTION_0">
 <param name="Local" value="uCEFConstants.html#IDC_SPELLCHECK_SUGGESTION_0">
 </object>
@@ -13864,6 +13876,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_SEARCHLENSFORIMAGE">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_SEARCHLENSFORIMAGE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_GLICSHAREIMAGE">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_GLICSHAREIMAGE">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_SAVEVIDEOFRAMEAS">
