@@ -8,11 +8,15 @@ interface
 
 uses
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, StdCtrls, Spin, ExtCtrls, Math,
+  Controls, Forms, Dialogs, StdCtrls, Spin, ExtCtrls, Math, ShellAPI,
   uCEFInterfaces, uCEFServerComponent, uCEFTypes, uCEFMiscFunctions;
 
 type
+
+  { TSimpleServerFrm }
+
   TSimpleServerFrm = class(TForm)
+    OpenBtn: TButton;
     CEFServerComponent1: TCEFServerComponent;
     ButtonPnl: TPanel;
     ConnectionLogMem: TMemo;
@@ -24,31 +28,24 @@ type
     BacklogEdt: TSpinEdit;
     StartBtn: TButton;
     StopBtn: TButton;
+
     procedure StartBtnClick(Sender: TObject);
+    procedure StopBtnClick(Sender: TObject);   
+    procedure OpenBtnClick(Sender: TObject);
     procedure AddressEdtChange(Sender: TObject);
-    procedure CEFServerComponent1ServerCreated(Sender: TObject;
-      const server: ICefServer);
-    procedure CEFServerComponent1ServerDestroyed(Sender: TObject;
-      const server: ICefServer);
-    procedure CEFServerComponent1ClientConnected(Sender: TObject;
-      const server: ICefServer; connection_id: Integer);
-    procedure CEFServerComponent1ClientDisconnected(Sender: TObject;
-      const server: ICefServer; connection_id: Integer);
-    procedure StopBtnClick(Sender: TObject);
+
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
-    procedure CEFServerComponent1HttpRequest(Sender: TObject;
-      const server: ICefServer; connection_id: Integer;
-      const client_address: ustring; const request: ICefRequest);
-    procedure CEFServerComponent1WebSocketConnected(Sender: TObject;
-      const server: ICefServer; connection_id: Integer);
-    procedure CEFServerComponent1WebSocketMessage(Sender: TObject;
-      const server: ICefServer; connection_id: Integer;
-      const data: Pointer; data_size: NativeUInt);
-    procedure CEFServerComponent1WebSocketRequest(Sender: TObject;
-      const server: ICefServer; connection_id: Integer;
-      const client_address: ustring; const request: ICefRequest;
-      const callback: ICefCallback);
+
+    procedure CEFServerComponent1ServerCreated(Sender: TObject; const server: ICefServer);
+    procedure CEFServerComponent1ServerDestroyed(Sender: TObject; const server: ICefServer);
+    procedure CEFServerComponent1ClientConnected(Sender: TObject; const server: ICefServer; connection_id: Integer);
+    procedure CEFServerComponent1ClientDisconnected(Sender: TObject; const server: ICefServer; connection_id: Integer);
+    procedure CEFServerComponent1HttpRequest(Sender: TObject; const server: ICefServer; connection_id: Integer; const client_address: ustring; const request: ICefRequest);
+    procedure CEFServerComponent1WebSocketConnected(Sender: TObject; const server: ICefServer; connection_id: Integer);
+    procedure CEFServerComponent1WebSocketMessage(Sender: TObject; const server: ICefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt);
+    procedure CEFServerComponent1WebSocketRequest(Sender: TObject; const server: ICefServer; connection_id: Integer; const client_address: ustring; const request: ICefRequest; const callback: ICefCallback);
+
   protected
     FClosing : boolean;
 
@@ -166,30 +163,34 @@ begin
     try
       if (aPostData <> nil) and (aPostData.GetElementCount > 0) then
         begin
+          ConnectionLogMem.Lines.Add('Post element count : ' + inttostr(aPostData.GetElementCount));
           aPostData.GetElements(aPostData.GetElementCount, TempArray);
 
           i := 0;
           while (i < length(TempArray)) do
             begin
-              if (TempArray[i].GetBytesCount > 0) then
-                begin
-                  SetLength(TempBytes, TempArray[i].GetBytesCount);
-                  TempLen := TempArray[i].GetBytes(TempArray[i].GetBytesCount, @TempBytes[0]);
+              case TempArray[i].GetType of
+                PDE_TYPE_EMPTY : ConnectionLogMem.Lines.Add('Post element ' + inttostr(i) + ' type : empty');
+                PDE_TYPE_FILE  : ConnectionLogMem.Lines.Add('Post element ' + inttostr(i) + ' type : file. ' + TempArray[i].GetFile);
+                PDE_TYPE_BYTES :
+                  begin
+                    ConnectionLogMem.Lines.Add('Post element ' + inttostr(i) + ' type : bytes');
+                    if (TempArray[i].GetBytesCount > 0) then
+                      begin
+                        SetLength(TempBytes, TempArray[i].GetBytesCount);
+                        TempLen := TempArray[i].GetBytes(TempArray[i].GetBytesCount, @TempBytes[0]);
 
-                  if (TempLen > 0) then
-                    begin
-                      ConnectionLogMem.Lines.Add('Post contents length : ' + inttostr(TempLen));
-                      ConnectionLogMem.Lines.Add('Post contents sample : ' + BufferToString(TempBytes));
-                    end;
-                end;
+                        if (TempLen > 0) then
+                          begin
+                            ConnectionLogMem.Lines.Add('Post element ' + inttostr(i) + ' length : ' + inttostr(TempLen));
+                            ConnectionLogMem.Lines.Add('Post element ' + inttostr(i) + ' contents : ' + BufferToString(TempBytes));
+                          end;
+                      end;
+                  end;
 
-              inc(i);
-            end;
-
-          i := 0;
-          while (i < length(TempArray)) do
-            begin
-              TempArray[i] := nil;
+                else
+                 ConnectionLogMem.Lines.Add('Post element ' + inttostr(i) + ' type : unknown');
+              end;
               inc(i);
             end;
         end;
@@ -200,27 +201,51 @@ begin
   finally
     if (TempArray <> nil) then
       begin
+        i := 0;
+        while (i < length(TempArray)) do
+          begin
+            TempArray[i] := nil;
+            inc(i);
+          end;
         Finalize(TempArray);
         TempArray := nil;
       end;
   end;
 end;
 
-
 function TSimpleServerFrm.BufferToString(const aBuffer : TBytes) : string;
 var
   i, j : integer;
+  TempStream : TStringStream;
 begin
   Result := '';
 
-  i := 0;
-  j := min(length(aBuffer), 5);
+  TempStream := TStringStream.Create(aBuffer);
+  try
+    Result := TempStream.DataString;
+  finally
+    TempStream.Free;
+  end;
 
-  while (i < j) do
+  if (length(Result) = 0) then
     begin
-      Result := Result + IntToHex(aBuffer[i], 2);
-      inc(i);
+      i := 0;
+      j := length(aBuffer);
+
+      while (i < j) do
+        begin
+          Result := Result + IntToHex(aBuffer[i], 2);
+          inc(i);
+        end;
     end;
+end;
+
+procedure TSimpleServerFrm.OpenBtnClick(Sender: TObject);
+var
+  TempURL : string;
+begin
+  TempURL := 'http://' + AddressEdt.Text + ':' + inttostr(PortEdt.Value);
+  ShellExecute(0, 'Open', PChar(TempURL), nil, nil, SW_SHOW);
 end;
 
 procedure TSimpleServerFrm.CEFServerComponent1ServerCreated(Sender: TObject; const server: ICefServer);
@@ -228,8 +253,12 @@ begin
   if CEFServerComponent1.Initialized then
     begin
       ConnectionLogMem.Lines.Add('Server created');
-      StartBtn.Enabled := False;
-      StopBtn.Enabled  := True;
+      StartBtn.Enabled   := False;
+      StopBtn.Enabled    := not(StartBtn.Enabled);
+      OpenBtn.Enabled    := not(StartBtn.Enabled);
+      AddressEdt.Enabled := StartBtn.Enabled;
+      PortEdt.Enabled    := StartBtn.Enabled;
+      BacklogEdt.Enabled := StartBtn.Enabled;
     end
    else
     ConnectionLogMem.Lines.Add('Server creation error!');
@@ -242,8 +271,12 @@ begin
    else
     begin
       ConnectionLogMem.Lines.Add('Server destroyed');
-      StartBtn.Enabled := True;
-      StopBtn.Enabled  := False;
+      StartBtn.Enabled   := True;
+      StopBtn.Enabled    := not(StartBtn.Enabled);
+      OpenBtn.Enabled    := not(StartBtn.Enabled);
+      AddressEdt.Enabled := StartBtn.Enabled;
+      PortEdt.Enabled    := StartBtn.Enabled;
+      BacklogEdt.Enabled := StartBtn.Enabled;
     end;
 end;
 

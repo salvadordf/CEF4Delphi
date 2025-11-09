@@ -13,7 +13,6 @@ object SimpleServerFrm: TSimpleServerFrm
   Font.Height = -11
   Font.Name = 'Tahoma'
   Position = poScreenCenter
-  LCLVersion = '4.0.0.4'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   object ButtonPnl: TPanel
@@ -82,7 +81,7 @@ object SimpleServerFrm: TSimpleServerFrm
     end
     object StartBtn: TButton
       Left = 312
-      Height = 79
+      Height = 22
       Top = 8
       Width = 105
       Caption = 'Start'
@@ -90,14 +89,24 @@ object SimpleServerFrm: TSimpleServerFrm
       OnClick = StartBtnClick
     end
     object StopBtn: TButton
-      Left = 434
-      Height = 79
-      Top = 8
+      Left = 312
+      Height = 22
+      Top = 35
       Width = 105
       Caption = 'Stop'
       Enabled = False
       TabOrder = 4
       OnClick = StopBtnClick
+    end
+    object OpenBtn: TButton
+      Left = 312
+      Height = 22
+      Top = 64
+      Width = 105
+      Caption = 'Open web browser'
+      Enabled = False
+      TabOrder = 5
+      OnClick = OpenBtnClick
     end
   end
   object ConnectionLogMem: TMemo

@@ -78,20 +78,30 @@ object SimpleServerFrm: TSimpleServerFrm
       Left = 312
       Top = 8
       Width = 105
-      Height = 79
+      Height = 21
       Caption = 'Start'
       TabOrder = 3
       OnClick = StartBtnClick
     end
     object StopBtn: TButton
-      Left = 434
-      Top = 8
+      Left = 312
+      Top = 37
       Width = 105
-      Height = 79
+      Height = 21
       Caption = 'Stop'
       Enabled = False
       TabOrder = 4
       OnClick = StopBtnClick
+    end
+    object OpenBtn: TButton
+      Left = 312
+      Top = 65
+      Width = 105
+      Height = 21
+      Caption = 'Open web browser'
+      Enabled = False
+      TabOrder = 5
+      OnClick = OpenBtnClick
     end
   end
   object ConnectionLogMem: TMemo
