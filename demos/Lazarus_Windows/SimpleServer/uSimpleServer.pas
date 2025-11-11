@@ -9,7 +9,8 @@ interface
 uses
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, Spin, ExtCtrls, Math, ShellAPI,
-  uCEFInterfaces, uCEFServerComponent, uCEFTypes, uCEFMiscFunctions;
+  uCEFInterfaces, uCEFServerComponent, uCEFTypes, uCEFMiscFunctions,
+  uCEFStringMultimap;
 
 type
 
@@ -138,6 +139,9 @@ begin
 end;
 
 procedure TSimpleServerFrm.ShowRequestInfo(const aRequest : ICefRequest);
+var
+  TempHeaderMap : ICefStringMultimap;
+  i : NativeUInt;
 begin
   if (aRequest = nil) then exit;
 
@@ -146,6 +150,15 @@ begin
 
   if (length(aRequest.ReferrerUrl) > 0) then
     ConnectionLogMem.Lines.Add('Request Referrer : ' + aRequest.ReferrerUrl);
+
+  TempHeaderMap := TCefStringMultimapOwn.Create;
+  aRequest.GetHeaderMap(TempHeaderMap);
+  i := 0;
+  while (i < TempHeaderMap.Size) do
+    begin
+      ConnectionLogMem.Lines.Add('HTTP header : ' + TempHeaderMap.Key[i] + ':' + TempHeaderMap.Value[i]);
+      inc(i);
+    end;
 
   ShowPostDataInfo(aRequest.PostData);
 end;
