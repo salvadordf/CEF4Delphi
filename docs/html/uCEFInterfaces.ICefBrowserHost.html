@@ -872,7 +872,7 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Returns the maximum rate in frames per second (fps) that ICefRenderHandler.OnPaint will be called for a windowless browser. The actual fps may be lower if the browser cannot generate frames at the requested rate. The minimum value is 1 and the maximum value is 60 (default 30). This function can only be called on the UI thread. </p>
+ Returns the maximum rate in frames per second (fps) that ICefRenderHandler.OnPaint will be called for a windowless browser. The actual fps may be lower if the browser cannot generate frames at the requested rate. The minimum value is 1 and the default value is 30. This method can only be called on the UI thread. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -882,7 +882,7 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Set the maximum rate in frames per second (fps) that ICefRenderHandler.OnPaint will be called for a windowless browser. The actual fps may be lower if the browser cannot generate frames at the requested rate. The minimum value is 1 and the maximum value is 60 (default 30). Can also be set at browser creation via TCefBrowserSettings.windowless_frame_rate. </p>
+ Set the maximum rate in frames per second (fps) that ICefRenderHandler.OnPaint will be called for a windowless browser. The actual fps may be lower if the browser cannot generate frames at the requested rate. The minimum value is 1 and the default value is 30. Can also be set at browser creation via TCefBrowserSettings.windowless_frame_rate and TChromium.Options.WindowlessFrameRate </p>
 </td></tr>
 </table>
 <table class="detail wide_list">

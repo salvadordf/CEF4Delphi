@@ -129,8 +129,8 @@ type
       /// The maximum rate in frames per second (fps) that ICefRenderHandler.OnPaint
       /// will be called for a windowless browser. The actual fps may be lower if
       /// the browser cannot generate frames at the requested rate. The minimum
-      /// value is 1 and the maximum value is 60 (default 30). This value can also
-      /// be changed dynamically via ICefBrowserHost.SetWindowlessFrameRate.
+      /// value is 1 and the default value is 30. This value can also be changed
+      /// dynamically via ICefBrowserHost.SetWindowlessFrameRate.
       /// </summary>
       /// <remarks>
       /// <para>Use CEF_OSR_SHARED_TEXTURES_FRAMERATE_DEFAULT as default value if the shared textures are enabled.</para>
