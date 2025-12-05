@@ -76,7 +76,7 @@ type
     procedure Chromium1ProcessMessageReceived(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message: ICefProcessMessage; out Result: Boolean);
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium1ConsoleMessage(Sender: TObject; const browser: ICefBrowser; level: TCefLogSeverity; const message, source: ustring; line: Integer; out Result: Boolean);
+    procedure Chromium1ConsoleMessage(Sender: TObject; const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer; out Result: Boolean);
     procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: Integer; success: Boolean; const result: ICefValue);
 
   protected
@@ -492,7 +492,7 @@ begin
 end;
 
 procedure TDOMVisitorFrm.Chromium1ConsoleMessage(Sender: TObject;
-  const browser: ICefBrowser; level: TCefLogSeverity; const message, source: ustring;
+  const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring;
   line: Integer; out Result: Boolean);
 var
   TempResult : string;
@@ -501,11 +501,11 @@ begin
   // from the render process.
   // This event may receive many other messages but we identify our message
   // thanks to the preamble.
-  if (length(message) > 0) and
-     (copy(message, 1, length(CONSOLE_MSG_PREAMBLE)) = CONSOLE_MSG_PREAMBLE) then
+  if (length(message_) > 0) and
+     (copy(message_, 1, length(CONSOLE_MSG_PREAMBLE)) = CONSOLE_MSG_PREAMBLE) then
     begin
       // Remove CONSOLE_MSG_PREAMBLE to get the encoded result
-      TempResult := copy(message, succ(length(CONSOLE_MSG_PREAMBLE)), length(message));
+      TempResult := copy(message_, succ(length(CONSOLE_MSG_PREAMBLE)), length(message_));
       // Decode the result and copy to the clipboard.
       Clipboard.AsText := TNetEncoding.URL.Decode(TempResult);
       // Update the status bar text in the main application thread

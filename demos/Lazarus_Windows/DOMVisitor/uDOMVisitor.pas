@@ -70,7 +70,7 @@ type
     procedure Chromium1ProcessMessageReceived(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message: ICefProcessMessage; out Result: Boolean);
     procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure Chromium1ConsoleMessage(Sender: TObject; const browser: ICefBrowser; level: TCefLogSeverity; const message, source: ustring; line: Integer; out Result: Boolean);
+    procedure Chromium1ConsoleMessage(Sender: TObject; const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer; out Result: Boolean);
     procedure Chromium1DevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: integer; success: boolean; const result: ICefValue);
 
   protected
@@ -476,7 +476,7 @@ begin
 end;
 
 procedure TDOMVisitorFrm.Chromium1ConsoleMessage(Sender: TObject;
-  const browser: ICefBrowser; level: TCefLogSeverity; const message, source: ustring;
+  const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring;
   line: Integer; out Result: Boolean);
 begin
   // In this event we receive the message with the name and value of a DOM node
@@ -488,10 +488,10 @@ begin
   // This and many other TChromium events are executed in a CEF thread. The VCL
   // should be used only in the main thread and we use a message and a field
   // protected by a synchronization object to call showmessage safely.
-  if (length(message) > 0) and
-     (copy(message, 1, length(CONSOLE_MSG_PREAMBLE)) = CONSOLE_MSG_PREAMBLE) then
+  if (length(message_) > 0) and
+     (copy(message_, 1, length(CONSOLE_MSG_PREAMBLE)) = CONSOLE_MSG_PREAMBLE) then
     begin
-      MsgContents := copy(message, succ(length(CONSOLE_MSG_PREAMBLE)), length(message));
+      MsgContents := copy(message_, succ(length(CONSOLE_MSG_PREAMBLE)), length(message_));
 
       if (length(MsgContents) = 0) then
         MsgContents := 'There was an error reading the search box information'
