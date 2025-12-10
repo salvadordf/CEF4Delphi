@@ -5464,7 +5464,7 @@ type
     /// lifetime of the page that served the token, rather than being specific to
     /// a requesting-origin/top-level-site combination and persistent.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_TOP_LEVEL_TPCD_TRIAL,
+    CEF_CONTENT_SETTING_TYPE_TOP_LEVEL_TPCD_TRIAL_DEPRECATED,                    {* CEF_API_ADDED(14300) *}
     /// <summary>
     /// <para>Content Setting for a first-party origin trial that allows websites to
     /// enable third-party cookie deprecation.</para>
@@ -5472,7 +5472,7 @@ type
     /// not blocked otherwise).</para>
     /// <para>BLOCK: third-party cookies blocked, but 3PCD mitigations enabled.</para>
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_TOP_LEVEL_TPCD_ORIGIN_TRIAL,
+    CEF_CONTENT_SETTING_TYPE_TOP_LEVEL_TPCD_ORIGIN_TRIAL_DEPRECATED,             {* CEF_API_ADDED(14300) *}
     /// <summary>
     /// Content setting used to indicate whether entering picture-in-picture
     /// automatically should be enabled.

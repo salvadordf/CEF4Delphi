@@ -331,6 +331,12 @@
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_PROXY_UNABLE_TO_CONNECT_TO_DESTINATION">ERR_PROXY_UNABLE_TO_CONNECT_TO_DESTINATION</a></strong>                  = -186;</code></td>
 </tr>
 <tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_PROXY_DELEGATE_CANCELED_CONNECT_REQUEST">ERR_PROXY_DELEGATE_CANCELED_CONNECT_REQUEST</a></strong>                 = -187;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_PROXY_DELEGATE_CANCELED_CONNECT_RESPONSE">ERR_PROXY_DELEGATE_CANCELED_CONNECT_RESPONSE</a></strong>                = -188;</code></td>
+</tr>
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_CERT_COMMON_NAME_INVALID">ERR_CERT_COMMON_NAME_INVALID</a></strong>                                = -200;</code></td>
 </tr>
 <tr class="list">
@@ -568,10 +574,10 @@
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_INCONSISTENT_IP_ADDRESS_SPACE">ERR_INCONSISTENT_IP_ADDRESS_SPACE</a></strong>                           = -383;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_POLICY">ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_POLICY</a></strong> = -384;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_LOCAL_NETWORK_ACCESS_POLICY">ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_LOCAL_NETWORK_ACCESS_POLICY</a></strong> = -384;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_CHECKS">ERR_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_CHECKS</a></strong>                = -385;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS">ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS</a></strong>                  = -385;</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_ZSTD_WINDOW_SIZE_TOO_BIG">ERR_ZSTD_WINDOW_SIZE_TOO_BIG</a></strong>                                = -386;</code></td>
@@ -724,214 +730,220 @@
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_DNS_SECURE_PROBE_RECORD_INVALID">ERR_DNS_SECURE_PROBE_RECORD_INVALID</a></strong>                         = -814;</code></td>
 </tr>
 <tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_DNS_CACHE_INVALIDATION_IN_PROGRESS">ERR_DNS_CACHE_INVALIDATION_IN_PROGRESS</a></strong>                      = -815;</code></td>
+</tr>
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_BLOB_INVALID_CONSTRUCTION_ARGUMENTS">ERR_BLOB_INVALID_CONSTRUCTION_ARGUMENTS</a></strong>                     = -900;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_BLOB_OUT_OF_MEMORY">ERR_BLOB_OUT_OF_MEMORY</a></strong>                                      = -901;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_BLOB_FILE_WRITE_FAILED">ERR_BLOB_FILE_WRITE_FAILED</a></strong>                                  = -902;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_BLOB_SOURCE_DIED_IN_TRANSIT">ERR_BLOB_SOURCE_DIED_IN_TRANSIT</a></strong>                             = -903;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_BLOB_DEREFERENCED_WHILE_BUILDING">ERR_BLOB_DEREFERENCED_WHILE_BUILDING</a></strong>                        = -904;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_BLOB_REFERENCED_BLOB_BROKEN">ERR_BLOB_REFERENCED_BLOB_BROKEN</a></strong>                             = -905;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#ERR_BLOB_REFERENCED_FILE_UNAVAILABLE">ERR_BLOB_REFERENCED_FILE_UNAVAILABLE</a></strong>                        = -906;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#COMMAND_ID_FIRST_UNBOUNDED">COMMAND_ID_FIRST_UNBOUNDED</a></strong> = $E000;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_MinimumLabelValue">IDC_MinimumLabelValue</a></strong> = 4000;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_BACK">IDC_BACK</a></strong> = 33000;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FORWARD">IDC_FORWARD</a></strong> = 33001;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_RELOAD">IDC_RELOAD</a></strong> = 33002;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_HOME">IDC_HOME</a></strong> = 33003;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_OPEN_CURRENT_URL">IDC_OPEN_CURRENT_URL</a></strong> = 33004;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_STOP">IDC_STOP</a></strong> = 33006;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_RELOAD_BYPASSING_CACHE">IDC_RELOAD_BYPASSING_CACHE</a></strong> = 33007;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_RELOAD_CLEARING_CACHE">IDC_RELOAD_CLEARING_CACHE</a></strong> = 33009;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_NEW_WINDOW">IDC_NEW_WINDOW</a></strong> = 34000;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_NEW_INCOGNITO_WINDOW">IDC_NEW_INCOGNITO_WINDOW</a></strong> = 34001;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_CLOSE_WINDOW">IDC_CLOSE_WINDOW</a></strong> = 34012;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_ALWAYS_ON_TOP">IDC_ALWAYS_ON_TOP</a></strong> = 34013;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_NEW_TAB">IDC_NEW_TAB</a></strong> = 34014;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_CLOSE_TAB">IDC_CLOSE_TAB</a></strong> = 34015;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SELECT_NEXT_TAB">IDC_SELECT_NEXT_TAB</a></strong> = 34016;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SELECT_PREVIOUS_TAB">IDC_SELECT_PREVIOUS_TAB</a></strong> = 34017;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SELECT_TAB_0">IDC_SELECT_TAB_0</a></strong> = 34018;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SELECT_TAB_1">IDC_SELECT_TAB_1</a></strong> = 34019;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SELECT_TAB_2">IDC_SELECT_TAB_2</a></strong> = 34020;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SELECT_TAB_3">IDC_SELECT_TAB_3</a></strong> = 34021;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SELECT_TAB_4">IDC_SELECT_TAB_4</a></strong> = 34022;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SELECT_TAB_5">IDC_SELECT_TAB_5</a></strong> = 34023;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SELECT_TAB_6">IDC_SELECT_TAB_6</a></strong> = 34024;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SELECT_TAB_7">IDC_SELECT_TAB_7</a></strong> = 34025;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SELECT_LAST_TAB">IDC_SELECT_LAST_TAB</a></strong> = 34026;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_DUPLICATE_TAB">IDC_DUPLICATE_TAB</a></strong> = 34027;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_RESTORE_TAB">IDC_RESTORE_TAB</a></strong> = 34028;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_AS_TAB">IDC_SHOW_AS_TAB</a></strong> = 34029;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FULLSCREEN">IDC_FULLSCREEN</a></strong> = 34030;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_EXIT">IDC_EXIT</a></strong> = 34031;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_MOVE_TAB_NEXT">IDC_MOVE_TAB_NEXT</a></strong> = 34032;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_MOVE_TAB_PREVIOUS">IDC_MOVE_TAB_PREVIOUS</a></strong> = 34033;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SEARCH">IDC_SEARCH</a></strong> = 34035;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_WINDOW_MENU">IDC_WINDOW_MENU</a></strong> = 34045;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_MINIMIZE_WINDOW">IDC_MINIMIZE_WINDOW</a></strong> = 34046;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_MAXIMIZE_WINDOW">IDC_MAXIMIZE_WINDOW</a></strong> = 34047;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_ALL_WINDOWS_FRONT">IDC_ALL_WINDOWS_FRONT</a></strong> = 34048;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_NAME_WINDOW">IDC_NAME_WINDOW</a></strong> = 34049;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_TOGGLE_MULTITASK_MENU">IDC_TOGGLE_MULTITASK_MENU</a></strong> = 34050;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_USE_SYSTEM_TITLE_BAR">IDC_USE_SYSTEM_TITLE_BAR</a></strong> = 34051;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_RESTORE_WINDOW">IDC_RESTORE_WINDOW</a></strong> = 34052;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_OPEN_IN_PWA_WINDOW">IDC_OPEN_IN_PWA_WINDOW</a></strong> = 34053;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_MOVE_TAB_TO_NEW_WINDOW">IDC_MOVE_TAB_TO_NEW_WINDOW</a></strong> = 34054;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_NEW_SPLIT_TAB">IDC_NEW_SPLIT_TAB</a></strong> = 34055;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_TOGGLE_VERTICAL_TABS">IDC_TOGGLE_VERTICAL_TABS</a></strong> = 34056;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_COPY_URL">IDC_COPY_URL</a></strong> = 34060;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_OPEN_IN_CHROME">IDC_OPEN_IN_CHROME</a></strong> = 34061;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_WEB_APP_SETTINGS">IDC_WEB_APP_SETTINGS</a></strong> = 34062;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_WEB_APP_MENU_APP_INFO">IDC_WEB_APP_MENU_APP_INFO</a></strong> = 34063;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_WEB_APP_UPGRADE_DIALOG">IDC_WEB_APP_UPGRADE_DIALOG</a></strong> = 34064;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_VISIT_DESKTOP_OF_LRU_USER_2">IDC_VISIT_DESKTOP_OF_LRU_USER_2</a></strong> = 34080;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_VISIT_DESKTOP_OF_LRU_USER_3">IDC_VISIT_DESKTOP_OF_LRU_USER_3</a></strong> = 34081;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_VISIT_DESKTOP_OF_LRU_USER_4">IDC_VISIT_DESKTOP_OF_LRU_USER_4</a></strong> = 34082;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_VISIT_DESKTOP_OF_LRU_USER_5">IDC_VISIT_DESKTOP_OF_LRU_USER_5</a></strong> = 34083;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_ADD_NEW_TAB_TO_GROUP">IDC_ADD_NEW_TAB_TO_GROUP</a></strong> = 34100;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_CREATE_NEW_TAB_GROUP">IDC_CREATE_NEW_TAB_GROUP</a></strong> = 34101;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FOCUS_NEXT_TAB_GROUP">IDC_FOCUS_NEXT_TAB_GROUP</a></strong> = 34102;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FOCUS_PREV_TAB_GROUP">IDC_FOCUS_PREV_TAB_GROUP</a></strong> = 34103;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_CLOSE_TAB_GROUP">IDC_CLOSE_TAB_GROUP</a></strong> = 34104;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_GROUP_UNGROUPED_TABS">IDC_GROUP_UNGROUPED_TABS</a></strong> = 34105;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_CREATE_NEW_TAB_GROUP_TOP_LEVEL">IDC_CREATE_NEW_TAB_GROUP_TOP_LEVEL</a></strong> = 34106;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_ADD_NEW_TAB_RECENT_GROUP">IDC_ADD_NEW_TAB_RECENT_GROUP</a></strong> = 34107;</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_BOOKMARK_THIS_TAB">IDC_BOOKMARK_THIS_TAB</a></strong> = 35000;</code></td>
@@ -1126,313 +1138,319 @@
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_SIGNIN">IDC_SHOW_SIGNIN</a></strong> = 35359;</code></td>
 </tr>
 <tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_SYNC_PASSPHRASE_DIALOG">IDC_SHOW_SYNC_PASSPHRASE_DIALOG</a></strong> = 35360;</code></td>
+</tr>
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_ZOOM_MENU">IDC_ZOOM_MENU</a></strong> = 38000;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_ZOOM_PLUS">IDC_ZOOM_PLUS</a></strong> = 38001;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_ZOOM_NORMAL">IDC_ZOOM_NORMAL</a></strong> = 38002;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_ZOOM_MINUS">IDC_ZOOM_MINUS</a></strong> = 38003;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FOCUS_TOOLBAR">IDC_FOCUS_TOOLBAR</a></strong> = 39000;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FOCUS_LOCATION">IDC_FOCUS_LOCATION</a></strong> = 39001;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FOCUS_SEARCH">IDC_FOCUS_SEARCH</a></strong> = 39002;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FOCUS_MENU_BAR">IDC_FOCUS_MENU_BAR</a></strong> = 39003;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FOCUS_NEXT_PANE">IDC_FOCUS_NEXT_PANE</a></strong> = 39004;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FOCUS_PREVIOUS_PANE">IDC_FOCUS_PREVIOUS_PANE</a></strong> = 39005;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FOCUS_BOOKMARKS">IDC_FOCUS_BOOKMARKS</a></strong> = 39006;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FOCUS_INACTIVE_POPUP_FOR_ACCESSIBILITY">IDC_FOCUS_INACTIVE_POPUP_FOR_ACCESSIBILITY</a></strong> = 39007;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FOCUS_WEB_CONTENTS_PANE">IDC_FOCUS_WEB_CONTENTS_PANE</a></strong> = 39009;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_OPEN_FILE">IDC_OPEN_FILE</a></strong> = 40000;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_CREATE_SHORTCUT">IDC_CREATE_SHORTCUT</a></strong> = 40002;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_DEVELOPER_MENU">IDC_DEVELOPER_MENU</a></strong> = 40003;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_DEV_TOOLS">IDC_DEV_TOOLS</a></strong> = 40004;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_DEV_TOOLS_CONSOLE">IDC_DEV_TOOLS_CONSOLE</a></strong> = 40005;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_TASK_MANAGER">IDC_TASK_MANAGER</a></strong> = 40006;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_DEV_TOOLS_DEVICES">IDC_DEV_TOOLS_DEVICES</a></strong> = 40007;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FEEDBACK">IDC_FEEDBACK</a></strong> = 40008;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_BOOKMARK_BAR">IDC_SHOW_BOOKMARK_BAR</a></strong> = 40009;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_HISTORY">IDC_SHOW_HISTORY</a></strong> = 40010;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_BOOKMARK_MANAGER">IDC_SHOW_BOOKMARK_MANAGER</a></strong> = 40011;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_DOWNLOADS">IDC_SHOW_DOWNLOADS</a></strong> = 40012;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_CLEAR_BROWSING_DATA">IDC_CLEAR_BROWSING_DATA</a></strong> = 40013;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_IMPORT_SETTINGS">IDC_IMPORT_SETTINGS</a></strong> = 40014;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_OPTIONS">IDC_OPTIONS</a></strong> = 40015;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_EDIT_SEARCH_ENGINES">IDC_EDIT_SEARCH_ENGINES</a></strong> = 40016;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_VIEW_PASSWORDS">IDC_VIEW_PASSWORDS</a></strong> = 40017;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_ABOUT">IDC_ABOUT</a></strong> = 40018;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_HELP_PAGE_VIA_KEYBOARD">IDC_HELP_PAGE_VIA_KEYBOARD</a></strong> = 40019;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_HELP_PAGE_VIA_MENU">IDC_HELP_PAGE_VIA_MENU</a></strong> = 40020;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_APP_MENU">IDC_SHOW_APP_MENU</a></strong> = 40021;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_MANAGE_EXTENSIONS">IDC_MANAGE_EXTENSIONS</a></strong> = 40022;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_DEV_TOOLS_INSPECT">IDC_DEV_TOOLS_INSPECT</a></strong> = 40023;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_UPGRADE_DIALOG">IDC_UPGRADE_DIALOG</a></strong> = 40024;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_HISTORY_CLUSTERS_SIDE_PANEL">IDC_SHOW_HISTORY_CLUSTERS_SIDE_PANEL</a></strong> = 40025;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_PROFILING_ENABLED">IDC_PROFILING_ENABLED</a></strong> = 40028;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_BOOKMARKS_MENU">IDC_BOOKMARKS_MENU</a></strong> = 40029;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SAVED_TAB_GROUPS_MENU">IDC_SAVED_TAB_GROUPS_MENU</a></strong> = 40030;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_EXTENSION_ERRORS">IDC_EXTENSION_ERRORS</a></strong> = 40031;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_SETTINGS_CHANGE_FIRST">IDC_SHOW_SETTINGS_CHANGE_FIRST</a></strong> = 40033;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_SETTINGS_CHANGE_LAST">IDC_SHOW_SETTINGS_CHANGE_LAST</a></strong> = 40133;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_AVATAR_MENU">IDC_SHOW_AVATAR_MENU</a></strong> = 40134;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_EXTENSION_INSTALL_ERROR_FIRST">IDC_EXTENSION_INSTALL_ERROR_FIRST</a></strong> = 40135;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_EXTENSION_INSTALL_ERROR_LAST">IDC_EXTENSION_INSTALL_ERROR_LAST</a></strong> = 40235;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_TOGGLE_REQUEST_TABLET_SITE">IDC_TOGGLE_REQUEST_TABLET_SITE</a></strong> = 40236;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_DEV_TOOLS_TOGGLE">IDC_DEV_TOOLS_TOGGLE</a></strong> = 40237;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_RECENT_TABS_MENU">IDC_RECENT_TABS_MENU</a></strong> = 40239;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_RECENT_TABS_NO_DEVICE_TABS">IDC_RECENT_TABS_NO_DEVICE_TABS</a></strong> = 40240;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_SETTINGS_RESET_BUBBLE">IDC_SHOW_SETTINGS_RESET_BUBBLE</a></strong> = 40241;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_DISTILL_PAGE">IDC_DISTILL_PAGE</a></strong> = 40243;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_HELP_MENU">IDC_HELP_MENU</a></strong> = 40244;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_SRT_BUBBLE">IDC_SHOW_SRT_BUBBLE</a></strong> = 40246;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_ELEVATED_RECOVERY_DIALOG">IDC_ELEVATED_RECOVERY_DIALOG</a></strong> = 40247;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_TAKE_SCREENSHOT">IDC_TAKE_SCREENSHOT</a></strong> = 40248;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_MORE_TOOLS_MENU">IDC_MORE_TOOLS_MENU</a></strong> = 40249;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_TOGGLE_FULLSCREEN_TOOLBAR">IDC_TOGGLE_FULLSCREEN_TOOLBAR</a></strong> = 40250;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_CUSTOMIZE_TOUCH_BAR">IDC_CUSTOMIZE_TOUCH_BAR</a></strong> = 40251;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_BETA_FORUM">IDC_SHOW_BETA_FORUM</a></strong> = 40252;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_TOGGLE_JAVASCRIPT_APPLE_EVENTS">IDC_TOGGLE_JAVASCRIPT_APPLE_EVENTS</a></strong> = 40253;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_INSTALL_PWA">IDC_INSTALL_PWA</a></strong> = 40254;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_MANAGEMENT_PAGE">IDC_SHOW_MANAGEMENT_PAGE</a></strong> = 40255;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_PASTE_AND_GO">IDC_PASTE_AND_GO</a></strong> = 40256;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_SAVE_LOCAL_CARD_SIGN_IN_PROMO_IF_APPLICABLE">IDC_SHOW_SAVE_LOCAL_CARD_SIGN_IN_PROMO_IF_APPLICABLE</a></strong> = 40257;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_CLOSE_SIGN_IN_PROMO">IDC_CLOSE_SIGN_IN_PROMO</a></strong> = 40258;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_FULL_URLS">IDC_SHOW_FULL_URLS</a></strong> = 40259;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_CARET_BROWSING_TOGGLE">IDC_CARET_BROWSING_TOGGLE</a></strong> = 40260;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_CHROME_TIPS">IDC_CHROME_TIPS</a></strong> = 40263;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_CHROME_WHATS_NEW">IDC_CHROME_WHATS_NEW</a></strong> = 40264;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_PERFORMANCE">IDC_PERFORMANCE</a></strong> = 40266;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_EXTENSIONS_SUBMENU">IDC_EXTENSIONS_SUBMENU</a></strong> = 40267;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_EXTENSIONS_SUBMENU_MANAGE_EXTENSIONS">IDC_EXTENSIONS_SUBMENU_MANAGE_EXTENSIONS</a></strong> = 40268;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_EXTENSIONS_SUBMENU_VISIT_CHROME_WEB_STORE">IDC_EXTENSIONS_SUBMENU_VISIT_CHROME_WEB_STORE</a></strong> = 40269;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_READING_LIST_MENU">IDC_READING_LIST_MENU</a></strong> = 40270;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_READING_LIST_MENU_ADD_TAB">IDC_READING_LIST_MENU_ADD_TAB</a></strong> = 40271;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_READING_LIST_MENU_SHOW_UI">IDC_READING_LIST_MENU_SHOW_UI</a></strong> = 40272;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_READING_MODE_SIDE_PANEL">IDC_SHOW_READING_MODE_SIDE_PANEL</a></strong> = 40273;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_BOOKMARK_SIDE_PANEL">IDC_SHOW_BOOKMARK_SIDE_PANEL</a></strong> = 40274;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_CHROME_LABS">IDC_SHOW_CHROME_LABS</a></strong> = 40276;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_RECENT_TABS_LOGIN_FOR_DEVICE_TABS">IDC_RECENT_TABS_LOGIN_FOR_DEVICE_TABS</a></strong> = 40277;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_OPEN_RECENT_TAB">IDC_OPEN_RECENT_TAB</a></strong> = 40278;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_OPEN_SAFETY_HUB">IDC_OPEN_SAFETY_HUB</a></strong> = 40279;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SAFETY_HUB_SHOW_PASSWORD_CHECKUP">IDC_SAFETY_HUB_SHOW_PASSWORD_CHECKUP</a></strong> = 40280;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SAFETY_HUB_MANAGE_EXTENSIONS">IDC_SAFETY_HUB_MANAGE_EXTENSIONS</a></strong> = 40281;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_GOOGLE_LENS_SHORTCUT">IDC_SHOW_GOOGLE_LENS_SHORTCUT</a></strong> = 40282;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_CUSTOMIZE_CHROME_SIDE_PANEL">IDC_SHOW_CUSTOMIZE_CHROME_SIDE_PANEL</a></strong> = 40283;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_CUSTOMIZE_CHROME_TOOLBAR">IDC_SHOW_CUSTOMIZE_CHROME_TOOLBAR</a></strong> = 40284;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_TASK_MANAGER_APP_MENU">IDC_TASK_MANAGER_APP_MENU</a></strong> = 40285;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_TASK_MANAGER_SHORTCUT">IDC_TASK_MANAGER_SHORTCUT</a></strong> = 40286;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_TASK_MANAGER_CONTEXT_MENU">IDC_TASK_MANAGER_CONTEXT_MENU</a></strong> = 40287;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_TASK_MANAGER_MAIN_MENU">IDC_TASK_MANAGER_MAIN_MENU</a></strong> = 40288;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_COMPARE_MENU">IDC_COMPARE_MENU</a></strong> = 40289;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_ALL_COMPARISON_TABLES">IDC_SHOW_ALL_COMPARISON_TABLES</a></strong> = 40290;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_ADD_TO_COMPARISON_TABLE_MENU">IDC_ADD_TO_COMPARISON_TABLE_MENU</a></strong> = 40291;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_CREATE_NEW_COMPARISON_TABLE_WITH_TAB">IDC_CREATE_NEW_COMPARISON_TABLE_WITH_TAB</a></strong> = 40292;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_HISTORY_SIDE_PANEL">IDC_SHOW_HISTORY_SIDE_PANEL</a></strong> = 40293;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_OPEN_GLIC">IDC_OPEN_GLIC</a></strong> = 40294;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_FIND_EXTENSIONS">IDC_FIND_EXTENSIONS</a></strong> = 40295;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_SEARCH_TOOLS">IDC_SHOW_SEARCH_TOOLS</a></strong> = 40296;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_COMMENTS_SIDE_PANEL">IDC_SHOW_COMMENTS_SIDE_PANEL</a></strong> = 40297;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_RECENT_TABS_SEE_DEVICE_TABS">IDC_RECENT_TABS_SEE_DEVICE_TABS</a></strong> = 40298;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_AI_MODE_OMNIBOX_BUTTON">IDC_SHOW_AI_MODE_OMNIBOX_BUTTON</a></strong> = 40299;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SPELLCHECK_SUGGESTION_0">IDC_SPELLCHECK_SUGGESTION_0</a></strong> = 41000;</code></td>
@@ -2044,7 +2062,25 @@
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_CLOSE">IDC_GLIC_STATUS_ICON_MENU_CLOSE</a></strong> = 53315;</code></td>
 </tr>
 <tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_TOGGLE">IDC_GLIC_STATUS_ICON_MENU_TOGGLE</a></strong> = 53316;</code></td>
+</tr>
+<tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_GLIC_TOGGLE_PIN">IDC_GLIC_TOGGLE_PIN</a></strong> = 53320;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_SHOW_CONTEXTUAL_TASKS_SIDE_PANEL">IDC_SHOW_CONTEXTUAL_TASKS_SIDE_PANEL</a></strong> = 54000;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_ADD_IMAGE">IDC_OMNIBOX_CONTEXT_ADD_IMAGE</a></strong> = 54010;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_ADD_FILE">IDC_OMNIBOX_CONTEXT_ADD_FILE</a></strong> = 54011;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_CREATE_IMAGES">IDC_OMNIBOX_CONTEXT_CREATE_IMAGES</a></strong> = 54012;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_DEEP_RESEARCH">IDC_OMNIBOX_CONTEXT_DEEP_RESEARCH</a></strong> = 54013;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code><strong><a href="uCEFConstants.html#CERT_STATUS_NONE">CERT_STATUS_NONE</a></strong>                        = 0;</code></td>
@@ -5135,6 +5171,36 @@
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="itemcode"><span id="ERR_PROXY_DELEGATE_CANCELED_CONNECT_REQUEST"></span><code><strong>ERR_PROXY_DELEGATE_CANCELED_CONNECT_REQUEST</strong>                 = -187;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Some implementations of ProxyDelegate query a separate entity to know whether it should cancel tunnel prior to: - The HTTP CONNECT requests being sent out - The HTTP CONNECT response being parsed by //net An example is CronetProxyDelegate: Cronet allows developers to decide whether the tunnel being established should be canceled. </p>
+<p>
+
+
+<p>TCefErrorCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_errorcode_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ERR_PROXY_DELEGATE_CANCELED_CONNECT_RESPONSE"></span><code><strong>ERR_PROXY_DELEGATE_CANCELED_CONNECT_RESPONSE</strong>                = -188;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Some implementations of ProxyDelegate query a separate entity to know whether it should cancel tunnel prior to: - The HTTP CONNECT requests being sent out - The HTTP CONNECT response being parsed by //net An example is CronetProxyDelegate: Cronet allows developers to decide whether the tunnel being established should be canceled. </p>
+<p>
+
+
+<p>TCefErrorCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_errorcode_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="itemcode"><span id="ERR_CERT_COMMON_NAME_INVALID"></span><code><strong>ERR_CERT_COMMON_NAME_INVALID</strong>                                = -200;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -6350,7 +6416,7 @@
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_POLICY"></span><code><strong>ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_POLICY</strong> = -384;</code></td>
+<td class="itemcode"><span id="ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_LOCAL_NETWORK_ACCESS_POLICY"></span><code><strong>ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_LOCAL_NETWORK_ACCESS_POLICY</strong> = -384;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
@@ -6365,7 +6431,7 @@
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="ERR_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_CHECKS"></span><code><strong>ERR_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_CHECKS</strong>                = -385;</code></td>
+<td class="itemcode"><span id="ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS"></span><code><strong>ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS</strong>                  = -385;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
@@ -7130,6 +7196,21 @@
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="itemcode"><span id="ERR_DNS_CACHE_INVALIDATION_IN_PROGRESS"></span><code><strong>ERR_DNS_CACHE_INVALIDATION_IN_PROGRESS</strong>                      = -815;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Returned when DNS cache invalidation is in progress. This is a transient error. Callers may want to retry later. </p>
+<p>
+
+
+<p>TCefErrorCode value.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h</a>&quot;&gt;CEF source file: /include/internal/cef_types.h (cef_errorcode_t))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="itemcode"><span id="ERR_BLOB_INVALID_CONSTRUCTION_ARGUMENTS"></span><code><strong>ERR_BLOB_INVALID_CONSTRUCTION_ARGUMENTS</strong>                     = -900;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -7684,6 +7765,13 @@
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="itemcode"><span id="IDC_ADD_NEW_TAB_RECENT_GROUP"></span><code><strong>IDC_ADD_NEW_TAB_RECENT_GROUP</strong> = 34107;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="itemcode"><span id="IDC_BOOKMARK_THIS_TAB"></span><code><strong>IDC_BOOKMARK_THIS_TAB</strong> = 35000;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -8126,6 +8214,13 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="itemcode"><span id="IDC_SHOW_SIGNIN"></span><code><strong>IDC_SHOW_SIGNIN</strong> = 35359;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IDC_SHOW_SYNC_PASSPHRASE_DIALOG"></span><code><strong>IDC_SHOW_SYNC_PASSPHRASE_DIALOG</strong> = 35360;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -8847,6 +8942,13 @@
 <table class="detail wide_list">
 <tr class="list">
 <td class="itemcode"><span id="IDC_RECENT_TABS_SEE_DEVICE_TABS"></span><code><strong>IDC_RECENT_TABS_SEE_DEVICE_TABS</strong> = 40298;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IDC_SHOW_AI_MODE_OMNIBOX_BUTTON"></span><code><strong>IDC_SHOW_AI_MODE_OMNIBOX_BUTTON</strong> = 40299;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -10274,7 +10376,49 @@
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="itemcode"><span id="IDC_GLIC_STATUS_ICON_MENU_TOGGLE"></span><code><strong>IDC_GLIC_STATUS_ICON_MENU_TOGGLE</strong> = 53316;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="itemcode"><span id="IDC_GLIC_TOGGLE_PIN"></span><code><strong>IDC_GLIC_TOGGLE_PIN</strong> = 53320;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IDC_SHOW_CONTEXTUAL_TASKS_SIDE_PANEL"></span><code><strong>IDC_SHOW_CONTEXTUAL_TASKS_SIDE_PANEL</strong> = 54000;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IDC_OMNIBOX_CONTEXT_ADD_IMAGE"></span><code><strong>IDC_OMNIBOX_CONTEXT_ADD_IMAGE</strong> = 54010;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IDC_OMNIBOX_CONTEXT_ADD_FILE"></span><code><strong>IDC_OMNIBOX_CONTEXT_ADD_FILE</strong> = 54011;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IDC_OMNIBOX_CONTEXT_CREATE_IMAGES"></span><code><strong>IDC_OMNIBOX_CONTEXT_CREATE_IMAGES</strong> = 54012;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="IDC_OMNIBOX_CONTEXT_DEEP_RESEARCH"></span><code><strong>IDC_OMNIBOX_CONTEXT_DEEP_RESEARCH</strong> = 54013;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>

@@ -956,6 +956,32 @@ const
   /// </remarks>
   ERR_PROXY_UNABLE_TO_CONNECT_TO_DESTINATION                  = -186;
   /// <summary>
+  /// Some implementations of ProxyDelegate query a separate entity to know whether
+  /// it should cancel tunnel prior to:
+  /// - The HTTP CONNECT requests being sent out
+  /// - The HTTP CONNECT response being parsed by //net
+  /// An example is CronetProxyDelegate: Cronet allows developers to decide whether
+  /// the tunnel being established should be canceled.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_PROXY_DELEGATE_CANCELED_CONNECT_REQUEST                 = -187;
+  /// <summary>
+  /// Some implementations of ProxyDelegate query a separate entity to know whether
+  /// it should cancel tunnel prior to:
+  /// - The HTTP CONNECT requests being sent out
+  /// - The HTTP CONNECT response being parsed by //net
+  /// An example is CronetProxyDelegate: Cronet allows developers to decide whether
+  /// the tunnel being established should be canceled.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_PROXY_DELEGATE_CANCELED_CONNECT_RESPONSE                = -188;
+  /// <summary>
   /// The server responded with a certificate whose common name did not match
   /// the host name.  This could mean:
   //
@@ -1686,7 +1712,7 @@ const
   /// <para>TCefErrorCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
   /// </remarks>
-  ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_POLICY = -384;
+  ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_LOCAL_NETWORK_ACCESS_POLICY = -384;
   /// <summary>
   /// The connection is blocked by private network access checks.
   /// </summary>
@@ -1694,7 +1720,7 @@ const
   /// <para>TCefErrorCode value.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
   /// </remarks>
-  ERR_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_CHECKS                = -385;
+  ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS                  = -385;
   /// <summary>
   /// Content decoding failed due to the zstd window size being too big (over 8MB).
   /// </summary>
@@ -2130,6 +2156,15 @@ const
   /// </remarks>
   ERR_DNS_SECURE_PROBE_RECORD_INVALID                         = -814;
   /// <summary>
+  /// Returned when DNS cache invalidation is in progress. This is a
+  /// transient error. Callers may want to retry later.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_DNS_CACHE_INVALIDATION_IN_PROGRESS                      = -815;
+  /// <summary>
   /// The following errors are for mapped from a subset of invalid
   /// storage::BlobStatus.
   /// The construction arguments are invalid. This is considered a bad IPC.
@@ -2265,6 +2300,7 @@ const
   IDC_CLOSE_TAB_GROUP = 34104;
   IDC_GROUP_UNGROUPED_TABS = 34105;
   IDC_CREATE_NEW_TAB_GROUP_TOP_LEVEL = 34106;
+  IDC_ADD_NEW_TAB_RECENT_GROUP = 34107;
   IDC_BOOKMARK_THIS_TAB = 35000;
   IDC_BOOKMARK_ALL_TABS = 35001;
   IDC_VIEW_SOURCE = 35002;
@@ -2329,6 +2365,7 @@ const
   IDC_ADD_NEW_PROFILE = 35357;
   IDC_MANAGE_CHROME_PROFILES = 35358;
   IDC_SHOW_SIGNIN = 35359;
+  IDC_SHOW_SYNC_PASSPHRASE_DIALOG = 35360;
   IDC_ZOOM_MENU = 38000;
   IDC_ZOOM_PLUS = 38001;
   IDC_ZOOM_NORMAL = 38002;
@@ -2432,6 +2469,7 @@ const
   IDC_SHOW_SEARCH_TOOLS = 40296;
   IDC_SHOW_COMMENTS_SIDE_PANEL = 40297;
   IDC_RECENT_TABS_SEE_DEVICE_TABS = 40298;
+  IDC_SHOW_AI_MODE_OMNIBOX_BUTTON = 40299;
   IDC_SPELLCHECK_SUGGESTION_0 = 41000;
   IDC_SPELLCHECK_SUGGESTION_1 = 41001;
   IDC_SPELLCHECK_SUGGESTION_2 = 41002;
@@ -2635,7 +2673,13 @@ const
   IDC_GLIC_STATUS_ICON_MENU_SETTINGS = 53313;
   IDC_GLIC_STATUS_ICON_MENU_EXIT = 53314;
   IDC_GLIC_STATUS_ICON_MENU_CLOSE = 53315;
+  IDC_GLIC_STATUS_ICON_MENU_TOGGLE = 53316;
   IDC_GLIC_TOGGLE_PIN = 53320;
+  IDC_SHOW_CONTEXTUAL_TASKS_SIDE_PANEL = 54000;
+  IDC_OMNIBOX_CONTEXT_ADD_IMAGE = 54010;
+  IDC_OMNIBOX_CONTEXT_ADD_FILE = 54011;
+  IDC_OMNIBOX_CONTEXT_CREATE_IMAGES = 54012;
+  IDC_OMNIBOX_CONTEXT_DEEP_RESEARCH = 54013;
 
 
   /// <summary>

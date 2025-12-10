@@ -12206,6 +12206,14 @@
 <param name="Local" value="uCEFConstants.html#ERR_PROXY_UNABLE_TO_CONNECT_TO_DESTINATION">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="ERR_PROXY_DELEGATE_CANCELED_CONNECT_REQUEST">
+<param name="Local" value="uCEFConstants.html#ERR_PROXY_DELEGATE_CANCELED_CONNECT_REQUEST">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_PROXY_DELEGATE_CANCELED_CONNECT_RESPONSE">
+<param name="Local" value="uCEFConstants.html#ERR_PROXY_DELEGATE_CANCELED_CONNECT_RESPONSE">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="ERR_CERT_COMMON_NAME_INVALID">
 <param name="Local" value="uCEFConstants.html#ERR_CERT_COMMON_NAME_INVALID">
 </object>
@@ -12522,12 +12530,12 @@
 <param name="Local" value="uCEFConstants.html#ERR_INCONSISTENT_IP_ADDRESS_SPACE">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_POLICY">
-<param name="Local" value="uCEFConstants.html#ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_POLICY">
+<param name="Name" value="ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_LOCAL_NETWORK_ACCESS_POLICY">
+<param name="Local" value="uCEFConstants.html#ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_LOCAL_NETWORK_ACCESS_POLICY">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="ERR_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_CHECKS">
-<param name="Local" value="uCEFConstants.html#ERR_BLOCKED_BY_PRIVATE_NETWORK_ACCESS_CHECKS">
+<param name="Name" value="ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS">
+<param name="Local" value="uCEFConstants.html#ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_ZSTD_WINDOW_SIZE_TOO_BIG">
@@ -12728,6 +12736,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_DNS_SECURE_PROBE_RECORD_INVALID">
 <param name="Local" value="uCEFConstants.html#ERR_DNS_SECURE_PROBE_RECORD_INVALID">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_DNS_CACHE_INVALIDATION_IN_PROGRESS">
+<param name="Local" value="uCEFConstants.html#ERR_DNS_CACHE_INVALIDATION_IN_PROGRESS">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_BLOB_INVALID_CONSTRUCTION_ARGUMENTS">
@@ -13010,6 +13022,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_CREATE_NEW_TAB_GROUP_TOP_LEVEL">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_ADD_NEW_TAB_RECENT_GROUP">
+<param name="Local" value="uCEFConstants.html#IDC_ADD_NEW_TAB_RECENT_GROUP">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_BOOKMARK_THIS_TAB">
 <param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_THIS_TAB">
 </object>
@@ -13264,6 +13280,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SHOW_SIGNIN">
 <param name="Local" value="uCEFConstants.html#IDC_SHOW_SIGNIN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_SHOW_SYNC_PASSPHRASE_DIALOG">
+<param name="Local" value="uCEFConstants.html#IDC_SHOW_SYNC_PASSPHRASE_DIALOG">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_ZOOM_MENU">
@@ -13676,6 +13696,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_RECENT_TABS_SEE_DEVICE_TABS">
 <param name="Local" value="uCEFConstants.html#IDC_RECENT_TABS_SEE_DEVICE_TABS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_SHOW_AI_MODE_OMNIBOX_BUTTON">
+<param name="Local" value="uCEFConstants.html#IDC_SHOW_AI_MODE_OMNIBOX_BUTTON">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SPELLCHECK_SUGGESTION_0">
@@ -14490,8 +14514,32 @@
 <param name="Local" value="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_CLOSE">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_GLIC_STATUS_ICON_MENU_TOGGLE">
+<param name="Local" value="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_TOGGLE">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_GLIC_TOGGLE_PIN">
 <param name="Local" value="uCEFConstants.html#IDC_GLIC_TOGGLE_PIN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_SHOW_CONTEXTUAL_TASKS_SIDE_PANEL">
+<param name="Local" value="uCEFConstants.html#IDC_SHOW_CONTEXTUAL_TASKS_SIDE_PANEL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_OMNIBOX_CONTEXT_ADD_IMAGE">
+<param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_ADD_IMAGE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_OMNIBOX_CONTEXT_ADD_FILE">
+<param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_ADD_FILE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_OMNIBOX_CONTEXT_CREATE_IMAGES">
+<param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_CREATE_IMAGES">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_OMNIBOX_CONTEXT_DEEP_RESEARCH">
+<param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_DEEP_RESEARCH">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CERT_STATUS_NONE">
