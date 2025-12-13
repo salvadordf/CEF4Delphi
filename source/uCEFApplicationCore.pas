@@ -166,6 +166,9 @@ type
       FProxySettings                     : TCEFProxySettings;
       FFieldTrialConfig                  : TCefState;
       FDoNotDeElevate                    : boolean;
+      FNoDefaultBrowserCheck             : boolean;
+      FNoFirstRun                        : boolean;
+      FEnableAutomation                  : boolean;
       {$IFDEF LINUX}
       FPasswordStorage                   : TCefPasswordStorage;
       FGTKVersion                        : TCefGTKVersion;
@@ -1401,6 +1404,34 @@ type
       /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#do-not-de-elevate">Uses the following command line switch: --do-not-de-elevate</see></para>
       /// </remarks>
       property DoNotDeElevate                    : boolean                                  read FDoNotDeElevate                    write FDoNotDeElevate;
+      /// <summary>
+      /// Disables the default browser check. Useful for UI/browser tests where we want to avoid having the default browser info-bar displayed.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#no-default-browser-check">Uses the following command line switch: --no-default-browser-check</see></para>
+      /// </remarks>
+      property NoDefaultBrowserCheck             : boolean                                  read FNoDefaultBrowserCheck             write FNoDefaultBrowserCheck;
+      /// <summary>
+      /// Skip First Run tasks as well as not showing additional dialogs, prompts or bubbles. Suppressing dialogs, prompts, and bubbles is
+      /// important as this switch is used by automation (including performance benchmarks) where it's important only a browser window is shown.
+      /// This may not actually be the first run or the What's New page. Its effect can be partially ignored by adding kForceFirstRun (for FRE),
+      /// kForceWhatsNew (for What's New) and/or kIgnoreNoFirstRunForSearchEngineChoiceScreen (for the DSE choice screen). This does not drop
+      /// the First Run sentinel and thus doesn't prevent first run from occurring the next time chrome is launched without this flag.
+      /// It also does not update the last What's New milestone, so does not prevent What's New from occurring the next time chrome is launched
+      /// without this flag.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#no-first-run">Uses the following command line switch: --no-first-run</see></para>
+      /// </remarks>
+      property NoFirstRun                        : boolean                                  read FNoFirstRun                        write FNoFirstRun;
+      /// <summary>
+      /// Enable indication that browser is controlled by automation.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/#enable-automation">Uses the following command line switch: --enable-automation</see></para>
+      /// </remarks>
+      property EnableAutomation                  : boolean                                  read FEnableAutomation                  write FEnableAutomation;
+
       {$IFDEF LINUX}
       /// <summary>
       /// Specifies which encryption storage backend to use in Linux.
@@ -2167,6 +2198,9 @@ begin
   FPostQuantumKyber                  := STATE_DEFAULT;
   FFieldTrialConfig                  := STATE_DEFAULT;
   FDoNotDeElevate                    := False;
+  FNoDefaultBrowserCheck             := False;
+  FNoFirstRun                        := False;
+  FEnableAutomation                  := False;
   FProxySettings                     := nil;
   {$IFDEF LINUX}
   FPasswordStorage                   := psDefault;
@@ -3923,6 +3957,15 @@ begin
 
   if FDoNotDeElevate then
     ReplaceSwitch(aKeys, aValues, '--do-not-de-elevate');
+
+  if FNoDefaultBrowserCheck then
+    ReplaceSwitch(aKeys, aValues, '--no-default-browser-check');
+
+  if FNoFirstRun then
+    ReplaceSwitch(aKeys, aValues, '--no-first-run');
+
+  if FEnableAutomation then
+    ReplaceSwitch(aKeys, aValues, '--enable-automation');
 
   {$IFDEF LINUX}
   if FWindowlessRenderingEnabled and FSharedTextureEnabled then

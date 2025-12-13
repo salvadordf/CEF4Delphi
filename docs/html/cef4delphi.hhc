@@ -796,6 +796,18 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FDoNotDeElevate">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FNoDefaultBrowserCheck">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FNoDefaultBrowserCheck">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FNoFirstRun">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FNoFirstRun">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FEnableAutomation">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FEnableAutomation">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FWindowsSandboxInfo">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FWindowsSandboxInfo">
 </object>
@@ -1408,6 +1420,18 @@
 <li><object type="text/sitemap">
 <param name="Name" value="DoNotDeElevate">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#DoNotDeElevate">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="NoDefaultBrowserCheck">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#NoDefaultBrowserCheck">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="NoFirstRun">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#NoFirstRun">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="EnableAutomation">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#EnableAutomation">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IgnoreCertificateErrors">
@@ -68092,6 +68116,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FDoNotDeElevate">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FEnableAutomation">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FEnableAutomation">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FEnableBlinkFeatures">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FEnableBlinkFeatures">
 </object>
@@ -68274,6 +68302,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="FNetLogFile">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FNetLogFile">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FNoDefaultBrowserCheck">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FNoDefaultBrowserCheck">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FNoFirstRun">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FNoFirstRun">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FNoSandbox">
@@ -68734,6 +68770,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#DoNotDeElevate">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="EnableAutomation">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#EnableAutomation">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="EnableBlinkFeatures">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#EnableBlinkFeatures">
 </object>
@@ -68924,6 +68964,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="NetLogFile">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#NetLogFile">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="NoDefaultBrowserCheck">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#NoDefaultBrowserCheck">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="NoFirstRun">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#NoFirstRun">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="NoSandbox">
