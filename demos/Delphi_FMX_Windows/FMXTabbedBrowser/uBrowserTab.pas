@@ -1,7 +1,5 @@
 unit uBrowserTab;
 
-{$I ..\..\..\source\cef.inc}
-
 interface
 
 uses
@@ -18,12 +16,10 @@ type
 
       procedure   BrowserFrame_OnBrowserDestroyed(Sender: TObject);
       procedure   BrowserFrame_OnBrowserTitleChange(Sender: TObject; const aTitle : string);
-      procedure   BrowserFrame_OnBrowserClosing(Sender: TObject);
 
     public
       constructor Create(AOwner: TComponent; aTabID : cardinal; const aCaption : string); reintroduce;
       procedure   NotifyMoveOrResizeStarted;
-      procedure   DestroyWindowParent;
       procedure   CreateBrowser(const aHomepage : string; aIndependent : boolean);
       procedure   CloseBrowser;
       procedure   ResizeBrowser;
@@ -80,12 +76,6 @@ begin
     FBrowserFrame.NotifyMoveOrResizeStarted;
 end;
 
-procedure TBrowserTab.DestroyWindowParent;
-begin
-  if (FBrowserFrame <> nil) then
-    FBrowserFrame.DestroyWindowParent;
-end;
-
 procedure TBrowserTab.CreateBrowser(const aHomepage : string; aIndependent : boolean);
 begin
   FBrowserFrame                      := TBrowserFrame.Create(self);
@@ -96,7 +86,6 @@ begin
   FBrowserFrame.Name                 := 'BrowserFrame' + inttostr(FTabID);
   FBrowserFrame.OnBrowserDestroyed   := BrowserFrame_OnBrowserDestroyed;
   FBrowserFrame.OnBrowserTitleChange := BrowserFrame_OnBrowserTitleChange;
-  FBrowserFrame.OnBrowserClosing     := BrowserFrame_OnBrowserClosing;
 
   FBrowserFrame.CreateBrowser(aIndependent);
 end;
@@ -136,13 +125,6 @@ begin
                      begin
                        Text := aTitle;
                      end);
-end;
-
-procedure TBrowserTab.BrowserFrame_OnBrowserClosing(Sender: TObject);
-begin
-  // This event is executed in a CEF thread so we have to send a message to
-  // destroy TFMXWindowParent in the main application thread.
-  PostFormMessage(CEF_DESTROYWINPARENT, TabID);
 end;
 
 end.

@@ -144,7 +144,6 @@ object BrowserFrame: TBrowserFrame
     OnBeforePopup = FMXChromium1BeforePopup
     OnAfterCreated = FMXChromium1AfterCreated
     OnBeforeClose = FMXChromium1BeforeClose
-    OnClose = FMXChromium1Close
     OnOpenUrlFromTab = FMXChromium1OpenUrlFromTab
     Left = 40
     Top = 65

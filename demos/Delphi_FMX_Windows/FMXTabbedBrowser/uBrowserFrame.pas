@@ -1,7 +1,5 @@
 unit uBrowserFrame;
 
-{$I ..\..\..\source\cef.inc}
-
 interface
 
 uses
@@ -39,21 +37,19 @@ type
 
       procedure FMXChromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
       procedure FMXChromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-      procedure FMXChromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
       procedure FMXChromium1OpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
-      procedure FMXChromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
       procedure FMXChromium1AddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
       procedure FMXChromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
       procedure FMXChromium1LoadingStateChange(Sender: TObject; const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
       procedure FMXChromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
       procedure FMXChromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
       procedure FMXChromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
+      procedure FMXChromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
 
     protected
       FClosing              : boolean;   // Indicates that this frame is destroying the browser
       FHomepage             : string;    // Used to set the TChromium.DefaultURL property
       FOnBrowserDestroyed   : TNotifyEvent;
-      FOnBrowserClosing     : TNotifyEvent;
       FOnBrowserTitleChange : TBrowserTitleEvent;
       FMXWindowParent       : TFMXWindowParent;   // TFMXWindowParent has to be created at runtime. See the SimpleFMXBrowser demo for more details.
 
@@ -78,7 +74,6 @@ type
       property    Homepage             : string              read FHomepage              write FHomepage;
       property    OnBrowserDestroyed   : TNotifyEvent        read FOnBrowserDestroyed    write FOnBrowserDestroyed;
       property    OnBrowserTitleChange : TBrowserTitleEvent  read FOnBrowserTitleChange  write FOnBrowserTitleChange;
-      property    OnBrowserClosing     : TNotifyEvent        read FOnBrowserClosing      write FOnBrowserClosing;
   end;
 
 implementation
@@ -103,7 +98,6 @@ begin
   FHomepage              := '';
   FOnBrowserDestroyed    := nil;
   FOnBrowserTitleChange  := nil;
-  FOnBrowserClosing      := nil;
   FMXWindowParent        := nil;
 end;
 
@@ -207,21 +201,14 @@ end;
 
 procedure TBrowserFrame.FMXChromium1BeforePopup(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer;
-  const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
-  userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
-  var windowInfo: TCefWindowInfo; var client: ICefClient;
-  var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue;
-  var noJavascriptAccess, Result: Boolean);
+  const targetUrl, targetFrameName: ustring;
+  targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
+  const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
+  var client: ICefClient; var settings: TCefBrowserSettings;
+  var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
-end;
-
-procedure TBrowserFrame.FMXChromium1Close(Sender: TObject;
-  const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
-begin
-  aAction := cbaDelay;
-  if assigned(FOnBrowserClosing) then FOnBrowserClosing(self);
 end;
 
 procedure TBrowserFrame.FMXChromium1GotFocus(Sender: TObject;
@@ -349,7 +336,7 @@ begin
     begin
       if aIndependent then
         begin
-          TempCache   := GlobalCEFApp.RootCache + '\cache' + inttostr(TBrowserTab(ParentTab).TabID);
+          TempCache   := IncludeTrailingPathDelimiter(GlobalCEFApp.RootCache) + 'cache' + inttostr(TBrowserTab(ParentTab).TabID);
           TempContext := TCefRequestContextRef.New(TempCache, '', '', False, False, FMXChromium1.ReqContextHandler)
         end
        else
@@ -365,7 +352,6 @@ begin
       TempRect.Bottom := round(TempClientRect.Bottom * TempScale);
 
       FMXChromium1.DefaultUrl   := FHomepage;
-      FMXChromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
       FMXChromium1.CreateBrowser(TempHandle, TempRect, '', TempContext);
       {$ENDIF}
     end;
@@ -378,6 +364,12 @@ begin
       FClosing           := True;
       AddressLay.Enabled := False;
       FMXChromium1.CloseBrowser(True);
+      TThread.ForceQueue(nil,
+        procedure
+        begin
+          if assigned(FMXWindowParent) then
+            FreeAndNil(FMXWindowParent);
+        end);
     end;
 end;
 

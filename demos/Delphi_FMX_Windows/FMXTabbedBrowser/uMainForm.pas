@@ -1,7 +1,5 @@
 unit uMainForm;
 
-{$I ..\..\..\source\cef.inc}
-
 interface
 
 uses
@@ -18,7 +16,6 @@ const
   CEF_INITIALIZED      = WM_APP + $100;
   CEF_DESTROYTAB       = WM_APP + $101;
   CEF_SHOWBROWSER      = WM_APP + $102;
-  CEF_DESTROYWINPARENT = WM_APP + $103;
 
   HOMEPAGE_URL        = 'https://www.google.com';
   DEFAULT_TAB_CAPTION = 'New tab';
@@ -76,7 +73,6 @@ type
     function  GetNextTabID : cardinal;
     procedure EnableButtonLay;
     procedure ShowSelectedBrowser;
-    procedure DestroyWindowParent(aTabID : cardinal);
     procedure DestroyTab(aTabID : cardinal);
     function  CloseAllTabs : boolean;
     procedure CloseSelectedTab;
@@ -119,19 +115,14 @@ uses
 
 // TBrowserFrame has all the usual code to close CEF4Delphi browsers following
 // a similar destruction sequence than the SimpleFMXBrowser demo :
-//
-// 1. TBrowserTab.CloseBrowser calls TChromium.CloseBrowser which triggers the
-//    TChromium.OnClose event.
-// 2. TChromium.OnClose sends a CEF_DESTROYWINPARENT message to destroy
-//    CEFWindowParent1 in the main thread, which triggers the
-//    TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose executes the TBrowserFrame.OnBrowserDestroyed
+// 1. FormCloseQuery sets CanClose to FALSE, destroys FMXWindowParent and calls
+//    TFMXChromium.CloseBrowser which triggers the TChromium.OnBeforeClose event.
+// 2. TChromium.OnBeforeClose executes the TBrowserFrame.OnBrowserDestroyed
 //    event which will be used in TBrowserTab to send a CEF_DESTROYTAB message
 //    to the main form to free the tab.
 
 // To close safely this demo you must close all the browser tabs first following
 // this steps :
-//
 // 1. FormCloseQuery sets CanClose to FALSE and calls CloseAllTabs and FClosing
 //    is set to TRUE.
 // 2. Each tab will send a CEF_DESTROYTAB message to free that tab.
@@ -147,7 +138,13 @@ procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                      := TCefApplication.Create;
   GlobalCEFApp.RootCache            := ExtractFileDir(ParamStr(0));
-  GlobalCEFApp.cache                := GlobalCEFApp.RootCache + '\cache';
+  GlobalCEFApp.cache                := IncludeTrailingPathDelimiter(GlobalCEFApp.RootCache) + 'cache';
+  GlobalCEFApp.EnableGPU            := True;
+  GlobalCEFApp.EnablePrintPreview   := True;
+  {$IFDEF DEBUG}
+  GlobalCEFApp.LogFile              := 'debug.log';
+  GlobalCEFApp.LogSeverity          := LOGSEVERITY_VERBOSE;
+  {$ENDIF}
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
 end;
 
@@ -338,7 +335,6 @@ begin
           PostCustomMessage(CEF_SHOWBROWSER);
 
       CEF_INITIALIZED       : EnableButtonLay;
-      CEF_DESTROYWINPARENT  : DestroyWindowParent(aMessage.wParam);
       CEF_DESTROYTAB        : DestroyTab(aMessage.wParam);
       CEF_SHOWBROWSER       : ShowSelectedBrowser;
     end;
@@ -390,27 +386,6 @@ begin
   if IsIconic(TempHWND) then Result := TWindowState.wsMinimized;
 end;
 {$ENDIF}
-
-procedure TMainForm.DestroyWindowParent(aTabID : cardinal);
-var
-  i : integer;
-  TempTab : TBrowserTab;
-begin
-  i := pred(BrowserTabCtrl.TabCount);
-
-  while (i >= 0) do
-    begin
-      TempTab := TBrowserTab(BrowserTabCtrl.Tabs[i]);
-
-      if (TempTab.TabID = aTabID) then
-        begin
-          TempTab.DestroyWindowParent;
-          break;
-        end
-       else
-        dec(i);
-    end;
-end;
 
 procedure TMainForm.DestroyTab(aTabID : cardinal);
 var
