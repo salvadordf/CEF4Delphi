@@ -124,7 +124,6 @@ object SimpleFMXBrowserFrm: TSimpleFMXBrowserFrm
     OnBeforePopup = FMXChromium1BeforePopup
     OnAfterCreated = FMXChromium1AfterCreated
     OnBeforeClose = FMXChromium1BeforeClose
-    OnClose = FMXChromium1Close
     Left = 40
     Top = 65
   end

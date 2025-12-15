@@ -43,15 +43,13 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormResize(Sender: TObject);
 
-    procedure FMXChromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
     procedure FMXChromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
-    procedure FMXChromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
     procedure FMXChromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
     procedure FMXChromium1BeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
     procedure FMXChromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags; out Result: Boolean);
     procedure FMXChromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
     procedure FMXChromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
-
+    procedure FMXChromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
 
   protected
     // Variables to control when can we destroy the form safely
@@ -118,9 +116,8 @@ implementation
 
 // Destruction steps
 // =================
-// 1. FormCloseQuery sets CanClose to FALSE calls TFMXChromium.CloseBrowser which triggers the TFMXChromium.OnClose event.
-// 2. TFMXChromium.OnClose sends a CEFBROWSER_DESTROY message to destroy CEFWindowParent1 in the main thread, which triggers the TFMXChromium.OnBeforeClose event.
-// 3. TFMXChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
+// 1. FormCloseQuery sets CanClose to FALSE, destroys CEFWindowParent1 and calls TFMXChromium.CloseBrowser which triggers the TChromium.OnBeforeClose event.
+// 2. TChromium.OnBeforeClose sets FCanClose := True and sends WM_CLOSE to the form.
 
 uses
   FMX.Platform, FMX.Platform.Win,
@@ -128,9 +125,15 @@ uses
 
 procedure CreateGlobalCEFApp;
 begin
-  GlobalCEFApp                  := TCefApplication.Create;
-  //GlobalCEFApp.LogFile          := 'cef.log';
-  //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
+  GlobalCEFApp                    := TCefApplication.Create;
+  GlobalCEFApp.RootCache          := 'RootCache';
+  GlobalCEFApp.Cache              := IncludeTrailingPathDelimiter(GlobalCEFApp.RootCache) + 'cache';
+  GlobalCEFApp.EnableGPU          := True;
+  GlobalCEFApp.EnablePrintPreview := True;
+  {$IFDEF DEBUG}
+  GlobalCEFApp.LogFile            := 'debug.log';
+  GlobalCEFApp.LogSeverity        := LOGSEVERITY_VERBOSE;
+  {$ENDIF}
 
   // In case you want to use custom directories for the CEF binaries, cache and user data.
   // If you don't set a cache directory the browser will use in-memory cache.
@@ -138,9 +141,7 @@ begin
   GlobalCEFApp.FrameworkDirPath     := 'cef';
   GlobalCEFApp.ResourcesDirPath     := 'cef';
   GlobalCEFApp.LocalesDirPath       := 'cef\locales';
-  GlobalCEFApp.EnableGPU            := True;      // Enable hardware acceleration
   GlobalCEFApp.cache                := 'cef\cache';
-  GlobalCEFApp.UserDataPath         := 'cef\User Data';
 }
 end;
 
@@ -164,29 +165,16 @@ begin
   model.AddItem(MINIBROWSER_CONTEXTMENU_SHOWDEVTOOLS, 'Show DevTools');
 end;
 
-procedure TSimpleFMXBrowserFrm.FMXChromium1BeforePopup(      Sender             : TObject;
-                                                       const browser            : ICefBrowser;
-                                                       const frame              : ICefFrame;
-                                                       const targetUrl          : ustring;
-                                                       const targetFrameName    : ustring;
-                                                             targetDisposition  : TCefWindowOpenDisposition;
-                                                             userGesture        : Boolean;
-                                                       const popupFeatures      : TCefPopupFeatures;
-                                                       var   windowInfo         : TCefWindowInfo;
-                                                       var   client             : ICefClient;
-                                                       var   settings           : TCefBrowserSettings;
-                                                       var   extra_info         : ICefDictionaryValue;
-                                                       var   noJavascriptAccess : boolean;
-                                                       var   Result             : boolean);
+procedure TSimpleFMXBrowserFrm.FMXChromium1BeforePopup(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer;
+  const targetUrl, targetFrameName: ustring;
+  targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
+  const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
+  var client: ICefClient; var settings: TCefBrowserSettings;
+  var extra_info: ICefDictionaryValue; var noJavascriptAccess, Result: Boolean);
 begin
   // For simplicity, this demo blocks all popup windows and new tabs
   Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
-end;
-
-procedure TSimpleFMXBrowserFrm.FMXChromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction);
-begin
-  PostCustomMessage(CEF_DESTROY);
-  aAction := cbaDelay;
 end;
 
 procedure TSimpleFMXBrowserFrm.FMXChromium1ContextMenuCommand(Sender: TObject;
@@ -300,10 +288,6 @@ begin
           ResizeChild;
         end;
 
-      CEF_DESTROY :
-        if (FMXWindowParent <> nil) then
-          FreeAndNil(FMXWindowParent);
-
       CEF_SHOWBROWSER :
         if (FMXWindowParent <> nil) then
           begin
@@ -370,6 +354,12 @@ begin
       Visible  := False;
 
       FMXChromium1.CloseBrowser(True);
+      TThread.ForceQueue(nil,
+        procedure
+        begin
+          if assigned(FMXWindowParent) then
+            FreeAndNil(FMXWindowParent);
+        end);
     end;
 end;
 
@@ -378,8 +368,6 @@ begin
   FCanClose          := False;
   FClosing           := False;
   FMXWindowParent    := nil;
-
-  FMXChromium1.RuntimeStyle := CEF_RUNTIME_STYLE_ALLOY;
 
   {$IFDEF MSWINDOWS}
   FCustomWindowState := WindowState;
