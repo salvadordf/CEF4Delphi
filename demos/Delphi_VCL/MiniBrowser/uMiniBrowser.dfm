@@ -182,6 +182,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
             '2Fsrc%2FApp.js'
           'https://authenticationtest.com/simpleFormAuth/'
           'chrome://version/'
+          'chrome://settings/'
+          'chrome://flags/'
           'chrome://net-internals/'
           'chrome://tracing/'
           'chrome://appcache-internals/'

@@ -6246,14 +6246,6 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FLoadImagesAutomatically">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FBatterySaverModeState">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FBatterySaverModeState">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="FHighEfficiencyModeState">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FHighEfficiencyModeState">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="FCanFocus">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FCanFocus">
 </object>
@@ -7250,14 +7242,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="LoadImagesAutomatically">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#LoadImagesAutomatically">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="BatterySaverModeState">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#BatterySaverModeState">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="HighEfficiencyModeState">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#HighEfficiencyModeState">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CanFocus">
@@ -8260,14 +8244,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SetLoadImagesAutomatically">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetLoadImagesAutomatically">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="SetBatterySaverModeState">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetBatterySaverModeState">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="SetHighEfficiencyModeState">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetHighEfficiencyModeState">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetDefaultUrl">
@@ -51698,14 +51674,6 @@
 <param name="Local" value="uCEFTypes.html#TCefNetLogCaptureMode">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="TCefBatterySaverModeState">
-<param name="Local" value="uCEFTypes.html#TCefBatterySaverModeState">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="TCefHighEfficiencyModeState">
-<param name="Local" value="uCEFTypes.html#TCefHighEfficiencyModeState">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="TCefLinuxDisplayServer">
 <param name="Local" value="uCEFTypes.html#TCefLinuxDisplayServer">
 </object>
@@ -94724,10 +94692,6 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FAutofillSaveData">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FBatterySaverModeState">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FBatterySaverModeState">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="FBlock3rdPartyCookies">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FBlock3rdPartyCookies">
 </object>
@@ -94842,10 +94806,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="FHandler">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FHandler">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="FHighEfficiencyModeState">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FHighEfficiencyModeState">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FHSTSPolicyBypassList">
@@ -95670,10 +95630,6 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#AutofillSaveData">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="BatterySaverModeState">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#BatterySaverModeState">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="Block3rdPartyCookies">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#Block3rdPartyCookies">
 </object>
@@ -95844,10 +95800,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="HasView">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#HasView">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="HighEfficiencyModeState">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#HighEfficiencyModeState">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="HSTSPolicyBypassList">
@@ -98332,10 +98284,6 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAudioMuted">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="SetBatterySaverModeState">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetBatterySaverModeState">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="SetBlock3rdPartyCookies">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetBlock3rdPartyCookies">
 </object>
@@ -98358,10 +98306,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SetDoNotTrack">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetDoNotTrack">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="SetHighEfficiencyModeState">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetHighEfficiencyModeState">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetHyperlinkAuditing">

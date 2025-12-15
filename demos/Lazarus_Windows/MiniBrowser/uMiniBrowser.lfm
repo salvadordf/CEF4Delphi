@@ -11,6 +11,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
   Font.Height = -11
   Font.Name = 'Tahoma'
   Position = poScreenCenter
+  LCLVersion = '4.4.0.0'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -117,11 +118,11 @@ object MiniBrowserFrm: TMiniBrowserFrm
       TabOrder = 1
       object URLCbx: TComboBox
         Left = 0
-        Height = 22
+        Height = 21
         Top = 3
         Width = 978
         Anchors = [akTop, akLeft, akRight, akBottom]
-        ItemHeight = 14
+        ItemHeight = 13
         ItemIndex = 0
         Items.Strings = (
           'https://www.google.com'
@@ -146,6 +147,8 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm'
           'https://www.xdumaine.com/enumerateDevices/test/'
           'chrome://version/'
+          'chrome://settings/'
+          'chrome://flags/'
           'chrome://net-internals/'
           'chrome://tracing/'
           'chrome://appcache-internals/'

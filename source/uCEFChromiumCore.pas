@@ -43,105 +43,103 @@ type
   TChromiumCore = class(TComponent, IChromiumEvents)
     protected
       {$IFDEF MSWINDOWS}
-      FCompHandle               : HWND;
+      FCompHandle                     : HWND;
       {$ENDIF}
-      FHandler                  : ICefClient;
-      FBrowsersCS               : TCriticalSection;
-      FBrowsers                 : TBrowserInfoList;
-      FBrowserId                : integer;
-      FMultiBrowserMode         : boolean;
-      FReqContextHandler        : ICefRequestContextHandler;
-      FResourceRequestHandler   : ICefResourceRequestHandler;
-      FMediaObserver            : ICefMediaObserver;
-      FMediaObserverReg         : ICefRegistration;
-      FDevToolsMsgObserver      : ICefDevToolsMessageObserver;
-      FDevToolsMsgObserverReg   : ICefRegistration;
-      FSettingObserver          : ICefSettingObserver;
-      FSettingObserverReg       : ICefRegistration;
-      FPreferenceInfoList       : TPreferenceInfoList;
-      FPreferenceInfoCS         : TCriticalSection;
-      FDefaultUrl               : ustring;
-      FOptions                  : TChromiumOptions;
-      FFontOptions              : TChromiumFontOptions;
-      FPDFPrintOptions          : TPDFPrintOptions;
-      FDefaultEncoding          : ustring;
-      FProxyType                : integer;
-      FProxyScheme              : TCefProxyScheme;
-      FProxyServer              : ustring;
-      FProxyPort                : integer;
-      FProxyUsername            : ustring;
-      FProxyPassword            : ustring;
-      FProxyScriptURL           : ustring;
-      FProxyByPassList          : ustring;
-      FMaxConnectionsPerProxy   : integer;
-      FUpdatePreferences        : boolean;
-      FCustomHeaderName         : ustring;
-      FCustomHeaderValue        : ustring;
-      FAddCustomHeader          : boolean;
-      FDoNotTrack               : boolean;
-      FSendReferrer             : boolean;
-      FHyperlinkAuditing        : boolean;
-      FAllowOutdatedPlugins     : boolean;
-      FAlwaysAuthorizePlugins   : boolean;
-      FAlwaysOpenPDFExternally  : boolean;
-      FSpellChecking            : boolean;
-      FSpellCheckerDicts        : ustring;
-      FZoomStep                 : byte;
-      FZoomStepCS               : TCriticalSection;
-      FPrefsFileName            : string;
-      FIsOSR                    : boolean;
-      FSafeSearch               : boolean;
-      FOffline                  : boolean;
-      FYouTubeRestrict          : integer;
-      FPrintingEnabled          : boolean;
-      FWindowInfo               : TCEFWindowInfoWrapper;
-      FBrowserSettings          : TCefBrowserSettings;
-      FDevWindowInfo            : TCEFWindowInfoWrapper;
-      FDevBrowserSettings       : TCefBrowserSettings;
-      FDragOperations           : TCefDragOperations;
+      FHandler                        : ICefClient;
+      FBrowsersCS                     : TCriticalSection;
+      FBrowsers                       : TBrowserInfoList;
+      FBrowserId                      : integer;
+      FMultiBrowserMode               : boolean;
+      FReqContextHandler              : ICefRequestContextHandler;
+      FResourceRequestHandler         : ICefResourceRequestHandler;
+      FMediaObserver                  : ICefMediaObserver;
+      FMediaObserverReg               : ICefRegistration;
+      FDevToolsMsgObserver            : ICefDevToolsMessageObserver;
+      FDevToolsMsgObserverReg         : ICefRegistration;
+      FSettingObserver                : ICefSettingObserver;
+      FSettingObserverReg             : ICefRegistration;
+      FPreferenceInfoList             : TPreferenceInfoList;
+      FPreferenceInfoCS               : TCriticalSection;
+      FDefaultUrl                     : ustring;
+      FOptions                        : TChromiumOptions;
+      FFontOptions                    : TChromiumFontOptions;
+      FPDFPrintOptions                : TPDFPrintOptions;
+      FDefaultEncoding                : ustring;
+      FProxyType                      : integer;
+      FProxyScheme                    : TCefProxyScheme;
+      FProxyServer                    : ustring;
+      FProxyPort                      : integer;
+      FProxyUsername                  : ustring;
+      FProxyPassword                  : ustring;
+      FProxyScriptURL                 : ustring;
+      FProxyByPassList                : ustring;
+      FMaxConnectionsPerProxy         : integer;
+      FUpdatePreferences              : boolean;
+      FCustomHeaderName               : ustring;
+      FCustomHeaderValue              : ustring;
+      FAddCustomHeader                : boolean;
+      FDoNotTrack                     : boolean;
+      FSendReferrer                   : boolean;
+      FHyperlinkAuditing              : boolean;
+      FAllowOutdatedPlugins           : boolean;
+      FAlwaysAuthorizePlugins         : boolean;
+      FAlwaysOpenPDFExternally        : boolean;
+      FSpellChecking                  : boolean;
+      FSpellCheckerDicts              : ustring;
+      FZoomStep                       : byte;
+      FZoomStepCS                     : TCriticalSection;
+      FPrefsFileName                  : string;
+      FIsOSR                          : boolean;
+      FSafeSearch                     : boolean;
+      FOffline                        : boolean;
+      FYouTubeRestrict                : integer;
+      FPrintingEnabled                : boolean;
+      FWindowInfo                     : TCEFWindowInfoWrapper;
+      FBrowserSettings                : TCefBrowserSettings;
+      FDevWindowInfo                  : TCEFWindowInfoWrapper;
+      FDevBrowserSettings             : TCefBrowserSettings;
+      FDragOperations                 : TCefDragOperations;
       {$IFDEF MSWINDOWS}
-      FDragDropManager          : TCEFDragAndDropMgr;
-      FDropTargetWnd            : HWND;
+      FDragDropManager                : TCEFDragAndDropMgr;
+      FDropTargetWnd                  : HWND;
       {$ENDIF}
-      FDragAndDropInitialized   : boolean;
-      FWebRTCIPHandlingPolicy   : TCefWebRTCHandlingPolicy;
-      FWebRTCMultipleRoutes     : TCefState;
-      FWebRTCNonProxiedUDP      : TCefState;
-      FAcceptCookies            : TCefCookiePref;
-      FBlock3rdPartyCookies     : boolean;
-      FQuicAllowed              : boolean;
-      FJavascriptEnabled        : boolean;
-      FLoadImagesAutomatically  : boolean;
-      FBatterySaverModeState    : TCefBatterySaverModeState;
-      FHighEfficiencyModeState  : TCefHighEfficiencyModeState;
-      FCanFocus                 : boolean;
-      FEnableFocusDelayMs       : cardinal;
-      FComponentID              : integer;
-      FDownloadBubble           : TCefState;
-      FHTTPSUpgrade             : TCefState;
-      FHSTSPolicyBypassList     : ustring;
-      FCredentialsService       : TCefState;
-      FAutofillCreditCard       : TCefState;
-      FAutofillProfile          : TCefState;
-      FAutofillSaveData         : TCefState;
-      FCanMakePayment           : TCefState;
-      FSearchSuggestEnabled     : TCefState;
-      FURLDataCollection        : TCefState;
-      FTryingToCloseBrowser     : boolean;
-      FStorageNotificationService : TCefState;
+      FDragAndDropInitialized         : boolean;
+      FWebRTCIPHandlingPolicy         : TCefWebRTCHandlingPolicy;
+      FWebRTCMultipleRoutes           : TCefState;
+      FWebRTCNonProxiedUDP            : TCefState;
+      FAcceptCookies                  : TCefCookiePref;
+      FBlock3rdPartyCookies           : boolean;
+      FQuicAllowed                    : boolean;
+      FJavascriptEnabled              : boolean;
+      FLoadImagesAutomatically        : boolean;
+      FCanFocus                       : boolean;
+      FEnableFocusDelayMs             : cardinal;
+      FComponentID                    : integer;
+      FDownloadBubble                 : TCefState;
+      FHTTPSUpgrade                   : TCefState;
+      FHSTSPolicyBypassList           : ustring;
+      FCredentialsService             : TCefState;
+      FAutofillCreditCard             : TCefState;
+      FAutofillProfile                : TCefState;
+      FAutofillSaveData               : TCefState;
+      FCanMakePayment                 : TCefState;
+      FSearchSuggestEnabled           : TCefState;
+      FURLDataCollection              : TCefState;
+      FTryingToCloseBrowser           : boolean;
+      FStorageNotificationService     : TCefState;
 
       {$IFDEF LINUX}
-      FXDisplay                 : PXDisplay;
-      FGlobalXDisplay           : PXDisplay;
+      FXDisplay                       : PXDisplay;
+      FGlobalXDisplay                 : PXDisplay;
       {$ENDIF}
 
       {$IFDEF MSWINDOWS}
-      FOldBrowserCompWndPrc   : TFNWndProc;
-      FOldRenderCompWndPrc    : TFNWndProc;
-      FBrowserCompStub        : Pointer;
-      FRenderCompStub         : Pointer;
-      FBrowserCompHWND        : THandle;
-      FRenderCompHWND         : THandle;
+      FOldBrowserCompWndPrc           : TFNWndProc;
+      FOldRenderCompWndPrc            : TFNWndProc;
+      FBrowserCompStub                : Pointer;
+      FRenderCompStub                 : Pointer;
+      FBrowserCompHWND                : THandle;
+      FRenderCompHWND                 : THandle;
       {$ENDIF}
 
       // ICefClient
@@ -436,8 +434,6 @@ type
       procedure SetQuicAllowed(aValue : boolean);
       procedure SetJavascriptEnabled(aValue : boolean);
       procedure SetLoadImagesAutomatically(aValue : boolean);
-      procedure SetBatterySaverModeState(aValue : TCefBatterySaverModeState);
-      procedure SetHighEfficiencyModeState(aValue : TCefHighEfficiencyModeState);
       procedure SetDefaultUrl(const aValue : ustring);
       procedure SetRuntimeStyle(aValue : TCefRuntimeStyle);
       {$IFDEF MSWINDOWS}
@@ -2145,14 +2141,6 @@ type
       /// Enables automatic image loading in the browser preferences.
       /// </summary>
       property  LoadImagesAutomatically       : boolean                      read FLoadImagesAutomatically     write SetLoadImagesAutomatically;
-      /// <summary>
-      /// Battery saver mode state.
-      /// </summary>
-      property  BatterySaverModeState         : TCefBatterySaverModeState    read FBatterySaverModeState       write SetBatterySaverModeState;
-      /// <summary>
-      /// High efficiency mode state.
-      /// </summary>
-      property  HighEfficiencyModeState       : TCefHighEfficiencyModeState  read FHighEfficiencyModeState     write SetHighEfficiencyModeState;
       /// <summary>
       /// Indicates whether the browser can receive focus.
       /// </summary>
@@ -4273,73 +4261,71 @@ uses
 
 constructor TChromiumCore.Create(AOwner: TComponent);
 begin
-  FBrowsersCS              := nil;
-  FBrowsers                := nil;
-  FBrowserId               := 0;
-  FMultiBrowserMode        := False;
+  FBrowsersCS                     := nil;
+  FBrowsers                       := nil;
+  FBrowserId                      := 0;
+  FMultiBrowserMode               := False;
   {$IFDEF MSWINDOWS}
-  FCompHandle              := 0;
+  FCompHandle                     := 0;
   {$ENDIF}
-  FIsOSR                   := False;
-  FDefaultUrl              := ABOUTBLANK_URI;
-  FHandler                 := nil;
-  FReqContextHandler       := nil;
-  FResourceRequestHandler  := nil;
-  FMediaObserver           := nil;
-  FMediaObserverReg        := nil;
-  FDevToolsMsgObserver     := nil;
-  FDevToolsMsgObserverReg  := nil;
-  FSettingObserver         := nil;
-  FSettingObserverReg      := nil;
-  FPreferenceInfoList      := nil;
-  FPreferenceInfoCS        := nil;
-  FOptions                 := nil;
-  FFontOptions             := nil;
-  FDefaultEncoding         := '';
-  FPDFPrintOptions         := nil;
-  FUpdatePreferences       := False;
-  FCustomHeaderName        := '';
-  FCustomHeaderValue       := '';
-  FPrefsFileName           := '';
-  FAddCustomHeader         := False;
-  FDoNotTrack              := True;
-  FSendReferrer            := True;
-  FAllowOutdatedPlugins    := False;
-  FAlwaysAuthorizePlugins  := False;
-  FAlwaysOpenPDFExternally := False;
-  FSpellChecking           := True;
-  FSpellCheckerDicts       := '';
-  FZoomStep                := ZOOM_STEP_DEF;
-  FZoomStepCS              := nil;
-  FSafeSearch              := False;
-  FYouTubeRestrict         := YOUTUBE_RESTRICT_OFF;
-  FPrintingEnabled         := True;
-  FAcceptCookies           := cpAllow;
-  FBlock3rdPartyCookies    := False;
-  FOffline                 := False;
-  FQuicAllowed             := True;
-  FJavascriptEnabled       := True;
-  FLoadImagesAutomatically := True;
-  FBatterySaverModeState   := bsmsDefault;
-  FHighEfficiencyModeState := kDefault;
-  FCanFocus                := False;
-  FEnableFocusDelayMs      := CEF_DEFAULT_ENABLEFOCUSDELAY;
-  FComponentID             := 0;
-  FDownloadBubble          := STATE_DEFAULT;
-  FHTTPSUpgrade            := STATE_DEFAULT;
-  FHSTSPolicyBypassList    := '';
-  FCredentialsService      := STATE_DEFAULT;
-  FAutofillCreditCard      := STATE_DEFAULT;
-  FAutofillProfile         := STATE_DEFAULT;
-  FAutofillSaveData        := STATE_DEFAULT;
-  FCanMakePayment          := STATE_DEFAULT;
-  FSearchSuggestEnabled    := STATE_DEFAULT;
-  FURLDataCollection       := STATE_DEFAULT;
-  FTryingToCloseBrowser    := False;
-  FStorageNotificationService := STATE_DEFAULT;
+  FIsOSR                          := False;
+  FDefaultUrl                     := ABOUTBLANK_URI;
+  FHandler                        := nil;
+  FReqContextHandler              := nil;
+  FResourceRequestHandler         := nil;
+  FMediaObserver                  := nil;
+  FMediaObserverReg               := nil;
+  FDevToolsMsgObserver            := nil;
+  FDevToolsMsgObserverReg         := nil;
+  FSettingObserver                := nil;
+  FSettingObserverReg             := nil;
+  FPreferenceInfoList             := nil;
+  FPreferenceInfoCS               := nil;
+  FOptions                        := nil;
+  FFontOptions                    := nil;
+  FDefaultEncoding                := '';
+  FPDFPrintOptions                := nil;
+  FUpdatePreferences              := False;
+  FCustomHeaderName               := '';
+  FCustomHeaderValue              := '';
+  FPrefsFileName                  := '';
+  FAddCustomHeader                := False;
+  FDoNotTrack                     := True;
+  FSendReferrer                   := True;
+  FAllowOutdatedPlugins           := False;
+  FAlwaysAuthorizePlugins         := False;
+  FAlwaysOpenPDFExternally        := False;
+  FSpellChecking                  := True;
+  FSpellCheckerDicts              := '';
+  FZoomStep                       := ZOOM_STEP_DEF;
+  FZoomStepCS                     := nil;
+  FSafeSearch                     := False;
+  FYouTubeRestrict                := YOUTUBE_RESTRICT_OFF;
+  FPrintingEnabled                := True;
+  FAcceptCookies                  := cpAllow;
+  FBlock3rdPartyCookies           := False;
+  FOffline                        := False;
+  FQuicAllowed                    := True;
+  FJavascriptEnabled              := True;
+  FLoadImagesAutomatically        := True;
+  FCanFocus                       := False;
+  FEnableFocusDelayMs             := CEF_DEFAULT_ENABLEFOCUSDELAY;
+  FComponentID                    := 0;
+  FDownloadBubble                 := STATE_DEFAULT;
+  FHTTPSUpgrade                   := STATE_DEFAULT;
+  FHSTSPolicyBypassList           := '';
+  FCredentialsService             := STATE_DEFAULT;
+  FAutofillCreditCard             := STATE_DEFAULT;
+  FAutofillProfile                := STATE_DEFAULT;
+  FAutofillSaveData               := STATE_DEFAULT;
+  FCanMakePayment                 := STATE_DEFAULT;
+  FSearchSuggestEnabled           := STATE_DEFAULT;
+  FURLDataCollection              := STATE_DEFAULT;
+  FTryingToCloseBrowser           := False;
+  FStorageNotificationService     := STATE_DEFAULT;
   {$IFDEF LINUX}
-  FXDisplay                := nil;
-  FGlobalXDisplay          := nil;
+  FXDisplay                       := nil;
+  FGlobalXDisplay                 := nil;
   {$ENDIF}
 
   if (GlobalCEFApp <> nil) then
@@ -6068,24 +6054,6 @@ begin
     end;
 end;
 
-procedure TChromiumCore.SetBatterySaverModeState(aValue : TCefBatterySaverModeState);
-begin
-  if (FBatterySaverModeState <> aValue) then
-    begin
-      FBatterySaverModeState := aValue;
-      FUpdatePreferences     := True;
-    end;
-end;
-
-procedure TChromiumCore.SetHighEfficiencyModeState(aValue : TCefHighEfficiencyModeState);
-begin
-  if (FHighEfficiencyModeState <> aValue) then
-    begin
-      FHighEfficiencyModeState := aValue;
-      FUpdatePreferences       := True;
-    end;
-end;
-
 procedure TChromiumCore.SetDefaultUrl(const aValue : ustring);
 begin
   FDefaultUrl := trim(aValue);
@@ -7581,12 +7549,6 @@ begin
 
   UpdatePreference(aBrowser, 'webkit.webprefs.javascript_enabled',         FJavascriptEnabled);
   UpdatePreference(aBrowser, 'webkit.webprefs.loads_images_automatically', FLoadImagesAutomatically);
-
-  if (FHighEfficiencyModeState <> kDefault) then
-    UpdatePreference(aBrowser, 'performance_tuning.high_efficiency_mode.state', integer(FHighEfficiencyModeState));
-
-  if (FBatterySaverModeState <> bsmsDefault) then
-    UpdatePreference(aBrowser, 'performance_tuning.battery_saver_mode.state', integer(FBatterySaverModeState));
 
   if (FDownloadBubble <> STATE_DEFAULT) then
     begin
