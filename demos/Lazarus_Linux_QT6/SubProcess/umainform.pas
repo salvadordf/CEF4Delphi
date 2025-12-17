@@ -119,7 +119,8 @@ begin
   GlobalCEFApp.SetCurrentDir              := True;                             
   GlobalCEFApp.DisableZygote              := True;
   GlobalCEFApp.EnableGPU                  := True;  
-  GlobalCEFApp.EnablePrintPreview         := True;
+  GlobalCEFApp.EnablePrintPreview         := True;             
+  GlobalCEFApp.BrowserSubprocessPath      := 'SubProcess_sp';    // This is the name of the executable used by CEF for the Chromium subprocesses
   GlobalCEFApp.OnContextInitialized       := @GlobalCEFApp_OnContextInitialized;
 end;
 
@@ -205,7 +206,7 @@ end;
 {%Region}
 procedure TMainForm.BrowserCreatedMsg(Data: PtrInt);
 begin
-  Caption            := 'Simple Browser';
+  Caption            := 'SubProcess Browser';
   AddressPnl.Enabled := True;
   Chromium1.UpdateXWindowVisibility(True);
   CEFLinkedWindowParent1.UpdateSize;

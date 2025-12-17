@@ -1,0 +1,34 @@
+object ChildForm: TChildForm
+  Left = 1520
+  Height = 240
+  Top = 250
+  Width = 320
+  Caption = 'ChildForm'
+  ClientHeight = 240
+  ClientWidth = 320
+  LCLVersion = '4.4.0.0'
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object CEFLinkedWindowParent1: TCEFLinkedWindowParent
+    Left = 0
+    Height = 240
+    Top = 0
+    Width = 320
+    Align = alClient
+    TabStop = True
+    TabOrder = 0
+    OnEnter = CEFLinkedWindowParent1Enter
+    OnExit = CEFLinkedWindowParent1Exit
+    Chromium = Chromium1
+  end
+  object Chromium1: TChromium
+    OnGotFocus = Chromium1GotFocus
+    OnTitleChange = Chromium1TitleChange
+    OnBeforePopup = Chromium1BeforePopup
+    OnBeforeClose = Chromium1BeforeClose
+    Left = 134
+    Top = 97
+  end
+end

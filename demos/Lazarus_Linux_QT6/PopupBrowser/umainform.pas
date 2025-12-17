@@ -8,10 +8,14 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, SyncObjs, Dialogs, ExtCtrls,
   LMessages, StdCtrls,
   uCEFChromium, uCEFLinkedWindowParent, uCEFInterfaces, uCEFChromiumEvents,
-  uCEFTypes;
+  uCEFTypes, uchildform;
             
 const
-  CEF_SETFOCUS = 1;
+  CEF_CREATENEXTCHILD  = $A50;
+  CEF_CHILDDESTROYED   = $A51;
+  CEF_CLOSECHILD       = $A52;
+  CEF_SETFOCUS         = $A53;
+  CEF_TITLECHANGE      = $A54;
 
 type
   { TMainForm }
@@ -39,23 +43,33 @@ type
   private   
 
   protected
-    // Variables to control when can we destroy the form safely
-    FCanClose  : boolean;  // Set to True in TChromium.OnBeforeClose
-    FClosing   : boolean;  // Set to True in the CloseQuery event.
+    FChildForm       : TChildForm;
+    FCriticalSection : TCriticalSection;
+    FCanClose        : boolean;  // Set to True in TChromium.OnBeforeClose
+    FClosingMainForm : boolean;  // Set to True in the CloseQuery event.
+    FClosingChildren : boolean;  // Set to True in the CloseQuery event.
+                                                      
+    function  GetPopupChildCount : integer;
 
     // CEF needs to handle these messages to call TChromium.NotifyMoveOrResizeStarted
     procedure WMMove(var Message: TLMMove); message LM_MOVE;
     procedure WMSize(var Message: TLMSize); message LM_SIZE;
     procedure WMWindowPosChanged(var Message: TLMWindowPosChanged); message LM_WINDOWPOSCHANGED;
 
-    procedure SendCompMessage(aMsg : cardinal; aData: PtrInt = 0);
+    procedure ClosePopupChildren;
+    procedure CreateHiddenChildForm;
 
     procedure BrowserCreatedMsg(Data: PtrInt);
+    procedure BrowserCreateNextChildMsg(Data: PtrInt);
+    procedure BrowserChildDestroyedMsg(Data: PtrInt);
     procedure BrowserCloseFormMsg(Data: PtrInt);
     procedure BrowserSetFocusMsg(Data: PtrInt);
 
-  public
+    property  PopupChildCount : integer  read  GetPopupChildCount;
 
+  public       
+    function  CreateClientHandler(var windowInfo : TCefWindowInfo; var client : ICefClient; const targetFrameName : string; const popupFeatures : TCefPopupFeatures) : boolean;
+    procedure SendCompMessage(aMsg : cardinal; aData: PtrInt = 0);
   end;
 
 var
@@ -141,14 +155,23 @@ end;
 {TForm events}
 {%Region}
 procedure TMainForm.FormCreate(Sender: TObject);
-begin                             
-  FCanClose   := False;
-  FClosing    := False;
+begin
+  FClosingChildren := False;
+  FClosingMainForm := False;
+  FCanClose        := False;
+  FCriticalSection := TCriticalSection.Create;
 
   // CEF requires a native widget
   CEFLinkedWindowParent1.SetQTWidgetAsNative;
 
+  // CEF can't find the HTML if we load file:///filename.html in Linux so we
+  // add the full path manually.
+  // The "Click me to open a file" button in PopupBrowser.html will not work
+  // because of this limitation.
+  AddressCb.Text       := 'file://' + IncludeTrailingPathDelimiter(ExtractFileDir(ParamStr(0))) + 'PopupBrowser.html';
   Chromium1.DefaultURL := UTF8Decode(AddressCb.Text);
+
+  CreateHiddenChildForm;
 end;
 
 procedure TMainForm.FormActivate(Sender: TObject);
@@ -161,20 +184,24 @@ end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  if not Chromium1.Initialized then
-    begin
-      FCanClose := True;
-      FClosing  := True;
-    end;
+  FClosingChildren := True;
+  Visible          := False;
 
-  CanClose := FCanClose;
-
-  if not(FClosing) then
+  if (PopupChildCount > 0) then
     begin
-      FClosing := True;
-      Visible  := False;
-      Chromium1.CloseBrowser(True);
-      FreeAndNil(CEFLinkedWindowParent1);
+      ClosePopupChildren;
+      CanClose := False;
+    end
+   else
+    begin
+      CanClose := FCanClose;
+
+      if not(FClosingMainForm) then
+        begin
+          FClosingMainForm := True;
+          Chromium1.CloseBrowser(True);
+          FreeAndNil(CEFLinkedWindowParent1);
+        end;
     end;
 end;
 {%Endregion}
@@ -205,11 +232,33 @@ end;
 {%Region}
 procedure TMainForm.BrowserCreatedMsg(Data: PtrInt);
 begin
-  Caption            := 'Simple Browser';
+  Caption            := 'PopupBrowser';
   AddressPnl.Enabled := True;
   Chromium1.UpdateXWindowVisibility(True);
   CEFLinkedWindowParent1.UpdateSize;
   CEFLinkedWindowParent1.InvalidateChildren;
+end;
+
+procedure TMainForm.BrowserCreateNextChildMsg(Data: PtrInt);
+begin
+  try
+    FCriticalSection.Acquire;
+
+    if (FChildForm <> nil) then
+      begin
+        FChildForm.ApplyPopupFeatures;
+        FChildForm.Show;
+      end;
+
+    CreateHiddenChildForm;
+  finally
+    FCriticalSection.Release;
+  end;
+end;
+
+procedure TMainForm.BrowserChildDestroyedMsg(Data: PtrInt);
+begin
+  if FClosingChildren and (PopupChildCount = 0) then Close;
 end;
 
 procedure TMainForm.BrowserCloseFormMsg(Data: PtrInt);
@@ -244,12 +293,94 @@ end;
 
 {Misc functions}
 {%Region}
+function TMainForm.GetPopupChildCount : integer;
+var
+  i        : integer;
+  TempForm : TCustomForm;
+begin
+  Result := 0;
+  i      := pred(screen.CustomFormCount);
+
+  while (i >= 0) do
+    begin
+      TempForm := screen.CustomForms[i];
+
+      if (TempForm is TChildForm) and
+         TChildForm(TempForm).ClientInitialized then
+        inc(Result);
+
+      dec(i);
+    end;
+end;
+
+procedure TMainForm.ClosePopupChildren;
+var
+  i        : integer;
+  TempForm : TCustomForm;
+begin
+  i := pred(screen.CustomFormCount);
+
+  while (i >= 0) do
+    begin
+      TempForm := screen.CustomForms[i];
+
+      if (TempForm is TChildForm) and
+         TChildForm(TempForm).ClientInitialized and
+         not(TChildForm(TempForm).Closing) then
+        TempForm.Close;
+
+      dec(i);
+    end;
+end;
+
+procedure TMainForm.CreateHiddenChildForm;
+var
+  TempSize : TCefSize;
+begin
+  // Linux requires a fully formed window in order to add a Chromium browser so
+  // we show the next popup window outside the visible screen space and then we
+  // hide it.
+  FChildForm               := TChildForm.Create(self);
+  TempSize.width           := FChildForm.Width;
+  TempSize.height          := FChildForm.Height;
+  FChildForm.Width         := 0;
+  FChildForm.Height        := 0;
+  FChildForm.Show;
+  FChildForm.Hide;
+  FChildForm.Width         := TempSize.width;
+  FChildForm.Height        := TempSize.height;
+  // Center the child form on the screen by default
+  FChildForm.Top           := (screen.Height - FChildForm.Height) div 2;
+  FChildForm.Left          := (screen.Width  - FChildForm.Width)  div 2;
+end;
+
+function TMainForm.CreateClientHandler(var   windowInfo      : TCefWindowInfo;
+                                       var   client          : ICefClient;
+                                       const targetFrameName : string;
+                                       const popupFeatures   : TCefPopupFeatures) : boolean;
+begin
+  try
+    FCriticalSection.Acquire;
+
+    if (FChildForm <> nil) and
+       FChildForm.CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures) then
+      begin
+        SendCompMessage(CEF_CREATENEXTCHILD);
+        Result := True;
+      end;
+  finally
+    FCriticalSection.Release;
+  end;
+end;
+
 procedure TMainForm.SendCompMessage(aMsg : cardinal; aData: PtrInt);
 begin
   case aMsg of
-    CEF_AFTERCREATED : Application.QueueAsyncCall(@BrowserCreatedMsg, 0);
-    CEF_BEFORECLOSE  : Application.QueueAsyncCall(@BrowserCloseFormMsg, 0);
-    CEF_SETFOCUS     : Application.QueueAsyncCall(@BrowserSetFocusMsg, 0);
+    CEF_AFTERCREATED    : Application.QueueAsyncCall(@BrowserCreatedMsg, aData);
+    CEF_CREATENEXTCHILD : Application.QueueAsyncCall(@BrowserCreateNextChildMsg, aData);
+    CEF_CHILDDESTROYED  : Application.QueueAsyncCall(@BrowserChildDestroyedMsg, aData);
+    CEF_BEFORECLOSE     : Application.QueueAsyncCall(@BrowserCloseFormMsg, aData);
+    CEF_SETFOCUS        : Application.QueueAsyncCall(@BrowserSetFocusMsg, aData);
   end;
 end;    
 
@@ -286,8 +417,15 @@ procedure TMainForm.Chromium1BeforePopup(Sender: TObject;
   var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean;
   var Result: Boolean);
 begin
-  // For simplicity, this demo blocks all popup windows and new tabs
-  Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
+  case targetDisposition of
+    CEF_WOD_NEW_FOREGROUND_TAB,
+    CEF_WOD_NEW_BACKGROUND_TAB,
+    CEF_WOD_NEW_WINDOW : Result := True;  // For simplicity, this demo blocks new tabs and new windows.
+
+    CEF_WOD_NEW_POPUP  : Result := not(CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures));
+
+    else Result := False;
+  end;
 end;
 
 procedure TMainForm.Chromium1GotFocus(Sender: TObject;
