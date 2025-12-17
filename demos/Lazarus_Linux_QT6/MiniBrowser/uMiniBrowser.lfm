@@ -1,0 +1,286 @@
+object MiniBrowserFrm: TMiniBrowserFrm
+  Left = 528
+  Height = 750
+  Top = 154
+  Width = 1196
+  Caption = 'MiniBrowser'
+  ClientHeight = 750
+  ClientWidth = 1196
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  LCLVersion = '4.4.0.0'
+  OnActivate = FormActivate
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  object NavControlPnl: TPanel
+    Left = 0
+    Height = 41
+    Top = 0
+    Width = 1196
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 41
+    ClientWidth = 1196
+    Enabled = False
+    ParentBackground = False
+    TabOrder = 0
+    object NavButtonPnl: TPanel
+      Left = 0
+      Height = 41
+      Top = 0
+      Width = 133
+      Align = alLeft
+      BevelOuter = bvNone
+      ClientHeight = 41
+      ClientWidth = 133
+      ParentBackground = False
+      TabOrder = 0
+      object BackBtn: TButton
+        Left = 8
+        Height = 25
+        Top = 8
+        Width = 25
+        Caption = '3'
+        Font.CharSet = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Webdings'
+        ParentFont = False
+        TabOrder = 0
+        OnClick = BackBtnClick
+      end
+      object ForwardBtn: TButton
+        Left = 39
+        Height = 25
+        Top = 8
+        Width = 25
+        Caption = '4'
+        Font.CharSet = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Webdings'
+        ParentFont = False
+        TabOrder = 1
+        OnClick = ForwardBtnClick
+      end
+      object ReloadBtn: TButton
+        Left = 70
+        Height = 25
+        Top = 8
+        Width = 25
+        Caption = 'q'
+        Font.CharSet = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Webdings'
+        ParentFont = False
+        TabOrder = 2
+        OnClick = ReloadBtnClick
+      end
+      object StopBtn: TButton
+        Left = 101
+        Height = 25
+        Top = 8
+        Width = 25
+        Caption = '='
+        Font.CharSet = SYMBOL_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = 'Webdings'
+        ParentFont = False
+        TabOrder = 3
+        OnClick = StopBtnClick
+      end
+    end
+    object URLEditPnl: TPanel
+      Left = 133
+      Height = 41
+      Top = 0
+      Width = 990
+      Align = alClient
+      BevelOuter = bvNone
+      ClientHeight = 41
+      ClientWidth = 990
+      ParentBackground = False
+      TabOrder = 1
+      object URLCbx: TComboBox
+        Left = 0
+        Height = 28
+        Top = 9
+        Width = 982
+        Anchors = [akTop, akLeft, akRight]
+        ItemHeight = 0
+        ItemIndex = 0
+        Items.Strings = (
+          'https://www.google.com'
+          'https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending'
+          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_win_close'
+          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
+          'https://www.w3schools.com/js/tryit.asp?filename=tryjs_loc_assign'
+          'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_backgroundcolor'
+          'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe_name'
+          'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_file'
+          'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_state_throw_error'
+          'https://www.htmlquick.com/es/reference/tags/input-file.html'
+          'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file'
+          'https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/webkitdirectory'
+          'https://www.w3schools.com/html/html5_video.asp'
+          'http://html5test.com/'
+          'https://webrtc.github.io/samples/src/content/devices/input-output/'
+          'https://test.webrtc.org/'
+          'https://www.browserleaks.com/webrtc'
+          'https://shaka-player-demo.appspot.com/demo/'
+          'http://webglsamples.org/'
+          'https://get.webgl.org/'
+          'https://www.briskbard.com'
+          'https://www.youtube.com'
+          'https://html5demos.com/drag/'
+          'https://frames-per-second.appspot.com/'
+          'https://www.sede.fnmt.gob.es/certificados/persona-fisica/verificar-estado'
+          'https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm'
+          'https://www.xdumaine.com/enumerateDevices/test/'
+          'https://dagrs.berkeley.edu/sites/default/files/2020-01/sample.pdf'
+          'chrome://version/'
+          'chrome://settings/'
+          'chrome://flags/'
+          'chrome://net-internals/'
+          'chrome://tracing/'
+          'chrome://appcache-internals/'
+          'chrome://blob-internals/'
+          'chrome://view-http-cache/'
+          'chrome://credits/'
+          'chrome://histograms/'
+          'chrome://media-internals/'
+          'chrome://kill'
+          'chrome://crash'
+          'chrome://hang'
+          'chrome://shorthang'
+          'chrome://gpuclean'
+          'chrome://gpucrash'
+          'chrome://gpuhang'
+          'chrome://extensions-support'
+          'chrome://process-internals'
+        )
+        TabOrder = 0
+        Text = 'https://www.google.com'
+      end
+    end
+    object ConfigPnl: TPanel
+      Left = 1123
+      Height = 41
+      Top = 0
+      Width = 73
+      Align = alRight
+      BevelOuter = bvNone
+      ClientHeight = 41
+      ClientWidth = 73
+      ParentBackground = False
+      TabOrder = 2
+      object ConfigBtn: TButton
+        Left = 40
+        Height = 25
+        Top = 8
+        Width = 25
+        Caption = '='
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -17
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+        OnClick = ConfigBtnClick
+      end
+      object GoBtn: TButton
+        Left = 8
+        Height = 25
+        Top = 8
+        Width = 25
+        Caption = '>'
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -17
+        Font.Name = 'Arial Black'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
+        OnClick = GoBtnClick
+      end
+    end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 18
+    Top = 732
+    Width = 1196
+    Panels = <    
+      item
+        Width = 100
+      end    
+      item
+        Width = 500
+      end    
+      item
+        Width = 100
+      end    
+      item
+        Width = 100
+      end    
+      item
+        Width = 50
+      end>
+  end
+  object CEFLinkedWindowParent1: TCEFLinkedWindowParent
+    Left = 0
+    Height = 691
+    Top = 41
+    Width = 1196
+    Align = alClient
+    TabOrder = 2
+    OnEnter = CEFLinkedWindowParent1Enter
+    OnExit = CEFLinkedWindowParent1Exit
+    Chromium = Chromium1
+  end
+  object Chromium1: TChromium
+    OnLoadError = Chromium1LoadError
+    OnGotFocus = Chromium1GotFocus
+    OnBeforeContextMenu = Chromium1BeforeContextMenu
+    OnContextMenuCommand = Chromium1ContextMenuCommand
+    OnTitleChange = Chromium1TitleChange
+    OnStatusMessage = Chromium1StatusMessage
+    OnAfterCreated = Chromium1AfterCreated
+    OnBeforeClose = Chromium1BeforeClose
+    OnChromeCommand = Chromium1ChromeCommand
+    Left = 48
+    Top = 96
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 168
+    Top = 96
+    object Print1: TMenuItem
+      Caption = 'Print'
+      OnClick = Print1Click
+    end
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object Zoom1: TMenuItem
+      Caption = 'Zoom'
+      object Inczoom1: TMenuItem
+        Caption = 'Inc zoom'
+        OnClick = Inczoom1Click
+      end
+      object Deczoom1: TMenuItem
+        Caption = 'Dec zoom'
+        OnClick = Deczoom1Click
+      end
+      object Resetzoom1: TMenuItem
+        Caption = 'Reset zoom'
+        OnClick = Resetzoom1Click
+      end
+    end
+  end
+end
