@@ -68,6 +68,7 @@ Delphinus-Support
 * [Lazarus Documentation](https://wiki.freepascal.org/Lazarus_Documentation)
 * [Delphi Succinctly](https://www.syncfusion.com/succinctly-free-ebooks/delphi)
 * [Start Programming using Object Pascal](https://code.sd/startprog/StartProgUsingPascal.pdf)
+* [Free Pascal and Lazarus Programming Textbook](https://sourceforge.net/p/lazarus-wiki-projects/code/ci/master/tree/FPC_Lazarus_Textbook/)
 
 ## Attribution
 * [Fugue & Diagona icons](http://yusukekamiyamane.com/)
