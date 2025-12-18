@@ -1,48 +1,39 @@
-object MiniBrowserFrm: TMiniBrowserFrm
-  Left = 528
-  Height = 750
-  Top = 154
-  Width = 1196
-  Caption = 'MiniBrowser'
-  ClientHeight = 750
-  ClientWidth = 1196
-  Color = clBtnFace
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
-  Position = poScreenCenter
+object BrowserFrame: TBrowserFrame
+  Left = 0
+  Height = 670
+  Top = 0
+  Width = 932
+  ClientHeight = 670
+  ClientWidth = 932
   LCLVersion = '4.4.0.0'
-  OnActivate = FormActivate
-  OnClose = FormClose
-  OnCloseQuery = FormCloseQuery
-  OnCreate = FormCreate
+  TabOrder = 0
+  DesignLeft = 318
+  DesignTop = 172
   object NavControlPnl: TPanel
     Left = 0
-    Height = 41
+    Height = 28
     Top = 0
-    Width = 1196
+    Width = 932
     Align = alTop
     BevelOuter = bvNone
-    ClientHeight = 41
-    ClientWidth = 1196
+    ClientHeight = 28
+    ClientWidth = 932
     Enabled = False
-    ParentBackground = False
     TabOrder = 0
     object NavButtonPnl: TPanel
       Left = 0
-      Height = 41
+      Height = 28
       Top = 0
-      Width = 133
+      Width = 123
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 41
-      ClientWidth = 133
-      ParentBackground = False
+      ClientHeight = 28
+      ClientWidth = 123
       TabOrder = 0
       object BackBtn: TButton
-        Left = 8
+        Left = 0
         Height = 25
-        Top = 8
+        Top = 0
         Width = 25
         Caption = '3'
         Font.CharSet = SYMBOL_CHARSET
@@ -54,9 +45,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
         OnClick = BackBtnClick
       end
       object ForwardBtn: TButton
-        Left = 39
+        Left = 30
         Height = 25
-        Top = 8
+        Top = 0
         Width = 25
         Caption = '4'
         Font.CharSet = SYMBOL_CHARSET
@@ -68,9 +59,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
         OnClick = ForwardBtnClick
       end
       object ReloadBtn: TButton
-        Left = 70
+        Left = 59
         Height = 25
-        Top = 8
+        Top = 0
         Width = 25
         Caption = 'q'
         Font.CharSet = SYMBOL_CHARSET
@@ -82,9 +73,9 @@ object MiniBrowserFrm: TMiniBrowserFrm
         OnClick = ReloadBtnClick
       end
       object StopBtn: TButton
-        Left = 101
+        Left = 88
         Height = 25
-        Top = 8
+        Top = 0
         Width = 25
         Caption = '='
         Font.CharSet = SYMBOL_CHARSET
@@ -97,21 +88,20 @@ object MiniBrowserFrm: TMiniBrowserFrm
       end
     end
     object URLEditPnl: TPanel
-      Left = 133
-      Height = 41
+      Left = 123
+      Height = 28
       Top = 0
-      Width = 990
+      Width = 774
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 41
-      ClientWidth = 990
-      ParentBackground = False
+      ClientHeight = 28
+      ClientWidth = 774
       TabOrder = 1
       object URLCbx: TComboBox
         Left = 0
         Height = 28
-        Top = 9
-        Width = 982
+        Top = 1
+        Width = 774
         Anchors = [akTop, akLeft, akRight]
         ItemHeight = 0
         ItemIndex = 0
@@ -122,28 +112,26 @@ object MiniBrowserFrm: TMiniBrowserFrm
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
           'https://www.w3schools.com/js/tryit.asp?filename=tryjs_loc_assign'
           'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_backgroundcolor'
-          'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe_name'
-          'https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_file'
-          'https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_state_throw_error'
-          'https://www.htmlquick.com/es/reference/tags/input-file.html'
-          'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file'
-          'https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/webkitdirectory'
           'https://www.w3schools.com/html/html5_video.asp'
+          'http://www.adobe.com/software/flash/about/'
+          'http://isflashinstalled.com/'
+          'https://helpx.adobe.com/flash-player.html'
+          'https://www.ultrasounds.com/'
+          'https://www.whatismybrowser.com/detect/is-flash-installed'
           'http://html5test.com/'
           'https://webrtc.github.io/samples/src/content/devices/input-output/'
           'https://test.webrtc.org/'
-          'https://www.browserleaks.com/webrtc'
-          'https://shaka-player-demo.appspot.com/demo/'
+          'https://www.w3schools.com/'
           'http://webglsamples.org/'
           'https://get.webgl.org/'
           'https://www.briskbard.com'
           'https://www.youtube.com'
           'https://html5demos.com/drag/'
+          'https://developers.google.com/maps/documentation/javascript/examples/streetview-embed?hl=fr'
+          'https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml_iframe_name'
+          'http://www-db.deis.unibo.it/courses/TW/DOCS/w3schools/html/tryit.asp-filename=tryhtml5_html_manifest.html'
+          'https://www.browserleaks.com/webrtc'
           'https://frames-per-second.appspot.com/'
-          'https://www.sede.fnmt.gob.es/certificados/persona-fisica/verificar-estado'
-          'https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm'
-          'https://www.xdumaine.com/enumerateDevices/test/'
-          'https://dagrs.berkeley.edu/sites/default/files/2020-01/sample.pdf'
           'chrome://version/'
           'chrome://settings/'
           'chrome://flags/'
@@ -170,22 +158,21 @@ object MiniBrowserFrm: TMiniBrowserFrm
       end
     end
     object ConfigPnl: TPanel
-      Left = 1123
-      Height = 41
+      Left = 897
+      Height = 28
       Top = 0
-      Width = 73
+      Width = 35
       Align = alRight
       BevelOuter = bvNone
-      ClientHeight = 41
-      ClientWidth = 73
-      ParentBackground = False
+      ClientHeight = 28
+      ClientWidth = 35
       TabOrder = 2
-      object ConfigBtn: TButton
-        Left = 40
+      object GoBtn: TButton
+        Left = 5
         Height = 25
-        Top = 8
+        Top = 0
         Width = 25
-        Caption = '='
+        Caption = '►'
         Font.CharSet = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -17
@@ -193,21 +180,6 @@ object MiniBrowserFrm: TMiniBrowserFrm
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
-        OnClick = ConfigBtnClick
-      end
-      object GoBtn: TButton
-        Left = 8
-        Height = 25
-        Top = 8
-        Width = 25
-        Caption = '>'
-        Font.CharSet = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -17
-        Font.Name = 'Arial Black'
-        Font.Style = [fsBold]
-        ParentFont = False
-        TabOrder = 1
         OnClick = GoBtnClick
       end
     end
@@ -215,31 +187,21 @@ object MiniBrowserFrm: TMiniBrowserFrm
   object StatusBar1: TStatusBar
     Left = 0
     Height = 18
-    Top = 732
-    Width = 1196
+    Top = 652
+    Width = 932
     Panels = <    
       item
-        Width = 100
-      end    
-      item
         Width = 500
-      end    
-      item
-        Width = 100
-      end    
-      item
-        Width = 100
-      end    
-      item
-        Width = 50
       end>
+    SimplePanel = False
   end
   object CEFLinkedWindowParent1: TCEFLinkedWindowParent
     Left = 0
-    Height = 691
-    Top = 41
-    Width = 1196
+    Height = 624
+    Top = 28
+    Width = 932
     Align = alClient
+    TabStop = True
     TabOrder = 2
     OnEnter = CEFLinkedWindowParent1Enter
     OnExit = CEFLinkedWindowParent1Exit
@@ -247,41 +209,16 @@ object MiniBrowserFrm: TMiniBrowserFrm
   end
   object Chromium1: TChromium
     OnLoadError = Chromium1LoadError
+    OnLoadingStateChange = Chromium1LoadingStateChange
     OnGotFocus = Chromium1GotFocus
-    OnBeforeContextMenu = Chromium1BeforeContextMenu
-    OnContextMenuCommand = Chromium1ContextMenuCommand
+    OnAddressChange = Chromium1AddressChange
     OnTitleChange = Chromium1TitleChange
     OnStatusMessage = Chromium1StatusMessage
+    OnBeforePopup = Chromium1BeforePopup
     OnAfterCreated = Chromium1AfterCreated
     OnBeforeClose = Chromium1BeforeClose
-    OnChromeCommand = Chromium1ChromeCommand
-    Left = 48
-    Top = 96
-  end
-  object PopupMenu1: TPopupMenu
-    Left = 168
-    Top = 96
-    object Print1: TMenuItem
-      Caption = 'Print'
-      OnClick = Print1Click
-    end
-    object N3: TMenuItem
-      Caption = '-'
-    end
-    object Zoom1: TMenuItem
-      Caption = 'Zoom'
-      object Inczoom1: TMenuItem
-        Caption = 'Inc zoom'
-        OnClick = Inczoom1Click
-      end
-      object Deczoom1: TMenuItem
-        Caption = 'Dec zoom'
-        OnClick = Deczoom1Click
-      end
-      object Resetzoom1: TMenuItem
-        Caption = 'Reset zoom'
-        OnClick = Resetzoom1Click
-      end
-    end
+    OnOpenUrlFromTab = Chromium1OpenUrlFromTab
+    Left = 40
+    Top = 72
   end
 end

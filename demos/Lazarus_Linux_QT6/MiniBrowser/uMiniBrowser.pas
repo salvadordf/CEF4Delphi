@@ -42,6 +42,7 @@ type
     procedure Chromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
 
     procedure FormActivate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
                                                                                       
@@ -67,10 +68,11 @@ type
 
   protected
     // Variables to control when can we destroy the form safely
-    FCanClose : boolean;  // Set to True in TChromium.OnBeforeClose
-    FClosing  : boolean;  // Set to True in the CloseQuery event.
-    FStatus   : ustring;
-    FCaption  : ustring;
+    FCanClose  : boolean;  // Set to True in TChromium.OnBeforeClose
+    FClosing   : boolean;  // Set to True in the CloseQuery event.
+    FStatus    : ustring;
+    FCaption   : ustring;
+    FBrowserCS : TCriticalSection;
 
     procedure AddURL(const aURL : string);      
     procedure SendCompMessage(aMsg : cardinal; aData: PtrInt = 0);  
@@ -190,6 +192,12 @@ begin
   Chromium1.CreateBrowser(CEFLinkedWindowParent1.Handle, TempRect);
 end;
 
+procedure TMiniBrowserFrm.FormClose(Sender: TObject;
+  var CloseAction: TCloseAction);
+begin
+  FreeAndNil(FBrowserCS);
+end;
+
 procedure TMiniBrowserFrm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
   if not Chromium1.Initialized then
@@ -212,7 +220,8 @@ end;
 procedure TMiniBrowserFrm.FormCreate(Sender: TObject);
 begin
   FCanClose            := False;
-  FClosing             := False;
+  FClosing             := False; 
+  FBrowserCS           := TCriticalSection.Create;
 
   // The MultiBrowserMode store all the browser references in TChromium.
   // The first browser reference is the browser in the main form.
@@ -274,13 +283,17 @@ begin
 end;
 
 procedure TMiniBrowserFrm.BrowserTitleChangedMsg(Data: PtrInt);
-begin
-  Caption := UTF8Encode(FCaption);
+begin                 
+  FBrowserCS.Acquire;
+  Caption := UTF8Encode(FCaption);      
+  FBrowserCS.Release;
 end;
 
 procedure TMiniBrowserFrm.BrowserStatusChangedMsg(Data: PtrInt);
 begin
+  FBrowserCS.Acquire;
   StatusBar1.Panels[1].Text := UTF8Encode(FStatus);
+  FBrowserCS.Release;
 end;              
 
 procedure TMiniBrowserFrm.WMMove(var Message: TLMMove);
@@ -417,7 +430,9 @@ procedure TMiniBrowserFrm.Chromium1StatusMessage(Sender: TObject;
 begin
   if not(Chromium1.IsSameBrowser(browser)) then exit;
 
+  FBrowserCS.Acquire;
   FStatus := value;
+  FBrowserCS.Release;
   SendCompMessage(CEF_STATUSCHANGE);
 end;
 
@@ -425,8 +440,10 @@ procedure TMiniBrowserFrm.Chromium1TitleChange(Sender: TObject;
   const browser: ICefBrowser; const title: ustring);
 begin
   if not(Chromium1.IsSameBrowser(browser)) then exit;
-
-  FCaption := title;
+                       
+  FBrowserCS.Acquire;
+  FCaption := title;   
+  FBrowserCS.Release;
   SendCompMessage(CEF_TITLECHANGE);
 end;
 
