@@ -240,6 +240,7 @@ object MiniBrowserFrm: TMiniBrowserFrm
     Top = 41
     Width = 1196
     Align = alClient
+    TabStop = True
     TabOrder = 2
     OnEnter = CEFLinkedWindowParent1Enter
     OnExit = CEFLinkedWindowParent1Exit

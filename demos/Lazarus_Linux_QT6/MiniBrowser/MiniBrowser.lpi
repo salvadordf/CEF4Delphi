@@ -52,11 +52,14 @@
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
+    <Target>
+      <Filename Value="../../../bin/MiniBrowser"/>
+    </Target>
     <SearchPaths>
       <IncludeFiles Value="../../../source;$(ProjOutDir)"/>
       <Libraries Value="../../../source"/>
       <OtherUnitFiles Value="../../../source"/>
-      <UnitOutputDirectory Value="../../../bin"/>
+      <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       <ObjectPath Value="../../../source"/>
     </SearchPaths>
     <Parsing>

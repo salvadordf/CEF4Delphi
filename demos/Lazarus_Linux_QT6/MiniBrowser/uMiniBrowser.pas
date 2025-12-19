@@ -39,7 +39,6 @@ type
                                                                
     procedure CEFLinkedWindowParent1Enter(Sender: TObject);
     procedure CEFLinkedWindowParent1Exit(Sender: TObject);
-    procedure Chromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
 
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -50,6 +49,7 @@ type
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1BeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
     procedure Chromium1ContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags; out Result: Boolean);
+    procedure Chromium1GotFocus(Sender: TObject; const browser: ICefBrowser);
     procedure Chromium1LoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
     procedure Chromium1StatusMessage(Sender: TObject; const browser: ICefBrowser; const value: ustring);
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);     
@@ -243,7 +243,6 @@ end;
 procedure TMiniBrowserFrm.CEFLinkedWindowParent1Enter(Sender: TObject);
 begin
   if not(csDesigning in ComponentState) and
-     Chromium1.Initialized and
      not(Chromium1.FrameIsFocused) then
     Chromium1.SetFocus(True);
 end;

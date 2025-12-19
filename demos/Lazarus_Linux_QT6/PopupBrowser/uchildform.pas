@@ -121,10 +121,13 @@ end;
 procedure TChildForm.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  // We must wait until all browsers trigger the TChromium.OnBeforeClose event
-  // in order to close the application safely or we will have shutdown issues.
-  FCanClose := True;
-  SendCompMessage(CEF_BEFORECLOSE);
+  if (Chromium1.BrowserId = 0) then
+    begin
+      // We must wait until all browsers trigger the TChromium.OnBeforeClose event
+      // in order to close the application safely or we will have shutdown issues.
+      FCanClose := True;
+      SendCompMessage(CEF_BEFORECLOSE);
+    end;
 end;
 
 procedure TChildForm.Chromium1BeforePopup(Sender: TObject;

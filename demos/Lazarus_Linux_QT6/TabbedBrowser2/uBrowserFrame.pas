@@ -320,7 +320,8 @@ end;
 procedure TBrowserFrame.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  if assigned(FOnBrowserDestroyed) then FOnBrowserDestroyed(self);
+  if (Chromium1.BrowserId = 0) and assigned(FOnBrowserDestroyed) then
+     FOnBrowserDestroyed(self);
 end;
 
 procedure TBrowserFrame.Chromium1BeforePopup(Sender: TObject;
