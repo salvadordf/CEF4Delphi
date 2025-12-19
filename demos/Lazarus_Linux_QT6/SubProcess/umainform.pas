@@ -68,27 +68,10 @@ implementation
 
 {$R *.lfm}
 
-// This is a demo with the simplest web browser you can build using CEF4Delphi and
-// it doesn't show any sign of progress like other web browsers do.
+// This is a demo based on the SimpleBrowser demo but it uses a different
+// executable for the Chromium subprocesses.
 
-// Remember that it may take a few seconds to load if Windows update, your antivirus or
-// any other windows service is using your hard drive.
-
-// Depending on your internet connection it may take longer than expected.
-
-// Please check that your firewall or antivirus are not blocking this application
-// or the domain "google.com". If you don't live in the US, you'll be redirected to
-// another domain which will take a little time too.
-
-// This demo uses a TChromium and a TCEFLinkedWindowParent
-
-// We need to use TCEFLinkedWindowParent in Linux to update the browser
-// visibility and size automatically.
-
-// Most of the TChromium events are executed in a CEF thread and this causes
-// issues with most QT API functions. If you need to update the GUI, store the
-// TChromium event parameters and use SendCompMessage (Application.QueueAsyncCall)
-// to do it in the main application thread.
+// Before running this demo you need to build the "SubProcess_sp.lpr" project.
 
 // Destruction steps
 // =================
@@ -266,7 +249,8 @@ procedure TMainForm.Chromium1AfterCreated(Sender: TObject;
   const browser: ICefBrowser);
 begin
   // Now the browser is fully initialized we can initialize the UI.
-  SendCompMessage(CEF_AFTERCREATED);
+  if Chromium1.IsSameBrowser(browser) then
+    SendCompMessage(CEF_AFTERCREATED);
 end;
 
 procedure TMainForm.Chromium1BeforeClose(Sender: TObject;
@@ -296,8 +280,9 @@ end;
 
 procedure TMainForm.Chromium1GotFocus(Sender: TObject;
   const browser: ICefBrowser);
-begin   
-  SendCompMessage(CEF_SETFOCUS);
+begin
+  if Chromium1.IsSameBrowser(browser) then
+    SendCompMessage(CEF_SETFOCUS);
 end;
 
 procedure TMainForm.Chromium1OpenUrlFromTab(Sender: TObject;

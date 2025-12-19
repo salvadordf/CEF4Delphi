@@ -153,14 +153,18 @@ end;
 procedure TChildForm.Chromium1GotFocus(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  SendCompMessage(CEF_SETFOCUS);
+  if Chromium1.IsSameBrowser(browser) then
+    SendCompMessage(CEF_SETFOCUS);
 end;
 
 procedure TChildForm.Chromium1TitleChange(Sender: TObject;
   const browser: ICefBrowser; const title: ustring);
 begin
-  FCaption := title;
-  SendCompMessage(CEF_TITLECHANGE);
+  if Chromium1.IsSameBrowser(browser) then
+    begin
+      FCaption := title;
+      SendCompMessage(CEF_TITLECHANGE);
+    end;
 end;
 
 procedure TChildForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);

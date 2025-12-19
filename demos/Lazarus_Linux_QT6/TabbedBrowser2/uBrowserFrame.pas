@@ -277,7 +277,8 @@ end;
 procedure TBrowserFrame.Chromium1AfterCreated(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  SendCompMessage(CEF_AFTERCREATED);
+  if Chromium1.IsSameBrowser(browser) then
+    SendCompMessage(CEF_AFTERCREATED);
 end;
 
 // This is a workaround for the CEF issue #2026
@@ -313,8 +314,11 @@ end;
 procedure TBrowserFrame.Chromium1AddressChange(Sender: TObject;
   const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
 begin
-  BrowserAddress := url;
-  SendCompMessage(CEF_UPDATEADDRESS);
+  if Chromium1.IsSameBrowser(browser) then
+    begin
+      BrowserAddress := url;
+      SendCompMessage(CEF_UPDATEADDRESS);
+    end;
 end;
 
 procedure TBrowserFrame.Chromium1BeforeClose(Sender: TObject;
@@ -343,7 +347,8 @@ begin
   if (errorCode = ERR_ABORTED) or
      (frame = nil) or
      not(frame.IsValid) or
-     not(frame.IsMain) then
+     not(frame.IsMain) or
+     not(Chromium1.IsSameBrowser(browser)) then
     exit;
 
   FBrowserCS.Acquire;
@@ -359,11 +364,14 @@ end;
 procedure TBrowserFrame.Chromium1LoadingStateChange(Sender: TObject;
   const browser: ICefBrowser; isLoading, canGoBack, canGoForward: Boolean);
 begin
-  BrowserIsLoading    := isLoading;
-  BrowserCanGoBack    := canGoBack;
-  BrowserCanGoForward := canGoForward;
+  if Chromium1.IsSameBrowser(browser) then
+    begin
+      BrowserIsLoading    := isLoading;
+      BrowserCanGoBack    := canGoBack;
+      BrowserCanGoForward := canGoForward;
 
-  SendCompMessage(CEF_UPDATELOADINGSTATE);
+      SendCompMessage(CEF_UPDATELOADINGSTATE);
+    end;
 end;
 
 procedure TBrowserFrame.Chromium1OpenUrlFromTab(Sender: TObject;
@@ -377,20 +385,26 @@ end;
 
 procedure TBrowserFrame.Chromium1StatusMessage(Sender: TObject;
   const browser: ICefBrowser; const value: ustring);
-begin
-  BrowserStatusText := value;
-  SendCompMessage(CEF_UPDATESTATUSTEXT);
+begin                
+  if Chromium1.IsSameBrowser(browser) then
+    begin
+      BrowserStatusText := value;
+      SendCompMessage(CEF_UPDATESTATUSTEXT);
+    end;
 end;
 
 procedure TBrowserFrame.Chromium1TitleChange(Sender: TObject;
   const browser: ICefBrowser; const title: ustring);
 begin
-  if (length(title) > 0) then
-    BrowserTitle := title
-   else
-    BrowserTitle := Chromium1.DocumentURL;
+  if Chromium1.IsSameBrowser(browser) then
+    begin
+      if (length(title) > 0) then
+        BrowserTitle := title
+       else
+        BrowserTitle := Chromium1.DocumentURL;
 
-  SendCompMessage(CEF_UPDATETITLE);
+      SendCompMessage(CEF_UPDATETITLE);
+    end;
 end;
 
 procedure TBrowserFrame.BrowserCreatedMsg(Data: PtrInt);

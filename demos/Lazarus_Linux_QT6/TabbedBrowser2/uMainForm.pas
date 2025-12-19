@@ -95,11 +95,9 @@ var
 // TBrowserFrame has all the usual code to close CEF4Delphi browsers following
 // a similar destruction sequence than the MiniBrowser demo :
 //
-// 1. TBrowserTab.CloseBrowser calls TChromium.CloseBrowser which triggers the
-//    TChromium.OnClose event.
-// 2. TChromium.OnClose sets aAction to cbaClose which trigges the
-//    TChromium.OnBeforeClose event.
-// 3. TChromium.OnBeforeClose executes the TBrowserFrame.OnBrowserDestroyed
+// 1. TBrowserTab.CloseBrowser destroys CEFLinkedWindowParent1 and calls
+//    TChromium.CloseBrowser which triggers the TChromium.OnBeforeClose event.
+// 2. TChromium.OnBeforeClose executes the TBrowserFrame.OnBrowserDestroyed
 //    event which will be used in TBrowserTab to send a CEF_DESTROYTAB message
 //    to the main form to free the tab.
 

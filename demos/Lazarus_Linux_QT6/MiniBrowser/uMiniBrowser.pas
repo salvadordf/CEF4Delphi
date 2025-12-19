@@ -102,18 +102,6 @@ implementation
 
 {$R *.lfm}
 
-// This is a demo with the simplest web browser you can build using CEF4Delphi and
-// it doesn't show any sign of progress like other web browsers do.
-
-// Remember that it may take a few seconds to load if Windows update, your antivirus or
-// any other windows service is using your hard drive.
-
-// Depending on your internet connection it may take longer than expected.
-
-// Please check that your firewall or antivirus are not blocking this application
-// or the domain "google.com". If you don't live in the US, you'll be redirected to
-// another domain which will take a little time too.
-
 // This demo uses a TChromium and a TCEFLinkedWindowParent
 
 // We need to use TCEFLinkedWindowParent in Linux to update the browser

@@ -82,32 +82,29 @@ implementation
 
 {$R *.lfm}
 
-// This is a demo with the simplest web browser you can build using CEF4Delphi and
-// it doesn't show any sign of progress like other web browsers do.
+// This is demo shows how to create popup windows in CEF.
 
-// Remember that it may take a few seconds to load if Windows update, your antivirus or
-// any other windows service is using your hard drive.
+// You need to understand the SimpleBrowser demo completely before trying to understand this demo.
 
-// Depending on your internet connection it may take longer than expected.
+// When TChromium needs to show a new popup window it executes TChromium.OnBeforePopup.
 
-// Please check that your firewall or antivirus are not blocking this application
-// or the domain "google.com". If you don't live in the US, you'll be redirected to
-// another domain which will take a little time too.
+// LCL components *MUST* be created and destroyed in the main thread but CEF executes the
+// TChromium.OnBeforePopup in a different thread.
 
-// This demo uses a TChromium and a TCEFLinkedWindowParent
+// For this reason this demo creates a hidden popup form (TChildForm) in case CEF needs to show a popup window.
+// TChromium.OnBeforePopup calls TChildForm.CreateClientHandler to initialize some parameters and create the new ICefClient.
+// After that, it sends a CEF_CREATENEXTCHILD message to show the popup form and create a new one.
 
-// We need to use TCEFLinkedWindowParent in Linux to update the browser
-// visibility and size automatically.
+// All the child forms must be correctly destroyed before closing the main form. Read the code comments in uChildForm.pas
+// to know how the popup windows are destroyed.
 
-// Most of the TChromium events are executed in a CEF thread and this causes
-// issues with most QT API functions. If you need to update the GUI, store the
-// TChromium event parameters and use SendCompMessage (Application.QueueAsyncCall)
-// to do it in the main application thread.
+// The main form close all active popup forms and waits until all of them have sent a CEF_CHILDDESTROYED message.
 
 // Destruction steps
 // =================
-// 1. FormCloseQuery sets CanClose to FALSE, destroys CEFLinkedWindowParent1 and calls TChromium.CloseBrowser which triggers the TChromium.OnBeforeClose event.
-// 2. TChromium.OnBeforeClose sets FCanClose := True and sends CEF_BEFORECLOSE to close the form.
+// 1. FormCloseQuery sets CanClose to FALSE and it closes all child forms.
+// 2. When all the child forms are closed then FormCloseQuery is triggered again, sets CanClose to FALSE, destroys CEFLinkedWindowParent1 and calls TChromium.CloseBrowser which triggers the TChromium.OnBeforeClose event.
+// 3. TChromium.OnBeforeClose sets FCanClose := True and sends a CEF_BEFORECLOSE message to close the form in the main thread.
 
 uses
   Math,  
@@ -396,16 +393,20 @@ procedure TMainForm.Chromium1AfterCreated(Sender: TObject;
   const browser: ICefBrowser);
 begin
   // Now the browser is fully initialized we can initialize the UI.
-  SendCompMessage(CEF_AFTERCREATED);
+  if Chromium1.IsSameBrowser(browser) then
+    SendCompMessage(CEF_AFTERCREATED);
 end;
 
 procedure TMainForm.Chromium1BeforeClose(Sender: TObject;
   const browser: ICefBrowser);
 begin
-  // We must wait until all browsers trigger the TChromium.OnBeforeClose event
-  // in order to close the application safely or we will have shutdown issues.
-  FCanClose := True;
-  SendCompMessage(CEF_BEFORECLOSE);
+  if (Chromium1.BrowserId = 0) then
+    begin
+      // We must wait until all browsers trigger the TChromium.OnBeforeClose event
+      // in order to close the application safely or we will have shutdown issues.
+      FCanClose := True;
+      SendCompMessage(CEF_BEFORECLOSE);
+    end;
 end;
 
 procedure TMainForm.Chromium1BeforePopup(Sender: TObject;
@@ -430,8 +431,9 @@ end;
 
 procedure TMainForm.Chromium1GotFocus(Sender: TObject;
   const browser: ICefBrowser);
-begin   
-  SendCompMessage(CEF_SETFOCUS);
+begin
+  if Chromium1.IsSameBrowser(browser) then
+    SendCompMessage(CEF_SETFOCUS);
 end;
 
 procedure TMainForm.Chromium1OpenUrlFromTab(Sender: TObject;
