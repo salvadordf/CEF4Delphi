@@ -56,20 +56,22 @@ function cef_keyboard_handler_on_pre_key_event(      self                 : PCef
                                                      os_event             : TCefEventHandle;
                                                      is_keyboard_shortcut : PInteger): Integer; stdcall;
 var
-  TempShortcut : Boolean;
+  TempShortcut : boolean;
   TempObject   : TObject;
+  TempResult   : boolean;
 begin
-  Result       := Ord(False);
+  TempResult   := False;
   TempShortcut := is_keyboard_shortcut^ <> 0;
   TempObject   := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefKeyboardHandlerOwn) then
-    Result := Ord(TCefKeyboardHandlerOwn(TempObject).OnPreKeyEvent(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefKeyboardHandlerOwn(TempObject).OnPreKeyEvent(TCefBrowserRef.UnWrap(browser),
                                                                    event,
                                                                    os_event,
-                                                                   TempShortcut));
+                                                                   TempShortcut);
 
   is_keyboard_shortcut^ := Ord(TempShortcut);
+  Result                := Ord(TempResult);
 end;
 
 function cef_keyboard_handler_on_key_event(      self     : PCefKeyboardHandler;
@@ -78,14 +80,17 @@ function cef_keyboard_handler_on_key_event(      self     : PCefKeyboardHandler;
                                                  os_event : TCefEventHandle): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefKeyboardHandlerOwn) then
-    Result := Ord(TCefKeyboardHandlerOwn(TempObject).OnKeyEvent(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefKeyboardHandlerOwn(TempObject).OnKeyEvent(TCefBrowserRef.UnWrap(browser),
                                                                 event,
-                                                                os_event));
+                                                                os_event);
+
+  Result := Ord(TempResult);
 end;
 
 constructor TCefKeyboardHandlerOwn.Create;

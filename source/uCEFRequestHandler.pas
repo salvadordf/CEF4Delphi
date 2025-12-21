@@ -77,16 +77,19 @@ function cef_request_handler_on_before_browse(self         : PCefRequestHandler;
                                               isRedirect   : Integer): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
-    Result := Ord(TCefRequestHandlerOwn(TempObject).OnBeforeBrowse(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefRequestHandlerOwn(TempObject).OnBeforeBrowse(TCefBrowserRef.UnWrap(browser),
                                                                    TCefFrameRef.UnWrap(frame),
                                                                    TCefRequestRef.UnWrap(request),
                                                                    user_gesture <> 0,
-                                                                   isRedirect <> 0));
+                                                                   isRedirect <> 0);
+
+  Result := Ord(TempResult);
 end;
 
 function cef_request_handler_on_open_urlfrom_tab(      self               : PCefRequestHandler;
@@ -97,16 +100,19 @@ function cef_request_handler_on_open_urlfrom_tab(      self               : PCef
                                                        user_gesture       : Integer): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
-    Result := Ord(TCefRequestHandlerOwn(TempObject).OnOpenUrlFromTab(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefRequestHandlerOwn(TempObject).OnOpenUrlFromTab(TCefBrowserRef.UnWrap(browser),
                                                                      TCefFrameRef.UnWrap(frame),
                                                                      CefString(target_url),
                                                                      target_disposition,
-                                                                     user_gesture <> 0));
+                                                                     user_gesture <> 0);
+
+  Result := Ord(TempResult);
 end;
 
 function cef_request_handler_get_resource_request_handler(      self                     : PCefRequestHandler;
@@ -156,19 +162,22 @@ function cef_request_handler_get_auth_credentials(      self       : PCefRequest
                                                         callback   : PCefAuthCallback): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
-    Result := Ord(TCefRequestHandlerOwn(TempObject).GetAuthCredentials(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefRequestHandlerOwn(TempObject).GetAuthCredentials(TCefBrowserRef.UnWrap(browser),
                                                                        CefString(origin_url),
                                                                        isProxy <> 0,
                                                                        CefString(host),
                                                                        port,
                                                                        CefString(realm),
                                                                        CefString(scheme),
-                                                                       TCefAuthCallbackRef.UnWrap(callback)));
+                                                                       TCefAuthCallbackRef.UnWrap(callback));
+
+  Result := Ord(TempResult);
 end;
 
 function cef_request_handler_on_certificate_error(      self        : PCefRequestHandler;
@@ -179,16 +188,19 @@ function cef_request_handler_on_certificate_error(      self        : PCefReques
                                                         callback    : PCefCallback): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
-    Result := Ord(TCefRequestHandlerOwn(TempObject).OnCertificateError(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefRequestHandlerOwn(TempObject).OnCertificateError(TCefBrowserRef.UnWrap(browser),
                                                                        cert_error,
                                                                        CefString(request_url),
                                                                        TCefSslInfoRef.UnWrap(ssl_info),
-                                                                       TCefCallbackRef.UnWrap(callback)));
+                                                                       TCefCallbackRef.UnWrap(callback));
+
+  Result := Ord(TempResult);
 end;
 
 procedure cef_request_handler_on_render_view_ready(self    : PCefRequestHandler;
@@ -207,13 +219,16 @@ function cef_request_handler_on_render_process_unresponsive(self     : PCefReque
                                                             callback : PCefUnresponsiveProcessCallback): integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
-    Result := Ord(TCefRequestHandlerOwn(TempObject).OnRenderProcessUnresponsive(TCefBrowserRef.UnWrap(browser),
-                                                                                TCefUnresponsiveProcessCallbackRef.UnWrap(callback)));
+    TempResult := TCefRequestHandlerOwn(TempObject).OnRenderProcessUnresponsive(TCefBrowserRef.UnWrap(browser),
+                                                                                TCefUnresponsiveProcessCallbackRef.UnWrap(callback));
+
+  Result := Ord(TempResult);
 end;
 
 procedure cef_request_handler_on_render_process_responsive(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
@@ -264,11 +279,12 @@ function cef_request_handler_on_select_client_certificate(      self            
                                                                 callback          : PCefSelectClientCertificateCallback): integer; stdcall;
 var
   TempCertArray : TCefX509CertificateArray;
-  i : NativeUInt;
-  TempObject : TObject;
+  i             : NativeUInt;
+  TempObject    : TObject;
+  TempResult    : boolean;
 begin
+  TempResult    := False;
   TempCertArray := nil;
-  Result        := Ord(False);
 
   try
     try
@@ -286,13 +302,13 @@ begin
           TempObject := CefGetObject(self);
 
           if (TempObject <> nil) and (TempObject is TCefRequestHandlerOwn) then
-            Result := Ord(TCefRequestHandlerOwn(TempObject).OnSelectClientCertificate(TCefBrowserRef.UnWrap(browser),
+            TempResult := TCefRequestHandlerOwn(TempObject).OnSelectClientCertificate(TCefBrowserRef.UnWrap(browser),
                                                                                       (isProxy <> 0),
                                                                                       CefString(host),
                                                                                       port,
                                                                                       certificatesCount,
                                                                                       TempCertArray,
-                                                                                      TCefSelectClientCertificateCallbackRef.UnWrap(callback)));
+                                                                                      TCefSelectClientCertificateCallbackRef.UnWrap(callback));
 
           i := 0;
           while (i < certificatesCount) do
@@ -311,6 +327,8 @@ begin
         Finalize(TempCertArray);
         TempCertArray := nil;
       end;
+
+    Result := Ord(TempResult);
   end;
 end;
 

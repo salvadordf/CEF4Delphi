@@ -103,13 +103,16 @@ function cef_render_handler_get_root_screen_rect(self    : PCefRenderHandler;
                                                  rect    : PCefRect): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
-    Result := Ord(TCefRenderHandlerOwn(TempObject).GetRootScreenRect(TCefBrowserRef.UnWrap(browser),
-                                                                     rect^));
+    TempResult := TCefRenderHandlerOwn(TempObject).GetRootScreenRect(TCefBrowserRef.UnWrap(browser),
+                                                                     rect^);
+
+  Result := Ord(TempResult);
 end;
 
 procedure cef_render_handler_get_view_rect(self    : PCefRenderHandler;
@@ -135,16 +138,19 @@ function cef_render_handler_get_screen_point(self             : PCefRenderHandle
                                              screenX, screenY : PInteger): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
-    Result := Ord(TCefRenderHandlerOwn(TempObject).GetScreenPoint(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefRenderHandlerOwn(TempObject).GetScreenPoint(TCefBrowserRef.UnWrap(browser),
                                                                   viewX,
                                                                   viewY,
                                                                   screenX^,
-                                                                  screenY^));
+                                                                  screenY^);
+
+  Result := Ord(TempResult);
 end;
 
 function cef_render_handler_get_screen_info(self        : PCefRenderHandler;
@@ -152,13 +158,16 @@ function cef_render_handler_get_screen_info(self        : PCefRenderHandler;
                                             screen_info : PCefScreenInfo): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
-    Result := Ord(TCefRenderHandlerOwn(TempObject).GetScreenInfo(TCefBrowserRef.UnWrap(browser),
-                                                                 screen_info^));
+    TempResult := TCefRenderHandlerOwn(TempObject).GetScreenInfo(TCefBrowserRef.UnWrap(browser),
+                                                                 screen_info^);
+
+  Result := Ord(TempResult);
 end;
 
 procedure cef_render_handler_on_popup_show(self    : PCefRenderHandler;
@@ -237,16 +246,19 @@ function cef_render_handler_start_dragging(self        : PCefRenderHandler;
                                            y           : Integer): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefRenderHandlerOwn) then
-    Result := Ord(TCefRenderHandlerOwn(TempObject).OnStartDragging(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefRenderHandlerOwn(TempObject).OnStartDragging(TCefBrowserRef.UnWrap(browser),
                                                                    TCefDragDataRef.UnWrap(drag_data),
                                                                    allowed_ops,
                                                                    x,
-                                                                   y));
+                                                                   y);
+
+  Result := Ord(TempResult);
 end;
 
 procedure cef_render_handler_update_drag_cursor(self      : PCefRenderHandler;

@@ -44,10 +44,10 @@ uses
 
 function cef_stream_reader_read(self: PCefReadHandler; ptr: Pointer; size, n: NativeUInt): NativeUInt; stdcall;
 var
-  TempObject  : TObject;
+  TempObject : TObject;
 begin
-  Result      := 0;
-  TempObject  := CefGetObject(self);
+  Result     := 0;
+  TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefCustomStreamReader) then
     Result := TCefCustomStreamReader(TempObject).Read(ptr, size, n);
@@ -55,10 +55,10 @@ end;
 
 function cef_stream_reader_seek(self: PCefReadHandler; offset: Int64; whence: Integer): Integer; stdcall;
 var
-  TempObject  : TObject;
+  TempObject : TObject;
 begin
-  Result      := 0;
-  TempObject  := CefGetObject(self);
+  Result     := 0;
+  TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefCustomStreamReader) then
     Result := TCefCustomStreamReader(TempObject).Seek(offset, whence);
@@ -77,26 +77,31 @@ end;
 
 function cef_stream_reader_eof(self: PCefReadHandler): Integer; stdcall;
 var
-  TempObject  : TObject;
+  TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result      := Ord(True);
-  TempObject  := CefGetObject(self);
+  TempResult := True;
+  TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefCustomStreamReader) then
-    Result := Ord(TCefCustomStreamReader(TempObject).Eof);
+    TempResult := TCefCustomStreamReader(TempObject).Eof;
+
+  Result := Ord(TempResult);
 end;
 
 function cef_stream_reader_may_block(self: PCefReadHandler): Integer; stdcall;
 var
-  TempObject  : TObject;
+  TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result      := Ord(False);
-  TempObject  := CefGetObject(self);
+  TempResult := False;
+  TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefCustomStreamReader) then
-    Result := Ord(TCefCustomStreamReader(TempObject).MayBlock);
-end;
+    TempResult := TCefCustomStreamReader(TempObject).MayBlock;
 
+  Result := Ord(TempResult);
+end;
 
 constructor TCefCustomStreamReader.Create(Stream: TStream; Owned: Boolean);
 begin

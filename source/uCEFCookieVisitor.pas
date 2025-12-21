@@ -61,21 +61,22 @@ function cef_cookie_visitor_visit(      self         : PCefCookieVisitor;
                                         total        : Integer;
                                         deleteCookie : PInteger): Integer; stdcall;
 var
-  delete     : Boolean;
-  exp        : TDateTime;
+  TempDelete : boolean;
+  TempExp    : TDateTime;
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  delete     := False;
-  Result     := Ord(True);
+  TempResult := True;
+  TempDelete := False;
   TempObject := CefGetObject(self);
 
   if (cookie^.has_expires <> 0) then
-    exp := CefBaseTimeToDateTime(cookie^.expires)
+    TempExp := CefBaseTimeToDateTime(cookie^.expires)
    else
-    exp := 0;
+    TempExp := 0;
 
   if (TempObject <> nil) and (TempObject is TCefCookieVisitorOwn) then
-    Result := Ord(TCefCookieVisitorOwn(TempObject).visit(CefString(@cookie^.name),
+    TempResult := TCefCookieVisitorOwn(TempObject).visit(CefString(@cookie^.name),
                                                          CefString(@cookie^.value),
                                                          CefString(@cookie^.domain),
                                                          CefString(@cookie^.path),
@@ -84,14 +85,15 @@ begin
                                                          Boolean(cookie^.has_expires),
                                                          CefBaseTimeToDateTime(cookie^.creation),
                                                          CefBaseTimeToDateTime(cookie^.last_access),
-                                                         exp,
+                                                         TempExp,
                                                          count,
                                                          total,
                                                          cookie^.same_site,
                                                          cookie^.priority,
-                                                         delete));
+                                                         TempDelete);
 
-  deleteCookie^ := Ord(delete);
+  deleteCookie^ := Ord(TempDelete);
+  Result        := Ord(TempResult);
 end;
 
 // TCefCookieVisitorOwn

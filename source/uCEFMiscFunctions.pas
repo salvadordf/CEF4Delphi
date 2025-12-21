@@ -1555,7 +1555,7 @@ var
 begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
-      TempString := TempString + ', x: $'         + inttohex(aEvent.x, SizeOf(aEvent.x) * 2);
+      TempString :=              ' x: $'          + inttohex(aEvent.x, SizeOf(aEvent.x) * 2);
       TempString := TempString + ', y: $'         + inttohex(aEvent.y, SizeOf(aEvent.y) * 2);
       TempString := TempString + ', modifiers: $' + inttohex(aEvent.modifiers, SizeOf(aEvent.modifiers) * 2);
 

@@ -69,15 +69,18 @@ function cef_cookie_access_filter_can_send_cookie(      self    : PCefCookieAcce
                                                   const cookie  : PCefCookie): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(True);
+  TempResult := True;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefCookieAccessFilterOwn) then
-    Result := Ord(TCefCookieAccessFilterOwn(TempObject).CanSendCookie(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefCookieAccessFilterOwn(TempObject).CanSendCookie(TCefBrowserRef.UnWrap(browser),
                                                                       TCefFrameRef.UnWrap(frame),
                                                                       TCefRequestRef.UnWrap(request),
-                                                                      cookie));
+                                                                      cookie);
+
+  Result := Ord(TempResult);
 end;
 
 function cef_cookie_access_filter_can_save_cookie(      self     : PCefCookieAccessFilter;
@@ -88,16 +91,19 @@ function cef_cookie_access_filter_can_save_cookie(      self     : PCefCookieAcc
                                                   const cookie   : PCefCookie): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(True);
+  TempResult := True;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefCookieAccessFilterOwn) then
-    Result := Ord(TCefCookieAccessFilterOwn(TempObject).CanSaveCookie(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefCookieAccessFilterOwn(TempObject).CanSaveCookie(TCefBrowserRef.UnWrap(browser),
                                                                       TCefFrameRef.UnWrap(frame),
                                                                       TCefRequestRef.UnWrap(request),
                                                                       TCefResponseRef.UnWrap(response),
-                                                                      cookie));
+                                                                      cookie);
+
+  Result := Ord(TempResult);
 end;
 
 constructor TCefCookieAccessFilterOwn.Create;

@@ -128,12 +128,15 @@ end;
 function cef_write_handler_may_block(self: PCefWriteHandler): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefWriteHandlerOwn) then
-    Result := Ord(TCefWriteHandlerOwn(TempObject).MayBlock);
+    TempResult := TCefWriteHandlerOwn(TempObject).MayBlock;
+
+  Result := Ord(TempResult);
 end;
 
 constructor TCefWriteHandlerOwn.Create;

@@ -54,14 +54,17 @@ function cef_download_handler_can_download(      self           : PCefDownloadHa
                                            const request_method : PCefString): integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(True);
+  TempResult := True;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefDownloadHandlerOwn) then
-    Result := Ord(TCefDownloadHandlerOwn(TempObject).CanDownload(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefDownloadHandlerOwn(TempObject).CanDownload(TCefBrowserRef.UnWrap(browser),
                                                                  CefString(url),
-                                                                 CefString(request_method)));
+                                                                 CefString(request_method));
+
+  Result := Ord(TempResult);
 end;
 
 function  cef_download_handler_on_before_download(      self           : PCefDownloadHandler;
@@ -71,15 +74,18 @@ function  cef_download_handler_on_before_download(      self           : PCefDow
                                                         callback       : PCefBeforeDownloadCallback): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefDownloadHandlerOwn) then
-    Result := Ord(TCefDownloadHandlerOwn(TempObject).OnBeforeDownload(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefDownloadHandlerOwn(TempObject).OnBeforeDownload(TCefBrowserRef.UnWrap(browser),
                                                                       TCefDownLoadItemRef.UnWrap(download_item),
                                                                       CefString(suggested_name),
-                                                                      TCefBeforeDownloadCallbackRef.UnWrap(callback)));
+                                                                      TCefBeforeDownloadCallbackRef.UnWrap(callback));
+
+  Result := Ord(TempResult);
 end;
 
 procedure cef_download_handler_on_download_updated(self          : PCefDownloadHandler;

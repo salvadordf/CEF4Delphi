@@ -60,8 +60,9 @@ var
   TempException   : ustring;
   TempReturnValue : ICefv8Value;
   TempRecObject   : ICefv8Value;
+  TempResult      : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   retval     := nil;
   TempObject := CefGetObject(self);
 
@@ -71,10 +72,10 @@ begin
       TempException   := '';
       TempReturnValue := nil;
 
-      Result := Ord(TCefV8InterceptorOwn(TempObject).GetByName(CefString(name),
+      TempResult := TCefV8InterceptorOwn(TempObject).GetByName(CefString(name),
                                                                TempRecObject,
                                                                TempReturnValue,
-                                                               TempException));
+                                                               TempException);
 
       retval := CefGetData(TempReturnValue);
 
@@ -87,6 +88,8 @@ begin
       TempRecObject   := nil;
       TempReturnValue := nil;
     end;
+
+  Result := Ord(TempResult);
 end;
 
 function cef_v8_interceptor_get_byindex(    self      : PCefV8Interceptor;
@@ -99,8 +102,9 @@ var
   TempException   : ustring;
   TempReturnValue : ICefv8Value;
   TempRecObject   : ICefv8Value;
+  TempResult      : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   retval     := nil;
   TempObject := CefGetObject(self);
 
@@ -110,10 +114,10 @@ begin
       TempException   := '';
       TempReturnValue := nil;
 
-      Result := Ord(TCefV8InterceptorOwn(TempObject).GetByIndex(index,
+      TempResult := TCefV8InterceptorOwn(TempObject).GetByIndex(index,
                                                                 TempRecObject,
                                                                 TempReturnValue,
-                                                                TempException));
+                                                                TempException);
 
       retval := CefGetData(TempReturnValue);
 
@@ -126,6 +130,8 @@ begin
       TempRecObject   := nil;
       TempReturnValue := nil;
     end;
+
+  Result := Ord(TempResult);
 end;
 
 function cef_v8_interceptor_set_byname(      self      : PCefV8Interceptor;
@@ -138,8 +144,9 @@ var
   TempException : ustring;
   TempValue     : ICefv8Value;
   TempRecObject : ICefv8Value;
+  TempResult    : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefV8InterceptorOwn) then
@@ -148,10 +155,10 @@ begin
       TempValue     := TCefv8ValueRef.UnWrap(value);
       TempException := '';
 
-      Result := Ord(TCefV8InterceptorOwn(TempObject).SetByName(CefString(name),
+      TempResult := TCefV8InterceptorOwn(TempObject).SetByName(CefString(name),
                                                                TempRecObject,
                                                                TempValue,
-                                                               TempException));
+                                                               TempException);
 
       if (exception <> nil) then
         begin
@@ -162,6 +169,8 @@ begin
       TempRecObject := nil;
       TempValue     := nil;
     end;
+
+  Result := Ord(TempResult);
 end;
 
 function cef_v8_interceptor_set_byindex(self      : PCefV8Interceptor;
@@ -174,8 +183,9 @@ var
   TempException : ustring;
   TempValue     : ICefv8Value;
   TempRecObject : ICefv8Value;
+  TempResult    : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefV8InterceptorOwn) then
@@ -184,10 +194,10 @@ begin
       TempValue     := TCefv8ValueRef.UnWrap(value);
       TempException := '';
 
-      Result := Ord(TCefV8InterceptorOwn(TempObject).SetByIndex(index,
+      TempResult := TCefV8InterceptorOwn(TempObject).SetByIndex(index,
                                                                 TempRecObject,
                                                                 TempValue,
-                                                                TempException));
+                                                                TempException);
 
       if (exception <> nil) then
         begin
@@ -198,6 +208,8 @@ begin
       TempRecObject := nil;
       TempValue     := nil;
     end;
+
+  Result := Ord(TempResult);
 end;
 
 // TCefV8InterceptorOwn

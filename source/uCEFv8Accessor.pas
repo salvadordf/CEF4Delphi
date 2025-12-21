@@ -51,8 +51,9 @@ var
   TempException   : ustring;
   TempReturnValue : ICefv8Value;
   TempRecObject   : ICefv8Value;
+  TempResult      : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefV8AccessorOwn) then
@@ -61,10 +62,10 @@ begin
       TempException   := '';
       TempReturnValue := nil;
 
-      Result := Ord(TCefV8AccessorOwn(TempObject).Get(CefString(name),
+      TempResult := TCefV8AccessorOwn(TempObject).Get(CefString(name),
                                                       TempRecObject,
                                                       TempReturnValue,
-                                                      TempException));
+                                                      TempException);
 
       retval := CefGetData(TempReturnValue);
 
@@ -77,6 +78,8 @@ begin
       TempRecObject   := nil;
       TempReturnValue := nil;
     end;
+
+  Result := Ord(TempResult);
 end;
 
 function cef_v8_accessor_set(      self      : PCefV8Accessor;
@@ -89,8 +92,9 @@ var
   TempException : ustring;
   TempValue     : ICefv8Value;
   TempRecObject : ICefv8Value;
+  TempResult    : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefV8AccessorOwn) then
@@ -99,10 +103,10 @@ begin
       TempValue     := TCefv8ValueRef.UnWrap(value);
       TempException := '';
 
-      Result := Ord(TCefV8AccessorOwn(TempObject).Set_(CefString(name),
+      TempResult := TCefV8AccessorOwn(TempObject).Set_(CefString(name),
                                                        TempRecObject,
                                                        TempValue,
-                                                       TempException));
+                                                       TempException);
 
       if (exception <> nil) then
         begin
@@ -113,6 +117,8 @@ begin
       TempRecObject := nil;
       TempValue     := nil;
     end;
+
+  Result := Ord(TempResult);
 end;
 
 // TCefV8AccessorOwn

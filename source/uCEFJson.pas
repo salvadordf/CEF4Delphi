@@ -130,8 +130,9 @@ class function TCEFJson.ReadBoolean(const aDictionary : ICefDictionaryValue; con
 var
   TempValue : ICefValue;
 begin
-  Result := False;
-  aValue := False;
+  Result    := False;
+  aValue    := False;
+  TempValue := nil;
 
   if ReadValue(aDictionary, aKey, TempValue) and
      (TempValue.GetType = VTYPE_BOOL) then
@@ -145,8 +146,9 @@ class function TCEFJson.ReadInteger(const aDictionary : ICefDictionaryValue; con
 var
   TempValue : ICefValue;
 begin
-  Result := False;
-  aValue := 0;
+  Result    := False;
+  aValue    := 0;
+  TempValue := nil;
 
   if ReadValue(aDictionary, aKey, TempValue) and
      (TempValue.GetType = VTYPE_INT) then
@@ -160,8 +162,9 @@ class function TCEFJson.ReadDouble(const aDictionary : ICefDictionaryValue; cons
 var
   TempValue : ICefValue;
 begin
-  Result := False;
-  aValue := 0;
+  Result    := False;
+  aValue    := 0;
+  TempValue := nil;
 
   if ReadValue(aDictionary, aKey, TempValue) and
      (TempValue.GetType = VTYPE_DOUBLE) then
@@ -175,8 +178,9 @@ class function TCEFJson.ReadString(const aDictionary : ICefDictionaryValue; cons
 var
   TempValue : ICefValue;
 begin
-  Result := False;
-  aValue := '';
+  Result    := False;
+  aValue    := '';
+  TempValue := nil;
 
   if ReadValue(aDictionary, aKey, TempValue) and
      (TempValue.GetType = VTYPE_STRING) then
@@ -190,8 +194,9 @@ class function TCEFJson.ReadBinary(const aDictionary : ICefDictionaryValue; cons
 var
   TempValue : ICefValue;
 begin
-  Result := False;
-  aValue := nil;
+  Result    := False;
+  aValue    := nil;
+  TempValue := nil;
 
   if ReadValue(aDictionary, aKey, TempValue) and
      (TempValue.GetType = VTYPE_BINARY) then
@@ -205,8 +210,9 @@ class function TCEFJson.ReadDictionary(const aDictionary : ICefDictionaryValue; 
 var
   TempValue : ICefValue;
 begin
-  Result := False;
-  aValue := nil;
+  Result    := False;
+  aValue    := nil;
+  TempValue := nil;
 
   if ReadValue(aDictionary, aKey, TempValue) and
      (TempValue.GetType = VTYPE_DICTIONARY) then
@@ -220,8 +226,9 @@ class function TCEFJson.ReadList(const aDictionary : ICefDictionaryValue; const 
 var
   TempValue : ICefValue;
 begin
-  Result := False;
-  aValue := nil;
+  Result    := False;
+  aValue    := nil;
+  TempValue := nil;
 
   if ReadValue(aDictionary, aKey, TempValue) and
      (TempValue.GetType = VTYPE_LIST) then

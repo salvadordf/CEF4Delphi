@@ -135,18 +135,21 @@ function cef_url_request_client_get_auth_credentials(      self     : PCefUrlReq
                                                      const scheme   : PCefString;
                                                            callback : PCefAuthCallback): Integer; stdcall;
 var
-  TempObject  : TObject;
+  TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result      := Ord(False);
-  TempObject  := CefGetObject(self);
+  TempResult := False;
+  TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefUrlrequestClientOwn) then
-    Result := Ord(TCefUrlrequestClientOwn(TempObject).OnGetAuthCredentials(isProxy <> 0,
+    TempResult := TCefUrlrequestClientOwn(TempObject).OnGetAuthCredentials(isProxy <> 0,
                                                                            CefString(host),
                                                                            port,
                                                                            CefString(realm),
                                                                            CefString(scheme),
-                                                                           TCefAuthCallbackRef.UnWrap(callback)));
+                                                                           TCefAuthCallbackRef.UnWrap(callback));
+
+  Result := Ord(TempResult);
 end;
 
 

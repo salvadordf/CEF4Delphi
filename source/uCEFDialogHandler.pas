@@ -70,11 +70,12 @@ var
   TempCefExtensions    : ICefStringList;
   TempCefDescriptions  : ICefStringList;
   TempObject           : TObject;
+  TempResult           : boolean;
 begin
   TempFilters      := nil;
   TempExtensions   := nil;
   TempDescriptions := nil;
-  Result           := Ord(False);
+  TempResult       := False;
 
   try
     try
@@ -94,14 +95,14 @@ begin
           TempCefDescriptions := TCefStringListRef.Create(accept_descriptions);
           TempCefDescriptions.CopyToStrings(TempDescriptions);
 
-          Result := Ord(TCefDialogHandlerOwn(TempObject).OnFileDialog(TCefBrowserRef.UnWrap(browser),
+          TempResult := TCefDialogHandlerOwn(TempObject).OnFileDialog(TCefBrowserRef.UnWrap(browser),
                                                                       mode,
                                                                       CefString(title),
                                                                       CefString(default_file_path),
                                                                       TempFilters,
                                                                       TempExtensions,
                                                                       TempDescriptions,
-                                                                      TCefFileDialogCallbackRef.UnWrap(callback)));
+                                                                      TCefFileDialogCallbackRef.UnWrap(callback));
         end;
     except
       on e : exception do
@@ -111,6 +112,8 @@ begin
     if (TempFilters      <> nil) then FreeAndNil(TempFilters);
     if (TempExtensions   <> nil) then FreeAndNil(TempExtensions);
     if (TempDescriptions <> nil) then FreeAndNil(TempDescriptions);
+
+    Result := Ord(TempResult);
   end;
 end;
 

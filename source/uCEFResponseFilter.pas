@@ -185,12 +185,15 @@ uses
 function cef_response_filter_init_filter(self: PCefResponseFilter): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(True);
+  TempResult := True;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefResponseFilterOwn) then
-    Result := Ord(TCefResponseFilterOwn(TempObject).InitFilter());
+    TempResult := TCefResponseFilterOwn(TempObject).InitFilter();
+
+  Result := Ord(TempResult);
 end;
 
 function cef_response_filter_filter(    self             : PCefResponseFilter;

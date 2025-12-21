@@ -114,16 +114,21 @@ function cef_menu_model_delegate_format_label(self       : PCefMenuModelDelegate
 var
   TempObject : TObject;
   TempLabel  : ustring;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefMenuModelDelegateOwn) then
     begin
-      TempLabel := CefStringClearAndGet(label_);
-      Result    := Ord(TCefMenuModelDelegateOwn(TempObject).FormatLabel(TCefMenuModelRef.UnWrap(menu_model), TempLabel));
-      if (label_ <> nil) then label_^ := CefStringAlloc(TempLabel);
+      TempLabel  := CefStringClearAndGet(label_);
+      TempResult := TCefMenuModelDelegateOwn(TempObject).FormatLabel(TCefMenuModelRef.UnWrap(menu_model), TempLabel);
+
+      if (label_ <> nil) then
+        label_^ := CefStringAlloc(TempLabel);
     end;
+
+  Result := Ord(TempResult);
 end;
 
 constructor TCefMenuModelDelegateOwn.Create;

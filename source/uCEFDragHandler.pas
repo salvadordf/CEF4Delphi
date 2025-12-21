@@ -56,14 +56,17 @@ function cef_drag_handler_on_drag_enter(self     : PCefDragHandler;
                                         mask     : TCefDragOperations): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefDragHandlerOwn) then
-    Result := Ord(TCefDragHandlerOwn(TempObject).OnDragEnter(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefDragHandlerOwn(TempObject).OnDragEnter(TCefBrowserRef.UnWrap(browser),
                                                              TCefDragDataRef.UnWrap(dragData),
-                                                             mask));
+                                                             mask);
+
+  Result := Ord(TempResult);
 end;
 
 procedure cef_drag_handler_on_draggable_regions_changed(      self         : PCefDragHandler;

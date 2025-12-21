@@ -59,19 +59,21 @@ function cef_resource_handler_open(self           : PCefResourceHandler;
                                    handle_request : PInteger;
                                    callback       : PCefCallback): Integer; stdcall;
 var
-  TempObject : TObject;
-  TempHandleRequest : Boolean;
+  TempObject        : TObject;
+  TempHandleRequest : boolean;
+  TempResult        : boolean;
 begin
-  Result            := Ord(False);
-  TempObject        := CefGetObject(self);
+  TempResult        := False;
   TempHandleRequest := False;
+  TempObject        := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefResourceHandlerOwn) then
-    Result := Ord(TCefResourceHandlerOwn(TempObject).Open(TCefRequestRef.UnWrap(request),
+    TempResult := TCefResourceHandlerOwn(TempObject).Open(TCefRequestRef.UnWrap(request),
                                                           TempHandleRequest,
-                                                          TCefCallbackRef.UnWrap(callback)));
+                                                          TCefCallbackRef.UnWrap(callback));
 
   handle_request^ := Ord(TempHandleRequest);
+  Result          := Ord(TempResult);
 end;
 
 function cef_resource_handler_process_request(self     : PCefResourceHandler;
@@ -79,13 +81,16 @@ function cef_resource_handler_process_request(self     : PCefResourceHandler;
                                               callback : PCefCallback): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefResourceHandlerOwn) then
-    Result := Ord(TCefResourceHandlerOwn(TempObject).ProcessRequest(TCefRequestRef.UnWrap(request),
-                                                                    TCefCallbackRef.UnWrap(callback)));
+    TempResult := TCefResourceHandlerOwn(TempObject).ProcessRequest(TCefRequestRef.UnWrap(request),
+                                                                    TCefCallbackRef.UnWrap(callback));
+
+  Result := Ord(TempResult);
 end;
 
 procedure cef_resource_handler_get_response_headers(self            : PCefResourceHandler;
@@ -116,16 +121,19 @@ function cef_resource_handler_skip(self          : PCefResourceHandler;
 var
   TempObject       : TObject;
   TempBytesSkipped : int64;
+  TempResult       : boolean;
 begin
-  Result           := Ord(False);
+  TempResult       := False;
   TempObject       := CefGetObject(self);
   TempBytesSkipped := bytes_skipped^;
 
   if (TempObject <> nil) and (TempObject is TCefResourceHandlerOwn) then
-    Result := Ord(TCefResourceHandlerOwn(TempObject).Skip(bytes_to_skip,
+    TempResult := TCefResourceHandlerOwn(TempObject).Skip(bytes_to_skip,
                                                           TempBytesSkipped,
-                                                          TCefResourceSkipCallbackRef.UnWrap(callback)));
+                                                          TCefResourceSkipCallbackRef.UnWrap(callback));
+
   bytes_skipped^ := TempBytesSkipped;
+  Result         := Ord(TempResult);
 end;
 
 function cef_resource_handler_read(self          : PCefResourceHandler;
@@ -137,20 +145,21 @@ var
 
   TempObject    : TObject;
   TempBytesRead : integer;
+  TempResult    : boolean;
 begin
-  Result        := Ord(False);
+  TempResult    := False;
   TempObject    := CefGetObject(self);
   TempBytesRead := bytes_read^;
 
   if (TempObject <> nil) and (TempObject is TCefResourceHandlerOwn) then
-    Result := Ord(TCefResourceHandlerOwn(TempObject).Read(data_out,
+    TempResult := TCefResourceHandlerOwn(TempObject).Read(data_out,
                                                           bytes_to_read,
                                                           TempBytesRead,
-                                                          TCefResourceReadCallbackRef.UnWrap(callback)));
+                                                          TCefResourceReadCallbackRef.UnWrap(callback));
 
 
   bytes_read^ := TempBytesRead;
-
+  Result      := Ord(TempResult);
 end;
 
 function cef_resource_handler_read_response(self          : PCefResourceHandler;
@@ -161,18 +170,20 @@ function cef_resource_handler_read_response(self          : PCefResourceHandler;
 var
   TempObject    : TObject;
   TempBytesRead : integer;
+  TempResult    : boolean;
 begin
-  Result        := Ord(False);
+  TempResult    := False;
   TempObject    := CefGetObject(self);
   TempBytesRead := bytes_read^;
 
   if (TempObject <> nil) and (TempObject is TCefResourceHandlerOwn) then
-    Result := Ord(TCefResourceHandlerOwn(TempObject).ReadResponse(data_out,
+    TempResult := TCefResourceHandlerOwn(TempObject).ReadResponse(data_out,
                                                                   bytes_to_read,
                                                                   TempBytesRead,
-                                                                  TCefCallbackRef.UnWrap(callback)));
+                                                                  TCefCallbackRef.UnWrap(callback));
 
   bytes_read^ := TempBytesRead;
+  Result      := Ord(TempResult);
 end;
 
 procedure cef_resource_handler_cancel(self: PCefResourceHandler); stdcall;

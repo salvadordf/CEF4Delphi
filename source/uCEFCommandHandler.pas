@@ -62,14 +62,17 @@ function cef_command_handler_on_chrome_command(self        : PCefCommandHandler;
                                                disposition : TCefWindowOpenDisposition): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefCommandHandlerOwn) then
-    Result := Ord(TCefCommandHandlerOwn(TempObject).OnChromeCommand(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefCommandHandlerOwn(TempObject).OnChromeCommand(TCefBrowserRef.UnWrap(browser),
                                                                     command_id,
-                                                                    disposition));
+                                                                    disposition);
+
+  Result := Ord(TempResult);
 end;
 
 function cef_command_handler_is_chrome_app_menu_item_visible(self       : PCefCommandHandler;
@@ -77,13 +80,16 @@ function cef_command_handler_is_chrome_app_menu_item_visible(self       : PCefCo
                                                              command_id : integer): integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(True);
+  TempResult := True;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefCommandHandlerOwn) then
-    Result := Ord(TCefCommandHandlerOwn(TempObject).OnIsChromeAppMenuItemVisible(TCefBrowserRef.UnWrap(browser),
-                                                                                 command_id));
+    TempResult := TCefCommandHandlerOwn(TempObject).OnIsChromeAppMenuItemVisible(TCefBrowserRef.UnWrap(browser),
+                                                                                 command_id);
+
+  Result := Ord(TempResult);
 end;
 
 function cef_command_handler_is_chrome_app_menu_item_enabled(self       : PCefCommandHandler;
@@ -91,37 +97,46 @@ function cef_command_handler_is_chrome_app_menu_item_enabled(self       : PCefCo
                                                              command_id : integer): integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(True);
+  TempResult := True;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefCommandHandlerOwn) then
-    Result := Ord(TCefCommandHandlerOwn(TempObject).OnIsChromeAppMenuItemEnabled(TCefBrowserRef.UnWrap(browser),
-                                                                                 command_id));
+    TempResult := TCefCommandHandlerOwn(TempObject).OnIsChromeAppMenuItemEnabled(TCefBrowserRef.UnWrap(browser),
+                                                                                 command_id);
+
+  Result := Ord(TempResult);
 end;
 
 function cef_command_handler_is_chrome_page_action_icon_visible(self      : PCefCommandHandler;
                                                                 icon_type : TCefChromePageActionIconType): integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(True);
+  TempResult := True;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefCommandHandlerOwn) then
-    Result := Ord(TCefCommandHandlerOwn(TempObject).OnIsChromePageActionIconVisible(icon_type));
+    TempResult := TCefCommandHandlerOwn(TempObject).OnIsChromePageActionIconVisible(icon_type);
+
+  Result := Ord(TempResult);
 end;
 
 function cef_command_handler_is_chrome_toolbar_button_visible(self        : PCefCommandHandler;
                                                               button_type : TCefChromeToolbarButtonType): integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(True);
+  TempResult := True;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefCommandHandlerOwn) then
-    Result := Ord(TCefCommandHandlerOwn(TempObject).OnIsChromeToolbarButtonVisible(button_type));
+    TempResult := TCefCommandHandlerOwn(TempObject).OnIsChromeToolbarButtonVisible(button_type);
+
+  Result := Ord(TempResult);
 end;
 
 constructor TCefCommandHandlerOwn.Create;

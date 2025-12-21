@@ -129,12 +129,15 @@ end;
 function cef_post_data_element_is_read_only(self: PCefPostDataElement): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefPostDataElementOwn) then
-    Result := Ord(TCefPostDataElementOwn(TempObject).IsReadOnly);
+    TempResult := TCefPostDataElementOwn(TempObject).IsReadOnly;
+
+  Result := Ord(TempResult);
 end;
 
 procedure cef_post_data_element_set_to_empty(self: PCefPostDataElement); stdcall;

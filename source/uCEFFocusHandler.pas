@@ -70,13 +70,16 @@ function cef_focus_handler_on_set_focus(self    : PCefFocusHandler;
                                         source  : TCefFocusSource): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefFocusHandlerOwn) then
-    Result := Ord(TCefFocusHandlerOwn(TempObject).OnSetFocus(TCefBrowserRef.UnWrap(browser),
-                                                             source))
+    TempResult := TCefFocusHandlerOwn(TempObject).OnSetFocus(TCefBrowserRef.UnWrap(browser),
+                                                             source);
+
+  Result := Ord(TempResult);
 end;
 
 procedure cef_focus_handler_on_got_focus(self    : PCefFocusHandler;

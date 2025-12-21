@@ -261,7 +261,8 @@ var
   TempHandler : ICefAudioHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);    
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -279,6 +280,7 @@ var
 begin
   Result      := nil;
   TempObject  := CefGetObject(self);
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -295,7 +297,8 @@ var
   TempHandler : ICefContextMenuHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);    
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -312,7 +315,8 @@ var
   TempHandler : ICefDialogHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);  
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -329,7 +333,8 @@ var
   TempHandler : ICefDisplayHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);    
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -346,7 +351,8 @@ var
   TempHandler : ICefDownloadHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);      
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -363,7 +369,8 @@ var
   TempHandler : ICefDragHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);   
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -380,7 +387,8 @@ var
   TempHandler : ICefFindHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);    
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -397,7 +405,8 @@ var
   TempHandler : ICefFocusHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);  
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -415,6 +424,7 @@ var
 begin
   Result      := nil;
   TempObject  := CefGetObject(self);
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -431,7 +441,8 @@ var
   TempHandler : ICefJsDialogHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);  
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -448,7 +459,8 @@ var
   TempHandler : ICefKeyboardHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);     
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -465,7 +477,8 @@ var
   TempHandler : ICefLifeSpanHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);   
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -482,7 +495,8 @@ var
   TempHandler : ICefLoadHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);     
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -499,7 +513,8 @@ var
   TempHandler : ICefRenderHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);  
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -516,7 +531,8 @@ var
   TempHandler : ICefRequestHandler;
 begin
   Result      := nil;
-  TempObject  := CefGetObject(self);
+  TempObject  := CefGetObject(self);  
+  TempHandler := nil;
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
@@ -569,16 +585,19 @@ function cef_client_own_on_process_message_received(self           : PCefClient;
                                                     source_process : TCefProcessId;
                                                     message_       : PCefProcessMessage): Integer; stdcall;
 var
-  TempObject  : TObject;
+  TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result      := Ord(False);
-  TempObject  := CefGetObject(self);
+  TempResult := False;
+  TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
-    Result := Ord(TCefClientOwn(TempObject).OnProcessMessageReceived(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefClientOwn(TempObject).OnProcessMessageReceived(TCefBrowserRef.UnWrap(browser),
                                                                      TCefFrameRef.UnWrap(frame),
                                                                      source_process,
-                                                                     TCefProcessMessageRef.UnWrap(message_)));
+                                                                     TCefProcessMessageRef.UnWrap(message_));
+
+  Result := Ord(TempResult);
 end;
 
 constructor TCefClientOwn.Create;

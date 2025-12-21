@@ -61,15 +61,18 @@ function cef_navigation_entry_visitor_visit(self    : PCefNavigationEntryVisitor
                                             total   : Integer): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefNavigationEntryVisitorOwn) then
-    Result := Ord(TCefNavigationEntryVisitorOwn(TempObject).Visit(TCefNavigationEntryRef.UnWrap(entry),
+    TempResult := TCefNavigationEntryVisitorOwn(TempObject).Visit(TCefNavigationEntryRef.UnWrap(entry),
                                                                   current <> 0,
                                                                   index,
-                                                                  total));
+                                                                  total);
+
+  Result := Ord(TempResult);
 end;
 
 // TCefNavigationEntryVisitorOwn

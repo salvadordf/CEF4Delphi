@@ -58,15 +58,16 @@ function cef_resource_bundle_handler_get_localized_string(self       : PCefResou
 var
   TempString : ustring;
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and
      (TempObject is TCefResourceBundleHandlerOwn) then
     begin
       TempString := '';
-      Result     := Ord(TCefResourceBundleHandlerOwn(TempObject).GetLocalizedString(string_id, TempString));
+      TempResult := TCefResourceBundleHandlerOwn(TempObject).GetLocalizedString(string_id, TempString);
 
       if (string_val <> nil) then
         begin
@@ -74,6 +75,8 @@ begin
           string_val^ := CefStringAlloc(TempString);
         end;
     end;
+
+  Result := Ord(TempResult);
 end;
 
 function cef_resource_bundle_handler_get_data_resource(    self        : PCefResourceBundleHandler;
@@ -82,13 +85,16 @@ function cef_resource_bundle_handler_get_data_resource(    self        : PCefRes
                                                        var data_size   : NativeUInt): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and
      (TempObject is TCefResourceBundleHandlerOwn) then
-    Result := Ord(TCefResourceBundleHandlerOwn(TempObject).GetDataResource(resource_id, data, data_size));
+    TempResult := TCefResourceBundleHandlerOwn(TempObject).GetDataResource(resource_id, data, data_size);
+
+  Result := Ord(TempResult);
 end;
 
 function cef_resource_bundle_handler_get_data_resource_for_scale(    self         : PCefResourceBundleHandler;
@@ -98,13 +104,16 @@ function cef_resource_bundle_handler_get_data_resource_for_scale(    self       
                                                                  var data_size    : NativeUInt): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and
      (TempObject is TCefResourceBundleHandlerOwn) then
-    Result := Ord(TCefResourceBundleHandlerOwn(TempObject).GetDataResourceForScale(resource_id, scale_factor, data, data_size));
+    TempResult := TCefResourceBundleHandlerOwn(TempObject).GetDataResourceForScale(resource_id, scale_factor, data, data_size);
+
+  Result := Ord(TempResult);
 end;
 
 constructor TCefResourceBundleHandlerOwn.Create;

@@ -93,8 +93,9 @@ var
   TempException   : ustring;
   TempObject      : TObject;
   TempRecObject   : ICefv8Value;
+  TempResult      : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefv8HandlerOwn) then
@@ -116,11 +117,11 @@ begin
             end;
         end;
 
-      Result := Ord(TCefv8HandlerOwn(TempObject).Execute(CefString(name),
+      TempResult := TCefv8HandlerOwn(TempObject).Execute(CefString(name),
                                                          TempRecObject,
                                                          TempArgs,
                                                          TempReturnValue,
-                                                         TempException));
+                                                         TempException);
 
       retval := CefGetData(TempReturnValue);
 
@@ -140,6 +141,8 @@ begin
       TempRecObject   := nil;
       TempReturnValue := nil;
     end;
+
+  Result := Ord(TempResult);
 end;
 
 function TCefv8HandlerRef.Execute(const name      : ustring;

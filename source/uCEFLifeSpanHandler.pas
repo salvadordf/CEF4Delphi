@@ -77,9 +77,10 @@ var
   TempExtraInfo : ICefDictionaryValue;
   TempNoJS      : boolean;
   TempObject    : TObject;
+  TempResult    : boolean;
 begin
+  TempResult := False;
   try
-    Result     := Ord(False);
     TempObject := CefGetObject(self);
 
     if (TempObject <> nil) and (TempObject is TCefLifeSpanHandlerOwn) then
@@ -88,7 +89,7 @@ begin
         TempClient    := TCefClientRef.UnWrap(client);
         TempExtraInfo := TCefDictionaryValueRef.UnWrap(extra_info);
 
-        Result := Ord(TCefLifeSpanHandlerOwn(TempObject).OnBeforePopup(TCefBrowserRef.UnWrap(browser),
+        TempResult := TCefLifeSpanHandlerOwn(TempObject).OnBeforePopup(TCefBrowserRef.UnWrap(browser),
                                                                        TCefFrameRef.UnWrap(frame),
                                                                        popup_id,
                                                                        CefString(target_url),
@@ -100,7 +101,7 @@ begin
                                                                        TempClient,
                                                                        settings^,
                                                                        TempExtraInfo,
-                                                                       TempNoJS));
+                                                                       TempNoJS);
 
         no_javascript_access^ := Ord(TempNoJS);
 
@@ -119,6 +120,7 @@ begin
   finally
     TempClient    := nil;
     TempExtraInfo := nil;
+    Result        := Ord(TempResult);
   end;
 end;
 
@@ -211,12 +213,15 @@ function cef_life_span_handler_do_close(self    : PCefLifeSpanHandler;
                                         browser : PCefBrowser): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefLifeSpanHandlerOwn) then
-    Result := Ord(TCefLifeSpanHandlerOwn(TempObject).DoClose(TCefBrowserRef.UnWrap(browser)));
+    TempResult := TCefLifeSpanHandlerOwn(TempObject).DoClose(TCefBrowserRef.UnWrap(browser));
+
+  Result := Ord(TempResult);
 end;
 
 constructor TCefLifeSpanHandlerOwn.Create;

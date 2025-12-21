@@ -60,16 +60,19 @@ function cef_permission_handler_on_request_media_access_permission(      self   
                                                                          callback              : PCefMediaAccessCallback): integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefPermissionHandlerOwn) then
-    Result := Ord(TCefPermissionHandlerOwn(TempObject).OnRequestMediaAccessPermission(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefPermissionHandlerOwn(TempObject).OnRequestMediaAccessPermission(TCefBrowserRef.UnWrap(browser),
                                                                                       TCefFrameRef.UnWrap(frame),
                                                                                       CefString(requesting_origin),
                                                                                       requested_permissions,
-                                                                                      TCefMediaAccessCallbackRef.UnWrap(callback)));
+                                                                                      TCefMediaAccessCallbackRef.UnWrap(callback));
+
+  Result := Ord(TempResult);
 end;
 
 function cef_permission_handler_on_show_permission_prompt(      self                  : PCefPermissionHandler;
@@ -80,16 +83,19 @@ function cef_permission_handler_on_show_permission_prompt(      self            
                                                                 callback              : PCefPermissionPromptCallback): integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefPermissionHandlerOwn) then
-    Result := Ord(TCefPermissionHandlerOwn(TempObject).OnShowPermissionPrompt(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefPermissionHandlerOwn(TempObject).OnShowPermissionPrompt(TCefBrowserRef.UnWrap(browser),
                                                                               prompt_id,
                                                                               CefString(requesting_origin),
                                                                               requested_permissions,
-                                                                              TCefPermissionPromptCallbackRef.UnWrap(callback)));
+                                                                              TCefPermissionPromptCallbackRef.UnWrap(callback));
+
+  Result := Ord(TempResult);
 end;
 
 procedure cef_permission_handler_on_dismiss_permission_prompt(self      : PCefPermissionHandler;

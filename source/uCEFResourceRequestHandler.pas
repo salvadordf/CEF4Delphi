@@ -181,15 +181,18 @@ function cef_resource_request_handler_on_resource_response(self     : PCefResour
                                                            response : PCefResponse): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefResourceRequestHandlerOwn) then
-    Result := Ord(TCefResourceRequestHandlerOwn(TempObject).OnResourceResponse(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefResourceRequestHandlerOwn(TempObject).OnResourceResponse(TCefBrowserRef.UnWrap(browser),
                                                                                TCefFrameRef.UnWrap(frame),
                                                                                TCefRequestRef.UnWrap(request),
-                                                                               TCefResponseRef.UnWrap(response)));
+                                                                               TCefResponseRef.UnWrap(response));
+
+  Result := Ord(TempResult);
 end;
 
 function cef_resource_request_handler_get_resource_response_filter(self     : PCefResourceRequestHandler;

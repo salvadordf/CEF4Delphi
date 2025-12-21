@@ -195,16 +195,19 @@ function cef_render_process_handler_on_process_message_received(self           :
                                                                 message_       : PCefProcessMessage): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and
      (TempObject is TCefRenderProcessHandlerOwn) then
-    Result := Ord(TCefRenderProcessHandlerOwn(TempObject).OnProcessMessageReceived(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefRenderProcessHandlerOwn(TempObject).OnProcessMessageReceived(TCefBrowserRef.UnWrap(browser),
                                                                                    TCefFrameRef.UnWrap(frame),
                                                                                    source_process,
-                                                                                   TCefProcessMessageRef.UnWrap(message_)));
+                                                                                   TCefProcessMessageRef.UnWrap(message_));
+
+  Result := Ord(TempResult);
 end;
 
 

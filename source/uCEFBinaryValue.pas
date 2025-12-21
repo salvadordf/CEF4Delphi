@@ -117,46 +117,58 @@ end;
 
 function cef_binary_value_is_valid(self: PCefBinaryValue): Integer; stdcall;
 var
-  TempObject  : TObject;
+  TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result      := Ord(False);
-  TempObject  := CefGetObject(self);
+  TempResult := False;
+  TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefBinaryValueOwn) then
-    Result := Ord(TCefBinaryValueOwn(TempObject).IsValid);
+    TempResult := TCefBinaryValueOwn(TempObject).IsValid;
+
+  Result := Ord(TempResult);
 end;
 
 function cef_binary_value_is_owned(self: PCefBinaryValue): Integer; stdcall;
 var
-  TempObject  : TObject;
+  TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result      := Ord(False);
-  TempObject  := CefGetObject(self);
+  TempResult := False;
+  TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefBinaryValueOwn) then
-    Result := Ord(TCefBinaryValueOwn(TempObject).IsOwned);
+    TempResult := TCefBinaryValueOwn(TempObject).IsOwned;
+
+  Result := Ord(TempResult);
 end;
 
 function cef_binary_value_is_same(self, that: PCefBinaryValue):Integer; stdcall;
 var
-  TempObject  : TObject;
+  TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result      := Ord(False);
-  TempObject  := CefGetObject(self);
+  TempResult := False;
+  TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefBinaryValueOwn) then
-    Result := Ord(TCefBinaryValueOwn(TempObject).IsSame(TCefBinaryValueRef.UnWrap(that)));
+    TempResult := TCefBinaryValueOwn(TempObject).IsSame(TCefBinaryValueRef.UnWrap(that));
+
+  Result := Ord(TempResult);
 end;
 
 function cef_binary_value_is_equal(self, that: PCefBinaryValue): Integer; stdcall;
 var
-  TempObject  : TObject;
+  TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result      := Ord(False);
-  TempObject  := CefGetObject(self);
+  TempResult := False;
+  TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefBinaryValueOwn) then
-    Result := Ord(TCefBinaryValueOwn(TempObject).IsEqual(TCefBinaryValueRef.UnWrap(that)));
+    TempResult := TCefBinaryValueOwn(TempObject).IsEqual(TCefBinaryValueRef.UnWrap(that));
+
+  Result := Ord(TempResult);
 end;
 
 function cef_binary_value_copy(self: PCefBinaryValue): PCefBinaryValue; stdcall;

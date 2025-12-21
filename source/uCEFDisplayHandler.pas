@@ -249,17 +249,20 @@ function cef_display_handler_on_tooltip(self    : PCefDisplayHandler;
 var
   TempText   : ustring;
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefDisplayHandlerOwn) then
     begin
-      TempText := CefStringClearAndGet(text);
-      Result   := Ord(TCefDisplayHandlerOwn(TempObject).OnTooltip(TCefBrowserRef.UnWrap(browser),
-                                                                  TempText));
+      TempText   := CefStringClearAndGet(text);
+      TempResult := TCefDisplayHandlerOwn(TempObject).OnTooltip(TCefBrowserRef.UnWrap(browser),
+                                                                  TempText);
       if (text <> nil) then text^ := CefStringAlloc(TempText);
     end;
+
+  Result := Ord(TempResult);
 end;
 
 procedure cef_display_handler_on_status_message(      self    : PCefDisplayHandler;
@@ -283,16 +286,19 @@ function cef_display_handler_on_console_message(      self     : PCefDisplayHand
                                                       line     : Integer): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefDisplayHandlerOwn) then
-    Result := Ord(TCefDisplayHandlerOwn(TempObject).OnConsoleMessage(TCefBrowserRef.UnWrap(browser),
+    TempResult := TCefDisplayHandlerOwn(TempObject).OnConsoleMessage(TCefBrowserRef.UnWrap(browser),
                                                                      level,
                                                                      CefString(message_),
                                                                      CefString(source),
-                                                                     line));
+                                                                     line);
+
+  Result := Ord(TempResult);
 end;
 
 function cef_display_handler_on_auto_resize(      self     : PCefDisplayHandler;
@@ -300,13 +306,16 @@ function cef_display_handler_on_auto_resize(      self     : PCefDisplayHandler;
                                             const new_size : PCefSize): Integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefDisplayHandlerOwn) then
-    Result := Ord(TCefDisplayHandlerOwn(TempObject).OnAutoResize(TCefBrowserRef.UnWrap(browser),
-                                                                 new_size));
+    TempResult := TCefDisplayHandlerOwn(TempObject).OnAutoResize(TCefBrowserRef.UnWrap(browser),
+                                                                 new_size);
+
+  Result := Ord(TempResult);
 end;
 
 
@@ -360,25 +369,31 @@ end;
 function cef_display_handler_on_contents_bounds_change(self: PCefDisplayHandler; browser: PCefBrowser; const new_bounds: PCefRect): integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefDisplayHandlerOwn) then
-    Result := Ord(TCefDisplayHandlerOwn(TempObject).OnContentsBoundsChange(TCefBrowserRef.UnWrap(browser),
-                                                                           new_bounds));
+    TempResult := TCefDisplayHandlerOwn(TempObject).OnContentsBoundsChange(TCefBrowserRef.UnWrap(browser),
+                                                                           new_bounds);
+
+  Result := Ord(TempResult);
 end;
 
 function cef_display_handler_get_root_window_screen_rect(self: PCefDisplayHandler; browser: PCefBrowser; rect: PCefRect): integer; stdcall;
 var
   TempObject : TObject;
+  TempResult : boolean;
 begin
-  Result     := Ord(False);
+  TempResult := False;
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefDisplayHandlerOwn) then
-    Result := Ord(TCefDisplayHandlerOwn(TempObject).GetRootWindowScreenRect(TCefBrowserRef.UnWrap(browser),
-                                                                            rect));
+    TempResult := TCefDisplayHandlerOwn(TempObject).GetRootWindowScreenRect(TCefBrowserRef.UnWrap(browser),
+                                                                            rect);
+
+  Result := Ord(TempResult);
 end;
 
 constructor TCefDisplayHandlerOwn.Create;
