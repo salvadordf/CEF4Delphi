@@ -10,12 +10,13 @@ object ChildForm: TChildForm
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  ShowInTaskBar = stAlways
+  LCLVersion = '4.4.0.0'
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  Position = poScreenCenter
-  ShowInTaskBar = stAlways
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
     Height = 256

@@ -7,12 +7,15 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, SyncObjs,
   Graphics, Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
-  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFWindowParent, uCEFWinControl;
+  uCEFChromium, uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFWindowParent, uCEFWinControl, uCEFChromiumEvents;
                                      
 const
   CEF_SHOWCHILD = WM_APP + $A52;
 
 type
+
+  { TChildForm }
+
   TChildForm = class(TForm)
     Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
@@ -22,7 +25,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 
-    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
+    procedure Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
     procedure Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 
@@ -108,32 +111,6 @@ begin
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
-procedure TChildForm.Chromium1BeforePopup(Sender : TObject;
-                                          const browser            : ICefBrowser;
-                                          const frame              : ICefFrame;
-                                          const targetUrl          : ustring;
-                                          const targetFrameName    : ustring;
-                                                targetDisposition  : TCefWindowOpenDisposition;
-                                                userGesture        : Boolean;
-                                          const popupFeatures      : TCefPopupFeatures;
-                                          var   windowInfo         : TCefWindowInfo;
-                                          var   client             : ICefClient;
-                                          var   settings           : TCefBrowserSettings;
-                                          var   extra_info         : ICefDictionaryValue;
-                                          var   noJavascriptAccess : Boolean;
-                                          var   Result             : Boolean);
-begin
-  case targetDisposition of
-    CEF_WOD_NEW_FOREGROUND_TAB,
-    CEF_WOD_NEW_BACKGROUND_TAB,
-    CEF_WOD_NEW_WINDOW : Result := True;  // For simplicity, this demo blocks new tabs and new windows.
-
-    CEF_WOD_NEW_POPUP : Result := not(TMainForm(Owner).CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures));
-
-    else Result := False;
-  end;
-end;
-
 procedure TChildForm.Chromium1TitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
 begin
   Caption := title;
@@ -190,6 +167,26 @@ begin
   FCanClose          := False;
   FClosing           := False;
   FClientInitialized := False;
+end;
+
+procedure TChildForm.Chromium1BeforePopup(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer;
+  const targetUrl, targetFrameName: ustring;
+  targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean;
+  const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
+  var client: ICefClient; var settings: TCefBrowserSettings;
+  var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean;
+  var Result: Boolean);
+begin
+  case targetDisposition of
+    CEF_WOD_NEW_FOREGROUND_TAB,
+    CEF_WOD_NEW_BACKGROUND_TAB,
+    CEF_WOD_NEW_WINDOW : Result := True;  // For simplicity, this demo blocks new tabs and new windows.
+
+    CEF_WOD_NEW_POPUP : Result := not(TMainForm(Owner).CreateClientHandler(windowInfo, client, targetFrameName, popupFeatures));
+
+    else Result := False;
+  end;
 end;
 
 procedure TChildForm.FormDestroy(Sender: TObject);
