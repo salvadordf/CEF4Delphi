@@ -17,8 +17,9 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFListValue, uCEFBrowser, uCEFFrame, uCEFRequest,
-  uCEFv8Context, uCEFv8Exception, uCEFv8StackTrace, uCEFDomNode, uCEFProcessMessage, uCEFApplicationCore;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFBrowser, uCEFFrame,
+  uCEFv8Context, uCEFv8Exception, uCEFv8StackTrace, uCEFDomNode,
+  uCEFProcessMessage, uCEFApplicationCore;
 
 type
   TCefRenderProcessHandlerOwn = class(TCefBaseRefCountedOwn, ICefRenderProcessHandler)
@@ -69,7 +70,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFConstants, uCEFLoadHandler, uCEFDictionaryValue;
+  uCEFMiscFunctions, uCEFLoadHandler, uCEFDictionaryValue;
 
 procedure cef_render_process_handler_on_web_kit_initialized(self: PCefRenderProcessHandler); stdcall;
 var

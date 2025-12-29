@@ -50,7 +50,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser;
+  uCEFMiscFunctions, uCEFBrowser;
 
 procedure cef_focus_handler_on_take_focus(self    : PCefFocusHandler;
                                           browser : PCefBrowser;

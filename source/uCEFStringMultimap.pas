@@ -12,7 +12,7 @@ unit uCEFStringMultimap;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFInterfaces, uCEFTypes;
 
 type
   /// <summary>

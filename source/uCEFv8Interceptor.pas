@@ -48,7 +48,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFv8Value;
+  uCEFMiscFunctions, uCEFv8Value;
 
 function cef_v8_interceptor_get_byname(      self      : PCefV8Interceptor;
                                        const name      : PCefString;

@@ -94,7 +94,7 @@ type
 implementation
 
 uses
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFMenuButton, uCEFMenuButtonPressedLock;
+  uCEFMiscFunctions, uCEFMenuButton, uCEFMenuButtonPressedLock;
 
 
 // **************************************************************

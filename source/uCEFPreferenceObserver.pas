@@ -78,7 +78,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser;
+  uCEFMiscFunctions;
 
 
 // TCefPreferenceObserverOwn

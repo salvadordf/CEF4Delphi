@@ -15,10 +15,9 @@ uses
   {$IFDEF FPC}
   LResources, PropEdits,
   {$ENDIF}
-  uCEFApplication, uCEFChromiumWindow, uCEFTypes, uCEFInterfaces, uCEFChromium,
-  uCEFLinkedWinControlBase, uCEFBufferPanel,
-  uCEFBrowserWindow, uCEFBitmapBitBuffer, uCEFMiscFunctions,
-  uCEFConstants, uCEFChromiumEvents, Forms, ExtCtrls, LCLType, Graphics,
+  uCEFApplication, uCEFTypes, uCEFInterfaces, uCEFBufferPanel,
+  uCEFBrowserWindow, uCEFMiscFunctions, uCEFConstants, uCEFChromiumEvents,
+  Forms, ExtCtrls, LCLType, Graphics,
   Controls, syncobjs, Classes, sysutils, math;
 
 type

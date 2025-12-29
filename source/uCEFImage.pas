@@ -12,11 +12,6 @@ unit uCEFImage;
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF}
-  {$ELSE}
-  {$IFDEF MSWINDOWS}Windows,{$ENDIF}
-  {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type

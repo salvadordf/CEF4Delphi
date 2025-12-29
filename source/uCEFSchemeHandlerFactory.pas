@@ -47,7 +47,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest;
+  uCEFMiscFunctions, uCEFBrowser, uCEFFrame, uCEFRequest;
 
 function cef_scheme_handler_factory_create(      self        : PCefSchemeHandlerFactory;
                                                  browser     : PCefBrowser;

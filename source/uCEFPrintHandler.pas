@@ -12,7 +12,7 @@ unit uCEFPrintHandler;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFApplicationCore;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
   TCefPrintHandlerOwn = class(TCefBaseRefCountedOwn, ICefPrintHandler)
@@ -56,7 +56,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFPrintSettings,
+  uCEFMiscFunctions, uCEFBrowser, uCEFPrintSettings,
   uCEFPrintDialogCallback, uCEFPrintJobCallback;
 
 

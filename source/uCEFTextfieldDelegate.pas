@@ -96,7 +96,7 @@ type
 implementation
 
 uses
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFTextfield;
+  uCEFMiscFunctions, uCEFTextfield;
 
 
 // **************************************************************

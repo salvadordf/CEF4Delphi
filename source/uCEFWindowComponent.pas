@@ -13,14 +13,14 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes,
+    System.Classes,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes,
+    Classes,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFViewsFrameworkEvents, uCEFPanelComponent;
+  uCEFTypes, uCEFInterfaces, uCEFViewsFrameworkEvents, uCEFPanelComponent, uCEFConstants;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
@@ -556,7 +556,7 @@ procedure Register;
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFWindowDelegate, uCEFWindow, uCEFTask;
+  uCEFMiscFunctions, uCEFWindowDelegate, uCEFWindow;
 
 procedure TCEFWindowComponent.Initialize;
 begin

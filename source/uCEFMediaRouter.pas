@@ -30,8 +30,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFMediaSource, uCEFRegistration,
-  uCEFMediaRouteCreateCallback;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFMediaSource, uCEFRegistration;
 
 function TCefMediaRouterRef.AddObserver(const observer: ICefMediaObserver): ICefRegistration;
 begin

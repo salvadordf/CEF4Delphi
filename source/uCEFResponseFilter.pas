@@ -178,7 +178,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 // TCefResponseFilterOwn
 

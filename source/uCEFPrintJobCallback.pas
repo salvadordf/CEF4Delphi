@@ -25,9 +25,6 @@ type
 
 implementation
 
-uses
-  uCEFMiscFunctions, uCEFLibFunctions;
-
 procedure TCefPrintJobCallbackRef.cont;
 begin
   PCefPrintJobCallback(FData)^.cont(PCefPrintJobCallback(FData));

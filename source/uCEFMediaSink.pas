@@ -31,7 +31,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 function TCefMediaSinkRef.GetId: ustring;
 begin

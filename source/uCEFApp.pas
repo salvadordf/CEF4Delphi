@@ -71,8 +71,8 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
-  uCEFBrowserProcessHandler, uCEFResourceBundleHandler, uCEFRenderProcessHandler;
+  uCEFMiscFunctions, uCEFCommandLine, uCEFBrowserProcessHandler,
+  uCEFResourceBundleHandler, uCEFRenderProcessHandler;
 
 
 // TCefAppOwn

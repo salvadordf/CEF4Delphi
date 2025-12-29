@@ -129,12 +129,13 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFProcessMessage, uCEFBrowser, uCEFLoadHandler,
-  uCEFFocusHandler, uCEFContextMenuHandler, uCEFDialogHandler, uCEFKeyboardHandler,
-  uCEFDisplayHandler, uCEFDownloadHandler, uCEFJsDialogHandler,
-  uCEFLifeSpanHandler, uCEFRequestHandler, uCEFRenderHandler, uCEFDragHandler,
-  uCEFFindHandler, uCEFConstants, uCEFApplicationCore, uCEFFrame, uCEFAudioHandler,
-  uCEFPrintHandler, uCEFFrameHandler, uCEFCommandHandler, uCEFPermissionHandler;
+  uCEFMiscFunctions, uCEFProcessMessage, uCEFBrowser, uCEFLoadHandler,
+  uCEFFocusHandler, uCEFContextMenuHandler, uCEFDialogHandler,
+  uCEFKeyboardHandler, uCEFDisplayHandler, uCEFDownloadHandler,
+  uCEFJsDialogHandler, uCEFLifeSpanHandler, uCEFRequestHandler,
+  uCEFRenderHandler, uCEFDragHandler, uCEFFindHandler, uCEFFrame,
+  uCEFAudioHandler, uCEFPrintHandler, uCEFFrameHandler, uCEFCommandHandler,
+  uCEFPermissionHandler;
 
 
 // ******************************************************

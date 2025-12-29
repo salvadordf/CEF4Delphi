@@ -61,12 +61,7 @@ type
 implementation
 
 uses
-  {$IFDEF DELPHI16_UP}
-  System.Math,
-  {$ELSE}
-  Math,
-  {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 
 // *******************************************

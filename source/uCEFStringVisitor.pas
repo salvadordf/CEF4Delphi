@@ -52,7 +52,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 procedure cef_string_visitor_visit(      self : PCefStringVisitor;
                                    const str  : PCefString); stdcall;

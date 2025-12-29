@@ -53,7 +53,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 procedure cef_set_cookie_callback_on_complete(self    : PCefSetCookieCallback;
                                               success : Integer); stdcall;

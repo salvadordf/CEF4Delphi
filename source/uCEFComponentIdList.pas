@@ -10,7 +10,7 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes, System.SyncObjs;
+  System.Classes, System.SyncObjs, System.Types;
   {$ELSE}
   Classes, SyncObjs;
   {$ENDIF}
@@ -57,9 +57,9 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.SysUtils, System.Types;
+    System.SysUtils;
   {$ELSE}
-  SysUtils, Types;
+    SysUtils;
   {$ENDIF}
 
 constructor TCEFComponentIdList.Create;

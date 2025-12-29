@@ -58,7 +58,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCefResponse;
+  uCEFMiscFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCefResponse;
 
 // TCefCookieAccessFilterOwn
 

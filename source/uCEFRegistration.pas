@@ -12,7 +12,7 @@ unit uCEFRegistration;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBaseRefCounted, uCEFInterfaces;
 
 type
   TCefRegistrationRef = class(TCefBaseRefCountedRef, ICefRegistration)

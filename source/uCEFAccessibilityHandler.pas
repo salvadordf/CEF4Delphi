@@ -12,7 +12,7 @@ unit uCEFAccessibilityHandler;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFChromiumEvents;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
   TOnAccessibilityEvent = procedure(Sender: TObject; const value: ICefValue) of object;

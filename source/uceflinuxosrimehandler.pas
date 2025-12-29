@@ -49,9 +49,11 @@ implementation
 // https://chromium.googlesource.com/chromium/src/+/refs/heads/main/ui/gtk/input_method_context_impl_gtk.cc
 
 uses
-  {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}pango,{$ENDIF}
-  {$IFDEF FPC}LCLType, LCLIntf, LMessages,{$ENDIF}
-  {$IFDEF LCLGTK3}uCEFBufferPanel,{$ENDIF}
+  {$IFDEF FPC}
+    {$IF DEFINED(LCLGTK2) or DEFINED(LCLGTK3)}pango, LMessages,{$ENDIF}
+    LCLType, LCLIntf,
+    {$IFDEF LCLGTK3}uCEFBufferPanel,{$ENDIF}
+  {$ENDIF}
   SysUtils, uCEFMiscFunctions;
 
 {$IFDEF LCLGTK3}

@@ -32,7 +32,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 function TCefV8StackFrameRef.GetColumn: Integer;
 begin

@@ -54,7 +54,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser;
+  uCEFMiscFunctions, uCEFBrowser;
 
 function cef_command_handler_on_chrome_command(self        : PCefCommandHandler;
                                                browser     : PCefBrowser;

@@ -13,17 +13,16 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, WinApi.ActiveX,{$ENDIF}
     System.Classes, System.Math,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} Classes, Math,
+    Classes, Math,
     {$IFDEF FPC}
-    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+    LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ELSE}
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFServer, uCEFServerEvents, uCEFServerHandler;
+  uCEFTypes, uCEFInterfaces, uCEFServerEvents, uCEFServerHandler, uCEFConstants;
 
 const
   DEFAULT_CEFSERVER_ADDRESS  = '127.0.0.1';

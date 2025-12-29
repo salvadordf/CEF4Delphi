@@ -329,7 +329,7 @@ type
 implementation
 
 uses
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFBrowserView, uCEFButton, uCEFPanel,
+  uCEFMiscFunctions, uCEFBrowserView, uCEFButton, uCEFPanel,
   uCEFScrollView, uCEFTextfield, uCEFViewDelegate, uCEFWindow;
 
 function TCefViewRef.AsBrowserView : ICefBrowserView;

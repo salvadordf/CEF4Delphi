@@ -58,8 +58,8 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest,
-  uCEFRequestContext, uCEFResourceRequestHandler;
+  uCEFMiscFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCEFRequestContext,
+  uCEFResourceRequestHandler;
 
 // TCefRequestContextHandlerOwn
 

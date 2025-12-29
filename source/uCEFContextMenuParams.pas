@@ -49,8 +49,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFStringList;
-
+  uCEFMiscFunctions, uCEFStringList;
 
 function TCefContextMenuParamsRef.GetDictionarySuggestions(const suggestions : TStringList): Boolean;
 var

@@ -48,7 +48,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser;
+  uCEFMiscFunctions, uCEFBrowser;
 
 function cef_keyboard_handler_on_pre_key_event(      self                 : PCefKeyboardHandler;
                                                      browser              : PCefBrowser;

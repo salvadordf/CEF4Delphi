@@ -167,7 +167,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFStringList;
+  uCEFMiscFunctions, uCEFBrowser, uCEFFrame, uCEFStringList;
 
 
 procedure cef_display_handler_on_address_change(      self    : PCefDisplayHandler;

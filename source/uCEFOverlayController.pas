@@ -157,7 +157,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFView, uCEFWindow;
+  uCEFMiscFunctions, uCEFView, uCEFWindow;
 
 function TCefOverlayControllerRef.IsValid: boolean;
 begin

@@ -17,7 +17,7 @@ uses
   {$ELSE}
   Classes, SysUtils,
   {$ENDIF}
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes, uCEFLayout;
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFLayout;
 
 type
   /// <summary>

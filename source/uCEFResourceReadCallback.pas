@@ -25,9 +25,6 @@ type
 
 implementation
 
-uses
-  uCEFMiscFunctions, uCEFLibFunctions;
-
 procedure TCefResourceReadCallbackRef.Cont(bytes_read: int64);
 begin
   PCefResourceReadCallback(FData)^.cont(PCefResourceReadCallback(FData), bytes_read);

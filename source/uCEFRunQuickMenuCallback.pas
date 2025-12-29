@@ -25,9 +25,6 @@ type
 
 implementation
 
-uses
-  uCEFMiscFunctions, uCEFLibFunctions;
-
 procedure TCefRunQuickMenuCallbackRef.Cont(command_id: Integer; event_flags: TCefEventFlags);
 begin
   PCefRunQuickMenuCallback(FData)^.cont(PCefRunQuickMenuCallback(FData), command_id, event_flags);

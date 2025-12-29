@@ -216,6 +216,8 @@ begin
          else
           TempHandle := Application.Handle;
 
+     TempDPI := 0;
+
      if GetDPIForHandle(TempHandle, TempDPI) then
        FDeviceScaleFactor := TempDPI / USER_DEFAULT_SCREEN_DPI
       else

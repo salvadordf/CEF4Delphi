@@ -67,7 +67,7 @@ type
 implementation
 
 uses
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFLabelButton;
+  uCEFMiscFunctions, uCEFLabelButton;
 
 function TCefButtonRef.AsLabelButton : ICefLabelButton;
 begin

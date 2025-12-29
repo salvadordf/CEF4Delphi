@@ -78,7 +78,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCEFCallback,
+  uCEFMiscFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCEFCallback,
   uCEFResponse, uCEFResponseFilter, uCEFCookieAccessFilter, uCEFResourceHandler;
 
 

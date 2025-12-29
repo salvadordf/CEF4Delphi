@@ -12,7 +12,7 @@ unit uCEFCompletionCallback;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFWaitableEvent;
+  uCEFBaseRefCounted, uCEFInterfaces;
 
 type
   TCefCompletionCallbackOwn = class(TCefBaseRefCountedOwn, ICefCompletionCallback)
@@ -56,7 +56,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFTypes;
+  uCEFMiscFunctions, uCEFTypes;
 
 procedure cef_completion_callback_on_complete(self: PCefCompletionCallback); stdcall;
 var

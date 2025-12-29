@@ -15,11 +15,12 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ActiveX, WinApi.ShlObj, WinApi.ShellApi,{$ENDIF}
-  System.Classes, System.SysUtils, System.Math, System.StrUtils, System.AnsiStrings,
+    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.ActiveX, WinApi.ShlObj, WinApi.ShellApi,{$ENDIF}
+    System.Classes, System.SysUtils, System.Math, System.StrUtils, System.AnsiStrings,
   {$ELSE}
-  {$IFDEF MSWINDOWS}Windows, ActiveX, ShlObj, Shellapi,{$ENDIF}
-  Classes, SysUtils, Math, StrUtils, {$IFDEF DELPHI12_UP}AnsiStrings,{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows, ActiveX, Shellapi,{$ENDIF}
+    {$IFNDEF FPC}ShlObj,{$ENDIF} Classes, SysUtils, StrUtils,
+    {$IFDEF DELPHI12_UP}AnsiStrings,{$ENDIF}
   {$ENDIF}
   uCEFDragData, uCEFInterfaces, uCEFTypes, uCEFOLEDragAndDrop;
 
@@ -388,8 +389,6 @@ const
   CFHTML_ENDHTML   : AnsiString = 'EndHTML:';
   CFHTML_STARTFRAG : AnsiString = 'StartFragment:';
   CFHTML_ENDFRAG   : AnsiString = 'EndFragment:';
-  CFHTML_STARSEL   : AnsiString = 'StartSelection:';
-  CFHTML_ENDSEL    : AnsiString = 'EndSelection:';
   CFHTML_SOURCEURL : AnsiString = 'SourceURL:';
   FRAGMENT_START   : AnsiString = '<!--StartFragment';
   FRAGMENT_END     : AnsiString = '<!--EndFragment';

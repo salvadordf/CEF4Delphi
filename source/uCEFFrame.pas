@@ -53,7 +53,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFStringVisitor, uCEFv8Context, uCEFDomVisitor, uCEFUrlRequest;
+  uCEFMiscFunctions, uCEFBrowser, uCEFStringVisitor, uCEFv8Context, uCEFDomVisitor, uCEFUrlRequest;
 
 function TCefFrameRef.IsValid: Boolean;
 begin

@@ -72,7 +72,7 @@ type
 implementation
 
 uses
-  uCEFLibFunctions, uCEFMiscFunctions;
+  uCEFMiscFunctions;
 
 // **************************************************************
 // ******************** TCefPanelDelegateRef ********************

@@ -53,7 +53,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 procedure cef_pdf_print_callback_on_pdf_print_finished(      self : PCefPdfPrintCallback;
                                                        const path : PCefString;

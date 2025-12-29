@@ -11,18 +11,20 @@ unit uCEFLinuxFunctions;
 
 interface
 
+{$IFDEF LINUX}
 uses
-  {$IFDEF LINUX}
-    {$IFDEF FPC}
-      ctypes, keysym, xf86keysym, x, xlib, LCLVersion,
-      {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
-      {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGObject2, LazGLib2, gtk3objects, gtk3procs,{$ENDIF}
-      {$IFDEF LCLQT}qt4,{$ENDIF}
-      {$IFDEF LCLQT5}qt5,{$ENDIF}
-      {$IFDEF LCLQT6}qt6,{$ENDIF}
-    {$ENDIF}
+  {$IFDEF FPC}
+    ctypes, keysym, xf86keysym, x, xlib, LCLVersion,
+    {$IFDEF LCLGTK2}gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
+    {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGLib2, gtk3procs,{$ENDIF}
+    {$IFDEF LCLQT}qt4,{$ENDIF}
+    {$IFDEF LCLQT5}qt5,{$ENDIF}
+    {$IFDEF LCLQT6}qt6,{$ENDIF}
+  {$ELSE}
+    uCEFLinuxTypes,
   {$ENDIF}
-  uCEFLinuxTypes, uCEFTypes;
+  uCEFTypes;
+{$ENDIF}
 
 {$IFNDEF FPC}
 const
@@ -84,14 +86,15 @@ procedure ShowX11Message(const aMessage : string);
 
 implementation
 
+{$IFDEF LINUX}
 uses
   {$IFDEF DELPHI16_UP}
   System.SysUtils,
   {$ELSE}
   SysUtils,
-  {$ENDIF}
-  {$IFDEF LCLGTK3}gtk3widgets,{$ENDIF}
+  {$ENDIF}                   
   uCEFLinuxConstants, uCEFConstants;
+{$ENDIF}
 
 {$IFDEF LINUX}
 function KeyboardCodeFromXKeysym(keysym : uint32) : integer;

@@ -28,7 +28,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFv8StackFrame;
+  uCEFLibFunctions, uCEFv8StackFrame;
 
 class function TCefV8StackTraceRef.Current(frameLimit: Integer): ICefV8StackTrace;
 begin

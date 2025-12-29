@@ -16,14 +16,13 @@ uses
     {$IFDEF MSWINDOWS}
       WinApi.Windows,
     {$ELSE}
-      System.Types, {$IFDEF LINUX}uCEFLinuxTypes,{$ENDIF}
+      System.Types, {$IFDEF LINUX}uCEFLinuxTypes, uCEFConstants,{$ENDIF}
     {$ENDIF}
-    System.Math,
+    System.Math;
   {$ELSE}
-    {$IFDEF FPC}{$IFDEF LINUX}xlib, ctypes,{$ENDIF}{$ENDIF}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Math,
+    {$IFDEF LINUXFPC}ctypes, uCEFLinuxTypes, uCEFConstants,{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Math;
   {$ENDIF}
-  uCEFConstants;
 
 type
   PCefStringWide = ^TCefStringWide;

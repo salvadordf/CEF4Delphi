@@ -35,7 +35,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBinaryValue, uCEFX509Certificate;
+  uCEFX509Certificate;
 
 function TCefSSLStatusRef.IsSecureConnection: boolean;
 begin

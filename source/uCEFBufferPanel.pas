@@ -15,10 +15,10 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, imm, {$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
-      LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase, {$IFDEF MSWINDOWS}Win32Extra,{$ENDIF}
-      {$IFDEF LINUXFPC}Messages,{$ENDIF}
+      LCLProc, LCLType, LCLIntf, LResources, InterfaceBase, {$IFDEF MSWINDOWS}Win32Extra,{$ENDIF}
+      {$IFDEF LINUXFPC}Messages, LMessages,{$ENDIF}
       {$IFDEF LCLGTK2}glib2, gdk2, gtk2,{$ENDIF}         
-      {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGObject2, LazGLib2, gtk3procs, gtk3objects, gtk3widgets,{$ENDIF}
+      {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGObject2, LazGLib2, gtk3procs, gtk3widgets,{$ENDIF}
       {$IFDEF LCLQT}qtobjects, qtwidgets, qt4, QtWSExtCtrls, QtWSControls, WSLCLClasses,{$ENDIF}
       {$IFDEF LCLQT5}qtobjects, qtwidgets, qt5, QtWSExtCtrls, QtWSControls, WSLCLClasses,{$ENDIF}
       {$IFDEF LCLQT6}qtobjects, qtwidgets, qt6, QtWSExtCtrls, QtWSControls, WSLCLClasses,{$ENDIF}

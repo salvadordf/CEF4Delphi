@@ -12,11 +12,6 @@ unit uCEFLibFunctions;
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Math,
-  {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Math,
-  {$ENDIF}
   {$IFDEF LINUX}
     {$IFDEF FPC}xlib,{$ENDIF}
     {$IFDEF FMX}uCEFLinuxTypes,{$ENDIF}

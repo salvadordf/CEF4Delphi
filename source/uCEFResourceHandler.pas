@@ -48,7 +48,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFCallback, uCEFRequest, uCEFResponse,
+  uCEFMiscFunctions, uCEFCallback, uCEFRequest, uCEFResponse,
   uCEFResourceSkipCallback, uCEFResourceReadCallback;
 
 

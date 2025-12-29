@@ -25,9 +25,6 @@ type
 
 implementation
 
-uses
-  uCEFMiscFunctions, uCEFLibFunctions;
-
 procedure TCefPermissionPromptCallbackRef.cont(result: TCefPermissionRequestResult);
 begin
   PCefPermissionPromptCallback(FData)^.cont(PCefPermissionPromptCallback(FData), result);

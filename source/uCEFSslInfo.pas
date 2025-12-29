@@ -32,7 +32,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBinaryValue, uCEFX509Certificate;
+  uCEFX509Certificate;
 
 
 function TCefSslInfoRef.GetCertStatus: TCefCertStatus;

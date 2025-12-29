@@ -13,17 +13,16 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, WinApi.ActiveX,{$ENDIF}
-    System.Classes, System.Math,
+    System.Classes,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} Classes, Math,
+    Classes,
     {$IFDEF FPC}
-    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+    LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ELSE}
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFUrlRequestClientEvents, uCEFUrlrequestClient, uCEFUrlRequest;
+  uCEFTypes, uCEFInterfaces, uCEFUrlRequestClientEvents, uCEFUrlrequestClient, uCEFConstants;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
@@ -178,7 +177,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFRequest, uCEFTask, uCEFMiscFunctions, uCEFApplicationCore;
+  uCEFTask, uCEFMiscFunctions, uCEFApplicationCore;
 
 
 constructor TCEFUrlRequestClientComponent.Create(AOwner: TComponent);

@@ -48,7 +48,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFDragData, uCEFFrame;
+  uCEFMiscFunctions, uCEFBrowser, uCEFDragData, uCEFFrame;
 
 function cef_drag_handler_on_drag_enter(self     : PCefDragHandler;
                                         browser  : PCefBrowser;

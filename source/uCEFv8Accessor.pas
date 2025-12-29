@@ -39,7 +39,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFv8Value;
+  uCEFMiscFunctions, uCEFv8Value;
 
 function cef_v8_accessor_get(      self      : PCefV8Accessor;
                              const name      : PCefString;

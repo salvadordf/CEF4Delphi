@@ -27,7 +27,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 procedure TCefAuthCallbackRef.Cancel;
 begin

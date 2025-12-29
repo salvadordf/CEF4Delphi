@@ -54,7 +54,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFClient, uCEFBrowser, uCEFFrame;
+  uCEFMiscFunctions, uCEFBrowser, uCEFFrame;
 
 
 // TCefFrameHandlerOwn

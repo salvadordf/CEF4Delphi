@@ -31,7 +31,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFStringList;
+  uCEFStringList;
 
 procedure TCefFileDialogCallbackRef.Cancel;
 begin

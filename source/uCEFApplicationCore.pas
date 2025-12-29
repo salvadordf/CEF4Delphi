@@ -18,16 +18,16 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, System.UITypes, System.SyncObjs,
+    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, System.UITypes,
     {$IFDEF FMX}uCEFLinuxTypes,{$ENDIF}
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF} SyncObjs,
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
   {$IFDEF LINUX}
     {$IFDEF FPC}xlib,{$ENDIF} uCEFArgCopy,
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFApplicationEvents, uCEFBaseRefCounted,
-  uCEFSchemeRegistrar, uCEFPreferenceRegistrar, uCEFComponentIdList;
+  uCEFTypes, uCEFInterfaces, uCEFApplicationEvents, uCEFSchemeRegistrar,
+  uCEFPreferenceRegistrar, uCEFComponentIdList;
 
 const
   {$I uCEFVersion.inc}
@@ -2083,9 +2083,7 @@ uses
     {$ENDIF}
   {$ENDIF}
   {$IFDEF MACOSX}uCEFMacOSFunctions,{$ENDIF}
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
-  uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp, uCEFCompletionCallback,
-  uCEFWaitableEvent, uCEFBrowser;
+  uCEFLibFunctions, uCEFMiscFunctions, uCEFConstants, uCEFApp, uCEFBrowser;
 
 procedure DestroyGlobalCEFApp;
 begin
@@ -2867,7 +2865,8 @@ var
   TempMachine : integer;
   TempVersionInfo : TFileVersionInfo;
 begin
-  Result := False;
+  Result      := False;
+  TempMachine := 0;
 
   if CheckDLLVersion(LibCefPath,
                      CEF_SUPPORTED_VERSION_MAJOR,
@@ -4512,7 +4511,7 @@ end;
 
 function TCefApplicationCore.Load_cef_api_hash_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_api_hash{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_api_hash');
+  {$IFDEF FPC}Pointer({$ENDIF}uCEFLibFunctions.cef_api_hash{$IFDEF FPC}){$ENDIF}    := GetProcAddress(FLibHandle, 'cef_api_hash');
   {$IFDEF FPC}Pointer({$ENDIF}uCEFLibFunctions.cef_api_version{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_api_version');
 
   Result := assigned(cef_api_hash) and
@@ -4593,7 +4592,7 @@ end;
 
 function TCefApplicationCore.Load_cef_cookie_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_cookie_manager_get_global_manager{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_cookie_manager_get_global_manager');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_cookie_manager_get_global_manager{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_cookie_manager_get_global_manager');
 
   Result := assigned(cef_cookie_manager_get_global_manager);
 end;
@@ -4901,7 +4900,7 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_function{$IFDEF FPC}){$ENDIF}                 := GetProcAddress(FLibHandle, 'cef_v8_value_create_function');
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_promise{$IFDEF FPC}){$ENDIF}                  := GetProcAddress(FLibHandle, 'cef_v8_value_create_promise');
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8_stack_trace_get_current{$IFDEF FPC}){$ENDIF}               := GetProcAddress(FLibHandle, 'cef_v8_stack_trace_get_current');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_register_extension{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_register_extension');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_register_extension{$IFDEF FPC}){$ENDIF}                       := GetProcAddress(FLibHandle, 'cef_register_extension');
 
   Result := assigned(cef_v8_context_get_current_context) and
             assigned(cef_v8_context_get_entered_context) and

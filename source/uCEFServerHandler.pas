@@ -56,7 +56,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFServer, uCEFRequest, uCEFCallback;
+  uCEFMiscFunctions, uCEFServer, uCEFRequest, uCEFCallback;
 
 // **************************************************************
 // ******************** TCEFServerHandlerOwn ********************

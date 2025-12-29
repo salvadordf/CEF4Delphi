@@ -42,7 +42,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFStringList;
+  uCEFMiscFunctions, uCEFStringList;
 
 procedure cef_resolve_callback_on_resolve_completed(self         : PCefResolveCallback;
                                                     result       : TCefErrorCode;

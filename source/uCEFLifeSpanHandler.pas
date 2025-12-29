@@ -56,7 +56,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFClient, uCEFBrowser, uCEFFrame, uCEFDictionaryValue;
+  uCEFMiscFunctions, uCEFClient, uCEFBrowser, uCEFFrame, uCEFDictionaryValue;
 
 function cef_life_span_handler_on_before_popup(      self                 : PCefLifeSpanHandler;
                                                      browser              : PCefBrowser;

@@ -31,7 +31,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFMenuModel;
+  uCEFMiscFunctions, uCEFMenuModel;
 
 procedure cef_menu_model_delegate_execute_command(self        : PCefMenuModelDelegate;
                                                   menu_model  : PCefMenuModel;

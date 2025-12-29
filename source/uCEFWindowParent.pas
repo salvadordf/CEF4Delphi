@@ -17,12 +17,12 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
-    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+    LCLProc, LCLType, LCLIntf, LResources, {$IFDEF MSWINDOWS}LMessages,{$ENDIF} InterfaceBase,
     {$ELSE}
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFWinControl, uCEFTypes, uCEFInterfaces, uCEFConstants;
+  uCEFWinControl, uCEFConstants;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
@@ -38,9 +38,6 @@ procedure Register;
 {$ENDIF}
 
 implementation
-
-uses
-  uCEFMiscFunctions, uCEFClient;
 
 {$IFDEF MSWINDOWS}
 procedure TCEFWindowParent.WndProc(var aMessage: TMessage);

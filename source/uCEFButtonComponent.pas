@@ -13,9 +13,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes,
+    System.Classes,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes,
+    Classes,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ENDIF}
@@ -109,9 +109,6 @@ type
 // *********************************************************
 
 implementation
-
-uses
-  uCEFButtonDelegate;
 
 procedure TCEFButtonComponent.Initialize;
 begin

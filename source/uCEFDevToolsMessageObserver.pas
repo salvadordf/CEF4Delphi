@@ -50,7 +50,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFJson;
+  uCEFMiscFunctions, uCEFBrowser;
 
 
 // ************************************************************

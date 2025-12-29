@@ -17,7 +17,7 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes,
     {$IFDEF FPC}
-    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase, {$IFNDEF MSWINDOWS}forms,{$ENDIF}
+    LCLProc, LCLType, LCLIntf, LResources, InterfaceBase, {$IFNDEF MSWINDOWS}forms,{$ENDIF}
     {$ELSE}
     Messages,
     {$ENDIF}
@@ -146,11 +146,11 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.SysUtils, System.Math,
+  System.SysUtils,
   {$ELSE}
-  SysUtils, Math,
+  SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFApplicationCore, uCEFTypes;
+  uCEFMiscFunctions, uCEFApplicationCore {$IFDEF MSWINDOWS}, uCEFTypes{$ENDIF};
 
 procedure DestroyGlobalCEFWorkScheduler;
 begin

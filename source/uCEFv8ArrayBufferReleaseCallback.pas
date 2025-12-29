@@ -44,7 +44,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 procedure cef_v8array_buffer_release_callback_release_buffer(self   : PCefv8ArrayBufferReleaseCallback;
                                                              buffer : Pointer); stdcall;

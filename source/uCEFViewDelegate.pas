@@ -162,7 +162,7 @@ type
 implementation
 
 uses
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFView;
+  uCEFMiscFunctions, uCEFView;
 
 
 // **************************************************************

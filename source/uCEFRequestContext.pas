@@ -269,7 +269,7 @@ implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFCookieManager, uCEFRequestContextHandler,
-  uCEFStringList, uCEFMediaRouter, uCEFValue, uCEFRegistration;
+  uCEFMediaRouter, uCEFValue, uCEFRegistration;
 
 function TCefRequestContextRef.ClearSchemeHandlerFactories: Boolean;
 begin

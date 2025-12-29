@@ -41,7 +41,7 @@ type
 implementation
 
 uses
-  uCEFTypes, uCEFMiscFunctions, uCEFLibFunctions, uCEFStringList;
+  uCEFTypes, uCEFMiscFunctions, uCEFStringList;
 
 procedure cef_run_file_dialog_callback_on_file_dialog_dismissed(self       : PCefRunFileDialogCallback;
                                                                 file_paths : TCefStringList); stdcall;

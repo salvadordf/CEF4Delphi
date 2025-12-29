@@ -6,9 +6,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF}System.Classes, System.UITypes, System.SysUtils,
+    System.Classes, System.UITypes, System.SysUtils,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}SysUtils,
+    Classes, {$IFDEF FPC}dynlibs,{$ENDIF}SysUtils,
   {$ENDIF}
   uCEFInterfaces, uCEFTypes;
 

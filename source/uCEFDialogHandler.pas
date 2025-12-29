@@ -51,7 +51,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFileDialogCallback, uCEFStringList;
+  uCEFMiscFunctions, uCEFBrowser, uCEFFileDialogCallback, uCEFStringList;
 
 function cef_dialog_handler_on_file_dialog(self                    : PCefDialogHandler;
                                            browser                 : PCefBrowser;

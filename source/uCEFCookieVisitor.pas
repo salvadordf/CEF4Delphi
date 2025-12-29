@@ -53,7 +53,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 function cef_cookie_visitor_visit(      self         : PCefCookieVisitor;
                                   const cookie       : PCefCookie;

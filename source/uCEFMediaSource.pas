@@ -27,7 +27,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 function TCefMediaSourceRef.GetId: ustring;
 begin

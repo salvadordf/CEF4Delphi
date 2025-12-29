@@ -18,7 +18,7 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, ActiveX, CommCtrl,{$ENDIF} Classes,
     {$IFDEF FPC}
-      LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+      LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
       {$IFDEF LINUX}xlib,{$ENDIF}
     {$ELSE}
       Messages,
@@ -26,9 +26,10 @@ uses
     SyncObjs,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFMiscFunctions, uCEFClient,
-  uCEFConstants, uCEFTask, uCEFDomVisitor, uCEFChromiumEvents,
-  {$IFDEF MSWINDOWS}uCEFDragAndDropMgr,{$ENDIF}
-  {$IFDEF LINUX}uCEFLinuxTypes, uCEFLinuxFunctions,{$ENDIF}
+  uCEFConstants, uCEFTask, uCEFChromiumEvents,
+  {$IFDEF MSWINDOWS}uCEFDragAndDropMgr,{$ENDIF}    
+  {$IFDEF LINUXFMX}uCEFLinuxTypes,{$ENDIF}
+  {$IFDEF LCLGTK3}uCEFLinuxFunctions,{$ENDIF}
   uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions,
   uCEFBrowserViewComponent, uCEFWindowInfoWrapper, uCEFPreferenceObserver,
   uCEFSettingObserver;
@@ -4242,15 +4243,15 @@ uses
     {$IFDEF FPC}
       {$IFDEF LINUX}x, xatom,
         {$IFDEF LCLGTK2}gdk2x, gtk2,{$ENDIF}
-        {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGLib2,{$ENDIF}
+        {$IFDEF LCLGTK3}LazGLib2,{$ENDIF}
         {$IFDEF LCLQT}qt4,{$ENDIF}
         {$IFDEF LCLQT5}qt5,{$ENDIF}
         {$IFDEF LCLQT6}qtint,{$ENDIF}
       {$ENDIF}
     {$ENDIF}
   {$ENDIF}
-  uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap, uCEFFrame,
-  uCEFApplicationCore, uCEFProcessMessage, uCEFRequestContext,
+  uCEFBrowser, uCEFValue, uCEFDictionaryValue, uCEFStringMultimap,
+  uCEFApplicationCore, uCEFRequestContext,
   {$IFDEF MSWINDOWS}uCEFOLEDragAndDrop,{$ENDIF}
   uCEFPDFPrintCallback, uCEFResolveCallback, uCEFDeleteCookiesCallback,
   uCEFStringVisitor, uCEFListValue, uCEFNavigationEntryVisitor,

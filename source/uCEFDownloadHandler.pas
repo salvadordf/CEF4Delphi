@@ -45,7 +45,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFDownloadItem, uCEFBeforeDownloadCallback,
+  uCEFMiscFunctions, uCEFBrowser, uCEFDownloadItem, uCEFBeforeDownloadCallback,
   uCEFDownloadItemCallback;
 
 function cef_download_handler_can_download(      self           : PCefDownloadHandler;

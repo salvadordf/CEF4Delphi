@@ -13,14 +13,14 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes,
+    System.Classes,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes,
+    Classes,
     {$IFDEF FPC}
     LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFViewsFrameworkEvents, uCEFButtonComponent;
+  uCEFTypes, uCEFInterfaces, uCEFButtonComponent, uCEFConstants;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
@@ -140,7 +140,7 @@ procedure Register;
 implementation
 
 uses
-  uCEFLabelButton, uCEFMiscFunctions, uCEFButtonDelegate;
+  uCEFLabelButton, uCEFButtonDelegate;
 
 procedure TCEFLabelButtonComponent.CreateLabelButton(const aText : ustring);
 begin

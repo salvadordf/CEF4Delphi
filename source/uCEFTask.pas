@@ -219,7 +219,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFCookieManager, uCEFUrlRequest, uCEFApplicationCore;
+  uCEFMiscFunctions, uCEFApplicationCore;
 
 
 // TCefTaskOwn

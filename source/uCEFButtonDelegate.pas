@@ -93,7 +93,7 @@ type
 implementation
 
 uses
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFButton;
+  uCEFMiscFunctions, uCEFButton;
 
 
 // **************************************************************

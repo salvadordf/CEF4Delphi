@@ -12,7 +12,7 @@ unit uCEFStringMap;
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFInterfaces, uCEFTypes;
 
 type
   /// <summary>

@@ -13,18 +13,16 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, Vcl.Controls,
+    System.Classes, Vcl.Controls,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
+    Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
-      LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
-      {$IFDEF LINUX}xlib, x,{$ENDIF}
+      LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ELSE}
       Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFWinControl, uCEFTypes, uCEFInterfaces, uCEFChromium,
-  uCEFConstants, uCEFLinkedWinControlBase;
+  uCEFChromium, uCEFLinkedWinControlBase, uCEFConstants;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
@@ -63,9 +61,6 @@ procedure Register;
 {$ENDIF}
 
 implementation
-
-uses
-  uCEFMiscFunctions, uCEFClient, uCEFLibFunctions, uCEFApplication;
 
 constructor TCEFLinkedWindowParent.Create(AOwner : TComponent);
 begin

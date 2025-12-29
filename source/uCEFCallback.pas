@@ -26,9 +26,6 @@ type
 
 implementation
 
-uses
-  uCEFMiscFunctions, uCEFLibFunctions;
-
 procedure TCefCallbackRef.Cancel;
 begin
   PCefCallback(FData)^.cancel(PCefCallback(FData));

@@ -26,7 +26,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFX509Certificate;
+  uCEFMiscFunctions;
 
 // TCefSelectClientCertificateCallbackRef
 

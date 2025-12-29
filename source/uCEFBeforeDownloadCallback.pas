@@ -26,7 +26,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 procedure TCefBeforeDownloadCallbackRef.Cont(const downloadPath: ustring; showDialog: Boolean);
 var

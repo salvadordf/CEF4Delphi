@@ -288,7 +288,7 @@ type
 implementation
 
 uses
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFWindow, uCEFConstants;
+  uCEFMiscFunctions, uCEFWindow, uCEFConstants;
 
 
 // **************************************************************

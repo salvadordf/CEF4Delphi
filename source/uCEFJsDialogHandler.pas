@@ -52,7 +52,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFJsDialogCallback;
+  uCEFMiscFunctions, uCEFBrowser, uCEFJsDialogCallback;
 
 function cef_jsdialog_handler_on_jsdialog(      self                : PCefJsDialogHandler;
                                                 browser             : PCefBrowser;

@@ -233,15 +233,13 @@ type
 implementation
 
 uses
-  {$IFDEF LINUX}{$IFDEF FPC}
-    ctypes, keysym, xf86keysym, x, xlib,
-    {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
-    {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGLib2, Gtk3Widgets, Gtk3Procs, LazGObject2,{$ENDIF}
+  {$IFDEF LINUXFPC}
+    {$IFDEF LCLGTK2}gtk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
+    {$IFDEF LCLGTK3}LazGtk3, Gtk3Widgets, Gtk3Procs, LazGObject2, uCEFLinuxFunctions,{$ENDIF}
     {$IFDEF LCLQT}qtwidgets, qt4,{$ENDIF}
     {$IFDEF LCLQT5}qtwidgets, qt5,{$ENDIF}
     {$IFDEF LCLQT6}qtwidgets, qt6,{$ENDIF}
-    uCEFLinuxFunctions,
-  {$ENDIF}{$ENDIF}
+  {$ENDIF}
   uCEFMiscFunctions;
 
 constructor TCEFWindowInfoWrapper.Create;

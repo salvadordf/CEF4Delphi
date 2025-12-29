@@ -50,7 +50,8 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFPermissionPromptCallback, uCEFMediaAccessCallback;
+  uCEFMiscFunctions, uCEFBrowser, uCEFFrame, uCEFPermissionPromptCallback,
+  uCEFMediaAccessCallback;
 
 function cef_permission_handler_on_request_media_access_permission(      self                  : PCefPermissionHandler;
                                                                          browser               : PCefBrowser;

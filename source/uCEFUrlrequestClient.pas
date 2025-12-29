@@ -66,7 +66,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFUrlRequest, uCEFAuthCallback;
+  uCEFMiscFunctions, uCEFUrlRequest, uCEFAuthCallback;
 
 
 // TCefUrlrequestClientOwn

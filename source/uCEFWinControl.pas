@@ -16,18 +16,15 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows, {$ENDIF} System.Classes, Vcl.Controls, Vcl.Graphics,
+    {$IFDEF MSWINDOWS}WinApi.Windows, {$ENDIF} System.Classes, Vcl.Controls, Vcl.Graphics;
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
-    {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6) OR DEFINED(LCLGTK3)}ExtCtrls,{$IFEND}
+    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics
     {$IFDEF FPC}
-    LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
+      {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6) OR DEFINED(LCLGTK3)}, ExtCtrls{$IFEND}
+      , LCLProc, LCLType, LCLIntf, LResources, InterfaceBase {$IFDEF MACOSX}, CocoaAll{$ENDIF}
     {$ENDIF}
+    ;
   {$ENDIF}
-  {$IFDEF FPC}{$IFDEF MACOSX}
-  CocoaAll,
-  {$ENDIF}{$ENDIF}
-  uCEFTypes, uCEFInterfaces;
 
 type
   /// <summary>
@@ -106,11 +103,9 @@ type
 
 implementation
 
-uses
-  {$IFDEF LCLQT}qtwidgets, qt4,{$ENDIF}
-  {$IFDEF LCLQT5}qtwidgets, qt5,{$ENDIF}
-  {$IFDEF LCLQT6}qtwidgets, qt6,{$ENDIF}
-  uCEFMiscFunctions, uCEFClient, uCEFConstants;
+{$IFDEF LCLQT}uses qtwidgets, qt4;{$ENDIF}
+{$IFDEF LCLQT5}uses qtwidgets, qt5;{$ENDIF}
+{$IFDEF LCLQT6}uses qtwidgets, qt6;{$ENDIF}
 
 function TCEFWinControl.GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle;
 begin

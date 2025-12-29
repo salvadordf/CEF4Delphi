@@ -10,9 +10,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, System.Math, WinApi.imm,
+    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, WinApi.imm,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, imm, {$IFDEF FPC}imm_dyn,{$ENDIF}{$ENDIF} Classes, Math,
+    {$IFDEF MSWINDOWS}Windows, imm, {$IFDEF FPC}imm_dyn,{$ENDIF}{$ENDIF} Classes,
   {$ENDIF}
   uCEFTypes;
 
@@ -182,11 +182,11 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.SysUtils,
+    System.SysUtils
   {$ELSE}
-  SysUtils,
+    SysUtils
   {$ENDIF}
-  uCEFMiscFunctions;
+  {$IFDEF MSWINDOWS}, uCEFMiscFunctions{$ENDIF};
 
 constructor TCEFOSRIMEHandler.Create(aHWND : HWND);
 begin

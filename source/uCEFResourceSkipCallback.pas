@@ -25,9 +25,6 @@ type
 
 implementation
 
-uses
-  uCEFMiscFunctions, uCEFLibFunctions;
-
 procedure TCefResourceSkipCallbackRef.Cont(bytes_skipped: int64);
 begin
   PCefResourceSkipCallback(FData)^.cont(PCefResourceSkipCallback(FData), bytes_skipped);

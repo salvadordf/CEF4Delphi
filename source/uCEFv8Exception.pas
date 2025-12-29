@@ -33,7 +33,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 
 function TCefV8ExceptionRef.GetEndColumn: Integer;

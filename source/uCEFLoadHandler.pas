@@ -68,7 +68,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame;
+  uCEFMiscFunctions, uCEFBrowser, uCEFFrame;
 
 procedure cef_load_handler_on_loading_state_change(self         : PCefLoadHandler;
                                                    browser      : PCefBrowser;

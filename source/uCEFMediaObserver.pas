@@ -48,8 +48,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFMediaSource, uCEFMediaSink,
-  uCEFMediaRoute;
+  uCEFMiscFunctions, uCEFMediaSink, uCEFMediaRoute;
 
 // **************************************************
 // ************** TCefMediaObserverOwn **************

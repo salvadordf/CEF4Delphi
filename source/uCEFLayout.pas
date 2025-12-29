@@ -53,7 +53,7 @@ type
 implementation
 
 uses
-  uCEFLibFunctions, uCEFBoxLayout, uCEFFillLayout;
+  uCEFBoxLayout, uCEFFillLayout;
 
 function TCefLayoutRef.AsBoxLayout : ICefBoxLayout;
 begin

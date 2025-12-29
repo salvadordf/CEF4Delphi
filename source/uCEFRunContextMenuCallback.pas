@@ -25,9 +25,6 @@ type
 
 implementation
 
-uses
-  uCEFMiscFunctions, uCEFLibFunctions;
-
 procedure TCefRunContextMenuCallbackRef.Cancel;
 begin
   PCefRunContextMenuCallback(FData)^.cancel(PCefRunContextMenuCallback(FData));

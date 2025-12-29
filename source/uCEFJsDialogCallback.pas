@@ -26,7 +26,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 procedure TCefJsDialogCallbackRef.Cont(success: Boolean; const userInput: ustring);
 var

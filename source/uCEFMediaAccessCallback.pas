@@ -26,9 +26,6 @@ type
 
 implementation
 
-uses
-  uCEFMiscFunctions, uCEFLibFunctions;
-
 procedure TCefMediaAccessCallbackRef.cont(allowed_permissions: TCefMediaAccessPermissionTypes);
 begin
   PCefMediaAccessCallback(FData)^.cont(PCefMediaAccessCallback(FData), allowed_permissions);

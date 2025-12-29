@@ -1,6 +1,5 @@
 unit uCEFLazarusCocoa;
 
-
 {$mode objfpc}{$H+}
 {$I cef.inc}
 
@@ -10,13 +9,11 @@ unit uCEFLazarusCocoa;
 
 interface
 
-uses
 {$IFDEF DARWIN}  // $IFDEF MACOSX
+uses
   CocoaAll, CocoaInt, Cocoa_Extra,
-{$ENDIF}
   Classes, SysUtils, ctypes;
 
-{$IFDEF DARWIN}  // $IFDEF MACOSX
 type
   CrAppProtocol = objcprotocol
     function isHandlingSendEvent: LCLObjCBoolean; message 'isHandlingSendEvent';

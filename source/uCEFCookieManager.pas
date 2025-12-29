@@ -48,7 +48,7 @@ implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFDeleteCookiesCallback,
-  uCEFSetCookieCallback, uCEFCookieVisitor, uCEFStringList;
+  uCEFSetCookieCallback, uCEFCookieVisitor;
 
 
 function TCefCookieManagerRef.DeleteCookies(const url        : ustring;

@@ -21,7 +21,7 @@ uses
     {$IFDEF MSWINDOWS}Windows, Messages,{$ENDIF} Classes, Controls,
     {$IFDEF FPC}{$IFDEF MACOSX}CocoaAll,{$ENDIF}LCLProc, LCLType, LCLIntf,{$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFWinControl, uCEFChromium;
+  uCEFWinControl, uCEFChromium;
 
 type
   /// <summary>
@@ -78,7 +78,6 @@ begin
   {$ENDIF}
   {$IF DEFINED(LCLQT) OR DEFINED(LCLQT5) OR DEFINED(LCLQT6) OR DEFINED(LCLGTK3)}
   BevelOuter   := bvNone;
-  BevelWidth   := 0;
   Caption      := '';
   ControlStyle := ControlStyle - [csNoFocus];
   TabStop      := True;

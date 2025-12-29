@@ -58,7 +58,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFContextMenuParams,
+  uCEFMiscFunctions, uCEFBrowser, uCEFFrame, uCEFContextMenuParams,
   uCEFMenuModel, uCEFRunContextMenuCallback, uCEFRunQuickMenuCallback;
 
 procedure cef_context_menu_handler_on_before_context_menu(self    : PCefContextMenuHandler;

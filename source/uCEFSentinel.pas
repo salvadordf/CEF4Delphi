@@ -23,7 +23,7 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFConstants;
+  uCEFConstants;
 
 const
   CEFSENTINEL_DEFAULT_DELAYPERPROCMS = 200;
@@ -123,7 +123,7 @@ procedure Register;
 implementation
 
 uses
-  uCEFLibFunctions, uCEFApplicationCore, uCEFMiscFunctions;
+  uCEFApplicationCore;
 
  // Attribution :
  // TCEFSentinel icon made by Everaldo Coelho

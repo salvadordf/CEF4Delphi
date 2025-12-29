@@ -159,7 +159,7 @@ type
 implementation
 
 uses
-  uCEFLibFunctions, uCEFMiscFunctions, uCEFBrowserView, uCEFBrowser, uCEFClient, uCEFConstants;
+  uCEFMiscFunctions, uCEFBrowserView, uCEFBrowser, uCEFClient, uCEFConstants;
 
 
 // **************************************************************

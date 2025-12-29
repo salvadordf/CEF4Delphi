@@ -13,10 +13,9 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Rtti, System.TypInfo, System.Variants,
-  System.SysUtils, System.Classes, System.Math, System.SyncObjs,
+  System.Rtti, System.TypInfo, System.Variants, System.SysUtils, System.Classes,
   {$ELSE}
-  {$IFDEF DELPHI14_UP}Rtti,{$ENDIF} TypInfo, Variants, SysUtils, Classes, Math, SyncObjs, {$IFDEF MSWINDOWS}Windows,{$ENDIF}
+  {$IFDEF DELPHI14_UP}Rtti,{$ENDIF} TypInfo, Variants, SysUtils, Classes,
   {$ENDIF}
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
@@ -77,7 +76,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFv8Value, uCEFConstants;
+  {$IFDEF DELPHI14_UP}uCEFConstants,{$ENDIF} uCEFMiscFunctions, uCEFv8Value;
 
 function cef_v8_handler_execute(      self           : PCefv8Handler;
                                 const name           : PCefString;

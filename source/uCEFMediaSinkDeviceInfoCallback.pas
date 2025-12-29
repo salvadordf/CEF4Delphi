@@ -50,7 +50,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFMediaSink;
+  uCEFMiscFunctions;
 
 procedure cef_media_sink_device_info_callback_on_media_sink_device_info(self        : PCefMediaSinkDeviceInfoCallback;
                                                                         device_info : PCefMediaSinkDeviceInfo); stdcall;

@@ -48,9 +48,6 @@ type
 
 implementation
 
-uses
-  uCEFMiscFunctions;
-
 constructor TCEFBrowserBitmap.Create;
 begin
   inherited Create;

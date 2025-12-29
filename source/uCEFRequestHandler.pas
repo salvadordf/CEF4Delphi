@@ -65,9 +65,9 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCEFCallback,
-  uCEFResponse, uCEFAuthCallback, uCEFSslInfo, uCEFSelectClientCertificateCallback, uCEFX509Certificate,
-  uCEFApplicationCore, uCEFUnresponsiveProcessCallback;
+  uCEFMiscFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCEFCallback,
+  uCEFAuthCallback, uCEFSslInfo, uCEFSelectClientCertificateCallback,
+  uCEFX509Certificate, uCEFUnresponsiveProcessCallback;
 
 function cef_request_handler_on_before_browse(self         : PCefRequestHandler;
                                               browser      : PCefBrowser;

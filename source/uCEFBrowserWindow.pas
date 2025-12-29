@@ -9,7 +9,7 @@ uses
   {$IFDEF FPC}
   LResources, PropEdits,
   {$ENDIF}
-  uCEFApplication, uCEFChromiumWindow, uCEFTypes, uCEFInterfaces, uCEFChromium,
+  uCEFApplication, uCEFTypes, uCEFInterfaces, uCEFChromium,
   uCEFLinkedWinControlBase, uCEFBrowserViewComponent,
   uCEFChromiumEvents, Forms, ExtCtrls, Controls, Classes, sysutils;
 

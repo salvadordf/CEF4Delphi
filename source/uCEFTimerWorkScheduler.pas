@@ -15,21 +15,21 @@ interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    System.Classes, System.SyncObjs, {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF}
+    System.Classes, {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF}
     {$IFDEF FMX}
     FMX.Types, uCEFMacOSCustomCocoaTimer,
     {$ELSE}
     Vcl.ExtCtrls,
     {$ENDIF}
   {$ELSE}
-    Classes, SyncObjs, {$IFDEF MSWINDOWS}Windows,{$ENDIF} ExtCtrls,
+    Classes, {$IFDEF MSWINDOWS}Windows,{$ENDIF} ExtCtrls,
     {$IFDEF FPC}
-    LMessages, Forms,
+    Forms,
     {$ELSE}
     Messages,
     {$ENDIF}
   {$ENDIF}
-  {$IFDEF USEEVENTPIPE}uCEFLinuxEventPipe,{$ENDIF} uCEFTypes, uCEFConstants,
+  {$IFDEF USEEVENTPIPE}uCEFLinuxEventPipe,{$ENDIF} uCEFConstants,
   uCEFApplicationCore;
 
 type
@@ -102,11 +102,11 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.SysUtils, System.Math, {$IFDEF MACOS}System.RTTI, FMX.Forms, FMX.Platform,{$ENDIF}
+  System.SysUtils, System.Math {$IFDEF MACOS}, System.RTTI, FMX.Forms, FMX.Platform{$ENDIF}
   {$ELSE}
-  SysUtils, Math,
+  SysUtils, Math
   {$ENDIF}
-  uCEFMiscFunctions;
+  {$IFDEF MSWINDOWS}, uCEFTypes{$ENDIF};
 
 procedure DestroyGlobalCEFTimerWorkScheduler;
 begin

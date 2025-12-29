@@ -38,9 +38,9 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.SysUtils,
+    System.SysUtils,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} SysUtils,
+    SysUtils,
   {$ENDIF}
   uCEFMiscFunctions, uCEFStringList;
 

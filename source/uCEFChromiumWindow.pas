@@ -17,13 +17,12 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, Forms, Controls, Graphics,
     {$IFDEF FPC}
-    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+    LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ELSE}
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFConstants, uCEFTypes,
-  uCEFWinControl, uCEFLinkedWinControlBase;
+  uCEFChromium, uCEFInterfaces, uCEFTypes, uCEFLinkedWinControlBase, uCEFConstants;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}

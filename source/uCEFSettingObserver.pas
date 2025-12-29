@@ -41,7 +41,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser;
+  uCEFMiscFunctions;
 
 
 // TCefSettingObserverOwn

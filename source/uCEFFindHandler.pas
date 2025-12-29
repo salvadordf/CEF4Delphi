@@ -46,7 +46,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser;
+  uCEFMiscFunctions, uCEFBrowser;
 
 procedure cef_find_handler_on_find_result(      self                 : PCefFindHandler;
                                                 browser              : PCefBrowser;

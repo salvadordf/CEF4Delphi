@@ -50,7 +50,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFConstants;
+  uCEFMiscFunctions;
 
 function cef_resource_bundle_handler_get_localized_string(self       : PCefResourceBundleHandler;
                                                           string_id  : Integer;

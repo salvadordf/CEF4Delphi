@@ -32,14 +32,12 @@ uses
     {$IFDEF MSWINDOWS}Windows, ActiveX, ShellApi, Registry,{$ENDIF}
     {$IFDEF DELPHI14_UP}Types, IOUtils,{$ENDIF} Classes, SysUtils, Math,
     {$IFDEF FPC}LCLType, LazFileUtils,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
-    {$IFDEF LINUX}{$IFDEF FPC}
-      ctypes, keysym, xf86keysym, x, xlib,
-      {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
-      {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGLib2, gtk3widgets,{$ENDIF}
-    {$ENDIF}{$ENDIF}
+    {$IFDEF LINUXFPC}
+      {$IFDEF LCLGTK2}gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
+      {$IFDEF LCLGTK3}LazGLib2,{$ENDIF}
+    {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
-  {$IFDEF LINUX}{$IFDEF FPC}uCEFLinuxFunctions,{$ENDIF}{$ENDIF} uCEFConstants;
+  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler, uCEFConstants;
 
 const
   Kernel32DLL = 'kernel32.dll';
@@ -851,8 +849,8 @@ implementation
 uses
   {$IFDEF LINUX}{$IFDEF FMX}uCEFLinuxFunctions, Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
   {$IFDEF MACOSX}{$IFDEF FPC}CocoaAll,{$ELSE}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
-  uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFValue,
-  uCEFBinaryValue, uCEFStringList, uCEFWindowInfoWrapper;
+  uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFBinaryValue, uCEFStringList,
+  uCEFWindowInfoWrapper;
 
 function CefColorGetA(color: TCefColor): Byte;
 begin
@@ -1564,8 +1562,10 @@ begin
 end;
 
 procedure OutputDebugMessage(const aMessage : string);
+{$IFDEF DEBUG}
 const
   DEFAULT_LINE = 1;
+{$ENDIF}
 begin
   {$IFDEF DEBUG}
     {$IFDEF MSWINDOWS}
@@ -2146,6 +2146,9 @@ var
   TempMajor, TempMinor : cardinal;
   TempResultAPI, TempResultReg : boolean;
 begin
+  TempMajor := 0;
+  TempMinor := 0;
+
   TempResultAPI := GetRealWindowsVersion(TempMajor, TempMinor) and
                    ((TempMajor > aMajor) or
                     ((TempMajor = aMajor) and (TempMinor >= aMinor)));
@@ -2727,7 +2730,9 @@ begin
   // See GetUserAgentPlatform() and BuildOSCpuInfo() in
   // https://source.chromium.org/chromium/chromium/src/+/main:content/common/user_agent.cc
   {$IFDEF MSWINDOWS}
-  TempOS := 'Windows NT ';
+  TempOS       := 'Windows NT ';
+  TempMajorVer := 0;
+  TempMinorVer := 0;
 
   if GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) then
     TempOS := TempOS + inttostr(TempMajorVer) + '.' + inttostr(TempMinorVer)
@@ -2876,12 +2881,8 @@ end;
 
 procedure CefCheckAltGrPressed(aWparam : WPARAM; var aEvent : TCefKeyEvent);
 const
-  EITHER_SHIFT_KEY_PRESSED     = $01;
   EITHER_CONTROL_KEY_PRESSED   = $02;
   EITHER_ALT_KEY_PRESSED       = $04;
-  EITHER_HANKAKU_KEY_PRESSED   = $08;
-  EITHER_RESERVED1_KEY_PRESSED = $10;
-  EITHER_RESERVED2_KEY_PRESSED = $20;
 var
   TempKBLayout       : HKL;
   TempTranslatedChar : SHORT;
@@ -2996,6 +2997,9 @@ var
   Temp64bit : BOOL;
   TempProcessMachine, TempNativeMachine : WORD;
 begin
+  TempNativeMachine  := 0;
+  TempProcessMachine := 0;
+
   if GetIsWow64Process2(TempProcessMachine, TempNativeMachine) then
     Result := (TempProcessMachine = IMAGE_FILE_MACHINE_I386) and
               (TempNativeMachine  = IMAGE_FILE_MACHINE_AMD64)
@@ -3042,7 +3046,10 @@ function RunningWindows10OrNewer : boolean;
 var
   TempMajorVer, TempMinorVer : DWORD;
 begin
-  Result := GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and (TempMajorVer >= 10);
+  TempMajorVer := 0;
+  TempMinorVer := 0;
+  Result       := GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and
+                  (TempMajorVer >= 10);
 end;
 
 {$IFDEF DELPHI14_UP}

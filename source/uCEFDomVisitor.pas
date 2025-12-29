@@ -64,7 +64,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFDomDocument;
+  uCEFMiscFunctions, uCEFDomDocument;
 
 procedure cef_dom_visitor_visite(self: PCefDomVisitor; document: PCefDomDocument); stdcall;
 var

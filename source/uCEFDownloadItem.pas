@@ -43,7 +43,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
 function TCefDownloadItemRef.GetContentDisposition: ustring;
 begin

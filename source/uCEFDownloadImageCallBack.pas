@@ -53,7 +53,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFImage;
+  uCEFMiscFunctions, uCEFImage;
 
 
 // TCefDownloadImageCallbackOwn

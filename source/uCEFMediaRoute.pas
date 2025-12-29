@@ -29,7 +29,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFMediaSource, uCEFMediaSink;
+  uCEFMiscFunctions, uCEFMediaSource, uCEFMediaSink;
 
 function TCefMediaRouteRef.GetId: ustring;
 begin

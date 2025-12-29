@@ -54,7 +54,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser;
+  uCEFMiscFunctions, uCEFBrowser;
 
 function cef_audio_handler_get_audio_parameters(self    : PCefAudioHandler;
                                                 browser : PCefBrowser;
