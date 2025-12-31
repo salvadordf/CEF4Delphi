@@ -2359,9 +2359,9 @@ begin
             if (length(TempKeys[i]) > 0) then
               begin
                 if (length(TempValues[i]) > 0) then
-                  commandLine.AppendSwitchWithValue(TempKeys[i], TempValues[i])
+                  commandLine.AppendSwitchWithValue({$IFDEF FPC}UTF8Decode({$ENDIF}TempKeys[i]{$IFDEF FPC}){$ENDIF}, {$IFDEF FPC}UTF8Decode({$ENDIF}TempValues[i]{$IFDEF FPC}){$ENDIF})
                  else
-                  commandLine.AppendSwitch(TempKeys[i]);
+                  commandLine.AppendSwitch({$IFDEF FPC}UTF8Decode({$ENDIF}TempKeys[i]{$IFDEF FPC}){$ENDIF});
               end;
 
             inc(i);
@@ -2701,15 +2701,16 @@ end;
 
 function TCefApplicationCore.GetChromeVersion : ustring;
 begin
-  Result := FileVersionInfoToString(FChromeVersionInfo);
+  Result := {$IFDEF FPC}UTF8Decode({$ENDIF}FileVersionInfoToString(FChromeVersionInfo){$IFDEF FPC}){$ENDIF};
 end;
 
 function TCefApplicationCore.GetLibCefVersion : ustring;
 begin
-  Result := IntToStr(CEF_SUPPORTED_VERSION_MAJOR)    + '.' +
+  Result := {$IFDEF FPC}UTF8Decode({$ENDIF}
+            IntToStr(CEF_SUPPORTED_VERSION_MAJOR)    + '.' +
             IntToStr(CEF_SUPPORTED_VERSION_MINOR)    + '.' +
             IntToStr(CEF_SUPPORTED_VERSION_RELEASE)  + '.' +
-            IntToStr(CEF_SUPPORTED_VERSION_BUILD);
+            IntToStr(CEF_SUPPORTED_VERSION_BUILD){$IFDEF FPC}){$ENDIF};
 end;
 
 function TCefApplicationCore.GetLibCefPath : ustring;
@@ -2719,7 +2720,7 @@ begin
    else
     begin
       {$IFDEF LINUX}
-      Result := GetModulePath + LIBCEF_DLL;
+      Result := {$IFDEF FPC}UTF8Decode({$ENDIF}GetModulePath{$IFDEF FPC}){$ENDIF} + LIBCEF_DLL;
       {$ELSE}
         {$IFDEF MACOSX}
         Result := GetModulePath + LIBCEF_PREFIX + LIBCEF_DLL;
@@ -2764,23 +2765,23 @@ end;
 
 procedure TCefApplicationCore.SetCache(const aValue : ustring);
 begin
-  FCache           := CustomAbsolutePath(aValue);
+  FCache           := {$IFDEF FPC}UTF8Decode({$ENDIF}CustomAbsolutePath({$IFDEF FPC}UTF8Encode({$ENDIF}aValue{$IFDEF FPC}){$ENDIF}){$IFDEF FPC}){$ENDIF};
   FDisableGPUCache := (length(FCache) = 0);
 end;
 
 procedure TCefApplicationCore.SetRootCache(const aValue : ustring);
 begin
-  FRootCache := CustomAbsolutePath(aValue);
+  FRootCache := {$IFDEF FPC}UTF8Decode({$ENDIF}CustomAbsolutePath({$IFDEF FPC}UTF8Encode({$ENDIF}aValue{$IFDEF FPC}){$ENDIF}){$IFDEF FPC}){$ENDIF};
 end;
 
 procedure TCefApplicationCore.SetBrowserSubprocessPath(const aValue : ustring);
 begin
-  FBrowserSubprocessPath := CustomAbsolutePath(aValue);
+  FBrowserSubprocessPath := {$IFDEF FPC}UTF8Decode({$ENDIF}CustomAbsolutePath({$IFDEF FPC}UTF8Encode({$ENDIF}aValue{$IFDEF FPC}){$ENDIF}){$IFDEF FPC}){$ENDIF};
 end;
 
 procedure TCefApplicationCore.SetFrameworkDirPath(const aValue : ustring);
 begin
-  FFrameworkDirPath := CustomAbsolutePath(aValue, True);
+  FFrameworkDirPath := {$IFDEF FPC}UTF8Decode({$ENDIF}CustomAbsolutePath({$IFDEF FPC}UTF8Encode({$ENDIF}aValue{$IFDEF FPC}){$ENDIF}, True){$IFDEF FPC}){$ENDIF};
 
   {$IFDEF MSWINDOWS}
   if (FProcessType = ptBrowser) then
@@ -2790,12 +2791,12 @@ end;
 
 procedure TCefApplicationCore.SetResourcesDirPath(const aValue : ustring);
 begin
-  FResourcesDirPath := CustomAbsolutePath(aValue, True);
+  FResourcesDirPath := {$IFDEF FPC}UTF8Decode({$ENDIF}CustomAbsolutePath({$IFDEF FPC}UTF8Encode({$ENDIF}aValue{$IFDEF FPC}){$ENDIF}, True){$IFDEF FPC}){$ENDIF};
 end;
 
 procedure TCefApplicationCore.SetLocalesDirPath(const aValue : ustring);
 begin
-  FLocalesDirPath := CustomAbsolutePath(aValue, True);
+  FLocalesDirPath := {$IFDEF FPC}UTF8Decode({$ENDIF}CustomAbsolutePath({$IFDEF FPC}UTF8Encode({$ENDIF}aValue{$IFDEF FPC}){$ENDIF}, True){$IFDEF FPC}){$ENDIF};
 end;
 
 function TCefApplicationCore.CheckCEFResources : boolean;
@@ -2804,10 +2805,10 @@ var
 begin
   Result := False;
 
-  TempMissingSubProc := not(CheckSubprocessPath(FBrowserSubprocessPath, FMissingLibFiles));
-  TempMissingFrm     := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
-  TempMissingRsc     := not(CheckResources(ResourcesDirPath, FMissingLibFiles));
-  TempMissingLoc     := not(CheckLocales(LocalesDirPath, FMissingLibFiles, FLocalesRequired));
+  TempMissingSubProc := not(CheckSubprocessPath({$IFDEF FPC}UTF8Encode({$ENDIF}FBrowserSubprocessPath{$IFDEF FPC}){$ENDIF}, FMissingLibFiles));
+  TempMissingFrm     := not(CheckDLLs({$IFDEF FPC}UTF8Encode({$ENDIF}FFrameworkDirPath{$IFDEF FPC}){$ENDIF}, FMissingLibFiles));
+  TempMissingRsc     := not(CheckResources({$IFDEF FPC}UTF8Encode({$ENDIF}ResourcesDirPath{$IFDEF FPC}){$ENDIF}, FMissingLibFiles));
+  TempMissingLoc     := not(CheckLocales({$IFDEF FPC}UTF8Encode({$ENDIF}LocalesDirPath{$IFDEF FPC}){$ENDIF}, FMissingLibFiles, {$IFDEF FPC}UTF8Encode({$ENDIF}FLocalesRequired{$IFDEF FPC}){$ENDIF}));
 
   if TempMissingFrm or TempMissingRsc or TempMissingLoc or TempMissingSubProc then
     begin
@@ -2817,9 +2818,9 @@ begin
       if (length(FMissingLibFiles) > 0) then
         FLastErrorMessage := FLastErrorMessage + CRLF + CRLF +
                              'The missing files are :' + CRLF +
-                             trim(FMissingLibFiles);
+                             {$IFDEF FPC}UTF8Decode({$ENDIF}trim(FMissingLibFiles){$IFDEF FPC}){$ENDIF};
 
-      ShowErrorMessageDlg(FLastErrorMessage);
+      ShowErrorMessageDlg({$IFDEF FPC}UTF8Encode({$ENDIF}FLastErrorMessage{$IFDEF FPC}){$ENDIF});
     end
    else
     Result := True;
@@ -2886,7 +2887,7 @@ begin
                                      CRLF + CRLF +
                                      'Use the 32 bit CEF binaries with 32 bits applications only.';
 
-                ShowErrorMessageDlg(FLastErrorMessage);
+                ShowErrorMessageDlg({$IFDEF FPC}UTF8Encode({$ENDIF}FLastErrorMessage{$IFDEF FPC}){$ENDIF});
               end;
 
           CEF_IMAGE_FILE_MACHINE_AMD64 :
@@ -2900,7 +2901,7 @@ begin
                                      CRLF + CRLF +
                                      'Use the 64 bit CEF binaries with 64 bits applications only.';
 
-                ShowErrorMessageDlg(FLastErrorMessage);
+                ShowErrorMessageDlg({$IFDEF FPC}UTF8Encode({$ENDIF}FLastErrorMessage{$IFDEF FPC}){$ENDIF});
               end;
 
           else
@@ -2911,7 +2912,7 @@ begin
                                    'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
                                    CEF4DELPHI_URL;
 
-              ShowErrorMessageDlg(FLastErrorMessage);
+              ShowErrorMessageDlg({$IFDEF FPC}UTF8Encode({$ENDIF}FLastErrorMessage{$IFDEF FPC}){$ENDIF});
             end;
         end
        else
@@ -2928,9 +2929,10 @@ begin
       if GetDLLVersion(LibCefPath, TempVersionInfo) then
         FLastErrorMessage := FLastErrorMessage + CRLF + CRLF +
                              'Expected ' + LIBCEF_DLL + ' version : ' + LibCefVersion + CRLF +
-                             'Found ' + LIBCEF_DLL + ' version : ' + FileVersionInfoToString(TempVersionInfo);
+                             'Found ' + LIBCEF_DLL + ' version : ' +
+                             {$IFDEF FPC}UTF8Decode({$ENDIF}FileVersionInfoToString(TempVersionInfo){$IFDEF FPC}){$ENDIF};
 
-      ShowErrorMessageDlg(FLastErrorMessage);
+      ShowErrorMessageDlg({$IFDEF FPC}UTF8Encode({$ENDIF}FLastErrorMessage{$IFDEF FPC}){$ENDIF});
     end;
 end;
 
@@ -2947,7 +2949,8 @@ begin
       FLastErrorMessage := 'Unsupported Windows version !' +
                            CRLF + CRLF +
                            'Chromium requires Windows 10 or later.';
-      ShowErrorMessageDlg(FLastErrorMessage);
+
+      ShowErrorMessageDlg({$IFDEF FPC}UTF8Encode({$ENDIF}FLastErrorMessage{$IFDEF FPC}){$ENDIF});
     end;
 end;
 {$ENDIF}
@@ -2967,7 +2970,8 @@ begin
       FLastErrorMessage := 'Unsupported macOS version !' +
                            CRLF + CRLF +
                            'Chromium requires macOS 11.0 or later.';
-      ShowErrorMessageDlg(FLastErrorMessage);
+
+      ShowErrorMessageDlg({$IFDEF FPC}UTF8Encode({$ENDIF}FLastErrorMessage{$IFDEF FPC}){$ENDIF});
     end;
 end;
 {$ENDIF}
@@ -3107,7 +3111,7 @@ end;
 
 procedure TCefApplicationCore.SetLogFile(const aValue : ustring);
 begin
-  FLogFile := CustomAbsolutePath(aValue, False);
+  FLogFile := {$IFDEF FPC}UTF8Decode({$ENDIF}CustomAbsolutePath({$IFDEF FPC}UTF8Encode({$ENDIF}aValue{$IFDEF FPC}){$ENDIF}, False){$IFDEF FPC}){$ENDIF};
 end;
 
 procedure TCefApplicationCore.UpdateDeviceScaleFactor;
@@ -3355,9 +3359,9 @@ begin
     if (aApp <> nil) then
       begin
         if (length(FRootCache) > 0) then
-          TempRootDir := FRootCache
+          TempRootDir := {$IFDEF FPC}UTF8Encode({$ENDIF}FRootCache{$IFDEF FPC}){$ENDIF}
          else
-          TempRootDir := FCache;
+          TempRootDir := {$IFDEF FPC}UTF8Encode({$ENDIF}FCache{$IFDEF FPC}){$ENDIF};
 
         if FDeleteCache and FDeleteCookies then
           RenameAndDeleteDir(TempRootDir)
@@ -3385,9 +3389,10 @@ begin
               if (TempErrorCode <> CEF_RESULT_CODE_NORMAL_EXIT) then
                 begin
                   FLastErrorMessage := 'InitializeLibrary failed.' + CRLF +
-                                       ' ExitCode(' + inttostr(TempErrorCode) + ') : ' +
+                                       ' ExitCode(' + {$IFDEF FPC}UTF8Decode({$ENDIF}inttostr(TempErrorCode){$IFDEF FPC}){$ENDIF} + ') : ' +
                                        CefResultCodeToString(TempErrorCode);
-                  ShowErrorMessageDlg(FLastErrorMessage);
+
+                  ShowErrorMessageDlg({$IFDEF FPC}UTF8Encode({$ENDIF}FLastErrorMessage{$IFDEF FPC}){$ENDIF});
                 end;
             end;
       end;
@@ -3560,22 +3565,22 @@ var
 begin
   if GetCommandLineSwitchValue('type', TempValue) then
     begin
-      if (CompareText(TempValue, 'renderer') = 0) then
+      if (CompareText({$IFDEF FPC}UTF8Encode({$ENDIF}TempValue{$IFDEF FPC}){$ENDIF}, 'renderer') = 0) then
         Result := ptRenderer
        else
-        if (CompareText(TempValue, 'zygote') = 0) then
+        if (CompareText({$IFDEF FPC}UTF8Encode({$ENDIF}TempValue{$IFDEF FPC}){$ENDIF}, 'zygote') = 0) then
           Result := ptZygote
          else
-          if (CompareText(TempValue, 'gpu-process') = 0) then
+          if (CompareText({$IFDEF FPC}UTF8Encode({$ENDIF}TempValue{$IFDEF FPC}){$ENDIF}, 'gpu-process') = 0) then
             Result := ptGPU
            else
-            if (CompareText(TempValue, 'utility') = 0) then
+            if (CompareText({$IFDEF FPC}UTF8Encode({$ENDIF}TempValue{$IFDEF FPC}){$ENDIF}, 'utility') = 0) then
               Result := ptUtility
              else
-              if (CompareText(TempValue, 'broker') = 0) then
+              if (CompareText({$IFDEF FPC}UTF8Encode({$ENDIF}TempValue{$IFDEF FPC}){$ENDIF}, 'broker') = 0) then
                 Result := ptBroker
                else
-                if (CompareText(TempValue, 'crashpad-handler') = 0) then
+                if (CompareText({$IFDEF FPC}UTF8Encode({$ENDIF}TempValue{$IFDEF FPC}){$ENDIF}, 'crashpad-handler') = 0) then
                   Result := ptCrashpad
                  else
                   Result := ptOther;
@@ -3600,16 +3605,16 @@ begin
       TempKey           := aNewKey;
     end;
 
-  i := aKeys.IndexOf(TempKey);
+  i := aKeys.IndexOf({$IFDEF FPC}UTF8Encode({$ENDIF}TempKey{$IFDEF FPC}){$ENDIF});
 
   if (i < 0) then
     begin
-      i := aKeys.IndexOf(TempHyphenatedKey);
+      i := aKeys.IndexOf({$IFDEF FPC}UTF8Encode({$ENDIF}TempHyphenatedKey{$IFDEF FPC}){$ENDIF});
 
       if (i < 0) then
         begin
-          aKeys.Add(aNewKey);
-          aValues.Add(aNewValue);
+          aKeys.Add({$IFDEF FPC}UTF8Encode({$ENDIF}aNewKey{$IFDEF FPC}){$ENDIF});
+          aValues.Add({$IFDEF FPC}UTF8Encode({$ENDIF}aNewValue{$IFDEF FPC}){$ENDIF});
           exit;
         end;
     end;
@@ -3617,9 +3622,9 @@ begin
   if (length(aNewValue) > 0) then
     begin
       if (length(aValues[i]) > 0) then
-        aValues[i] := aValues[i] + ',' + aNewValue
+        aValues[i] := aValues[i] + ',' + {$IFDEF FPC}UTF8Encode({$ENDIF}aNewValue{$IFDEF FPC}){$ENDIF}
        else
-        aValues[i] := aNewValue;
+        aValues[i] := {$IFDEF FPC}UTF8Encode({$ENDIF}aNewValue{$IFDEF FPC}){$ENDIF};
     end;
 end;
 
@@ -3631,31 +3636,31 @@ var
 begin
   if (copy(aEnableKey, 1, 2) = '--') then
     begin
-      TempHyphenatedEnableKey := aEnableKey;
-      TempEnableKey           := copy(aEnableKey, 3, length(aEnableKey));
+      TempHyphenatedEnableKey := {$IFDEF FPC}UTF8Decode({$ENDIF}aEnableKey{$IFDEF FPC}){$ENDIF};
+      TempEnableKey           := {$IFDEF FPC}UTF8Decode({$ENDIF}copy(aEnableKey, 3, length(aEnableKey)){$IFDEF FPC}){$ENDIF};
     end
    else
     begin
-      TempHyphenatedEnableKey := '--' + aEnableKey;
-      TempEnableKey           := aEnableKey;
+      TempHyphenatedEnableKey := {$IFDEF FPC}UTF8Decode({$ENDIF}'--' + aEnableKey{$IFDEF FPC}){$ENDIF};
+      TempEnableKey           := {$IFDEF FPC}UTF8Decode({$ENDIF}aEnableKey{$IFDEF FPC}){$ENDIF};
     end;
 
   if (copy(aDisableKey, 1, 2) = '--') then
     begin
-      TempHyphenatedDisableKey := aDisableKey;
-      TempDisableKey           := copy(aDisableKey, 3, length(aDisableKey));
+      TempHyphenatedDisableKey := {$IFDEF FPC}UTF8Decode({$ENDIF}aDisableKey{$IFDEF FPC}){$ENDIF};
+      TempDisableKey           := {$IFDEF FPC}UTF8Decode({$ENDIF}copy(aDisableKey, 3, length(aDisableKey)){$IFDEF FPC}){$ENDIF};
     end
    else
     begin
-      TempHyphenatedDisableKey := '--' + aDisableKey;
-      TempDisableKey           := aDisableKey;
+      TempHyphenatedDisableKey := {$IFDEF FPC}UTF8Decode({$ENDIF}'--' + aDisableKey{$IFDEF FPC}){$ENDIF};
+      TempDisableKey           := {$IFDEF FPC}UTF8Decode({$ENDIF}aDisableKey{$IFDEF FPC}){$ENDIF};
     end;
 
-  i := aKeys.IndexOf(TempEnableKey);
-  if (i < 0) then i := aKeys.IndexOf(TempHyphenatedEnableKey);
+  i := aKeys.IndexOf({$IFDEF FPC}UTF8Encode({$ENDIF}TempEnableKey{$IFDEF FPC}){$ENDIF});
+  if (i < 0) then i := aKeys.IndexOf({$IFDEF FPC}UTF8Encode({$ENDIF}TempHyphenatedEnableKey{$IFDEF FPC}){$ENDIF});
 
-  j := aKeys.IndexOf(TempDisableKey);
-  if (j < 0) then j := aKeys.IndexOf(TempHyphenatedDisableKey);
+  j := aKeys.IndexOf({$IFDEF FPC}UTF8Encode({$ENDIF}TempDisableKey{$IFDEF FPC}){$ENDIF});
+  if (j < 0) then j := aKeys.IndexOf({$IFDEF FPC}UTF8Encode({$ENDIF}TempHyphenatedDisableKey{$IFDEF FPC}){$ENDIF});
 
   if (i < 0) or (j < 0) then exit;
 
@@ -3704,22 +3709,22 @@ begin
       TempKey           := aNewKey;
     end;
 
-  i := aKeys.IndexOf(TempKey);
+  i := aKeys.IndexOf({$IFDEF FPC}UTF8Encode({$ENDIF}TempKey{$IFDEF FPC}){$ENDIF});
 
   if (i < 0) then
     begin
-      i := aKeys.IndexOf(TempHyphenatedKey);
+      i := aKeys.IndexOf({$IFDEF FPC}UTF8Encode({$ENDIF}TempHyphenatedKey{$IFDEF FPC}){$ENDIF});
 
       if (i < 0) then
         begin
-          aKeys.Add(aNewKey);
-          aValues.Add(aNewValue);
+          aKeys.Add({$IFDEF FPC}UTF8Encode({$ENDIF}aNewKey{$IFDEF FPC}){$ENDIF});
+          aValues.Add({$IFDEF FPC}UTF8Encode({$ENDIF}aNewValue{$IFDEF FPC}){$ENDIF});
         end
        else
-        aValues[i] := aNewValue;
+        aValues[i] := {$IFDEF FPC}UTF8Encode({$ENDIF}aNewValue{$IFDEF FPC}){$ENDIF};
     end
    else
-    aValues[i] := aNewValue;
+    aValues[i] := {$IFDEF FPC}UTF8Encode({$ENDIF}aNewValue{$IFDEF FPC}){$ENDIF};
 end;
 
 procedure TCefApplicationCore.AddCustomCommandLineSwitches(var aKeys, aValues : TStringList);
@@ -3873,7 +3878,7 @@ begin
     begin
       {$IFDEF FPC}
       TempFormatSettings.DecimalSeparator := '.';
-      ReplaceSwitch(aKeys, aValues, '--force-device-scale-factor', FloatToStr(FForcedDeviceScaleFactor, TempFormatSettings));
+      ReplaceSwitch(aKeys, aValues, '--force-device-scale-factor', {$IFDEF FPC}UTF8Decode({$ENDIF}FloatToStr(FForcedDeviceScaleFactor, TempFormatSettings){$IFDEF FPC}){$ENDIF});
       {$ELSE}
         {$IFDEF DELPHI7_UP}
           {$IFDEF DELPHI24_UP}
@@ -4096,7 +4101,10 @@ begin
       while (i < FCustomCommandLines.Count) do
         begin
           if (length(FCustomCommandLines[i]) > 0) then
-            ReplaceSwitch(aKeys, aValues, FCustomCommandLines[i], FCustomCommandLineValues[i]);
+            ReplaceSwitch(aKeys,
+                          aValues,
+                          {$IFDEF FPC}UTF8Decode({$ENDIF}FCustomCommandLines[i]{$IFDEF FPC}){$ENDIF},
+                          {$IFDEF FPC}UTF8Decode({$ENDIF}FCustomCommandLineValues[i]{$IFDEF FPC}){$ENDIF});
 
           inc(i);
         end;
@@ -4173,7 +4181,7 @@ begin
   TempProcess.dwSize := Sizeof(TProcessEntry32);
   TempPID            := GetCurrentProcessID;
   TempMain           := ExtractFileName(paramstr(0));
-  TempSubProc        := ExtractFileName(FBrowserSubprocessPath);
+  TempSubProc        := ExtractFileName({$IFDEF FPC}UTF8Encode({$ENDIF}FBrowserSubprocessPath{$IFDEF FPC}){$ENDIF});
 
   Process32First(TempHandle, TempProcess);
 
@@ -4214,7 +4222,7 @@ begin
   TempProcess.dwSize := Sizeof(TProcessEntry32);
   TempPID            := GetCurrentProcessID;
   TempMain           := ExtractFileName(paramstr(0));
-  TempSubProc        := ExtractFileName(FBrowserSubprocessPath);
+  TempSubProc        := ExtractFileName({$IFDEF FPC}UTF8Encode({$ENDIF}FBrowserSubprocessPath{$IFDEF FPC}){$ENDIF});
 
   Process32First(TempHandle, TempProcess);
 
@@ -4383,7 +4391,7 @@ begin
       FStatus           := asErrorLoadingLibrary;
       FLastErrorMessage := 'GlobalCEFApp can only be initialized once per process.';
 
-      ShowErrorMessageDlg(FLastErrorMessage);
+      ShowErrorMessageDlg({$IFDEF FPC}UTF8Encode({$ENDIF}FLastErrorMessage{$IFDEF FPC}){$ENDIF});
       exit;
     end;
 
@@ -4410,20 +4418,20 @@ begin
       {$IFDEF MSWINDOWS}
       TempError         := GetLastError;
       FLastErrorMessage := 'Error loading ' + LIBCEF_DLL + CRLF + CRLF +
-                           'Error code : 0x' + inttohex(TempError, 8) + CRLF +
-                           SysErrorMessage(TempError);
+                           'Error code : 0x' + {$IFDEF FPC}UTF8Decode({$ENDIF}inttohex(TempError, 8){$IFDEF FPC}){$ENDIF} + CRLF +
+                           {$IFDEF FPC}UTF8Decode({$ENDIF}SysErrorMessage(TempError){$IFDEF FPC}){$ENDIF};
       {$ELSE}
         {$IFDEF FPC}
         TempError         := GetLastOSError;
         FLastErrorMessage := 'Error loading ' + LIBCEF_DLL + CRLF + CRLF +
-                             'Error code : 0x' + inttohex(TempError, 8) + CRLF +
+                             'Error code : 0x' + UTF8Decode(inttohex(TempError, 8)) + CRLF +
                              UTF8Decode(GetLoadErrorStr);
         {$ELSE}
         FLastErrorMessage := 'Error loading ' + LIBCEF_DLL;
         {$ENDIF}
       {$ENDIF}
 
-      ShowErrorMessageDlg(FLastErrorMessage);
+      ShowErrorMessageDlg({$IFDEF FPC}UTF8Encode({$ENDIF}FLastErrorMessage{$IFDEF FPC}){$ENDIF});
       exit;
     end;
 
@@ -4503,7 +4511,7 @@ begin
                            'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
                            CRLF + CEF4DELPHI_URL;
 
-      ShowErrorMessageDlg(FLastErrorMessage);
+      ShowErrorMessageDlg({$IFDEF FPC}UTF8Encode({$ENDIF}FLastErrorMessage{$IFDEF FPC}){$ENDIF});
     end;
 
   if FSetCurrentDir then chdir(TempOldDir);

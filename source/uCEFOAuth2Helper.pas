@@ -155,7 +155,7 @@ end;
 
 function TCEFOAuth2Helper.GetRedirectURI : ustring;
 begin
-  Result := 'http://' + FRedirectHost + ':' + inttostr(FRedirectPort);
+  Result := 'http://' + FRedirectHost + ':' + {$IFDEF FPC}UTF8Decode({$ENDIF}inttostr(FRedirectPort){$IFDEF FPC}){$ENDIF};
 end;
 
 function TCEFOAuth2Helper.GetAuthCodeURI : ustring;
@@ -200,7 +200,7 @@ end;
 
 function TCEFOAuth2Helper.GetValidState : boolean;
 begin
-  Result := (CompareStr(FState, FIncState) = 0);
+  Result := (CompareStr({$IFDEF FPC}UTF8Encode({$ENDIF}FState{$IFDEF FPC}){$ENDIF}, {$IFDEF FPC}UTF8Encode({$ENDIF}FIncState{$IFDEF FPC}){$ENDIF}) = 0);
 end;
 
 function TCEFOAuth2Helper.GenerateRandomString(aLength : cardinal) : ustring;
@@ -223,7 +223,7 @@ begin
 
   while (i < aLength) do
     begin
-      Result := Result + UnreservedCharValues[Random(UnreservedCharValuesLen)];
+      Result := Result + {$IFDEF FPC}UTF8Decode({$ENDIF}UnreservedCharValues[Random(UnreservedCharValuesLen)]{$IFDEF FPC}){$ENDIF};
       inc(i);
     end;
 end;
@@ -248,8 +248,8 @@ begin
             FCodeChallenge := CefBase64Encode(@TempHash[0], length(TempHash));
 
             // Converts base64 to base64url.
-            FCodeChallenge := StringReplace(FCodeChallenge, '+', '-', [rfReplaceAll]);
-            FCodeChallenge := StringReplace(FCodeChallenge, '/', '_', [rfReplaceAll]);
+            FCodeChallenge := {$IFDEF FPC}UTF8Decode({$ENDIF}StringReplace({$IFDEF FPC}UTF8Encode({$ENDIF}FCodeChallenge{$IFDEF FPC}){$ENDIF}, '+', '-', [rfReplaceAll]){$IFDEF FPC}){$ENDIF};
+            FCodeChallenge := {$IFDEF FPC}UTF8Decode({$ENDIF}StringReplace({$IFDEF FPC}UTF8Encode({$ENDIF}FCodeChallenge{$IFDEF FPC}){$ENDIF}, '/', '_', [rfReplaceAll]){$IFDEF FPC}){$ENDIF};
 
             // Strips padding.
             while (length(FCodeChallenge) > 0) and (FCodeChallenge[length(FCodeChallenge)] = '=') do
@@ -312,10 +312,11 @@ begin
 
   Randomize;
 
-  FState := IntToHex(Random(high(integer)), 8) +
+  FState := {$IFDEF FPC}UTF8Decode({$ENDIF}
             IntToHex(Random(high(integer)), 8) +
             IntToHex(Random(high(integer)), 8) +
-            IntToHex(Random(high(integer)), 8);
+            IntToHex(Random(high(integer)), 8) +
+            IntToHex(Random(high(integer)), 8){$IFDEF FPC}){$ENDIF};
 end;
 
 function TCEFOAuth2Helper.ReadJSONString(const aDictionary : ICefDictionaryValue; const aKey : ustring) : ustring;
@@ -436,10 +437,10 @@ begin
       TempKey   := copy(aPair, 1, pred(i));
       TempValue := copy(aPair, succ(i), length(aPair));
 
-      if      (CompareStr(TempKey, 'code')              = 0) then FAuthCode         := TempValue
-      else if (CompareStr(TempKey, 'state')             = 0) then FIncState         := TempValue
-      else if (CompareStr(TempKey, 'error')             = 0) then FError            := TempValue
-      else if (CompareStr(TempKey, 'error_description') = 0) then FErrorDescription := TempValue;
+      if      (CompareStr({$IFDEF FPC}UTF8Encode({$ENDIF}TempKey{$IFDEF FPC}){$ENDIF}, 'code')              = 0) then FAuthCode         := TempValue
+      else if (CompareStr({$IFDEF FPC}UTF8Encode({$ENDIF}TempKey{$IFDEF FPC}){$ENDIF}, 'state')             = 0) then FIncState         := TempValue
+      else if (CompareStr({$IFDEF FPC}UTF8Encode({$ENDIF}TempKey{$IFDEF FPC}){$ENDIF}, 'error')             = 0) then FError            := TempValue
+      else if (CompareStr({$IFDEF FPC}UTF8Encode({$ENDIF}TempKey{$IFDEF FPC}){$ENDIF}, 'error_description') = 0) then FErrorDescription := TempValue;
     end;
 end;
 

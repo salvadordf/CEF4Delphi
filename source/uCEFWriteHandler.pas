@@ -220,7 +220,11 @@ begin
       Result := 0
      else
       begin
+        {$warnings off}
+        {$hints off}
         TempPointer := Pointer(cardinal(FBuffer) + FOffset);
+        {$hints on}
+        {$warnings on}
 
         Move(ptr^, TempPointer^, TempSize);
 

@@ -40,10 +40,10 @@
 <td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefInt64GetHigh-Int64-">CefInt64GetHigh</a></strong>(const int64_val: Int64): Integer;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetObject-Pointer-">CefGetObject</a></strong>(ptr: Pointer): TObject; inline;</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetObject-Pointer-">CefGetObject</a></strong>(ptr: Pointer): TObject;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetData-ICefBaseRefCounted-">CefGetData</a></strong>(const i: <a href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>): Pointer; inline;</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetData-ICefBaseRefCounted-">CefGetData</a></strong>(const i: <a href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>): Pointer;</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefStringAlloc-ustring-">CefStringAlloc</a></strong>(const str: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#TCefString">TCefString</a>;</code></td>
@@ -73,7 +73,7 @@
 <td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefStringSet-TCefString-TCefString-">CefStringSet</a></strong>(const aDstStr, aSrcStr: <a href="uCEFTypes.html#TCefString">TCefString</a>); overload;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefStringInitialize-PCefString-">CefStringInitialize</a></strong>(const aCefString : <a href="uCEFTypes.html#PCefString">PCefString</a>); inline;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFMiscFunctions.html#CefStringInitialize-PCefString-">CefStringInitialize</a></strong>(const aCefString : <a href="uCEFTypes.html#PCefString">PCefString</a>);</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefRegisterExtension-ustring-ustring-ICefv8Handler-">CefRegisterExtension</a></strong>(const name, code: <a href="uCEFTypes.html#ustring">ustring</a>; const Handler: <a href="uCEFInterfaces.ICefv8Handler.html">ICefv8Handler</a>): Boolean;</code></td>
@@ -346,7 +346,7 @@
 <td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefCreateUrl-TUrlParts-">CefCreateUrl</a></strong>(var parts: <a href="uCEFTypes.TUrlParts.html">TUrlParts</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefFormatUrlForSecurityDisplay-string-">CefFormatUrlForSecurityDisplay</a></strong>(const originUrl: string): string;</code></td>
+<td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefFormatUrlForSecurityDisplay-ustring-">CefFormatUrlForSecurityDisplay</a></strong>(const originUrl: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code>function <strong><a href="uCEFMiscFunctions.html#CefGetMimeType-ustring-">CefGetMimeType</a></strong>(const extension: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
@@ -611,14 +611,14 @@ Return the high int32_t value from an int64_t value.</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CefGetObject-Pointer-"></span><code>function <strong>CefGetObject</strong>(ptr: Pointer): TObject; inline;</code></td>
+<td class="itemcode"><span id="CefGetObject-Pointer-"></span><code>function <strong>CefGetObject</strong>(ptr: Pointer): TObject;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CefGetData-ICefBaseRefCounted-"></span><code>function <strong>CefGetData</strong>(const i: <a href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>): Pointer; inline;</code></td>
+<td class="itemcode"><span id="CefGetData-ICefBaseRefCounted-"></span><code>function <strong>CefGetData</strong>(const i: <a href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>): Pointer;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -692,7 +692,7 @@ Converts PCefString to ustring.</p>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CefStringInitialize-PCefString-"></span><code>procedure <strong>CefStringInitialize</strong>(const aCefString : <a href="uCEFTypes.html#PCefString">PCefString</a>); inline;</code></td>
+<td class="itemcode"><span id="CefStringInitialize-PCefString-"></span><code>procedure <strong>CefStringInitialize</strong>(const aCefString : <a href="uCEFTypes.html#PCefString">PCefString</a>);</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -1604,7 +1604,7 @@ example.test.increment();</pre>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CefFormatUrlForSecurityDisplay-string-"></span><code>function <strong>CefFormatUrlForSecurityDisplay</strong>(const originUrl: string): string;</code></td>
+<td class="itemcode"><span id="CefFormatUrlForSecurityDisplay-ustring-"></span><code>function <strong>CefFormatUrlForSecurityDisplay</strong>(const originUrl: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>

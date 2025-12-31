@@ -553,12 +553,14 @@ begin
 end;
 
 procedure TCEFOSRIMEHandler.CleanupComposition;
+{$IFDEF MSWINDOWS}
 var
   TempIMC : HIMC;
+{$ENDIF}
 begin
+  {$IFDEF MSWINDOWS}
   if Initialized and FIsComposing then
     begin
-      {$IFDEF MSWINDOWS}
       TempIMC := ImmGetContext(FHWND);
 
       if (TempIMC <> 0) then
@@ -569,8 +571,8 @@ begin
         end;
 
       ResetComposition;
-      {$ENDIF}
     end;
+  {$ENDIF}
 end;
 
 procedure TCEFOSRIMEHandler.ResetComposition;
@@ -580,13 +582,15 @@ begin
 end;
 
 function TCEFOSRIMEHandler.GetResult(aParam : LPARAM; var aResult : ustring) : boolean;
+{$IFDEF MSWINDOWS}
 var
   TempIMC : HIMC;
+{$ENDIF}
 begin
   Result := False;
+  {$IFDEF MSWINDOWS}
   if not(Initialized) then exit;
 
-  {$IFDEF MSWINDOWS}
   TempIMC := ImmGetContext(FHWND);
 
   if (TempIMC <> 0) then
@@ -602,13 +606,15 @@ function TCEFOSRIMEHandler.GetComposition(    aParam            : LPARAM;
                                           var composition_text  : ustring;
                                           var underlines        : TCefCompositionUnderlineDynArray;
                                           var composition_start : integer) : boolean;
+{$IFDEF MSWINDOWS}
 var
   TempIMC : HIMC;
+{$ENDIF}
 begin
   Result := False;
+  {$IFDEF MSWINDOWS}
   if not(Initialized) then exit;
 
-  {$IFDEF MSWINDOWS}
   TempIMC := ImmGetContext(FHWND);
 
   if (TempIMC <> 0) then
@@ -655,12 +661,14 @@ begin
 end;
 
 procedure TCEFOSRIMEHandler.CancelIME;
+{$IFDEF MSWINDOWS}
 var
   TempIMC : HIMC;
+{$ENDIF}
 begin
+  {$IFDEF MSWINDOWS}
   if Initialized and FIsComposing then
     begin
-      {$IFDEF MSWINDOWS}
       TempIMC := ImmGetContext(FHWND);
 
       if (TempIMC <> 0) then
@@ -671,8 +679,8 @@ begin
         end;
 
       ResetComposition;
-      {$ENDIF}
     end;
+  {$ENDIF}
 end;
 
 procedure TCEFOSRIMEHandler.UpdateCaretPosition(index : cardinal);

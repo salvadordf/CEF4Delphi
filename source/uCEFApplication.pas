@@ -206,6 +206,8 @@ begin
   {$IFNDEF FMX}
   if RunningWindows10OrNewer then
     begin
+      {$warnings off}
+      {$hints off}
       if assigned(screen.ActiveForm) and
          screen.ActiveForm.HandleAllocated then
         TempHandle := screen.ActiveForm.Handle
@@ -215,7 +217,8 @@ begin
           TempHandle := Application.MainForm.Handle
          else
           TempHandle := Application.Handle;
-
+     {$hints on}
+     {$warnings on}
      TempDPI := 0;
 
      if GetDPIForHandle(TempHandle, TempDPI) then

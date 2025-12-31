@@ -109,14 +109,14 @@ begin
                 {$IFDEF VER140}
                 attrList.Add(TempKey + '=' + TempValue)  // Only for Delphi 6
                 {$ELSE}
-                attrList.Add(TempKey + attrList.NameValueSeparator + TempValue)
+                attrList.Add({$IFDEF FPC}UTF8Encode({$ENDIF}TempKey + {$IFDEF FPC}UTF8Decode({$ENDIF}attrList.NameValueSeparator{$IFDEF FPC}){$ENDIF} + TempValue{$IFDEF FPC}){$ENDIF})
                 {$ENDIF}
                else
                 if (length(TempKey) > 0) then
-                  attrList.Add(TempKey)
+                  attrList.Add({$IFDEF FPC}UTF8Encode({$ENDIF}TempKey{$IFDEF FPC}){$ENDIF})
                  else
                   if (length(TempValue) > 0) then
-                    attrList.Add(TempValue);
+                    attrList.Add({$IFDEF FPC}UTF8Encode({$ENDIF}TempValue{$IFDEF FPC}){$ENDIF});
 
               inc(i);
             end;

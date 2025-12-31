@@ -106,7 +106,7 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CefFormatUrlForSecurityDisplay">
-<param name="Local" value="uCEFMiscFunctions.html#CefFormatUrlForSecurityDisplay-string-">
+<param name="Local" value="uCEFMiscFunctions.html#CefFormatUrlForSecurityDisplay-ustring-">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CefGetData">
@@ -41940,16 +41940,16 @@
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="LoadResource">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#LoadResource-TCustomMemoryStream-string-string-ICefFrame-">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#LoadResource-TCustomMemoryStream-ustring-ustring-ICefFrame-">
 </object>
 <ul>
 <li><object type="text/sitemap">
 <param name="Name" value="TChromiumCore - uCEFChromiumCore Unit">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#LoadResource-TCustomMemoryStream-string-string-ICefFrame-">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#LoadResource-TCustomMemoryStream-ustring-ustring-ICefFrame-">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TChromiumCore - uCEFChromiumCore Unit">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#LoadResource-TCustomMemoryStream-string-string-ustring-ustring-">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#LoadResource-TCustomMemoryStream-ustring-ustring-ustring-ustring-">
 </object>
 </ul>
 <li><object type="text/sitemap">

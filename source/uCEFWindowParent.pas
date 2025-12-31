@@ -22,10 +22,10 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFWinControl, uCEFConstants;
+  {$IFDEF DELPHI16_UP}uCEFConstants,{$ENDIF} uCEFWinControl;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  {$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}
   TCEFWindowParent = class(TCEFWinControl)
     protected
       {$IFDEF MSWINDOWS}

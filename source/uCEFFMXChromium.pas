@@ -19,7 +19,7 @@ uses
   uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFChromiumCore;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  {$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}
   /// <summary>
   ///  FMX version of TChromiumCore that puts together all browser procedures, functions, properties and events in one place.
   ///  It has all you need to create, modify and destroy a web browser.

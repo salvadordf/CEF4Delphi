@@ -26,7 +26,7 @@ uses
 
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  {$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}
   /// <summary>
   /// <para>Implementation of an external message pump for VCL and LCL.</para>
   /// <para>Read the GlobalCEFApp.OnScheduleMessagePumpWork documentation for all the details.</para>

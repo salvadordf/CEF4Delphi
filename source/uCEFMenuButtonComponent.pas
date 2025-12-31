@@ -20,10 +20,10 @@ uses
     LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFViewsFrameworkEvents, uCEFLabelButtonComponent, uCEFConstants;
+  uCEFTypes, {$IFDEF DELPHI16_UP}uCEFConstants,{$ENDIF} uCEFInterfaces, uCEFViewsFrameworkEvents, uCEFLabelButtonComponent;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  {$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}
   TCEFMenuButtonComponent = class(TCEFLabelButtonComponent, ICefMenuButtonDelegateEvents)
     protected
       FMenuButton                : ICefMenuButton;

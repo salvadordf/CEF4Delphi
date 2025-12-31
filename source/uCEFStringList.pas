@@ -158,7 +158,7 @@ begin
           CefStringInitialize(@TempValue);
 
           if (cef_string_list_value(FHandle, i, @TempValue) <> 0) then
-            aStrings.Add(CefStringClearAndGet(@TempValue));
+            aStrings.Add({$IFDEF FPC}UTF8Encode({$ENDIF}CefStringClearAndGet(@TempValue){$IFDEF FPC}){$ENDIF});
 
           inc(i);
         end;
@@ -170,7 +170,8 @@ var
   i : integer;
 begin
   if (FHandle <> nil) and (aStrings <> nil) and (aStrings.Count > 0) then
-    for i := 0 to aStrings.Count - 1 do Append(aStrings[i]);
+    for i := 0 to aStrings.Count - 1 do
+      Append({$IFDEF FPC}UTF8Decode({$ENDIF}aStrings[i]{$IFDEF FPC}){$ENDIF});
 end;
 
 

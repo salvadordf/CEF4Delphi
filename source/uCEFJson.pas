@@ -121,7 +121,7 @@ begin
 
   if (aDictionary <> nil) then
     begin
-      aValue := aDictionary.GetValue(aKey);
+      aValue := aDictionary.GetValue({$IFDEF FPC}UTF8Decode({$ENDIF}aKey{$IFDEF FPC}){$ENDIF});
       Result := (aValue <> nil);
     end;
 end;
@@ -354,7 +354,7 @@ begin
 
       if Write(node, TempJSON) then
         begin
-          TempJSON.SaveToFile(aFileName);
+          TempJSON.SaveToFile({$IFDEF FPC}UTF8Encode({$ENDIF}aFileName{$IFDEF FPC}){$ENDIF});
           Result := True;
         end;
     except
@@ -379,7 +379,7 @@ begin
 
       if Write(node, TempJSON) then
         begin
-          TempJSON.SaveToFile(aFileName);
+          TempJSON.SaveToFile({$IFDEF FPC}UTF8Encode({$ENDIF}aFileName{$IFDEF FPC}){$ENDIF});
           Result := True;
         end;
     except
@@ -403,8 +403,8 @@ begin
       if (length(aFileName) > 0) and FileExists(aFileName) then
         begin
           TempJSON  := TStringList.Create;
-          TempJSON.LoadFromFile(aFileName{$IFDEF DELPHI12_UP}, encoding{$ENDIF});
-          aRsltNode := Parse(TempJSON.Text, options);
+          TempJSON.LoadFromFile({$IFDEF FPC}UTF8Encode({$ENDIF}aFileName{$IFDEF FPC}){$ENDIF}{$IFDEF DELPHI12_UP}, encoding{$ENDIF});
+          aRsltNode := Parse({$IFDEF FPC}UTF8Decode({$ENDIF}TempJSON.Text{$IFDEF FPC}){$ENDIF}, options);
           Result    := True;
         end;
     except

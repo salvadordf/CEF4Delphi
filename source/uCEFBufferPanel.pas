@@ -25,7 +25,7 @@ uses
     {$ELSE}
       Messages,
     {$ENDIF}
-    ExtCtrls, SyncObjs, SysUtils,
+    ExtCtrls, {$IFNDEF MSWINDOWS}SyncObjs,{$ENDIF} SysUtils,
   {$ENDIF}
   {$IFDEF MSWINDOWS}uCEFOSRIMEHandler,{$ENDIF} uCEFConstants, uCEFTypes, uCEFBitmapBitBuffer;
 
@@ -58,7 +58,7 @@ type
   end;
   {$IFEND}
 
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  {$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}
   /// <summary>
   /// TBufferPanel is used by VCL and LCL applications with browsers in OSR mode
   /// to draw the browser contents. See the SimpleOSRBrowser demo for more details.
@@ -1001,8 +1001,10 @@ begin
                 y := 0;
                 while (y < FBuffer.Height) do
                   begin
-                    src := FOrigBuffer.ScanLine[y];
+                    src := FOrigBuffer.ScanLine[y];   
+                    {$warnings off}
                     dst := FBuffer.ScanLine[y];
+                    {$warnings on}
                     move(src^, dst^, FOrigBuffer.ScanLineSize);
                     inc(y);
                   end;
@@ -1301,15 +1303,19 @@ begin
     GTK_IM_FLAG_COMMIT :
       if assigned(FOnIMECommit) then
         begin
+          {$hints off}
           TempCommit := pchar(aMessage.LPARAM);
+          {$hints on}
           TempText   := UTF8Decode(TempCommit);
           FOnIMECommit(self, TempText);
         end;
 
     else
      if assigned(FOnIMEPreEditChanged) then
-       begin                
+       begin
+         {$hints off}
          TempText := UTF8Decode(pchar(aMessage.LPARAM));
+         {$hints on}
          FOnIMEPreEditChanged(self, aMessage.WPARAM, TempText);
        end;
   end;
@@ -1347,10 +1353,12 @@ end;
 
 function TBufferPanel.GetBufferBits : pointer;
 begin
+  {$warnings off}
   if (FBuffer <> nil) and (FBuffer.Height <> 0) then
     Result := FBuffer.Scanline[pred(FBuffer.Height)]
    else
     Result := nil;
+  {$warnings on}
 end;
 
 function TBufferPanel.GetBufferWidth : integer;

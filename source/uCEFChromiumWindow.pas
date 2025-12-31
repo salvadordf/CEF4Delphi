@@ -22,10 +22,11 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFChromium, uCEFInterfaces, uCEFTypes, uCEFLinkedWinControlBase, uCEFConstants;
+  uCEFChromium, {$IF DEFINED(MSWINDOWS) or DEFINED(DELPHI16_UP)}uCEFConstants,{$IFEND}
+  uCEFInterfaces, uCEFTypes, uCEFLinkedWinControlBase;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  {$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}
   /// <summary>
   /// <para>This component puts together a TChromium and a TCEFWindowParent to embbed a
   /// web browser with only one component.</para>

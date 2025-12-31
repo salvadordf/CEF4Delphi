@@ -278,7 +278,7 @@ end;
 procedure TOsrBrowserWindow.DoGetChromiumTooltip(Sender: TObject;
   const browser: ICefBrowser; var AText: ustring; out Result: Boolean);
 begin
-  hint     := aText;
+  hint     := {$IFDEF FPC}UTF8Encode({$ENDIF}aText{$IFDEF FPC}){$ENDIF};
   ShowHint := (length(aText) > 0);
   Result   := True;
 end;
@@ -463,8 +463,10 @@ begin
 
                     while (i < j) do
                       begin
+                        {$warnings off}
                         TempBufferBits := TempBitmap.Scanline[dirtyRects^[n].y + i];
                         dst            := @PByte(TempBufferBits)[TempDstOffset];
+                        {$warnings on}
 
                         {$IFDEF DARWIN}
                         ls := TempLineSize;
@@ -707,7 +709,6 @@ procedure TOsrBrowserWindow.MouseLeave;
 var
   TempEvent : TCefMouseEvent;
   TempPoint : TPoint;
-  TempTime  : integer;
 begin
   inherited MouseLeave;
 

@@ -895,12 +895,12 @@ type
       /// Used to load a DATA URI with the stream contents in the specified frame or the main frame.
       /// The DATA URI will be configured with the mime type and charset specified in the parameters.
       /// </summary>
-      procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameName : ustring = ''; const aFrameIdentifier : ustring = ''); overload;
+      procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : ustring; const aFrameName : ustring = ''; const aFrameIdentifier : ustring = ''); overload;
       /// <summary>
       /// Used to load a DATA URI with the stream contents in the specified frame or the main frame.
       /// The DATA URI will be configured with the mime type and charset specified in the parameters.
       /// </summary>
-      procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrame : ICefFrame); overload;
+      procedure   LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : ustring; const aFrame : ICefFrame); overload;
       /// <summary>
       /// Load the request represented by the aRequest object.
       /// </summary>
@@ -4514,8 +4514,9 @@ begin
   Msg.wParam := wparam;
   Msg.lParam := lParam;
   Msg.Result := 0;
-
+  {$hints off}
   m := TWndMethod(Pointer(dwRefData)^);
+  {$hints on}
   m(Msg);
   Result := Msg.Result;
 end;
@@ -4525,7 +4526,9 @@ begin
   Result := nil;
   if (aWnd <> 0) and (aStub <> nil) then
     begin
+      {$hints off}
       SetWindowSubclass(aWnd, @CompSubClassProc, 1, NativeInt(aStub));
+      {$hints on}
       Result := TFNWndProc(1); // IdSubClass
     end;
 end;
@@ -5602,7 +5605,7 @@ begin
 end;
 
 // Leave aFrameName empty to load the URL in the main frame
-procedure TChromiumCore.LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrameName, aFrameIdentifier : ustring);
+procedure TChromiumCore.LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : ustring; const aFrameName, aFrameIdentifier : ustring);
 var
   TempFrame : ICefFrame;
 begin
@@ -5623,7 +5626,7 @@ begin
     end;
 end;
 
-procedure TChromiumCore.LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : string; const aFrame : ICefFrame);
+procedure TChromiumCore.LoadResource(const aStream : TCustomMemoryStream; const aMimeType, aCharset : ustring; const aFrame : ICefFrame);
 begin
   if Initialized and (aStream <> nil) and (aStream.Size > 0) and (aFrame <> nil) and aFrame.IsValid then
     aFrame.LoadUrl(CefGetDataURI(aStream.Memory, aStream.Size, aMimeType, aCharset));
@@ -7633,9 +7636,9 @@ begin
                 TempDict.SetValue('mode', TempValue);
 
                 case FProxyScheme of
-                  psSOCKS4 : TempDict.SetString('server', 'socks4://' + FProxyServer + ':' + inttostr(FProxyPort));
-                  psSOCKS5 : TempDict.SetString('server', 'socks5://' + FProxyServer + ':' + inttostr(FProxyPort));
-                  else       TempDict.SetString('server', FProxyServer + ':' + inttostr(FProxyPort));
+                  psSOCKS4 : TempDict.SetString('server', 'socks4://' + FProxyServer + ':' + {$IFDEF FPC}UTF8Decode({$ENDIF}inttostr(FProxyPort){$IFDEF FPC}){$ENDIF});
+                  psSOCKS5 : TempDict.SetString('server', 'socks5://' + FProxyServer + ':' + {$IFDEF FPC}UTF8Decode({$ENDIF}inttostr(FProxyPort){$IFDEF FPC}){$ENDIF});
+                  else       TempDict.SetString('server', FProxyServer + ':' + {$IFDEF FPC}UTF8Decode({$ENDIF}inttostr(FProxyPort){$IFDEF FPC}){$ENDIF});
                 end;
 
                 if (length(FProxyByPassList) > 0) then TempDict.SetString('bypass_list', FProxyByPassList);
@@ -7659,7 +7662,7 @@ begin
                     aBrowser.Host.RequestContext.SetPreference('proxy', TempProxy, TempError);
 
           if not(Result) then
-            OutputDebugMessage('TChromiumCore.UpdateProxyPrefs error : ' + quotedstr(TempError));
+            OutputDebugMessage('TChromiumCore.UpdateProxyPrefs error: ' + {$IFDEF FPC}UTF8Encode({$ENDIF}TempError{$IFDEF FPC}){$ENDIF});
         end;
     except
       on e : exception do
@@ -7690,7 +7693,7 @@ begin
           Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
           if not(Result) then
-            OutputDebugMessage('TChromiumCore.UpdatePreference error : ' + quotedstr(TempError));
+            OutputDebugMessage('TChromiumCore.UpdatePreference error: ' + {$IFDEF FPC}UTF8Encode({$ENDIF}TempError{$IFDEF FPC}){$ENDIF});
         end;
     except
       on e : exception do
@@ -7719,7 +7722,7 @@ begin
           Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
           if not(Result) then
-            OutputDebugMessage('TChromiumCore.UpdatePreference error : ' + quotedstr(TempError));
+            OutputDebugMessage('TChromiumCore.UpdatePreference error: ' + {$IFDEF FPC}UTF8Encode({$ENDIF}TempError{$IFDEF FPC}){$ENDIF});
         end;
     except
       on e : exception do
@@ -7748,7 +7751,7 @@ begin
           Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
           if not(Result) then
-            OutputDebugMessage('TChromiumCore.UpdatePreference error : ' + quotedstr(TempError));
+            OutputDebugMessage('TChromiumCore.UpdatePreference error: ' + {$IFDEF FPC}UTF8Encode({$ENDIF}TempError{$IFDEF FPC}){$ENDIF});
         end;
     except
       on e : exception do
@@ -7777,7 +7780,7 @@ begin
           Result := aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
           if not(Result) then
-            OutputDebugMessage('TChromiumCore.UpdatePreference error : ' + quotedstr(TempError));
+            OutputDebugMessage('TChromiumCore.UpdatePreference error: ' + {$IFDEF FPC}UTF8Encode({$ENDIF}TempError{$IFDEF FPC}){$ENDIF});
         end;
     except
       on e : exception do
@@ -7814,7 +7817,7 @@ begin
               i := 0;
               while (i < TempSize) do
                 begin
-                  TempList.SetString(i, aValue[i]);
+                  TempList.SetString(i, {$IFDEF FPC}UTF8Decode({$ENDIF}aValue[i]{$IFDEF FPC}){$ENDIF});
                   inc(i);
                 end;
 
@@ -7823,7 +7826,7 @@ begin
                            aBrowser.Host.RequestContext.SetPreference(aName, TempValue, TempError);
 
               if not(Result) then
-                OutputDebugMessage('TChromiumCore.UpdatePreference error : ' + quotedstr(TempError));
+                OutputDebugMessage('TChromiumCore.UpdatePreference error: ' + {$IFDEF FPC}UTF8Encode({$ENDIF}TempError{$IFDEF FPC}){$ENDIF});
             end;
         end;
     except
@@ -7847,7 +7850,7 @@ begin
     if (length(aName) > 0) and (length(aValue) > 0) then
       begin
         TempSL           := TStringList.Create;
-        TempSL.CommaText := aValue;
+        TempSL.CommaText := {$IFDEF FPC}UTF8Encode({$ENDIF}aValue{$IFDEF FPC}){$ENDIF};
         Result           := UpdatePreference(aBrowser, aName, TempSL);
       end;
   finally
@@ -7858,7 +7861,7 @@ end;
 function TChromiumCore.doSavePreferences : boolean;
 begin
   Result := Initialized and
-            TCEFJson.SaveToFile(Browser.Host.RequestContext.GetAllPreferences(True), FPrefsFileName);
+            TCEFJson.SaveToFile(Browser.Host.RequestContext.GetAllPreferences(True), {$IFDEF FPC}UTF8Decode({$ENDIF}FPrefsFileName{$IFDEF FPC}){$ENDIF});
 
   {$IFDEF MSWINDOWS}
   SendCompMessage(CEF_PREFERENCES_SAVED, Ord(Result));
@@ -8194,7 +8197,7 @@ begin
       if (TempContext <> nil) and not(FPreferenceInfoList.HasPreference(name_)) then
         begin
           i := FPreferenceInfoList.AddPreference(name_, self);
-          TempContext.AddPreferenceObserver(name, TPreferenceInfo(FPreferenceInfoList[i]).Observer);
+          TempContext.AddPreferenceObserver(name_, TPreferenceInfo(FPreferenceInfoList[i]).Observer);
         end;
     finally
       FPreferenceInfoCS.Release;

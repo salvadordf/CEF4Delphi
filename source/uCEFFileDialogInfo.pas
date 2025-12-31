@@ -133,11 +133,11 @@ end;
 
 function TCEFFileDialogInfo.GetDefaultMimeTypeDescription(const aMimeType : ustring) : ustring;
 begin
-  if      (CompareStr(copy(aMimeType, 1, 5), 'audio') = 0) then Result := FDefaultAudioFileDesc
-  else if (CompareStr(copy(aMimeType, 1, 5), 'video') = 0) then Result := FDefaultVideoFileDesc
-  else if (CompareStr(copy(aMimeType, 1, 4), 'text')  = 0) then Result := FDefaultTextFileDesc
-  else if (CompareStr(copy(aMimeType, 1, 5), 'image') = 0) then Result := FDefaultImageFileDesc
-  else                                                          Result := FDefaultUnknownFileDesc;
+  if      (CompareStr({$IFDEF FPC}UTF8Encode({$ENDIF}copy(aMimeType, 1, 5){$IFDEF FPC}){$ENDIF}, 'audio') = 0) then Result := FDefaultAudioFileDesc
+  else if (CompareStr({$IFDEF FPC}UTF8Encode({$ENDIF}copy(aMimeType, 1, 5){$IFDEF FPC}){$ENDIF}, 'video') = 0) then Result := FDefaultVideoFileDesc
+  else if (CompareStr({$IFDEF FPC}UTF8Encode({$ENDIF}copy(aMimeType, 1, 4){$IFDEF FPC}){$ENDIF}, 'text')  = 0) then Result := FDefaultTextFileDesc
+  else if (CompareStr({$IFDEF FPC}UTF8Encode({$ENDIF}copy(aMimeType, 1, 5){$IFDEF FPC}){$ENDIF}, 'image') = 0) then Result := FDefaultImageFileDesc
+  else                                                                                                              Result := FDefaultUnknownFileDesc;
 end;
 
 procedure TCEFFileDialogInfo.SetAcceptFilters(const aAcceptFilters : TStrings);
@@ -193,19 +193,19 @@ begin
     for i := 0 to pred(FAcceptFilters.Count) do
       begin
         if assigned(FAcceptExtensions) and (FAcceptFilters.Count = FAcceptExtensions.Count) then
-          TempExtension := FAcceptExtensions[i]
+          TempExtension := {$IFDEF FPC}UTF8Decode({$ENDIF}FAcceptExtensions[i]{$IFDEF FPC}){$ENDIF}
          else
           TempExtension := '';
 
         if assigned(FAcceptDescriptions) and (FAcceptFilters.Count = FAcceptDescriptions.Count) then
-          TempDescription := FAcceptDescriptions[i]
+          TempDescription := {$IFDEF FPC}UTF8Decode({$ENDIF}FAcceptDescriptions[i]{$IFDEF FPC}){$ENDIF}
          else
           TempDescription := '';
 
         if (i = 0) then
-          Result := CEFAcceptFilterToDialogFilter(FAcceptFilters[i], TempExtension, TempDescription)
+          Result := CEFAcceptFilterToDialogFilter({$IFDEF FPC}UTF8Decode({$ENDIF}FAcceptFilters[i]{$IFDEF FPC}){$ENDIF}, TempExtension, TempDescription)
          else
-          Result := Result + '|' + CEFAcceptFilterToDialogFilter(FAcceptFilters[i], TempExtension, TempDescription);
+          Result := Result + '|' + CEFAcceptFilterToDialogFilter({$IFDEF FPC}UTF8Decode({$ENDIF}FAcceptFilters[i]{$IFDEF FPC}){$ENDIF}, TempExtension, TempDescription);
       end;
 
   if (length(Result) > 0) then
@@ -225,13 +225,13 @@ begin
       if (aExtensions[i] = ';') then aExtensions[i] := #13;
 
     TempSL      := TStringList.Create;
-    TempSL.Text := aExtensions;
+    TempSL.Text := {$IFDEF FPC}UTF8Encode({$ENDIF}aExtensions{$IFDEF FPC}){$ENDIF};
     Result      := '';
 
     i := 0;
     while (i < TempSL.Count) do
       begin
-        TempExt := TempSL[i];
+        TempExt := {$IFDEF FPC}UTF8Decode({$ENDIF}TempSL[i]{$IFDEF FPC}){$ENDIF};
         if (length(TempExt) > 1) and (TempExt[1] = '.') then
           Result := Result + '*' + TempExt + ';';
         inc(i);
@@ -307,7 +307,7 @@ begin
                   begin
                     for i := 0 to pred(TempSL.Count) do
                       begin
-                        TempExt := TempSL[i];
+                        TempExt := {$IFDEF FPC}UTF8Decode({$ENDIF}TempSL[i]{$IFDEF FPC}){$ENDIF};
 
                         if (length(TempExt) > 0) and (TempExt[1] = '.') then
                           TempExtList := TempExtList + '*' + TempExt + ';'

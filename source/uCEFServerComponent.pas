@@ -22,7 +22,7 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFServerEvents, uCEFServerHandler, uCEFConstants;
+  uCEFTypes, {$IFDEF DELPHI16_UP}uCEFConstants,{$ENDIF} uCEFInterfaces, uCEFServerEvents, uCEFServerHandler;
 
 const
   DEFAULT_CEFSERVER_ADDRESS  = '127.0.0.1';
@@ -30,7 +30,7 @@ const
   DEFAULT_CEFSERVER_BACKLOG  = 10;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  {$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}
   /// <summary>
   /// The TCEFServerComponent class puts together all CEF server procedures, functions, properties and events in one place.
   /// </summary>

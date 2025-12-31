@@ -241,7 +241,7 @@ begin
           aFormat.cfFormat := FFileDescFormat;
 
           TempFileName     := TempFileName + #0;
-          Result           := GetStorageForFileDescriptor(aMedium, TempFileName);
+          Result           := GetStorageForFileDescriptor(aMedium, {$IFDEF FPC}UTF8Encode({$ENDIF}TempFileName{$IFDEF FPC}){$ENDIF});
         end;
     end;
 end;
@@ -375,7 +375,11 @@ begin
         {$IFDEF DELPHI12_UP}
         Result := UTF8ToString(TempString);
         {$ELSE}
-        Result := UTF8Decode(TempString);
+          {$IFDEF FPC}
+          Result := TempString;
+          {$ELSE}
+          Result := UTF8Decode(TempString);
+          {$ENDIF}
         {$ENDIF}
     end
    else
@@ -449,7 +453,11 @@ begin
           {$IFDEF DELPHI12_UP}
           html := UTF8ToString(copy(cf_html, TempFragStartCommentPos, TempFragEndCommentPos - TempFragStartCommentPos));
           {$ELSE}
-          html := UTF8Decode(copy(cf_html, TempFragStartCommentPos, TempFragEndCommentPos - TempFragStartCommentPos));
+            {$IFDEF FPC}
+            html := copy(cf_html, TempFragStartCommentPos, TempFragEndCommentPos - TempFragStartCommentPos);
+            {$ELSE}
+            html := UTF8Decode(copy(cf_html, TempFragStartCommentPos, TempFragEndCommentPos - TempFragStartCommentPos));
+            {$ENDIF}
           {$ENDIF}
 
           base_url := FindStringField(cf_html, CFHTML_SOURCEURL, TempSourcePos);
@@ -459,7 +467,7 @@ end;
 
 function TCEFDragAndDropMgr.DataObjectToDragData_Unicode(var aMedium : TStgMedium; var aDragData : ICefDragData) : boolean;
 var
-  TempText : string;
+  TempText : ustring;
   TempPointer : pointer;
 begin
   Result := False;
@@ -496,10 +504,14 @@ begin
           {$IFDEF DELPHI12_UP}
           TempText := UTF8ToString(PAnsiChar(TempPointer));
           {$ELSE}
-          TempText := UTF8Decode(PAnsiChar(TempPointer));
+            {$IFDEF FPC}
+            TempText := PAnsiChar(TempPointer);
+            {$ELSE}
+            TempText := UTF8Decode(PAnsiChar(TempPointer));
+            {$ENDIF}
           {$ENDIF}
 
-          aDragData.SetFragmentText(TempText);
+          aDragData.SetFragmentText({$IFDEF FPC}UTF8Decode({$ENDIF}TempText{$IFDEF FPC}){$ENDIF});
           GlobalUnlock(aMedium.hGlobal);
           Result   := True;
         end;
@@ -510,7 +522,7 @@ end;
 
 function TCEFDragAndDropMgr.DataObjectToDragData_URL(var aMedium : TStgMedium; var aDragData : ICefDragData) : boolean;
 var
-  TempText, TempURL, TempTitle : string;
+  TempText, TempURL, TempTitle : ustring;
   TempPos : integer;
   TempPointer : pointer;
 begin
@@ -523,8 +535,8 @@ begin
       if (TempPointer <> nil) then
         begin
           TempText := PWideChar(TempPointer);
-          TempPos  := LastDelimiter(#13, TempText);
-          if (TempPos <= 0) then TempPos := LastDelimiter(#10, TempText);
+          TempPos  := LastDelimiter(#13, {$IFDEF FPC}UTF8Encode({$ENDIF}TempText{$IFDEF FPC}){$ENDIF});
+          if (TempPos <= 0) then TempPos := LastDelimiter(#10, {$IFDEF FPC}UTF8Encode({$ENDIF}TempText{$IFDEF FPC}){$ENDIF});
 
           if (TempPos > 0) then
             begin
@@ -565,8 +577,8 @@ begin
 
           CFHtmlToHtml(TempAnsi, TempHTML, TempBaseURL);
 
-          aDragData.SetFragmentHtml(TempHTML);
-          aDragData.SetFragmentBaseURL(TempBaseURL);
+          aDragData.SetFragmentHtml({$IFDEF FPC}UTF8Decode({$ENDIF}TempHTML{$IFDEF FPC}){$ENDIF});
+          aDragData.SetFragmentBaseURL({$IFDEF FPC}UTF8Decode({$ENDIF}TempBaseURL{$IFDEF FPC}){$ENDIF});
           GlobalUnlock(aMedium.hGlobal);
           Result := True;
         end;
@@ -591,7 +603,9 @@ begin
 
       if (TempPointer <> nil) then
         begin
+          {$hints off}
           TempHdrop    := THandle(TempPointer);
+          {$hints on}
           TempNumFiles := DragQueryFile(TempHdrop, $FFFFFFFF, nil, 0);
           TempAdded    := False;
           i            := 0;
@@ -609,9 +623,9 @@ begin
                   TempAdded    := True;
 
                   if (length(TempFileName) > 0) then
-                    aDragData.AddFile(TempFilePath, TempFileName)
+                    aDragData.AddFile({$IFDEF FPC}UTF8Decode({$ENDIF}TempFilePath{$IFDEF FPC}){$ENDIF}, {$IFDEF FPC}UTF8Decode({$ENDIF}TempFileName{$IFDEF FPC}){$ENDIF})
                    else
-                    aDragData.AddFile(TempFilePath, TempFilePath);
+                    aDragData.AddFile({$IFDEF FPC}UTF8Decode({$ENDIF}TempFilePath{$IFDEF FPC}){$ENDIF}, {$IFDEF FPC}UTF8Decode({$ENDIF}TempFilePath{$IFDEF FPC}){$ENDIF});
                 end;
 
               inc(i);
@@ -705,7 +719,9 @@ begin
           {$IFNDEF FPC}
           TempResult     := DoDragDrop(TempDataObject, TempDropSource, FOLEEffect, TempResEffect);
           {$ELSE}
+          {$warnings off}
           TempResult     := DoDragDrop(TempDataObject, TempDropSource, DWORD(FOLEEffect), LPDWORD(TempResEffect));
+          {$warnings on}
           {$ENDIF}
 
           if (TempResult <> DRAGDROP_S_DROP) then TempResEffect := DROPEFFECT_NONE;

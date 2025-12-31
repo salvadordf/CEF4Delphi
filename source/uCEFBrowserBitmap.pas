@@ -88,10 +88,12 @@ end;
 
 function TCEFBrowserBitmap.GetBufferBits : pointer;
 begin
+  {$warnings off}
   if (Height <> 0) then
     Result := Scanline[pred(Height)]
    else
     Result := nil;
+  {$warnings on}
 end;
 
 function TCEFBrowserBitmap.BeginDraw : boolean;

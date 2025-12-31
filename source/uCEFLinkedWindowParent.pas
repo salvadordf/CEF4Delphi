@@ -22,10 +22,10 @@ uses
       Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFChromium, uCEFLinkedWinControlBase, uCEFConstants;
+  uCEFChromium, {$IFDEF DELPHI16_UP}uCEFConstants,{$ENDIF} uCEFLinkedWinControlBase;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  {$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}
   /// <summary>
   /// This component can be used by VCL and LCL applications. It has the
   /// same purpose as TCEFWindowParent but it has a Chromium property to

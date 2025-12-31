@@ -118,7 +118,9 @@ begin
 
       if Lock then
         try
+          {$warnings off}
           Result := FList.IndexOf(Pointer(aID)) >= 0;
+          {$warnings on}
         finally
           Unlock;
         end;
@@ -128,9 +130,10 @@ end;
 function TCEFComponentIdList.NextID : integer;
 begin
   Result := 0;
-
+  {$warnings off}
   if Lock then
     try
+
       repeat
         if (FIdGen < pred(high(integer))) then
           inc(FIdGen)
@@ -143,13 +146,16 @@ begin
     finally
       Unlock;
     end;
+  {$warnings on}
 end;
 
 procedure TCEFComponentIdList.RemoveID(aID : integer);
 begin
   if (aID > 0) and Lock then
     try
+      {$warnings off}
       FList.Remove(Pointer(aID));
+      {$warnings on}
     finally
       Unlock;
     end;

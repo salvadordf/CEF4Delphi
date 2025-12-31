@@ -35,7 +35,7 @@ const
 type
   TSentinelStatus = (ssIdle, ssInitialDelay, ssCheckingChildren, ssClosing);
 
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  {$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}
   /// <summary>
   /// TCEFSentinel is used as a timer that checks the number of running
   /// CEF processes when you close all browsers before shutdown.
@@ -219,6 +219,7 @@ begin
     CEF_SENTINEL_START   : Application.QueueAsyncCall(@doStartMsg, 0);
     CEF_SENTINEL_DOCLOSE : Application.QueueAsyncCall(@doCloseMsg, 0);
   end;
+  Result := True;
   {$ENDIF}
 end;
 

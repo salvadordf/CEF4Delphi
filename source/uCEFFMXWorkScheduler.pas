@@ -13,7 +13,7 @@ uses
   uCEFConstants, uCEFWorkSchedulerQueueThread, uCEFWorkSchedulerThread;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  {$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}
   /// <summary>
   /// <para>Implementation of an external message pump for FMX.</para>
   /// <para>Read the GlobalCEFApp.OnScheduleMessagePumpWork documentation for all the details.</para>

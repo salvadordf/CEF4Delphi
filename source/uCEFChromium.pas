@@ -22,10 +22,10 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFChromiumCore, uCEFConstants;
+  uCEFTypes, {$IFDEF DELPHI16_UP}uCEFConstants,{$ENDIF} uCEFInterfaces, uCEFChromiumCore;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  {$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}
   /// <summary>
   ///  VCL and LCL version of TChromiumCore that puts together all browser procedures, functions, properties and events in one place.
   ///  It has all you need to create, modify and destroy a web browser.
@@ -153,7 +153,7 @@ var
   TempHandle : TCefWindowHandle;
 begin
   if (aDevTools <> nil) then
-    DefaultInitializeDevToolsWindowInfo(aDevTools.Handle, aDevTools.ClientRect, aDevTools.Name)
+    DefaultInitializeDevToolsWindowInfo(aDevTools.Handle, aDevTools.ClientRect, {$IFDEF FPC}UTF8Decode({$ENDIF}aDevTools.Name{$IFDEF FPC}){$ENDIF})
    else
     begin
       InitializeWindowHandle(TempHandle);

@@ -158,14 +158,14 @@ begin
                 {$IFDEF VER140}
                 switches.Add(TempKey + '=' + TempValue)  // Only for Delphi 6
                 {$ELSE}
-                switches.Add(TempKey + switches.NameValueSeparator + TempValue)
+                switches.Add({$IFDEF FPC}UTF8Encode({$ENDIF}TempKey + {$IFDEF FPC}UTF8Decode({$ENDIF}switches.NameValueSeparator{$IFDEF FPC}){$ENDIF} + TempValue{$IFDEF FPC}){$ENDIF})
                 {$ENDIF}
                else
                 if (length(TempKey) > 0) then
-                  switches.Add(TempKey)
+                  switches.Add({$IFDEF FPC}UTF8Encode({$ENDIF}TempKey{$IFDEF FPC}){$ENDIF})
                  else
                   if (length(TempValue) > 0) then
-                    switches.Add(TempValue);
+                    switches.Add({$IFDEF FPC}UTF8Encode({$ENDIF}TempValue{$IFDEF FPC}){$ENDIF});
 
               inc(i);
             end;
@@ -201,8 +201,8 @@ begin
 
           while (i < j) do
             begin
-              SwitchKeys.Add(TempStrMap.Key[i]);
-              SwitchValues.Add(TempStrMap.Value[i]);
+              SwitchKeys.Add({$IFDEF FPC}UTF8Encode({$ENDIF}TempStrMap.Key[i]{$IFDEF FPC}){$ENDIF});
+              SwitchValues.Add({$IFDEF FPC}UTF8Encode({$ENDIF}TempStrMap.Value[i]{$IFDEF FPC}){$ENDIF});
               inc(i);
             end;
 

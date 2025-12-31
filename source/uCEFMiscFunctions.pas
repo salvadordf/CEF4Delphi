@@ -639,7 +639,7 @@ function  CefCreateUrl(var parts: TUrlParts): ustring;
 /// filesystem, and (b) omit the port if it is the default for the scheme. Do
 /// not use this for URLs which will be parsed or sent to other applications.
 /// </summary>
-function  CefFormatUrlForSecurityDisplay(const originUrl: string): string;
+function  CefFormatUrlForSecurityDisplay(const originUrl: ustring): ustring;
 /// <summary>
 /// Returns the mime type for the specified file extension or an NULL string if
 /// unknown.
@@ -2209,7 +2209,7 @@ begin
     try
       if FileExists(aDLLFile) then
         begin
-          TempStream := TFileStream.Create(aDLLFile, fmOpenRead or fmShareDenyWrite);
+          TempStream := TFileStream.Create({$IFDEF FPC}UTF8Encode({$ENDIF}aDLLFile{$IFDEF FPC}){$ENDIF}, fmOpenRead or fmShareDenyWrite);
           TempStream.seek(0, soFromBeginning);
           TempStream.ReadBuffer(TempHeader, SizeOf(TempHeader));
 
@@ -2498,7 +2498,7 @@ begin
     end;
 end;
 
-function CefFormatUrlForSecurityDisplay(const originUrl: string): string;
+function CefFormatUrlForSecurityDisplay(const originUrl: ustring): ustring;
 var
   TempOrigin : TCefString;
 begin
