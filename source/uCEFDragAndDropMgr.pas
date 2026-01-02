@@ -404,8 +404,14 @@ var
   TempFragStartPos, TempFragEndPos : integer;
   TempFragStartCommentPos, TempFragEndCommentPos : integer;
 begin
-  html     := '';
-  base_url := '';
+  html             := '';
+  base_url         := '';
+  TempVersionPos   := 0;
+  TempSourcePos    := 0;
+  TempHTMLStartPos := 0;
+  TempHTMLEndPos   := 0;
+  TempFragStartPos := 0;
+  TempFragEndPos   := 0;
 
   if (FindStringField(cf_html, CFHTML_VERSION, TempVersionPos) <> '0.9') then exit;
 
