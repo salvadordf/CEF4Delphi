@@ -45,6 +45,7 @@ Delphinus-Support
 * [WebView4Delphi](https://github.com/salvadordf/WebView4Delphi)
 * [WebUI4Delphi](https://github.com/salvadordf/WebUI4Delphi)
 * [WebUI4CSharp](https://github.com/salvadordf/WebUI4CSharp)
+* [VirtualTouchKeyboard4Delphi](https://github.com/salvadordf/VirtualTouchKeyboard4Delphi)
 * [DCEF3](https://github.com/hgourvest/dcef3) 
 * [fpCEF3](https://github.com/dliw/fpCEF3)
 * [CEF](https://bitbucket.org/chromiumembedded/cef/)
