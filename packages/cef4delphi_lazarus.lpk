@@ -21,889 +21,889 @@
     </CompilerOptions>
     <Description Value="CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC."/>
     <License Value="MPL 1.1"/>
-    <Version Major="143" Release="13"/>
+    <Version Major="143" Release="14"/>
     <Files Count="216">
       <Item1>
-        <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
-        <UnitName Value="uCEFAccessibilityHandler"/>
-      </Item1>
-      <Item2>
-        <Filename Value="..\source\uCEFApp.pas"/>
-        <UnitName Value="uCEFApp"/>
-      </Item2>
-      <Item3>
-        <Filename Value="..\source\uCEFApplication.pas"/>
-        <UnitName Value="uCEFApplication"/>
-      </Item3>
-      <Item4>
-        <Filename Value="..\source\uCEFAuthCallback.pas"/>
-        <UnitName Value="uCEFAuthCallback"/>
-      </Item4>
-      <Item5>
-        <Filename Value="..\source\uCEFBaseRefCounted.pas"/>
-        <UnitName Value="uCEFBaseRefCounted"/>
-      </Item5>
-      <Item6>
-        <Filename Value="..\source\uCEFBaseScopedWrapper.pas"/>
-        <UnitName Value="uCEFBaseScopedWrapper"/>
-      </Item6>
-      <Item7>
-        <Filename Value="..\source\uCEFBeforeDownloadCallback.pas"/>
-        <UnitName Value="uCEFBeforeDownloadCallback"/>
-      </Item7>
-      <Item8>
-        <Filename Value="..\source\uCEFBinaryValue.pas"/>
-        <UnitName Value="uCEFBinaryValue"/>
-      </Item8>
-      <Item9>
-        <Filename Value="..\source\uCEFBrowser.pas"/>
-        <UnitName Value="uCEFBrowser"/>
-      </Item9>
-      <Item10>
-        <Filename Value="..\source\uCEFBrowserProcessHandler.pas"/>
-        <UnitName Value="uCEFBrowserProcessHandler"/>
-      </Item10>
-      <Item11>
-        <Filename Value="..\source\uCEFCallback.pas"/>
-        <UnitName Value="uCEFCallback"/>
-      </Item11>
-      <Item12>
-        <Filename Value="..\source\uCEFChromiumEvents.pas"/>
-        <UnitName Value="uCEFChromiumEvents"/>
-      </Item12>
-      <Item13>
-        <Filename Value="..\source\uCEFChromiumFontOptions.pas"/>
-        <UnitName Value="uCEFChromiumFontOptions"/>
-      </Item13>
-      <Item14>
-        <Filename Value="..\source\uCEFChromiumOptions.pas"/>
-        <UnitName Value="uCEFChromiumOptions"/>
-      </Item14>
-      <Item15>
-        <Filename Value="..\source\uCEFChromiumWindow.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFChromiumWindow"/>
-      </Item15>
-      <Item16>
-        <Filename Value="..\source\uCEFClient.pas"/>
-        <UnitName Value="uCEFClient"/>
-      </Item16>
-      <Item17>
-        <Filename Value="..\source\uCEFCommandLine.pas"/>
-        <UnitName Value="uCEFCommandLine"/>
-      </Item17>
-      <Item18>
-        <Filename Value="..\source\uCEFCompletionCallback.pas"/>
-        <UnitName Value="uCEFCompletionCallback"/>
-      </Item18>
-      <Item19>
-        <Filename Value="..\source\uCEFConstants.pas"/>
-        <UnitName Value="uCEFConstants"/>
-      </Item19>
-      <Item20>
-        <Filename Value="..\source\uCEFContextMenuHandler.pas"/>
-        <UnitName Value="uCEFContextMenuHandler"/>
-      </Item20>
-      <Item21>
-        <Filename Value="..\source\uCEFContextMenuParams.pas"/>
-        <UnitName Value="uCEFContextMenuParams"/>
-      </Item21>
-      <Item22>
-        <Filename Value="..\source\uCEFCookieManager.pas"/>
-        <UnitName Value="uCEFCookieManager"/>
-      </Item22>
-      <Item23>
-        <Filename Value="..\source\uCEFCookieVisitor.pas"/>
-        <UnitName Value="uCEFCookieVisitor"/>
-      </Item23>
-      <Item24>
-        <Filename Value="..\source\uCEFCustomStreamReader.pas"/>
-        <UnitName Value="uCEFCustomStreamReader"/>
-      </Item24>
-      <Item25>
-        <Filename Value="..\source\uCEFDeleteCookiesCallback.pas"/>
-        <UnitName Value="uCEFDeleteCookiesCallback"/>
-      </Item25>
-      <Item26>
-        <Filename Value="..\source\uCEFDialogHandler.pas"/>
-        <UnitName Value="uCEFDialogHandler"/>
-      </Item26>
-      <Item27>
-        <Filename Value="..\source\uCEFDictionaryValue.pas"/>
-        <UnitName Value="uCEFDictionaryValue"/>
-      </Item27>
-      <Item28>
-        <Filename Value="..\source\uCEFDisplayHandler.pas"/>
-        <UnitName Value="uCEFDisplayHandler"/>
-      </Item28>
-      <Item29>
-        <Filename Value="..\source\uCEFDomDocument.pas"/>
-        <UnitName Value="uCEFDomDocument"/>
-      </Item29>
-      <Item30>
-        <Filename Value="..\source\uCEFDomNode.pas"/>
-        <UnitName Value="uCEFDomNode"/>
-      </Item30>
-      <Item31>
-        <Filename Value="..\source\uCEFDomVisitor.pas"/>
-        <UnitName Value="uCEFDomVisitor"/>
-      </Item31>
-      <Item32>
-        <Filename Value="..\source\uCEFDownloadHandler.pas"/>
-        <UnitName Value="uCEFDownloadHandler"/>
-      </Item32>
-      <Item33>
-        <Filename Value="..\source\uCEFDownloadImageCallBack.pas"/>
-        <UnitName Value="uCEFDownloadImageCallBack"/>
-      </Item33>
-      <Item34>
-        <Filename Value="..\source\uCEFDownloadItem.pas"/>
-        <UnitName Value="uCEFDownloadItem"/>
-      </Item34>
-      <Item35>
-        <Filename Value="..\source\uCEFDownloadItemCallback.pas"/>
-        <UnitName Value="uCEFDownloadItemCallback"/>
-      </Item35>
-      <Item36>
-        <Filename Value="..\source\uCEFDragData.pas"/>
-        <UnitName Value="uCEFDragData"/>
-      </Item36>
-      <Item37>
-        <Filename Value="..\source\uCEFDragHandler.pas"/>
-        <UnitName Value="uCEFDragHandler"/>
-      </Item37>
-      <Item38>
-        <Filename Value="..\source\uCEFEndTracingCallback.pas"/>
-        <UnitName Value="uCEFEndTracingCallback"/>
-      </Item38>
-      <Item39>
-        <Filename Value="..\source\uCEFFileDialogCallback.pas"/>
-        <UnitName Value="uCEFFileDialogCallback"/>
-      </Item39>
-      <Item40>
-        <Filename Value="..\source\uCEFFindHandler.pas"/>
-        <UnitName Value="uCEFFindHandler"/>
-      </Item40>
-      <Item41>
-        <Filename Value="..\source\uCEFFocusHandler.pas"/>
-        <UnitName Value="uCEFFocusHandler"/>
-      </Item41>
-      <Item42>
-        <Filename Value="..\source\uCEFFrame.pas"/>
-        <UnitName Value="uCEFFrame"/>
-      </Item42>
-      <Item43>
-        <Filename Value="..\source\uCEFImage.pas"/>
-        <UnitName Value="uCEFImage"/>
-      </Item43>
-      <Item44>
-        <Filename Value="..\source\uCEFInterfaces.pas"/>
-        <UnitName Value="uCEFInterfaces"/>
-      </Item44>
-      <Item45>
-        <Filename Value="..\source\uCEFJsDialogCallback.pas"/>
-        <UnitName Value="uCEFJsDialogCallback"/>
-      </Item45>
-      <Item46>
-        <Filename Value="..\source\uCEFJsDialogHandler.pas"/>
-        <UnitName Value="uCEFJsDialogHandler"/>
-      </Item46>
-      <Item47>
-        <Filename Value="..\source\uCEFKeyboardHandler.pas"/>
-        <UnitName Value="uCEFKeyboardHandler"/>
-      </Item47>
-      <Item48>
-        <Filename Value="..\source\uCEFLibFunctions.pas"/>
-        <UnitName Value="uCEFLibFunctions"/>
-      </Item48>
-      <Item49>
-        <Filename Value="..\source\uCEFLifeSpanHandler.pas"/>
-        <UnitName Value="uCEFLifeSpanHandler"/>
-      </Item49>
-      <Item50>
-        <Filename Value="..\source\uCEFListValue.pas"/>
-        <UnitName Value="uCEFListValue"/>
-      </Item50>
-      <Item51>
-        <Filename Value="..\source\uCEFLoadHandler.pas"/>
-        <UnitName Value="uCEFLoadHandler"/>
-      </Item51>
-      <Item52>
-        <Filename Value="..\source\uCEFMenuModel.pas"/>
-        <UnitName Value="uCEFMenuModel"/>
-      </Item52>
-      <Item53>
-        <Filename Value="..\source\uCEFMenuModelDelegate.pas"/>
-        <UnitName Value="uCEFMenuModelDelegate"/>
-      </Item53>
-      <Item54>
-        <Filename Value="..\source\uCEFMiscFunctions.pas"/>
-        <UnitName Value="uCEFMiscFunctions"/>
-      </Item54>
-      <Item55>
-        <Filename Value="..\source\uCEFNavigationEntry.pas"/>
-        <UnitName Value="uCEFNavigationEntry"/>
-      </Item55>
-      <Item56>
-        <Filename Value="..\source\uCEFNavigationEntryVisitor.pas"/>
-        <UnitName Value="uCEFNavigationEntryVisitor"/>
-      </Item56>
-      <Item57>
-        <Filename Value="..\source\uCEFPDFPrintCallback.pas"/>
-        <UnitName Value="uCEFPDFPrintCallback"/>
-      </Item57>
-      <Item58>
-        <Filename Value="..\source\uCEFPDFPrintOptions.pas"/>
-        <UnitName Value="uCEFPDFPrintOptions"/>
-      </Item58>
-      <Item59>
-        <Filename Value="..\source\uCEFPostData.pas"/>
-        <UnitName Value="uCEFPostData"/>
-      </Item59>
-      <Item60>
-        <Filename Value="..\source\uCEFPostDataElement.pas"/>
-        <UnitName Value="uCEFPostDataElement"/>
-      </Item60>
-      <Item61>
-        <Filename Value="..\source\uCEFPrintSettings.pas"/>
-        <UnitName Value="uCEFPrintSettings"/>
-      </Item61>
-      <Item62>
-        <Filename Value="..\source\uCEFProcessMessage.pas"/>
-        <UnitName Value="uCEFProcessMessage"/>
-      </Item62>
-      <Item63>
-        <Filename Value="..\source\uCEFRenderHandler.pas"/>
-        <UnitName Value="uCEFRenderHandler"/>
-      </Item63>
-      <Item64>
-        <Filename Value="..\source\uCEFRenderProcessHandler.pas"/>
-        <UnitName Value="uCEFRenderProcessHandler"/>
-      </Item64>
-      <Item65>
-        <Filename Value="..\source\uCEFRequest.pas"/>
-        <UnitName Value="uCEFRequest"/>
-      </Item65>
-      <Item66>
-        <Filename Value="..\source\uCEFRequestContext.pas"/>
-        <UnitName Value="uCEFRequestContext"/>
-      </Item66>
-      <Item67>
-        <Filename Value="..\source\uCEFRequestContextHandler.pas"/>
-        <UnitName Value="uCEFRequestContextHandler"/>
-      </Item67>
-      <Item68>
-        <Filename Value="..\source\uCEFRequestHandler.pas"/>
-        <UnitName Value="uCEFRequestHandler"/>
-      </Item68>
-      <Item69>
-        <Filename Value="..\source\uCEFResolveCallback.pas"/>
-        <UnitName Value="uCEFResolveCallback"/>
-      </Item69>
-      <Item70>
-        <Filename Value="..\source\uCEFResourceBundle.pas"/>
-        <UnitName Value="uCEFResourceBundle"/>
-      </Item70>
-      <Item71>
-        <Filename Value="..\source\uCEFResourceBundleHandler.pas"/>
-        <UnitName Value="uCEFResourceBundleHandler"/>
-      </Item71>
-      <Item72>
-        <Filename Value="..\source\uCEFResourceHandler.pas"/>
-        <UnitName Value="uCEFResourceHandler"/>
-      </Item72>
-      <Item73>
-        <Filename Value="..\source\uCEFResponse.pas"/>
-        <UnitName Value="uCEFResponse"/>
-      </Item73>
-      <Item74>
-        <Filename Value="..\source\uCEFResponseFilter.pas"/>
-        <UnitName Value="uCEFResponseFilter"/>
-      </Item74>
-      <Item75>
-        <Filename Value="..\source\uCEFRunContextMenuCallback.pas"/>
-        <UnitName Value="uCEFRunContextMenuCallback"/>
-      </Item75>
-      <Item76>
-        <Filename Value="..\source\uCEFRunFileDialogCallback.pas"/>
-        <UnitName Value="uCEFRunFileDialogCallback"/>
-      </Item76>
-      <Item77>
-        <Filename Value="..\source\uCEFSchemeHandlerFactory.pas"/>
-        <UnitName Value="uCEFSchemeHandlerFactory"/>
-      </Item77>
-      <Item78>
-        <Filename Value="..\source\uCEFSchemeRegistrar.pas"/>
-        <UnitName Value="uCEFSchemeRegistrar"/>
-      </Item78>
-      <Item79>
-        <Filename Value="..\source\uCEFSelectClientCertificateCallback.pas"/>
-        <UnitName Value="uCEFSelectClientCertificateCallback"/>
-      </Item79>
-      <Item80>
-        <Filename Value="..\source\uCEFSetCookieCallback.pas"/>
-        <UnitName Value="uCEFSetCookieCallback"/>
-      </Item80>
-      <Item81>
-        <Filename Value="..\source\uCEFSslInfo.pas"/>
-        <UnitName Value="uCEFSslInfo"/>
-      </Item81>
-      <Item82>
-        <Filename Value="..\source\uCEFSSLStatus.pas"/>
-        <UnitName Value="uCEFSSLStatus"/>
-      </Item82>
-      <Item83>
-        <Filename Value="..\source\uCEFStreamReader.pas"/>
-        <UnitName Value="uCEFStreamReader"/>
-      </Item83>
-      <Item84>
-        <Filename Value="..\source\uCEFStreamWriter.pas"/>
-        <UnitName Value="uCEFStreamWriter"/>
-      </Item84>
-      <Item85>
-        <Filename Value="..\source\uCEFStringList.pas"/>
-        <UnitName Value="uCEFStringList"/>
-      </Item85>
-      <Item86>
-        <Filename Value="..\source\uCEFStringMap.pas"/>
-        <UnitName Value="uCEFStringMap"/>
-      </Item86>
-      <Item87>
-        <Filename Value="..\source\uCEFStringMultimap.pas"/>
-        <UnitName Value="uCEFStringMultimap"/>
-      </Item87>
-      <Item88>
-        <Filename Value="..\source\uCEFStringVisitor.pas"/>
-        <UnitName Value="uCEFStringVisitor"/>
-      </Item88>
-      <Item89>
-        <Filename Value="..\source\uCEFTask.pas"/>
-        <UnitName Value="uCEFTask"/>
-      </Item89>
-      <Item90>
-        <Filename Value="..\source\uCEFTaskRunner.pas"/>
-        <UnitName Value="uCEFTaskRunner"/>
-      </Item90>
-      <Item91>
-        <Filename Value="..\source\uCEFThread.pas"/>
-        <UnitName Value="uCEFThread"/>
-      </Item91>
-      <Item92>
-        <Filename Value="..\source\uCEFTypes.pas"/>
-        <UnitName Value="uCEFTypes"/>
-      </Item92>
-      <Item93>
-        <Filename Value="..\source\uCEFUrlRequest.pas"/>
-        <UnitName Value="uCEFUrlRequest"/>
-      </Item93>
-      <Item94>
-        <Filename Value="..\source\uCEFUrlrequestClient.pas"/>
-        <UnitName Value="uCEFUrlrequestClient"/>
-      </Item94>
-      <Item95>
-        <Filename Value="..\source\uCEFv8Accessor.pas"/>
-        <UnitName Value="uCEFv8Accessor"/>
-      </Item95>
-      <Item96>
-        <Filename Value="..\source\uCEFv8ArrayBufferReleaseCallback.pas"/>
-        <UnitName Value="uCEFv8ArrayBufferReleaseCallback"/>
-      </Item96>
-      <Item97>
-        <Filename Value="..\source\uCEFv8Context.pas"/>
-        <UnitName Value="uCEFv8Context"/>
-      </Item97>
-      <Item98>
-        <Filename Value="..\source\uCEFv8Exception.pas"/>
-        <UnitName Value="uCEFv8Exception"/>
-      </Item98>
-      <Item99>
-        <Filename Value="..\source\uCEFv8Handler.pas"/>
-        <UnitName Value="uCEFv8Handler"/>
-      </Item99>
-      <Item100>
-        <Filename Value="..\source\uCEFv8Interceptor.pas"/>
-        <UnitName Value="uCEFv8Interceptor"/>
-      </Item100>
-      <Item101>
-        <Filename Value="..\source\uCEFv8StackFrame.pas"/>
-        <UnitName Value="uCEFv8StackFrame"/>
-      </Item101>
-      <Item102>
-        <Filename Value="..\source\uCEFv8StackTrace.pas"/>
-        <UnitName Value="uCEFv8StackTrace"/>
-      </Item102>
-      <Item103>
-        <Filename Value="..\source\uCEFv8Value.pas"/>
-        <UnitName Value="uCEFv8Value"/>
-      </Item103>
-      <Item104>
-        <Filename Value="..\source\uCEFValue.pas"/>
-        <UnitName Value="uCEFValue"/>
-      </Item104>
-      <Item105>
-        <Filename Value="..\source\uCEFWaitableEvent.pas"/>
-        <UnitName Value="uCEFWaitableEvent"/>
-      </Item105>
-      <Item106>
-        <Filename Value="..\source\uCEFWindowParent.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFWindowParent"/>
-      </Item106>
-      <Item107>
-        <Filename Value="..\source\uCEFWorkScheduler.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFWorkScheduler"/>
-      </Item107>
-      <Item108>
-        <Filename Value="..\source\uCEFWorkSchedulerThread.pas"/>
-        <UnitName Value="uCEFWorkSchedulerThread"/>
-      </Item108>
-      <Item109>
-        <Filename Value="..\source\uCEFWriteHandler.pas"/>
-        <UnitName Value="uCEFWriteHandler"/>
-      </Item109>
-      <Item110>
-        <Filename Value="..\source\uCEFX509Certificate.pas"/>
-        <UnitName Value="uCEFX509Certificate"/>
-      </Item110>
-      <Item111>
-        <Filename Value="..\source\uCEFX509CertPrincipal.pas"/>
-        <UnitName Value="uCEFX509CertPrincipal"/>
-      </Item111>
-      <Item112>
-        <Filename Value="..\source\uCEFXmlReader.pas"/>
-        <UnitName Value="uCEFXmlReader"/>
-      </Item112>
-      <Item113>
-        <Filename Value="..\source\uCEFZipReader.pas"/>
-        <UnitName Value="uCEFZipReader"/>
-      </Item113>
-      <Item114>
-        <Filename Value="..\source\uCEFChromiumCore.pas"/>
-        <UnitName Value="uCEFChromiumCore"/>
-      </Item114>
-      <Item115>
-        <Filename Value="..\source\uCEFChromium.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFChromium"/>
-      </Item115>
-      <Item116>
-        <Filename Value="..\source\uCEFBufferPanel.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFBufferPanel"/>
-      </Item116>
-      <Item117>
-        <Filename Value="..\source\uCEFServer.pas"/>
-        <UnitName Value="uCEFServer"/>
-      </Item117>
-      <Item118>
-        <Filename Value="..\source\uCEFServerComponent.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFServerComponent"/>
-      </Item118>
-      <Item119>
-        <Filename Value="..\source\uCEFServerEvents.pas"/>
-        <UnitName Value="uCEFServerEvents"/>
-      </Item119>
-      <Item120>
-        <Filename Value="..\source\uCEFServerHandler.pas"/>
-        <UnitName Value="uCEFServerHandler"/>
-      </Item120>
-      <Item121>
         <Filename Value="..\source\res\tbufferpanel.lrs"/>
         <Type Value="LRS"/>
-      </Item121>
-      <Item122>
-        <Filename Value="..\source\res\tcefservercomponent.lrs"/>
-        <Type Value="LRS"/>
-      </Item122>
-      <Item123>
-        <Filename Value="..\source\res\tcefwindowparent.lrs"/>
-        <Type Value="LRS"/>
-      </Item123>
-      <Item124>
-        <Filename Value="..\source\res\tcefworkscheduler.lrs"/>
-        <Type Value="LRS"/>
-      </Item124>
-      <Item125>
-        <Filename Value="..\source\res\tchromium.lrs"/>
-        <Type Value="LRS"/>
-      </Item125>
-      <Item126>
-        <Filename Value="..\source\res\tchromiumwindow.lrs"/>
-        <Type Value="LRS"/>
-      </Item126>
-      <Item127>
-        <Filename Value="..\source\uCEFWinControl.pas"/>
-        <UnitName Value="uCEFWinControl"/>
-      </Item127>
-      <Item128>
-        <Filename Value="..\source\uCEFLinkedWindowParent.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFLinkedWindowParent"/>
-      </Item128>
-      <Item129>
-        <Filename Value="..\source\uCEFUrlRequestClientEvents.pas"/>
-        <UnitName Value="uCEFUrlRequestClientEvents"/>
-      </Item129>
-      <Item130>
-        <Filename Value="..\source\uCEFUrlRequestClientComponent.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFUrlRequestClientComponent"/>
-      </Item130>
-      <Item131>
-        <Filename Value="..\source\uCEFOSRIMEHandler.pas"/>
-        <UnitName Value="uCEFOSRIMEHandler"/>
-      </Item131>
-      <Item132>
-        <Filename Value="..\source\uCEFCookieAccessFilter.pas"/>
-        <UnitName Value="uCEFCookieAccessFilter"/>
-      </Item132>
-      <Item133>
-        <Filename Value="..\source\uCEFResourceReadCallback.pas"/>
-        <UnitName Value="uCEFResourceReadCallback"/>
-      </Item133>
-      <Item134>
-        <Filename Value="..\source\uCEFResourceRequestHandler.pas"/>
-        <UnitName Value="uCEFResourceRequestHandler"/>
-      </Item134>
-      <Item135>
-        <Filename Value="..\source\uCEFResourceSkipCallback.pas"/>
-        <UnitName Value="uCEFResourceSkipCallback"/>
-      </Item135>
-      <Item136>
+      </Item1>
+      <Item2>
         <Filename Value="..\source\res\tcefsentinel.lrs"/>
         <Type Value="LRS"/>
-      </Item136>
-      <Item137>
-        <Filename Value="..\source\uCEFSentinel.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFSentinel"/>
-      </Item137>
-      <Item138>
+      </Item2>
+      <Item3>
+        <Filename Value="..\source\res\tcefservercomponent.lrs"/>
+        <Type Value="LRS"/>
+      </Item3>
+      <Item4>
+        <Filename Value="..\source\res\tcefwindowparent.lrs"/>
+        <Type Value="LRS"/>
+      </Item4>
+      <Item5>
+        <Filename Value="..\source\res\tcefworkscheduler.lrs"/>
+        <Type Value="LRS"/>
+      </Item5>
+      <Item6>
+        <Filename Value="..\source\res\tchromium.lrs"/>
+        <Type Value="LRS"/>
+      </Item6>
+      <Item7>
+        <Filename Value="..\source\res\tchromiumwindow.lrs"/>
+        <Type Value="LRS"/>
+      </Item7>
+      <Item8>
+        <Filename Value="..\source\uCEFAccessibilityHandler.pas"/>
+        <UnitName Value="uCEFAccessibilityHandler"/>
+      </Item8>
+      <Item9>
+        <Filename Value="..\source\uCEFApp.pas"/>
+        <UnitName Value="uCEFApp"/>
+      </Item9>
+      <Item10>
+        <Filename Value="..\source\uCEFApplication.pas"/>
+        <UnitName Value="uCEFApplication"/>
+      </Item10>
+      <Item11>
         <Filename Value="..\source\uCEFApplicationCore.pas"/>
         <UnitName Value="uCEFApplicationCore"/>
-      </Item138>
-      <Item139>
-        <Filename Value="..\source\uCEFOAuth2Helper.pas"/>
-        <UnitName Value="uCEFOAuth2Helper"/>
-      </Item139>
-      <Item140>
-        <Filename Value="..\source\uCEFMediaObserver.pas"/>
-        <UnitName Value="uCEFMediaObserver"/>
-      </Item140>
-      <Item141>
-        <Filename Value="..\source\uCEFMediaRoute.pas"/>
-        <UnitName Value="uCEFMediaRoute"/>
-      </Item141>
-      <Item142>
-        <Filename Value="..\source\uCEFMediaRouteCreateCallback.pas"/>
-        <UnitName Value="uCEFMediaRouteCreateCallback"/>
-      </Item142>
-      <Item143>
-        <Filename Value="..\source\uCEFMediaRouter.pas"/>
-        <UnitName Value="uCEFMediaRouter"/>
-      </Item143>
-      <Item144>
-        <Filename Value="..\source\uCEFMediaSink.pas"/>
-        <UnitName Value="uCEFMediaSink"/>
-      </Item144>
-      <Item145>
-        <Filename Value="..\source\uCEFMediaSource.pas"/>
-        <UnitName Value="uCEFMediaSource"/>
-      </Item145>
-      <Item146>
-        <Filename Value="..\source\uCEFRegistration.pas"/>
-        <UnitName Value="uCEFRegistration"/>
-      </Item146>
-      <Item147>
-        <Filename Value="..\source\uCEFWindowDelegate.pas"/>
-        <UnitName Value="uCEFWindowDelegate"/>
-      </Item147>
-      <Item148>
-        <Filename Value="..\source\uCEFWindow.pas"/>
-        <UnitName Value="uCEFWindow"/>
-      </Item148>
-      <Item149>
-        <Filename Value="..\source\uCEFMenuButtonDelegate.pas"/>
-        <UnitName Value="uCEFMenuButtonDelegate"/>
-      </Item149>
-      <Item150>
-        <Filename Value="..\source\uCEFMenuButtonPressedLock.pas"/>
-        <UnitName Value="uCEFMenuButtonPressedLock"/>
-      </Item150>
-      <Item151>
-        <Filename Value="..\source\uCEFMenuButton.pas"/>
-        <UnitName Value="uCEFMenuButton"/>
-      </Item151>
-      <Item152>
-        <Filename Value="..\source\uCEFLabelButton.pas"/>
-        <UnitName Value="uCEFLabelButton"/>
-      </Item152>
-      <Item153>
-        <Filename Value="..\source\uCEFButtonDelegate.pas"/>
-        <UnitName Value="uCEFButtonDelegate"/>
-      </Item153>
-      <Item154>
-        <Filename Value="..\source\uCEFButton.pas"/>
-        <UnitName Value="uCEFButton"/>
-      </Item154>
-      <Item155>
-        <Filename Value="..\source\uCEFBrowserViewDelegate.pas"/>
-        <UnitName Value="uCEFBrowserViewDelegate"/>
-      </Item155>
-      <Item156>
-        <Filename Value="..\source\uCEFBrowserView.pas"/>
-        <UnitName Value="uCEFBrowserView"/>
-      </Item156>
-      <Item157>
-        <Filename Value="..\source\uCEFPanelDelegate.pas"/>
-        <UnitName Value="uCEFPanelDelegate"/>
-      </Item157>
-      <Item158>
-        <Filename Value="..\source\uCEFPanel.pas"/>
-        <UnitName Value="uCEFPanel"/>
-      </Item158>
-      <Item159>
-        <Filename Value="..\source\uCEFScrollView.pas"/>
-        <UnitName Value="uCEFScrollView"/>
-      </Item159>
-      <Item160>
-        <Filename Value="..\source\uCEFTextfieldDelegate.pas"/>
-        <UnitName Value="uCEFTextfieldDelegate"/>
-      </Item160>
-      <Item161>
-        <Filename Value="..\source\uCEFTextfield.pas"/>
-        <UnitName Value="uCEFTextfield"/>
-      </Item161>
-      <Item162>
-        <Filename Value="..\source\uCEFViewDelegate.pas"/>
-        <UnitName Value="uCEFViewDelegate"/>
-      </Item162>
-      <Item163>
-        <Filename Value="..\source\uCEFView.pas"/>
-        <UnitName Value="uCEFView"/>
-      </Item163>
-      <Item164>
-        <Filename Value="..\source\uCEFFillLayout.pas"/>
-        <UnitName Value="uCEFFillLayout"/>
-      </Item164>
-      <Item165>
+      </Item11>
+      <Item12>
+        <Filename Value="..\source\uCEFApplicationEvents.pas"/>
+        <UnitName Value="uCEFApplicationEvents"/>
+      </Item12>
+      <Item13>
+        <Filename Value="..\source\uCEFArgCopy.pas"/>
+        <UnitName Value="uCEFArgCopy"/>
+      </Item13>
+      <Item14>
+        <Filename Value="..\source\uCEFAudioHandler.pas"/>
+        <UnitName Value="uCEFAudioHandler"/>
+      </Item14>
+      <Item15>
+        <Filename Value="..\source\uCEFAuthCallback.pas"/>
+        <UnitName Value="uCEFAuthCallback"/>
+      </Item15>
+      <Item16>
+        <Filename Value="..\source\uCEFBaseRefCounted.pas"/>
+        <UnitName Value="uCEFBaseRefCounted"/>
+      </Item16>
+      <Item17>
+        <Filename Value="..\source\uCEFBaseScopedWrapper.pas"/>
+        <UnitName Value="uCEFBaseScopedWrapper"/>
+      </Item17>
+      <Item18>
+        <Filename Value="..\source\uCEFBeforeDownloadCallback.pas"/>
+        <UnitName Value="uCEFBeforeDownloadCallback"/>
+      </Item18>
+      <Item19>
+        <Filename Value="..\source\uCEFBinaryValue.pas"/>
+        <UnitName Value="uCEFBinaryValue"/>
+      </Item19>
+      <Item20>
+        <Filename Value="..\source\uCEFBitmapBitBuffer.pas"/>
+        <UnitName Value="uCEFBitmapBitBuffer"/>
+      </Item20>
+      <Item21>
         <Filename Value="..\source\uCEFBoxLayout.pas"/>
         <UnitName Value="uCEFBoxLayout"/>
-      </Item165>
-      <Item166>
-        <Filename Value="..\source\uCEFLayout.pas"/>
-        <UnitName Value="uCEFLayout"/>
-      </Item166>
-      <Item167>
-        <Filename Value="..\source\uCEFDisplay.pas"/>
-        <UnitName Value="uCEFDisplay"/>
-      </Item167>
-      <Item168>
-        <Filename Value="..\source\uCEFMenuButtonComponent.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFMenuButtonComponent"/>
-      </Item168>
-      <Item169>
-        <Filename Value="..\source\uCEFLabelButtonComponent.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFLabelButtonComponent"/>
-      </Item169>
-      <Item170>
-        <Filename Value="..\source\uCEFButtonComponent.pas"/>
-        <UnitName Value="uCEFButtonComponent"/>
-      </Item170>
-      <Item171>
+      </Item21>
+      <Item22>
+        <Filename Value="..\source\uCEFBrowser.pas"/>
+        <UnitName Value="uCEFBrowser"/>
+      </Item22>
+      <Item23>
+        <Filename Value="..\source\uCEFBrowserBitmap.pas"/>
+        <UnitName Value="uCEFBrowserBitmap"/>
+      </Item23>
+      <Item24>
+        <Filename Value="..\source\uCEFBrowserProcessHandler.pas"/>
+        <UnitName Value="uCEFBrowserProcessHandler"/>
+      </Item24>
+      <Item25>
+        <Filename Value="..\source\uCEFBrowserView.pas"/>
+        <UnitName Value="uCEFBrowserView"/>
+      </Item25>
+      <Item26>
         <Filename Value="..\source\uCEFBrowserViewComponent.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFBrowserViewComponent"/>
-      </Item171>
-      <Item172>
-        <Filename Value="..\source\uCEFWindowComponent.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFWindowComponent"/>
-      </Item172>
-      <Item173>
-        <Filename Value="..\source\uCEFPanelComponent.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFPanelComponent"/>
-      </Item173>
-      <Item174>
-        <Filename Value="..\source\uCEFScrollViewComponent.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFScrollViewComponent"/>
-      </Item174>
-      <Item175>
-        <Filename Value="..\source\uCEFTextfieldComponent.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="uCEFTextfieldComponent"/>
-      </Item175>
-      <Item176>
-        <Filename Value="..\source\uCEFViewComponent.pas"/>
-        <UnitName Value="uCEFViewComponent"/>
-      </Item176>
-      <Item177>
-        <Filename Value="..\source\uCEFViewsFrameworkEvents.pas"/>
-        <UnitName Value="uCEFViewsFrameworkEvents"/>
-      </Item177>
-      <Item178>
-        <Filename Value="..\source\uCEFAudioHandler.pas"/>
-        <UnitName Value="uCEFAudioHandler"/>
-      </Item178>
-      <Item179>
-        <Filename Value="..\source\uCEFDevToolsMessageObserver.pas"/>
-        <UnitName Value="uCEFDevToolsMessageObserver"/>
-      </Item179>
-      <Item180>
-        <Filename Value="..\source\uCEFMediaSinkDeviceInfoCallback.pas"/>
-        <UnitName Value="uCEFMediaSinkDeviceInfoCallback"/>
-      </Item180>
-      <Item181>
-        <Filename Value="..\source\uCEFJson.pas"/>
-        <UnitName Value="uCEFJson"/>
-      </Item181>
-      <Item182>
-        <Filename Value="..\source\uCEFBitmapBitBuffer.pas"/>
-        <UnitName Value="uCEFBitmapBitBuffer"/>
-      </Item182>
-      <Item183>
-        <Filename Value="..\source\uCEFPrintDialogCallback.pas"/>
-        <UnitName Value="uCEFPrintDialogCallback"/>
-      </Item183>
-      <Item184>
-        <Filename Value="..\source\uCEFPrintHandler.pas"/>
-        <UnitName Value="uCEFPrintHandler"/>
-      </Item184>
-      <Item185>
-        <Filename Value="..\source\uCEFPrintJobCallback.pas"/>
-        <UnitName Value="uCEFPrintJobCallback"/>
-      </Item185>
-      <Item186>
-        <Filename Value="..\source\uCEFLinuxFunctions.pas"/>
-        <UnitName Value="uCEFLinuxFunctions"/>
-      </Item186>
-      <Item187>
-        <Filename Value="..\source\uCEFLinuxTypes.pas"/>
-        <UnitName Value="uCEFLinuxTypes"/>
-      </Item187>
-      <Item188>
-        <Filename Value="..\source\uCEFLinuxConstants.pas"/>
-        <UnitName Value="uCEFLinuxConstants"/>
-      </Item188>
-      <Item189>
-        <Filename Value="..\source\uCEFWorkSchedulerQueueThread.pas"/>
-        <UnitName Value="uCEFWorkSchedulerQueueThread"/>
-      </Item189>
-      <Item190>
-        <Filename Value="..\source\uCEFLinkedWinControlBase.pas"/>
-        <UnitName Value="uCEFLinkedWinControlBase"/>
-      </Item190>
-      <Item191>
-        <Filename Value="..\source\uceflazaruscocoa.pas"/>
-        <UnitName Value="uCEFLazarusCocoa"/>
-      </Item191>
-      <Item192>
+      </Item26>
+      <Item27>
+        <Filename Value="..\source\uCEFBrowserViewDelegate.pas"/>
+        <UnitName Value="uCEFBrowserViewDelegate"/>
+      </Item27>
+      <Item28>
         <Filename Value="..\source\uCEFBrowserWindow.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFBrowserWindow"/>
-      </Item192>
-      <Item193>
+      </Item28>
+      <Item29>
+        <Filename Value="..\source\uCEFBufferPanel.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFBufferPanel"/>
+      </Item29>
+      <Item30>
+        <Filename Value="..\source\uCEFButton.pas"/>
+        <UnitName Value="uCEFButton"/>
+      </Item30>
+      <Item31>
+        <Filename Value="..\source\uCEFButtonComponent.pas"/>
+        <UnitName Value="uCEFButtonComponent"/>
+      </Item31>
+      <Item32>
+        <Filename Value="..\source\uCEFButtonDelegate.pas"/>
+        <UnitName Value="uCEFButtonDelegate"/>
+      </Item32>
+      <Item33>
+        <Filename Value="..\source\uCEFCallback.pas"/>
+        <UnitName Value="uCEFCallback"/>
+      </Item33>
+      <Item34>
+        <Filename Value="..\source\uCEFChromium.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFChromium"/>
+      </Item34>
+      <Item35>
+        <Filename Value="..\source\uCEFChromiumCore.pas"/>
+        <UnitName Value="uCEFChromiumCore"/>
+      </Item35>
+      <Item36>
+        <Filename Value="..\source\uCEFChromiumEvents.pas"/>
+        <UnitName Value="uCEFChromiumEvents"/>
+      </Item36>
+      <Item37>
+        <Filename Value="..\source\uCEFChromiumFontOptions.pas"/>
+        <UnitName Value="uCEFChromiumFontOptions"/>
+      </Item37>
+      <Item38>
+        <Filename Value="..\source\uCEFChromiumOptions.pas"/>
+        <UnitName Value="uCEFChromiumOptions"/>
+      </Item38>
+      <Item39>
+        <Filename Value="..\source\uCEFChromiumWindow.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFChromiumWindow"/>
+      </Item39>
+      <Item40>
+        <Filename Value="..\source\uCEFClient.pas"/>
+        <UnitName Value="uCEFClient"/>
+      </Item40>
+      <Item41>
+        <Filename Value="..\source\uCEFCommandHandler.pas"/>
+        <UnitName Value="uCEFCommandHandler"/>
+      </Item41>
+      <Item42>
+        <Filename Value="..\source\uCEFCommandLine.pas"/>
+        <UnitName Value="uCEFCommandLine"/>
+      </Item42>
+      <Item43>
+        <Filename Value="..\source\uCEFCompletionCallback.pas"/>
+        <UnitName Value="uCEFCompletionCallback"/>
+      </Item43>
+      <Item44>
+        <Filename Value="..\source\uCEFComponentIdList.pas"/>
+        <UnitName Value="uCEFComponentIdList"/>
+      </Item44>
+      <Item45>
+        <Filename Value="..\source\uCEFConstants.pas"/>
+        <UnitName Value="uCEFConstants"/>
+      </Item45>
+      <Item46>
+        <Filename Value="..\source\uCEFContextMenuHandler.pas"/>
+        <UnitName Value="uCEFContextMenuHandler"/>
+      </Item46>
+      <Item47>
+        <Filename Value="..\source\uCEFContextMenuParams.pas"/>
+        <UnitName Value="uCEFContextMenuParams"/>
+      </Item47>
+      <Item48>
+        <Filename Value="..\source\uCEFCookieAccessFilter.pas"/>
+        <UnitName Value="uCEFCookieAccessFilter"/>
+      </Item48>
+      <Item49>
+        <Filename Value="..\source\uCEFCookieManager.pas"/>
+        <UnitName Value="uCEFCookieManager"/>
+      </Item49>
+      <Item50>
+        <Filename Value="..\source\uCEFCookieVisitor.pas"/>
+        <UnitName Value="uCEFCookieVisitor"/>
+      </Item50>
+      <Item51>
+        <Filename Value="..\source\uCEFCustomStreamReader.pas"/>
+        <UnitName Value="uCEFCustomStreamReader"/>
+      </Item51>
+      <Item52>
+        <Filename Value="..\source\uCEFDeleteCookiesCallback.pas"/>
+        <UnitName Value="uCEFDeleteCookiesCallback"/>
+      </Item52>
+      <Item53>
+        <Filename Value="..\source\uCEFDevToolsMessageObserver.pas"/>
+        <UnitName Value="uCEFDevToolsMessageObserver"/>
+      </Item53>
+      <Item54>
+        <Filename Value="..\source\uCEFDialogHandler.pas"/>
+        <UnitName Value="uCEFDialogHandler"/>
+      </Item54>
+      <Item55>
+        <Filename Value="..\source\uCEFDictionaryValue.pas"/>
+        <UnitName Value="uCEFDictionaryValue"/>
+      </Item55>
+      <Item56>
+        <Filename Value="..\source\uCEFDisplay.pas"/>
+        <UnitName Value="uCEFDisplay"/>
+      </Item56>
+      <Item57>
+        <Filename Value="..\source\uCEFDisplayHandler.pas"/>
+        <UnitName Value="uCEFDisplayHandler"/>
+      </Item57>
+      <Item58>
+        <Filename Value="..\source\uCEFDomDocument.pas"/>
+        <UnitName Value="uCEFDomDocument"/>
+      </Item58>
+      <Item59>
+        <Filename Value="..\source\uCEFDomNode.pas"/>
+        <UnitName Value="uCEFDomNode"/>
+      </Item59>
+      <Item60>
+        <Filename Value="..\source\uCEFDomVisitor.pas"/>
+        <UnitName Value="uCEFDomVisitor"/>
+      </Item60>
+      <Item61>
+        <Filename Value="..\source\uCEFDownloadHandler.pas"/>
+        <UnitName Value="uCEFDownloadHandler"/>
+      </Item61>
+      <Item62>
+        <Filename Value="..\source\uCEFDownloadImageCallBack.pas"/>
+        <UnitName Value="uCEFDownloadImageCallBack"/>
+      </Item62>
+      <Item63>
+        <Filename Value="..\source\uCEFDownloadItem.pas"/>
+        <UnitName Value="uCEFDownloadItem"/>
+      </Item63>
+      <Item64>
+        <Filename Value="..\source\uCEFDownloadItemCallback.pas"/>
+        <UnitName Value="uCEFDownloadItemCallback"/>
+      </Item64>
+      <Item65>
+        <Filename Value="..\source\uCEFDragData.pas"/>
+        <UnitName Value="uCEFDragData"/>
+      </Item65>
+      <Item66>
+        <Filename Value="..\source\uCEFDragHandler.pas"/>
+        <UnitName Value="uCEFDragHandler"/>
+      </Item66>
+      <Item67>
+        <Filename Value="..\source\uCEFEndTracingCallback.pas"/>
+        <UnitName Value="uCEFEndTracingCallback"/>
+      </Item67>
+      <Item68>
+        <Filename Value="..\source\uCEFFileDialogCallback.pas"/>
+        <UnitName Value="uCEFFileDialogCallback"/>
+      </Item68>
+      <Item69>
+        <Filename Value="..\source\uCEFFileDialogInfo.pas"/>
+        <UnitName Value="uCEFFileDialogInfo"/>
+      </Item69>
+      <Item70>
+        <Filename Value="..\source\uCEFFillLayout.pas"/>
+        <UnitName Value="uCEFFillLayout"/>
+      </Item70>
+      <Item71>
+        <Filename Value="..\source\uCEFFindHandler.pas"/>
+        <UnitName Value="uCEFFindHandler"/>
+      </Item71>
+      <Item72>
+        <Filename Value="..\source\uCEFFocusHandler.pas"/>
+        <UnitName Value="uCEFFocusHandler"/>
+      </Item72>
+      <Item73>
+        <Filename Value="..\source\uCEFFrame.pas"/>
+        <UnitName Value="uCEFFrame"/>
+      </Item73>
+      <Item74>
+        <Filename Value="..\source\uCEFFrameHandler.pas"/>
+        <UnitName Value="uCEFFrameHandler"/>
+      </Item74>
+      <Item75>
+        <Filename Value="..\source\uCEFImage.pas"/>
+        <UnitName Value="uCEFImage"/>
+      </Item75>
+      <Item76>
+        <Filename Value="..\source\uCEFInterfaces.pas"/>
+        <UnitName Value="uCEFInterfaces"/>
+      </Item76>
+      <Item77>
+        <Filename Value="..\source\uCEFJsDialogCallback.pas"/>
+        <UnitName Value="uCEFJsDialogCallback"/>
+      </Item77>
+      <Item78>
+        <Filename Value="..\source\uCEFJsDialogHandler.pas"/>
+        <UnitName Value="uCEFJsDialogHandler"/>
+      </Item78>
+      <Item79>
+        <Filename Value="..\source\uCEFJson.pas"/>
+        <UnitName Value="uCEFJson"/>
+      </Item79>
+      <Item80>
+        <Filename Value="..\source\uCEFKeyboardHandler.pas"/>
+        <UnitName Value="uCEFKeyboardHandler"/>
+      </Item80>
+      <Item81>
+        <Filename Value="..\source\uCEFLabelButton.pas"/>
+        <UnitName Value="uCEFLabelButton"/>
+      </Item81>
+      <Item82>
+        <Filename Value="..\source\uCEFLabelButtonComponent.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFLabelButtonComponent"/>
+      </Item82>
+      <Item83>
+        <Filename Value="..\source\uCEFLayout.pas"/>
+        <UnitName Value="uCEFLayout"/>
+      </Item83>
+      <Item84>
+        <Filename Value="..\source\uceflazaruscocoa.pas"/>
+        <UnitName Value="uCEFLazarusCocoa"/>
+      </Item84>
+      <Item85>
+        <Filename Value="..\source\uCEFLibFunctions.pas"/>
+        <UnitName Value="uCEFLibFunctions"/>
+      </Item85>
+      <Item86>
+        <Filename Value="..\source\uCEFLifeSpanHandler.pas"/>
+        <UnitName Value="uCEFLifeSpanHandler"/>
+      </Item86>
+      <Item87>
+        <Filename Value="..\source\uCEFLinkedWinControlBase.pas"/>
+        <UnitName Value="uCEFLinkedWinControlBase"/>
+      </Item87>
+      <Item88>
+        <Filename Value="..\source\uCEFLinkedWindowParent.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFLinkedWindowParent"/>
+      </Item88>
+      <Item89>
+        <Filename Value="..\source\uCEFLinuxConstants.pas"/>
+        <UnitName Value="uCEFLinuxConstants"/>
+      </Item89>
+      <Item90>
+        <Filename Value="..\source\uCEFLinuxEventPipe.pas"/>
+        <UnitName Value="uCEFLinuxEventPipe"/>
+      </Item90>
+      <Item91>
+        <Filename Value="..\source\uCEFLinuxFunctions.pas"/>
+        <UnitName Value="uCEFLinuxFunctions"/>
+      </Item91>
+      <Item92>
+        <Filename Value="..\source\uceflinuxosrimehandler.pas"/>
+        <UnitName Value="uCEFLinuxOSRIMEHandler"/>
+      </Item92>
+      <Item93>
+        <Filename Value="..\source\uCEFLinuxTypes.pas"/>
+        <UnitName Value="uCEFLinuxTypes"/>
+      </Item93>
+      <Item94>
+        <Filename Value="..\source\uCEFListValue.pas"/>
+        <UnitName Value="uCEFListValue"/>
+      </Item94>
+      <Item95>
+        <Filename Value="..\source\uCEFLoadHandler.pas"/>
+        <UnitName Value="uCEFLoadHandler"/>
+      </Item95>
+      <Item96>
+        <Filename Value="..\source\uCEFMediaAccessCallback.pas"/>
+        <UnitName Value="uCEFMediaAccessCallback"/>
+      </Item96>
+      <Item97>
+        <Filename Value="..\source\uCEFMediaObserver.pas"/>
+        <UnitName Value="uCEFMediaObserver"/>
+      </Item97>
+      <Item98>
+        <Filename Value="..\source\uCEFMediaRoute.pas"/>
+        <UnitName Value="uCEFMediaRoute"/>
+      </Item98>
+      <Item99>
+        <Filename Value="..\source\uCEFMediaRouteCreateCallback.pas"/>
+        <UnitName Value="uCEFMediaRouteCreateCallback"/>
+      </Item99>
+      <Item100>
+        <Filename Value="..\source\uCEFMediaRouter.pas"/>
+        <UnitName Value="uCEFMediaRouter"/>
+      </Item100>
+      <Item101>
+        <Filename Value="..\source\uCEFMediaSink.pas"/>
+        <UnitName Value="uCEFMediaSink"/>
+      </Item101>
+      <Item102>
+        <Filename Value="..\source\uCEFMediaSinkDeviceInfoCallback.pas"/>
+        <UnitName Value="uCEFMediaSinkDeviceInfoCallback"/>
+      </Item102>
+      <Item103>
+        <Filename Value="..\source\uCEFMediaSource.pas"/>
+        <UnitName Value="uCEFMediaSource"/>
+      </Item103>
+      <Item104>
+        <Filename Value="..\source\uCEFMenuButton.pas"/>
+        <UnitName Value="uCEFMenuButton"/>
+      </Item104>
+      <Item105>
+        <Filename Value="..\source\uCEFMenuButtonComponent.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFMenuButtonComponent"/>
+      </Item105>
+      <Item106>
+        <Filename Value="..\source\uCEFMenuButtonDelegate.pas"/>
+        <UnitName Value="uCEFMenuButtonDelegate"/>
+      </Item106>
+      <Item107>
+        <Filename Value="..\source\uCEFMenuButtonPressedLock.pas"/>
+        <UnitName Value="uCEFMenuButtonPressedLock"/>
+      </Item107>
+      <Item108>
+        <Filename Value="..\source\uCEFMenuModel.pas"/>
+        <UnitName Value="uCEFMenuModel"/>
+      </Item108>
+      <Item109>
+        <Filename Value="..\source\uCEFMenuModelDelegate.pas"/>
+        <UnitName Value="uCEFMenuModelDelegate"/>
+      </Item109>
+      <Item110>
+        <Filename Value="..\source\uCEFMiscFunctions.pas"/>
+        <UnitName Value="uCEFMiscFunctions"/>
+      </Item110>
+      <Item111>
+        <Filename Value="..\source\uCEFNavigationEntry.pas"/>
+        <UnitName Value="uCEFNavigationEntry"/>
+      </Item111>
+      <Item112>
+        <Filename Value="..\source\uCEFNavigationEntryVisitor.pas"/>
+        <UnitName Value="uCEFNavigationEntryVisitor"/>
+      </Item112>
+      <Item113>
+        <Filename Value="..\source\uCEFOAuth2Helper.pas"/>
+        <UnitName Value="uCEFOAuth2Helper"/>
+      </Item113>
+      <Item114>
         <Filename Value="..\source\uCEFOsrBrowserWindow.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFOsrBrowserWindow"/>
-      </Item193>
-      <Item194>
-        <Filename Value="..\source\uCEFTimerWorkScheduler.pas"/>
-        <UnitName Value="uCEFTimerWorkScheduler"/>
-      </Item194>
-      <Item195>
-        <Filename Value="..\source\uCEFFrameHandler.pas"/>
-        <UnitName Value="uCEFFrameHandler"/>
-      </Item195>
-      <Item196>
+      </Item114>
+      <Item115>
+        <Filename Value="..\source\uCEFOSRIMEHandler.pas"/>
+        <UnitName Value="uCEFOSRIMEHandler"/>
+      </Item115>
+      <Item116>
         <Filename Value="..\source\uCEFOverlayController.pas"/>
         <UnitName Value="uCEFOverlayController"/>
-      </Item196>
-      <Item197>
-        <Filename Value="..\source\uCEFFileDialogInfo.pas"/>
-        <UnitName Value="uCEFFileDialogInfo"/>
-      </Item197>
-      <Item198>
-        <Filename Value="..\source\uCEFArgCopy.pas"/>
-        <UnitName Value="uCEFArgCopy"/>
-      </Item198>
-      <Item199>
-        <Filename Value="..\source\uCEFCommandHandler.pas"/>
-        <UnitName Value="uCEFCommandHandler"/>
-      </Item199>
-      <Item200>
-        <Filename Value="..\source\uCEFLinuxEventPipe.pas"/>
-        <UnitName Value="uCEFLinuxEventPipe"/>
-      </Item200>
-      <Item201>
+      </Item116>
+      <Item117>
+        <Filename Value="..\source\uCEFPanel.pas"/>
+        <UnitName Value="uCEFPanel"/>
+      </Item117>
+      <Item118>
+        <Filename Value="..\source\uCEFPanelComponent.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFPanelComponent"/>
+      </Item118>
+      <Item119>
+        <Filename Value="..\source\uCEFPanelDelegate.pas"/>
+        <UnitName Value="uCEFPanelDelegate"/>
+      </Item119>
+      <Item120>
+        <Filename Value="..\source\uCEFPDFPrintCallback.pas"/>
+        <UnitName Value="uCEFPDFPrintCallback"/>
+      </Item120>
+      <Item121>
+        <Filename Value="..\source\uCEFPDFPrintOptions.pas"/>
+        <UnitName Value="uCEFPDFPrintOptions"/>
+      </Item121>
+      <Item122>
         <Filename Value="..\source\uCEFPermissionHandler.pas"/>
         <UnitName Value="uCEFPermissionHandler"/>
-      </Item201>
-      <Item202>
-        <Filename Value="..\source\uCEFRunQuickMenuCallback.pas"/>
-        <UnitName Value="uCEFRunQuickMenuCallback"/>
-      </Item202>
-      <Item203>
-        <Filename Value="..\source\uCEFMediaAccessCallback.pas"/>
-        <UnitName Value="uCEFMediaAccessCallback"/>
-      </Item203>
-      <Item204>
+      </Item122>
+      <Item123>
         <Filename Value="..\source\uCEFPermissionPromptCallback.pas"/>
         <UnitName Value="uCEFPermissionPromptCallback"/>
-      </Item204>
-      <Item205>
-        <Filename Value="..\source\uCEFSharedProcessMessageBuilder.pas"/>
-        <UnitName Value="uCEFSharedProcessMessageBuilder"/>
-      </Item205>
-      <Item206>
-        <Filename Value="..\source\uCEFSharedMemoryRegion.pas"/>
-        <UnitName Value="uCEFSharedMemoryRegion"/>
-      </Item206>
-      <Item207>
+      </Item123>
+      <Item124>
+        <Filename Value="..\source\uCEFPostData.pas"/>
+        <UnitName Value="uCEFPostData"/>
+      </Item124>
+      <Item125>
+        <Filename Value="..\source\uCEFPostDataElement.pas"/>
+        <UnitName Value="uCEFPostDataElement"/>
+      </Item125>
+      <Item126>
         <Filename Value="..\source\uCEFPreferenceManager.pas"/>
         <UnitName Value="uCEFPreferenceManager"/>
-      </Item207>
-      <Item208>
-        <Filename Value="..\source\uCEFPreferenceRegistrar.pas"/>
-        <UnitName Value="uCEFPreferenceRegistrar"/>
-      </Item208>
-      <Item209>
-        <Filename Value="..\source\uCEFApplicationEvents.pas"/>
-        <UnitName Value="uCEFApplicationEvents"/>
-      </Item209>
-      <Item210>
-        <Filename Value="..\source\uCEFBrowserBitmap.pas"/>
-        <UnitName Value="uCEFBrowserBitmap"/>
-      </Item210>
-      <Item211>
-        <Filename Value="..\source\uCEFComponentIdList.pas"/>
-        <UnitName Value="uCEFComponentIdList"/>
-      </Item211>
-      <Item212>
-        <Filename Value="..\source\uCEFWindowInfoWrapper.pas"/>
-        <UnitName Value="uCEFWindowInfoWrapper"/>
-      </Item212>
-      <Item213>
-        <Filename Value="..\source\uCEFTaskManager.pas"/>
-        <UnitName Value="uCEFTaskManager"/>
-      </Item213>
-      <Item214>
+      </Item126>
+      <Item127>
         <Filename Value="..\source\uCEFPreferenceObserver.pas"/>
         <UnitName Value="uCEFPreferenceObserver"/>
-      </Item214>
-      <Item215>
+      </Item127>
+      <Item128>
+        <Filename Value="..\source\uCEFPreferenceRegistrar.pas"/>
+        <UnitName Value="uCEFPreferenceRegistrar"/>
+      </Item128>
+      <Item129>
+        <Filename Value="..\source\uCEFPrintDialogCallback.pas"/>
+        <UnitName Value="uCEFPrintDialogCallback"/>
+      </Item129>
+      <Item130>
+        <Filename Value="..\source\uCEFPrintHandler.pas"/>
+        <UnitName Value="uCEFPrintHandler"/>
+      </Item130>
+      <Item131>
+        <Filename Value="..\source\uCEFPrintJobCallback.pas"/>
+        <UnitName Value="uCEFPrintJobCallback"/>
+      </Item131>
+      <Item132>
+        <Filename Value="..\source\uCEFPrintSettings.pas"/>
+        <UnitName Value="uCEFPrintSettings"/>
+      </Item132>
+      <Item133>
+        <Filename Value="..\source\uCEFProcessMessage.pas"/>
+        <UnitName Value="uCEFProcessMessage"/>
+      </Item133>
+      <Item134>
+        <Filename Value="..\source\uCEFRegistration.pas"/>
+        <UnitName Value="uCEFRegistration"/>
+      </Item134>
+      <Item135>
+        <Filename Value="..\source\uCEFRenderHandler.pas"/>
+        <UnitName Value="uCEFRenderHandler"/>
+      </Item135>
+      <Item136>
+        <Filename Value="..\source\uCEFRenderProcessHandler.pas"/>
+        <UnitName Value="uCEFRenderProcessHandler"/>
+      </Item136>
+      <Item137>
+        <Filename Value="..\source\uCEFRequest.pas"/>
+        <UnitName Value="uCEFRequest"/>
+      </Item137>
+      <Item138>
+        <Filename Value="..\source\uCEFRequestContext.pas"/>
+        <UnitName Value="uCEFRequestContext"/>
+      </Item138>
+      <Item139>
+        <Filename Value="..\source\uCEFRequestContextHandler.pas"/>
+        <UnitName Value="uCEFRequestContextHandler"/>
+      </Item139>
+      <Item140>
+        <Filename Value="..\source\uCEFRequestHandler.pas"/>
+        <UnitName Value="uCEFRequestHandler"/>
+      </Item140>
+      <Item141>
+        <Filename Value="..\source\uCEFResolveCallback.pas"/>
+        <UnitName Value="uCEFResolveCallback"/>
+      </Item141>
+      <Item142>
+        <Filename Value="..\source\uCEFResourceBundle.pas"/>
+        <UnitName Value="uCEFResourceBundle"/>
+      </Item142>
+      <Item143>
+        <Filename Value="..\source\uCEFResourceBundleHandler.pas"/>
+        <UnitName Value="uCEFResourceBundleHandler"/>
+      </Item143>
+      <Item144>
+        <Filename Value="..\source\uCEFResourceHandler.pas"/>
+        <UnitName Value="uCEFResourceHandler"/>
+      </Item144>
+      <Item145>
+        <Filename Value="..\source\uCEFResourceReadCallback.pas"/>
+        <UnitName Value="uCEFResourceReadCallback"/>
+      </Item145>
+      <Item146>
+        <Filename Value="..\source\uCEFResourceRequestHandler.pas"/>
+        <UnitName Value="uCEFResourceRequestHandler"/>
+      </Item146>
+      <Item147>
+        <Filename Value="..\source\uCEFResourceSkipCallback.pas"/>
+        <UnitName Value="uCEFResourceSkipCallback"/>
+      </Item147>
+      <Item148>
+        <Filename Value="..\source\uCEFResponse.pas"/>
+        <UnitName Value="uCEFResponse"/>
+      </Item148>
+      <Item149>
+        <Filename Value="..\source\uCEFResponseFilter.pas"/>
+        <UnitName Value="uCEFResponseFilter"/>
+      </Item149>
+      <Item150>
+        <Filename Value="..\source\uCEFRunContextMenuCallback.pas"/>
+        <UnitName Value="uCEFRunContextMenuCallback"/>
+      </Item150>
+      <Item151>
+        <Filename Value="..\source\uCEFRunFileDialogCallback.pas"/>
+        <UnitName Value="uCEFRunFileDialogCallback"/>
+      </Item151>
+      <Item152>
+        <Filename Value="..\source\uCEFRunQuickMenuCallback.pas"/>
+        <UnitName Value="uCEFRunQuickMenuCallback"/>
+      </Item152>
+      <Item153>
+        <Filename Value="..\source\uCEFSchemeHandlerFactory.pas"/>
+        <UnitName Value="uCEFSchemeHandlerFactory"/>
+      </Item153>
+      <Item154>
+        <Filename Value="..\source\uCEFSchemeRegistrar.pas"/>
+        <UnitName Value="uCEFSchemeRegistrar"/>
+      </Item154>
+      <Item155>
+        <Filename Value="..\source\uCEFScrollView.pas"/>
+        <UnitName Value="uCEFScrollView"/>
+      </Item155>
+      <Item156>
+        <Filename Value="..\source\uCEFScrollViewComponent.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFScrollViewComponent"/>
+      </Item156>
+      <Item157>
+        <Filename Value="..\source\uCEFSelectClientCertificateCallback.pas"/>
+        <UnitName Value="uCEFSelectClientCertificateCallback"/>
+      </Item157>
+      <Item158>
+        <Filename Value="..\source\uCEFSentinel.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFSentinel"/>
+      </Item158>
+      <Item159>
+        <Filename Value="..\source\uCEFServer.pas"/>
+        <UnitName Value="uCEFServer"/>
+      </Item159>
+      <Item160>
+        <Filename Value="..\source\uCEFServerComponent.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFServerComponent"/>
+      </Item160>
+      <Item161>
+        <Filename Value="..\source\uCEFServerEvents.pas"/>
+        <UnitName Value="uCEFServerEvents"/>
+      </Item161>
+      <Item162>
+        <Filename Value="..\source\uCEFServerHandler.pas"/>
+        <UnitName Value="uCEFServerHandler"/>
+      </Item162>
+      <Item163>
+        <Filename Value="..\source\uCEFSetCookieCallback.pas"/>
+        <UnitName Value="uCEFSetCookieCallback"/>
+      </Item163>
+      <Item164>
         <Filename Value="..\source\uCEFSettingObserver.pas"/>
         <UnitName Value="uCEFSettingObserver"/>
+      </Item164>
+      <Item165>
+        <Filename Value="..\source\uCEFSharedMemoryRegion.pas"/>
+        <UnitName Value="uCEFSharedMemoryRegion"/>
+      </Item165>
+      <Item166>
+        <Filename Value="..\source\uCEFSharedProcessMessageBuilder.pas"/>
+        <UnitName Value="uCEFSharedProcessMessageBuilder"/>
+      </Item166>
+      <Item167>
+        <Filename Value="..\source\uCEFSslInfo.pas"/>
+        <UnitName Value="uCEFSslInfo"/>
+      </Item167>
+      <Item168>
+        <Filename Value="..\source\uCEFSSLStatus.pas"/>
+        <UnitName Value="uCEFSSLStatus"/>
+      </Item168>
+      <Item169>
+        <Filename Value="..\source\uCEFStreamReader.pas"/>
+        <UnitName Value="uCEFStreamReader"/>
+      </Item169>
+      <Item170>
+        <Filename Value="..\source\uCEFStreamWriter.pas"/>
+        <UnitName Value="uCEFStreamWriter"/>
+      </Item170>
+      <Item171>
+        <Filename Value="..\source\uCEFStringList.pas"/>
+        <UnitName Value="uCEFStringList"/>
+      </Item171>
+      <Item172>
+        <Filename Value="..\source\uCEFStringMap.pas"/>
+        <UnitName Value="uCEFStringMap"/>
+      </Item172>
+      <Item173>
+        <Filename Value="..\source\uCEFStringMultimap.pas"/>
+        <UnitName Value="uCEFStringMultimap"/>
+      </Item173>
+      <Item174>
+        <Filename Value="..\source\uCEFStringVisitor.pas"/>
+        <UnitName Value="uCEFStringVisitor"/>
+      </Item174>
+      <Item175>
+        <Filename Value="..\source\uCEFTask.pas"/>
+        <UnitName Value="uCEFTask"/>
+      </Item175>
+      <Item176>
+        <Filename Value="..\source\uCEFTaskManager.pas"/>
+        <UnitName Value="uCEFTaskManager"/>
+      </Item176>
+      <Item177>
+        <Filename Value="..\source\uCEFTaskRunner.pas"/>
+        <UnitName Value="uCEFTaskRunner"/>
+      </Item177>
+      <Item178>
+        <Filename Value="..\source\uCEFTextfield.pas"/>
+        <UnitName Value="uCEFTextfield"/>
+      </Item178>
+      <Item179>
+        <Filename Value="..\source\uCEFTextfieldComponent.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFTextfieldComponent"/>
+      </Item179>
+      <Item180>
+        <Filename Value="..\source\uCEFTextfieldDelegate.pas"/>
+        <UnitName Value="uCEFTextfieldDelegate"/>
+      </Item180>
+      <Item181>
+        <Filename Value="..\source\uCEFThread.pas"/>
+        <UnitName Value="uCEFThread"/>
+      </Item181>
+      <Item182>
+        <Filename Value="..\source\uCEFTimerWorkScheduler.pas"/>
+        <UnitName Value="uCEFTimerWorkScheduler"/>
+      </Item182>
+      <Item183>
+        <Filename Value="..\source\uCEFTypes.pas"/>
+        <UnitName Value="uCEFTypes"/>
+      </Item183>
+      <Item184>
+        <Filename Value="..\source\uCEFUrlRequest.pas"/>
+        <UnitName Value="uCEFUrlRequest"/>
+      </Item184>
+      <Item185>
+        <Filename Value="..\source\uCEFUrlrequestClient.pas"/>
+        <UnitName Value="uCEFUrlrequestClient"/>
+      </Item185>
+      <Item186>
+        <Filename Value="..\source\uCEFUrlRequestClientComponent.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFUrlRequestClientComponent"/>
+      </Item186>
+      <Item187>
+        <Filename Value="..\source\uCEFUrlRequestClientEvents.pas"/>
+        <UnitName Value="uCEFUrlRequestClientEvents"/>
+      </Item187>
+      <Item188>
+        <Filename Value="..\source\uCEFv8Accessor.pas"/>
+        <UnitName Value="uCEFv8Accessor"/>
+      </Item188>
+      <Item189>
+        <Filename Value="..\source\uCEFv8ArrayBufferReleaseCallback.pas"/>
+        <UnitName Value="uCEFv8ArrayBufferReleaseCallback"/>
+      </Item189>
+      <Item190>
+        <Filename Value="..\source\uCEFv8Context.pas"/>
+        <UnitName Value="uCEFv8Context"/>
+      </Item190>
+      <Item191>
+        <Filename Value="..\source\uCEFv8Exception.pas"/>
+        <UnitName Value="uCEFv8Exception"/>
+      </Item191>
+      <Item192>
+        <Filename Value="..\source\uCEFv8Handler.pas"/>
+        <UnitName Value="uCEFv8Handler"/>
+      </Item192>
+      <Item193>
+        <Filename Value="..\source\uCEFv8Interceptor.pas"/>
+        <UnitName Value="uCEFv8Interceptor"/>
+      </Item193>
+      <Item194>
+        <Filename Value="..\source\uCEFv8StackFrame.pas"/>
+        <UnitName Value="uCEFv8StackFrame"/>
+      </Item194>
+      <Item195>
+        <Filename Value="..\source\uCEFv8StackTrace.pas"/>
+        <UnitName Value="uCEFv8StackTrace"/>
+      </Item195>
+      <Item196>
+        <Filename Value="..\source\uCEFv8Value.pas"/>
+        <UnitName Value="uCEFv8Value"/>
+      </Item196>
+      <Item197>
+        <Filename Value="..\source\uCEFValue.pas"/>
+        <UnitName Value="uCEFValue"/>
+      </Item197>
+      <Item198>
+        <Filename Value="..\source\uCEFView.pas"/>
+        <UnitName Value="uCEFView"/>
+      </Item198>
+      <Item199>
+        <Filename Value="..\source\uCEFViewComponent.pas"/>
+        <UnitName Value="uCEFViewComponent"/>
+      </Item199>
+      <Item200>
+        <Filename Value="..\source\uCEFViewDelegate.pas"/>
+        <UnitName Value="uCEFViewDelegate"/>
+      </Item200>
+      <Item201>
+        <Filename Value="..\source\uCEFViewsFrameworkEvents.pas"/>
+        <UnitName Value="uCEFViewsFrameworkEvents"/>
+      </Item201>
+      <Item202>
+        <Filename Value="..\source\uCEFWaitableEvent.pas"/>
+        <UnitName Value="uCEFWaitableEvent"/>
+      </Item202>
+      <Item203>
+        <Filename Value="..\source\uCEFWinControl.pas"/>
+        <UnitName Value="uCEFWinControl"/>
+      </Item203>
+      <Item204>
+        <Filename Value="..\source\uCEFWindow.pas"/>
+        <UnitName Value="uCEFWindow"/>
+      </Item204>
+      <Item205>
+        <Filename Value="..\source\uCEFWindowComponent.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFWindowComponent"/>
+      </Item205>
+      <Item206>
+        <Filename Value="..\source\uCEFWindowDelegate.pas"/>
+        <UnitName Value="uCEFWindowDelegate"/>
+      </Item206>
+      <Item207>
+        <Filename Value="..\source\uCEFWindowInfoWrapper.pas"/>
+        <UnitName Value="uCEFWindowInfoWrapper"/>
+      </Item207>
+      <Item208>
+        <Filename Value="..\source\uCEFWindowParent.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFWindowParent"/>
+      </Item208>
+      <Item209>
+        <Filename Value="..\source\uCEFWorkScheduler.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uCEFWorkScheduler"/>
+      </Item209>
+      <Item210>
+        <Filename Value="..\source\uCEFWorkSchedulerQueueThread.pas"/>
+        <UnitName Value="uCEFWorkSchedulerQueueThread"/>
+      </Item210>
+      <Item211>
+        <Filename Value="..\source\uCEFWorkSchedulerThread.pas"/>
+        <UnitName Value="uCEFWorkSchedulerThread"/>
+      </Item211>
+      <Item212>
+        <Filename Value="..\source\uCEFWriteHandler.pas"/>
+        <UnitName Value="uCEFWriteHandler"/>
+      </Item212>
+      <Item213>
+        <Filename Value="..\source\uCEFX509Certificate.pas"/>
+        <UnitName Value="uCEFX509Certificate"/>
+      </Item213>
+      <Item214>
+        <Filename Value="..\source\uCEFX509CertPrincipal.pas"/>
+        <UnitName Value="uCEFX509CertPrincipal"/>
+      </Item214>
+      <Item215>
+        <Filename Value="..\source\uCEFXmlReader.pas"/>
+        <UnitName Value="uCEFXmlReader"/>
       </Item215>
       <Item216>
-        <Filename Value="..\source\uceflinuxosrimehandler.pas"/>
-        <UnitName Value="uCEFLinuxOSRIMEHandler"/>
+        <Filename Value="..\source\uCEFZipReader.pas"/>
+        <UnitName Value="uCEFZipReader"/>
       </Item216>
     </Files>
     <CompatibilityMode Value="True"/>
