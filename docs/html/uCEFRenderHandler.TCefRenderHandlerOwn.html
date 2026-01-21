@@ -3,7 +3,7 @@
 <head>
 <title>cef4delphi: uCEFRenderHandler: Class TCefRenderHandlerOwn</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
@@ -150,9 +150,13 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#GetScreenInfo-ICefBrowser-TCefScreenInfo-">ICefRenderHandler.GetScreenInfo</a>.</p><p>
- Called to allow the client to fill in the CefScreenInfo object with appropriate values. Return true (1) if the |screen_info| structure has been modified.
 
-<p>If the screen info rectangle is left NULL the rectangle from GetViewRect will be used. If the rectangle is still NULL or invalid popups may not be drawn correctly. </p>
+
+<p>Called to allow the client to fill in the CefScreenInfo object with appropriate values. Return true (1) if the |screen_info| structure has been modified.
+
+<p>If the screen info rectangle is left NULL the rectangle from GetViewRect will be used. If the rectangle is still NULL or invalid popups may not be drawn correctly.
+
+<p></p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -194,7 +198,7 @@
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnAcceleratedPaint-ICefBrowser-TCefPaintElementType-NativeUInt-PCefRectArray-PCefAcceleratedPaintInfo-">ICefRenderHandler.OnAcceleratedPaint</a>.</p><p>
 
 
-<p>Called when an element has been rendered to the shared texture handle. |type| indicates whether the element is the view or the popup widget. |dirtyRects| contains the set of rectangles in pixel coordinates that need to be repainted. |info| contains the shared handle; on Windows it is a HANDLE to a texture that can be opened with D3D11 OpenSharedResource, on macOS it is an IOSurface pointer that can be opened with Metal or OpenGL, and on Linux it contains several planes, each with an fd to the underlying system native buffer.
+<p>Called when an element has been rendered to the shared texture handle. |type| indicates whether the element is the view or the popup widget. |dirtyRects| contains the set of rectangles in pixel coordinates that need to be repainted. |info| contains the shared handle; on Windows it is a HANDLE to a texture that can be opened with D3D11 OpenSharedResource1 or D3D12 OpenSharedHandle, on macOS it is an IOSurface pointer that can be opened with Metal or OpenGL, and on Linux it contains several planes, each with an fd to the underlying system native buffer.
 
 <p>The underlying implementation uses a pool to deliver frames. As a result, the handle may differ every frame depending on how many frames are in- progress. The handle's resource cannot be cached and cannot be accessed outside of this callback. It should be reopened each time this callback is executed and the contents should be copied to a texture owned by the client application. The contents of |info| will be released back to the pool after this callback returns.
 
@@ -228,11 +232,15 @@
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRenderHandler.html#OnStartDragging-ICefBrowser-ICefDragData-TCefDragOperations-Integer-Integer-">ICefRenderHandler.OnStartDragging</a>.</p><p>
- Called when the user starts dragging content in the web view. Contextual information about the dragged content is supplied by |drag_data|. (|x|, |y|) is the drag start location in screen coordinates. OS APIs that run a system message loop may be used within the StartDragging call.
+
+
+<p>Called when the user starts dragging content in the web view. Contextual information about the dragged content is supplied by |drag_data|. (|x|, |y|) is the drag start location in screen coordinates. OS APIs that run a system message loop may be used within the StartDragging call.
 
 <p>Return false (0) to abort the drag operation. Don't call any of ICefBrowserHost.DragSource*Ended* functions after returning false (0).
 
-<p>Return true (1) to handle the drag operation. Call ICefBrowserHost.DragSourceEndedAt and DragSourceSystemDragEnded either synchronously or asynchronously to inform the web view that the drag operation has ended. </p>
+<p>Return true (1) to handle the drag operation. Call ICefBrowserHost.DragSourceEndedAt and DragSourceSystemDragEnded either synchronously or asynchronously to inform the web view that the drag operation has ended.
+
+<p></p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -303,6 +311,6 @@
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
 </span>
 </body></html>

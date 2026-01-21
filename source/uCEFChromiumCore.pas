@@ -332,6 +332,7 @@ type
       FOnCertificateExceptionsCleared     : TNotifyEvent;
       FOnHttpAuthCredentialsCleared       : TNotifyEvent;
       FOnAllConnectionsClosed             : TNotifyEvent;
+      FOnHttpCacheCleared                 : TNotifyEvent;
       FOnExecuteTaskOnCefThread           : TOnExecuteTaskOnCefThread;
       FOnCookiesVisited                   : TOnCookiesVisited;
       FOnCookieVisitorDestroyed           : TOnCookieVisitorDestroyed;
@@ -710,6 +711,7 @@ type
       procedure doCertificateExceptionsCleared; virtual;
       procedure doHttpAuthCredentialsCleared; virtual;
       procedure doAllConnectionsClosed; virtual;
+      procedure doHttpCacheCleared; virtual;
       procedure doOnExecuteTaskOnCefThread(aTaskID : cardinal); virtual;
       procedure doOnCookiesVisited(const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; var aDeleteCookie, aResult : Boolean); virtual;
       procedure doOnCookieVisitorDestroyed(aID : integer); virtual;
@@ -1047,6 +1049,12 @@ type
       /// yet want to call cef_shutdown().
       /// </summary>
       function    CloseAllConnections(aCloseImmediately : boolean = True) : boolean;
+      /// <summary>
+      /// <para>Clears the HTTP cache.</para>
+      /// <para>If aClearImmediately is false then OnHttpCacheCleared is triggered
+      /// when the http cache is cleared.</para>
+      /// </summary>
+      function    ClearHttpCache(aClearImmediately : boolean = True) : boolean;
       /// <summary>
       /// <para>Retrieve all the HTML content from the specified frame or the main frame.
       /// Leave aFrameName empty to get the HTML source from the main frame.</para>
@@ -2365,6 +2373,10 @@ type
       /// </summary>
       property  OnAllConnectionsClosed             : TNotifyEvent                             read FOnAllConnectionsClosed             write FOnAllConnectionsClosed;
       /// <summary>
+      /// Triggered after a TChromiumCore.ClearHttpCache call when the http cache is cleared.
+      /// </summary>
+      property  OnHttpCacheCleared                 : TNotifyEvent                             read FOnHttpCacheCleared                 write FOnHttpCacheCleared;
+      /// <summary>
       /// Triggered after a TChromiumCore.ExecuteTaskOnCefThread call in the context of the specified CEF thread.
       /// </summary>
       property  OnExecuteTaskOnCefThread           : TOnExecuteTaskOnCefThread                read FOnExecuteTaskOnCefThread           write FOnExecuteTaskOnCefThread;
@@ -3492,10 +3504,11 @@ type
       /// |type| indicates whether the element is the view or the popup widget.
       /// |dirtyRects| contains the set of rectangles in pixel coordinates that need
       /// to be repainted. |info| contains the shared handle; on Windows it is a
-      /// HANDLE to a texture that can be opened with D3D11 OpenSharedResource, on
-      /// macOS it is an IOSurface pointer that can be opened with Metal or OpenGL,
-      /// and on Linux it contains several planes, each with an fd to the underlying
-      /// system native buffer.</para>
+      /// HANDLE to a texture that can be opened with D3D11 OpenSharedResource1 or
+      /// D3D12 OpenSharedHandle, on macOS it is an IOSurface pointer that can be
+      /// opened with Metal or OpenGL, and on Linux it contains several planes, each
+      /// with an fd to the underlying system native buffer.</para>
+      ///
       /// <para>The underlying implementation uses a pool to deliver frames. As a result,
       /// the handle may differ every frame depending on how many frames are in-
       /// progress. The handle's resource cannot be cached and cannot be accessed
@@ -4954,6 +4967,7 @@ begin
   FOnCertificateExceptionsCleared     := nil;
   FOnHttpAuthCredentialsCleared       := nil;
   FOnAllConnectionsClosed             := nil;
+  FOnHttpCacheCleared                 := nil;
   FOnExecuteTaskOnCefThread           := nil;
   FOnCookiesVisited                   := nil;
   FOnCookieVisitorDestroyed           := nil;
@@ -6940,7 +6954,6 @@ begin
     end;
 end;
 
-// If aCloseImmediately is false then OnAllConnectionsClosed is triggered when the connections are closed
 function TChromiumCore.CloseAllConnections(aCloseImmediately : boolean) : boolean;
 var
   TempCallback : ICefCompletionCallback;
@@ -6960,6 +6973,32 @@ begin
             TempCallback := TCefCloseAllConnectionsCompletionCallback.Create(self);
 
           TempContext.CloseAllConnections(TempCallback);
+          Result := True;
+        finally
+          TempCallback := nil;
+        end;
+    end;
+end;
+
+function TChromiumCore.ClearHttpCache(aClearImmediately : boolean = True) : boolean;
+var
+  TempCallback : ICefCompletionCallback;
+  TempContext  : ICefRequestContext;
+begin
+  Result := False;
+
+  if Initialized then
+    begin
+      TempContext := Browser.Host.RequestContext;
+
+      if (TempContext <> nil) then
+        try
+          if aClearImmediately then
+            TempCallback := nil
+           else
+            TempCallback := TCefClearHttpCacheCompletionCallback.Create(self);
+
+          TempContext.ClearHttpCache(TempCallback);
           Result := True;
         finally
           TempCallback := nil;
@@ -7915,6 +7954,12 @@ procedure TChromiumCore.doAllConnectionsClosed;
 begin
   if assigned(FOnAllConnectionsClosed) then
     FOnAllConnectionsClosed(self);
+end;
+
+procedure TChromiumCore.doHttpCacheCleared;
+begin
+  if assigned(FOnHttpCacheCleared) then
+    FOnHttpCacheCleared(self);
 end;
 
 procedure TChromiumCore.doOnExecuteTaskOnCefThread(aTaskID : cardinal);

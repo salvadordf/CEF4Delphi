@@ -43,39 +43,38 @@ type
       /// object.
       /// </summary>
       function  IsSame(const other: ICefRequestContext): Boolean;
-
       /// <summary>
       /// Returns true (1) if this object is sharing the same storage as |that|
       /// object.
       /// </summary>
       function  IsSharingWith(const other: ICefRequestContext): Boolean;
-
       /// <summary>
       /// Returns true (1) if this object is the global context. The global context
       /// is used by default when creating a browser or URL request with a NULL
       /// context argument.
       /// </summary>
       function  IsGlobal: Boolean;
-
       /// <summary>
       /// Returns the handler for this context if any.
       /// </summary>
       function  GetHandler: ICefRequestContextHandler;
-
       /// <summary>
       /// Returns the cache path for this object. If NULL an "incognito mode" in-
       /// memory cache is being used.
       /// </summary>
       function  GetCachePath: ustring;
-
       /// <summary>
       /// Returns the cookie manager for this object. If |callback| is non-NULL it
       /// will be executed asnychronously on the UI thread after the manager's
       /// storage has been initialized.
       /// </summary>
       function  GetCookieManager(const callback: ICefCompletionCallback): ICefCookieManager;
+      /// <summary>
+      /// Returns the cookie manager for this object. If |callback| is non-NULL it
+      /// will be executed asnychronously on the UI thread after the manager's
+      /// storage has been initialized.
+      /// </summary>
       function  GetCookieManagerProc(const callback: TCefCompletionCallbackProc): ICefCookieManager;
-
       /// <summary>
       /// Register a scheme handler factory for the specified |scheme_name| and
       /// optional |domain_name|. An NULL |domain_name| value for a standard scheme
@@ -90,13 +89,11 @@ type
       /// function may be called on any thread in the browser process.
       /// </summary>
       function  RegisterSchemeHandlerFactory(const schemeName, domainName: ustring; const factory: ICefSchemeHandlerFactory): Boolean;
-
       /// <summary>
       /// Clear all registered scheme handler factories. Returns false (0) on error.
       /// This function may be called on any thread in the browser process.
       /// </summary>
       function  ClearSchemeHandlerFactories: Boolean;
-
       /// <summary>
       /// Clears all certificate exceptions that were added as part of handling
       /// cef_request_handler_t::on_certificate_error(). If you call this it is
@@ -106,14 +103,12 @@ type
       /// completion.
       /// </summary>
       procedure ClearCertificateExceptions(const callback: ICefCompletionCallback);
-
       /// <summary>
       /// Clears all HTTP authentication credentials that were added as part of
       /// handling GetAuthCredentials. If |callback| is non-NULL it will be executed
       /// on the UI thread after completion.
       /// </summary>
       procedure ClearHttpAuthCredentials(const callback: ICefCompletionCallback);
-
       /// <summary>
       /// Clears all active and idle connections that Chromium currently has. This
       /// is only recommended if you have released all other CEF objects but don't
@@ -121,20 +116,17 @@ type
       /// executed on the UI thread after completion.
       /// </summary>
       procedure CloseAllConnections(const callback: ICefCompletionCallback);
-
       /// <summary>
       /// Attempts to resolve |origin| to a list of associated IP addresses.
       /// |callback| will be executed on the UI thread after completion.
       /// </summary>
       procedure ResolveHost(const origin: ustring; const callback: ICefResolveCallback);
-
       /// <summary>
       /// Returns the MediaRouter object associated with this context.  If
       /// |callback| is non-NULL it will be executed asnychronously on the UI thread
       /// after the manager's context has been initialized.
       /// </summary>
       function  GetMediaRouter(const callback: ICefCompletionCallback): ICefMediaRouter;
-
       /// <summary>
       /// Returns the current value for |content_type| that applies for the
       /// specified URLs. If both URLs are NULL the default value will be returned.
@@ -142,13 +134,12 @@ type
       /// process UI thread.
       /// </summary>
       function  GetWebsiteSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes): ICefValue;
-
       /// <summary>
-      /// Sets the current value for |content_type| for the specified URLs in the
+      /// <para>Sets the current value for |content_type| for the specified URLs in the
       /// default scope. If both URLs are NULL, and the context is not incognito,
       /// the default value will be set. Pass nullptr for |value| to remove the
-      /// default value for this content type.
-      ///
+      /// default value for this content type.</para>
+      /// <para>
       /// WARNING: Incorrect usage of this function may cause instability or
       /// security issues in Chromium. Make sure that you first understand the
       /// potential impact of any changes to |content_type| by reviewing the related
@@ -156,9 +147,9 @@ type
       /// CEF_CONTENT_SETTING_TYPE_POPUPS, first review and understand the usage of
       /// ContentSettingsType::POPUPS in Chromium:
       /// https://source.chromium.org/search?q=ContentSettingsType::POPUPS
+      /// </para>
       /// </summary>
       procedure SetWebsiteSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; const value: ICefValue);
-
       /// <summary>
       /// Returns the current value for |content_type| that applies for the
       /// specified URLs. If both URLs are NULL the default value will be returned.
@@ -166,13 +157,12 @@ type
       /// be called on the browser process UI thread.
       /// </summary>
       function  GetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes): TCefContentSettingValues;
-
       /// <summary>
-      /// Sets the current value for |content_type| for the specified URLs in the
+      /// <para>Sets the current value for |content_type| for the specified URLs in the
       /// default scope. If both URLs are NULL, and the context is not incognito,
       /// the default value will be set. Pass CEF_CONTENT_SETTING_VALUE_DEFAULT for
-      /// |value| to use the default value for this content type.
-      ///
+      /// |value| to use the default value for this content type.</para>
+      /// <para>
       /// WARNING: Incorrect usage of this function may cause instability or
       /// security issues in Chromium. Make sure that you first understand the
       /// potential impact of any changes to |content_type| by reviewing the related
@@ -180,9 +170,9 @@ type
       /// CEF_CONTENT_SETTING_TYPE_POPUPS, first review and understand the usage of
       /// ContentSettingsType::POPUPS in Chromium:
       /// https://source.chromium.org/search?q=ContentSettingsType::POPUPS
+      /// </para>
       /// </summary>
       procedure SetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; value: TCefContentSettingValues);
-
       /// <summary>
       /// Sets the Chrome color scheme for all browsers that share this request
       /// context. |variant| values of SYSTEM, LIGHT and DARK change the underlying
@@ -191,31 +181,32 @@ type
       /// transparent (0) the default color will be used.
       /// </summary>
       procedure SetChromeColorScheme(variant: TCefColorVariant; user_color: TCefColor);
-
       /// <summary>
       /// Returns the current Chrome color scheme mode (SYSTEM, LIGHT or DARK). Must
       /// be called on the browser process UI thread.
       /// </summary>
       function GetChromeColorSchemeMode: TCefColorVariant;
-
       /// <summary>
       /// Returns the current Chrome color scheme color, or transparent (0) for the
       /// default color. Must be called on the browser process UI thread.
       /// </summary>
       function GetChromeColorSchemeColor: TCefColor;
-
       /// <summary>
       /// Returns the current Chrome color scheme variant. Must be called on the
       /// browser process UI thread.
       /// </summary>
       function GetChromeColorSchemeVariant: TCefColorVariant;
-
       /// <summary>
       /// Add an observer for content and website setting changes. The observer will
       /// remain registered until the returned Registration object is destroyed.
       /// This function must be called on the browser process UI thread.
       /// </summary>
       function AddSettingObserver(const observer: ICefSettingObserver): ICefRegistration;
+      /// <summary>
+      /// Clears the HTTP cache. If |callback| is non-NULL it will be executed on
+      /// the UI thread after completion.
+      /// </summary>
+      procedure ClearHttpCache(const callback: ICefCompletionCallback);
 
     public
       class function UnWrap(data: Pointer): ICefRequestContext; reintroduce;
@@ -261,6 +252,11 @@ type
   end;
 
   TCefCloseAllConnectionsCompletionCallback = class(TCefCustomCompletionCallback)
+    protected
+      procedure OnComplete; override;
+  end;
+
+  TCefClearHttpCacheCompletionCallback = class(TCefCustomCompletionCallback)
     protected
       procedure OnComplete; override;
   end;
@@ -438,6 +434,11 @@ begin
   Result := TCefRegistrationRef.UnWrap(PCefRequestContext(FData)^.add_setting_observer(PCefRequestContext(FData), CefGetData(observer)));
 end;
 
+procedure TCefRequestContextRef.ClearHttpCache(const callback: ICefCompletionCallback);
+begin
+  PCefRequestContext(FData)^.clear_http_cache(PCefRequestContext(FData), CefGetData(callback));
+end;
+
 function TCefRequestContextRef.RegisterSchemeHandlerFactory(const schemeName : ustring;
                                                             const domainName : ustring;
                                                             const factory    : ICefSchemeHandlerFactory): Boolean;
@@ -511,6 +512,23 @@ begin
     except
       on e : exception do
         if CustomExceptionHandler('TCefCloseAllConnectionsCompletionCallback.OnComplete', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+
+// TCefClearHttpCacheCompletionCallback
+
+procedure TCefClearHttpCacheCompletionCallback.OnComplete;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doHttpCacheCleared;
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefClearHttpCacheCompletionCallback.OnComplete', e) then raise;
     end;
   finally
     FEvents := nil;

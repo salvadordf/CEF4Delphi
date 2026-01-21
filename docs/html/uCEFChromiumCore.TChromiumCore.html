@@ -3,7 +3,7 @@
 <head>
 <title>cef4delphi: uCEFChromiumCore: Class TChromiumCore</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
@@ -921,41 +921,45 @@
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnExecuteTaskOnCefThread">FOnExecuteTaskOnCefThread</a></strong>: <a href="uCEFChromiumEvents.html#TOnExecuteTaskOnCefThread">TOnExecuteTaskOnCefThread</a>;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnHttpCacheCleared">FOnHttpCacheCleared</a></strong>: TNotifyEvent;</code></td>
 </tr>
 <tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnExecuteTaskOnCefThread">FOnExecuteTaskOnCefThread</a></strong>: <a href="uCEFChromiumEvents.html#TOnExecuteTaskOnCefThread">TOnExecuteTaskOnCefThread</a>;</code></td>
+</tr>
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnCookiesVisited">FOnCookiesVisited</a></strong>: <a href="uCEFChromiumEvents.html#TOnCookiesVisited">TOnCookiesVisited</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnCookieVisitorDestroyed">FOnCookieVisitorDestroyed</a></strong>: <a href="uCEFChromiumEvents.html#TOnCookieVisitorDestroyed">TOnCookieVisitorDestroyed</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnCookieSet">FOnCookieSet</a></strong>: <a href="uCEFChromiumEvents.html#TOnCookieSet">TOnCookieSet</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnZoomPctAvailable">FOnZoomPctAvailable</a></strong>: <a href="uCEFChromiumEvents.html#TOnZoomPctAvailable">TOnZoomPctAvailable</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnMediaRouteCreateFinished">FOnMediaRouteCreateFinished</a></strong>: <a href="uCEFChromiumEvents.html#TOnMediaRouteCreateFinishedEvent">TOnMediaRouteCreateFinishedEvent</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnMediaSinkDeviceInfo">FOnMediaSinkDeviceInfo</a></strong>: <a href="uCEFChromiumEvents.html#TOnMediaSinkDeviceInfoEvent">TOnMediaSinkDeviceInfoEvent</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnCanFocus">FOnCanFocus</a></strong>: TNotifyEvent;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnBrowserCompMsg">FOnBrowserCompMsg</a></strong>: <a href="uCEFChromiumEvents.html#TOnCompMsgEvent">TOnCompMsgEvent</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnRenderCompMsg">FOnRenderCompMsg</a></strong>: <a href="uCEFChromiumEvents.html#TOnCompMsgEvent">TOnCompMsgEvent</a>;</code></td>
 </tr>
@@ -2100,327 +2104,335 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doOnExecuteTaskOnCefThread-cardinal-">doOnExecuteTaskOnCefThread</a></strong>(aTaskID : cardinal); virtual;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doHttpCacheCleared">doHttpCacheCleared</a></strong>; virtual;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doOnExecuteTaskOnCefThread-cardinal-">doOnExecuteTaskOnCefThread</a></strong>(aTaskID : cardinal); virtual;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doOnCookiesVisited-ustring-ustring-ustring-ustring-Boolean-Boolean-Boolean-TDateTime-TDateTime-TDateTime-Integer-Integer-Integer-TCefCookieSameSite-TCefCookiePriority-Boolean-Boolean-">doOnCookiesVisited</a></strong>(const name_, value, domain, path: <a href="uCEFTypes.html#ustring">ustring</a>; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; same_site : <a href="uCEFTypes.html#TCefCookieSameSite">TCefCookieSameSite</a>; priority : <a href="uCEFTypes.html#TCefCookiePriority">TCefCookiePriority</a>; var aDeleteCookie, aResult : Boolean); virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doOnCookieVisitorDestroyed-integer-">doOnCookieVisitorDestroyed</a></strong>(aID : integer); virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doOnCookieSet-boolean-integer-">doOnCookieSet</a></strong>(aSuccess : boolean; aID : integer); virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doUpdateZoomStep-boolean-">doUpdateZoomStep</a></strong>(aInc : boolean); virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doUpdateZoomPct-boolean-">doUpdateZoomPct</a></strong>(aInc : boolean); virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doReadZoom">doReadZoom</a></strong>; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doSetZoomLevel-double-">doSetZoomLevel</a></strong>(const aValue : double); virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doSetZoomPct-double-">doSetZoomPct</a></strong>(const aValue : double); virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doSetZoomStep-byte-">doSetZoomStep</a></strong>(aValue : byte); virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doMediaRouteCreateFinished-TCefMediaRouterCreateResult-ustring-ICefMediaRoute-">doMediaRouteCreateFinished</a></strong>(result: <a href="uCEFTypes.html#TCefMediaRouterCreateResult">TCefMediaRouterCreateResult</a>; const error: <a href="uCEFTypes.html#ustring">ustring</a>; const route: <a href="uCEFInterfaces.ICefMediaRoute.html">ICefMediaRoute</a>); virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doOnMediaSinkDeviceInfo-ustring-integer-ustring-">doOnMediaSinkDeviceInfo</a></strong>(const ip_address: <a href="uCEFTypes.html#ustring">ustring</a>; port: integer; const model_name: <a href="uCEFTypes.html#ustring">ustring</a>); virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doBrowserNavigation-TCefBrowserNavigation-">doBrowserNavigation</a></strong>(aTask : <a href="uCEFTypes.html#TCefBrowserNavigation">TCefBrowserNavigation</a>); virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doSetAudioMuted-boolean-">doSetAudioMuted</a></strong>(aValue : boolean); virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doToggleAudioMuted">doToggleAudioMuted</a></strong>; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doEnableFocus">doEnableFocus</a></strong>; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#doTryCloseBrowser">doTryCloseBrowser</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#doAddPreferenceObserver-ustring-">doAddPreferenceObserver</a></strong>(const name_ : <a href="uCEFTypes.html#ustring">ustring</a>); virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateAudioHandler">MustCreateAudioHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateCommandHandler">MustCreateCommandHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateDevToolsMessageObserver">MustCreateDevToolsMessageObserver</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateSettingObserver">MustCreateSettingObserver</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateLoadHandler">MustCreateLoadHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateFocusHandler">MustCreateFocusHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateContextMenuHandler">MustCreateContextMenuHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateDialogHandler">MustCreateDialogHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateKeyboardHandler">MustCreateKeyboardHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateDisplayHandler">MustCreateDisplayHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateDownloadHandler">MustCreateDownloadHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateJsDialogHandler">MustCreateJsDialogHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateLifeSpanHandler">MustCreateLifeSpanHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateRenderHandler">MustCreateRenderHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateRequestHandler">MustCreateRequestHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateDragHandler">MustCreateDragHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateFindHandler">MustCreateFindHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateResourceRequestHandler">MustCreateResourceRequestHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateCookieAccessFilter">MustCreateCookieAccessFilter</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateMediaObserver">MustCreateMediaObserver</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreatePrintHandler">MustCreatePrintHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateFrameHandler">MustCreateFrameHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreatePermissionHandler">MustCreatePermissionHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>constructor <strong><a href="uCEFChromiumCore.TChromiumCore.html#Create-TComponent-">Create</a></strong>(AOwner: TComponent); override;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>destructor <strong><a href="uCEFChromiumCore.TChromiumCore.html#Destroy">Destroy</a></strong>; override;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#AfterConstruction">AfterConstruction</a></strong>; override;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#BeforeDestruction">BeforeDestruction</a></strong>; override;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateClientHandler-boolean-">CreateClientHandler</a></strong>(aIsOSR : boolean = True) : boolean; overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateClientHandler-ICefClient-boolean-">CreateClientHandler</a></strong>(var aClient : <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; aIsOSR : boolean = True) : boolean; overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CloseBrowser-boolean-">CloseBrowser</a></strong>(aForceClose : boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CloseAllBrowsers">CloseAllBrowsers</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#TryCloseBrowser">TryCloseBrowser</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#IsReadyToBeClosed">IsReadyToBeClosed</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#SelectBrowser-integer-">SelectBrowser</a></strong>(aID : integer) : boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#IndexOfBrowserID-integer-">IndexOfBrowserID</a></strong>(aID : integer) : integer;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ShareRequestContext-ICefRequestContext-ICefRequestContextHandler-">ShareRequestContext</a></strong>(var aContext : <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; const aHandler : <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a> = nil) : boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#InitializeDragAndDrop-HWND-">InitializeDragAndDrop</a></strong>(const aDropTargetWnd : HWND);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ShutdownDragAndDrop">ShutdownDragAndDrop</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetNewBrowserParent-HWND-">SetNewBrowserParent</a></strong>(aNewParentHwnd : HWND) : boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateBrowser-TCefWindowHandle-TRect-ustring-ICefRequestContext-ICefDictionaryValue-boolean-">CreateBrowser</a></strong>(aParentHandle : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; aParentRect : TRect; const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aContext : <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a> = nil; const aExtraInfo : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a> = nil; aForceAsPopup : boolean = False) : boolean; overload; virtual;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateBrowser-ustring-TCEFBrowserViewComponent-ICefRequestContext-ICefDictionaryValue-">CreateBrowser</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>; const aBrowserViewComp : <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html">TCEFBrowserViewComponent</a>; const aContext : <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a> = nil; const aExtraInfo : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a> = nil) : boolean; overload; virtual;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadURL-ustring-ustring-ustring-">LoadURL</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadURL-ustring-ICefFrame-">LoadURL</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadString-ustring-ustring-ustring-">LoadString</a></strong>(const aHTML : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadString-ustring-ICefFrame-">LoadString</a></strong>(const aHTML : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadResource-TCustomMemoryStream-ustring-ustring-ustring-ustring-">LoadResource</a></strong>(const aStream : TCustomMemoryStream; const aMimeType, aCharset : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadResource-TCustomMemoryStream-ustring-ustring-ICefFrame-">LoadResource</a></strong>(const aStream : TCustomMemoryStream; const aMimeType, aCharset : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadRequest-ICefRequest-">LoadRequest</a></strong>(const aRequest: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GoBack">GoBack</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GoForward">GoForward</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#Reload">Reload</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ReloadIgnoreCache">ReloadIgnoreCache</a></strong>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#StopLoad">StopLoad</a></strong>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#StartDownload-ustring-">StartDownload</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DownloadImage-ustring-Boolean-cardinal-Boolean-">DownloadImage</a></strong>(const imageUrl: <a href="uCEFTypes.html#ustring">ustring</a>; isFavicon: Boolean; maxImageSize: cardinal; bypassCache: Boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateMouseWheel-integer-integer-">SimulateMouseWheel</a></strong>(aDeltaX, aDeltaY : integer);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateKeyEvent-TSimulatedCefKeyEventType-integer-single-ustring-ustring-ustring-ustring-ustring-integer-integer-boolean-boolean-boolean-TCefKeyLocation-TCefEditingCommand-">SimulateKeyEvent</a></strong>(type_: <a href="uCEFTypes.html#TSimulatedCefKeyEventType">TSimulatedCefKeyEventType</a>; modifiers: integer = <a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE">CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE</a>; timestamp: single = 0; const text: <a href="uCEFTypes.html#ustring">ustring</a> = ''; const unmodifiedtext: <a href="uCEFTypes.html#ustring">ustring</a> = ''; const keyIdentifier: <a href="uCEFTypes.html#ustring">ustring</a> = ''; const code: <a href="uCEFTypes.html#ustring">ustring</a> = ''; const key: <a href="uCEFTypes.html#ustring">ustring</a> = ''; windowsVirtualKeyCode: integer = 0; nativeVirtualKeyCode: integer = 0; autoRepeat: boolean = False; isKeypad: boolean = False; isSystemKey: boolean = False; location: <a href="uCEFTypes.html#TCefKeyLocation">TCefKeyLocation</a> = <a href="uCEFTypes.html#CEF_KEYLOCATION_NONE">CEF_KEYLOCATION_NONE</a>; commands: <a href="uCEFTypes.html#TCefEditingCommand">TCefEditingCommand</a> = <a href="uCEFTypes.html#ecNone">ecNone</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateMouseEvent-TCefSimulatedMouseEventType-single-single-integer-single-TCefSimulatedMouseButton-integer-integer-single-single-single-single-integer-single-single-TCefSimulatedPointerType-">SimulateMouseEvent</a></strong>(type_: <a href="uCEFTypes.html#TCefSimulatedMouseEventType">TCefSimulatedMouseEventType</a>; x, y: single; modifiers: integer = <a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE">CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE</a>; timestamp: single = 0; button: <a href="uCEFTypes.html#TCefSimulatedMouseButton">TCefSimulatedMouseButton</a> = <a href="uCEFTypes.html#CEF_SIMULATEDMOUSEBUTTON_NONE">CEF_SIMULATEDMOUSEBUTTON_NONE</a>; buttons: integer = <a href="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_NONE">CEF_PRESSED_MOUSE_BUTTONS_NONE</a>; clickCount: integer = 0; force: single = 0; tangentialPressure: single = 0; tiltX: single = 0; tiltY: single = 0; twist: integer = 0; deltaX: single = 0; deltaY: single = 0; pointerType: <a href="uCEFTypes.html#TCefSimulatedPointerType">TCefSimulatedPointerType</a> = <a href="uCEFTypes.html#CEF_SIMULATEDPOINTERTYPE_MOUSE">CEF_SIMULATEDPOINTERTYPE_MOUSE</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateTouchEvent-TCefSimulatedTouchEventType-TCefSimulatedTouchPointArray-integer-single-">SimulateTouchEvent</a></strong>(type_: <a href="uCEFTypes.html#TCefSimulatedTouchEventType">TCefSimulatedTouchEventType</a>; var touchPoints: <a href="uCEFTypes.html#TCefSimulatedTouchPointArray">TCefSimulatedTouchPointArray</a>; modifiers: integer = <a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE">CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE</a>; timestamp: single = 0);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateEditingCommand-TCefEditingCommand-">SimulateEditingCommand</a></strong>(command : <a href="uCEFTypes.html#TCefEditingCommand">TCefEditingCommand</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClearCertificateExceptions-boolean-">ClearCertificateExceptions</a></strong>(aClearImmediately : boolean = True) : boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClearHttpAuthCredentials-boolean-">ClearHttpAuthCredentials</a></strong>(aClearImmediately : boolean = True) : boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CloseAllConnections-boolean-">CloseAllConnections</a></strong>(aCloseImmediately : boolean = True) : boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClearHttpCache-boolean-">ClearHttpCache</a></strong>(aClearImmediately : boolean = True) : boolean;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -3295,513 +3307,517 @@
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
-<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnExecuteTaskOnCefThread">OnExecuteTaskOnCefThread</a></strong>           : <a href="uCEFChromiumEvents.html#TOnExecuteTaskOnCefThread">TOnExecuteTaskOnCefThread</a>                read <a href="uCEFChromiumCore.TChromiumCore.html#FOnExecuteTaskOnCefThread">FOnExecuteTaskOnCefThread</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnExecuteTaskOnCefThread">FOnExecuteTaskOnCefThread</a>;</code></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnHttpCacheCleared">OnHttpCacheCleared</a></strong>                 : TNotifyEvent                             read <a href="uCEFChromiumCore.TChromiumCore.html#FOnHttpCacheCleared">FOnHttpCacheCleared</a>                 write <a href="uCEFChromiumCore.TChromiumCore.html#FOnHttpCacheCleared">FOnHttpCacheCleared</a>;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnExecuteTaskOnCefThread">OnExecuteTaskOnCefThread</a></strong>           : <a href="uCEFChromiumEvents.html#TOnExecuteTaskOnCefThread">TOnExecuteTaskOnCefThread</a>                read <a href="uCEFChromiumCore.TChromiumCore.html#FOnExecuteTaskOnCefThread">FOnExecuteTaskOnCefThread</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnExecuteTaskOnCefThread">FOnExecuteTaskOnCefThread</a>;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnCookiesVisited">OnCookiesVisited</a></strong>                   : <a href="uCEFChromiumEvents.html#TOnCookiesVisited">TOnCookiesVisited</a>                        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnCookiesVisited">FOnCookiesVisited</a>                   write <a href="uCEFChromiumCore.TChromiumCore.html#FOnCookiesVisited">FOnCookiesVisited</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnCookieVisitorDestroyed">OnCookieVisitorDestroyed</a></strong>           : <a href="uCEFChromiumEvents.html#TOnCookieVisitorDestroyed">TOnCookieVisitorDestroyed</a>                read <a href="uCEFChromiumCore.TChromiumCore.html#FOnCookieVisitorDestroyed">FOnCookieVisitorDestroyed</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnCookieVisitorDestroyed">FOnCookieVisitorDestroyed</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnCookieSet">OnCookieSet</a></strong>                        : <a href="uCEFChromiumEvents.html#TOnCookieSet">TOnCookieSet</a>                             read <a href="uCEFChromiumCore.TChromiumCore.html#FOnCookieSet">FOnCookieSet</a>                        write <a href="uCEFChromiumCore.TChromiumCore.html#FOnCookieSet">FOnCookieSet</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnZoomPctAvailable">OnZoomPctAvailable</a></strong>                 : <a href="uCEFChromiumEvents.html#TOnZoomPctAvailable">TOnZoomPctAvailable</a>                      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnZoomPctAvailable">FOnZoomPctAvailable</a>                 write <a href="uCEFChromiumCore.TChromiumCore.html#FOnZoomPctAvailable">FOnZoomPctAvailable</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnMediaRouteCreateFinished">OnMediaRouteCreateFinished</a></strong>         : <a href="uCEFChromiumEvents.html#TOnMediaRouteCreateFinishedEvent">TOnMediaRouteCreateFinishedEvent</a>         read <a href="uCEFChromiumCore.TChromiumCore.html#FOnMediaRouteCreateFinished">FOnMediaRouteCreateFinished</a>         write <a href="uCEFChromiumCore.TChromiumCore.html#FOnMediaRouteCreateFinished">FOnMediaRouteCreateFinished</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnMediaSinkDeviceInfo">OnMediaSinkDeviceInfo</a></strong>              : <a href="uCEFChromiumEvents.html#TOnMediaSinkDeviceInfoEvent">TOnMediaSinkDeviceInfoEvent</a>              read <a href="uCEFChromiumCore.TChromiumCore.html#FOnMediaSinkDeviceInfo">FOnMediaSinkDeviceInfo</a>              write <a href="uCEFChromiumCore.TChromiumCore.html#FOnMediaSinkDeviceInfo">FOnMediaSinkDeviceInfo</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnCanFocus">OnCanFocus</a></strong>                         : TNotifyEvent                             read <a href="uCEFChromiumCore.TChromiumCore.html#FOnCanFocus">FOnCanFocus</a>                         write <a href="uCEFChromiumCore.TChromiumCore.html#FOnCanFocus">FOnCanFocus</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnBrowserCompMsg">OnBrowserCompMsg</a></strong>                   : <a href="uCEFChromiumEvents.html#TOnCompMsgEvent">TOnCompMsgEvent</a>                          read <a href="uCEFChromiumCore.TChromiumCore.html#FOnBrowserCompMsg">FOnBrowserCompMsg</a>                   write <a href="uCEFChromiumCore.TChromiumCore.html#FOnBrowserCompMsg">FOnBrowserCompMsg</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnRenderCompMsg">OnRenderCompMsg</a></strong>                    : <a href="uCEFChromiumEvents.html#TOnCompMsgEvent">TOnCompMsgEvent</a>                          read <a href="uCEFChromiumCore.TChromiumCore.html#FOnRenderCompMsg">FOnRenderCompMsg</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnRenderCompMsg">FOnRenderCompMsg</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnProcessMessageReceived">OnProcessMessageReceived</a></strong>         : <a href="uCEFChromiumEvents.html#TOnProcessMessageReceived">TOnProcessMessageReceived</a>         read <a href="uCEFChromiumCore.TChromiumCore.html#FOnProcessMessageReceived">FOnProcessMessageReceived</a>         write <a href="uCEFChromiumCore.TChromiumCore.html#FOnProcessMessageReceived">FOnProcessMessageReceived</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnLoadStart">OnLoadStart</a></strong>                      : <a href="uCEFChromiumEvents.html#TOnLoadStart">TOnLoadStart</a>                      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnLoadStart">FOnLoadStart</a>                      write <a href="uCEFChromiumCore.TChromiumCore.html#FOnLoadStart">FOnLoadStart</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnLoadEnd">OnLoadEnd</a></strong>                        : <a href="uCEFChromiumEvents.html#TOnLoadEnd">TOnLoadEnd</a>                        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnLoadEnd">FOnLoadEnd</a>                        write <a href="uCEFChromiumCore.TChromiumCore.html#FOnLoadEnd">FOnLoadEnd</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnLoadError">OnLoadError</a></strong>                      : <a href="uCEFChromiumEvents.html#TOnLoadError">TOnLoadError</a>                      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnLoadError">FOnLoadError</a>                      write <a href="uCEFChromiumCore.TChromiumCore.html#FOnLoadError">FOnLoadError</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnLoadingStateChange">OnLoadingStateChange</a></strong>             : <a href="uCEFChromiumEvents.html#TOnLoadingStateChange">TOnLoadingStateChange</a>             read <a href="uCEFChromiumCore.TChromiumCore.html#FOnLoadingStateChange">FOnLoadingStateChange</a>             write <a href="uCEFChromiumCore.TChromiumCore.html#FOnLoadingStateChange">FOnLoadingStateChange</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnTakeFocus">OnTakeFocus</a></strong>                      : <a href="uCEFChromiumEvents.html#TOnTakeFocus">TOnTakeFocus</a>                      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnTakeFocus">FOnTakeFocus</a>                      write <a href="uCEFChromiumCore.TChromiumCore.html#FOnTakeFocus">FOnTakeFocus</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnSetFocus">OnSetFocus</a></strong>                       : <a href="uCEFChromiumEvents.html#TOnSetFocus">TOnSetFocus</a>                       read <a href="uCEFChromiumCore.TChromiumCore.html#FOnSetFocus">FOnSetFocus</a>                       write <a href="uCEFChromiumCore.TChromiumCore.html#FOnSetFocus">FOnSetFocus</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGotFocus">OnGotFocus</a></strong>                       : <a href="uCEFChromiumEvents.html#TOnGotFocus">TOnGotFocus</a>                       read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGotFocus">FOnGotFocus</a>                       write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGotFocus">FOnGotFocus</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnBeforeContextMenu">OnBeforeContextMenu</a></strong>              : <a href="uCEFChromiumEvents.html#TOnBeforeContextMenu">TOnBeforeContextMenu</a>              read <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeContextMenu">FOnBeforeContextMenu</a>              write <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeContextMenu">FOnBeforeContextMenu</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnRunContextMenu">OnRunContextMenu</a></strong>                 : <a href="uCEFChromiumEvents.html#TOnRunContextMenu">TOnRunContextMenu</a>                 read <a href="uCEFChromiumCore.TChromiumCore.html#FOnRunContextMenu">FOnRunContextMenu</a>                 write <a href="uCEFChromiumCore.TChromiumCore.html#FOnRunContextMenu">FOnRunContextMenu</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnContextMenuCommand">OnContextMenuCommand</a></strong>             : <a href="uCEFChromiumEvents.html#TOnContextMenuCommand">TOnContextMenuCommand</a>             read <a href="uCEFChromiumCore.TChromiumCore.html#FOnContextMenuCommand">FOnContextMenuCommand</a>             write <a href="uCEFChromiumCore.TChromiumCore.html#FOnContextMenuCommand">FOnContextMenuCommand</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnContextMenuDismissed">OnContextMenuDismissed</a></strong>           : <a href="uCEFChromiumEvents.html#TOnContextMenuDismissed">TOnContextMenuDismissed</a>           read <a href="uCEFChromiumCore.TChromiumCore.html#FOnContextMenuDismissed">FOnContextMenuDismissed</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnContextMenuDismissed">FOnContextMenuDismissed</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnRunQuickMenu">OnRunQuickMenu</a></strong>                   : <a href="uCEFChromiumEvents.html#TOnRunQuickMenuEvent">TOnRunQuickMenuEvent</a>              read <a href="uCEFChromiumCore.TChromiumCore.html#FOnRunQuickMenu">FOnRunQuickMenu</a>                   write <a href="uCEFChromiumCore.TChromiumCore.html#FOnRunQuickMenu">FOnRunQuickMenu</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnQuickMenuCommand">OnQuickMenuCommand</a></strong>               : <a href="uCEFChromiumEvents.html#TOnQuickMenuCommandEvent">TOnQuickMenuCommandEvent</a>          read <a href="uCEFChromiumCore.TChromiumCore.html#FOnQuickMenuCommand">FOnQuickMenuCommand</a>               write <a href="uCEFChromiumCore.TChromiumCore.html#FOnQuickMenuCommand">FOnQuickMenuCommand</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnQuickMenuDismissed">OnQuickMenuDismissed</a></strong>             : <a href="uCEFChromiumEvents.html#TOnQuickMenuDismissedEvent">TOnQuickMenuDismissedEvent</a>        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnQuickMenuDismissed">FOnQuickMenuDismissed</a>             write <a href="uCEFChromiumCore.TChromiumCore.html#FOnQuickMenuDismissed">FOnQuickMenuDismissed</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnPreKeyEvent">OnPreKeyEvent</a></strong>                    : <a href="uCEFChromiumEvents.html#TOnPreKeyEvent">TOnPreKeyEvent</a>                    read <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreKeyEvent">FOnPreKeyEvent</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreKeyEvent">FOnPreKeyEvent</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnKeyEvent">OnKeyEvent</a></strong>                       : <a href="uCEFChromiumEvents.html#TOnKeyEvent">TOnKeyEvent</a>                       read <a href="uCEFChromiumCore.TChromiumCore.html#FOnKeyEvent">FOnKeyEvent</a>                       write <a href="uCEFChromiumCore.TChromiumCore.html#FOnKeyEvent">FOnKeyEvent</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnAddressChange">OnAddressChange</a></strong>                  : <a href="uCEFChromiumEvents.html#TOnAddressChange">TOnAddressChange</a>                  read <a href="uCEFChromiumCore.TChromiumCore.html#FOnAddressChange">FOnAddressChange</a>                  write <a href="uCEFChromiumCore.TChromiumCore.html#FOnAddressChange">FOnAddressChange</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnTitleChange">OnTitleChange</a></strong>                    : <a href="uCEFChromiumEvents.html#TOnTitleChange">TOnTitleChange</a>                    read <a href="uCEFChromiumCore.TChromiumCore.html#FOnTitleChange">FOnTitleChange</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnTitleChange">FOnTitleChange</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnFavIconUrlChange">OnFavIconUrlChange</a></strong>               : <a href="uCEFChromiumEvents.html#TOnFavIconUrlChange">TOnFavIconUrlChange</a>               read <a href="uCEFChromiumCore.TChromiumCore.html#FOnFavIconUrlChange">FOnFavIconUrlChange</a>               write <a href="uCEFChromiumCore.TChromiumCore.html#FOnFavIconUrlChange">FOnFavIconUrlChange</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnFullScreenModeChange">OnFullScreenModeChange</a></strong>           : <a href="uCEFChromiumEvents.html#TOnFullScreenModeChange">TOnFullScreenModeChange</a>           read <a href="uCEFChromiumCore.TChromiumCore.html#FOnFullScreenModeChange">FOnFullScreenModeChange</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnFullScreenModeChange">FOnFullScreenModeChange</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnTooltip">OnTooltip</a></strong>                        : <a href="uCEFChromiumEvents.html#TOnTooltip">TOnTooltip</a>                        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnTooltip">FOnTooltip</a>                        write <a href="uCEFChromiumCore.TChromiumCore.html#FOnTooltip">FOnTooltip</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnStatusMessage">OnStatusMessage</a></strong>                  : <a href="uCEFChromiumEvents.html#TOnStatusMessage">TOnStatusMessage</a>                  read <a href="uCEFChromiumCore.TChromiumCore.html#FOnStatusMessage">FOnStatusMessage</a>                  write <a href="uCEFChromiumCore.TChromiumCore.html#FOnStatusMessage">FOnStatusMessage</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnConsoleMessage">OnConsoleMessage</a></strong>                 : <a href="uCEFChromiumEvents.html#TOnConsoleMessage">TOnConsoleMessage</a>                 read <a href="uCEFChromiumCore.TChromiumCore.html#FOnConsoleMessage">FOnConsoleMessage</a>                 write <a href="uCEFChromiumCore.TChromiumCore.html#FOnConsoleMessage">FOnConsoleMessage</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnAutoResize">OnAutoResize</a></strong>                     : <a href="uCEFChromiumEvents.html#TOnAutoResize">TOnAutoResize</a>                     read <a href="uCEFChromiumCore.TChromiumCore.html#FOnAutoResize">FOnAutoResize</a>                     write <a href="uCEFChromiumCore.TChromiumCore.html#FOnAutoResize">FOnAutoResize</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnLoadingProgressChange">OnLoadingProgressChange</a></strong>          : <a href="uCEFChromiumEvents.html#TOnLoadingProgressChange">TOnLoadingProgressChange</a>          read <a href="uCEFChromiumCore.TChromiumCore.html#FOnLoadingProgressChange">FOnLoadingProgressChange</a>          write <a href="uCEFChromiumCore.TChromiumCore.html#FOnLoadingProgressChange">FOnLoadingProgressChange</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnCursorChange">OnCursorChange</a></strong>                   : <a href="uCEFChromiumEvents.html#TOnCursorChange">TOnCursorChange</a>                   read <a href="uCEFChromiumCore.TChromiumCore.html#FOnCursorChange">FOnCursorChange</a>                   write <a href="uCEFChromiumCore.TChromiumCore.html#FOnCursorChange">FOnCursorChange</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnMediaAccessChange">OnMediaAccessChange</a></strong>              : <a href="uCEFChromiumEvents.html#TOnMediaAccessChange">TOnMediaAccessChange</a>              read <a href="uCEFChromiumCore.TChromiumCore.html#FOnMediaAccessChange">FOnMediaAccessChange</a>              write <a href="uCEFChromiumCore.TChromiumCore.html#FOnMediaAccessChange">FOnMediaAccessChange</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnContentsBoundsChange">OnContentsBoundsChange</a></strong>           : <a href="uCEFChromiumEvents.html#TOnContentsBoundsChange">TOnContentsBoundsChange</a>           read <a href="uCEFChromiumCore.TChromiumCore.html#FOnContentsBoundsChange">FOnContentsBoundsChange</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnContentsBoundsChange">FOnContentsBoundsChange</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGetRootWindowScreenRect">OnGetRootWindowScreenRect</a></strong>        : <a href="uCEFChromiumEvents.html#TOnGetRootWindowScreenRect">TOnGetRootWindowScreenRect</a>        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetRootWindowScreenRect">FOnGetRootWindowScreenRect</a>        write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetRootWindowScreenRect">FOnGetRootWindowScreenRect</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnCanDownload">OnCanDownload</a></strong>                    : <a href="uCEFChromiumEvents.html#TOnCanDownloadEvent">TOnCanDownloadEvent</a>               read <a href="uCEFChromiumCore.TChromiumCore.html#FOnCanDownload">FOnCanDownload</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnCanDownload">FOnCanDownload</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnBeforeDownload">OnBeforeDownload</a></strong>                 : <a href="uCEFChromiumEvents.html#TOnBeforeDownload">TOnBeforeDownload</a>                 read <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeDownload">FOnBeforeDownload</a>                 write <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeDownload">FOnBeforeDownload</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDownloadUpdated">OnDownloadUpdated</a></strong>                : <a href="uCEFChromiumEvents.html#TOnDownloadUpdated">TOnDownloadUpdated</a>                read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDownloadUpdated">FOnDownloadUpdated</a>                write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDownloadUpdated">FOnDownloadUpdated</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnJsdialog">OnJsdialog</a></strong>                       : <a href="uCEFChromiumEvents.html#TOnJsdialog">TOnJsdialog</a>                       read <a href="uCEFChromiumCore.TChromiumCore.html#FOnJsdialog">FOnJsdialog</a>                       write <a href="uCEFChromiumCore.TChromiumCore.html#FOnJsdialog">FOnJsdialog</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnBeforeUnloadDialog">OnBeforeUnloadDialog</a></strong>             : <a href="uCEFChromiumEvents.html#TOnBeforeUnloadDialog">TOnBeforeUnloadDialog</a>             read <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeUnloadDialog">FOnBeforeUnloadDialog</a>             write <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeUnloadDialog">FOnBeforeUnloadDialog</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnResetDialogState">OnResetDialogState</a></strong>               : <a href="uCEFChromiumEvents.html#TOnResetDialogState">TOnResetDialogState</a>               read <a href="uCEFChromiumCore.TChromiumCore.html#FOnResetDialogState">FOnResetDialogState</a>               write <a href="uCEFChromiumCore.TChromiumCore.html#FOnResetDialogState">FOnResetDialogState</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDialogClosed">OnDialogClosed</a></strong>                   : <a href="uCEFChromiumEvents.html#TOnDialogClosed">TOnDialogClosed</a>                   read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDialogClosed">FOnDialogClosed</a>                   write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDialogClosed">FOnDialogClosed</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnBeforePopup">OnBeforePopup</a></strong>                    : <a href="uCEFChromiumEvents.html#TOnBeforePopup">TOnBeforePopup</a>                    read <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforePopup">FOnBeforePopup</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforePopup">FOnBeforePopup</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnBeforePopupAborted">OnBeforePopupAborted</a></strong>             : <a href="uCEFChromiumEvents.html#TOnBeforePopupAborted">TOnBeforePopupAborted</a>             read <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforePopupAborted">FOnBeforePopupAborted</a>             write <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforePopupAborted">FOnBeforePopupAborted</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnBeforeDevToolsPopup">OnBeforeDevToolsPopup</a></strong>          : <a href="uCEFChromiumEvents.html#TOnBeforeDevToolsPopup">TOnBeforeDevToolsPopup</a>              read <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeDevToolsPopup">FOnBeforeDevToolsPopup</a>            write <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeDevToolsPopup">FOnBeforeDevToolsPopup</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnAfterCreated">OnAfterCreated</a></strong>                   : <a href="uCEFChromiumEvents.html#TOnAfterCreated">TOnAfterCreated</a>                   read <a href="uCEFChromiumCore.TChromiumCore.html#FOnAfterCreated">FOnAfterCreated</a>                   write <a href="uCEFChromiumCore.TChromiumCore.html#FOnAfterCreated">FOnAfterCreated</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnBeforeClose">OnBeforeClose</a></strong>                    : <a href="uCEFChromiumEvents.html#TOnBeforeClose">TOnBeforeClose</a>                    read <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeClose">FOnBeforeClose</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeClose">FOnBeforeClose</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnClose">OnClose</a></strong>                          : <a href="uCEFChromiumEvents.html#TOnClose">TOnClose</a>                          read <a href="uCEFChromiumCore.TChromiumCore.html#FOnClose">FOnClose</a>                          write <a href="uCEFChromiumCore.TChromiumCore.html#FOnClose">FOnClose</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnBeforeBrowse">OnBeforeBrowse</a></strong>                      : <a href="uCEFChromiumEvents.html#TOnBeforeBrowse">TOnBeforeBrowse</a>                   read <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeBrowse">FOnBeforeBrowse</a>                      write <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeBrowse">FOnBeforeBrowse</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnOpenUrlFromTab">OnOpenUrlFromTab</a></strong>                    : <a href="uCEFChromiumEvents.html#TOnOpenUrlFromTab">TOnOpenUrlFromTab</a>                 read <a href="uCEFChromiumCore.TChromiumCore.html#FOnOpenUrlFromTab">FOnOpenUrlFromTab</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnOpenUrlFromTab">FOnOpenUrlFromTab</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGetAuthCredentials">OnGetAuthCredentials</a></strong>                : <a href="uCEFChromiumEvents.html#TOnGetAuthCredentials">TOnGetAuthCredentials</a>             read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetAuthCredentials">FOnGetAuthCredentials</a>                write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetAuthCredentials">FOnGetAuthCredentials</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnCertificateError">OnCertificateError</a></strong>                  : <a href="uCEFChromiumEvents.html#TOnCertificateError">TOnCertificateError</a>               read <a href="uCEFChromiumCore.TChromiumCore.html#FOnCertificateError">FOnCertificateError</a>                  write <a href="uCEFChromiumCore.TChromiumCore.html#FOnCertificateError">FOnCertificateError</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnSelectClientCertificate">OnSelectClientCertificate</a></strong>           : <a href="uCEFChromiumEvents.html#TOnSelectClientCertificate">TOnSelectClientCertificate</a>        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnSelectClientCertificate">FOnSelectClientCertificate</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnSelectClientCertificate">FOnSelectClientCertificate</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnRenderViewReady">OnRenderViewReady</a></strong>                   : <a href="uCEFChromiumEvents.html#TOnRenderViewReady">TOnRenderViewReady</a>                read <a href="uCEFChromiumCore.TChromiumCore.html#FOnRenderViewReady">FOnRenderViewReady</a>                   write <a href="uCEFChromiumCore.TChromiumCore.html#FOnRenderViewReady">FOnRenderViewReady</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnRenderProcessUnresponsive">OnRenderProcessUnresponsive</a></strong>         : <a href="uCEFChromiumEvents.html#TOnRenderProcessUnresponsive">TOnRenderProcessUnresponsive</a>      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnRenderProcessUnresponsive">FOnRenderProcessUnresponsive</a>         write <a href="uCEFChromiumCore.TChromiumCore.html#FOnRenderProcessUnresponsive">FOnRenderProcessUnresponsive</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnRenderProcessResponsive">OnRenderProcessResponsive</a></strong>           : <a href="uCEFChromiumEvents.html#TOnRenderProcessResponsive">TOnRenderProcessResponsive</a>        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnRenderProcessResponsive">FOnRenderProcessResponsive</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnRenderProcessResponsive">FOnRenderProcessResponsive</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnRenderProcessTerminated">OnRenderProcessTerminated</a></strong>           : <a href="uCEFChromiumEvents.html#TOnRenderProcessTerminated">TOnRenderProcessTerminated</a>        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnRenderProcessTerminated">FOnRenderProcessTerminated</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnRenderProcessTerminated">FOnRenderProcessTerminated</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGetResourceRequestHandler_ReqHdlr">OnGetResourceRequestHandler_ReqHdlr</a></strong> : <a href="uCEFChromiumEvents.html#TOnGetResourceRequestHandler">TOnGetResourceRequestHandler</a>      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler_ReqHdlr">FOnGetResourceRequestHandler_ReqHdlr</a> write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler_ReqHdlr">FOnGetResourceRequestHandler_ReqHdlr</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDocumentAvailableInMainFrame">OnDocumentAvailableInMainFrame</a></strong>      : <a href="uCEFChromiumEvents.html#TOnDocumentAvailableInMainFrame">TOnDocumentAvailableInMainFrame</a>   read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDocumentAvailableInMainFrame">FOnDocumentAvailableInMainFrame</a>      write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDocumentAvailableInMainFrame">FOnDocumentAvailableInMainFrame</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnBeforeResourceLoad">OnBeforeResourceLoad</a></strong>             : <a href="uCEFChromiumEvents.html#TOnBeforeResourceLoad">TOnBeforeResourceLoad</a>             read <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeResourceLoad">FOnBeforeResourceLoad</a>             write <a href="uCEFChromiumCore.TChromiumCore.html#FOnBeforeResourceLoad">FOnBeforeResourceLoad</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGetResourceHandler">OnGetResourceHandler</a></strong>             : <a href="uCEFChromiumEvents.html#TOnGetResourceHandler">TOnGetResourceHandler</a>             read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceHandler">FOnGetResourceHandler</a>             write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceHandler">FOnGetResourceHandler</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnResourceRedirect">OnResourceRedirect</a></strong>               : <a href="uCEFChromiumEvents.html#TOnResourceRedirect">TOnResourceRedirect</a>               read <a href="uCEFChromiumCore.TChromiumCore.html#FOnResourceRedirect">FOnResourceRedirect</a>               write <a href="uCEFChromiumCore.TChromiumCore.html#FOnResourceRedirect">FOnResourceRedirect</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnResourceResponse">OnResourceResponse</a></strong>               : <a href="uCEFChromiumEvents.html#TOnResourceResponse">TOnResourceResponse</a>               read <a href="uCEFChromiumCore.TChromiumCore.html#FOnResourceResponse">FOnResourceResponse</a>               write <a href="uCEFChromiumCore.TChromiumCore.html#FOnResourceResponse">FOnResourceResponse</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGetResourceResponseFilter">OnGetResourceResponseFilter</a></strong>      : <a href="uCEFChromiumEvents.html#TOnGetResourceResponseFilter">TOnGetResourceResponseFilter</a>      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceResponseFilter">FOnGetResourceResponseFilter</a>      write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceResponseFilter">FOnGetResourceResponseFilter</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnResourceLoadComplete">OnResourceLoadComplete</a></strong>           : <a href="uCEFChromiumEvents.html#TOnResourceLoadComplete">TOnResourceLoadComplete</a>           read <a href="uCEFChromiumCore.TChromiumCore.html#FOnResourceLoadComplete">FOnResourceLoadComplete</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnResourceLoadComplete">FOnResourceLoadComplete</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnProtocolExecution">OnProtocolExecution</a></strong>              : <a href="uCEFChromiumEvents.html#TOnProtocolExecution">TOnProtocolExecution</a>              read <a href="uCEFChromiumCore.TChromiumCore.html#FOnProtocolExecution">FOnProtocolExecution</a>              write <a href="uCEFChromiumCore.TChromiumCore.html#FOnProtocolExecution">FOnProtocolExecution</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnCanSendCookie">OnCanSendCookie</a></strong>                  : <a href="uCEFChromiumEvents.html#TOnCanSendCookie">TOnCanSendCookie</a>                  read <a href="uCEFChromiumCore.TChromiumCore.html#FOnCanSendCookie">FOnCanSendCookie</a>                  write <a href="uCEFChromiumCore.TChromiumCore.html#FOnCanSendCookie">FOnCanSendCookie</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnCanSaveCookie">OnCanSaveCookie</a></strong>                  : <a href="uCEFChromiumEvents.html#TOnCanSaveCookie">TOnCanSaveCookie</a>                  read <a href="uCEFChromiumCore.TChromiumCore.html#FOnCanSaveCookie">FOnCanSaveCookie</a>                  write <a href="uCEFChromiumCore.TChromiumCore.html#FOnCanSaveCookie">FOnCanSaveCookie</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnFileDialog">OnFileDialog</a></strong>                     : <a href="uCEFChromiumEvents.html#TOnFileDialog">TOnFileDialog</a>                     read <a href="uCEFChromiumCore.TChromiumCore.html#FOnFileDialog">FOnFileDialog</a>                     write <a href="uCEFChromiumCore.TChromiumCore.html#FOnFileDialog">FOnFileDialog</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGetAccessibilityHandler">OnGetAccessibilityHandler</a></strong>        : <a href="uCEFChromiumEvents.html#TOnGetAccessibilityHandler">TOnGetAccessibilityHandler</a>        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetAccessibilityHandler">FOnGetAccessibilityHandler</a>        write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetAccessibilityHandler">FOnGetAccessibilityHandler</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGetRootScreenRect">OnGetRootScreenRect</a></strong>              : <a href="uCEFChromiumEvents.html#TOnGetRootScreenRect">TOnGetRootScreenRect</a>              read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetRootScreenRect">FOnGetRootScreenRect</a>              write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetRootScreenRect">FOnGetRootScreenRect</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGetViewRect">OnGetViewRect</a></strong>                    : <a href="uCEFChromiumEvents.html#TOnGetViewRect">TOnGetViewRect</a>                    read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetViewRect">FOnGetViewRect</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetViewRect">FOnGetViewRect</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGetScreenPoint">OnGetScreenPoint</a></strong>                 : <a href="uCEFChromiumEvents.html#TOnGetScreenPoint">TOnGetScreenPoint</a>                 read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetScreenPoint">FOnGetScreenPoint</a>                 write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetScreenPoint">FOnGetScreenPoint</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGetScreenInfo">OnGetScreenInfo</a></strong>                  : <a href="uCEFChromiumEvents.html#TOnGetScreenInfo">TOnGetScreenInfo</a>                  read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetScreenInfo">FOnGetScreenInfo</a>                  write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetScreenInfo">FOnGetScreenInfo</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnPopupShow">OnPopupShow</a></strong>                      : <a href="uCEFChromiumEvents.html#TOnPopupShow">TOnPopupShow</a>                      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnPopupShow">FOnPopupShow</a>                      write <a href="uCEFChromiumCore.TChromiumCore.html#FOnPopupShow">FOnPopupShow</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnPopupSize">OnPopupSize</a></strong>                      : <a href="uCEFChromiumEvents.html#TOnPopupSize">TOnPopupSize</a>                      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnPopupSize">FOnPopupSize</a>                      write <a href="uCEFChromiumCore.TChromiumCore.html#FOnPopupSize">FOnPopupSize</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnPaint">OnPaint</a></strong>                          : <a href="uCEFChromiumEvents.html#TOnPaint">TOnPaint</a>                          read <a href="uCEFChromiumCore.TChromiumCore.html#FOnPaint">FOnPaint</a>                          write <a href="uCEFChromiumCore.TChromiumCore.html#FOnPaint">FOnPaint</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnAcceleratedPaint">OnAcceleratedPaint</a></strong>               : <a href="uCEFChromiumEvents.html#TOnAcceleratedPaint">TOnAcceleratedPaint</a>               read <a href="uCEFChromiumCore.TChromiumCore.html#FOnAcceleratedPaint">FOnAcceleratedPaint</a>               write <a href="uCEFChromiumCore.TChromiumCore.html#FOnAcceleratedPaint">FOnAcceleratedPaint</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGetTouchHandleSize">OnGetTouchHandleSize</a></strong>             : <a href="uCEFChromiumEvents.html#TOnGetTouchHandleSize">TOnGetTouchHandleSize</a>             read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetTouchHandleSize">FOnGetTouchHandleSize</a>             write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetTouchHandleSize">FOnGetTouchHandleSize</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnTouchHandleStateChanged">OnTouchHandleStateChanged</a></strong>        : <a href="uCEFChromiumEvents.html#TOnTouchHandleStateChanged">TOnTouchHandleStateChanged</a>        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnTouchHandleStateChanged">FOnTouchHandleStateChanged</a>        write <a href="uCEFChromiumCore.TChromiumCore.html#FOnTouchHandleStateChanged">FOnTouchHandleStateChanged</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnStartDragging">OnStartDragging</a></strong>                  : <a href="uCEFChromiumEvents.html#TOnStartDragging">TOnStartDragging</a>                  read <a href="uCEFChromiumCore.TChromiumCore.html#FOnStartDragging">FOnStartDragging</a>                  write <a href="uCEFChromiumCore.TChromiumCore.html#FOnStartDragging">FOnStartDragging</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnUpdateDragCursor">OnUpdateDragCursor</a></strong>               : <a href="uCEFChromiumEvents.html#TOnUpdateDragCursor">TOnUpdateDragCursor</a>               read <a href="uCEFChromiumCore.TChromiumCore.html#FOnUpdateDragCursor">FOnUpdateDragCursor</a>               write <a href="uCEFChromiumCore.TChromiumCore.html#FOnUpdateDragCursor">FOnUpdateDragCursor</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnScrollOffsetChanged">OnScrollOffsetChanged</a></strong>            : <a href="uCEFChromiumEvents.html#TOnScrollOffsetChanged">TOnScrollOffsetChanged</a>            read <a href="uCEFChromiumCore.TChromiumCore.html#FOnScrollOffsetChanged">FOnScrollOffsetChanged</a>            write <a href="uCEFChromiumCore.TChromiumCore.html#FOnScrollOffsetChanged">FOnScrollOffsetChanged</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnIMECompositionRangeChanged">OnIMECompositionRangeChanged</a></strong>     : <a href="uCEFChromiumEvents.html#TOnIMECompositionRangeChanged">TOnIMECompositionRangeChanged</a>     read <a href="uCEFChromiumCore.TChromiumCore.html#FOnIMECompositionRangeChanged">FOnIMECompositionRangeChanged</a>     write <a href="uCEFChromiumCore.TChromiumCore.html#FOnIMECompositionRangeChanged">FOnIMECompositionRangeChanged</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnTextSelectionChanged">OnTextSelectionChanged</a></strong>           : <a href="uCEFChromiumEvents.html#TOnTextSelectionChanged">TOnTextSelectionChanged</a>           read <a href="uCEFChromiumCore.TChromiumCore.html#FOnTextSelectionChanged">FOnTextSelectionChanged</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnTextSelectionChanged">FOnTextSelectionChanged</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnVirtualKeyboardRequested">OnVirtualKeyboardRequested</a></strong>       : <a href="uCEFChromiumEvents.html#TOnVirtualKeyboardRequested">TOnVirtualKeyboardRequested</a>       read <a href="uCEFChromiumCore.TChromiumCore.html#FOnVirtualKeyboardRequested">FOnVirtualKeyboardRequested</a>       write <a href="uCEFChromiumCore.TChromiumCore.html#FOnVirtualKeyboardRequested">FOnVirtualKeyboardRequested</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDragEnter">OnDragEnter</a></strong>                      : <a href="uCEFChromiumEvents.html#TOnDragEnter">TOnDragEnter</a>                      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDragEnter">FOnDragEnter</a>                      write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDragEnter">FOnDragEnter</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDraggableRegionsChanged">OnDraggableRegionsChanged</a></strong>        : <a href="uCEFChromiumEvents.html#TOnDraggableRegionsChanged">TOnDraggableRegionsChanged</a>        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDraggableRegionsChanged">FOnDraggableRegionsChanged</a>        write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDraggableRegionsChanged">FOnDraggableRegionsChanged</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnFindResult">OnFindResult</a></strong>                     : <a href="uCEFChromiumEvents.html#TOnFindResult">TOnFindResult</a>                     read <a href="uCEFChromiumCore.TChromiumCore.html#FOnFindResult">FOnFindResult</a>                     write <a href="uCEFChromiumCore.TChromiumCore.html#FOnFindResult">FOnFindResult</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnRequestContextInitialized">OnRequestContextInitialized</a></strong>            : <a href="uCEFChromiumEvents.html#TOnRequestContextInitialized">TOnRequestContextInitialized</a>      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnRequestContextInitialized">FOnRequestContextInitialized</a>            write <a href="uCEFChromiumCore.TChromiumCore.html#FOnRequestContextInitialized">FOnRequestContextInitialized</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGetResourceRequestHandler_ReqCtxHdlr">OnGetResourceRequestHandler_ReqCtxHdlr</a></strong> : <a href="uCEFChromiumEvents.html#TOnGetResourceRequestHandler">TOnGetResourceRequestHandler</a>      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler_ReqCtxHdlr">FOnGetResourceRequestHandler_ReqCtxHdlr</a> write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler_ReqCtxHdlr">FOnGetResourceRequestHandler_ReqCtxHdlr</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnSinks">OnSinks</a></strong>                                : <a href="uCEFChromiumEvents.html#TOnSinksEvent">TOnSinksEvent</a>                     read <a href="uCEFChromiumCore.TChromiumCore.html#FOnSinks">FOnSinks</a>                                write <a href="uCEFChromiumCore.TChromiumCore.html#FOnSinks">FOnSinks</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnRoutes">OnRoutes</a></strong>                               : <a href="uCEFChromiumEvents.html#TOnRoutesEvent">TOnRoutesEvent</a>                    read <a href="uCEFChromiumCore.TChromiumCore.html#FOnRoutes">FOnRoutes</a>                               write <a href="uCEFChromiumCore.TChromiumCore.html#FOnRoutes">FOnRoutes</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnRouteStateChanged">OnRouteStateChanged</a></strong>                    : <a href="uCEFChromiumEvents.html#TOnRouteStateChangedEvent">TOnRouteStateChangedEvent</a>         read <a href="uCEFChromiumCore.TChromiumCore.html#FOnRouteStateChanged">FOnRouteStateChanged</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnRouteStateChanged">FOnRouteStateChanged</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnRouteMessageReceived">OnRouteMessageReceived</a></strong>                 : <a href="uCEFChromiumEvents.html#TOnRouteMessageReceivedEvent">TOnRouteMessageReceivedEvent</a>      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnRouteMessageReceived">FOnRouteMessageReceived</a>                 write <a href="uCEFChromiumCore.TChromiumCore.html#FOnRouteMessageReceived">FOnRouteMessageReceived</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnGetAudioParameters">OnGetAudioParameters</a></strong>                   : <a href="uCEFChromiumEvents.html#TOnGetAudioParametersEvent">TOnGetAudioParametersEvent</a>        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetAudioParameters">FOnGetAudioParameters</a>                   write <a href="uCEFChromiumCore.TChromiumCore.html#FOnGetAudioParameters">FOnGetAudioParameters</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnAudioStreamStarted">OnAudioStreamStarted</a></strong>                   : <a href="uCEFChromiumEvents.html#TOnAudioStreamStartedEvent">TOnAudioStreamStartedEvent</a>        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnAudioStreamStarted">FOnAudioStreamStarted</a>                   write <a href="uCEFChromiumCore.TChromiumCore.html#FOnAudioStreamStarted">FOnAudioStreamStarted</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnAudioStreamPacket">OnAudioStreamPacket</a></strong>                    : <a href="uCEFChromiumEvents.html#TOnAudioStreamPacketEvent">TOnAudioStreamPacketEvent</a>         read <a href="uCEFChromiumCore.TChromiumCore.html#FOnAudioStreamPacket">FOnAudioStreamPacket</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnAudioStreamPacket">FOnAudioStreamPacket</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnAudioStreamStopped">OnAudioStreamStopped</a></strong>                   : <a href="uCEFChromiumEvents.html#TOnAudioStreamStoppedEvent">TOnAudioStreamStoppedEvent</a>        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnAudioStreamStopped">FOnAudioStreamStopped</a>                   write <a href="uCEFChromiumCore.TChromiumCore.html#FOnAudioStreamStopped">FOnAudioStreamStopped</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnAudioStreamError">OnAudioStreamError</a></strong>                     : <a href="uCEFChromiumEvents.html#TOnAudioStreamErrorEvent">TOnAudioStreamErrorEvent</a>          read <a href="uCEFChromiumCore.TChromiumCore.html#FOnAudioStreamError">FOnAudioStreamError</a>                     write <a href="uCEFChromiumCore.TChromiumCore.html#FOnAudioStreamError">FOnAudioStreamError</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDevToolsMessage">OnDevToolsMessage</a></strong>                      : <a href="uCEFChromiumEvents.html#TOnDevToolsMessageEvent">TOnDevToolsMessageEvent</a>           read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsMessage">FOnDevToolsMessage</a>                      write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsMessage">FOnDevToolsMessage</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDevToolsRawMessage">OnDevToolsRawMessage</a></strong>                   : <a href="uCEFChromiumEvents.html#TOnDevToolsRawMessageEvent">TOnDevToolsRawMessageEvent</a>        read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsRawMessage">FOnDevToolsRawMessage</a>                   write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsRawMessage">FOnDevToolsRawMessage</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDevToolsMethodResult">OnDevToolsMethodResult</a></strong>                 : <a href="uCEFChromiumEvents.html#TOnDevToolsMethodResultEvent">TOnDevToolsMethodResultEvent</a>      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsMethodResult">FOnDevToolsMethodResult</a>                 write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsMethodResult">FOnDevToolsMethodResult</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDevToolsMethodRawResult">OnDevToolsMethodRawResult</a></strong>              : <a href="uCEFChromiumEvents.html#TOnDevToolsMethodRawResultEvent">TOnDevToolsMethodRawResultEvent</a>   read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsMethodRawResult">FOnDevToolsMethodRawResult</a>              write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsMethodRawResult">FOnDevToolsMethodRawResult</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDevToolsEvent">OnDevToolsEvent</a></strong>                        : <a href="uCEFChromiumEvents.html#TOnDevToolsEventEvent">TOnDevToolsEventEvent</a>             read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsEvent">FOnDevToolsEvent</a>                        write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsEvent">FOnDevToolsEvent</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDevToolsRawEvent">OnDevToolsRawEvent</a></strong>                     : <a href="uCEFChromiumEvents.html#TOnDevToolsEventRawEvent">TOnDevToolsEventRawEvent</a>          read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsRawEvent">FOnDevToolsRawEvent</a>                     write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsRawEvent">FOnDevToolsRawEvent</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDevToolsAgentAttached">OnDevToolsAgentAttached</a></strong>                : <a href="uCEFChromiumEvents.html#TOnDevToolsAgentAttachedEvent">TOnDevToolsAgentAttachedEvent</a>     read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsAgentAttached">FOnDevToolsAgentAttached</a>                write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsAgentAttached">FOnDevToolsAgentAttached</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDevToolsAgentDetached">OnDevToolsAgentDetached</a></strong>                : <a href="uCEFChromiumEvents.html#TOnDevToolsAgentDetachedEvent">TOnDevToolsAgentDetachedEvent</a>     read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsAgentDetached">FOnDevToolsAgentDetached</a>                write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDevToolsAgentDetached">FOnDevToolsAgentDetached</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnFrameCreated">OnFrameCreated</a></strong>                         : <a href="uCEFChromiumEvents.html#TOnFrameCreated">TOnFrameCreated</a>                   read <a href="uCEFChromiumCore.TChromiumCore.html#FOnFrameCreated">FOnFrameCreated</a>                         write <a href="uCEFChromiumCore.TChromiumCore.html#FOnFrameCreated">FOnFrameCreated</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnFrameDestroyed">OnFrameDestroyed</a></strong>                       : <a href="uCEFChromiumEvents.html#TOnFrameDestroyed">TOnFrameDestroyed</a>                 read <a href="uCEFChromiumCore.TChromiumCore.html#FOnFrameDestroyed">FOnFrameDestroyed</a>                       write <a href="uCEFChromiumCore.TChromiumCore.html#FOnFrameDestroyed">FOnFrameDestroyed</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnFrameAttached">OnFrameAttached</a></strong>                        : <a href="uCEFChromiumEvents.html#TOnFrameAttached">TOnFrameAttached</a>                  read <a href="uCEFChromiumCore.TChromiumCore.html#FOnFrameAttached">FOnFrameAttached</a>                        write <a href="uCEFChromiumCore.TChromiumCore.html#FOnFrameAttached">FOnFrameAttached</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnFrameDetached">OnFrameDetached</a></strong>                        : <a href="uCEFChromiumEvents.html#TOnFrameDetached">TOnFrameDetached</a>                  read <a href="uCEFChromiumCore.TChromiumCore.html#FOnFrameDetached">FOnFrameDetached</a>                        write <a href="uCEFChromiumCore.TChromiumCore.html#FOnFrameDetached">FOnFrameDetached</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnMainFrameChanged">OnMainFrameChanged</a></strong>                     : <a href="uCEFChromiumEvents.html#TOnMainFrameChanged">TOnMainFrameChanged</a>               read <a href="uCEFChromiumCore.TChromiumCore.html#FOnMainFrameChanged">FOnMainFrameChanged</a>                     write <a href="uCEFChromiumCore.TChromiumCore.html#FOnMainFrameChanged">FOnMainFrameChanged</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnChromeCommand">OnChromeCommand</a></strong>                        : <a href="uCEFChromiumEvents.html#TOnChromeCommandEvent">TOnChromeCommandEvent</a>                 read <a href="uCEFChromiumCore.TChromiumCore.html#FOnChromeCommand">FOnChromeCommand</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnChromeCommand">FOnChromeCommand</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnIsChromeAppMenuItemVisible">OnIsChromeAppMenuItemVisible</a></strong>           : <a href="uCEFChromiumEvents.html#TOnIsChromeAppMenuItemVisibleEvent">TOnIsChromeAppMenuItemVisibleEvent</a>    read <a href="uCEFChromiumCore.TChromiumCore.html#FOnIsChromeAppMenuItemVisible">FOnIsChromeAppMenuItemVisible</a>       write <a href="uCEFChromiumCore.TChromiumCore.html#FOnIsChromeAppMenuItemVisible">FOnIsChromeAppMenuItemVisible</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnIsChromeAppMenuItemEnabled">OnIsChromeAppMenuItemEnabled</a></strong>           : <a href="uCEFChromiumEvents.html#TOnIsChromeAppMenuItemEnabledEvent">TOnIsChromeAppMenuItemEnabledEvent</a>    read <a href="uCEFChromiumCore.TChromiumCore.html#FOnIsChromeAppMenuItemEnabled">FOnIsChromeAppMenuItemEnabled</a>       write <a href="uCEFChromiumCore.TChromiumCore.html#FOnIsChromeAppMenuItemEnabled">FOnIsChromeAppMenuItemEnabled</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnIsChromePageActionIconVisible">OnIsChromePageActionIconVisible</a></strong>        : <a href="uCEFChromiumEvents.html#TOnIsChromePageActionIconVisibleEvent">TOnIsChromePageActionIconVisibleEvent</a> read <a href="uCEFChromiumCore.TChromiumCore.html#FOnIsChromePageActionIconVisible">FOnIsChromePageActionIconVisible</a>    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnIsChromePageActionIconVisible">FOnIsChromePageActionIconVisible</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnIsChromeToolbarButtonVisible">OnIsChromeToolbarButtonVisible</a></strong>         : <a href="uCEFChromiumEvents.html#TOnIsChromeToolbarButtonVisibleEvent">TOnIsChromeToolbarButtonVisibleEvent</a>  read <a href="uCEFChromiumCore.TChromiumCore.html#FOnIsChromeToolbarButtonVisible">FOnIsChromeToolbarButtonVisible</a>     write <a href="uCEFChromiumCore.TChromiumCore.html#FOnIsChromeToolbarButtonVisible">FOnIsChromeToolbarButtonVisible</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnRequestMediaAccessPermission">OnRequestMediaAccessPermission</a></strong>         : <a href="uCEFChromiumEvents.html#TOnRequestMediaAccessPermissionEvent">TOnRequestMediaAccessPermissionEvent</a> read <a href="uCEFChromiumCore.TChromiumCore.html#FOnRequestMediaAccessPermission">FOnRequestMediaAccessPermission</a>      write <a href="uCEFChromiumCore.TChromiumCore.html#FOnRequestMediaAccessPermission">FOnRequestMediaAccessPermission</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnShowPermissionPrompt">OnShowPermissionPrompt</a></strong>                 : <a href="uCEFChromiumEvents.html#TOnShowPermissionPromptEvent">TOnShowPermissionPromptEvent</a>         read <a href="uCEFChromiumCore.TChromiumCore.html#FOnShowPermissionPrompt">FOnShowPermissionPrompt</a>              write <a href="uCEFChromiumCore.TChromiumCore.html#FOnShowPermissionPrompt">FOnShowPermissionPrompt</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnDismissPermissionPrompt">OnDismissPermissionPrompt</a></strong>              : <a href="uCEFChromiumEvents.html#TOnDismissPermissionPromptEvent">TOnDismissPermissionPromptEvent</a>      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnDismissPermissionPrompt">FOnDismissPermissionPrompt</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnDismissPermissionPrompt">FOnDismissPermissionPrompt</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnPreferenceChanged">OnPreferenceChanged</a></strong>                    : <a href="uCEFChromiumEvents.html#TOnPreferenceChangedEvent">TOnPreferenceChangedEvent</a>            read <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreferenceChanged">FOnPreferenceChanged</a>                 write <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreferenceChanged">FOnPreferenceChanged</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnSettingChanged">OnSettingChanged</a></strong>                      : <a href="uCEFChromiumEvents.html#TOnSettingChangedEvent">TOnSettingChangedEvent</a>                read <a href="uCEFChromiumCore.TChromiumCore.html#FOnSettingChanged">FOnSettingChanged</a>                    write <a href="uCEFChromiumCore.TChromiumCore.html#FOnSettingChanged">FOnSettingChanged</a>;</code></td>
 </tr>
@@ -5642,6 +5658,14 @@ Custom</p>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="FOnAllConnectionsClosed"></span><code><strong>FOnAllConnectionsClosed</strong>: TNotifyEvent;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FOnHttpCacheCleared"></span><code><strong>FOnHttpCacheCleared</strong>: TNotifyEvent;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -8060,6 +8084,14 @@ Custom</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="doHttpCacheCleared"></span><code>procedure <strong>doHttpCacheCleared</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
 <td class="itemcode"><span id="doOnExecuteTaskOnCefThread-cardinal-"></span><code>procedure <strong>doOnExecuteTaskOnCefThread</strong>(aTaskID : cardinal); virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -8970,6 +9002,22 @@ Custom</p>
 <tr><td colspan="2">
 <p>
  Clears all active and idle connections that Chromium currently has. This is only recommended if you have released all other CEF objects but don't yet want to call cef_shutdown(). </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ClearHttpCache-boolean-"></span><code>function <strong>ClearHttpCache</strong>(aClearImmediately : boolean = True) : boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Clears the HTTP cache.
+
+<p>If aClearImmediately is false then OnHttpCacheCleared is triggered when the http cache is cleared.
+
+<p></p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -11505,6 +11553,16 @@ Custom</p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><span id="OnHttpCacheCleared"></span><code>property <strong>OnHttpCacheCleared</strong>                 : TNotifyEvent                             read <a href="uCEFChromiumCore.TChromiumCore.html#FOnHttpCacheCleared">FOnHttpCacheCleared</a>                 write <a href="uCEFChromiumCore.TChromiumCore.html#FOnHttpCacheCleared">FOnHttpCacheCleared</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Triggered after a TChromiumCore.ClearHttpCache call when the http cache is cleared. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
 <td class="itemcode"><span id="OnExecuteTaskOnCefThread"></span><code>property <strong>OnExecuteTaskOnCefThread</strong>           : <a href="uCEFChromiumEvents.html#TOnExecuteTaskOnCefThread">TOnExecuteTaskOnCefThread</a>                read <a href="uCEFChromiumCore.TChromiumCore.html#FOnExecuteTaskOnCefThread">FOnExecuteTaskOnCefThread</a>           write <a href="uCEFChromiumCore.TChromiumCore.html#FOnExecuteTaskOnCefThread">FOnExecuteTaskOnCefThread</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -12902,7 +12960,7 @@ Custom</p>
 <p>
 
 
-<p>Called when an element has been rendered to the shared texture handle. |type| indicates whether the element is the view or the popup widget. |dirtyRects| contains the set of rectangles in pixel coordinates that need to be repainted. |info| contains the shared handle; on Windows it is a HANDLE to a texture that can be opened with D3D11 OpenSharedResource, on macOS it is an IOSurface pointer that can be opened with Metal or OpenGL, and on Linux it contains several planes, each with an fd to the underlying system native buffer.
+<p>Called when an element has been rendered to the shared texture handle. |type| indicates whether the element is the view or the popup widget. |dirtyRects| contains the set of rectangles in pixel coordinates that need to be repainted. |info| contains the shared handle; on Windows it is a HANDLE to a texture that can be opened with D3D11 OpenSharedResource1 or D3D12 OpenSharedHandle, on macOS it is an IOSurface pointer that can be opened with Metal or OpenGL, and on Linux it contains several planes, each with an fd to the underlying system native buffer.
 
 <p>The underlying implementation uses a pool to deliver frames. As a result, the handle may differ every frame depending on how many frames are in- progress. The handle's resource cannot be cached and cannot be accessed outside of this callback. It should be reopened each time this callback is executed and the contents should be copied to a texture owned by the client application. The contents of |info| will be released back to the pool after this callback returns.
 
@@ -13703,6 +13761,6 @@ Custom</p>
 <p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_preference_capi.h (cef_setting_observer_t))</p>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
 </span>
 </body></html>

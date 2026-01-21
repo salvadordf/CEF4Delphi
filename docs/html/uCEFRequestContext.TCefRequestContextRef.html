@@ -3,7 +3,7 @@
 <head>
 <title>cef4delphi: uCEFRequestContext: Class TCefRequestContextRef</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.16.0-snapshot">
+<meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
@@ -120,22 +120,26 @@
 <td class="itemcode"><code>function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#AddSettingObserver-ICefSettingObserver-">AddSettingObserver</a></strong>(const observer: <a href="uCEFInterfaces.ICefSettingObserver.html">ICefSettingObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#ClearHttpCache-ICefCompletionCallback-">ClearHttpCache</a></strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>);</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; reintroduce;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#Global">Global</a></strong>: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; reintroduce;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#New-PCefRequestContextSettings-ICefRequestContextHandler-">New</a></strong>(const settings: <a href="uCEFTypes.html#PCefRequestContextSettings">PCefRequestContextSettings</a>; const handler: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a> = nil): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#New-ustring-ustring-ustring-boolean-boolean-ICefRequestContextHandler-">New</a></strong>(const aCache, aAcceptLanguageList, aCookieableSchemesList : <a href="uCEFTypes.html#ustring">ustring</a>; aCookieableSchemesExcludeDefaults, aPersistSessionCookies : boolean; const handler: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a> = nil): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFRequestContext.TCefRequestContextRef.html#Shared-ICefRequestContext-ICefRequestContextHandler-">Shared</a></strong>(const other: <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; const handler: <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a>): <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>;</code></td>
 </tr>
@@ -208,7 +212,7 @@
 <td class="itemcode"><span id="GetCookieManagerProc-TCefCompletionCallbackProc-"></span><code>function <strong>GetCookieManagerProc</strong>(const callback: <a href="uCEFInterfaces.html#TCefCompletionCallbackProc">TCefCompletionCallbackProc</a>): <a href="uCEFInterfaces.ICefCookieManager.html">ICefCookieManager</a>;</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefRequestContext.html#GetCookieManagerProc-TCefCompletionCallbackProc-">ICefRequestContext.GetCookieManagerProc</a>.</p><p>
+<p>
  Returns the cookie manager for this object. If |callback| is non-NULL it will be executed asnychronously on the UI thread after the manager's storage has been initialized. </p>
 </td></tr>
 </table>
@@ -299,9 +303,13 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Sets the current value for |content_type| for the specified URLs in the default scope. If both URLs are NULL, and the context is not incognito, the default value will be set. Pass nullptr for |value| to remove the default value for this content type.
 
-<p>WARNING: Incorrect usage of this function may cause instability or security issues in Chromium. Make sure that you first understand the potential impact of any changes to |content_type| by reviewing the related source code in Chromium. For example, if you plan to modify CEF_CONTENT_SETTING_TYPE_POPUPS, first review and understand the usage of ContentSettingsType::POPUPS in Chromium: <a href="https://source.chromium.org/search?q=ContentSettingsType::POPUPS">https://source.chromium.org/search?q=ContentSettingsType::POPUPS</a> </p>
+
+<p>Sets the current value for |content_type| for the specified URLs in the default scope. If both URLs are NULL, and the context is not incognito, the default value will be set. Pass nullptr for |value| to remove the default value for this content type.
+
+<p>WARNING: Incorrect usage of this function may cause instability or security issues in Chromium. Make sure that you first understand the potential impact of any changes to |content_type| by reviewing the related source code in Chromium. For example, if you plan to modify CEF_CONTENT_SETTING_TYPE_POPUPS, first review and understand the usage of ContentSettingsType::POPUPS in Chromium: <a href="https://source.chromium.org/search?q=ContentSettingsType::POPUPS">https://source.chromium.org/search?q=ContentSettingsType::POPUPS</a>
+
+<p></p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -321,9 +329,13 @@
 </tr>
 <tr><td colspan="2">
 <p>
- Sets the current value for |content_type| for the specified URLs in the default scope. If both URLs are NULL, and the context is not incognito, the default value will be set. Pass CEF_CONTENT_SETTING_VALUE_DEFAULT for |value| to use the default value for this content type.
 
-<p>WARNING: Incorrect usage of this function may cause instability or security issues in Chromium. Make sure that you first understand the potential impact of any changes to |content_type| by reviewing the related source code in Chromium. For example, if you plan to modify CEF_CONTENT_SETTING_TYPE_POPUPS, first review and understand the usage of ContentSettingsType::POPUPS in Chromium: <a href="https://source.chromium.org/search?q=ContentSettingsType::POPUPS">https://source.chromium.org/search?q=ContentSettingsType::POPUPS</a> </p>
+
+<p>Sets the current value for |content_type| for the specified URLs in the default scope. If both URLs are NULL, and the context is not incognito, the default value will be set. Pass CEF_CONTENT_SETTING_VALUE_DEFAULT for |value| to use the default value for this content type.
+
+<p>WARNING: Incorrect usage of this function may cause instability or security issues in Chromium. Make sure that you first understand the potential impact of any changes to |content_type| by reviewing the related source code in Chromium. For example, if you plan to modify CEF_CONTENT_SETTING_TYPE_POPUPS, first review and understand the usage of ContentSettingsType::POPUPS in Chromium: <a href="https://source.chromium.org/search?q=ContentSettingsType::POPUPS">https://source.chromium.org/search?q=ContentSettingsType::POPUPS</a>
+
+<p></p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -374,6 +386,16 @@
 <tr><td colspan="2">
 <p>
  Add an observer for content and website setting changes. The observer will remain registered until the returned Registration object is destroyed. This function must be called on the browser process UI thread. </p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="ClearHttpCache-ICefCompletionCallback-"></span><code>procedure <strong>ClearHttpCache</strong>(const callback: <a href="uCEFInterfaces.ICefCompletionCallback.html">ICefCompletionCallback</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Clears the HTTP cache. If |callback| is non-NULL it will be executed on the UI thread after completion. </p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -473,6 +495,6 @@
 </dl>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0-snapshot</a>. </em>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
 </span>
 </body></html>

@@ -40,15 +40,16 @@ type
   // ICefPanelDelegate
 
   // ICefBrowserViewDelegate
-  TOnBrowserCreatedEvent                   = procedure(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser) of object;
-  TOnBrowserDestroyedEvent                 = procedure(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser) of object;
-  TOnGetDelegateForPopupBrowserViewEvent   = procedure(const Sender: TObject; const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate) of object;
-  TOnPopupBrowserViewCreatedEvent          = procedure(const Sender: TObject; const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean) of object;
-  TOnGetChromeToolbarTypeEvent             = procedure(const Sender: TObject; const browser_view: ICefBrowserView; var aChromeToolbarType: TCefChromeToolbarType) of object;
-  TOnUseFramelessWindowForPictureInPicture = procedure(const Sender: TObject; const browser_view: ICefBrowserView; var aResult : boolean) of object;
-  TOnGestureCommandEvent                   = procedure(const Sender: TObject; const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean) of object;
-  TOnGetBrowserRuntimeStyleEvent           = procedure(const Sender: TObject; var aResult : TCefRuntimeStyle) of object;
-  TOnAllowMoveForPictureInPictureEvent     = procedure(const Sender: TObject; const browser_view: ICefBrowserView; var aResult : boolean) of object;
+  TOnBrowserCreatedEvent                             = procedure(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser) of object;
+  TOnBrowserDestroyedEvent                           = procedure(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser) of object;
+  TOnGetDelegateForPopupBrowserViewEvent             = procedure(const Sender: TObject; const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate) of object;
+  TOnPopupBrowserViewCreatedEvent                    = procedure(const Sender: TObject; const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean) of object;
+  TOnGetChromeToolbarTypeEvent                       = procedure(const Sender: TObject; const browser_view: ICefBrowserView; var aChromeToolbarType: TCefChromeToolbarType) of object;
+  TOnUseFramelessWindowForPictureInPicture           = procedure(const Sender: TObject; const browser_view: ICefBrowserView; var aResult : boolean) of object;
+  TOnGestureCommandEvent                             = procedure(const Sender: TObject; const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean) of object;
+  TOnGetBrowserRuntimeStyleEvent                     = procedure(const Sender: TObject; var aResult : TCefRuntimeStyle) of object;
+  TOnAllowMoveForPictureInPictureEvent               = procedure(const Sender: TObject; const browser_view: ICefBrowserView; var aResult : boolean) of object;
+  TOnAllowPictureInPictureWithoutUserActivationEvent = procedure(const Sender: TObject; const browser_view: ICefBrowserView; var aResult : boolean) of object;
 
   // ICefButtonDelegate
   TOnButtonPressedEvent      = procedure(const Sender: TObject; const button: ICefButton) of object;

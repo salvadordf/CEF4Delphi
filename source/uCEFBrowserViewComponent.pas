@@ -29,19 +29,20 @@ type
   /// </summary>
   TCEFBrowserViewComponent = class(TCEFViewComponent, ICefBrowserViewDelegateEvents)
     protected
-      FBrowserView                              : ICefBrowserView;
-      FBrowserViewDlg                           : ICefBrowserViewDelegate;
+      FBrowserView                                  : ICefBrowserView;
+      FBrowserViewDlg                               : ICefBrowserViewDelegate;
 
       // ICefBrowserViewDelegateEvents
-      FOnBrowserCreated                         : TOnBrowserCreatedEvent;
-      FOnBrowserDestroyed                       : TOnBrowserDestroyedEvent;
-      FOnGetDelegateForPopupBrowserView         : TOnGetDelegateForPopupBrowserViewEvent;
-      FOnPopupBrowserViewCreated                : TOnPopupBrowserViewCreatedEvent;
-      FOnGetChromeToolbarType                   : TOnGetChromeToolbarTypeEvent;
-      FOnUseFramelessWindowForPictureInPicture  : TOnUseFramelessWindowForPictureInPicture;
-      FOnGestureCommand                         : TOnGestureCommandEvent;
-      FOnGetBrowserRuntimeStyle                 : TOnGetBrowserRuntimeStyleEvent;
-      FOnAllowMoveForPictureInPicture           : TOnAllowMoveForPictureInPictureEvent;
+      FOnBrowserCreated                             : TOnBrowserCreatedEvent;
+      FOnBrowserDestroyed                           : TOnBrowserDestroyedEvent;
+      FOnGetDelegateForPopupBrowserView             : TOnGetDelegateForPopupBrowserViewEvent;
+      FOnPopupBrowserViewCreated                    : TOnPopupBrowserViewCreatedEvent;
+      FOnGetChromeToolbarType                       : TOnGetChromeToolbarTypeEvent;
+      FOnUseFramelessWindowForPictureInPicture      : TOnUseFramelessWindowForPictureInPicture;
+      FOnGestureCommand                             : TOnGestureCommandEvent;
+      FOnGetBrowserRuntimeStyle                     : TOnGetBrowserRuntimeStyleEvent;
+      FOnAllowMoveForPictureInPicture               : TOnAllowMoveForPictureInPictureEvent;
+      FOnAllowPictureInPictureWithoutUserActivation : TOnAllowPictureInPictureWithoutUserActivationEvent;
 
       procedure DestroyView; override;
       procedure Initialize; override;
@@ -63,6 +64,7 @@ type
       procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
       procedure doOnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
       procedure doOnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
+      procedure doOnAllowPictureInPictureWithoutUserActivation(const browser_view: ICefBrowserView; var aResult: boolean);
 
     public
       /// <summary>
@@ -97,11 +99,11 @@ type
       /// Returns the ICefBrowser hosted by this BrowserView. Will return NULL if
       /// the browser has not yet been created or has already been destroyed.
       /// </summary>
-      property Browser                                  : ICefBrowser                               read GetBrowser;
+      property Browser                                      : ICefBrowser                                        read GetBrowser;
       /// <summary>
       /// ICefBrowserView assiciated to this component.
       /// </summary>
-      property BrowserView                              : ICefBrowserView                           read FBrowserView;
+      property BrowserView                                  : ICefBrowserView                                    read FBrowserView;
       /// <summary>
       /// Returns the Chrome toolbar associated with this BrowserView. Only
       /// supported when using Chrome style. The ICefBrowserViewDelegate.GetChromeToolbarType
@@ -110,12 +112,12 @@ type
       /// BrowserView is added to a ICefWindow and
       /// ICefViewDelegate.OnWindowChanged() has been called.
       /// </summary>
-      property ChromeToolbar                            : ICefView                                  read GetChromeToolbar;
+      property ChromeToolbar                                : ICefView                                           read GetChromeToolbar;
       /// <summary>
       /// Returns the runtime style for this BrowserView (ALLOY or CHROME). See
       /// TCefRuntimeStyle documentation for details.
       /// </summary>
-      property RuntimeStyle                             : TCefRuntimeStyle                          read GetRuntimeStyle;
+      property RuntimeStyle                                 : TCefRuntimeStyle                                   read GetRuntimeStyle;
 
     published
       /// <summary>
@@ -124,14 +126,14 @@ type
       /// is called for |browser| and before OnPopupBrowserViewCreated() is
       /// called for |browser|'s parent delegate if |browser| is a popup.
       /// </summary>
-      property OnBrowserCreated                         : TOnBrowserCreatedEvent                    read FOnBrowserCreated                         write FOnBrowserCreated;
+      property OnBrowserCreated                             : TOnBrowserCreatedEvent                             read FOnBrowserCreated                             write FOnBrowserCreated;
       /// <summary>
       /// Called when |browser| associated with |browser_view| is destroyed. Release
       /// all references to |browser| and do not attempt to execute any functions on
       /// |browser| after this callback returns. This function will be called before
       /// ICefLifeSpanHandler.OnBeforeClose() is called for |browser|.
       /// </summary>
-      property OnBrowserDestroyed                       : TOnBrowserDestroyedEvent                  read FOnBrowserDestroyed                       write FOnBrowserDestroyed;
+      property OnBrowserDestroyed                           : TOnBrowserDestroyedEvent                           read FOnBrowserDestroyed                           write FOnBrowserDestroyed;
       /// <summary>
       /// Called before a new popup BrowserView is created. The popup originated
       /// from |browser_view|. |settings| and |client| are the values returned from
@@ -139,7 +141,7 @@ type
       /// if the popup will be a DevTools browser. Return the delegate that will be
       /// used for the new popup BrowserView.
       /// </summary>
-      property OnGetDelegateForPopupBrowserView         : TOnGetDelegateForPopupBrowserViewEvent    read FOnGetDelegateForPopupBrowserView         write FOnGetDelegateForPopupBrowserView;
+      property OnGetDelegateForPopupBrowserView             : TOnGetDelegateForPopupBrowserViewEvent             read FOnGetDelegateForPopupBrowserView             write FOnGetDelegateForPopupBrowserView;
       /// <summary>
       /// Called after |popup_browser_view| is created. This function will be called
       /// after ICefLifeSpanHandler.OnAfterCreated() and OnBrowserCreated()
@@ -149,37 +151,42 @@ type
       /// yourself and return true (1). Otherwise return false (0) and a default
       /// ICefWindow will be created for the popup.
       /// </summary>
-      property OnPopupBrowserViewCreated                : TOnPopupBrowserViewCreatedEvent           read FOnPopupBrowserViewCreated                write FOnPopupBrowserViewCreated;
+      property OnPopupBrowserViewCreated                    : TOnPopupBrowserViewCreatedEvent                    read FOnPopupBrowserViewCreated                    write FOnPopupBrowserViewCreated;
       /// <summary>
       /// Returns the Chrome toolbar type that will be available via
       /// ICefBrowserView.GetChromeToolbar(). See that function for related
       /// documentation.
       /// </summary>
-      property OnGetChromeToolbarType                   : TOnGetChromeToolbarTypeEvent              read FOnGetChromeToolbarType                   write FOnGetChromeToolbarType;
+      property OnGetChromeToolbarType                       : TOnGetChromeToolbarTypeEvent                       read FOnGetChromeToolbarType                       write FOnGetChromeToolbarType;
       /// <summary>
       /// Return true (1) to create frameless windows for Document picture-in-
       /// picture popups. Content in frameless windows should specify draggable
       /// regions using "-webkit-app-region: drag" CSS.
       /// </summary>
-      property OnUseFramelessWindowForPictureInPicture  : TOnUseFramelessWindowForPictureInPicture  read FOnUseFramelessWindowForPictureInPicture  write FOnUseFramelessWindowForPictureInPicture;
+      property OnUseFramelessWindowForPictureInPicture      : TOnUseFramelessWindowForPictureInPicture           read FOnUseFramelessWindowForPictureInPicture      write FOnUseFramelessWindowForPictureInPicture;
       /// <summary>
       /// Called when |browser_view| receives a gesture command. Return true (1) to
       /// handle (or disable) a |gesture_command| or false (0) to propagate the
       /// gesture to the browser for default handling. With Chrome style these
       /// commands can also be handled via ICefCommandHandler.OnChromeCommand.
       /// </summary>
-      property OnGestureCommand                         : TOnGestureCommandEvent                    read FOnGestureCommand                         write FOnGestureCommand;
+      property OnGestureCommand                             : TOnGestureCommandEvent                             read FOnGestureCommand                             write FOnGestureCommand;
       /// <summary>
       /// Optionally change the runtime style for this BrowserView. See
       /// TCefRuntimeStyle documentation for details.
       /// </summary>
-      property OnGetBrowserRuntimeStyle                 : TOnGetBrowserRuntimeStyleEvent            read FOnGetBrowserRuntimeStyle                 write FOnGetBrowserRuntimeStyle;
+      property OnGetBrowserRuntimeStyle                     : TOnGetBrowserRuntimeStyleEvent                     read FOnGetBrowserRuntimeStyle                     write FOnGetBrowserRuntimeStyle;
       /// <summary>
       /// Return true (1) to allow the use of JavaScript moveTo/By() and
       /// resizeTo/By() (without user activation) with Document picture-in-picture
       /// popups.
       /// </summary>
-      property OnAllowMoveForPictureInPicture           : TOnAllowMoveForPictureInPictureEvent      read FOnAllowMoveForPictureInPicture           write FOnAllowMoveForPictureInPicture;
+      property OnAllowMoveForPictureInPicture               : TOnAllowMoveForPictureInPictureEvent               read FOnAllowMoveForPictureInPicture               write FOnAllowMoveForPictureInPicture;
+      /// <summary>
+      /// Return true (1) to allow opening Document picture-in-picture without user
+      /// activation. Default is false (0) (user activation required).
+      /// </summary>
+      property OnAllowPictureInPictureWithoutUserActivation : TOnAllowPictureInPictureWithoutUserActivationEvent read FOnAllowPictureInPictureWithoutUserActivation write FOnAllowPictureInPictureWithoutUserActivation;
   end;
 
 {$IFDEF FPC}
@@ -222,17 +229,18 @@ procedure TCEFBrowserViewComponent.Initialize;
 begin
   inherited Initialize;
 
-  FBrowserView                             := nil;
-  FBrowserViewDlg                          := nil;
-  FOnBrowserCreated                        := nil;
-  FOnBrowserDestroyed                      := nil;
-  FOnGetDelegateForPopupBrowserView        := nil;
-  FOnPopupBrowserViewCreated               := nil;
-  FOnGetChromeToolbarType                  := nil;
-  FOnUseFramelessWindowForPictureInPicture := nil;
-  FOnGestureCommand                        := nil;
-  FOnGetBrowserRuntimeStyle                := nil;
-  FOnAllowMoveForPictureInPicture          := nil;
+  FBrowserView                                  := nil;
+  FBrowserViewDlg                               := nil;
+  FOnBrowserCreated                             := nil;
+  FOnBrowserDestroyed                           := nil;
+  FOnGetDelegateForPopupBrowserView             := nil;
+  FOnPopupBrowserViewCreated                    := nil;
+  FOnGetChromeToolbarType                       := nil;
+  FOnUseFramelessWindowForPictureInPicture      := nil;
+  FOnGestureCommand                             := nil;
+  FOnGetBrowserRuntimeStyle                     := nil;
+  FOnAllowMoveForPictureInPicture               := nil;
+  FOnAllowPictureInPictureWithoutUserActivation := nil;
 end;
 
 procedure TCEFBrowserViewComponent.DestroyView;
@@ -386,6 +394,13 @@ begin
   if assigned(FOnAllowMoveForPictureInPicture) then
     FOnAllowMoveForPictureInPicture(self, browser_view, aResult);
 end;
+
+procedure TCEFBrowserViewComponent.doOnAllowPictureInPictureWithoutUserActivation(const browser_view: ICefBrowserView; var aResult: boolean);
+begin
+  if assigned(FOnAllowPictureInPictureWithoutUserActivation) then
+    FOnAllowPictureInPictureWithoutUserActivation(self, browser_view, aResult);
+end;
+
 
 {$IFDEF FPC}
 procedure Register;

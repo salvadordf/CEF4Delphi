@@ -390,14 +390,6 @@ const
   /// </remarks>
   ERR_TUNNEL_CONNECTION_FAILED                                = -111;
   /// <summary>
-  /// No SSL protocol versions are enabled.
-  /// </summary>
-  /// <remarks>
-  /// <para>TCefErrorCode value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
-  /// </remarks>
-  ERR_NO_SSL_VERSIONS_ENABLED                                 = -112;
-  /// <summary>
   /// The client and server don't support a common SSL protocol version or
   /// cipher suite.
   /// </summary>
@@ -597,19 +589,6 @@ const
   /// </remarks>
   ERR_TEMPORARILY_THROTTLED                                   = -139;
   /// <summary>
-  /// A request to create an SSL tunnel connection through the HTTPS proxy
-  /// received a 302 (temporary redirect) response.  The response body might
-  /// include a description of why the request failed.
-  //
-  /// TODO(crbug.com/40093955): This is deprecated and should not be used by
-  /// new code.
-  /// </summary>
-  /// <remarks>
-  /// <para>TCefErrorCode value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
-  /// </remarks>
-  ERR_HTTPS_PROXY_TUNNEL_RESPONSE_REDIRECT                    = -140;
-  /// <summary>
   /// We were unable to sign the CertificateVerify data of an SSL client auth
   /// handshake with the client certificate's private key.
   //
@@ -649,22 +628,6 @@ const
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
   /// </remarks>
   ERR_ADDRESS_IN_USE                                          = -147;
-  /// <summary>
-  /// An operation failed because the SSL handshake has not completed.
-  /// </summary>
-  /// <remarks>
-  /// <para>TCefErrorCode value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
-  /// </remarks>
-  ERR_SSL_HANDSHAKE_NOT_COMPLETED                             = -148;
-  /// <summary>
-  /// SSL peer's public key is invalid.
-  /// </summary>
-  /// <remarks>
-  /// <para>TCefErrorCode value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
-  /// </remarks>
-  ERR_SSL_BAD_PEER_PUBLIC_KEY                                 = -149;
   /// <summary>
   /// The certificate didn't match the built-in public key pins for the host name.
   /// The pins are set in net/http/transport_security_state.cc and require that
@@ -1326,30 +1289,6 @@ const
   /// </remarks>
   ERR_NETWORK_IO_SUSPENDED                                    = -331;
   /// <summary>
-  /// FLIP data received without receiving a SYN_REPLY on the stream.
-  /// </summary>
-  /// <remarks>
-  /// <para>TCefErrorCode value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
-  /// </remarks>
-  ERR_SYN_REPLY_NOT_RECEIVED                                  = -332;
-  /// <summary>
-  /// Converting the response to target encoding failed.
-  /// </summary>
-  /// <remarks>
-  /// <para>TCefErrorCode value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
-  /// </remarks>
-  ERR_ENCODING_CONVERSION_FAILED                              = -333;
-  /// <summary>
-  /// The server sent an FTP directory listing in a format we do not understand.
-  /// </summary>
-  /// <remarks>
-  /// <para>TCefErrorCode value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
-  /// </remarks>
-  ERR_UNRECOGNIZED_FTP_DIRECTORY_LISTING_FORMAT               = -334;
-  /// <summary>
   /// There are no supported proxies in the provided list.
   /// </summary>
   /// <remarks>
@@ -1931,6 +1870,20 @@ const
   /// </remarks>
   ERR_TRUST_TOKEN_OPERATION_SUCCESS_WITHOUT_SENDING_REQUEST   = -507;
   /// <summary>
+  /// This is a placeholder value that should never be used within net.
+  /// When Cronet APIs are being backed by HttpEngine (i.e., HttpEngineProvider is
+  /// being used), org.chromium.net.NetworkException#getCronetInternalErrorCode is
+  /// not supported (android.net.http.NetworkException#getCronetInternalErrorCode
+  /// does not exist). In this scenario, getCronetInternalErrorCode will always
+  /// return this error. This is a first step towards the deprecation of
+  /// getCronetInternalErrorCode.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_HTTPENGINE_PROVIDER_IN_USE                              = -508;
+  /// <summary>
   /// PKCS #12 import failed due to incorrect password.
   /// </summary>
   /// <remarks>
@@ -2340,6 +2293,9 @@ const
   IDC_ORGANIZE_TABS = 35044;
   IDC_DECLUTTER_TABS = 35045;
   IDC_SEND_SHARED_TAB_GROUP_FEEDBACK = 35046;
+  IDC_SHOW_IDENTITY_DOCS = 35047;
+  IDC_SHOW_TRAVEL = 35048;
+  IDC_SHOW_CONTACT_INFO = 35049;
   IDC_MUTE_TARGET_SITE = 35050;
   IDC_PIN_TARGET_TAB = 35051;
   IDC_GROUP_TARGET_TAB = 35052;

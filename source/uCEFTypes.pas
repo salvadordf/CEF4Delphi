@@ -3465,6 +3465,9 @@ type
     CEF_CPAIT_CHANGE_PASSWORD,         {* CEF_API_ADDED(13400) *}
     CEF_CPAIT_LENS_OVERLAY_HOMEWORK,   {* CEF_API_ADDED(13800) *}
     CEF_CPAIT_AI_MODE,                 {* CEF_API_ADDED(14000) *}
+    CEF_CPAIT_READING_MODE,            {* CEF_API_ADDED(14400) *}
+    CEF_CPAIT_CONTEXTUAL_SIDE_PANEL,   {* CEF_API_ADDED(14400) *}
+    CEF_CPAIT_JS_OPTIMIZATIONS,        {* CEF_API_ADDED(14400) *}
     CEF_CPAIT_NUM_VALUES
   );
 
@@ -5423,7 +5426,7 @@ type
     /// <summary>
     /// Content Setting for 3PC accesses granted via 3PC deprecation trial.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_TPCD_TRIAL,
+    CEF_CONTENT_SETTING_TYPE_TPCD_TRIAL_DEPRECATED,                              {* CEF_API_ADDED(14400) *}
     /// <summary>
     /// Content Setting for 3PC accesses granted via top-level 3PC deprecation
     /// trial. Similar to TPCD_TRIAL, but applicable at the page-level for the
@@ -7012,6 +7015,7 @@ type
     get_chrome_color_scheme_color   : function(self: PCefRequestContext): TCefColor; stdcall;
     get_chrome_color_scheme_variant : function(self: PCefRequestContext): TCefColorVariant; stdcall;
     add_setting_observer            : function(self: PCefRequestContext; observer: PCefSettingObserver): PCefRegistration; stdcall;   {* CEF_API_ADDED(13401) *}
+    clear_http_cache                : procedure(self: PCefRequestContext; callback: PCefCompletionCallback); stdcall;                 {* CEF_API_ADDED(14400) *}
   end;
 
   /// <summary>
@@ -7879,6 +7883,7 @@ type
     get_suggested_file_name : function(self: PCefDownloadItem): PCefStringUserFree; stdcall;
     get_content_disposition : function(self: PCefDownloadItem): PCefStringUserFree; stdcall;
     get_mime_type           : function(self: PCefDownloadItem): PCefStringUserFree; stdcall;
+    is_paused               : function(self: PCefDownloadItem): Integer; stdcall;    {* CEF_API_ADDED(14400) *}
   end;
 
   /// <summary>
@@ -9029,16 +9034,17 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_browser_view_delegate_capi.h">CEF source file: /include/capi/views/cef_browser_view_delegate_capi.h (cef_browser_view_delegate_t)</see></para>
   /// </remarks>
   TCefBrowserViewDelegate = record
-    base                                        : TCefViewDelegate;
-    on_browser_created                          : procedure(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; browser: PCefBrowser); stdcall;
-    on_browser_destroyed                        : procedure(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; browser: PCefBrowser); stdcall;
-    get_delegate_for_popup_browser_view         : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; const settings: PCefBrowserSettings; client: PCefClient; is_devtools: Integer): PCefBrowserViewDelegate; stdcall;
-    on_popup_browser_view_created               : function(self: PCefBrowserViewDelegate; browser_view, popup_browser_view: PCefBrowserView; is_devtools: Integer): Integer; stdcall;
-    get_chrome_toolbar_type                     : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): TCefChromeToolbarType; stdcall;
-    use_frameless_window_for_picture_in_picture : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): integer; stdcall;
-    on_gesture_command                          : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; gesture_command: TCefGestureCommand): Integer; stdcall;
-    get_browser_runtime_style                   : function(self: PCefBrowserViewDelegate): TCefRuntimeStyle; stdcall;
-    allow_move_for_picture_in_picture           : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): integer; stdcall; {* CEF_API_ADDED(13601) *}
+    base                                             : TCefViewDelegate;
+    on_browser_created                               : procedure(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; browser: PCefBrowser); stdcall;
+    on_browser_destroyed                             : procedure(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; browser: PCefBrowser); stdcall;
+    get_delegate_for_popup_browser_view              : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; const settings: PCefBrowserSettings; client: PCefClient; is_devtools: Integer): PCefBrowserViewDelegate; stdcall;
+    on_popup_browser_view_created                    : function(self: PCefBrowserViewDelegate; browser_view, popup_browser_view: PCefBrowserView; is_devtools: Integer): Integer; stdcall;
+    get_chrome_toolbar_type                          : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): TCefChromeToolbarType; stdcall;
+    use_frameless_window_for_picture_in_picture      : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): integer; stdcall;
+    on_gesture_command                               : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; gesture_command: TCefGestureCommand): Integer; stdcall;
+    get_browser_runtime_style                        : function(self: PCefBrowserViewDelegate): TCefRuntimeStyle; stdcall;
+    allow_move_for_picture_in_picture                : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): integer; stdcall; {* CEF_API_ADDED(13601) *}
+    allow_picture_in_picture_without_user_activation : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): integer; stdcall; {* CEF_API_ADDED(14400) *}
   end;
 
   /// <summary>

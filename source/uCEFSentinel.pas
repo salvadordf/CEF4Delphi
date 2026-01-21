@@ -32,6 +32,10 @@ const
   CEFSENTINEL_DEFAULT_MINCHILDPROCS  = 2;
   CEFSENTINEL_DEFAULT_MAXCHECKCOUNTS = 10;
 
+  {$IF NOT DECLARED(pfidWindows)}
+  pfidWindows = pidWin32 or pidWin64;
+  {$IFEND}
+
 type
   TSentinelStatus = (ssIdle, ssInitialDelay, ssCheckingChildren, ssClosing);
 

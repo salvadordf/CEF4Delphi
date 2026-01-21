@@ -31,7 +31,7 @@ type
       procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
       procedure OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
       procedure OnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
-
+      procedure OnAllowPictureInPictureWithoutUserActivation(const browser_view: ICefBrowserView; var aResult: boolean);
     public
       /// <summary>
       /// Returns a ICefBrowserViewDelegate instance using a PCefBrowserViewDelegate data pointer.
@@ -112,6 +112,11 @@ type
       /// </summary>
       procedure OnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean); virtual;
       /// <summary>
+      /// Return true (1) to allow opening Document picture-in-picture without user
+      /// activation. Default is false (0) (user activation required).
+      /// </summary>
+      procedure OnAllowPictureInPictureWithoutUserActivation(const browser_view: ICefBrowserView; var aResult: boolean); virtual;
+      /// <summary>
       /// Links the methods in the internal CEF record data pointer with the methods in this class.
       /// </summary>
       procedure InitializeCEFMethods; override;
@@ -151,6 +156,7 @@ type
       procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean); override;
       procedure OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle); override;
       procedure OnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean); override;
+      procedure OnAllowPictureInPictureWithoutUserActivation(const browser_view: ICefBrowserView; var aResult: boolean); override;
 
     public
       constructor Create(const events: ICefBrowserViewDelegateEvents); reintroduce;
@@ -236,6 +242,12 @@ procedure TCefBrowserViewDelegateRef.OnAllowMoveForPictureInPicture(const browse
 begin
   aResult := (PCefBrowserViewDelegate(FData)^.allow_move_for_picture_in_picture(PCefBrowserViewDelegate(FData),
                                                                                 CefGetData(browser_view)) <> 0);
+end;
+
+procedure TCefBrowserViewDelegateRef.OnAllowPictureInPictureWithoutUserActivation(const browser_view: ICefBrowserView; var aResult: boolean);
+begin
+  aResult := (PCefBrowserViewDelegate(FData)^.allow_picture_in_picture_without_user_activation(PCefBrowserViewDelegate(FData),
+                                                                                               CefGetData(browser_view)) <> 0);
 end;
 
 class function TCefBrowserViewDelegateRef.UnWrap(data: Pointer): ICefBrowserViewDelegate;
@@ -393,6 +405,22 @@ begin
   Result := ord(TempResult);
 end;
 
+function cef_browserview_delegate_allow_picture_in_picture_without_user_activation(self         : PCefBrowserViewDelegate;
+                                                                                   browser_view : PCefBrowserView): integer; stdcall;
+var
+  TempObject : TObject;
+  TempResult : boolean;
+begin
+  TempObject := CefGetObject(self);
+  TempResult := False;
+
+  if (TempObject <> nil) and (TempObject is TCefBrowserViewDelegateOwn) then
+    TCefBrowserViewDelegateOwn(TempObject).OnAllowPictureInPictureWithoutUserActivation(TCefBrowserViewRef.UnWrap(browser_view),
+                                                                                        TempResult);
+
+  Result := ord(TempResult);
+end;
+
 constructor TCefBrowserViewDelegateOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefBrowserViewDelegate));
@@ -406,15 +434,16 @@ begin
 
   with PCefBrowserViewDelegate(FData)^ do
     begin
-      on_browser_created                          := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_browser_created;
-      on_browser_destroyed                        := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_browser_destroyed;
-      get_delegate_for_popup_browser_view         := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_delegate_for_popup_browser_view;
-      on_popup_browser_view_created               := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_popup_browser_view_created;
-      get_chrome_toolbar_type                     := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_chrome_toolbar_type;
-      use_frameless_window_for_picture_in_picture := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_use_frameless_window_for_picture_in_picture;
-      on_gesture_command                          := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_gesture_command;
-      get_browser_runtime_style                   := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_browser_runtime_style;
-      allow_move_for_picture_in_picture           := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_allow_move_for_picture_in_picture;
+      on_browser_created                               := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_browser_created;
+      on_browser_destroyed                             := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_browser_destroyed;
+      get_delegate_for_popup_browser_view              := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_delegate_for_popup_browser_view;
+      on_popup_browser_view_created                    := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_popup_browser_view_created;
+      get_chrome_toolbar_type                          := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_chrome_toolbar_type;
+      use_frameless_window_for_picture_in_picture      := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_use_frameless_window_for_picture_in_picture;
+      on_gesture_command                               := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_gesture_command;
+      get_browser_runtime_style                        := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_browser_runtime_style;
+      allow_move_for_picture_in_picture                := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_allow_move_for_picture_in_picture;
+      allow_picture_in_picture_without_user_activation := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_allow_picture_in_picture_without_user_activation;
     end;
 end;
 
@@ -462,6 +491,12 @@ procedure TCefBrowserViewDelegateOwn.OnAllowMoveForPictureInPicture(const browse
 begin
   aResult := False;
 end;
+
+procedure TCefBrowserViewDelegateOwn.OnAllowPictureInPictureWithoutUserActivation(const browser_view: ICefBrowserView; var aResult: boolean);
+begin
+  aResult := False;
+end;
+
 
 // **************************************************************
 // **************** TCustomBrowserViewDelegate ******************
@@ -715,6 +750,20 @@ begin
       if CustomExceptionHandler('TCustomBrowserViewDelegate.OnAllowMoveForPictureInPicture', e) then raise;
   end;
 end;
+
+procedure TCustomBrowserViewDelegate.OnAllowPictureInPictureWithoutUserActivation(const browser_view: ICefBrowserView; var aResult: boolean);
+begin
+  aResult := False;
+
+  try
+    if (FEvents <> nil) then
+      ICefBrowserViewDelegateEvents(FEvents).doOnAllowPictureInPictureWithoutUserActivation(browser_view, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomBrowserViewDelegate.OnAllowPictureInPictureWithoutUserActivation', e) then raise;
+  end;
+end;
+
 
 end.
 

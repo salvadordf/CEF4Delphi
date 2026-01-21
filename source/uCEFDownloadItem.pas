@@ -36,6 +36,7 @@ type
     function GetSuggestedFileName: ustring;
     function GetContentDisposition: ustring;
     function GetMimeType: ustring;
+    function IsPaused: boolean;
   public
     class function UnWrap(data: Pointer): ICefDownLoadItem;
   end;
@@ -138,6 +139,11 @@ end;
 function TCefDownloadItemRef.IsValid: Boolean;
 begin
   Result := PCefDownloadItem(FData)^.is_valid(PCefDownloadItem(FData)) <> 0;
+end;
+
+function TCefDownloadItemRef.IsPaused: boolean;
+begin
+  Result := PCefDownloadItem(FData)^.is_paused(PCefDownloadItem(FData)) <> 0;
 end;
 
 class function TCefDownloadItemRef.UnWrap(data: Pointer): ICefDownLoadItem;

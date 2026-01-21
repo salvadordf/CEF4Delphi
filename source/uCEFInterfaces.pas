@@ -501,6 +501,7 @@ type
     procedure doCertificateExceptionsCleared;
     procedure doHttpAuthCredentialsCleared;
     procedure doAllConnectionsClosed;
+    procedure doHttpCacheCleared;
     procedure doOnExecuteTaskOnCefThread(aTaskID : cardinal);
     procedure doOnCookiesVisited(const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total, aID : Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; var aDeleteCookie, aResult : Boolean);
     procedure doOnCookieVisitorDestroyed(aID : integer);
@@ -628,6 +629,7 @@ type
     procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
     procedure doOnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
     procedure doOnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
+    procedure doOnAllowPictureInPictureWithoutUserActivation(const browser_view: ICefBrowserView; var aResult: boolean);
   end;
 
   /// <summary>
@@ -2669,6 +2671,10 @@ type
     /// Returns the mime type.
     /// </summary>
     function GetMimeType: ustring;
+    /// <summary>
+    /// Returns true (1) if the download has been paused.
+    /// </summary>
+    function IsPaused: boolean;
     /// <summary>
     /// Returns a simple speed estimate in bytes/s.
     /// </summary>
@@ -7437,13 +7443,13 @@ type
     /// </summary>
     function  GetScreenPoint(const browser: ICefBrowser; viewX, viewY: Integer; var screenX, screenY: Integer): Boolean;
     /// <summary>
-    /// Called to allow the client to fill in the CefScreenInfo object with
+    /// <para>Called to allow the client to fill in the CefScreenInfo object with
     /// appropriate values. Return true (1) if the |screen_info| structure has
-    /// been modified.
+    /// been modified.</para>
     ///
-    /// If the screen info rectangle is left NULL the rectangle from GetViewRect
+    /// <para>If the screen info rectangle is left NULL the rectangle from GetViewRect
     /// will be used. If the rectangle is still NULL or invalid popups may not be
-    /// drawn correctly.
+    /// drawn correctly.</para>
     /// </summary>
     function  GetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): Boolean;
     /// <summary>
@@ -7473,10 +7479,11 @@ type
     /// |type| indicates whether the element is the view or the popup widget.
     /// |dirtyRects| contains the set of rectangles in pixel coordinates that need
     /// to be repainted. |info| contains the shared handle; on Windows it is a
-    /// HANDLE to a texture that can be opened with D3D11 OpenSharedResource, on
-    /// macOS it is an IOSurface pointer that can be opened with Metal or OpenGL,
-    /// and on Linux it contains several planes, each with an fd to the underlying
-    /// system native buffer.</para>
+    /// HANDLE to a texture that can be opened with D3D11 OpenSharedResource1 or
+    /// D3D12 OpenSharedHandle, on macOS it is an IOSurface pointer that can be
+    /// opened with Metal or OpenGL, and on Linux it contains several planes, each
+    /// with an fd to the underlying system native buffer.</para>
+    ///
     /// <para>The underlying implementation uses a pool to deliver frames. As a result,
     /// the handle may differ every frame depending on how many frames are in-
     /// progress. The handle's resource cannot be cached and cannot be accessed
@@ -7497,18 +7504,18 @@ type
     /// </summary>
     procedure OnTouchHandleStateChanged(const browser: ICefBrowser; const state: TCefTouchHandleState);
     /// <summary>
-    /// Called when the user starts dragging content in the web view. Contextual
+    /// <para>Called when the user starts dragging content in the web view. Contextual
     /// information about the dragged content is supplied by |drag_data|. (|x|,
     /// |y|) is the drag start location in screen coordinates. OS APIs that run a
-    /// system message loop may be used within the StartDragging call.
+    /// system message loop may be used within the StartDragging call.</para>
     ///
-    /// Return false (0) to abort the drag operation. Don't call any of
-    /// ICefBrowserHost.DragSource*Ended* functions after returning false (0).
+    /// <para>Return false (0) to abort the drag operation. Don't call any of
+    /// ICefBrowserHost.DragSource*Ended* functions after returning false (0).</para>
     ///
-    /// Return true (1) to handle the drag operation. Call
+    /// <para>Return true (1) to handle the drag operation. Call
     /// ICefBrowserHost.DragSourceEndedAt and DragSourceSystemDragEnded either
     /// synchronously or asynchronously to inform the web view that the drag
-    /// operation has ended.
+    /// operation has ended.</para>
     /// </summary>
     function  OnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer): Boolean;
     /// <summary>
@@ -8363,6 +8370,11 @@ type
     /// This function must be called on the browser process UI thread.
     /// </summary>
     function AddSettingObserver(const observer: ICefSettingObserver): ICefRegistration;
+    /// <summary>
+    /// Clears the HTTP cache. If |callback| is non-NULL it will be executed on
+    /// the UI thread after completion.
+    /// </summary>
+    procedure ClearHttpCache(const callback: ICefCompletionCallback);
     /// <summary>
     /// Returns the cache path for this object. If NULL an "incognito mode" in-
     /// memory cache is being used.
@@ -10737,6 +10749,11 @@ type
     /// popups.
     /// </summary>
     procedure OnAllowMoveForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
+    /// <summary>
+    /// Return true (1) to allow opening Document picture-in-picture without user
+    /// activation. Default is false (0) (user activation required).
+    /// </summary>
+    procedure OnAllowPictureInPictureWithoutUserActivation(const browser_view: ICefBrowserView; var aResult: boolean);
   end;
 
   /// <summary>
