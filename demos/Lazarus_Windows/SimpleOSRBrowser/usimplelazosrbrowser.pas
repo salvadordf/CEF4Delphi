@@ -63,6 +63,7 @@ type
     procedure chrmosrBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean);
     procedure chrmosrBeforeClose(Sender: TObject; const browser: ICefBrowser);
     procedure chrmosrIMECompositionRangeChanged(Sender: TObject; const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect);
+    procedure chrmosrOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
 
     procedure SnapshotBtnClick(Sender: TObject);
     procedure SnapshotBtnEnter(Sender: TObject);
@@ -187,6 +188,15 @@ begin
   FResizeCS.Release;
 
   chrmosr.LoadURL(ComboBox1.Text);
+end;
+
+procedure TForm1.chrmosrOpenUrlFromTab(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
+  targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out
+  Result: Boolean);
+begin
+  // For simplicity, this demo blocks all popup windows and new tabs
+  Result := (targetDisposition in [CEF_WOD_NEW_FOREGROUND_TAB, CEF_WOD_NEW_BACKGROUND_TAB, CEF_WOD_NEW_POPUP, CEF_WOD_NEW_WINDOW]);
 end;
 
 procedure TForm1.chrmosrIMECompositionRangeChanged(      Sender                : TObject;
@@ -910,11 +920,9 @@ begin
   chrmosr.IMECommitText(aText, replacement_range, relative_cursor_pos);
 end;
 
-procedure TForm1.Panel1IMESetComposition(      Sender            : TObject;
-                                         const aText             : ustring;
-                                         const underlines        : TCefCompositionUnderlineDynArray;
-                                         const replacement_range : TCefRange;
-                                         const selection_range   : TCefRange);
+procedure TForm1.Panel1IMESetComposition(Sender: TObject; const aText: ustring;
+  const underlines: TCefCompositionUnderlineDynArray; const replacement_range,
+  selection_range: TCefRange);
 begin
   chrmosr.IMESetComposition(aText, underlines, @replacement_range, @selection_range);
 end;
