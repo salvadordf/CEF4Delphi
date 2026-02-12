@@ -5621,6 +5621,16 @@ type
     /// notification permission will not be revoked based on suspicious verdict.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_SUSPICIOUS_NOTIFICATION_SHOW_ORIGINAL,              {* CEF_API_ADDED(14200) *}
+    /// <summary>
+    /// Content setting for whether the site is allowed to make local network
+    /// requests. Split from LOCAL_NETWORK_ACCESS.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_LOCAL_NETWORK,                                      {* CEF_API_ADDED(14500) *}
+    /// <summary>
+    /// Content setting for whether the site is allowed to make loopback network
+    /// requests. Split from LOCAL_NETWORK_ACCESS.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_LOOPBACK_NETWORK,                                   {* CEF_API_ADDED(14500) *}
     CEF_CONTENT_SETTING_TYPE_NUM_VALUES
   );
 

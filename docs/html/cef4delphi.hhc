@@ -11954,6 +11954,10 @@
 <param name="Local" value="uCEFConstants.html#ERR_BLOCKED_BY_FINGERPRINTING_PROTECTION">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="ERR_BLOCKED_IN_INCOGNITO_BY_ADMINISTRATOR">
+<param name="Local" value="uCEFConstants.html#ERR_BLOCKED_IN_INCOGNITO_BY_ADMINISTRATOR">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="ERR_CONNECTION_CLOSED">
 <param name="Local" value="uCEFConstants.html#ERR_CONNECTION_CLOSED">
 </object>
@@ -12714,10 +12718,6 @@
 <param name="Local" value="uCEFConstants.html#ERR_DNS_SERVER_REQUIRES_TCP">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="ERR_DNS_SERVER_FAILED">
-<param name="Local" value="uCEFConstants.html#ERR_DNS_SERVER_FAILED">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="ERR_DNS_TIMED_OUT">
 <param name="Local" value="uCEFConstants.html#ERR_DNS_TIMED_OUT">
 </object>
@@ -12756,6 +12756,26 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_DNS_CACHE_INVALIDATION_IN_PROGRESS">
 <param name="Local" value="uCEFConstants.html#ERR_DNS_CACHE_INVALIDATION_IN_PROGRESS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_DNS_FORMAT_ERROR">
+<param name="Local" value="uCEFConstants.html#ERR_DNS_FORMAT_ERROR">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_DNS_SERVER_FAILURE">
+<param name="Local" value="uCEFConstants.html#ERR_DNS_SERVER_FAILURE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_DNS_NOT_IMPLEMENTED">
+<param name="Local" value="uCEFConstants.html#ERR_DNS_NOT_IMPLEMENTED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_DNS_REFUSED">
+<param name="Local" value="uCEFConstants.html#ERR_DNS_REFUSED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_DNS_OTHER_FAILURE">
+<param name="Local" value="uCEFConstants.html#ERR_DNS_OTHER_FAILURE">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_BLOB_INVALID_CONSTRUCTION_ARGUMENTS">
@@ -14208,6 +14228,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_RELOAD_GLIC">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_RELOAD_GLIC">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_ARCHIVE_GLIC">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_ARCHIVE_GLIC">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_BOOKMARK_BAR_OPEN_ALL">
@@ -15764,6 +15788,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_PERMISSION_TYPE_LOCAL_NETWORK_ACCESS">
 <param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_LOCAL_NETWORK_ACCESS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_PERMISSION_TYPE_LOCAL_NETWORK">
+<param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_LOCAL_NETWORK">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_PERMISSION_TYPE_LOOPBACK_NETWORK">
+<param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_LOOPBACK_NETWORK">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_API_HASH_PLATFORM">

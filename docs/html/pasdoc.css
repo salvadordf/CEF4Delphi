@@ -264,3 +264,8 @@ table.table_tag th > p:first-child,
 table.table_tag td > p:last-child,
 table.table_tag th > p:last-child,
        td.itemdesc > p:last-child { margin-bottom: 0em; }
+
+.source_position {
+  font-size: 80%;
+  color: gray;
+}

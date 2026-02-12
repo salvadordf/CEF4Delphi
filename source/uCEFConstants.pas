@@ -290,6 +290,15 @@ const
   /// </remarks>
   ERR_BLOCKED_BY_FINGERPRINTING_PROTECTION                    = -34;
   /// <summary>
+  /// The request was blocked by the Incognito Mode URL block list configured by
+  /// the domain administrator.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_BLOCKED_IN_INCOGNITO_BY_ADMINISTRATOR                   = -35;
+  /// <summary>
   /// A connection was closed (corresponding to a TCP FIN).
   /// </summary>
   /// <remarks>
@@ -1541,7 +1550,8 @@ const
   /// </remarks>
   ERR_PAC_SCRIPT_TERMINATED                                   = -367;
   /// <summary>
-  /// Signals that the request requires the IPP proxy.
+  /// Obsolete. Support for CNAME record detection was never fully implemented and
+  /// is no longer needed since the IP Protection feature didn't launch.
   /// </summary>
   /// <remarks>
   /// <para>TCefErrorCode value.</para>
@@ -2014,22 +2024,6 @@ const
   /// </remarks>
   ERR_DNS_SERVER_REQUIRES_TCP                                 = -801;
   /// <summary>
-  /// DNS server failed.  This error is returned for all of the following
-  /// error conditions:
-  /// 1 - Format error - The name server was unable to interpret the query.
-  /// 2 - Server failure - The name server was unable to process this query
-  ///     due to a problem with the name server.
-  /// 4 - Not Implemented - The name server does not support the requested
-  ///     kind of query.
-  /// 5 - Refused - The name server refuses to perform the specified
-  ///     operation for policy reasons.
-  /// </summary>
-  /// <remarks>
-  /// <para>TCefErrorCode value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
-  /// </remarks>
-  ERR_DNS_SERVER_FAILED                                       = -802;
-  /// <summary>
   /// DNS transaction timed out.
   /// </summary>
   /// <remarks>
@@ -2117,6 +2111,56 @@ const
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
   /// </remarks>
   ERR_DNS_CACHE_INVALIDATION_IN_PROGRESS                      = -815;
+  /// <summary>
+  /// The DNS server responded with a format error response code.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_DNS_FORMAT_ERROR                                        = -816;
+  /// <summary>
+  /// The DNS server responded with a server failure response code.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_DNS_SERVER_FAILURE                                      = -817;
+  /// <summary>
+  /// The DNS server responded that the query type is not implemented.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_DNS_NOT_IMPLEMENTED                                     = -818;
+  /// <summary>
+  /// The DNS server responded that the request was refused.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_DNS_REFUSED                                             = -819;
+  /// <summary>
+  /// <para>The DNS server responded with an rcode indicating that the request failed,
+  /// but the rcode is not one that we have a specific error code for. In other
+  /// words, the rcode was not one of the following:</para>
+  /// <code>
+  /// - NOERR
+  /// - FORMERR
+  /// - SERVFAIL
+  /// - NXDOMAIN
+  /// - NOTIMP
+  /// - REFUSED
+  /// </code>
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_DNS_OTHER_FAILURE                                       = -820;
   /// <summary>
   /// The following errors are for mapped from a subset of invalid
   /// storage::BlobStatus.
@@ -2546,6 +2590,7 @@ const
   IDC_CONTEXT_COMPOSE = 50230;
   IDC_CONTENT_CONTEXT_CLOSE_GLIC = 50231;
   IDC_CONTENT_CONTEXT_RELOAD_GLIC = 50232;
+  IDC_CONTENT_CONTEXT_ARCHIVE_GLIC = 50233;
   IDC_BOOKMARK_BAR_OPEN_ALL = 51000;
   IDC_BOOKMARK_BAR_OPEN_ALL_NEW_WINDOW = 51001;
   IDC_BOOKMARK_BAR_OPEN_ALL_INCOGNITO = 51002;
@@ -4130,6 +4175,8 @@ const
   CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT          = 1 shl 23;
   CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS         = 1 shl 24;
   CEF_PERMISSION_TYPE_LOCAL_NETWORK_ACCESS       = 1 shl 25;  {* CEF_API_ADDED(13600) *}
+  CEF_PERMISSION_TYPE_LOCAL_NETWORK              = 1 shl 26;  {* CEF_API_ADDED(14500) *}
+  CEF_PERMISSION_TYPE_LOOPBACK_NETWORK           = 1 shl 27;  {* CEF_API_ADDED(14500) *}
 
 
   /// <summary>

@@ -756,9 +756,19 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
+<td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_PERMISSION_TYPE_LOCAL_NETWORK">CEF_PERMISSION_TYPE_LOCAL_NETWORK</a></td>
+<td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
+<td class="itemdesc"><p>* CEF_API_ADDED(13600) *</p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_PERMISSION_TYPE_LOCAL_NETWORK_ACCESS">CEF_PERMISSION_TYPE_LOCAL_NETWORK_ACCESS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_PERMISSION_TYPE_LOOPBACK_NETWORK">CEF_PERMISSION_TYPE_LOOPBACK_NETWORK</a></td>
+<td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
+<td class="itemdesc"><p>* CEF_API_ADDED(14500) *</p></td>
 </tr>
 <tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#CEF_PERMISSION_TYPE_MIC_STREAM">CEF_PERMISSION_TYPE_MIC_STREAM</a></td>
@@ -2000,86 +2010,91 @@
 <td class="itemdesc"><p> The request failed because the response was delivered along with requirements which are not met ('X-Frame-Options' and 'Content-Security-Policy' ancestor checks and 'Cross-Origin-Resource-Policy' for instance). </p></td>
 </tr>
 <tr class="list">
+<td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_BLOCKED_IN_INCOGNITO_BY_ADMINISTRATOR">ERR_BLOCKED_IN_INCOGNITO_BY_ADMINISTRATOR</a></td>
+<td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
+<td class="itemdesc"><p> The request was blocked by the Incognito Mode URL block list configured by the domain administrator. </p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_LOCAL_NETWORK_ACCESS_POLICY">ERR_CACHED_IP_ADDRESS_SPACE_BLOCKED_BY_LOCAL_NETWORK_ACCESS_POLICY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The IP address space of the cached remote endpoint is blocked by private network access check. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_AUTH_FAILURE_AFTER_READ">ERR_CACHE_AUTH_FAILURE_AFTER_READ</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Received a challenge after the transaction has read some data, and the credentials aren't available. There isn't a way to get them at that point. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_CHECKSUM_MISMATCH">ERR_CACHE_CHECKSUM_MISMATCH</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The cache found an entry with an invalid checksum. This can be returned from attempts to read from the cache. It is an internal error, returned by the SimpleCache backend, but not by any URLRequest methods or members. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_CHECKSUM_READ_FAILURE">ERR_CACHE_CHECKSUM_READ_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The cache was unable to read a checksum record on an entry. This can be returned from attempts to read from the cache. It is an internal error, returned by the SimpleCache backend, but not by any URLRequest methods or members. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_CREATE_FAILURE">ERR_CACHE_CREATE_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The disk cache is unable to create this entry. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_DOOM_FAILURE">ERR_CACHE_DOOM_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The disk cache is unable to doom this entry. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_ENTRY_NOT_SUITABLE">ERR_CACHE_ENTRY_NOT_SUITABLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Internal not-quite error code for the HTTP cache. In-memory hints suggest that the cache entry would not have been usable with the transaction's current configuration (e.g. load flags, mode, etc.) </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_LOCK_TIMEOUT">ERR_CACHE_LOCK_TIMEOUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Internal error code for the HTTP cache. The cache lock timeout has fired. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_MISS">ERR_CACHE_MISS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The cache does not have the requested entry. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_OPEN_FAILURE">ERR_CACHE_OPEN_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The disk cache is unable to open this entry. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_OPEN_OR_CREATE_FAILURE">ERR_CACHE_OPEN_OR_CREATE_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The disk cache is unable to open or create this entry. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_OPERATION_NOT_SUPPORTED">ERR_CACHE_OPERATION_NOT_SUPPORTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The operation is not supported for this entry. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_RACE">ERR_CACHE_RACE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Multiple transactions are racing to create disk cache entries. This is an internal error returned from the HttpCache to the HttpCacheTransaction that tells the transaction to restart the entry-creation logic because the state of the cache has changed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_READ_FAILURE">ERR_CACHE_READ_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Unable to read from the disk cache. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CACHE_WRITE_FAILURE">ERR_CACHE_WRITE_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Unable to write to the disk cache. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERTIFICATE_TRANSPARENCY_REQUIRED">ERR_CERTIFICATE_TRANSPARENCY_REQUIRED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Certificate Transparency was required for this connection, but the server did not provide CT information that complied with the policy. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_AUTHORITY_INVALID">ERR_CERT_AUTHORITY_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate that is signed by an authority we don't trust. The could mean:
@@ -2090,7 +2105,7 @@
 
 <p>3. The server is presenting a self-signed certificate, providing no defense against active attackers (but foiling passive attackers). </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_COMMON_NAME_INVALID">ERR_CERT_COMMON_NAME_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate whose common name did not match the host name. This could mean:
@@ -2103,19 +2118,19 @@
 
 <p>4. The OS has used a DNS search suffix and the server doesn't have a certificate for the abbreviated name in the address bar. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_CONTAINS_ERRORS">ERR_CERT_CONTAINS_ERRORS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate that contains errors. This error is not recoverable.
 
 <p>MSDN describes this error as follows: &quot;The SSL certificate contains errors.&quot; NOTE: It's unclear how this differs from ERR_CERT_INVALID. For consistency, use that code instead of this one from now on. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_DATABASE_CHANGED">ERR_CERT_DATABASE_CHANGED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate database changed in some way. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_DATE_INVALID">ERR_CERT_DATE_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate that, by our clock, appears to either not yet be valid or to have expired. This could mean:
@@ -2126,49 +2141,49 @@
 
 <p>3. Our clock is wrong. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_END">ERR_CERT_END</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The value immediately past the last certificate error code. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_INVALID">ERR_CERT_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate that is invalid. This error is not recoverable.
 
 <p>MSDN describes this error as follows: &quot;The SSL certificate is invalid.&quot; </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_KNOWN_INTERCEPTION_BLOCKED">ERR_CERT_KNOWN_INTERCEPTION_BLOCKED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate is known to be used for interception by an entity other the device owner. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_NAME_CONSTRAINT_VIOLATION">ERR_CERT_NAME_CONSTRAINT_VIOLATION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate claimed DNS names that are in violation of name constraints. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_NON_UNIQUE_NAME">ERR_CERT_NON_UNIQUE_NAME</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The host name specified in the certificate is not unique. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_NO_REVOCATION_MECHANISM">ERR_CERT_NO_REVOCATION_MECHANISM</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate has no mechanism for determining if it is revoked. In effect, this certificate cannot be revoked. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_REVOKED">ERR_CERT_REVOKED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate has been revoked. We have the capability to ignore this error, but it is probably not the thing to do. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_SELF_SIGNED_LOCAL_NETWORK">ERR_CERT_SELF_SIGNED_LOCAL_NETWORK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> -218 was SSL_OBSOLETE_VERSION which is not longer used. TLS 1.0/1.1 instead cause SSL_VERSION_OR_CIPHER_MISMATCH now. The certificate is self signed and it's being used for either an RFC1918 IP literal URL, or a url ending in .local. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_UNABLE_TO_CHECK_REVOCATION">ERR_CERT_UNABLE_TO_CHECK_REVOCATION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Revocation information for the security certificate for this site is not available. This could mean:
@@ -2177,115 +2192,120 @@
 
 <p>2. The certificate is unrevoked, but the revocation server is busy or unavailable. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_VALIDITY_TOO_LONG">ERR_CERT_VALIDITY_TOO_LONG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate's validity period is too long. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_VERIFIER_CHANGED">ERR_CERT_VERIFIER_CHANGED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate verifier configuration changed in some way. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_WEAK_KEY">ERR_CERT_WEAK_KEY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate that contains a weak key (e.g. a too-small RSA key). </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CERT_WEAK_SIGNATURE_ALGORITHM">ERR_CERT_WEAK_SIGNATURE_ALGORITHM</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server responded with a certificate that is signed using a weak signature algorithm. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CLEARTEXT_NOT_PERMITTED">ERR_CLEARTEXT_NOT_PERMITTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The request was blocked by system policy disallowing some or all cleartext requests. Used for NetworkSecurityPolicy on Android. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CLIENT_AUTH_CERT_TYPE_UNSUPPORTED">ERR_CLIENT_AUTH_CERT_TYPE_UNSUPPORTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Server request for client certificate did not contain any types we support. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONNECTION_ABORTED">ERR_CONNECTION_ABORTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A connection timed out as a result of not receiving an ACK for data sent. This can include a FIN packet that did not get ACK'd. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONNECTION_CLOSED">ERR_CONNECTION_CLOSED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A connection was closed (corresponding to a TCP FIN). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONNECTION_FAILED">ERR_CONNECTION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A connection attempt failed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONNECTION_REFUSED">ERR_CONNECTION_REFUSED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A connection attempt was refused. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONNECTION_RESET">ERR_CONNECTION_RESET</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A connection was reset (corresponding to a TCP RST). </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONNECTION_TIMED_OUT">ERR_CONNECTION_TIMED_OUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A connection attempt timed out. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONTENT_DECODING_FAILED">ERR_CONTENT_DECODING_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Content decoding of the response body failed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONTENT_DECODING_INIT_FAILED">ERR_CONTENT_DECODING_INIT_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Initializing content decoding failed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONTENT_LENGTH_MISMATCH">ERR_CONTENT_LENGTH_MISMATCH</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The HTTP response body transferred fewer bytes than were advertised by the Content-Length header when the connection is closed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CONTEXT_SHUT_DOWN">ERR_CONTEXT_SHUT_DOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The request failed because the URLRequestContext is shutting down, or has been shut down. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CT_CONSISTENCY_PROOF_PARSING_FAILED">ERR_CT_CONSISTENCY_PROOF_PARSING_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Certificate Transparency: Failed to parse the received consistency proof. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CT_STH_INCOMPLETE">ERR_CT_STH_INCOMPLETE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Certificate Transparency: Received a signed tree head whose JSON parsing was OK but was missing some of the fields. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_CT_STH_PARSING_FAILED">ERR_CT_STH_PARSING_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Certificate Transparency: Received a signed tree head that failed to parse. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DICTIONARY_LOAD_FAILED">ERR_DICTIONARY_LOAD_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The compression dictionary cannot be loaded. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DISALLOWED_URL_SCHEME">ERR_DISALLOWED_URL_SCHEME</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The scheme of the URL is disallowed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_CACHE_INVALIDATION_IN_PROGRESS">ERR_DNS_CACHE_INVALIDATION_IN_PROGRESS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Returned when DNS cache invalidation is in progress. This is a transient error. Callers may want to retry later. </p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_FORMAT_ERROR">ERR_DNS_FORMAT_ERROR</a></td>
+<td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
+<td class="itemdesc"><p> The DNS server responded with a format error response code. </p></td>
 </tr>
 <tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_MALFORMED_RESPONSE">ERR_DNS_MALFORMED_RESPONSE</a></td>
@@ -2298,1223 +2318,1257 @@
 <td class="itemdesc"><p> DNS identified the request as disallowed for insecure connection (http/ws). Error should be handled as if an HTTP redirect was received to redirect to https or wss. </p></td>
 </tr>
 <tr class="list">
+<td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_NOT_IMPLEMENTED">ERR_DNS_NOT_IMPLEMENTED</a></td>
+<td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
+<td class="itemdesc"><p> The DNS server responded that the query type is not implemented. </p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_NO_MATCHING_SUPPORTED_ALPN">ERR_DNS_NO_MATCHING_SUPPORTED_ALPN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The hostname resolution of HTTPS record was expected to be resolved with alpn values of supported protocols, but did not. </p></td>
 </tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_OTHER_FAILURE">ERR_DNS_OTHER_FAILURE</a></td>
+<td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
+<td class="itemdesc"><p>
+
+<p>The DNS server responded with an rcode indicating that the request failed, but the rcode is not one that we have a specific error code for. In other words, the rcode was not one of the following:
+
+<p></p>
+
+<pre class="preformatted">
+- NOERR
+- FORMERR
+- SERVFAIL
+- NXDOMAIN
+- NOTIMP
+- REFUSED</pre>
+
+<p> </p></td>
+</tr>
 <tr class="list2">
+<td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_REFUSED">ERR_DNS_REFUSED</a></td>
+<td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
+<td class="itemdesc"><p> The DNS server responded that the request was refused. </p></td>
+</tr>
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_REQUEST_CANCELLED">ERR_DNS_REQUEST_CANCELLED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> All DNS requests associated with this job have been cancelled. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_SEARCH_EMPTY">ERR_DNS_SEARCH_EMPTY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Suffix search list rules prevent resolution of the given host name. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_SECURE_PROBE_RECORD_INVALID">ERR_DNS_SECURE_PROBE_RECORD_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> When checking whether secure DNS can be used, the response returned for the requested probe record either had no answer or was invalid. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_SECURE_RESOLVER_HOSTNAME_RESOLUTION_FAILED">ERR_DNS_SECURE_RESOLVER_HOSTNAME_RESOLUTION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Failed to resolve the hostname of a DNS-over-HTTPS server. </p></td>
 </tr>
-<tr class="list2">
-<td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_SERVER_FAILED">ERR_DNS_SERVER_FAILED</a></td>
-<td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
-<td class="itemdesc"><p> DNS server failed. This error is returned for all of the following error conditions: 1 - Format error - The name server was unable to interpret the query. 2 - Server failure - The name server was unable to process this query due to a problem with the name server. 4 - Not Implemented - The name server does not support the requested kind of query. 5 - Refused - The name server refuses to perform the specified operation for policy reasons. </p></td>
-</tr>
 <tr class="list">
+<td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_SERVER_FAILURE">ERR_DNS_SERVER_FAILURE</a></td>
+<td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
+<td class="itemdesc"><p> The DNS server responded with a server failure response code. </p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_SERVER_REQUIRES_TCP">ERR_DNS_SERVER_REQUIRES_TCP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DNS server requires TCP </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_SORT_ERROR">ERR_DNS_SORT_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Failed to sort addresses according to RFC3484. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_DNS_TIMED_OUT">ERR_DNS_TIMED_OUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> DNS transaction timed out. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_EARLY_DATA_REJECTED">ERR_EARLY_DATA_REJECTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> TLS 1.3 early data was rejected by the server. This will be received before any data is returned from the socket. The request should be retried with early data disabled. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ECH_FALLBACK_CERTIFICATE_INVALID">ERR_ECH_FALLBACK_CERTIFICATE_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> ECH was enabled, the server was unable to decrypt the encrypted ClientHello, and additionally did not present a certificate valid for the public name. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ECH_NOT_NEGOTIATED">ERR_ECH_NOT_NEGOTIATED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> ECH was enabled, but the server was unable to decrypt the encrypted ClientHello. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_EMPTY_RESPONSE">ERR_EMPTY_RESPONSE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server closed the connection without sending any data. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ENCODING_DETECTION_FAILED">ERR_ENCODING_DETECTION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Detecting the encoding of the response failed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FAILED">ERR_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A generic failure occurred. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FILE_EXISTS">ERR_FILE_EXISTS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The file already exists. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FILE_NOT_FOUND">ERR_FILE_NOT_FOUND</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The file or directory cannot be found. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FILE_NO_SPACE">ERR_FILE_NO_SPACE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Not enough room left on the disk. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FILE_PATH_TOO_LONG">ERR_FILE_PATH_TOO_LONG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The path or file name is too long. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FILE_TOO_BIG">ERR_FILE_TOO_BIG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The file is too large. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_FILE_VIRUS_INFECTED">ERR_FILE_VIRUS_INFECTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The file has a virus. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_HOST_RESOLVER_QUEUE_TOO_LARGE">ERR_HOST_RESOLVER_QUEUE_TOO_LARGE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> There are too many pending DNS resolves, so a request in the queue was aborted. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_HTTPENGINE_PROVIDER_IN_USE">ERR_HTTPENGINE_PROVIDER_IN_USE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> This is a placeholder value that should never be used within net. When Cronet APIs are being backed by HttpEngine (i.e., HttpEngineProvider is being used), org.chromium.net.NetworkException#getCronetInternalErrorCode is not supported (android.net.http.NetworkException#getCronetInternalErrorCode does not exist). In this scenario, getCronetInternalErrorCode will always return this error. This is a first step towards the deprecation of getCronetInternalErrorCode. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_HTTP_1_1_REQUIRED">ERR_HTTP_1_1_REQUIRED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> HTTP_1_1_REQUIRED error code received on HTTP/2 session. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_HTTP_RESPONSE_CODE_FAILURE">ERR_HTTP_RESPONSE_CODE_FAILURE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server returned a non-2xx HTTP response code.
 
 <p>Note that this error is only used by certain APIs that interpret the HTTP response itself. URLRequest for instance just passes most non-2xx response back as success. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ICANN_NAME_COLLISION">ERR_ICANN_NAME_COLLISION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Resolving a hostname to an IP address list included the IPv4 address &quot;127.0.53.53&quot;. This is a special IP address which ICANN has recommended to indicate there was a name collision, and alert admins to a potential problem. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_IMPORT_CA_CERT_FAILED">ERR_IMPORT_CA_CERT_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> CA import failed due to some other error. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_IMPORT_CA_CERT_NOT_CA">ERR_IMPORT_CA_CERT_NOT_CA</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> CA import failed - not a CA cert. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_IMPORT_CERT_ALREADY_EXISTS">ERR_IMPORT_CERT_ALREADY_EXISTS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Import failed - certificate already exists in database. Note it's a little weird this is an error but reimporting a PKCS12 is ok (no-op). That's how Mozilla does it, though. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_IMPORT_SERVER_CERT_FAILED">ERR_IMPORT_SERVER_CERT_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Server certificate import failed due to some internal error. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INCOMPLETE_CHUNKED_ENCODING">ERR_INCOMPLETE_CHUNKED_ENCODING</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The HTTP response body is transferred with Chunked-Encoding, but the terminating zero-length chunk was never sent when the connection is closed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INCOMPLETE_SPDY_HEADERS">ERR_INCOMPLETE_SPDY_HEADERS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> HTTP/2 headers have been received, but not all of them - status or version headers are missing, so we're expecting additional frames to complete them. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INCONSISTENT_IP_ADDRESS_SPACE">ERR_INCONSISTENT_IP_ADDRESS_SPACE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The IP address space of the remote endpoint differed from the previous observed value during the same request. Any cache entry for the affected request should be invalidated. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INSECURE_RESPONSE">ERR_INSECURE_RESPONSE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server's response was insecure (e.g. there was a cert error). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INSUFFICIENT_RESOURCES">ERR_INSUFFICIENT_RESOURCES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> There were not enough resources to complete the operation. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INTERNET_DISCONNECTED">ERR_INTERNET_DISCONNECTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The Internet connection has been lost. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INVALID_ARGUMENT">ERR_INVALID_ARGUMENT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An argument to the function is incorrect. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INVALID_AUTH_CREDENTIALS">ERR_INVALID_AUTH_CREDENTIALS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Credentials could not be established during HTTP Authentication. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INVALID_CHUNKED_ENCODING">ERR_INVALID_CHUNKED_ENCODING</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Error in chunked transfer encoding. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INVALID_ECH_CONFIG_LIST">ERR_INVALID_ECH_CONFIG_LIST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The ECHConfigList fetched over DNS cannot be parsed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INVALID_HANDLE">ERR_INVALID_HANDLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The handle or file descriptor is invalid. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INVALID_HTTP_RESPONSE">ERR_INVALID_HTTP_RESPONSE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server was expected to return an HTTP/1.x response, but did not. Rather than treat it as HTTP/0.9, this error is returned. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INVALID_REDIRECT">ERR_INVALID_REDIRECT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Attempting to load an URL resulted in a redirect to an invalid URL. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INVALID_RESPONSE">ERR_INVALID_RESPONSE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server's response was invalid. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INVALID_SIGNED_EXCHANGE">ERR_INVALID_SIGNED_EXCHANGE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An error occurred while handling a signed exchange. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INVALID_URL">ERR_INVALID_URL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The URL is invalid. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_INVALID_WEB_BUNDLE">ERR_INVALID_WEB_BUNDLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An error occurred while handling a Web Bundle source. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_IO_PENDING">ERR_IO_PENDING</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An asynchronous IO operation is not yet complete. This usually does not indicate a fatal error. Typically this error will be generated as a notification to wait for some external notification that the IO operation finally completed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_KEY_GENERATION_FAILED">ERR_KEY_GENERATION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Key generation failed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_MALFORMED_IDENTITY">ERR_MALFORMED_IDENTITY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The identity used for authentication is invalid. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_MANDATORY_PROXY_CONFIGURATION_FAILED">ERR_MANDATORY_PROXY_CONFIGURATION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A mandatory proxy configuration could not be used. Currently this means that a mandatory PAC script could not be fetched, parsed or executed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_METHOD_NOT_SUPPORTED">ERR_METHOD_NOT_SUPPORTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server did not support the request method. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_MISCONFIGURED_AUTH_ENVIRONMENT">ERR_MISCONFIGURED_AUTH_ENVIRONMENT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The environment was not set up correctly for authentication. For example, no KDC could be found or the principal is unknown. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_MISSING_AUTH_CREDENTIALS">ERR_MISSING_AUTH_CREDENTIALS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> (GSSAPI) No Kerberos credentials were available during HTTP Authentication. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_MSG_TOO_BIG">ERR_MSG_TOO_BIG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The message was too large for the transport. (for example a UDP message which exceeds size threshold). </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_NAME_NOT_RESOLVED">ERR_NAME_NOT_RESOLVED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The host name could not be resolved. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_NAME_RESOLUTION_FAILED">ERR_NAME_RESOLUTION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An error occurred when trying to do a name resolution (DNS). </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_NETWORK_ACCESS_DENIED">ERR_NETWORK_ACCESS_DENIED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Permission to access the network was denied. This is used to distinguish errors that were most likely caused by a firewall from other access denied errors. See also ERR_ACCESS_DENIED. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_NETWORK_ACCESS_REVOKED">ERR_NETWORK_ACCESS_REVOKED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The request was blocked because it originated from a frame that has disabled network access. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_NETWORK_CHANGED">ERR_NETWORK_CHANGED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The network changed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_NETWORK_IO_SUSPENDED">ERR_NETWORK_IO_SUSPENDED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An operation could not be completed because all network IO is suspended. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_NONE">ERR_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> No error. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_NOT_IMPLEMENTED">ERR_NOT_IMPLEMENTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The operation failed because of unimplemented functionality. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_NO_BUFFER_SPACE">ERR_NO_BUFFER_SPACE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> No socket buffer space is available. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_NO_PRIVATE_KEY_FOR_CERT">ERR_NO_PRIVATE_KEY_FOR_CERT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An attempt to import a client certificate failed, as the user's key database lacked a corresponding private key. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_NO_SUPPORTED_PROXIES">ERR_NO_SUPPORTED_PROXIES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> There are no supported proxies in the provided list. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_NS_CACHE_MISS">ERR_NS_CACHE_MISS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The entry was not found in cache or other local sources, for lookups where only local sources were queried. TODO(ericorth): Consider renaming to DNS_LOCAL_MISS or something like that as the cache is not necessarily queried either. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_OUT_OF_MEMORY">ERR_OUT_OF_MEMORY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Memory allocation failed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PAC_NOT_IN_DHCP">ERR_PAC_NOT_IN_DHCP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> No PAC URL configuration could be retrieved from DHCP. This can indicate either a failure to retrieve the DHCP configuration, or that there was no PAC URL configured in DHCP. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PAC_SCRIPT_FAILED">ERR_PAC_SCRIPT_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The evaluation of the PAC script failed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PAC_SCRIPT_TERMINATED">ERR_PAC_SCRIPT_TERMINATED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The PAC script terminated fatally and must be reloaded. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PKCS12_IMPORT_BAD_PASSWORD">ERR_PKCS12_IMPORT_BAD_PASSWORD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> PKCS #12 import failed due to incorrect password. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PKCS12_IMPORT_FAILED">ERR_PKCS12_IMPORT_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> PKCS #12 import failed due to other error. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PKCS12_IMPORT_INVALID_FILE">ERR_PKCS12_IMPORT_INVALID_FILE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> PKCS #12 import failed due to invalid/corrupt file. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PKCS12_IMPORT_INVALID_MAC">ERR_PKCS12_IMPORT_INVALID_MAC</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> PKCS #12 import failed due to invalid MAC. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PKCS12_IMPORT_UNSUPPORTED">ERR_PKCS12_IMPORT_UNSUPPORTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> PKCS #12 import failed due to unsupported features. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PRECONNECT_MAX_SOCKET_LIMIT">ERR_PRECONNECT_MAX_SOCKET_LIMIT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> We've hit the max socket limit for the socket pool while preconnecting. We don't bother trying to preconnect more sockets. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PRIVATE_KEY_EXPORT_FAILED">ERR_PRIVATE_KEY_EXPORT_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Failure to export private key. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PROXY_AUTH_REQUESTED">ERR_PROXY_AUTH_REQUESTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The proxy requested authentication (for tunnel establishment). </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PROXY_AUTH_REQUESTED_WITH_NO_CONNECTION">ERR_PROXY_AUTH_REQUESTED_WITH_NO_CONNECTION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Proxy Auth Requested without a valid Client Socket Handle. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PROXY_AUTH_UNSUPPORTED">ERR_PROXY_AUTH_UNSUPPORTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The proxy requested authentication (for tunnel establishment) with an unsupported method. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PROXY_CERTIFICATE_INVALID">ERR_PROXY_CERTIFICATE_INVALID</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate presented by the HTTPS Proxy was invalid. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PROXY_CONNECTION_FAILED">ERR_PROXY_CONNECTION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Could not create a connection to the proxy server. An error occurred either in resolving its name, or in connecting a socket to it. Note that this does NOT include failures during the actual &quot;CONNECT&quot; method of an HTTP proxy. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PROXY_DELEGATE_CANCELED_CONNECT_REQUEST">ERR_PROXY_DELEGATE_CANCELED_CONNECT_REQUEST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Some implementations of ProxyDelegate query a separate entity to know whether it should cancel tunnel prior to: - The HTTP CONNECT requests being sent out - The HTTP CONNECT response being parsed by //net An example is CronetProxyDelegate: Cronet allows developers to decide whether the tunnel being established should be canceled. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PROXY_DELEGATE_CANCELED_CONNECT_RESPONSE">ERR_PROXY_DELEGATE_CANCELED_CONNECT_RESPONSE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Some implementations of ProxyDelegate query a separate entity to know whether it should cancel tunnel prior to: - The HTTP CONNECT requests being sent out - The HTTP CONNECT response being parsed by //net An example is CronetProxyDelegate: Cronet allows developers to decide whether the tunnel being established should be canceled. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PROXY_HTTP_1_1_REQUIRED">ERR_PROXY_HTTP_1_1_REQUIRED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> HTTP_1_1_REQUIRED error code received on HTTP/2 session to proxy. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PROXY_REQUIRED">ERR_PROXY_REQUIRED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
-<td class="itemdesc"><p> Signals that the request requires the IPP proxy. </p></td>
+<td class="itemdesc"><p> Obsolete. Support for CNAME record detection was never fully implemented and is no longer needed since the IP Protection feature didn't launch. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_PROXY_UNABLE_TO_CONNECT_TO_DESTINATION">ERR_PROXY_UNABLE_TO_CONNECT_TO_DESTINATION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An attempt to proxy a request failed because the proxy wasn't able to successfully connect to the destination. This likely indicates an issue with the request itself (for instance, the hostname failed to resolve to an IP address or the destination server refused the connection). This error code is used to indicate that the error is outside the control of the proxy server and thus the proxy chain should not be marked as bad. This is in contrast to ERR_TUNNEL_CONNECTION_FAILED which is used for general purpose errors connecting to the proxy and by the proxy request response handling when a proxy delegate doesn't indicate via a different error code whether proxy fallback should occur. Note that for IP Protection proxies this error code causes the proxy to be marked as bad since the preference is to fail open for general purpose errors, but for other proxies this error does not cause the proxy to be marked as bad. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_QUIC_CERT_ROOT_NOT_KNOWN">ERR_QUIC_CERT_ROOT_NOT_KNOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate presented on a QUIC connection does not chain to a known root and the origin connected to is not on a list of domains where unknown roots are allowed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_QUIC_GOAWAY_REQUEST_CAN_BE_RETRIED">ERR_QUIC_GOAWAY_REQUEST_CAN_BE_RETRIED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A GOAWAY frame has been received indicating that the request has not been processed and is therefore safe to retry on a different connection. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_QUIC_HANDSHAKE_FAILED">ERR_QUIC_HANDSHAKE_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The QUIC crypto handshake failed. This means that the server was unable to read any requests sent, so they may be resent. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_QUIC_PROTOCOL_ERROR">ERR_QUIC_PROTOCOL_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> There is a QUIC protocol error. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_READ_IF_READY_NOT_IMPLEMENTED">ERR_READ_IF_READY_NOT_IMPLEMENTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Socket ReadIfReady support is not implemented. This error should not be user visible, because the normal Read() method is used as a fallback. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_REQUEST_RANGE_NOT_SATISFIABLE">ERR_REQUEST_RANGE_NOT_SATISFIABLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The response was 416 (Requested range not satisfiable) and the server cannot satisfy the range requested. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_RESPONSE_BODY_TOO_BIG_TO_DRAIN">ERR_RESPONSE_BODY_TOO_BIG_TO_DRAIN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The HTTP response was too big to drain. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_RESPONSE_HEADERS_MULTIPLE_CONTENT_DISPOSITION">ERR_RESPONSE_HEADERS_MULTIPLE_CONTENT_DISPOSITION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The HTTP response contained multiple Content-Disposition headers. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_RESPONSE_HEADERS_MULTIPLE_CONTENT_LENGTH">ERR_RESPONSE_HEADERS_MULTIPLE_CONTENT_LENGTH</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The HTTP response contained multiple distinct Content-Length headers. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_RESPONSE_HEADERS_MULTIPLE_LOCATION">ERR_RESPONSE_HEADERS_MULTIPLE_LOCATION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The HTTP response contained multiple Location headers. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_RESPONSE_HEADERS_TOO_BIG">ERR_RESPONSE_HEADERS_TOO_BIG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The headers section of the response is too large. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_RESPONSE_HEADERS_TRUNCATED">ERR_RESPONSE_HEADERS_TRUNCATED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The HTTP headers were truncated by an EOF. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SELF_SIGNED_CERT_GENERATION_FAILED">ERR_SELF_SIGNED_CERT_GENERATION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Self-signed certificate generation failed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SOCKET_IS_CONNECTED">ERR_SOCKET_IS_CONNECTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The socket is already connected. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SOCKET_NOT_CONNECTED">ERR_SOCKET_NOT_CONNECTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The socket is not connected. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SOCKET_RECEIVE_BUFFER_SIZE_UNCHANGEABLE">ERR_SOCKET_RECEIVE_BUFFER_SIZE_UNCHANGEABLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Failed to set the socket's receive buffer size as requested, despite success return code from setsockopt. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SOCKET_SEND_BUFFER_SIZE_UNCHANGEABLE">ERR_SOCKET_SEND_BUFFER_SIZE_UNCHANGEABLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Failed to set the socket's send buffer size as requested, despite success return code from setsockopt. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SOCKET_SET_RECEIVE_BUFFER_SIZE_ERROR">ERR_SOCKET_SET_RECEIVE_BUFFER_SIZE_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Failed to set the socket's receive buffer size as requested. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SOCKET_SET_SEND_BUFFER_SIZE_ERROR">ERR_SOCKET_SET_SEND_BUFFER_SIZE_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Failed to set the socket's send buffer size as requested. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SOCKS_CONNECTION_FAILED">ERR_SOCKS_CONNECTION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Failed establishing a connection to the SOCKS proxy server for a target host. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SOCKS_CONNECTION_HOST_UNREACHABLE">ERR_SOCKS_CONNECTION_HOST_UNREACHABLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The SOCKS proxy server failed establishing connection to the target host because that host is unreachable. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SPDY_COMPRESSION_ERROR">ERR_SPDY_COMPRESSION_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Decoding or encoding of compressed HTTP/2 headers failed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SPDY_FLOW_CONTROL_ERROR">ERR_SPDY_FLOW_CONTROL_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The peer violated HTTP/2 flow control. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SPDY_FRAME_SIZE_ERROR">ERR_SPDY_FRAME_SIZE_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The peer sent an improperly sized HTTP/2 frame. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SPDY_INADEQUATE_TRANSPORT_SECURITY">ERR_SPDY_INADEQUATE_TRANSPORT_SECURITY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Transport security is inadequate for the HTTP/2 version. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SPDY_PING_FAILED">ERR_SPDY_PING_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> HTTP/2 server didn't respond to the PING message. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SPDY_PROTOCOL_ERROR">ERR_SPDY_PROTOCOL_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> There is an HTTP/2 protocol error. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SPDY_RST_STREAM_NO_ERROR_RECEIVED">ERR_SPDY_RST_STREAM_NO_ERROR_RECEIVED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Received HTTP/2 RST_STREAM frame with NO_ERROR error code. This error should be handled internally by HTTP/2 code, and should not make it above the SpdyStream layer. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SPDY_SERVER_REFUSED_STREAM">ERR_SPDY_SERVER_REFUSED_STREAM</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> HTTP/2 server refused the request without processing, and sent either a GOAWAY frame with error code NO_ERROR and Last-Stream-ID lower than the stream id corresponding to the request indicating that this request has not been processed yet, or a RST_STREAM frame with error code REFUSED_STREAM. Client MAY retry (on a different connection). See RFC7540 Section 8.1.4. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SPDY_STREAM_CLOSED">ERR_SPDY_STREAM_CLOSED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Received an HTTP/2 frame on a closed stream. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_BAD_RECORD_MAC_ALERT">ERR_SSL_BAD_RECORD_MAC_ALERT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An SSL peer sent us a fatal bad_record_mac alert. This has been observed from servers with buggy DEFLATE support. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_CLIENT_AUTH_CERT_BAD_FORMAT">ERR_SSL_CLIENT_AUTH_CERT_BAD_FORMAT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Failed to import a client certificate from the platform store into the SSL library. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_CLIENT_AUTH_CERT_NEEDED">ERR_SSL_CLIENT_AUTH_CERT_NEEDED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server requested a client certificate for SSL client authentication. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_CLIENT_AUTH_CERT_NO_PRIVATE_KEY">ERR_SSL_CLIENT_AUTH_CERT_NO_PRIVATE_KEY</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The SSL client certificate has no private key. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_CLIENT_AUTH_NO_COMMON_ALGORITHMS">ERR_SSL_CLIENT_AUTH_NO_COMMON_ALGORITHMS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> There were no common signature algorithms between our client certificate private key and the server's preferences. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_CLIENT_AUTH_PRIVATE_KEY_ACCESS_DENIED">ERR_SSL_CLIENT_AUTH_PRIVATE_KEY_ACCESS_DENIED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The permission to use the SSL client certificate's private key was denied. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_CLIENT_AUTH_SIGNATURE_FAILED">ERR_SSL_CLIENT_AUTH_SIGNATURE_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> We were unable to sign the CertificateVerify data of an SSL client auth handshake with the client certificate's private key.
 
 <p>Possible causes for this include the user implicitly or explicitly denying access to the private key, the private key may not be valid for signing, the key may be relying on a cached handle which is no longer valid, or the CSP won't allow arbitrary data to be signed. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_DECOMPRESSION_FAILURE_ALERT">ERR_SSL_DECOMPRESSION_FAILURE_ALERT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An SSL peer sent us a fatal decompression_failure alert. This typically occurs when a peer selects DEFLATE compression in the mistaken belief that it supports it. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_DECRYPT_ERROR_ALERT">ERR_SSL_DECRYPT_ERROR_ALERT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An SSL peer sent us a fatal decrypt_error alert. This typically occurs when a peer could not correctly verify a signature (in CertificateVerify or ServerKeyExchange) or validate a Finished message. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_KEY_USAGE_INCOMPATIBLE">ERR_SSL_KEY_USAGE_INCOMPATIBLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server's certificate has a keyUsage extension incompatible with the negotiated TLS key exchange method. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_NO_RENEGOTIATION">ERR_SSL_NO_RENEGOTIATION</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The peer sent an SSL no_renegotiation alert message. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_OBSOLETE_CIPHER">ERR_SSL_OBSOLETE_CIPHER</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The SSL server required an unsupported cipher suite that has since been removed. This error will temporarily be signaled on a fallback for one or two releases immediately following a cipher suite's removal, after which the fallback will be removed. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_PINNED_KEY_NOT_IN_CERT_CHAIN">ERR_SSL_PINNED_KEY_NOT_IN_CERT_CHAIN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The certificate didn't match the built-in public key pins for the host name. The pins are set in net/http/transport_security_state.cc and require that one of a set of public keys exist on the path from the leaf to the root. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_PROTOCOL_ERROR">ERR_SSL_PROTOCOL_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An SSL protocol error occurred. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_RENEGOTIATION_REQUESTED">ERR_SSL_RENEGOTIATION_REQUESTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The server requested a renegotiation (rehandshake). </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_SERVER_CERT_BAD_FORMAT">ERR_SSL_SERVER_CERT_BAD_FORMAT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The SSL server presented a certificate which could not be decoded. This is not a certificate error code as no X509Certificate object is available. This error is fatal. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_SERVER_CERT_CHANGED">ERR_SSL_SERVER_CERT_CHANGED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The SSL server certificate changed in a renegotiation. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_UNRECOGNIZED_NAME_ALERT">ERR_SSL_UNRECOGNIZED_NAME_ALERT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The SSL server sent us a fatal unrecognized_name alert. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_SSL_VERSION_OR_CIPHER_MISMATCH">ERR_SSL_VERSION_OR_CIPHER_MISMATCH</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The client and server don't support a common SSL protocol version or cipher suite. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_TEMPORARILY_THROTTLED">ERR_TEMPORARILY_THROTTLED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The request throttler module cancelled this request to avoid DDOS. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_TIMED_OUT">ERR_TIMED_OUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An operation timed out. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_TLS13_DOWNGRADE_DETECTED">ERR_TLS13_DOWNGRADE_DETECTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> TLS 1.3 was enabled, but a lower version was negotiated and the server returned a value indicating it supported TLS 1.3. This is part of a security check in TLS 1.3, but it may also indicate the user is behind a buggy TLS-terminating proxy which implemented TLS 1.2 incorrectly. (See <a href="https://crbug.com/boringssl/226">https://crbug.com/boringssl/226</a>.) </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_TOO_MANY_ACCEPT_CH_RESTARTS">ERR_TOO_MANY_ACCEPT_CH_RESTARTS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The ACCEPT_CH restart has been triggered too many times </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_TOO_MANY_REDIRECTS">ERR_TOO_MANY_REDIRECTS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Attempting to load an URL resulted in too many redirects. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_TOO_MANY_RETRIES">ERR_TOO_MANY_RETRIES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An HTTP transaction was retried too many times due for authentication or invalid certificates. This may be due to a bug in the net stack that would otherwise infinite loop, or if the server or proxy continually requests fresh credentials or presents a fresh invalid certificate. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_TRUST_TOKEN_OPERATION_FAILED">ERR_TRUST_TOKEN_OPERATION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A Trust Tokens protocol operation-executing request failed for one of a number of reasons (precondition failure, internal error, bad response). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_TRUST_TOKEN_OPERATION_SUCCESS_WITHOUT_SENDING_REQUEST">ERR_TRUST_TOKEN_OPERATION_SUCCESS_WITHOUT_SENDING_REQUEST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> When handling a Trust Tokens protocol operation-executing request, the system was able to execute the request's Trust Tokens operation without sending the request to its destination: for instance, the results could have been present in a local cache (for redemption) or the operation could have been diverted to a local provider (for &quot;platform-provided&quot; issuance). </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_TUNNEL_CONNECTION_FAILED">ERR_TUNNEL_CONNECTION_FAILED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> A tunnel connection through the proxy could not be established. For more info see the comment on PROXY_UNABLE_TO_CONNECT_TO_DESTINATION. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_UNABLE_TO_REUSE_CONNECTION_FOR_PROXY_AUTH">ERR_UNABLE_TO_REUSE_CONNECTION_FOR_PROXY_AUTH</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The attempt to reuse a connection to send proxy auth credentials failed before the AuthController was used to generate credentials. The caller should reuse the controller with a new connection. This error is only used internally by the network stack. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_UNDOCUMENTED_SECURITY_LIBRARY_STATUS">ERR_UNDOCUMENTED_SECURITY_LIBRARY_STATUS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An undocumented SSPI or GSSAPI status code was returned. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_UNEXPECTED">ERR_UNEXPECTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An unexpected error. This may be caused by a programming mistake or an invalid assumption. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_UNEXPECTED_CONTENT_DICTIONARY_HEADER">ERR_UNEXPECTED_CONTENT_DICTIONARY_HEADER</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The header of dictionary compressed stream does not match the expected value. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_UNEXPECTED_PROXY_AUTH">ERR_UNEXPECTED_PROXY_AUTH</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The response was 407 (Proxy Authentication Required), yet we did not send the request to a proxy. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_UNEXPECTED_SECURITY_LIBRARY_STATUS">ERR_UNEXPECTED_SECURITY_LIBRARY_STATUS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An unexpected, but documented, SSPI or GSSAPI status code was returned. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_UNKNOWN_URL_SCHEME">ERR_UNKNOWN_URL_SCHEME</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The scheme of the URL is unknown. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_UNSAFE_PORT">ERR_UNSAFE_PORT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Attempting to load an URL with an unsafe port number. These are port numbers that correspond to services, which are not robust to spurious input that may be constructed as a result of an allowed web construct (e.g., HTTP looks a lot like SMTP, so form submission to port 25 is denied). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_UNSAFE_REDIRECT">ERR_UNSAFE_REDIRECT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Attempting to load an URL resulted in an unsafe redirect (e.g., a redirect to <a href="file://">file://</a> is considered unsafe). </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_UNSUPPORTED_AUTH_SCHEME">ERR_UNSUPPORTED_AUTH_SCHEME</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> An HTTP Authentication scheme was tried which is not supported on this machine. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_UPLOAD_FILE_CHANGED">ERR_UPLOAD_FILE_CHANGED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The file upload failed because the file's modification time was different from the expectation. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_UPLOAD_STREAM_REWIND_NOT_SUPPORTED">ERR_UPLOAD_STREAM_REWIND_NOT_SUPPORTED</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> The upload failed because the upload stream needed to be re-read, due to a retry or a redirect, but the upload stream doesn't support that operation. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_WINSOCK_UNEXPECTED_WRITTEN_BYTES">ERR_WINSOCK_UNEXPECTED_WRITTEN_BYTES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Winsock sometimes reports more data written than passed. This is probably due to a broken LSP. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_WRONG_VERSION_ON_EARLY_DATA">ERR_WRONG_VERSION_ON_EARLY_DATA</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> TLS 1.3 early data was offered, but the server responded with TLS 1.2 or earlier. This is an internal error code to account for a backwards-compatibility issue with early data and TLS 1.2. It will be received before any data is returned from the socket. The request should be retried with early data disabled.
 
 <p>See <a href="https://tools.ietf.org/html/rfc8446#appendix-D.3">https://tools.ietf.org/html/rfc8446#appendix-D.3</a> for details. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_WS_PROTOCOL_ERROR">ERR_WS_PROTOCOL_ERROR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Websocket protocol error. Indicates that we are terminating the connection due to a malformed frame or other protocol violation. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_WS_THROTTLE_QUEUE_TOO_LARGE">ERR_WS_THROTTLE_QUEUE_TOO_LARGE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> There are too many pending WebSocketJob instances, so the new job was not pushed to the queue. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_WS_UPGRADE">ERR_WS_UPGRADE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> When a WebSocket handshake is done successfully and the connection has been upgraded, the URLRequest is cancelled with this error code. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#ERR_ZSTD_WINDOW_SIZE_TOO_BIG">ERR_ZSTD_WINDOW_SIZE_TOO_BIG</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Content decoding failed due to the zstd window size being too big (over 8MB). </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_ALTGR_DOWN">EVENTFLAG_ALTGR_DOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_ALT_DOWN">EVENTFLAG_ALT_DOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_CAPS_LOCK_ON">EVENTFLAG_CAPS_LOCK_ON</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_COMMAND_DOWN">EVENTFLAG_COMMAND_DOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. Mac OS-X command key. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_CONTROL_DOWN">EVENTFLAG_CONTROL_DOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_IS_KEY_PAD">EVENTFLAG_IS_KEY_PAD</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_IS_LEFT">EVENTFLAG_IS_LEFT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_IS_REPEAT">EVENTFLAG_IS_REPEAT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_IS_RIGHT">EVENTFLAG_IS_RIGHT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_LEFT_MOUSE_BUTTON">EVENTFLAG_LEFT_MOUSE_BUTTON</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_MIDDLE_MOUSE_BUTTON">EVENTFLAG_MIDDLE_MOUSE_BUTTON</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_NONE">EVENTFLAG_NONE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_NUM_LOCK_ON">EVENTFLAG_NUM_LOCK_ON</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_PRECISION_SCROLLING_DELTA">EVENTFLAG_PRECISION_SCROLLING_DELTA</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_RIGHT_MOUSE_BUTTON">EVENTFLAG_RIGHT_MOUSE_BUTTON</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_SCROLL_BY_PAGE">EVENTFLAG_SCROLL_BY_PAGE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#EVENTFLAG_SHIFT_DOWN">EVENTFLAG_SHIFT_DOWN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Supported event bit flag. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#FILE_DIALOG_NUM_VALUES">FILE_DIALOG_NUM_VALUES</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Number of TCefFileDialogMode values </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#FILE_DIALOG_OPEN">FILE_DIALOG_OPEN</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Requires that the file exists before allowing the user to pick it. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#FILE_DIALOG_OPEN_FOLDER">FILE_DIALOG_OPEN_FOLDER</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Like Open, but selects a folder to open. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#FILE_DIALOG_OPEN_MULTIPLE">FILE_DIALOG_OPEN_MULTIPLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Like Open, but allows picking multiple files to open. </p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#FILE_DIALOG_SAVE">FILE_DIALOG_SAVE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p> Allows picking a nonexistent file, and prompts to overwrite if the file already exists. </p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFOAuth2Helper.html#GOOGLE_DISCOVERY_DOCUMENT">GOOGLE_DISCOVERY_DOCUMENT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFOAuth2Helper.html">uCEFOAuth2Helper</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GWLP_HWNDPARENT">GWLP_HWNDPARENT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFMiscFunctions.html#GWLP_WNDPROC">GWLP_WNDPROC</a></td>
 <td class="itemunit"><a class="bold" href="uCEFMiscFunctions.html">uCEFMiscFunctions</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_ABOUT">IDC_ABOUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_ADD_NEW_PROFILE">IDC_ADD_NEW_PROFILE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_ADD_NEW_TAB_RECENT_GROUP">IDC_ADD_NEW_TAB_RECENT_GROUP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_ADD_NEW_TAB_TO_GROUP">IDC_ADD_NEW_TAB_TO_GROUP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_ADD_TO_COMPARISON_TABLE_MENU">IDC_ADD_TO_COMPARISON_TABLE_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_ALL_WINDOWS_FRONT">IDC_ALL_WINDOWS_FRONT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_ALWAYS_ON_TOP">IDC_ALWAYS_ON_TOP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_AUTOFILL_MANDATORY_REAUTH">IDC_AUTOFILL_MANDATORY_REAUTH</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BACK">IDC_BACK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BASIC_PRINT">IDC_BASIC_PRINT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARKS_MENU">IDC_BOOKMARKS_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_ALL_TABS">IDC_BOOKMARK_ALL_TABS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_ADD_NEW_BOOKMARK">IDC_BOOKMARK_BAR_ADD_NEW_BOOKMARK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_ADD_TO_BOOKMARKS_BAR">IDC_BOOKMARK_BAR_ADD_TO_BOOKMARKS_BAR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_ALWAYS_SHOW">IDC_BOOKMARK_BAR_ALWAYS_SHOW</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_EDIT">IDC_BOOKMARK_BAR_EDIT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_MOVE">IDC_BOOKMARK_BAR_MOVE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_NEW_FOLDER">IDC_BOOKMARK_BAR_NEW_FOLDER</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_OPEN_ALL">IDC_BOOKMARK_BAR_OPEN_ALL</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_OPEN_ALL_INCOGNITO">IDC_BOOKMARK_BAR_OPEN_ALL_INCOGNITO</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_OPEN_ALL_NEW_TAB_GROUP">IDC_BOOKMARK_BAR_OPEN_ALL_NEW_TAB_GROUP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_OPEN_ALL_NEW_WINDOW">IDC_BOOKMARK_BAR_OPEN_ALL_NEW_WINDOW</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_OPEN_INCOGNITO">IDC_BOOKMARK_BAR_OPEN_INCOGNITO</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_OPEN_SPLIT_VIEW">IDC_BOOKMARK_BAR_OPEN_SPLIT_VIEW</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_REDO">IDC_BOOKMARK_BAR_REDO</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_REMOVE">IDC_BOOKMARK_BAR_REMOVE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_REMOVE_FROM_BOOKMARKS_BAR">IDC_BOOKMARK_BAR_REMOVE_FROM_BOOKMARKS_BAR</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_RENAME_FOLDER">IDC_BOOKMARK_BAR_RENAME_FOLDER</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_SHOW_APPS_SHORTCUT">IDC_BOOKMARK_BAR_SHOW_APPS_SHORTCUT</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_SHOW_MANAGED_BOOKMARKS">IDC_BOOKMARK_BAR_SHOW_MANAGED_BOOKMARKS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_SHOW_READING_LIST">IDC_BOOKMARK_BAR_SHOW_READING_LIST</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_TOGGLE_SHOW_TAB_GROUPS">IDC_BOOKMARK_BAR_TOGGLE_SHOW_TAB_GROUPS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_TRACK_PRICE_FOR_SHOPPING_BOOKMARK">IDC_BOOKMARK_BAR_TRACK_PRICE_FOR_SHOPPING_BOOKMARK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_UNDO">IDC_BOOKMARK_BAR_UNDO</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_BAR_UNTRACK_PRICE_FOR_SHOPPING_BOOKMARK">IDC_BOOKMARK_BAR_UNTRACK_PRICE_FOR_SHOPPING_BOOKMARK</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_MANAGER">IDC_BOOKMARK_MANAGER</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_BOOKMARK_THIS_TAB">IDC_BOOKMARK_THIS_TAB</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CARET_BROWSING_TOGGLE">IDC_CARET_BROWSING_TOGGLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CHECK_SPELLING_WHILE_TYPING">IDC_CHECK_SPELLING_WHILE_TYPING</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CHROME_MENU">IDC_CHROME_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CHROME_TIPS">IDC_CHROME_TIPS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CHROME_WHATS_NEW">IDC_CHROME_WHATS_NEW</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CLEAR_BROWSING_DATA">IDC_CLEAR_BROWSING_DATA</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CLOSE_FIND_OR_STOP">IDC_CLOSE_FIND_OR_STOP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CLOSE_PROFILE">IDC_CLOSE_PROFILE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CLOSE_SIGN_IN_PROMO">IDC_CLOSE_SIGN_IN_PROMO</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CLOSE_TAB">IDC_CLOSE_TAB</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CLOSE_TAB_GROUP">IDC_CLOSE_TAB_GROUP</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CLOSE_WINDOW">IDC_CLOSE_WINDOW</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_COMPARE_MENU">IDC_COMPARE_MENU</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CONTENT_CONTEXT_ACCESSIBILITY_LABELS">IDC_CONTENT_CONTEXT_ACCESSIBILITY_LABELS</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CONTENT_CONTEXT_ACCESSIBILITY_LABELS_TOGGLE">IDC_CONTENT_CONTEXT_ACCESSIBILITY_LABELS_TOGGLE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CONTENT_CONTEXT_ACCESSIBILITY_LABELS_TOGGLE_ONCE">IDC_CONTENT_CONTEXT_ACCESSIBILITY_LABELS_TOGGLE_ONCE</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CONTENT_CONTEXT_ADD_A_NOTE">IDC_CONTENT_CONTEXT_ADD_A_NOTE</a></td>
+<td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="uCEFConstants.html#IDC_CONTENT_CONTEXT_ARCHIVE_GLIC">IDC_CONTENT_CONTEXT_ARCHIVE_GLIC</a></td>
 <td class="itemunit"><a class="bold" href="uCEFConstants.html">uCEFConstants</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
