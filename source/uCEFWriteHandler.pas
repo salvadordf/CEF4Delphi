@@ -9,6 +9,11 @@ unit uCEFWriteHandler;
 {$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
 
+{$IFNDEF FPC}{$IFNDEF DELPHI12_UP}
+  // Workaround for "Internal error" in old Delphi versions caused by uint64 handling
+  {$R-}
+{$ENDIF}{$ENDIF}
+
 interface
 
 uses
@@ -209,29 +214,33 @@ end;
 
 function TCefBytesWriteHandler.Write(const ptr: Pointer; size, n: NativeUInt): NativeUInt;
 var
-  TempPointer : pointer;
-  TempSize    : int64;
+ TempSize : int64;
+ TempDest : PByte;
 begin
   EnterCriticalSection(FCriticalSection);
   try
     TempSize := size * n;
 
-    if ((FOffset + TempSize) >= FBufferSize) and (Grow(TempSize) = 0) then
+    if (n = 0) or (size = 0) or (ptr = nil) or (TempSize > int64(High(NativeUInt))) or
+       (((FOffset + TempSize) >= FBufferSize) and (Grow(TempSize) = 0)) then
       Result := 0
      else
       begin
-        {$warnings off}
-        {$hints off}
-        TempPointer := Pointer(cardinal(FBuffer) + FOffset);
-        {$hints on}
-        {$warnings on}
+        {$IF DEFINED(DELPHI12_UP) or DEFINED(FPC)}
+          TempDest := PByte(FBuffer) + FOffset;
+        {$ELSE}
+          {$warnings off}
+          {$hints off}
+          TempDest := PByte(cardinal(FBuffer) + FOffset);
+          {$hints on}
+          {$warnings on}
+        {$IFEND}
 
-        Move(ptr^, TempPointer^, TempSize);
+        Move(ptr^, TempDest^, NativeInt(TempSize));
 
         FOffset := FOffset + TempSize;
         Result  := n;
       end;
-
   finally
     LeaveCriticalSection(FCriticalSection);
   end;
@@ -314,7 +323,6 @@ var
 begin
   EnterCriticalSection(FCriticalSection);
   try
-
     if (size < FGrow) then
       TempTotal := FGrow
      else

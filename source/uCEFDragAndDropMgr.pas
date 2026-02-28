@@ -252,7 +252,7 @@ function TCEFDragAndDropMgr.DragDataToDataObject_FileContents(const aDragData : 
 var
   TempHandler   : ICefWriteHandler;
   TempWriter    : ICefStreamWriter;
-  TempSize      : cardinal;
+  TempSize      : NativeUInt;
 begin
   Result := False;
 
@@ -273,7 +273,7 @@ begin
 
           aDragData.GetFileContents(TempWriter);
 
-          TempSize    := cardinal(TCefBytesWriteHandler(TempHandler).GetDataSize);
+          TempSize    := NativeUInt(TCefBytesWriteHandler(TempHandler).GetDataSize);
           Result      := GetStorageForBytes(aMedium, TCefBytesWriteHandler(TempHandler).GetData, TempSize);
         end;
     end;
