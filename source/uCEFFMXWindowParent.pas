@@ -149,7 +149,7 @@ begin
 
       if (TempChildHandle <> 0) and (TempParentHandle <> 0) then
         begin
-          SetWindowLong(TempChildHandle, GWL_STYLE, aNewWindowStyle);
+          SetWindowLongPtr(TempChildHandle, GWL_STYLE, aNewWindowStyle);
           WinApi.Windows.SetParent(TempChildHandle, TempParentHandle);
         end;
     end;
