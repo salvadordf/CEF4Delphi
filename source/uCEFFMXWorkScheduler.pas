@@ -39,7 +39,7 @@ type
 
       procedure DestroyThread;
       procedure DepleteWork;
-      procedure NextPulse(aInterval : integer);
+      procedure NextPulse(aInterval : int64);
       procedure DoWork;
       procedure DoMessageLoopWork;
       procedure Initialize;
@@ -281,7 +281,7 @@ begin
   if FStopped then exit;
 
   if FUseQueueThread and (FQueueThread <> nil) and FQueueThread.Ready then
-    FQueueThread.EnqueueValue(integer(delay_ms))
+    FQueueThread.EnqueueValue(delay_ms)
    else
     {$IFDEF DELPHI25_UP}
     TThread.ForceQueue(nil,
@@ -323,7 +323,7 @@ begin
     end;
 end;
 
-procedure TFMXWorkScheduler.NextPulse(aInterval : integer);
+procedure TFMXWorkScheduler.NextPulse(aInterval : int64);
 begin
   if (FThread <> nil) then FThread.NextPulse(aInterval);
 end;

@@ -23,16 +23,16 @@ type
   TCEFWorkSchedulerThread = class(TThread)
     protected
       FCritSect        : TCriticalSection;
-      FInterval        : integer;
+      FInterval        : int64;
       FEvent           : TEvent;
       FOnPulse         : TNotifyEvent;
       FPulsing         : boolean;
       FMustReset       : boolean;
-      FDefaultInterval : integer;
+      FDefaultInterval : int64;
 
       function  Lock : boolean;
       procedure Unlock;
-      function  CanPulse(var aInterval : integer) : boolean;
+      function  CanPulse(var aInterval : int64) : boolean;
       procedure DoOnPulseEvent;
       procedure EventTimeOut;
       procedure SignaledEvent;
@@ -42,9 +42,9 @@ type
       constructor Create;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
-      procedure   NextPulse(aInterval : integer);
+      procedure   NextPulse(aInterval : int64);
 
-      property    DefaultInterval : integer       read FDefaultInterval  write FDefaultInterval   default CEF_TIMER_MAXDELAY;
+      property    DefaultInterval : int64         read FDefaultInterval  write FDefaultInterval   default CEF_TIMER_MAXDELAY;
       property    OnPulse         : TNotifyEvent  read FOnPulse          write FOnPulse;
   end;
 
@@ -109,7 +109,7 @@ begin
   if (FCritSect <> nil) then FCritSect.Release;
 end;
 
-procedure TCEFWorkSchedulerThread.NextPulse(aInterval : integer);
+procedure TCEFWorkSchedulerThread.NextPulse(aInterval : int64);
 begin
   if Lock then
     try
@@ -155,7 +155,7 @@ begin
     end;
 end;
 
-function TCEFWorkSchedulerThread.CanPulse(var aInterval : integer) : boolean;
+function TCEFWorkSchedulerThread.CanPulse(var aInterval : int64) : boolean;
 begin
   Result := False;
 
@@ -176,7 +176,7 @@ end;
 
 procedure TCEFWorkSchedulerThread.Execute;
 var
-  TempInterval : integer;
+  TempInterval : int64;
 begin
   while CanPulse(TempInterval) do
     if (FEvent.WaitFor(TempInterval) = wrTimeout) then

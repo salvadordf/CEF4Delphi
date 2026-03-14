@@ -21,7 +21,7 @@ uses
 
 type
   TOnPulseEvent = procedure(Sender: TObject; aDelay: integer) of object;
-  TValuesArray  = array of integer;
+  TValuesArray  = array of int64;
 
   TCEFWorkSchedulerQueueThread = class(TThread)
     protected
@@ -33,7 +33,7 @@ type
       FValues          : TValuesArray;
       FOnPulse         : TOnPulseEvent;
 
-      function  GetAvailableValue : integer;
+      function  GetAvailableValue : int64;
       function  GetHasPendingValue : boolean;
       function  Lock : boolean;
       procedure Unlock;
@@ -43,7 +43,7 @@ type
 
       procedure Execute; override;
 
-      property    AvailableValue  : integer         read GetAvailableValue;
+      property    AvailableValue  : int64           read GetAvailableValue;
       property    HasPendingValue : boolean         read GetHasPendingValue;
 
     public
@@ -51,7 +51,7 @@ type
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
       procedure   StopThread;
-      procedure   EnqueueValue(aValue : integer);
+      procedure   EnqueueValue(aValue : int64);
 
       property    Ready           : boolean         read FReady;
       property    OnPulse         : TOnPulseEvent   read FOnPulse         write FOnPulse;
@@ -111,7 +111,7 @@ begin
   if (FQueueCS <> nil) then FQueueCS.Release;
 end;
 
-function TCEFWorkSchedulerQueueThread.GetAvailableValue : integer;
+function TCEFWorkSchedulerQueueThread.GetAvailableValue : int64;
 var
   TempLen : integer;
   TempNewValues : TValuesArray;
@@ -174,7 +174,7 @@ begin
     end;
 end;
 
-procedure TCEFWorkSchedulerQueueThread.EnqueueValue(aValue : integer);
+procedure TCEFWorkSchedulerQueueThread.EnqueueValue(aValue : int64);
 begin
   if Lock then
     try
