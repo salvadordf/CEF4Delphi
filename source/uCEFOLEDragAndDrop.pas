@@ -541,7 +541,7 @@ end;
 
 function TOLEDataObject.DupGlobalMem(hMem : HGLOBAL) : HGLOBAL;
 var
-  TempLen    : cardinal;
+  TempLen    : NativeUInt;
   TempHandle : HGLOBAL;
   TempSrc    : Pointer;
   TempDst    : Pointer;
