@@ -331,6 +331,10 @@
         <DCCReference Include="..\source\uCEFTaskManager.pas"/>
         <DCCReference Include="..\source\uCEFPreferenceObserver.pas"/>
         <DCCReference Include="..\source\uCEFSettingObserver.pas"/>
+        <DCCReference Include="..\source\uCEFv8BackingStore.pas"/>
+        <DCCReference Include="..\source\uCEFComponentUpdater.pas"/>
+        <DCCReference Include="..\source\uCEFComponentUpdateCallback.pas"/>
+        <DCCReference Include="..\source\uCEFComponent.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

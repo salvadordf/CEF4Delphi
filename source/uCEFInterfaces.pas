@@ -126,6 +126,7 @@ type
   ICefBrowserViewDelegate = interface;
   ICefMenuButtonPressedLock = interface;
   ICefRequestContextHandler = interface;
+  ICefComponent = interface;
 
   TCefv8ValueArray         = array of ICefv8Value;
   TCefX509CertificateArray = array of ICefX509Certificate;
@@ -134,6 +135,7 @@ type
   TCefMediaRouteArray      = array of ICefMediaRoute;
   TCefMediaSinkArray       = array of ICefMediaSink;
   TCefDisplayArray         = array of ICefDisplay;
+  TCefComponentArray       = array of ICefComponent;
 
   /// <summary>
   /// Custom record with media sink information.
@@ -486,6 +488,9 @@ type
 
     // ICefSettingObserver
     procedure doOnSettingChanged(const requesting_url, top_level_url : ustring; content_type: TCefContentSettingTypes);
+
+    // ICefComponentUpdateCallback
+    procedure doOnComponentUpdateCompleted(const component_id: ustring; error: TCefComponentUpdateError);
 
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
@@ -1142,8 +1147,7 @@ type
     /// information will be sent to the renderer process to configure screen size
     /// and position values used by CSS and JavaScript (window.deviceScaleFactor,
     /// window.screenX/Y, window.outerWidth/Height, etc.). For background see
-    /// https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage.md#markdown-
-    /// header-coordinate-systems</para>
+    /// https://chromiumembedded.github.io/cef/general_usage#coordinate-systems</para>
     ///
     /// <para>This function is used with (a) windowless rendering and (b) windowed
     /// rendering with external (client-provided) root window.</para>
@@ -2922,6 +2926,47 @@ type
   end;
 
   /// <summary>
+  /// <para>Structure representing a V8 ArrayBuffer backing store. The backing store
+  /// holds the memory that backs an ArrayBuffer. It must be created on a thread
+  /// with a valid V8 isolate (renderer main thread or WebWorker thread). Once
+  /// created, the data() pointer can be safely read/written from any thread. This
+  /// allows expensive operations like memcpy to be performed on a background
+  /// thread before creating the ArrayBuffer on the V8 thread.</para>
+  ///
+  /// <para>The backing store is consumed when passed to
+  /// TCefv8ValueRef.NewArrayBufferFromBackingStore, after
+  /// which IsValid() returns false (0).</para>
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefv8BackingStore">Implements TCefv8BackingStore</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_backing_store_t)</see></para>
+  /// </remarks>
+  ICefv8BackingStore = interface(ICefBaseRefCounted)
+    ['{4E84CA96-BDF1-4B27-8FEA-DF18C50740FA}']
+    /// <summary>
+    /// Returns a pointer to the allocated memory, or nullptr if the backing store
+    /// has been consumed or is otherwise invalid. The pointer is safe to
+    /// read/write from any thread. The caller must ensure all writes are complete
+    /// before passing this object to
+    /// TCefv8ValueRef.NewArrayBufferFromBackingStore(). Pointers obtained
+    /// from this function should not be retained after calling
+    /// TCefv8ValueRef.NewArrayBufferFromBackingStore(), as the memory will
+    /// then be owned by the ArrayBuffer and subject to V8 garbage collection.
+    /// </summary>
+    function data: Pointer;
+    /// <summary>
+    /// Returns the size of the allocated memory in bytes, or 0 if the backing
+    /// store has been consumed.
+    /// </summary>
+    function ByteLength: NativeUInt;
+    /// <summary>
+    /// Returns true (1) if this backing store has not yet been consumed by
+    /// TCefv8ValueRef.NewArrayBufferFromBackingStore().
+    /// </summary>
+    function IsValid: boolean;
+  end;
+
+  /// <summary>
   /// Interface representing a V8 context handle. V8 handles can only be accessed
   /// from the thread on which they are created. Valid threads for creating a V8
   /// handle include the render process main thread (TID_RENDERER) and WebWorker
@@ -3106,6 +3151,103 @@ type
     /// handled.
     /// </summary>
     function Set_(const name: ustring; const object_, value: ICefv8Value; var exception: ustring): Boolean;
+  end;
+
+  /// <summary>
+  /// Callback structure for component update results.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefComponentUpdateCallback">Implements TCefComponentUpdateCallback</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_update_callback_t)</see></para>
+  /// </remarks>
+  ICefComponentUpdateCallback = interface(ICefBaseRefCounted)
+    ['{EBB80EAD-321A-402A-A2E8-942AAD7E0808}']
+    /// <summary>
+    /// Called when the component update operation completes. |component_id| is
+    /// the ID of the component that was updated. |error| contains the result of
+    /// the operation.
+    /// </summary>
+    procedure OnComplete(const component_id: ustring; error: TCefComponentUpdateError);
+  end;
+
+  /// <summary>
+  /// Structure representing a snapshot of a component's state at the time of
+  /// retrieval. To get updated information, retrieve a new cef_component_t object
+  /// via ICefComponentUpdater.GetComponentById or GetComponents. The
+  /// functions of this structure may be called on any thread.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefComponent">Implements TCefComponent</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_t)</see></para>
+  /// </remarks>
+  ICefComponent = interface(ICefBaseRefCounted)
+    ['{0FFBFEDD-9548-4248-8499-B12C07DED12B}']
+    /// <summary>
+    /// Returns the unique identifier for this component.
+    /// </summary>
+    function GetId: ustring;
+    /// <summary>
+    /// Returns the human-readable name of this component. Returns an NULL string
+    /// if the component is not installed.
+    /// </summary>
+    function GetName: ustring;
+    /// <summary>
+    /// Returns the version of this component as a string (e.g., "1.2.3.4").
+    /// Returns an NULL string if the component is not installed.
+    /// </summary>
+    function GetVersion: ustring;
+    /// <summary>
+    /// Returns the state of this component at the time this object was created. A
+    /// component is considered installed when its state is one of:
+    /// CEF_COMPONENT_STATE_UPDATED, CEF_COMPONENT_STATE_UP_TO_DATE, or
+    /// CEF_COMPONENT_STATE_RUN.
+    /// </summary>
+    function GetState: TCefComponentState;
+  end;
+
+  /// <summary>
+  /// This structure provides access to Chromium's component updater service,
+  /// allowing clients to discover registered components and trigger on-demand
+  /// updates. The functions of this structure may only be called on the browser
+  /// process UI thread. If the CEF context is not initialized or the component
+  /// updater service is not available, functions will return safe defaults (0,
+  /// nullptr, or NULL).
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefComponentUpdater">Implements TCefComponentUpdater</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_updater_t)</see></para>
+  /// </remarks>
+  ICefComponentUpdater = interface(ICefBaseRefCounted)
+    ['{76DE52AC-E3B2-45EE-B4CD-F32467C0C55F}']
+    /// <summary>
+    /// Returns the number of registered components, or 0 if the service is not
+    /// available.
+    /// </summary>
+    function  GetComponentCount: NativeUInt;
+    /// <summary>
+    /// Populates |components_| with all registered components. Any existing
+    /// contents will be cleared first.
+    /// </summary>
+    function  GetComponents(var components_: TCefComponentArray): boolean;
+    /// <summary>
+    /// Returns the component with the specified |component_id|, or nullptr if not
+    /// found or the service is not available.
+    /// </summary>
+    function  GetComponentById(const component_id: ustring; var aResult: ICefComponent): boolean;
+    /// <summary>
+    /// <para>Triggers an on-demand update for the component with the specified
+    /// |component_id|. |priority| specifies whether the update should be
+    /// processed in the background or foreground. Use
+    /// CEF_COMPONENT_UPDATE_PRIORITY_FOREGROUND for user-initiated updates.</para>
+    ///
+    /// <para>|callback| will be called asynchronously on the UI thread when the update
+    /// operation completes. The callback is always executed, including when the
+    /// component is already up-to-date (returns CEF_COMPONENT_UPDATE_ERROR_NONE),
+    /// when the requested component doesn't exist, or when the service is
+    /// unavailable (returns CEF_COMPONENT_UPDATE_ERROR_SERVICE_ERROR). The
+    /// callback may be nullptr if no notification is needed.</para>
+    /// </summary>
+    procedure Update(const component_id: ustring; priority: TCefComponentUpdatePriority; const callback: ICefComponentUpdateCallback);
   end;
 
   /// <summary>
@@ -6331,6 +6473,19 @@ type
     /// browser has not yet been destroyed, then OnBeforePopupAborted will be
     /// called for the opener browser. See OnBeforePopupAborted documentation for
     /// additional details.</para>
+    /// <para>A default popup window is created if this function returns false (0)
+    /// without setting a parent window handle via cef_window_tInfo (for native-
+    /// hosted popups), or without implementing
+    /// ICefBrowserViewDelegate.OnPopupBrowserViewCreated (for Views-hosted
+    /// popups). The default popup window type depends on the parent browser
+    /// configuration:</para>
+    /// <code>
+    /// - Views-hosted parent: Creates a Views-hosted popup window.
+    /// - Native-hosted Alloy style parent: Creates a native popup window.
+    /// - Native-hosted Chrome style parent: Creates a Chrome UI popup window by
+    ///   default; set CefSettings.use_views_default_popup to true (1) to instead
+    ///   create a Views-hosted popup window.
+    /// </code>
     /// </summary>
     function  OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean): Boolean;
     /// <summary>
@@ -9452,8 +9607,7 @@ type
   /// otherwise indicated.</para>
   ///
   /// <para>For details on coordinate systems and usage see
-  /// https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage#markdown-
-  /// header-coordinate-systems</para>
+  /// https://chromiumembedded.github.io/cef/general_usage#coordinate-systems</para>
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefDisplay">Implements TCefDisplay</see></para>

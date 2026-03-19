@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <span id="TCefRequestHandlerOwn"></span><h1 class="cio">Class TCefRequestHandlerOwn</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
 <a href="uCEFRequestHandler.html">uCEFRequestHandler</a></p>
@@ -24,64 +25,64 @@
 <li class="thisitem">TCefRequestHandlerOwn</li></ul><h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFRequestHandler.TCefRequestHandlerOwn.html#OnBeforeBrowse-ICefBrowser-ICefFrame-ICefRequest-Boolean-Boolean-">OnBeforeBrowse</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; user_gesture, isRedirect: Boolean): Boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFRequestHandler.TCefRequestHandlerOwn.html#OnOpenUrlFromTab-ICefBrowser-ICefFrame-ustring-TCefWindowOpenDisposition-Boolean-">OnOpenUrlFromTab</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const targetUrl: <a href="uCEFTypes.html#ustring">ustring</a>; targetDisposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>; userGesture: Boolean): Boolean; virtual;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFRequestHandler.TCefRequestHandlerOwn.html#GetResourceRequestHandler-ICefBrowser-ICefFrame-ICefRequest-boolean-boolean-ustring-boolean-ICefResourceRequestHandler-">GetResourceRequestHandler</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; is_navigation, is_download: boolean; const request_initiator: <a href="uCEFTypes.html#ustring">ustring</a>; var disable_default_handling: boolean; var aResourceRequestHandler : <a href="uCEFInterfaces.ICefResourceRequestHandler.html">ICefResourceRequestHandler</a>); virtual;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFRequestHandler.TCefRequestHandlerOwn.html#GetAuthCredentials-ICefBrowser-ustring-Boolean-ustring-Integer-ustring-ustring-ICefAuthCallback-">GetAuthCredentials</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const originUrl: <a href="uCEFTypes.html#ustring">ustring</a>; isProxy: Boolean; const host: <a href="uCEFTypes.html#ustring">ustring</a>; port: Integer; const realm, scheme: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefAuthCallback.html">ICefAuthCallback</a>): Boolean; virtual;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFRequestHandler.TCefRequestHandlerOwn.html#OnCertificateError-ICefBrowser-TCefErrorcode-ustring-ICefSslInfo-ICefCallback-">OnCertificateError</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; certError: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorcode</a>; const requestUrl: <a href="uCEFTypes.html#ustring">ustring</a>; const sslInfo: <a href="uCEFInterfaces.ICefSslInfo.html">ICefSslInfo</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>): Boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFRequestHandler.TCefRequestHandlerOwn.html#OnSelectClientCertificate-ICefBrowser-boolean-ustring-integer-NativeUInt-TCefX509CertificateArray-ICefSelectClientCertificateCallback-">OnSelectClientCertificate</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; isProxy: boolean; const host: <a href="uCEFTypes.html#ustring">ustring</a>; port: integer; certificatesCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const certificates: <a href="uCEFInterfaces.html#TCefX509CertificateArray">TCefX509CertificateArray</a>; const callback: <a href="uCEFInterfaces.ICefSelectClientCertificateCallback.html">ICefSelectClientCertificateCallback</a>): boolean; virtual;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFRequestHandler.TCefRequestHandlerOwn.html#OnRenderViewReady-ICefBrowser-">OnRenderViewReady</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); virtual;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFRequestHandler.TCefRequestHandlerOwn.html#OnRenderProcessUnresponsive-ICefBrowser-ICefUnresponsiveProcessCallback-">OnRenderProcessUnresponsive</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const callback: <a href="uCEFInterfaces.ICefUnresponsiveProcessCallback.html">ICefUnresponsiveProcessCallback</a>): boolean; virtual;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFRequestHandler.TCefRequestHandlerOwn.html#OnRenderProcessResponsive-ICefBrowser-">OnRenderProcessResponsive</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); virtual;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFRequestHandler.TCefRequestHandlerOwn.html#OnRenderProcessTerminated-ICefBrowser-TCefTerminationStatus-integer-ustring-">OnRenderProcessTerminated</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>; error_code: integer; const error_string: <a href="uCEFTypes.html#ustring">ustring</a>); virtual;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFRequestHandler.TCefRequestHandlerOwn.html#OnDocumentAvailableInMainFrame-ICefBrowser-">OnDocumentAvailableInMainFrame</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); virtual;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFRequestHandler.TCefRequestHandlerOwn.html#RemoveReferences">RemoveReferences</a></strong>; virtual;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>constructor <strong><a href="uCEFRequestHandler.TCefRequestHandlerOwn.html#Create">Create</a></strong>; virtual;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="OnBeforeBrowse-ICefBrowser-ICefFrame-ICefRequest-Boolean-Boolean-"></span><code>function <strong>OnBeforeBrowse</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; user_gesture, isRedirect: Boolean): Boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -89,9 +90,9 @@
  Called on the UI thread before browser navigation. Return true (1) to cancel the navigation or false (0) to allow the navigation to proceed. The |request| object cannot be modified in this callback. ICefLoadHandler.OnLoadingStateChange will be called twice in all cases. If the navigation is allowed ICefLoadHandler.OnLoadStart and ICefLoadHandler.OnLoadEnd will be called. If the navigation is canceled ICefLoadHandler.OnLoadError will be called with an |errorCode| value of ERR_ABORTED. The |user_gesture| value will be true (1) if the browser navigated via explicit user gesture (e.g. clicking a link) or false (0) if it navigated automatically (e.g. via the DomContentLoaded event). </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="OnOpenUrlFromTab-ICefBrowser-ICefFrame-ustring-TCefWindowOpenDisposition-Boolean-"></span><code>function <strong>OnOpenUrlFromTab</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const targetUrl: <a href="uCEFTypes.html#ustring">ustring</a>; targetDisposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>; userGesture: Boolean): Boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -99,9 +100,9 @@
  Called on the UI thread before OnBeforeBrowse in certain limited cases where navigating a new or different browser might be desirable. This includes user-initiated navigation that might open in a special way (e.g. links clicked via middle-click or ctrl + left-click) and certain types of cross-origin navigation initiated from the renderer process (e.g. navigating the top-level frame to/from a file URL). The |browser| and |frame| values represent the source of the navigation. The |target_disposition| value indicates where the user intended to navigate the browser based on standard Chromium behaviors (e.g. current tab, new tab, etc). The |user_gesture| value will be true (1) if the browser navigated via explicit user gesture (e.g. clicking a link) or false (0) if it navigated automatically (e.g. via the DomContentLoaded event). Return true (1) to cancel the navigation or false (0) to allow the navigation to proceed in the source browser's top-level frame. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="GetResourceRequestHandler-ICefBrowser-ICefFrame-ICefRequest-boolean-boolean-ustring-boolean-ICefResourceRequestHandler-"></span><code>procedure <strong>GetResourceRequestHandler</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; is_navigation, is_download: boolean; const request_initiator: <a href="uCEFTypes.html#ustring">ustring</a>; var disable_default_handling: boolean; var aResourceRequestHandler : <a href="uCEFInterfaces.ICefResourceRequestHandler.html">ICefResourceRequestHandler</a>); virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -109,9 +110,9 @@
  Called on the browser process IO thread before a resource request is initiated. The |browser| and |frame| values represent the source of the request. |request| represents the request contents and cannot be modified in this callback. |is_navigation| will be true (1) if the resource request is a navigation. |is_download| will be true (1) if the resource request is a download. |request_initiator| is the origin (scheme + domain) of the page that initiated the request. Set |disable_default_handling| to true (1) to disable default handling of the request, in which case it will need to be handled via ICefResourceRequestHandler.GetResourceHandler or it will be canceled. To allow the resource load to proceed with default handling return NULL. To specify a handler for the resource return a ICefResourceRequestHandler object. If this callback returns NULL the same function will be called on the associated ICefRequestContextHandler, if any. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="GetAuthCredentials-ICefBrowser-ustring-Boolean-ustring-Integer-ustring-ustring-ICefAuthCallback-"></span><code>function <strong>GetAuthCredentials</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const originUrl: <a href="uCEFTypes.html#ustring">ustring</a>; isProxy: Boolean; const host: <a href="uCEFTypes.html#ustring">ustring</a>; port: Integer; const realm, scheme: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefAuthCallback.html">ICefAuthCallback</a>): Boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -119,9 +120,9 @@
  Called on the IO thread when the browser needs credentials from the user. |origin_url| is the origin making this authentication request. |isProxy| indicates whether the host is a proxy server. |host| contains the hostname and |port| contains the port number. |realm| is the realm of the challenge and may be NULL. |scheme| is the authentication scheme used, such as &quot;basic&quot; or &quot;digest&quot;, and will be NULL if the source of the request is an FTP server. Return true (1) to continue the request and call ICefAuthCallback.cont() either in this function or at a later time when the authentication information is available. Return false (0) to cancel the request immediately. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="OnCertificateError-ICefBrowser-TCefErrorcode-ustring-ICefSslInfo-ICefCallback-"></span><code>function <strong>OnCertificateError</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; certError: <a href="uCEFTypes.html#TCefErrorCode">TCefErrorcode</a>; const requestUrl: <a href="uCEFTypes.html#ustring">ustring</a>; const sslInfo: <a href="uCEFInterfaces.ICefSslInfo.html">ICefSslInfo</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>): Boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -129,9 +130,9 @@
  Called on the UI thread to handle requests for URLs with an invalid SSL certificate. Return true (1) and call ICefCallback functions either in this function or at a later time to continue or cancel the request. Return false (0) to cancel the request immediately. If TCefSettings.ignore_certificate_errors is set all invalid certificates will be accepted without calling this function. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="OnSelectClientCertificate-ICefBrowser-boolean-ustring-integer-NativeUInt-TCefX509CertificateArray-ICefSelectClientCertificateCallback-"></span><code>function <strong>OnSelectClientCertificate</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; isProxy: boolean; const host: <a href="uCEFTypes.html#ustring">ustring</a>; port: integer; certificatesCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const certificates: <a href="uCEFInterfaces.html#TCefX509CertificateArray">TCefX509CertificateArray</a>; const callback: <a href="uCEFInterfaces.ICefSelectClientCertificateCallback.html">ICefSelectClientCertificateCallback</a>): boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -139,9 +140,9 @@
  Called on the UI thread when a client certificate is being requested for authentication. Return false (0) to use the default behavior. If the |certificates| list is not NULL the default behavior will be to display a dialog for certificate selection. If the |certificates| list is NULL then the default behavior will be not to show a dialog and it will continue without using any certificate. Return true (1) and call ICefSelectClientCertificateCallback.Select either in this function or at a later time to select a certificate. Do not call Select or call it with NULL to continue without using any certificate. |isProxy| indicates whether the host is an HTTPS proxy or the origin server. |host| and |port| contains the hostname and port of the SSL server. |certificates| is the list of certificates to choose from; this list has already been pruned by Chromium so that it only contains certificates from issuers that the server trusts. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="OnRenderViewReady-ICefBrowser-"></span><code>procedure <strong>OnRenderViewReady</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -149,9 +150,9 @@
  Called on the browser process UI thread when the render view associated with |browser| is ready to receive/handle IPC messages in the render process. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="OnRenderProcessUnresponsive-ICefBrowser-ICefUnresponsiveProcessCallback-"></span><code>function <strong>OnRenderProcessUnresponsive</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const callback: <a href="uCEFInterfaces.ICefUnresponsiveProcessCallback.html">ICefUnresponsiveProcessCallback</a>): boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -159,9 +160,9 @@
  Called on the browser process UI thread when the render process is unresponsive as indicated by a lack of input event processing for at least 15 seconds. Return false (0) for the default behavior which is to continue waiting with Alloy style or display of the &quot;Page unresponsive&quot; dialog with Chrome style. Return true (1) and don't execute the callback to continue waiting without display of the Chrome style dialog. Return true (1) and call ICefUnresponsiveProcessCallback.Wait either in this function or at a later time to reset the wait timer. In cases where you continue waiting there may be another call to this function if the process remains unresponsive. Return true (1) and call ICefUnresponsiveProcessCallback.Terminate either in this function or at a later time to terminate the unresponsive process, resulting in a call to OnRenderProcessTerminated. OnRenderProcessResponsive will be called if the process becomes responsive after this function is called. This functionality depends on the hang monitor which can be disabled by passing the `&ndash;disable-hang-monitor` command-line flag. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="OnRenderProcessResponsive-ICefBrowser-"></span><code>procedure <strong>OnRenderProcessResponsive</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -169,9 +170,9 @@
  Called on the browser process UI thread when the render process becomes responsive after previously being unresponsive. See documentation on OnRenderProcessUnresponsive. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="OnRenderProcessTerminated-ICefBrowser-TCefTerminationStatus-integer-ustring-"></span><code>procedure <strong>OnRenderProcessTerminated</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; status: <a href="uCEFTypes.html#TCefTerminationStatus">TCefTerminationStatus</a>; error_code: integer; const error_string: <a href="uCEFTypes.html#ustring">ustring</a>); virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -179,9 +180,9 @@
  Called on the browser process UI thread when the render process terminates unexpectedly. |status| indicates how the process terminated. |error_code| and |error_string| represent the error that would be displayed in Chrome's &quot;Aw, Snap!&quot; view. Possible |error_code| values include TCefResultCode non-normal exit values and platform-specific crash values (for example, a Posix signal or Windows hardware exception). </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="OnDocumentAvailableInMainFrame-ICefBrowser-"></span><code>procedure <strong>OnDocumentAvailableInMainFrame</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>); virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -189,9 +190,9 @@
  Called on the browser process UI thread when the window.document object of the main frame has been created. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -199,9 +200,9 @@
  Custom procedure to clear all references. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>; virtual;</code></td>
 </tr>
 <tr><td colspan="2">

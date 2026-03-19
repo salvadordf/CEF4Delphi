@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <span id="ICefResourceBundle"></span><h1 class="cio">Interface ICefResourceBundle</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
 <a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
@@ -32,24 +33,24 @@
 <li class="thisitem">ICefResourceBundle</li></ul><h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefResourceBundle.html#GetLocalizedString-Integer-">GetLocalizedString</a></strong>(stringId: Integer): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefResourceBundle.html#GetDataResource-Integer-">GetDataResource</a></strong>(resourceId: Integer): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefResourceBundle.html#GetDataResourceForScale-Integer-TCefScaleFactor-">GetDataResourceForScale</a></strong>(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetLocalizedString-Integer-"></span><code>function <strong>GetLocalizedString</strong>(stringId: Integer): <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -62,9 +63,9 @@
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetDataResource-Integer-"></span><code>function <strong>GetDataResource</strong>(resourceId: Integer): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -72,9 +73,9 @@
  Returns a cef_binary_value_t containing the decompressed contents of the specified scale independent |resource_id| or NULL if not found. Use the cef_id_for_pack_resource_name() function for version-safe mapping of resource IDR names from cef_pack_resources.h to version-specific numerical |resource_id| values. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetDataResourceForScale-Integer-TCefScaleFactor-"></span><code>function <strong>GetDataResourceForScale</strong>(resourceId: Integer; scaleFactor: <a href="uCEFTypes.html#TCefScaleFactor">TCefScaleFactor</a>): <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
 </tr>
 <tr><td colspan="2">

@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <span id="ICefBrowserView"></span><h1 class="cio">Interface ICefBrowserView</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
 <a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
@@ -33,35 +34,35 @@
 <li class="thisitem">ICefBrowserView</li></ul><h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserView.html#GetBrowser">GetBrowser</a></strong>: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserView.html#GetChromeToolbar">GetChromeToolbar</a></strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserView.html#SetPreferAccelerators-boolean-">SetPreferAccelerators</a></strong>(prefer_accelerators: boolean);</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefBrowserView.html#GetRuntimeStyle">GetRuntimeStyle</a></strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
 </tr>
 </table>
 <span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefBrowserView.html#RuntimeStyle">RuntimeStyle</a></strong> : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a> read <a href="uCEFInterfaces.ICefBrowserView.html#GetRuntimeStyle">GetRuntimeStyle</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetBrowser"></span><code>function <strong>GetBrowser</strong>: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -74,9 +75,9 @@
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetChromeToolbar"></span><code>function <strong>GetChromeToolbar</strong>: <a href="uCEFInterfaces.ICefView.html">ICefView</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -84,9 +85,9 @@
  Returns the Chrome toolbar associated with this BrowserView. Only supported when using Chrome style. The ICefBrowserViewDelegate.GetChromeToolbarType function must return a value other than CEF_CTT_NONE and the toolbar will not be available until after this BrowserView is added to a ICefWindow and ICefViewDelegate.OnWindowChanged() has been called. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="SetPreferAccelerators-boolean-"></span><code>procedure <strong>SetPreferAccelerators</strong>(prefer_accelerators: boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -94,9 +95,9 @@
  Sets whether normal priority accelerators are first forwarded to the web content (`keydown` event handler) or ICefKeyboardHandler. Normal priority accelerators can be registered via ICefWindow.SetAccelerator (with |high_priority|=false) or internally for standard accelerators supported by Chrome style. If |prefer_accelerators| is true then the matching accelerator will be triggered immediately (calling ICefWindowDelegate.OnAccelerator or ICefCommandHandler.OnChromeCommand respectively) and the event will not be forwarded to the web content or ICefKeyboardHandler first. If |prefer_accelerators| is false then the matching accelerator will only be triggered if the event is not handled by web content (`keydown` event handler that calls `event.preventDefault()`) or by ICefKeyboardHandler. The default value is false. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetRuntimeStyle"></span><code>function <strong>GetRuntimeStyle</strong>: <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -105,9 +106,9 @@
 </td></tr>
 </table>
 <h3 class="detail">Properties</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="RuntimeStyle"></span><code>property <strong>RuntimeStyle</strong> : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a> read <a href="uCEFInterfaces.ICefBrowserView.html#GetRuntimeStyle">GetRuntimeStyle</a>;</code></td>
 </tr>
 <tr><td colspan="2">

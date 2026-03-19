@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <h1 class="unit">Unit uCEFInterfaces</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section"><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></div><div class="one_section">Functions and Procedures</div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div><div class="one_section">Constants</div><div class="one_section">Variables</div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="description">Description</h2>
 <p class="nodescription">This item has no description.</p><span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
 <span id="PasDoc-Classes"></span><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
@@ -271,20 +272,42 @@
 <td class="itemdesc"> Callback interface that is passed to ICefV8value.CreateArrayBuffer. </td>
 </tr>
 <tr class="list">
+<td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefv8BackingStore.html"><code>ICefv8BackingStore</code></a></td>
+<td class="itemdesc">
+
+<p>Structure representing a V8 ArrayBuffer backing store. The backing store holds the memory that backs an ArrayBuffer. It must be created on a thread with a valid V8 isolate (renderer main thread or WebWorker thread). Once created, the data() pointer can be safely read/written from any thread. This allows expensive operations like memcpy to be performed on a background thread before creating the ArrayBuffer on the V8 thread.
+
+<p>The backing store is consumed when passed to TCefv8ValueRef.NewArrayBufferFromBackingStore, after which IsValid() returns false (0).
+
+<p></td>
+</tr>
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefv8Context.html"><code>ICefv8Context</code></a></td>
 <td class="itemdesc"> Interface representing a V8 context handle. V8 handles can only be accessed from the thread on which they are created. Valid threads for creating a V8 handle include the render process main thread (TID_RENDERER) and WebWorker threads. A task runner for posting tasks on the associated thread can be retrieved via the ICefV8context.GetTaskRunner() function. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefv8Handler.html"><code>ICefv8Handler</code></a></td>
 <td class="itemdesc"> Interface that should be implemented to handle V8 function calls. The functions of this interface will be called on the thread associated with the V8 function. </td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefV8Interceptor.html"><code>ICefV8Interceptor</code></a></td>
 <td class="itemdesc"> Interface that should be implemented to handle V8 interceptor calls. The functions of this interface will be called on the thread associated with the V8 interceptor. Interceptor's named property handlers (with first argument of type CefString) are called when object is indexed by string. Indexed property handlers (with first argument of type int) are called when object is indexed by integer. </td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefV8Accessor.html"><code>ICefV8Accessor</code></a></td>
 <td class="itemdesc"> Interface that should be implemented to handle V8 accessor calls. Accessor identifiers are registered by calling ICefV8value.SetValue(). The functions of this interface will be called on the thread associated with the V8 accessor. </td>
+</tr>
+<tr class="list2">
+<td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefComponentUpdateCallback.html"><code>ICefComponentUpdateCallback</code></a></td>
+<td class="itemdesc"> Callback structure for component update results. </td>
+</tr>
+<tr class="list">
+<td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefComponent.html"><code>ICefComponent</code></a></td>
+<td class="itemdesc"> Structure representing a snapshot of a component's state at the time of retrieval. To get updated information, retrieve a new cef_component_t object via ICefComponentUpdater.GetComponentById or GetComponents. The functions of this structure may be called on any thread. </td>
+</tr>
+<tr class="list2">
+<td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefComponentUpdater.html"><code>ICefComponentUpdater</code></a></td>
+<td class="itemdesc"> This structure provides access to Chromium's component updater service, allowing clients to discover registered components and trigger on-demand updates. The functions of this structure may only be called on the browser process UI thread. If the CEF context is not initialized or the component updater service is not available, functions will return safe defaults (0, nullptr, or NULL). </td>
 </tr>
 <tr class="list">
 <td class="itemname">Interface&nbsp;<a class="bold" href="uCEFInterfaces.ICefTask.html"><code>ICefTask</code></a></td>
@@ -686,7 +709,7 @@
 
 <p>This interface typically, but not always, corresponds to a physical display connected to the system. A fake Display may exist on a headless system, or a Display may correspond to a remote, virtual display. All size and position values are in density independent pixel (DIP) coordinates unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated.
 
-<p>For details on coordinate systems and usage see <a href="https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage#markdown">https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage#markdown</a>- header-coordinate-systems
+<p>For details on coordinate systems and usage see <a href="https://chromiumembedded.github.io/cef/general_usage#coordinate-systems">https://chromiumembedded.github.io/cef/general_usage#coordinate-systems</a>
 
 <p></td>
 </tr>
@@ -777,183 +800,193 @@
 </table>
 <span id="PasDoc-Types"></span><h3 class="summary">Types</h3>
 <table class="summary wide_list">
-<tr class="list">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefv8ValueArray">TCefv8ValueArray</a></strong>         = array of <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefX509CertificateArray">TCefX509CertificateArray</a></strong> = array of <a href="uCEFInterfaces.ICefX509Certificate.html">ICefX509Certificate</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefBinaryValueArray">TCefBinaryValueArray</a></strong>     = array of <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefPostDataElementArray">TCefPostDataElementArray</a></strong> = array of <a href="uCEFInterfaces.ICefPostDataElement.html">ICefPostDataElement</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefMediaRouteArray">TCefMediaRouteArray</a></strong>      = array of <a href="uCEFInterfaces.ICefMediaRoute.html">ICefMediaRoute</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefMediaSinkArray">TCefMediaSinkArray</a></strong>       = array of <a href="uCEFInterfaces.ICefMediaSink.html">ICefMediaSink</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefDisplayArray">TCefDisplayArray</a></strong>         = array of <a href="uCEFInterfaces.ICefDisplay.html">ICefDisplay</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-published">
+<td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefComponentArray">TCefComponentArray</a></strong>       = array of <a href="uCEFInterfaces.ICefComponent.html">ICefComponent</a>;</code></td>
+</tr>
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefMediaSinkInfoArray">TCefMediaSinkInfoArray</a></strong> = array of <a href="uCEFInterfaces.TCefMediaSinkInfo.html">TCefMediaSinkInfo</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefMediaRouteInfoArray">TCefMediaRouteInfoArray</a></strong> = array of <a href="uCEFInterfaces.TCefMediaRouteInfo.html">TCefMediaRouteInfo</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefMediaSourceInfoArray">TCefMediaSourceInfoArray</a></strong> = array of <a href="uCEFInterfaces.TCefMediaSourceInfo.html">TCefMediaSourceInfo</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefEndTracingCallbackProc">TCefEndTracingCallbackProc</a></strong> = procedure(const tracingFile: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefFastTaskProc">TCefFastTaskProc</a></strong> = procedure();</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefv8ArrayBufferReleaseCallbackProc">TCefv8ArrayBufferReleaseCallbackProc</a></strong> = procedure(buffer : Pointer);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefWebPluginIsUnstableProc">TCefWebPluginIsUnstableProc</a></strong> = procedure(const path: <a href="uCEFTypes.html#ustring">ustring</a>; unstable: Boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefV8AccessorGetterProc">TCefV8AccessorGetterProc</a></strong> = function(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const object_: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefV8AccessorSetterProc">TCefV8AccessorSetterProc</a></strong> = function(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const object_, value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefV8InterceptorGetterByNameProc">TCefV8InterceptorGetterByNameProc</a></strong> = function(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const object_: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefV8InterceptorSetterByNameProc">TCefV8InterceptorSetterByNameProc</a></strong> = function(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const object_, value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefV8InterceptorGetterByIndexProc">TCefV8InterceptorGetterByIndexProc</a></strong> = function(index: integer; const object_: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefV8InterceptorSetterByIndexProc">TCefV8InterceptorSetterByIndexProc</a></strong> = function(index: integer; const object_, value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TOnPdfPrintFinishedProc">TOnPdfPrintFinishedProc</a></strong> = procedure(const path: <a href="uCEFTypes.html#ustring">ustring</a>; ok: Boolean);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefDomVisitorProc">TCefDomVisitorProc</a></strong> = procedure(const document: <a href="uCEFInterfaces.ICefDomDocument.html">ICefDomDocument</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefDomVisitorProc2">TCefDomVisitorProc2</a></strong> = procedure(const browser : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const document: <a href="uCEFInterfaces.ICefDomDocument.html">ICefDomDocument</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefDomVisitorProc3">TCefDomVisitorProc3</a></strong> = procedure(const browser : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const document: <a href="uCEFInterfaces.ICefDomDocument.html">ICefDomDocument</a>; const aValue : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefStringVisitorProc">TCefStringVisitorProc</a></strong> = procedure(const str: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefRunFileDialogCallbackProc">TCefRunFileDialogCallbackProc</a></strong> = procedure(const filePaths: TStrings);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefCompletionCallbackProc">TCefCompletionCallbackProc</a></strong> = procedure();</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefSetCookieCallbackProc">TCefSetCookieCallbackProc</a></strong> = procedure(success: Boolean);</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefDeleteCookiesCallbackProc">TCefDeleteCookiesCallbackProc</a></strong> = procedure(numDeleted: Integer);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefNavigationEntryVisitorProc">TCefNavigationEntryVisitorProc</a></strong> = function(const entry: <a href="uCEFInterfaces.ICefNavigationEntry.html">ICefNavigationEntry</a>; current: Boolean; index, total: Integer): Boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TOnDownloadImageFinishedProc">TOnDownloadImageFinishedProc</a></strong> = procedure(const imageUrl: <a href="uCEFTypes.html#ustring">ustring</a>; httpStatusCode: Integer; const image: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefCookieVisitorProc">TCefCookieVisitorProc</a></strong> = function(const name, value, domain, path: <a href="uCEFTypes.html#ustring">ustring</a>; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; same_site : <a href="uCEFTypes.html#TCefCookieSameSite">TCefCookieSameSite</a>; priority : <a href="uCEFTypes.html#TCefCookiePriority">TCefCookiePriority</a>; out deleteCookie: Boolean): Boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefMediaRouteCreateCallbackProc">TCefMediaRouteCreateCallbackProc</a></strong> = procedure(result: <a href="uCEFTypes.html#TCefMediaRouterCreateResult">TCefMediaRouterCreateResult</a>; const error: <a href="uCEFTypes.html#ustring">ustring</a>; const route: <a href="uCEFInterfaces.ICefMediaRoute.html">ICefMediaRoute</a>);</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFInterfaces.html#TCefMediaSinkDeviceInfoCallbackProc">TCefMediaSinkDeviceInfoCallbackProc</a></strong> = procedure(const ip_address: <a href="uCEFTypes.html#ustring">ustring</a>; port: integer; const model_name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Types</h3>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefv8ValueArray"></span><code><strong>TCefv8ValueArray</strong>         = array of <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefX509CertificateArray"></span><code><strong>TCefX509CertificateArray</strong> = array of <a href="uCEFInterfaces.ICefX509Certificate.html">ICefX509Certificate</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefBinaryValueArray"></span><code><strong>TCefBinaryValueArray</strong>     = array of <a href="uCEFInterfaces.ICefBinaryValue.html">ICefBinaryValue</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefPostDataElementArray"></span><code><strong>TCefPostDataElementArray</strong> = array of <a href="uCEFInterfaces.ICefPostDataElement.html">ICefPostDataElement</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefMediaRouteArray"></span><code><strong>TCefMediaRouteArray</strong>      = array of <a href="uCEFInterfaces.ICefMediaRoute.html">ICefMediaRoute</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefMediaSinkArray"></span><code><strong>TCefMediaSinkArray</strong>       = array of <a href="uCEFInterfaces.ICefMediaSink.html">ICefMediaSink</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefDisplayArray"></span><code><strong>TCefDisplayArray</strong>         = array of <a href="uCEFInterfaces.ICefDisplay.html">ICefDisplay</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
+<td class="itemcode"><span id="TCefComponentArray"></span><code><strong>TCefComponentArray</strong>       = array of <a href="uCEFInterfaces.ICefComponent.html">ICefComponent</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefMediaSinkInfoArray"></span><code><strong>TCefMediaSinkInfoArray</strong> = array of <a href="uCEFInterfaces.TCefMediaSinkInfo.html">TCefMediaSinkInfo</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefMediaRouteInfoArray"></span><code><strong>TCefMediaRouteInfoArray</strong> = array of <a href="uCEFInterfaces.TCefMediaRouteInfo.html">TCefMediaRouteInfo</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefMediaSourceInfoArray"></span><code><strong>TCefMediaSourceInfoArray</strong> = array of <a href="uCEFInterfaces.TCefMediaSourceInfo.html">TCefMediaSourceInfo</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefEndTracingCallbackProc"></span><code><strong>TCefEndTracingCallbackProc</strong> = procedure(const tracingFile: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
 <tr><td colspan="1">
@@ -961,162 +994,162 @@
 * ******************************************* **** Callback procedures and functions **** ******************************************* *</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefFastTaskProc"></span><code><strong>TCefFastTaskProc</strong> = procedure();</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefv8ArrayBufferReleaseCallbackProc"></span><code><strong>TCefv8ArrayBufferReleaseCallbackProc</strong> = procedure(buffer : Pointer);</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefWebPluginIsUnstableProc"></span><code><strong>TCefWebPluginIsUnstableProc</strong> = procedure(const path: <a href="uCEFTypes.html#ustring">ustring</a>; unstable: Boolean);</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefV8AccessorGetterProc"></span><code><strong>TCefV8AccessorGetterProc</strong> = function(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const object_: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefV8AccessorSetterProc"></span><code><strong>TCefV8AccessorSetterProc</strong> = function(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const object_, value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefV8InterceptorGetterByNameProc"></span><code><strong>TCefV8InterceptorGetterByNameProc</strong> = function(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const object_: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefV8InterceptorSetterByNameProc"></span><code><strong>TCefV8InterceptorSetterByNameProc</strong> = function(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const object_, value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefV8InterceptorGetterByIndexProc"></span><code><strong>TCefV8InterceptorGetterByIndexProc</strong> = function(index: integer; const object_: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefV8InterceptorSetterByIndexProc"></span><code><strong>TCefV8InterceptorSetterByIndexProc</strong> = function(index: integer; const object_, value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): Boolean;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TOnPdfPrintFinishedProc"></span><code><strong>TOnPdfPrintFinishedProc</strong> = procedure(const path: <a href="uCEFTypes.html#ustring">ustring</a>; ok: Boolean);</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefDomVisitorProc"></span><code><strong>TCefDomVisitorProc</strong> = procedure(const document: <a href="uCEFInterfaces.ICefDomDocument.html">ICefDomDocument</a>);</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefDomVisitorProc2"></span><code><strong>TCefDomVisitorProc2</strong> = procedure(const browser : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const document: <a href="uCEFInterfaces.ICefDomDocument.html">ICefDomDocument</a>);</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefDomVisitorProc3"></span><code><strong>TCefDomVisitorProc3</strong> = procedure(const browser : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const document: <a href="uCEFInterfaces.ICefDomDocument.html">ICefDomDocument</a>; const aValue : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefStringVisitorProc"></span><code><strong>TCefStringVisitorProc</strong> = procedure(const str: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefRunFileDialogCallbackProc"></span><code><strong>TCefRunFileDialogCallbackProc</strong> = procedure(const filePaths: TStrings);</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefCompletionCallbackProc"></span><code><strong>TCefCompletionCallbackProc</strong> = procedure();</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefSetCookieCallbackProc"></span><code><strong>TCefSetCookieCallbackProc</strong> = procedure(success: Boolean);</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefDeleteCookiesCallbackProc"></span><code><strong>TCefDeleteCookiesCallbackProc</strong> = procedure(numDeleted: Integer);</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefNavigationEntryVisitorProc"></span><code><strong>TCefNavigationEntryVisitorProc</strong> = function(const entry: <a href="uCEFInterfaces.ICefNavigationEntry.html">ICefNavigationEntry</a>; current: Boolean; index, total: Integer): Boolean;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TOnDownloadImageFinishedProc"></span><code><strong>TOnDownloadImageFinishedProc</strong> = procedure(const imageUrl: <a href="uCEFTypes.html#ustring">ustring</a>; httpStatusCode: Integer; const image: <a href="uCEFInterfaces.ICefImage.html">ICefImage</a>);</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefCookieVisitorProc"></span><code><strong>TCefCookieVisitorProc</strong> = function(const name, value, domain, path: <a href="uCEFTypes.html#ustring">ustring</a>; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; count, total: Integer; same_site : <a href="uCEFTypes.html#TCefCookieSameSite">TCefCookieSameSite</a>; priority : <a href="uCEFTypes.html#TCefCookiePriority">TCefCookiePriority</a>; out deleteCookie: Boolean): Boolean;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefMediaRouteCreateCallbackProc"></span><code><strong>TCefMediaRouteCreateCallbackProc</strong> = procedure(result: <a href="uCEFTypes.html#TCefMediaRouterCreateResult">TCefMediaRouterCreateResult</a>; const error: <a href="uCEFTypes.html#ustring">ustring</a>; const route: <a href="uCEFInterfaces.ICefMediaRoute.html">ICefMediaRoute</a>);</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefMediaSinkDeviceInfoCallbackProc"></span><code><strong>TCefMediaSinkDeviceInfoCallbackProc</strong> = procedure(const ip_address: <a href="uCEFTypes.html#ustring">ustring</a>; port: integer; const model_name: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
 <tr><td colspan="1">

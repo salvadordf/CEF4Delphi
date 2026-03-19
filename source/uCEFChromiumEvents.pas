@@ -196,6 +196,9 @@ type
   // ICefSettingObserver
   TOnSettingChangedEvent               = procedure(Sender: TObject; const requesting_url, top_level_url : ustring; content_type: TCefContentSettingTypes) of object;
 
+  // ICefComponentUpdateCallback
+  TOnComponentUpdateCompletedEvent     = procedure(Sender: TObject; const component_id: ustring; error: TCefComponentUpdateError) of object;
+
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;
   TOnPdfPrintFinishedEvent                 = procedure(Sender: TObject; aResultOK : boolean) of object;

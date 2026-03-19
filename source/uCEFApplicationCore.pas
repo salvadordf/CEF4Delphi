@@ -97,6 +97,7 @@ type
       FChromePolicyId                    : ustring;
       FChromeAppIconId                   : integer;
       FDisableSignalHandlers             : boolean;
+      FUseViewsDefaultPopup              : boolean;
 
       // Fields used to set command line switches
       FSingleProcess                     : boolean;
@@ -300,6 +301,7 @@ type
       function  Load_cef_app_win_h : boolean;
       function  Load_cef_browser_capi_h : boolean;
       function  Load_cef_command_line_capi_h : boolean;
+      function  Load_cef_component_updater_capi_h : boolean;
       function  Load_cef_cookie_capi_h : boolean;
       function  Load_cef_crash_util_h : boolean;
       function  Load_cef_drag_data_capi_h : boolean;
@@ -874,6 +876,13 @@ type
       /// Specify whether signal handlers must be disabled on POSIX systems.
       /// </summary>
       property DisableSignalHandlers             : boolean                                  read FDisableSignalHandlers             write FDisableSignalHandlers;
+      /// <summary>
+      /// If true use a Views (bare-bones) window instead of a Chrome UI window when
+      /// creating default popups for Chrome style native-hosted (non-Views)
+      /// browsers. This applies when ICefLifeSpanHandler.OnBeforePopup has not been
+      /// implemented to provide parent window information for the new popup.
+      /// </summary>
+      property UseViewsDefaultPopup              : boolean                                  read FUseViewsDefaultPopup              write FUseViewsDefaultPopup;
       /// <summary>
       /// Runs the renderer and plugins in the same process as the browser.
       /// </summary>
@@ -2128,6 +2137,7 @@ begin
   FChromePolicyId                    := '';
   FChromeAppIconId                   := 0;
   FDisableSignalHandlers             := False;
+  FUseViewsDefaultPopup              := False;
 
   // Fields used to set command line switches
   FSingleProcess                     := False;
@@ -3345,6 +3355,7 @@ begin
   aSettings.chrome_policy_id                        := CefString(FChromePolicyId);
   aSettings.chrome_app_icon_id                      := FChromeAppIconId;
   aSettings.disable_signal_handlers                 := ord(FDisableSignalHandlers);
+  aSettings.use_views_default_popup                 := ord(FUseViewsDefaultPopup);
 end;
 
 function TCefApplicationCore.InitializeLibrary(const aApp : ICefApp) : boolean;
@@ -4442,6 +4453,7 @@ begin
      Load_cef_browser_capi_h and
      Load_cef_browser_view_capi_h and
      Load_cef_command_line_capi_h and
+     Load_cef_component_updater_capi_h and
      Load_cef_cookie_capi_h and
      Load_cef_crash_util_h and
      Load_cef_display_capi_h and
@@ -4596,6 +4608,13 @@ begin
 
   Result := assigned(cef_command_line_create) and
             assigned(cef_command_line_get_global);
+end;
+
+function TCefApplicationCore.Load_cef_component_updater_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_component_updater_get{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_component_updater_get');
+
+  Result := assigned(cef_component_updater_get);
 end;
 
 function TCefApplicationCore.Load_cef_cookie_capi_h : boolean;
@@ -4890,25 +4909,27 @@ end;
 
 function TCefApplicationCore.Load_cef_v8_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_context_get_current_context{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_v8_context_get_current_context');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_context_get_entered_context{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_v8_context_get_entered_context');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_context_in_context{$IFDEF FPC}){$ENDIF}                    := GetProcAddress(FLibHandle, 'cef_v8_context_in_context');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_undefined{$IFDEF FPC}){$ENDIF}                := GetProcAddress(FLibHandle, 'cef_v8_value_create_undefined');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_null{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8_value_create_null');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_bool{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8_value_create_bool');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_int{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_v8_value_create_int');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_uint{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8_value_create_uint');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_double{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_v8_value_create_double');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_date{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8_value_create_date');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_string{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_v8_value_create_string');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_object{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_v8_value_create_object');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_array{$IFDEF FPC}){$ENDIF}                    := GetProcAddress(FLibHandle, 'cef_v8_value_create_array');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_array_buffer{$IFDEF FPC}){$ENDIF}             := GetProcAddress(FLibHandle, 'cef_v8_value_create_array_buffer');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_array_buffer_with_copy{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_v8_value_create_array_buffer_with_copy');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_function{$IFDEF FPC}){$ENDIF}                 := GetProcAddress(FLibHandle, 'cef_v8_value_create_function');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_promise{$IFDEF FPC}){$ENDIF}                  := GetProcAddress(FLibHandle, 'cef_v8_value_create_promise');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_stack_trace_get_current{$IFDEF FPC}){$ENDIF}               := GetProcAddress(FLibHandle, 'cef_v8_stack_trace_get_current');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_register_extension{$IFDEF FPC}){$ENDIF}                       := GetProcAddress(FLibHandle, 'cef_register_extension');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_context_get_current_context{$IFDEF FPC}){$ENDIF}                    := GetProcAddress(FLibHandle, 'cef_v8_context_get_current_context');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_context_get_entered_context{$IFDEF FPC}){$ENDIF}                    := GetProcAddress(FLibHandle, 'cef_v8_context_get_entered_context');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_context_in_context{$IFDEF FPC}){$ENDIF}                             := GetProcAddress(FLibHandle, 'cef_v8_context_in_context');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_undefined{$IFDEF FPC}){$ENDIF}                         := GetProcAddress(FLibHandle, 'cef_v8_value_create_undefined');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_null{$IFDEF FPC}){$ENDIF}                              := GetProcAddress(FLibHandle, 'cef_v8_value_create_null');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_bool{$IFDEF FPC}){$ENDIF}                              := GetProcAddress(FLibHandle, 'cef_v8_value_create_bool');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_int{$IFDEF FPC}){$ENDIF}                               := GetProcAddress(FLibHandle, 'cef_v8_value_create_int');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_uint{$IFDEF FPC}){$ENDIF}                              := GetProcAddress(FLibHandle, 'cef_v8_value_create_uint');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_double{$IFDEF FPC}){$ENDIF}                            := GetProcAddress(FLibHandle, 'cef_v8_value_create_double');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_date{$IFDEF FPC}){$ENDIF}                              := GetProcAddress(FLibHandle, 'cef_v8_value_create_date');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_string{$IFDEF FPC}){$ENDIF}                            := GetProcAddress(FLibHandle, 'cef_v8_value_create_string');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_object{$IFDEF FPC}){$ENDIF}                            := GetProcAddress(FLibHandle, 'cef_v8_value_create_object');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_array{$IFDEF FPC}){$ENDIF}                             := GetProcAddress(FLibHandle, 'cef_v8_value_create_array');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_array_buffer{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_v8_value_create_array_buffer');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_array_buffer_with_copy{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_v8_value_create_array_buffer_with_copy');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_array_buffer_from_backing_store{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_v8_value_create_array_buffer_from_backing_store');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_function{$IFDEF FPC}){$ENDIF}                          := GetProcAddress(FLibHandle, 'cef_v8_value_create_function');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_promise{$IFDEF FPC}){$ENDIF}                           := GetProcAddress(FLibHandle, 'cef_v8_value_create_promise');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_stack_trace_get_current{$IFDEF FPC}){$ENDIF}                        := GetProcAddress(FLibHandle, 'cef_v8_stack_trace_get_current');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_register_extension{$IFDEF FPC}){$ENDIF}                                := GetProcAddress(FLibHandle, 'cef_register_extension');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_backing_store_create{$IFDEF FPC}){$ENDIF}                           := GetProcAddress(FLibHandle, 'cef_v8_backing_store_create');
 
   Result := assigned(cef_v8_context_get_current_context) and
             assigned(cef_v8_context_get_entered_context) and
@@ -4925,10 +4946,12 @@ begin
             assigned(cef_v8_value_create_array) and
             assigned(cef_v8_value_create_array_buffer) and
             assigned(cef_v8_value_create_array_buffer_with_copy) and
+            assigned(cef_v8_value_create_array_buffer_from_backing_store) and
             assigned(cef_v8_value_create_function) and
             assigned(cef_v8_value_create_promise) and
             assigned(cef_v8_stack_trace_get_current) and
-            assigned(cef_register_extension);
+            assigned(cef_register_extension) and
+            assigned(cef_v8_backing_store_create);
 end;
 
 function TCefApplicationCore.Load_cef_values_capi_h : boolean;

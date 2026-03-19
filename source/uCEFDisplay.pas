@@ -29,8 +29,7 @@ type
   /// otherwise indicated.</para>
   ///
   /// <para>For details on coordinate systems and usage see
-  /// https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage#markdown-
-  /// header-coordinate-systems</para>
+  /// https://chromiumembedded.github.io/cef/general_usage#coordinate-systems</para>
   /// </summary>
   /// <remarks>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_display_capi.h">CEF source file: /include/capi/views/cef_display_capi.h (cef_display_t)</see></para>

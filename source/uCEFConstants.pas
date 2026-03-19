@@ -1550,15 +1550,6 @@ const
   /// </remarks>
   ERR_PAC_SCRIPT_TERMINATED                                   = -367;
   /// <summary>
-  /// Obsolete. Support for CNAME record detection was never fully implemented and
-  /// is no longer needed since the IP Protection feature didn't launch.
-  /// </summary>
-  /// <remarks>
-  /// <para>TCefErrorCode value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
-  /// </remarks>
-  ERR_PROXY_REQUIRED                                          = -368;
-  /// <summary>
   /// The server was expected to return an HTTP/1.x response, but did not. Rather
   /// than treat it as HTTP/0.9, this error is returned.
   /// </summary>
@@ -2281,6 +2272,7 @@ const
   IDC_MOVE_TAB_TO_NEW_WINDOW = 34054;
   IDC_NEW_SPLIT_TAB = 34055;
   IDC_TOGGLE_VERTICAL_TABS = 34056;
+  IDC_VERTICAL_TABS_SEND_FEEDBACK = 34057;
   IDC_COPY_URL = 34060;
   IDC_OPEN_IN_CHROME = 34061;
   IDC_WEB_APP_SETTINGS = 34062;
@@ -2298,6 +2290,7 @@ const
   IDC_GROUP_UNGROUPED_TABS = 34105;
   IDC_CREATE_NEW_TAB_GROUP_TOP_LEVEL = 34106;
   IDC_ADD_NEW_TAB_RECENT_GROUP = 34107;
+  IDC_UNFOCUS_TAB_GROUP = 34108;
   IDC_BOOKMARK_THIS_TAB = 35000;
   IDC_BOOKMARK_ALL_TABS = 35001;
   IDC_VIEW_SOURCE = 35002;
@@ -2470,6 +2463,9 @@ const
   IDC_SHOW_COMMENTS_SIDE_PANEL = 40297;
   IDC_RECENT_TABS_SEE_DEVICE_TABS = 40298;
   IDC_SHOW_AI_MODE_OMNIBOX_BUTTON = 40299;
+  IDC_CONTENT_CONTEXT_INSPECTELEMENT_WITH_GEMINI = 40300;
+  IDC_CONTENT_CONTEXT_INSPECTELEMENT_WITH_DEVTOOLS = 40301;
+  IDC_REPORT_UNSAFE_SITE = 40302;
   IDC_SPELLCHECK_SUGGESTION_0 = 41000;
   IDC_SPELLCHECK_SUGGESTION_1 = 41001;
   IDC_SPELLCHECK_SUGGESTION_2 = 41002;
@@ -4186,7 +4182,7 @@ const
   /// <para>ucef_api_hash parameter.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/cef_api_hash.h">CEF source file: /include/cef_api_hash.h</see></para>
   /// </remarks>
-  CEF_API_HASH_PLATFORM  = 0;
+  CEF_API_HASH_PLATFORM   = 0;
   /// <summary>
   /// Universal API hash. (deprecated, same as CEF_API_HASH_PLATFORM)
   /// </summary>
@@ -4194,7 +4190,7 @@ const
   /// <para>ucef_api_hash parameter.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/cef_api_hash.h">CEF source file: /include/cef_api_hash.h</see></para>
   /// </remarks>
-  CEF_API_HASH_UNIVERSAL = 1;
+  CEF_API_HASH_UNIVERSAL  = 1;
   /// <summary>
   /// Commit hash.
   /// </summary>
@@ -4202,7 +4198,15 @@ const
   /// <para>ucef_api_hash parameter.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/cef_api_hash.h">CEF source file: /include/cef_api_hash.h</see></para>
   /// </remarks>
-  CEF_COMMIT_HASH        = 2;
+  CEF_COMMIT_HASH         = 2;
+  /// <summary>
+  /// Sandbox hash.
+  /// </summary>
+  /// <remarks>
+  /// <para>ucef_api_hash parameter.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/cef_api_hash.h">CEF source file: /include/cef_api_hash.h</see></para>
+  /// </remarks>
+  CEF_SANDBOX_COMPAT_HASH = 3;
 
   /// <summary>
   /// No interrupt reason.

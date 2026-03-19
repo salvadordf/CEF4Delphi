@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefv8BackingStore</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefv8BackingStore"></span><h1 class="cio">Interface ICefv8BackingStore</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefv8BackingStore = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+
+
+<p>Structure representing a V8 ArrayBuffer backing store. The backing store holds the memory that backs an ArrayBuffer. It must be created on a thread with a valid V8 isolate (renderer main thread or WebWorker thread). Once created, the data() pointer can be safely read/written from any thread. This allows expensive operations like memcpy to be performed on a background thread before creating the ArrayBuffer on the V8 thread.
+
+<p>The backing store is consumed when passed to TCefv8ValueRef.NewArrayBufferFromBackingStore, after which IsValid() returns false (0).
+
+<p></p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_v8_capi.h (cef_v8_backing_store_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefv8BackingStore</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefv8BackingStore.html#data">data</a></strong>: Pointer;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefv8BackingStore.html#ByteLength">ByteLength</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefv8BackingStore.html#IsValid">IsValid</a></strong>: boolean;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="data"></span><code>function <strong>data</strong>: Pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns a pointer to the allocated memory, or nullptr if the backing store has been consumed or is otherwise invalid. The pointer is safe to read/write from any thread. The caller must ensure all writes are complete before passing this object to TCefv8ValueRef.NewArrayBufferFromBackingStore(). Pointers obtained from this function should not be retained after calling TCefv8ValueRef.NewArrayBufferFromBackingStore(), as the memory will then be owned by the ArrayBuffer and subject to V8 garbage collection. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{4E84CA96-BDF1-4B27-8FEA-DF18C50740FA}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ByteLength"></span><code>function <strong>ByteLength</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the size of the allocated memory in bytes, or 0 if the backing store has been consumed. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="IsValid"></span><code>function <strong>IsValid</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns true (1) if this backing store has not yet been consumed by TCefv8ValueRef.NewArrayBufferFromBackingStore(). </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+</span>
+</body></html>

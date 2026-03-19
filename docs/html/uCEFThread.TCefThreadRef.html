@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <span id="TCefThreadRef"></span><h1 class="cio">Class TCefThreadRef</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
 <a href="uCEFThread.html">uCEFThread</a></p>
@@ -24,36 +25,36 @@
 <li class="thisitem">TCefThreadRef</li></ul><h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFThread.TCefThreadRef.html#GetTaskRunner">GetTaskRunner</a></strong>: <a href="uCEFInterfaces.ICefTaskRunner.html">ICefTaskRunner</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFThread.TCefThreadRef.html#GetPlatformThreadID">GetPlatformThreadID</a></strong>: <a href="uCEFTypes.html#TCefPlatformThreadId">TCefPlatformThreadId</a>;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFThread.TCefThreadRef.html#Stop">Stop</a></strong>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFThread.TCefThreadRef.html#IsRunning">IsRunning</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFThread.TCefThreadRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefThread.html">ICefThread</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFThread.TCefThreadRef.html#New-ustring-TCefThreadPriority-TCefMessageLoopType-integer-TCefCOMInitMode-">New</a></strong>(const display_name: <a href="uCEFTypes.html#ustring">ustring</a>; priority: <a href="uCEFTypes.html#TCefThreadPriority">TCefThreadPriority</a>; message_loop_type: <a href="uCEFTypes.html#TCefMessageLoopType">TCefMessageLoopType</a>; stoppable: integer; com_init_mode: <a href="uCEFTypes.html#TCefCOMInitMode">TCefCOMInitMode</a>): <a href="uCEFInterfaces.ICefThread.html">ICefThread</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="GetTaskRunner"></span><code>function <strong>GetTaskRunner</strong>: <a href="uCEFInterfaces.ICefTaskRunner.html">ICefTaskRunner</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -61,9 +62,9 @@
  Returns the ICefTaskRunner that will execute code on this thread's message loop. This function is safe to call from any thread. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="GetPlatformThreadID"></span><code>function <strong>GetPlatformThreadID</strong>: <a href="uCEFTypes.html#TCefPlatformThreadId">TCefPlatformThreadId</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -71,9 +72,9 @@
  Returns the platform thread ID. It will return the same value after stop() is called. This function is safe to call from any thread. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="Stop"></span><code>procedure <strong>Stop</strong>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -81,9 +82,9 @@
  Stop and join the thread. This function must be called from the same thread that called cef_thread_create(). Do not call this function if cef_thread_create() was called with a |stoppable| value of false (0). </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="IsRunning"></span><code>function <strong>IsRunning</strong>: boolean;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -91,17 +92,17 @@
  Returns true (1) if the thread is currently running. This function must be called from the same thread that called cef_thread_create(). </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefThread.html">ICefThread</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="New-ustring-TCefThreadPriority-TCefMessageLoopType-integer-TCefCOMInitMode-"></span><code>class function <strong>New</strong>(const display_name: <a href="uCEFTypes.html#ustring">ustring</a>; priority: <a href="uCEFTypes.html#TCefThreadPriority">TCefThreadPriority</a>; message_loop_type: <a href="uCEFTypes.html#TCefMessageLoopType">TCefMessageLoopType</a>; stoppable: integer; com_init_mode: <a href="uCEFTypes.html#TCefCOMInitMode">TCefCOMInitMode</a>): <a href="uCEFInterfaces.ICefThread.html">ICefThread</a>;</code></td>
 </tr>
 <tr><td colspan="2">

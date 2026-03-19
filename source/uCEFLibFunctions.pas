@@ -60,6 +60,9 @@ var
   cef_command_line_create     : function : PCefCommandLine; cdecl;
   cef_command_line_get_global : function : PCefCommandLine; cdecl;
 
+  // /include/capi/cef_component_updater_capi.h
+  cef_component_updater_get   : function : PCefComponentUpdater; cdecl;
+
   // /include/capi/cef_cookie_capi.h
   cef_cookie_manager_get_global_manager   : function(callback: PCefCompletionCallback): PCefCookieManager; cdecl;
 
@@ -188,25 +191,27 @@ var
   cef_urlrequest_create : function(request: PCefRequest; client: PCefUrlRequestClient; request_context: PCefRequestContext): PCefUrlRequest; cdecl;
 
   // /include/capi/cef_v8_capi.h
-  cef_v8_context_get_current_context         : function : PCefv8Context; cdecl;
-  cef_v8_context_get_entered_context         : function : PCefv8Context; cdecl;
-  cef_v8_context_in_context                  : function : Integer; cdecl;
-  cef_v8_value_create_undefined              : function : PCefv8Value; cdecl;
-  cef_v8_value_create_null                   : function : PCefv8Value; cdecl;
-  cef_v8_value_create_bool                   : function(value: Integer): PCefv8Value; cdecl;
-  cef_v8_value_create_int                    : function(value: Integer): PCefv8Value; cdecl;
-  cef_v8_value_create_uint                   : function(value: Cardinal): PCefv8Value; cdecl;
-  cef_v8_value_create_double                 : function(value: Double): PCefv8Value; cdecl;
-  cef_v8_value_create_date                   : function(value: TCefBaseTime): PCefv8Value; cdecl;
-  cef_v8_value_create_string                 : function(const value: PCefString): PCefv8Value; cdecl;
-  cef_v8_value_create_object                 : function(accessor: PCefV8Accessor; interceptor: PCefV8Interceptor): PCefv8Value; cdecl;
-  cef_v8_value_create_array                  : function(length: Integer): PCefv8Value; cdecl;
-  cef_v8_value_create_array_buffer           : function(buffer : Pointer; length: NativeUInt; release_callback : PCefv8ArrayBufferReleaseCallback): PCefv8Value; cdecl;
-  cef_v8_value_create_array_buffer_with_copy : function(buffer : Pointer; length: NativeUInt): PCefv8Value; cdecl;
-  cef_v8_value_create_function               : function(const name: PCefString; handler: PCefv8Handler): PCefv8Value; cdecl;
-  cef_v8_value_create_promise                : function : PCefv8Value; cdecl;
-  cef_v8_stack_trace_get_current             : function(frame_limit: Integer): PCefV8StackTrace; cdecl;
-  cef_register_extension                     : function(const extension_name, javascript_code: PCefString; handler: PCefv8Handler): Integer; cdecl;
+  cef_v8_context_get_current_context                  : function : PCefv8Context; cdecl;
+  cef_v8_context_get_entered_context                  : function : PCefv8Context; cdecl;
+  cef_v8_context_in_context                           : function : Integer; cdecl;
+  cef_v8_value_create_undefined                       : function : PCefv8Value; cdecl;
+  cef_v8_value_create_null                            : function : PCefv8Value; cdecl;
+  cef_v8_value_create_bool                            : function(value: Integer): PCefv8Value; cdecl;
+  cef_v8_value_create_int                             : function(value: Integer): PCefv8Value; cdecl;
+  cef_v8_value_create_uint                            : function(value: Cardinal): PCefv8Value; cdecl;
+  cef_v8_value_create_double                          : function(value: Double): PCefv8Value; cdecl;
+  cef_v8_value_create_date                            : function(value: TCefBaseTime): PCefv8Value; cdecl;
+  cef_v8_value_create_string                          : function(const value: PCefString): PCefv8Value; cdecl;
+  cef_v8_value_create_object                          : function(accessor: PCefV8Accessor; interceptor: PCefV8Interceptor): PCefv8Value; cdecl;
+  cef_v8_value_create_array                           : function(length: Integer): PCefv8Value; cdecl;
+  cef_v8_value_create_array_buffer                    : function(buffer: Pointer; length: NativeUInt; release_callback : PCefv8ArrayBufferReleaseCallback): PCefv8Value; cdecl;
+  cef_v8_value_create_array_buffer_with_copy          : function(buffer: Pointer; length: NativeUInt): PCefv8Value; cdecl;
+  cef_v8_value_create_array_buffer_from_backing_store : function(backing_store: PCefv8BackingStore): PCefv8Value; cdecl;
+  cef_v8_value_create_function                        : function(const name: PCefString; handler: PCefv8Handler): PCefv8Value; cdecl;
+  cef_v8_value_create_promise                         : function : PCefv8Value; cdecl;
+  cef_v8_stack_trace_get_current                      : function(frame_limit: Integer): PCefV8StackTrace; cdecl;
+  cef_register_extension                              : function(const extension_name, javascript_code: PCefString; handler: PCefv8Handler): Integer; cdecl;
+  cef_v8_backing_store_create                         : function(byte_length: NativeUInt): PCefv8BackingStore; cdecl;
 
   // /include/capi/cef_values_capi.h
   cef_value_create            : function : PCefValue; cdecl;

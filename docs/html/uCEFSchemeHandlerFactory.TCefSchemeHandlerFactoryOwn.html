@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <span id="TCefSchemeHandlerFactoryOwn"></span><h1 class="cio">Class TCefSchemeHandlerFactoryOwn</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
 <a href="uCEFSchemeHandlerFactory.html">uCEFSchemeHandlerFactory</a></p>
@@ -30,36 +31,36 @@
 <li class="thisitem">TCefSchemeHandlerFactoryOwn</li></ul><h2 class="overview">Overview</h2>
 <span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code><strong><a href="uCEFSchemeHandlerFactory.TCefSchemeHandlerFactoryOwn.html#FClass">FClass</a></strong>: <a href="uCEFResourceHandler.html#TCefResourceHandlerClass">TCefResourceHandlerClass</a>;</code></td>
 </tr>
 </table>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFSchemeHandlerFactory.TCefSchemeHandlerFactoryOwn.html#New-ICefBrowser-ICefFrame-ustring-ICefRequest-">New</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const schemeName: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>): <a href="uCEFInterfaces.ICefResourceHandler.html">ICefResourceHandler</a>; virtual;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>constructor <strong><a href="uCEFSchemeHandlerFactory.TCefSchemeHandlerFactoryOwn.html#Create-TCefResourceHandlerClass-">Create</a></strong>(const AClass: <a href="uCEFResourceHandler.html#TCefResourceHandlerClass">TCefResourceHandlerClass</a>); virtual;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Fields</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="FClass"></span><code><strong>FClass</strong>: <a href="uCEFResourceHandler.html#TCefResourceHandlerClass">TCefResourceHandlerClass</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="New-ICefBrowser-ICefFrame-ustring-ICefRequest-"></span><code>function <strong>New</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const frame: <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; const schemeName: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>): <a href="uCEFInterfaces.ICefResourceHandler.html">ICefResourceHandler</a>; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -67,9 +68,9 @@
  Return a new resource handler instance to handle the request or an NULL reference to allow default handling of the request. |browser| and |frame| will be the browser window and frame respectively that originated the request or NULL if the request did not originate from a browser window (for example, if the request came from ICefUrlRequest). The |request| object passed to this function cannot be modified. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Create-TCefResourceHandlerClass-"></span><code>constructor <strong>Create</strong>(const AClass: <a href="uCEFResourceHandler.html#TCefResourceHandlerClass">TCefResourceHandlerClass</a>); virtual;</code></td>
 </tr>
 <tr><td colspan="2">

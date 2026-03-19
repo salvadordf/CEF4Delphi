@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInterfaces: Interface ICefComponentUpdater</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="ICefComponentUpdater"></span><h1 class="cio">Interface ICefComponentUpdater</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type ICefComponentUpdater = interface(<a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+ This structure provides access to Chromium's component updater service, allowing clients to discover registered components and trigger on-demand updates. The functions of this structure may only be called on the browser process UI thread. If the CEF context is not initialized or the component updater service is not available, functions will return safe defaults (0, nullptr, or NULL). </p>
+<p>
+
+
+<p>UNKNOWN
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_updater_t))</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="ancestor"><a class="normal" href="uCEFInterfaces.ICefBaseRefCounted.html">ICefBaseRefCounted</a></li>
+<li class="thisitem">ICefComponentUpdater</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefComponentUpdater.html#GetComponentCount">GetComponentCount</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefComponentUpdater.html#GetComponents-TCefComponentArray-">GetComponents</a></strong>(var components_: <a href="uCEFInterfaces.html#TCefComponentArray">TCefComponentArray</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefComponentUpdater.html#GetComponentById-ustring-ICefComponent-">GetComponentById</a></strong>(const component_id: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: <a href="uCEFInterfaces.ICefComponent.html">ICefComponent</a>): boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefComponentUpdater.html#Update-ustring-TCefComponentUpdatePriority-ICefComponentUpdateCallback-">Update</a></strong>(const component_id: <a href="uCEFTypes.html#ustring">ustring</a>; priority: <a href="uCEFTypes.html#TCefComponentUpdatePriority">TCefComponentUpdatePriority</a>; const callback: <a href="uCEFInterfaces.ICefComponentUpdateCallback.html">ICefComponentUpdateCallback</a>);</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="GetComponentCount"></span><code>function <strong>GetComponentCount</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the number of registered components, or 0 if the service is not available. </p>
+<h6 class="description_section">Attributes</h6>
+<dl class="attributes">
+  <dt>GUID['{76DE52AC-E3B2-45EE-B4CD-F32467C0C55F}']</dt>
+  <dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="GetComponents-TCefComponentArray-"></span><code>function <strong>GetComponents</strong>(var components_: <a href="uCEFInterfaces.html#TCefComponentArray">TCefComponentArray</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Populates |components_| with all registered components. Any existing contents will be cleared first. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="GetComponentById-ustring-ICefComponent-"></span><code>function <strong>GetComponentById</strong>(const component_id: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: <a href="uCEFInterfaces.ICefComponent.html">ICefComponent</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Returns the component with the specified |component_id|, or nullptr if not found or the service is not available. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Update-ustring-TCefComponentUpdatePriority-ICefComponentUpdateCallback-"></span><code>procedure <strong>Update</strong>(const component_id: <a href="uCEFTypes.html#ustring">ustring</a>; priority: <a href="uCEFTypes.html#TCefComponentUpdatePriority">TCefComponentUpdatePriority</a>; const callback: <a href="uCEFInterfaces.ICefComponentUpdateCallback.html">ICefComponentUpdateCallback</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Triggers an on-demand update for the component with the specified |component_id|. |priority| specifies whether the update should be processed in the background or foreground. Use CEF_COMPONENT_UPDATE_PRIORITY_FOREGROUND for user-initiated updates.
+
+<p>|callback| will be called asynchronously on the UI thread when the update operation completes. The callback is always executed, including when the component is already up-to-date (returns CEF_COMPONENT_UPDATE_ERROR_NONE), when the requested component doesn't exist, or when the service is unavailable (returns CEF_COMPONENT_UPDATE_ERROR_SERVICE_ERROR). The callback may be nullptr if no notification is needed.
+
+<p></p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+</span>
+</body></html>

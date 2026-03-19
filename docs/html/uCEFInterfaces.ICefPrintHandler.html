@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <span id="ICefPrintHandler"></span><h1 class="cio">Interface ICefPrintHandler</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
 <a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
@@ -32,40 +33,40 @@
 <li class="thisitem">ICefPrintHandler</li></ul><h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintHandler.html#OnPrintStart-ICefBrowser-">OnPrintStart</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintHandler.html#OnPrintSettings-ICefBrowser-ICefPrintSettings-boolean-">OnPrintSettings</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const settings: <a href="uCEFInterfaces.ICefPrintSettings.html">ICefPrintSettings</a>; getDefaults: boolean);</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintHandler.html#OnPrintDialog-ICefBrowser-boolean-ICefPrintDialogCallback-boolean-">OnPrintDialog</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; hasSelection: boolean; const callback: <a href="uCEFInterfaces.ICefPrintDialogCallback.html">ICefPrintDialogCallback</a>; var aResult: boolean);</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintHandler.html#OnPrintJob-ICefBrowser-ustring-ustring-ICefPrintJobCallback-boolean-">OnPrintJob</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const documentName, PDFFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefPrintJobCallback.html">ICefPrintJobCallback</a>; var aResult: boolean);</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintHandler.html#OnPrintReset-ICefBrowser-">OnPrintReset</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintHandler.html#GetPDFPaperSize-ICefBrowser-integer-TCefSize-">GetPDFPaperSize</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; deviceUnitsPerInch: integer; var aResult: <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefPrintHandler.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnPrintStart-ICefBrowser-"></span><code>procedure <strong>OnPrintStart</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -78,9 +79,9 @@
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnPrintSettings-ICefBrowser-ICefPrintSettings-boolean-"></span><code>procedure <strong>OnPrintSettings</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const settings: <a href="uCEFInterfaces.ICefPrintSettings.html">ICefPrintSettings</a>; getDefaults: boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -88,9 +89,9 @@
  Synchronize |settings| with client state. If |get_defaults| is true (1) then populate |settings| with the default print settings. Do not keep a reference to |settings| outside of this callback. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnPrintDialog-ICefBrowser-boolean-ICefPrintDialogCallback-boolean-"></span><code>procedure <strong>OnPrintDialog</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; hasSelection: boolean; const callback: <a href="uCEFInterfaces.ICefPrintDialogCallback.html">ICefPrintDialogCallback</a>; var aResult: boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -98,9 +99,9 @@
  Show the print dialog. Execute |callback| once the dialog is dismissed. Return true (1) if the dialog will be displayed or false (0) to cancel the printing immediately. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnPrintJob-ICefBrowser-ustring-ustring-ICefPrintJobCallback-boolean-"></span><code>procedure <strong>OnPrintJob</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const documentName, PDFFilePath: <a href="uCEFTypes.html#ustring">ustring</a>; const callback: <a href="uCEFInterfaces.ICefPrintJobCallback.html">ICefPrintJobCallback</a>; var aResult: boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -108,9 +109,9 @@
  Send the print job to the printer. Execute |callback| once the job is completed. Return true (1) if the job will proceed or false (0) to cancel the job immediately. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnPrintReset-ICefBrowser-"></span><code>procedure <strong>OnPrintReset</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -118,9 +119,9 @@
  Reset client state related to printing. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetPDFPaperSize-ICefBrowser-integer-TCefSize-"></span><code>procedure <strong>GetPDFPaperSize</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; deviceUnitsPerInch: integer; var aResult: <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -128,9 +129,9 @@
  Return the PDF paper size in device units. Used in combination with ICefBrowserHost.PrintToPdf(). </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>;</code></td>
 </tr>
 <tr><td colspan="2">

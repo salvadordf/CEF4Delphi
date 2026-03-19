@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <span id="ICefDisplay"></span><h1 class="cio">Interface ICefDisplay</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
 <a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
@@ -23,7 +24,7 @@
 
 <p>This interface typically, but not always, corresponds to a physical display connected to the system. A fake Display may exist on a headless system, or a Display may correspond to a remote, virtual display. All size and position values are in density independent pixel (DIP) coordinates unless otherwise indicated. Methods must be called on the browser process UI thread unless otherwise indicated.
 
-<p>For details on coordinate systems and usage see <a href="https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage#markdown">https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage#markdown</a>- header-coordinate-systems
+<p>For details on coordinate systems and usage see <a href="https://chromiumembedded.github.io/cef/general_usage#coordinate-systems">https://chromiumembedded.github.io/cef/general_usage#coordinate-systems</a>
 
 <p></p>
 <p>
@@ -38,63 +39,63 @@
 <li class="thisitem">ICefDisplay</li></ul><h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDisplay.html#GetID">GetID</a></strong>: int64;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDisplay.html#GetDeviceScaleFactor">GetDeviceScaleFactor</a></strong>: Single;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefDisplay.html#ConvertPointToPixels-TCefPoint-">ConvertPointToPixels</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>);</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefDisplay.html#ConvertPointFromPixels-TCefPoint-">ConvertPointFromPixels</a></strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>);</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDisplay.html#GetBounds">GetBounds</a></strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDisplay.html#GetWorkArea">GetWorkArea</a></strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefDisplay.html#GetRotation">GetRotation</a></strong>: Integer;</code></td>
 </tr>
 </table>
 <span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDisplay.html#ID">ID</a></strong>                : int64      read <a href="uCEFInterfaces.ICefDisplay.html#GetID">GetID</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDisplay.html#DeviceScaleFactor">DeviceScaleFactor</a></strong> : Single     read <a href="uCEFInterfaces.ICefDisplay.html#GetDeviceScaleFactor">GetDeviceScaleFactor</a>;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDisplay.html#Bounds">Bounds</a></strong>            : <a href="uCEFTypes.TCefRect.html">TCefRect</a>   read <a href="uCEFInterfaces.ICefDisplay.html#GetBounds">GetBounds</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDisplay.html#WorkArea">WorkArea</a></strong>          : <a href="uCEFTypes.TCefRect.html">TCefRect</a>   read <a href="uCEFInterfaces.ICefDisplay.html#GetWorkArea">GetWorkArea</a>;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>property <strong><a href="uCEFInterfaces.ICefDisplay.html#Rotation">Rotation</a></strong>          : Integer    read <a href="uCEFInterfaces.ICefDisplay.html#GetRotation">GetRotation</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetID"></span><code>function <strong>GetID</strong>: int64;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -107,9 +108,9 @@
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetDeviceScaleFactor"></span><code>function <strong>GetDeviceScaleFactor</strong>: Single;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -117,9 +118,9 @@
  Returns this Display's device pixel scale factor. This specifies how much the UI should be scaled when the actual output has more pixels than standard displays (which is around 100~120dpi). The potential return values differ by platform. Windowed browsers with 1.0 zoom will have a JavaScript `window.devicePixelRatio` value matching the associated Display's get_device_scale_factor() value. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ConvertPointToPixels-TCefPoint-"></span><code>procedure <strong>ConvertPointToPixels</strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -127,9 +128,9 @@
  Convert |point| from DIP coordinates to pixel coordinates using this Display's device scale factor. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ConvertPointFromPixels-TCefPoint-"></span><code>procedure <strong>ConvertPointFromPixels</strong>(var point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -137,9 +138,9 @@
  Convert |point| from pixel coordinates to DIP coordinates using this Display's device scale factor. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetBounds"></span><code>function <strong>GetBounds</strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -147,9 +148,9 @@
  Returns this Display's bounds in DIP screen coordinates. This is the full size of the display. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetWorkArea"></span><code>function <strong>GetWorkArea</strong>: <a href="uCEFTypes.TCefRect.html">TCefRect</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -157,9 +158,9 @@
  Returns this Display's work area in DIP screen coordinates. This excludes areas of the display that are occupied with window manager toolbars, etc. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetRotation"></span><code>function <strong>GetRotation</strong>: Integer;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -168,9 +169,9 @@
 </td></tr>
 </table>
 <h3 class="detail">Properties</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ID"></span><code>property <strong>ID</strong>                : int64      read <a href="uCEFInterfaces.ICefDisplay.html#GetID">GetID</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -178,9 +179,9 @@
  Returns the unique identifier for this Display. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="DeviceScaleFactor"></span><code>property <strong>DeviceScaleFactor</strong> : Single     read <a href="uCEFInterfaces.ICefDisplay.html#GetDeviceScaleFactor">GetDeviceScaleFactor</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -188,9 +189,9 @@
  Returns this Display's device pixel scale factor. This specifies how much the UI should be scaled when the actual output has more pixels than standard displays (which is around 100~120dpi). The potential return values differ by platform. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Bounds"></span><code>property <strong>Bounds</strong>            : <a href="uCEFTypes.TCefRect.html">TCefRect</a>   read <a href="uCEFInterfaces.ICefDisplay.html#GetBounds">GetBounds</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -198,9 +199,9 @@
  Returns this Display's bounds in DIP screen coordinates. This is the full size of the display. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="WorkArea"></span><code>property <strong>WorkArea</strong>          : <a href="uCEFTypes.TCefRect.html">TCefRect</a>   read <a href="uCEFInterfaces.ICefDisplay.html#GetWorkArea">GetWorkArea</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -208,9 +209,9 @@
  Returns this Display's work area in DIP screen coordinates. This excludes areas of the display that are occupied with window manager toolbars, etc. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Rotation"></span><code>property <strong>Rotation</strong>          : Integer    read <a href="uCEFInterfaces.ICefDisplay.html#GetRotation">GetRotation</a>;</code></td>
 </tr>
 <tr><td colspan="2">

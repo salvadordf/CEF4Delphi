@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <span id="TCefServerHandler"></span><h1 class="cio">Record TCefServerHandler</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section">Methods</div><div class="one_section">Properties</div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
 <a href="uCEFTypes.html">uCEFTypes</a></p>
@@ -31,112 +32,112 @@
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefServerHandler.html#base">base</a></strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefServerHandler.html#on_server_created">on_server_created</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>); stdcall;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefServerHandler.html#on_server_destroyed">on_server_destroyed</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>); stdcall;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefServerHandler.html#on_client_connected">on_client_connected</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefServerHandler.html#on_client_disconnected">on_client_disconnected</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefServerHandler.html#on_http_request">on_http_request</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#PCefString">PCefString</a>; request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>); stdcall;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefServerHandler.html#on_web_socket_request">on_web_socket_request</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#PCefString">PCefString</a>; request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; callback: <a href="uCEFTypes.html#PCefCallback">PCefCallback</a>); stdcall;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefServerHandler.html#on_web_socket_connected">on_web_socket_connected</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefServerHandler.html#on_web_socket_message">on_web_socket_message</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Fields</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="base"></span><code><strong>base</strong>: <a href="uCEFTypes.TCefBaseRefCounted.html">TCefBaseRefCounted</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="on_server_created"></span><code><strong>on_server_created</strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>); stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="on_server_destroyed"></span><code><strong>on_server_destroyed</strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>); stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="on_client_connected"></span><code><strong>on_client_connected</strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="on_client_disconnected"></span><code><strong>on_client_disconnected</strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="on_http_request"></span><code><strong>on_http_request</strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#PCefString">PCefString</a>; request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>); stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="on_web_socket_request"></span><code><strong>on_web_socket_request</strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#PCefString">PCefString</a>; request: <a href="uCEFTypes.html#PCefRequest">PCefRequest</a>; callback: <a href="uCEFTypes.html#PCefCallback">PCefCallback</a>); stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="on_web_socket_connected"></span><code><strong>on_web_socket_connected</strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer); stdcall;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="on_web_socket_message"></span><code><strong>on_web_socket_message</strong>: procedure(self: <a href="uCEFTypes.html#PCefServerHandler">PCefServerHandler</a>; server: <a href="uCEFTypes.html#PCefServer">PCefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>); stdcall;</code></td>
 </tr>
 <tr><td colspan="2">

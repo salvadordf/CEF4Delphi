@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <span id="ICefResourceHandler"></span><h1 class="cio">Interface ICefResourceHandler</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
 <a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
@@ -32,40 +33,40 @@
 <li class="thisitem">ICefResourceHandler</li></ul><h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefResourceHandler.html#open-ICefRequest-boolean-ICefCallback-">open</a></strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; var handle_request: boolean; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>): boolean;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefResourceHandler.html#ProcessRequest-ICefRequest-ICefCallback-">ProcessRequest</a></strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>): boolean;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefResourceHandler.html#GetResponseHeaders-ICefResponse-Int64-ustring-">GetResponseHeaders</a></strong>(const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; out responseLength: Int64; out redirectUrl: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefResourceHandler.html#skip-int64-Int64-ICefResourceSkipCallback-">skip</a></strong>(bytes_to_skip: int64; var bytes_skipped: Int64; const callback: <a href="uCEFInterfaces.ICefResourceSkipCallback.html">ICefResourceSkipCallback</a>): boolean;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefResourceHandler.html#read-Pointer-Integer-Integer-ICefResourceReadCallback-">read</a></strong>(const data_out: Pointer; bytes_to_read: Integer; var bytes_read: Integer; const callback: <a href="uCEFInterfaces.ICefResourceReadCallback.html">ICefResourceReadCallback</a>): boolean;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.ICefResourceHandler.html#ReadResponse-Pointer-Integer-Integer-ICefCallback-">ReadResponse</a></strong>(const dataOut: Pointer; bytesToRead: Integer; var bytesRead: Integer; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>): boolean;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefResourceHandler.html#Cancel">Cancel</a></strong>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="open-ICefRequest-boolean-ICefCallback-"></span><code>function <strong>open</strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; var handle_request: boolean; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -78,9 +79,9 @@
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ProcessRequest-ICefRequest-ICefCallback-"></span><code>function <strong>ProcessRequest</strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -92,9 +93,9 @@
 <p>WARNING: This function is deprecated. Use Open instead.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetResponseHeaders-ICefResponse-Int64-ustring-"></span><code>procedure <strong>GetResponseHeaders</strong>(const response: <a href="uCEFInterfaces.ICefResponse.html">ICefResponse</a>; out responseLength: Int64; out redirectUrl: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -102,9 +103,9 @@
  Retrieve response header information. If the response length is not known set |response_length| to -1 and read_response() will be called until it returns false (0). If the response length is known set |response_length| to a positive value and read_response() will be called until it returns false (0) or the specified number of bytes have been read. Use the |response| object to set the mime type, http status code and other optional header values. To redirect the request to a new URL set |redirectUrl| to the new URL. |redirectUrl| can be either a relative or fully qualified URL. It is also possible to set |response| to a redirect http status code and pass the new URL via a Location header. Likewise with |redirectUrl| it is valid to set a relative or fully qualified URL as the Location header value. If an error occured while setting up the request you can call set_error() on |response| to indicate the error condition. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="skip-int64-Int64-ICefResourceSkipCallback-"></span><code>function <strong>skip</strong>(bytes_to_skip: int64; var bytes_skipped: Int64; const callback: <a href="uCEFInterfaces.ICefResourceSkipCallback.html">ICefResourceSkipCallback</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -112,9 +113,9 @@
  Skip response data when requested by a Range header. Skip over and discard |bytes_to_skip| bytes of response data. If data is available immediately set |bytes_skipped| to the number of bytes skipped and return true (1). To read the data at a later time set |bytes_skipped| to 0, return true (1) and execute |callback| when the data is available. To indicate failure set |bytes_skipped| to &lt; 0 (e.g. -2 for ERR_FAILED) and return false (0). This function will be called in sequence but not from a dedicated thread. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="read-Pointer-Integer-Integer-ICefResourceReadCallback-"></span><code>function <strong>read</strong>(const data_out: Pointer; bytes_to_read: Integer; var bytes_read: Integer; const callback: <a href="uCEFInterfaces.ICefResourceReadCallback.html">ICefResourceReadCallback</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -122,9 +123,9 @@
  Read response data. If data is available immediately copy up to |bytes_to_read| bytes into |data_out|, set |bytes_read| to the number of bytes copied, and return true (1). To read the data at a later time keep a pointer to |data_out|, set |bytes_read| to 0, return true (1) and execute |callback| when the data is available (|data_out| will remain valid until the callback is executed). To indicate response completion set |bytes_read| to 0 and return false (0). To indicate failure set |bytes_read| to &lt; 0 (e.g. -2 for ERR_FAILED) and return false (0). This function will be called in sequence but not from a dedicated thread. For backwards compatibility set |bytes_read| to -1 and return false (0) and the ReadResponse function will be called. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ReadResponse-Pointer-Integer-Integer-ICefCallback-"></span><code>function <strong>ReadResponse</strong>(const dataOut: Pointer; bytesToRead: Integer; var bytesRead: Integer; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -136,9 +137,9 @@
 <p>WARNING: This function is deprecated. Use Skip and Read instead.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Cancel"></span><code>procedure <strong>Cancel</strong>;</code></td>
 </tr>
 <tr><td colspan="2">

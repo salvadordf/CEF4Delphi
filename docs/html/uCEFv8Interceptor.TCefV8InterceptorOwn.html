@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <span id="TCefV8InterceptorOwn"></span><h1 class="cio">Class TCefV8InterceptorOwn</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
 <a href="uCEFv8Interceptor.html">uCEFv8Interceptor</a></p>
@@ -24,32 +25,32 @@
 <li class="thisitem">TCefV8InterceptorOwn</li></ul><h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFv8Interceptor.TCefV8InterceptorOwn.html#GetByName-ustring-ICefv8Value-ICefv8Value-ustring-">GetByName</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const object_: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var retval: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFv8Interceptor.TCefV8InterceptorOwn.html#GetByIndex-integer-ICefv8Value-ICefv8Value-ustring-">GetByIndex</a></strong>(index: integer; const object_: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var retval: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; virtual;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFv8Interceptor.TCefV8InterceptorOwn.html#SetByName-ustring-ICefv8Value-ICefv8Value-ustring-">SetByName</a></strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const object_, value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; virtual;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFv8Interceptor.TCefV8InterceptorOwn.html#SetByIndex-integer-ICefv8Value-ICefv8Value-ustring-">SetByIndex</a></strong>(index: integer; const object_, value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; virtual;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>constructor <strong><a href="uCEFv8Interceptor.TCefV8InterceptorOwn.html#Create">Create</a></strong>; virtual;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="GetByName-ustring-ICefv8Value-ICefv8Value-ustring-"></span><code>function <strong>GetByName</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const object_: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var retval: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -57,9 +58,9 @@
  Handle retrieval of the interceptor value identified by |name|. |object| is the receiver ('this' object) of the interceptor. If retrieval succeeds, set |retval| to the return value. If the requested value does not exist, don't set either |retval| or |exception|. If retrieval fails, set |exception| to the exception that will be thrown. If the property has an associated accessor, it will be called only if you don't set |retval|. Return true (1) if interceptor retrieval was handled, false (0) otherwise. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="GetByIndex-integer-ICefv8Value-ICefv8Value-ustring-"></span><code>function <strong>GetByIndex</strong>(index: integer; const object_: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var retval: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -67,9 +68,9 @@
  Handle retrieval of the interceptor value identified by |index|. |object| is the receiver ('this' object) of the interceptor. If retrieval succeeds, set |retval| to the return value. If the requested value does not exist, don't set either |retval| or |exception|. If retrieval fails, set |exception| to the exception that will be thrown. Return true (1) if interceptor retrieval was handled, false (0) otherwise. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="SetByName-ustring-ICefv8Value-ICefv8Value-ustring-"></span><code>function <strong>SetByName</strong>(const name: <a href="uCEFTypes.html#ustring">ustring</a>; const object_, value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -77,9 +78,9 @@
  Handle assignment of the interceptor value identified by |name|. |object| is the receiver ('this' object) of the interceptor. |value| is the new value being assigned to the interceptor. If assignment fails, set |exception| to the exception that will be thrown. This setter will always be called, even when the property has an associated accessor. Return true (1) if interceptor assignment was handled, false (0) otherwise. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="SetByIndex-integer-ICefv8Value-ICefv8Value-ustring-"></span><code>function <strong>SetByIndex</strong>(index: integer; const object_, value: <a href="uCEFInterfaces.ICefv8Value.html">ICefv8Value</a>; var exception: <a href="uCEFTypes.html#ustring">ustring</a>): boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -87,9 +88,9 @@
  Handle assignment of the interceptor value identified by |index|. |object| is the receiver ('this' object) of the interceptor. |value| is the new value being assigned to the interceptor. If assignment fails, set |exception| to the exception that will be thrown. Return true (1) if interceptor assignment was handled, false (0) otherwise. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>; virtual;</code></td>
 </tr>
 <tr><td colspan="2">

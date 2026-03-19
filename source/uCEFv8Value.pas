@@ -160,13 +160,24 @@ type
       /// </remarks>
       class function NewArrayBuffer(buffer: Pointer; length: NativeUInt; const callback : ICefv8ArrayBufferReleaseCallback): ICefv8Value;
       /// <summary>
-      /// Create a new cef_v8value_t object of type ArrayBuffer which copies the
+      /// Create a new ICefv8Value object of type ArrayBuffer which copies the
       /// provided |buffer| of size |length| bytes. This function should only be
-      /// called from within the scope of a cef_render_process_handler_t,
-      /// cef_v8handler_t or cef_v8accessor_t callback, or in combination with calling
-      /// enter() and exit() on a stored cef_v8context_t reference.
+      /// called from within the scope of a ICefRenderProcessHandler,
+      /// ICefv8Handler or ICefv8Accessor callback, or in combination with calling
+      /// enter() and exit() on a stored ICefv8Context reference.
       /// </summary>
       class function NewArrayBufferWithCopy(buffer: Pointer; length: NativeUInt): ICefv8Value;
+      /// <summary>
+      /// Create a new ICefv8Value object of type ArrayBuffer from a backing store
+      /// previously created with TCefv8BackingStoreRef.New
+      /// This is a zero-copy operation — the ArrayBuffer
+      /// uses the memory already allocated by the backing store. The backing store is
+      /// consumed and becomes invalid after this call. This function should only be
+      /// called from within the scope of a ICefRenderProcessHandler,
+      /// ICefv8Handler or ICefv8Accessor callback, or in combination with
+      /// calling enter() and exit() on a stored ICefv8Context reference.
+      /// </summary>
+      class function NewArrayBufferFromBackingStore(const backing_store: ICefv8BackingStore): ICefv8Value;
       /// <summary>
       /// Create a new ICefv8Value object of type function. This function should
       /// only be called from within the scope of a ICefRenderProcessHandler,
@@ -228,6 +239,11 @@ end;
 class function TCefv8ValueRef.NewDouble(value: Double): ICefv8Value;
 begin
   Result := UnWrap(cef_v8_value_create_double(value));
+end;
+
+class function TCefv8ValueRef.NewArrayBufferFromBackingStore(const backing_store: ICefv8BackingStore): ICefv8Value;
+begin
+  Result := UnWrap(cef_v8_value_create_array_buffer_from_backing_store(CefGetData(backing_store)));
 end;
 
 class function TCefv8ValueRef.NewFunction(const name: ustring; const handler: ICefv8Handler): ICefv8Value;

@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <span id="TCefMenuButtonRef"></span><h1 class="cio">Class TCefMenuButtonRef</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
 <a href="uCEFMenuButton.html">uCEFMenuButton</a></p>
@@ -33,28 +34,28 @@
 <li class="thisitem">TCefMenuButtonRef</li></ul><h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFMenuButton.TCefMenuButtonRef.html#ShowMenu-ICefMenuModel-TCefPoint-TCefMenuAnchorPosition-">ShowMenu</a></strong>(const menu_model: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; const screen_point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; anchor_position: <a href="uCEFTypes.html#TCefMenuAnchorPosition">TCefMenuAnchorPosition</a>);</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFMenuButton.TCefMenuButtonRef.html#TriggerMenu">TriggerMenu</a></strong>;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFMenuButton.TCefMenuButtonRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFMenuButton.TCefMenuButtonRef.html#CreateMenuButton-ICefMenuButtonDelegate-ustring-">CreateMenuButton</a></strong>(const delegate: <a href="uCEFInterfaces.ICefMenuButtonDelegate.html">ICefMenuButtonDelegate</a>; const text: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="ShowMenu-ICefMenuModel-TCefPoint-TCefMenuAnchorPosition-"></span><code>procedure <strong>ShowMenu</strong>(const menu_model: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; const screen_point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; anchor_position: <a href="uCEFTypes.html#TCefMenuAnchorPosition">TCefMenuAnchorPosition</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -62,9 +63,9 @@
  Show a menu with contents |menu_model|. |screen_point| specifies the menu position in screen coordinates. |anchor_position| specifies how the menu will be anchored relative to |screen_point|. This function should be called from ICefMenuButtonDelegate.OnMenuButtonPressed(). </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="TriggerMenu"></span><code>procedure <strong>TriggerMenu</strong>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -72,9 +73,9 @@
  Show the menu for this button. Results in a call to ICefMenuButtonDelegate.OnMenuButtonPressed(). </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -82,9 +83,9 @@
  Returns a ICefMenuButton instance using a PCefMenuButton data pointer. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="CreateMenuButton-ICefMenuButtonDelegate-ustring-"></span><code>class function <strong>CreateMenuButton</strong>(const delegate: <a href="uCEFInterfaces.ICefMenuButtonDelegate.html">ICefMenuButtonDelegate</a>; const text: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefMenuButton.html">ICefMenuButton</a>;</code></td>
 </tr>
 <tr><td colspan="2">

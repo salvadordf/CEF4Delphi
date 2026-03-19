@@ -75,6 +75,7 @@ type
   PCefTime = ^TCefTime;
   PCefV8Exception = ^TCefV8Exception;
   PCefv8ArrayBufferReleaseCallback = ^TCefv8ArrayBufferReleaseCallback;
+  PCefv8BackingStore = ^TCefv8BackingStore;
   PCefv8Handler = ^TCefv8Handler;
   PPCefV8Value = ^PCefV8ValueArray;
   PCefDomVisitor = ^TCefDomVisitor;
@@ -169,6 +170,9 @@ type
   PCefReadHandler = ^TCefReadHandler;
   PCefWriteHandler = ^TCefWriteHandler;
   PCefV8Accessor = ^TCefV8Accessor;
+  PCefComponentUpdateCallback = ^TCefComponentUpdateCallback;
+  PCefComponent = ^TCefComponent;
+  PCefComponentUpdater = ^TCefComponentUpdater;
   PCefXmlReader = ^TCefXmlReader;
   PCefZipReader = ^TCefZipReader;
   PCefUrlRequestClient = ^TCefUrlRequestClient;
@@ -1099,7 +1103,7 @@ type
   /// Structure representing all CEF version information.
   /// </summary>
   /// <remarks>
-  /// <para>CEF4Delphi already had a TCefVersionInfo type. This record has more information than TCefVersionInfo so we call it TCefVersionInfoEx.
+  /// <para>CEF4Delphi already had a TCefVersionInfo type. This record has more information than TCefVersionInfo so we call it TCefVersionInfoEx.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/cef_version_info.h">CEF source file: /include/cef_version_info.h (cef_version_info_t)</see></para>
   /// </remarks>
   TCefVersionInfoEx = record    {* CEF_API_ADDED(13800) *}
@@ -1115,6 +1119,10 @@ type
     chrome_version_minor : integer;
     chrome_version_build : integer;
     chrome_version_patch : integer;
+    /// <summary>
+    /// Sandbox compatibility hash (Windows only, empty on other platforms).
+    /// </summary>
+    sandbox_compat_hash  : AnsiString;  {* CEF_API_ADDED(14600) *}
   end;
 
   {$IFDEF MSWINDOWS}
@@ -3533,6 +3541,128 @@ type
   );
 
   /// <summary>
+  /// Component update error codes. These map to update_client::Error values
+  /// from components/update_client/update_client_errors.h
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_component.h">CEF source file: /include/internal/cef_types_component.h (cef_component_update_error_t)</see></para>
+  /// </remarks>
+  TCefComponentUpdateError = (
+    /// <summary>
+    /// No error.
+    /// </summary>
+    CEF_COMPONENT_UPDATE_ERROR_NONE = 0,
+    /// <summary>
+    /// An update is already in progress for this component.
+    /// </summary>
+    CEF_COMPONENT_UPDATE_ERROR_UPDATE_IN_PROGRESS = 1,
+    /// <summary>
+    /// The update was canceled.
+    /// </summary>
+    CEF_COMPONENT_UPDATE_ERROR_UPDATE_CANCELED = 2,
+    /// <summary>
+    /// The update should be retried later.
+    /// </summary>
+    CEF_COMPONENT_UPDATE_ERROR_RETRY_LATER = 3,
+    /// <summary>
+    /// A service error occurred.
+    /// </summary>
+    CEF_COMPONENT_UPDATE_ERROR_SERVICE_ERROR = 4,
+    /// <summary>
+    /// An error occurred during the update check.
+    /// </summary>
+    CEF_COMPONENT_UPDATE_ERROR_UPDATE_CHECK_ERROR = 5,
+    /// <summary>
+    /// The component was not found.
+    /// </summary>
+    CEF_COMPONENT_UPDATE_ERROR_CRX_NOT_FOUND = 6,
+    /// <summary>
+    /// An invalid argument was provided.
+    /// </summary>
+    CEF_COMPONENT_UPDATE_ERROR_INVALID_ARGUMENT = 7,
+    /// <summary>
+    /// Bad CRX data callback.
+    /// </summary>
+    CEF_COMPONENT_UPDATE_ERROR_BAD_CRX_DATA_CALLBACK = 8
+  );
+
+  /// <summary>
+  /// Component update priority. Maps to
+  /// component_updater::OnDemandUpdater::Priority.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_component.h">CEF source file: /include/internal/cef_types_component.h (cef_component_update_priority_t)</see></para>
+  /// </remarks>
+  TCefComponentUpdatePriority = (
+    /// <summary>
+    /// Background priority. Update requests may be queued.
+    /// </summary>
+    CEF_COMPONENT_UPDATE_PRIORITY_BACKGROUND = 0,
+    /// <summary>
+    /// Foreground priority. Update requests are processed immediately.
+    /// </summary>
+    CEF_COMPONENT_UPDATE_PRIORITY_FOREGROUND = 1
+  );
+
+  /// <summary>
+  /// <para>Component state values. These map to update_client::ComponentState values
+  /// from components/update_client/update_client.h</para>
+  /// <para>A component is considered "installed" when its state is one of:
+  /// CEF_COMPONENT_STATE_UPDATED, CEF_COMPONENT_STATE_UP_TO_DATE, or
+  /// CEF_COMPONENT_STATE_RUN.</para>
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_component.h">CEF source file: /include/internal/cef_types_component.h (cef_component_state_t)</see></para>
+  /// </remarks>
+  TCefComponentState = (
+    /// <summary>
+    /// The component has not yet been checked for updates.
+    /// </summary>
+    CEF_COMPONENT_STATE_NEW = 0,
+    /// <summary>
+    /// The component is being checked for updates now.
+    /// </summary>
+    CEF_COMPONENT_STATE_CHECKING = 1,
+    /// <summary>
+    /// An update is available and will soon be processed.
+    /// </summary>
+    CEF_COMPONENT_STATE_CAN_UPDATE = 2,
+    /// <summary>
+    /// An update is being downloaded.
+    /// </summary>
+    CEF_COMPONENT_STATE_DOWNLOADING = 3,
+    /// <summary>
+    /// An update is being decompressed.
+    /// </summary>
+    CEF_COMPONENT_STATE_DECOMPRESSING = 4,
+    /// <summary>
+    /// A patch is being applied.
+    /// </summary>
+    CEF_COMPONENT_STATE_PATCHING = 5,
+    /// <summary>
+    /// An update is being installed.
+    /// </summary>
+    CEF_COMPONENT_STATE_UPDATING = 6,
+    /// <summary>
+    /// An update was successfully applied. The component is now installed.
+    /// </summary>
+    CEF_COMPONENT_STATE_UPDATED = 7,
+    /// <summary>
+    /// The component was already up to date. The component is installed.
+    /// </summary>
+    CEF_COMPONENT_STATE_UP_TO_DATE = 8,
+    /// <summary>
+    /// The service encountered an error during the update process.
+    /// </summary>
+    CEF_COMPONENT_STATE_UPDATE_ERROR = 9,
+    /// <summary>
+    /// The component is running a server-specified action. The component is
+    /// installed.
+    /// </summary>
+    CEF_COMPONENT_STATE_RUN = 10
+  );
+
+  /// <summary>
   /// Structure representing task information provided by ICefTaskManager.
   /// </summary>
   /// <remarks>
@@ -4120,6 +4250,13 @@ type
     /// Specify whether signal handlers must be disabled on POSIX systems.
     /// </summary>
     disable_signal_handlers                 : Integer;
+    /// <summary>
+    /// If true use a Views (bare-bones) window instead of a Chrome UI window when
+    /// creating default popups for Chrome style native-hosted (non-Views)
+    /// browsers. This applies when CefLifeSpanHandler::OnBeforePopup has not been
+    /// implemented to provide parent window information for the new popup.
+    /// </summary>
+    use_views_default_popup                 : Integer;
   end;
 
   /// <summary>
@@ -5067,7 +5204,7 @@ type
     CEF_CONTENT_SETTING_TYPE_PROTECTED_MEDIA_IDENTIFIER,
     CEF_CONTENT_SETTING_TYPE_APP_BANNER,
     CEF_CONTENT_SETTING_TYPE_SITE_ENGAGEMENT,
-    CEF_CONTENT_SETTING_TYPE_DURABLE_STORAGE,
+    CEF_CONTENT_SETTING_TYPE_PERSISTENT_STORAGE,
     CEF_CONTENT_SETTING_TYPE_USB_CHOOSER_DATA,
     CEF_CONTENT_SETTING_TYPE_BLUETOOTH_GUARD,
     CEF_CONTENT_SETTING_TYPE_BACKGROUND_SYNC,
@@ -5398,7 +5535,7 @@ type
     /// Content setting used to indicate whether third-party storage partitioning
     /// should be enabled.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_THIRD_PARTY_STORAGE_PARTITIONING,
+    CEF_CONTENT_SETTING_TYPE_THIRD_PARTY_STORAGE_PARTITIONING_DEPRECATED,
     /// <summary>
     /// Used to indicate whether HTTPS-First Mode is enabled on the hostname.
     /// </summary>
@@ -5513,7 +5650,7 @@ type
     /// <para>BLOCK: Protections enabled. This is the default state.</para>
     /// <para>ALLOW: Protections disabled.</para>
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_TRACKING_PROTECTION,
+    CEF_CONTENT_SETTING_TYPE_TRACKING_PROTECTION_DEPRECATED,
     /// <summary>
     /// With this permission, when the application calls `getDisplayMedia()`, a
     /// system audio track can be returned without showing the display media
@@ -8049,6 +8186,31 @@ type
   end;
 
   /// <summary>
+  /// Structure representing a V8 ArrayBuffer backing store. The backing store
+  /// holds the memory that backs an ArrayBuffer. It must be created on a thread
+  /// with a valid V8 isolate (renderer main thread or WebWorker thread). Once
+  /// created, the data() pointer can be safely read/written from any thread. This
+  /// allows expensive operations like memcpy to be performed on a background
+  /// thread before creating the ArrayBuffer on the V8 thread.
+  ///
+  /// The backing store is consumed when passed to
+  /// cef_v8_value_t::cef_v8_value_create_array_buffer_from_backing_store(), after
+  /// which is_valid() returns false (0).
+  ///
+  /// NOTE: This struct is allocated DLL-side.
+  /// </summary>
+  /// <remarks>
+  /// <para>Implemented by ICefv8BackingStore.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_backing_store_t)</see></para>
+  /// </remarks>
+  TCefv8BackingStore = record
+    base                      : TCefBaseRefCounted;
+    data                      : function(self: PCefv8BackingStore): Pointer; stdcall;
+    byte_length               : function(self: PCefv8BackingStore): NativeUInt; stdcall;
+    is_valid                  : function(self: PCefv8BackingStore): integer; stdcall;
+  end;
+
+  /// <summary>
   /// Structure representing a V8 value handle. V8 handles can only be accessed
   /// from the thread on which they are created. Valid threads for creating a V8
   /// handle include the render process main thread (TID_RENDERER) and WebWorker
@@ -8181,6 +8343,56 @@ type
     base : TCefBaseRefCounted;
     get  : function(self: PCefV8Accessor; const name: PCefString; object_: PCefv8Value; out retval: PCefv8Value; exception: PCefString): Integer; stdcall;
     set_ : function(self: PCefV8Accessor; const name: PCefString; object_, value: PCefv8Value; exception: PCefString): Integer; stdcall;
+  end;
+
+  /// <summary>
+  /// Callback structure for component update results.
+  /// </summary>
+  /// <remarks>
+  /// <para>Implemented by ICefComponentUpdateCallback.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_update_callback_t)</see></para>
+  /// </remarks>
+  TCefComponentUpdateCallback = record
+    base        : TCefBaseRefCounted;
+    on_complete : procedure(self: PCefComponentUpdateCallback; const component_id: PCefString; error: TCefComponentUpdateError); stdcall;
+  end;
+
+  /// <summary>
+  /// Structure representing a snapshot of a component's state at the time of
+  /// retrieval. To get updated information, retrieve a new cef_component_t object
+  /// via cef_component_updater_t::GetComponentByID or GetComponents. The
+  /// functions of this structure may be called on any thread.
+  /// </summary>
+  /// <remarks>
+  /// <para>Implemented by ICefComponent.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_t)</see></para>
+  /// </remarks>
+  TCefComponent = record
+    base        : TCefBaseRefCounted;
+    get_id      : function(self: PCefComponent): PCefStringUserFree; stdcall;
+    get_name    : function(self: PCefComponent): PCefStringUserFree; stdcall;
+    get_version : function(self: PCefComponent): PCefStringUserFree; stdcall;
+    get_state   : function(self: PCefComponent): TCefComponentState; stdcall;
+  end;
+
+  /// <summary>
+  /// This structure provides access to Chromium's component updater service,
+  /// allowing clients to discover registered components and trigger on-demand
+  /// updates. The functions of this structure may only be called on the browser
+  /// process UI thread. If the CEF context is not initialized or the component
+  /// updater service is not available, functions will return safe defaults (0,
+  /// nullptr, or NULL).
+  /// </summary>
+  /// <remarks>
+  /// <para>Implemented by ICefComponentUpdater.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_updater_t)</see></para>
+  /// </remarks>
+  TCefComponentUpdater = record
+    base                  : TCefBaseRefCounted;
+    get_component_count   : function(self: PCefComponentUpdater): NativeUInt; stdcall;
+    get_components        : procedure(self: PCefComponentUpdater; out componentsCount: NativeUInt; out components: PCefComponent); stdcall;
+    get_component_by_id   : function(self: PCefComponentUpdater; const component_id: PCefString): PCefComponent; stdcall;
+    update                : procedure(self: PCefComponentUpdater; const component_id: PCefString; priority: TCefComponentUpdatePriority; callback: PCefComponentUpdateCallback); stdcall;
   end;
 
   /// <summary>
@@ -8685,6 +8897,9 @@ type
   /// values are in density independent pixel (DIP) coordinates unless otherwise
   /// indicated. Methods must be called on the browser process UI thread unless
   /// otherwise indicated.
+  ///
+  /// For details on coordinate systems and usage see
+  /// https://chromiumembedded.github.io/cef/general_usage#coordinate-systems
   ///
   /// NOTE: This struct is allocated DLL-side.
   /// </summary>

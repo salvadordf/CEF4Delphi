@@ -21,8 +21,8 @@
     </CompilerOptions>
     <Description Value="CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with Delphi or Lazarus/FPC."/>
     <License Value="MPL 1.1"/>
-    <Version Major="145" Release="28"/>
-    <Files Count="216">
+    <Version Major="146" Release="5"/>
+    <Files Count="220">
       <Item1>
         <Filename Value="..\source\res\tbufferpanel.lrs"/>
         <Type Value="LRS"/>
@@ -905,6 +905,22 @@
         <Filename Value="..\source\uCEFZipReader.pas"/>
         <UnitName Value="uCEFZipReader"/>
       </Item216>
+      <Item217>
+        <Filename Value="..\source\uCEFComponentUpdater.pas"/>
+        <UnitName Value="uCEFComponentUpdater"/>
+      </Item217>
+      <Item218>
+        <Filename Value="..\source\uCEFComponentUpdateCallback.pas"/>
+        <UnitName Value="uCEFComponentUpdateCallback"/>
+      </Item218>
+      <Item219>
+        <Filename Value="..\source\uCEFComponent.pas"/>
+        <UnitName Value="uCEFComponent"/>
+      </Item219>
+      <Item220>
+        <Filename Value="..\source\uCEFv8BackingStore.pas"/>
+        <UnitName Value="uCEFv8BackingStore"/>
+      </Item220>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="5">

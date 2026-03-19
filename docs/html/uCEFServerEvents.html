@@ -5,94 +5,95 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <h1 class="unit">Unit uCEFServerEvents</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section">Classes, Interfaces, Objects and Records</div><div class="one_section">Functions and Procedures</div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div><div class="one_section">Constants</div><div class="one_section">Variables</div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="description">Description</h2>
 <p class="nodescription">This item has no description.</p><span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
 <span id="PasDoc-Types"></span><h3 class="summary">Types</h3>
 <table class="summary wide_list">
-<tr class="list">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFServerEvents.html#TOnServerCreated">TOnServerCreated</a></strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFServerEvents.html#TOnServerDestroyed">TOnServerDestroyed</a></strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFServerEvents.html#TOnClientConnected">TOnClientConnected</a></strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFServerEvents.html#TOnClientDisconnected">TOnClientDisconnected</a></strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFServerEvents.html#TOnHttpRequest">TOnHttpRequest</a></strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFServerEvents.html#TOnWebSocketRequest">TOnWebSocketRequest</a></strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>) of object;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFServerEvents.html#TOnWebSocketConnected">TOnWebSocketConnected</a></strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer) of object;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFServerEvents.html#TOnWebSocketMessage">TOnWebSocketMessage</a></strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>) of object;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Types</h3>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TOnServerCreated"></span><code><strong>TOnServerCreated</strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>) of object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TOnServerDestroyed"></span><code><strong>TOnServerDestroyed</strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>) of object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TOnClientConnected"></span><code><strong>TOnClientConnected</strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer) of object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TOnClientDisconnected"></span><code><strong>TOnClientDisconnected</strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer) of object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TOnHttpRequest"></span><code><strong>TOnHttpRequest</strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>) of object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TOnWebSocketRequest"></span><code><strong>TOnWebSocketRequest</strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const client_address: <a href="uCEFTypes.html#ustring">ustring</a>; const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const callback: <a href="uCEFInterfaces.ICefCallback.html">ICefCallback</a>) of object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TOnWebSocketConnected"></span><code><strong>TOnWebSocketConnected</strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer) of object;</code></td>
 </tr>
 <tr><td colspan="1">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TOnWebSocketMessage"></span><code><strong>TOnWebSocketMessage</strong> = procedure(Sender: TObject; const server: <a href="uCEFInterfaces.ICefServer.html">ICefServer</a>; connection_id: Integer; const data: Pointer; data_size: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>) of object;</code></td>
 </tr>
 <tr><td colspan="1">

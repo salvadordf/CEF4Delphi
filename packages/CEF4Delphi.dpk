@@ -236,7 +236,11 @@ contains
   uCEFWindowInfoWrapper in '..\source\uCEFWindowInfoWrapper.pas',
   uCEFTaskManager in '..\source\uCEFTaskManager.pas',
   uCEFPreferenceObserver in '..\source\uCEFPreferenceObserver.pas',
-  uCEFSettingObserver in '..\source\uCEFSettingObserver.pas';
+  uCEFSettingObserver in '..\source\uCEFSettingObserver.pas',
+  uCEFv8BackingStore in '..\source\uCEFv8BackingStore.pas',
+  uCEFComponentUpdater in '..\source\uCEFComponentUpdater.pas',
+  uCEFComponentUpdateCallback in '..\source\uCEFComponentUpdateCallback.pas',
+  uCEFComponent in '..\source\uCEFComponent.pas';
 
 end.
 

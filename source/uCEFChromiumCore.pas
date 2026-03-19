@@ -59,6 +59,7 @@ type
       FDevToolsMsgObserverReg         : ICefRegistration;
       FSettingObserver                : ICefSettingObserver;
       FSettingObserverReg             : ICefRegistration;
+      FCefComponentUpdater            : ICefComponentUpdater;
       FPreferenceInfoList             : TPreferenceInfoList;
       FPreferenceInfoCS               : TCriticalSection;
       FDefaultUrl                     : ustring;
@@ -319,6 +320,9 @@ type
       // ICefSettingObserver
       FOnSettingChanged                   : TOnSettingChangedEvent;
 
+      // ICefComponentUpdateCallback
+      FOnComponentUpdateCompleted         : TOnComponentUpdateCompletedEvent;
+
       // Custom
       FOnTextResultAvailable              : TOnTextResultAvailableEvent;
       FOnPdfPrintFinished                 : TOnPdfPrintFinishedEvent;
@@ -464,6 +468,7 @@ type
       procedure CreateOptionsClasses; virtual;
       procedure CreateSyncObjects; virtual;
       procedure CreateBrowserInfoList; virtual;
+      procedure CreateComponentUpdater; virtual;
       {$IFDEF MSWINDOWS}
       procedure CreateWindowWithWndProc; virtual;
       {$ENDIF}
@@ -695,6 +700,9 @@ type
 
       // ICefSettingObserver
       procedure doOnSettingChanged(const requesting_url, top_level_url : ustring; content_type: TCefContentSettingTypes);
+
+      // ICefComponentUpdateCallback
+      procedure doOnComponentUpdateCompleted(const component_id: ustring; error: TCefComponentUpdateError);
 
       // Custom
       procedure GetSettings(var aSettings : TCefBrowserSettings);
@@ -1414,8 +1422,7 @@ type
       /// information will be sent to the renderer process to configure screen size
       /// and position values used by CSS and JavaScript (window.deviceScaleFactor,
       /// window.screenX/Y, window.outerWidth/Height, etc.). For background see
-      /// https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage.md#markdown-
-      /// header-coordinate-systems</para>
+      /// https://chromiumembedded.github.io/cef/general_usage#coordinate-systems</para>
       ///
       /// <para>This function is used with (a) windowless rendering and (b) windowed
       /// rendering with external (client-provided) root window.</para>
@@ -1799,6 +1806,52 @@ type
       /// transparent (0) the default color will be used.
       /// </summary>
       procedure   SetChromeColorScheme(variant: TCefColorVariant; user_color: TCefColor);
+      /// <summary>
+      /// Returns the number of registered components, or 0 if the service is not
+      /// available.
+      /// </summary>
+      /// <remarks>
+      /// <para>This function may only be called on the browser process UI thread.</para>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_updater_t)</see></para>
+      /// </remarks>
+      function    GetComponentCount: NativeUInt;
+      /// <summary>
+      /// Populates |components_| with all registered components. Any existing
+      /// contents will be cleared first.
+      /// </summary>
+      /// <remarks>
+      /// <para>This function may only be called on the browser process UI thread.</para>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_updater_t)</see></para>
+      /// </remarks>
+      function    GetComponents(var components_: TCefComponentArray): boolean;
+      /// <summary>
+      /// Returns the component with the specified |component_id|, or nullptr if not
+      /// found or the service is not available.
+      /// </summary>
+      /// <remarks>
+      /// <para>This function may only be called on the browser process UI thread.</para>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_updater_t)</see></para>
+      /// </remarks>
+      function    GetComponentById(const component_id: ustring; var aResult: ICefComponent): boolean;
+      /// <summary>
+      /// <para>Triggers an on-demand update for the component with the specified
+      /// |component_id|. |priority| specifies whether the update should be
+      /// processed in the background or foreground. Use
+      /// CEF_COMPONENT_UPDATE_PRIORITY_FOREGROUND for user-initiated updates.</para>
+      ///
+      /// <para>TChromiumCore.OnComponentUpdateCompleted will be triggered
+      /// asynchronously on the UI thread when the update
+      /// operation completes. The event is always executed, including when the
+      /// component is already up-to-date (returns CEF_COMPONENT_UPDATE_ERROR_NONE),
+      /// when the requested component doesn't exist, or when the service is
+      /// unavailable (returns CEF_COMPONENT_UPDATE_ERROR_SERVICE_ERROR).</para>
+      /// </summary>
+      /// <remarks>
+      /// <para>This function may only be called on the browser process UI thread.</para>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_updater_t)</see></para>
+      /// </remarks>
+      procedure   UpdateComponent(const component_id: ustring; priority: TCefComponentUpdatePriority);
+
       /// <summary>
       /// First URL loaded by the browser after its creation.
       /// </summary>
@@ -2888,6 +2941,20 @@ type
       /// browser has not yet been destroyed, then OnBeforePopupAborted will be
       /// called for the opener browser. See OnBeforePopupAborted documentation for
       /// additional details.</para>
+      ///
+      /// <para>A default popup window is created if this function returns false (0)
+      /// without setting a parent window handle via cef_window_tInfo (for native-
+      /// hosted popups), or without implementing
+      /// ICefBrowserViewDelegate.OnPopupBrowserViewCreated (for Views-hosted
+      /// popups). The default popup window type depends on the parent browser
+      /// configuration:</para>
+      /// <code>
+      /// - Views-hosted parent: Creates a Views-hosted popup window.
+      /// - Native-hosted Alloy style parent: Creates a native popup window.
+      /// - Native-hosted Chrome style parent: Creates a Chrome UI popup window by
+      ///   default; set CefSettings.use_views_default_popup to true (1) to instead
+      ///   create a Views-hosted popup window.
+      /// </code>
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -4174,6 +4241,16 @@ type
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">CEF source file: /include/capi/cef_preference_capi.h (cef_setting_observer_t)</see></para>
       /// </remarks>
       property OnSettingChanged                      : TOnSettingChangedEvent                read FOnSettingChanged                    write FOnSettingChanged;
+      /// <summary>
+      /// Called when the component update operation completes. |component_id| is
+      /// the ID of the component that was updated. |error| contains the result of
+      /// the operation.
+      /// </summary>
+      /// <remarks>
+      /// <para>This event will be called on the browser process CEF UI thread.</para>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_update_callback_t)</see></para>
+      /// </remarks>
+      property OnComponentUpdateCompleted            : TOnComponentUpdateCompletedEvent      read FOnComponentUpdateCompleted          write FOnComponentUpdateCompleted;
   end;
 
   TBrowserInfo = class
@@ -4271,7 +4348,8 @@ uses
   uCEFDownloadImageCallBack, uCEFCookieManager, uCEFRequestContextHandler,
   uCEFCookieVisitor, uCEFSetCookieCallback, uCEFResourceRequestHandler,
   uCEFMediaObserver, uCEFMediaRouteCreateCallback ,uCEFDevToolsMessageObserver,
-  uCEFMediaSinkDeviceInfoCallback, uCEFJson;
+  uCEFMediaSinkDeviceInfoCallback, uCEFJson, uCEFComponentUpdater,
+  uCEFComponentUpdateCallback;
 
 constructor TChromiumCore.Create(AOwner: TComponent);
 begin
@@ -4293,6 +4371,7 @@ begin
   FDevToolsMsgObserverReg         := nil;
   FSettingObserver                := nil;
   FSettingObserverReg             := nil;
+  FCefComponentUpdater            := nil;
   FPreferenceInfoList             := nil;
   FPreferenceInfoCS               := nil;
   FOptions                        := nil;
@@ -4639,6 +4718,8 @@ begin
   DestroyResourceRequestHandler;
   DestroyReqContextHandler;
   DestroyClientHandler;
+
+  FCefComponentUpdater := nil;
 end;
 
 procedure TChromiumCore.CreateMediaObserver;
@@ -4715,6 +4796,12 @@ begin
     FBrowsers := TBrowserInfoList.Create;
 end;
 
+procedure TChromiumCore.CreateComponentUpdater;
+begin
+  if (Owner = nil) or not(csDesigning in ComponentState) then
+    FCefComponentUpdater := TCefComponentUpdaterRef.New;
+end;
+
 procedure TChromiumCore.AfterConstruction;
 begin
   inherited AfterConstruction;
@@ -4768,6 +4855,7 @@ begin
       CreateDevToolsMsgObserver;
       CreatePreferenceObserver;
       CreateSettingObserver;
+      CreateComponentUpdater;
 
       aClient := FHandler;
       Result  := True;
@@ -4954,6 +5042,9 @@ begin
   // ICefSettingObserver
   FOnSettingChanged                   := nil;
 
+  // ICefComponentUpdateCallback
+  FOnComponentUpdateCompleted         := nil;
+
   // Custom
   FOnTextResultAvailable              := nil;
   FOnPdfPrintFinished                 := nil;
@@ -5026,6 +5117,7 @@ begin
           CreateDevToolsMsgObserver;
           CreatePreferenceObserver;
           CreateSettingObserver;
+          CreateComponentUpdater;
 
           if (aContext = nil) then
             TempOldContext := TCefRequestContextRef.Global()
@@ -5081,6 +5173,7 @@ begin
           CreateDevToolsMsgObserver;
           CreatePreferenceObserver;
           CreateSettingObserver;
+          CreateComponentUpdater;
 
           if (aContext = nil) then
             TempOldContext := TCefRequestContextRef.Global()
@@ -9549,6 +9642,12 @@ begin
     FOnSettingChanged(self, requesting_url, top_level_url, content_type);
 end;
 
+procedure TChromiumCore.doOnComponentUpdateCompleted(const component_id: ustring; error: TCefComponentUpdateError);
+begin
+  if assigned(FOnComponentUpdateCompleted) then
+    FOnComponentUpdateCompleted(self, component_id, error);
+end;
+
 procedure TChromiumCore.doOnFullScreenModeChange(const browser    : ICefBrowser;
                                                        fullscreen : Boolean);
 begin
@@ -10517,6 +10616,48 @@ begin
       if (TempContext <> nil) then
         TempContext.SetChromeColorScheme(variant, user_color);
     end;
+end;
+
+function TChromiumCore.GetComponentCount: NativeUInt;
+begin
+  Result := 0;
+
+  if Initialized and assigned(FCefComponentUpdater) then
+    Result := FCefComponentUpdater.GetComponentCount;
+end;
+
+function TChromiumCore.GetComponents(var components_: TCefComponentArray): boolean;
+begin
+  Result := Initialized and
+            assigned(FCefComponentUpdater) and
+            FCefComponentUpdater.GetComponents(components_);
+end;
+
+function TChromiumCore.GetComponentById(const component_id: ustring; var aResult: ICefComponent): boolean;
+begin
+  aResult := nil;
+  Result  := Initialized and
+             assigned(FCefComponentUpdater) and
+             FCefComponentUpdater.GetComponentById(component_id, aResult);
+end;
+
+procedure TChromiumCore.UpdateComponent(const component_id: ustring; priority: TCefComponentUpdatePriority);
+var
+  TempCallback : ICefComponentUpdateCallback;
+begin
+  try
+    if Initialized and assigned(FCefComponentUpdater) then
+      begin
+        if assigned(FOnComponentUpdateCompleted) then
+          TempCallback := TCefCustomComponentUpdateCallback.Create(self)
+         else
+          TempCallback := nil;
+
+        FCefComponentUpdater.Update(component_id, priority, TempCallback);
+      end;
+  finally
+    TempCallback := nil;
+  end;
 end;
 
 {$IFDEF MSWINDOWS}

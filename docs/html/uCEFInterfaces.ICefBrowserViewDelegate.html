@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <span id="ICefBrowserViewDelegate"></span><h1 class="cio">Interface ICefBrowserViewDelegate</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
 <a href="uCEFInterfaces.html">uCEFInterfaces</a></p>
@@ -33,52 +34,52 @@
 <li class="thisitem">ICefBrowserViewDelegate</li></ul><h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegate.html#OnBrowserCreated-ICefBrowserView-ICefBrowser-">OnBrowserCreated</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegate.html#OnBrowserDestroyed-ICefBrowserView-ICefBrowser-">OnBrowserDestroyed</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegate.html#OnGetDelegateForPopupBrowserView-ICefBrowserView-TCefBrowserSettings-ICefClient-boolean-ICefBrowserViewDelegate-">OnGetDelegateForPopupBrowserView</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; is_devtools: boolean; var aResult : <a href="uCEFInterfaces.ICefBrowserViewDelegate.html">ICefBrowserViewDelegate</a>);</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegate.html#OnPopupBrowserViewCreated-ICefBrowserView-ICefBrowserView-boolean-boolean-">OnPopupBrowserViewCreated</a></strong>(const browser_view, popup_browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; is_devtools: boolean; var aResult : boolean);</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegate.html#OnGetChromeToolbarType-ICefBrowserView-TCefChromeToolbarType-">OnGetChromeToolbarType</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult : <a href="uCEFTypes.html#TCefChromeToolbarType">TCefChromeToolbarType</a>);</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegate.html#OnUseFramelessWindowForPictureInPicture-ICefBrowserView-boolean-">OnUseFramelessWindowForPictureInPicture</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean);</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegate.html#OnGestureCommand-ICefBrowserView-TCefGestureCommand-boolean-">OnGestureCommand</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; gesture_command: <a href="uCEFTypes.html#TCefGestureCommand">TCefGestureCommand</a>; var aResult : boolean);</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegate.html#OnGetBrowserRuntimeStyle-TCefRuntimeStyle-">OnGetBrowserRuntimeStyle</a></strong>(var aResult : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegate.html#OnAllowMoveForPictureInPicture-ICefBrowserView-boolean-">OnAllowMoveForPictureInPicture</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean);</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefBrowserViewDelegate.html#OnAllowPictureInPictureWithoutUserActivation-ICefBrowserView-boolean-">OnAllowPictureInPictureWithoutUserActivation</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean);</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnBrowserCreated-ICefBrowserView-ICefBrowser-"></span><code>procedure <strong>OnBrowserCreated</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -91,9 +92,9 @@
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnBrowserDestroyed-ICefBrowserView-ICefBrowser-"></span><code>procedure <strong>OnBrowserDestroyed</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -101,9 +102,9 @@
  Called when |browser| associated with |browser_view| is destroyed. Release all references to |browser| and do not attempt to execute any functions on |browser| after this callback returns. This function will be called before ICefLifeSpanHandler.OnBeforeClose() is called for |browser|. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnGetDelegateForPopupBrowserView-ICefBrowserView-TCefBrowserSettings-ICefClient-boolean-ICefBrowserViewDelegate-"></span><code>procedure <strong>OnGetDelegateForPopupBrowserView</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; const settings: <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>; const client: <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; is_devtools: boolean; var aResult : <a href="uCEFInterfaces.ICefBrowserViewDelegate.html">ICefBrowserViewDelegate</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -111,9 +112,9 @@
  Called before a new popup BrowserView is created. The popup originated from |browser_view|. |settings| and |client| are the values returned from ICefLifeSpanHandler.OnBeforePopup(). |is_devtools| will be true (1) if the popup will be a DevTools browser. Return the delegate that will be used for the new popup BrowserView. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnPopupBrowserViewCreated-ICefBrowserView-ICefBrowserView-boolean-boolean-"></span><code>procedure <strong>OnPopupBrowserViewCreated</strong>(const browser_view, popup_browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; is_devtools: boolean; var aResult : boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -121,9 +122,9 @@
  Called after |popup_browser_view| is created. This function will be called after ICefLifeSpanHandler.OnAfterCreated() and OnBrowserCreated() are called for the new popup browser. The popup originated from |browser_view|. |is_devtools| will be true (1) if the popup is a DevTools browser. Optionally add |popup_browser_view| to the views hierarchy yourself and return true (1). Otherwise return false (0) and a default ICefWindow will be created for the popup. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnGetChromeToolbarType-ICefBrowserView-TCefChromeToolbarType-"></span><code>procedure <strong>OnGetChromeToolbarType</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult : <a href="uCEFTypes.html#TCefChromeToolbarType">TCefChromeToolbarType</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -131,9 +132,9 @@
  Returns the Chrome toolbar type that will be available via ICefBrowserView.GetChromeToolbar(). See that function for related documentation. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnUseFramelessWindowForPictureInPicture-ICefBrowserView-boolean-"></span><code>procedure <strong>OnUseFramelessWindowForPictureInPicture</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -141,9 +142,9 @@
  Return true (1) to create frameless windows for Document picture-in- picture popups. Content in frameless windows should specify draggable regions using &quot;-webkit-app-region: drag&quot; CSS. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnGestureCommand-ICefBrowserView-TCefGestureCommand-boolean-"></span><code>procedure <strong>OnGestureCommand</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; gesture_command: <a href="uCEFTypes.html#TCefGestureCommand">TCefGestureCommand</a>; var aResult : boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -151,9 +152,9 @@
  Called when |browser_view| receives a gesture command. Return true (1) to handle (or disable) a |gesture_command| or false (0) to propagate the gesture to the browser for default handling. With Chrome style these commands can also be handled via ICefCommandHandler.OnChromeCommand. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnGetBrowserRuntimeStyle-TCefRuntimeStyle-"></span><code>procedure <strong>OnGetBrowserRuntimeStyle</strong>(var aResult : <a href="uCEFTypes.html#TCefRuntimeStyle">TCefRuntimeStyle</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -161,9 +162,9 @@
  Optionally change the runtime style for this BrowserView. See TCefRuntimeStyle documentation for details. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnAllowMoveForPictureInPicture-ICefBrowserView-boolean-"></span><code>procedure <strong>OnAllowMoveForPictureInPicture</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -171,9 +172,9 @@
  Return true (1) to allow the use of JavaScript moveTo/By() and resizeTo/By() (without user activation) with Document picture-in-picture popups. </p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="OnAllowPictureInPictureWithoutUserActivation-ICefBrowserView-boolean-"></span><code>procedure <strong>OnAllowPictureInPictureWithoutUserActivation</strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>; var aResult: boolean);</code></td>
 </tr>
 <tr><td colspan="2">

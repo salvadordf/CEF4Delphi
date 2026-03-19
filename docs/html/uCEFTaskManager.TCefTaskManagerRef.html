@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="PasDoc 0.17.0.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body>
 <span id="TCefTaskManagerRef"></span><h1 class="cio">Class TCefTaskManagerRef</h1>
 <div class="sections">
-<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
 <p class="unitlink">
 <a href="uCEFTaskManager.html">uCEFTaskManager</a></p>
@@ -34,40 +35,40 @@
 <li class="thisitem">TCefTaskManagerRef</li></ul><h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFTaskManager.TCefTaskManagerRef.html#GetTasksCount">GetTasksCount</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFTaskManager.TCefTaskManagerRef.html#GetTaskIdsList-TCefCustomInt64Array-">GetTaskIdsList</a></strong>(var task_ids: <a href="uCEFTypes.html#TCefCustomInt64Array">TCefCustomInt64Array</a>): boolean;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFTaskManager.TCefTaskManagerRef.html#GetTaskInfo-int64-TCustomTaskInfo-">GetTaskInfo</a></strong>(const task_id: int64; var info: <a href="uCEFTypes.TCustomTaskInfo.html">TCustomTaskInfo</a>): boolean;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFTaskManager.TCefTaskManagerRef.html#KillTask-int64-">KillTask</a></strong>(task_id: int64): boolean;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFTaskManager.TCefTaskManagerRef.html#GetTaskIdForBrowserId-Integer-">GetTaskIdForBrowserId</a></strong>(browser_id: Integer): int64;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFTaskManager.TCefTaskManagerRef.html#UnWrap-Pointer-">UnWrap</a></strong>(data: Pointer): <a href="uCEFInterfaces.ICefTaskManager.html">ICefTaskManager</a>;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class function <strong><a href="uCEFTaskManager.TCefTaskManagerRef.html#New">New</a></strong>(): <a href="uCEFInterfaces.ICefTaskManager.html">ICefTaskManager</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="GetTasksCount"></span><code>function <strong>GetTasksCount</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -79,9 +80,9 @@
 <p>This function may only be called on the CEF UI thread.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="GetTaskIdsList-TCefCustomInt64Array-"></span><code>function <strong>GetTaskIdsList</strong>(var task_ids: <a href="uCEFTypes.html#TCefCustomInt64Array">TCefCustomInt64Array</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -93,9 +94,9 @@
 <p>This function may only be called on the CEF UI thread.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="GetTaskInfo-int64-TCustomTaskInfo-"></span><code>function <strong>GetTaskInfo</strong>(const task_id: int64; var info: <a href="uCEFTypes.TCustomTaskInfo.html">TCustomTaskInfo</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -107,9 +108,9 @@
 <p>This function may only be called on the CEF UI thread.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="KillTask-int64-"></span><code>function <strong>KillTask</strong>(task_id: int64): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -121,9 +122,9 @@
 <p>This function may only be called on the CEF UI thread.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="GetTaskIdForBrowserId-Integer-"></span><code>function <strong>GetTaskIdForBrowserId</strong>(browser_id: Integer): int64;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -135,17 +136,17 @@
 <p>This function may only be called on the CEF UI thread.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="UnWrap-Pointer-"></span><code>class function <strong>UnWrap</strong>(data: Pointer): <a href="uCEFInterfaces.ICefTaskManager.html">ICefTaskManager</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="New"></span><code>class function <strong>New</strong>(): <a href="uCEFInterfaces.ICefTaskManager.html">ICefTaskManager</a>;</code></td>
 </tr>
 <tr><td colspan="2">
