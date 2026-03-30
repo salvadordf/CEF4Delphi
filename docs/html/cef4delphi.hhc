@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
 <head>
-<meta name="GENERATOR" content="PasDoc 1.0.0">
+<meta name="GENERATOR" content="PasDoc 1.0.2">
 </head><body>
 <ul>
 <li><object type="text/sitemap">
@@ -105169,9 +105169,5 @@
 <param name="Local" value="AllIdentifiers.html">
 </object>
 </ul>
-<li><object type="text/sitemap">
-<param name="Name" value="Legend">
-<param name="Local" value="Legend.html">
-</object>
 </ul>
 </body></html>
