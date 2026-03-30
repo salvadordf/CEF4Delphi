@@ -4689,6 +4689,19 @@ type
     /// supported with Chrome style.
     /// </summary>
     chrome_zoom_bubble              : TCefState;
+    /// <summary>
+    /// Controls whether CDP accessibility tree serialization collapses off-screen
+    /// nodes. When enabled, off-screen landmarks and headings are serialized as
+    /// summaries (role + name only) and other off-screen nodes are pruned.
+    /// This reduces snapshot size for AI agents using Playwright ariaSnapshot().
+    /// WARNING: This collapses the CDP accessibility tree and disables CDP
+    /// dynamic tree updates (nodesUpdated events). The DevTools Accessibility
+    /// panel will show an incomplete tree. Platform screen readers (NVDA, JAWS,
+    /// VoiceOver) are unaffected — they use a separate code path.
+    /// Can also be configured at runtime using
+    /// CefBrowserHost::SetAxViewportCollapse.
+    /// </summary>
+    ax_viewport_collapse            : TCefState;        {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
   end;
 
   /// <summary>
@@ -8696,6 +8709,7 @@ type
     execute_chrome_command            : procedure(self: PCefBrowserHost; command_id: integer; disposition: TCefWindowOpenDisposition); stdcall;
     is_render_process_unresponsive    : function(self: PCefBrowserHost): integer; stdcall;
     get_runtime_style                 : function(self: PCefBrowserHost): TCefRuntimeStyle; stdcall;
+    set_ax_viewport_collapse          : procedure(self: PCefBrowserHost; enabled: integer); stdcall;   {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
   end;
 
   /// <summary>

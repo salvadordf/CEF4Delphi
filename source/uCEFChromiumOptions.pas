@@ -40,6 +40,7 @@ type
       FBackgroundColor             : TCefColor;
       FChromeStatusBubble          : TCefState;
       FChromeZoomBubble            : TCefState;
+      FAxViewportCollapse          : TCefState;
 
     public
       /// <summary>
@@ -148,6 +149,19 @@ type
       /// supported with Chrome style.
       /// </summary>
       property ChromeZoomBubble            : TCefState read FChromeZoomBubble             write FChromeZoomBubble            default STATE_DEFAULT;
+      /// <summary>
+      /// Controls whether CDP accessibility tree serialization collapses off-screen
+      /// nodes. When enabled, off-screen landmarks and headings are serialized as
+      /// summaries (role + name only) and other off-screen nodes are pruned.
+      /// This reduces snapshot size for AI agents using Playwright ariaSnapshot().
+      /// WARNING: This collapses the CDP accessibility tree and disables CDP
+      /// dynamic tree updates (nodesUpdated events). The DevTools Accessibility
+      /// panel will show an incomplete tree. Platform screen readers (NVDA, JAWS,
+      /// VoiceOver) are unaffected — they use a separate code path.
+      /// Can also be configured at runtime using
+      /// ICefBrowserHost.SetAxViewportCollapse.
+      /// </summary>
+      property AxViewportCollapse          : TCefState read FAxViewportCollapse           write FAxViewportCollapse          default STATE_DEFAULT;
   end;
 
 implementation
@@ -176,6 +190,7 @@ begin
   FBackgroundColor             := 0;
   FChromeStatusBubble          := STATE_DEFAULT;
   FChromeZoomBubble            := STATE_DEFAULT;
+  FAxViewportCollapse          := STATE_DEFAULT;
 end;
 
 end.

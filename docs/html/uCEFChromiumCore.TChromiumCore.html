@@ -3,7 +3,7 @@
 <head>
 <title>cef4delphi: uCEFChromiumCore: Class TChromiumCore</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta name="generator" content="PasDoc 1.0.0">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
@@ -90,7 +90,7 @@
 </tr>
 <tr class="list2 visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
-<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FPreferenceInfoList">FPreferenceInfoList</a></strong>: TPreferenceInfoList;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FPreferenceInfoList">FPreferenceInfoList</a></strong>: <a href="uCEFPreferenceObserver.TPreferenceInfoList.html">TPreferenceInfoList</a>;</code></td>
 </tr>
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
@@ -2705,161 +2705,165 @@
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendExternalBeginFrame">SendExternalBeginFrame</a></strong>;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetAxViewportCollapse-boolean-">SetAxViewportCollapse</a></strong>(enabled: boolean);</code></td>
 </tr>
 <tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendExternalBeginFrame">SendExternalBeginFrame</a></strong>;</code></td>
+</tr>
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendKeyEvent-PCefKeyEvent-">SendKeyEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefKeyEvent">PCefKeyEvent</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendMouseClickEvent-PCefMouseEvent-TCefMouseButtonType-Boolean-Integer-">SendMouseClickEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; type_: <a href="uCEFTypes.html#TCefMouseButtonType">TCefMouseButtonType</a>; mouseUp: Boolean; clickCount: Integer);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendMouseMoveEvent-PCefMouseEvent-Boolean-">SendMouseMoveEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; mouseLeave: Boolean);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendMouseWheelEvent-PCefMouseEvent-Integer-Integer-">SendMouseWheelEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; deltaX, deltaY: Integer);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendTouchEvent-PCefTouchEvent-">SendTouchEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefTouchEvent">PCefTouchEvent</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendCaptureLostEvent">SendCaptureLostEvent</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendProcessMessage-TCefProcessId-ICefProcessMessage-ustring-ustring-">SendProcessMessage</a></strong>(targetProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const ProcMessage: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendProcessMessage-TCefProcessId-ICefProcessMessage-ICefFrame-">SendProcessMessage</a></strong>(targetProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const ProcMessage: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateUrlRequest-ICefRequest-ICefUrlrequestClient-ustring-ustring-">CreateUrlRequest</a></strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const client: <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''): <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; overload;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateUrlRequest-ICefRequest-ICefUrlrequestClient-ICefFrame-">CreateUrlRequest</a></strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const client: <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>): <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; overload;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetFocus-Boolean-">SetFocus</a></strong>(focus: Boolean);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetAccessibilityState-TCefState-">SetAccessibilityState</a></strong>(accessibilityState: <a href="uCEFTypes.html#TCefState">TCefState</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDragEnter-ICefDragData-PCefMouseEvent-TCefDragOperations-">DragTargetDragEnter</a></strong>(const dragData: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDragOver-PCefMouseEvent-TCefDragOperations-">DragTargetDragOver</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDragLeave">DragTargetDragLeave</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDrop-PCefMouseEvent-">DragTargetDrop</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragSourceEndedAt-Integer-Integer-TCefDragOperation-">DragSourceEndedAt</a></strong>(x, y: Integer; op: <a href="uCEFTypes.html#TCefDragOperation">TCefDragOperation</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragSourceSystemDragEnded">DragSourceSystemDragEnded</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMESetComposition-ustring-TCefCompositionUnderlineDynArray-PCefRange-PCefRange-">IMESetComposition</a></strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; const underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>; const replacement_range, selection_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMECommitText-ustring-PCefRange-integer-">IMECommitText</a></strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; const replacement_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>; relative_cursor_pos : integer);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMEFinishComposingText-boolean-">IMEFinishComposingText</a></strong>(keep_selection : boolean);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMECancelComposition">IMECancelComposition</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ReplaceMisspelling-ustring-">ReplaceMisspelling</a></strong>(const aWord : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddWordToDictionary-ustring-">AddWordToDictionary</a></strong>(const aWord : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddObserver-ICefMediaObserver-">AddObserver</a></strong>(const observer: <a href="uCEFInterfaces.ICefMediaObserver.html">ICefMediaObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetSource-ustring-">GetSource</a></strong>(const urn: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefMediaSource.html">ICefMediaSource</a>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyCurrentSinks">NotifyCurrentSinks</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyCurrentRoutes">NotifyCurrentRoutes</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateRoute-ICefMediaSource-ICefMediaSink-">CreateRoute</a></strong>(const source: <a href="uCEFInterfaces.ICefMediaSource.html">ICefMediaSource</a>; const sink: <a href="uCEFInterfaces.ICefMediaSink.html">ICefMediaSink</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetDeviceInfo-ICefMediaSink-">GetDeviceInfo</a></strong>(const aMediaSink: <a href="uCEFInterfaces.ICefMediaSink.html">ICefMediaSink</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetWebsiteSetting-ustring-ustring-TCefContentSettingTypes-">GetWebsiteSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetWebsiteSetting-ustring-ustring-TCefContentSettingTypes-ICefValue-">SetWebsiteSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetContentSetting-ustring-ustring-TCefContentSettingTypes-">GetContentSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetContentSetting-ustring-ustring-TCefContentSettingTypes-TCefContentSettingValues-">SetContentSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; value: <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetChromeColorScheme-TCefColorVariant-TCefColor-">SetChromeColorScheme</a></strong>(variant: <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>; user_color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetComponentCount">GetComponentCount</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetComponents-TCefComponentArray-">GetComponents</a></strong>(var components_: <a href="uCEFInterfaces.html#TCefComponentArray">TCefComponentArray</a>): boolean;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetComponentById-ustring-ICefComponent-">GetComponentById</a></strong>(const component_id: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: <a href="uCEFInterfaces.ICefComponent.html">ICefComponent</a>): boolean;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#UpdateComponent-ustring-TCefComponentUpdatePriority-">UpdateComponent</a></strong>(const component_id: <a href="uCEFTypes.html#ustring">ustring</a>; priority: <a href="uCEFTypes.html#TCefComponentUpdatePriority">TCefComponentUpdatePriority</a>);</code></td>
 </tr>
@@ -3984,7 +3988,7 @@
 <table class="detail visibility-protected wide_list">
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
-<td class="itemcode"><span id="FPreferenceInfoList"></span><code><strong>FPreferenceInfoList</strong>: TPreferenceInfoList;</code></td>
+<td class="itemcode"><span id="FPreferenceInfoList"></span><code><strong>FPreferenceInfoList</strong>: <a href="uCEFPreferenceObserver.TPreferenceInfoList.html">TPreferenceInfoList</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -9887,6 +9891,16 @@ Custom</p>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SetAxViewportCollapse-boolean-"></span><code>procedure <strong>SetAxViewportCollapse</strong>(enabled: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Enable or disable CDP accessibility tree viewport collapse for this browser. When enabled, off-screen landmarks and headings are serialized as summaries and other off-screen nodes are pruned. Overrides the TChromiumOptions.AxViewportCollapse value. If called on the UI thread the change will be applied immediately. Otherwise, the change will be applied asynchronously on the UI thread. WARNING: This collapses the CDP accessibility tree and disables CDP dynamic tree updates (nodesUpdated events). The DevTools Accessibility panel will show an incomplete tree. Platform screen readers (NVDA, JAWS, VoiceOver) are unaffected — they use a separate code path. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="SendExternalBeginFrame"></span><code>procedure <strong>SendExternalBeginFrame</strong>;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -13931,6 +13945,6 @@ Custom</p>
 <p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_update_callback_t))</p>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.0</a>. </em>
 </span>
 </body></html>

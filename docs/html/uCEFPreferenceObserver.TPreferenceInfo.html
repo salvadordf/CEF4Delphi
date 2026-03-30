@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFPreferenceObserver: Class TPreferenceInfo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 1.0.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TPreferenceInfo"></span><h1 class="cio">Class TPreferenceInfo</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFPreferenceObserver.html">uCEFPreferenceObserver</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TPreferenceInfo = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TPreferenceInfo</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code><strong><a href="uCEFPreferenceObserver.TPreferenceInfo.html#FObserver">FObserver</a></strong>: <a href="uCEFInterfaces.ICefPreferenceObserver.html">ICefPreferenceObserver</a>;</code></td>
+</tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code><strong><a href="uCEFPreferenceObserver.TPreferenceInfo.html#FRegistration">FRegistration</a></strong>: <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code><strong><a href="uCEFPreferenceObserver.TPreferenceInfo.html#FName">FName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFPreferenceObserver.TPreferenceInfo.html#Create-ustring-IChromiumEvents-">Create</a></strong>(const aName : <a href="uCEFTypes.html#ustring">ustring</a>; const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>);</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>destructor <strong><a href="uCEFPreferenceObserver.TPreferenceInfo.html#Destroy">Destroy</a></strong>; override;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPreferenceObserver.TPreferenceInfo.html#PrefName">PrefName</a></strong>     : <a href="uCEFTypes.html#ustring">ustring</a>                read <a href="uCEFPreferenceObserver.TPreferenceInfo.html#FName">FName</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPreferenceObserver.TPreferenceInfo.html#Observer">Observer</a></strong>     : <a href="uCEFInterfaces.ICefPreferenceObserver.html">ICefPreferenceObserver</a> read <a href="uCEFPreferenceObserver.TPreferenceInfo.html#FObserver">FObserver</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>property <strong><a href="uCEFPreferenceObserver.TPreferenceInfo.html#Registration">Registration</a></strong> : <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>       read <a href="uCEFPreferenceObserver.TPreferenceInfo.html#FRegistration">FRegistration</a>  write <a href="uCEFPreferenceObserver.TPreferenceInfo.html#FRegistration">FRegistration</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="FObserver"></span><code><strong>FObserver</strong>: <a href="uCEFInterfaces.ICefPreferenceObserver.html">ICefPreferenceObserver</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="FRegistration"></span><code><strong>FRegistration</strong>: <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="FName"></span><code><strong>FName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Create-ustring-IChromiumEvents-"></span><code>constructor <strong>Create</strong>(const aName : <a href="uCEFTypes.html#ustring">ustring</a>; const events : <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <strong>Destroy</strong>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="PrefName"></span><code>property <strong>PrefName</strong>     : <a href="uCEFTypes.html#ustring">ustring</a>                read <a href="uCEFPreferenceObserver.TPreferenceInfo.html#FName">FName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Observer"></span><code>property <strong>Observer</strong>     : <a href="uCEFInterfaces.ICefPreferenceObserver.html">ICefPreferenceObserver</a> read <a href="uCEFPreferenceObserver.TPreferenceInfo.html#FObserver">FObserver</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Registration"></span><code>property <strong>Registration</strong> : <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>       read <a href="uCEFPreferenceObserver.TPreferenceInfo.html#FRegistration">FRegistration</a>  write <a href="uCEFPreferenceObserver.TPreferenceInfo.html#FRegistration">FRegistration</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.0</a>. </em>
+</span>
+</body></html>

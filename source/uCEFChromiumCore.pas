@@ -1487,6 +1487,19 @@ type
       /// </remarks>
       procedure ExecuteChromeCommand(command_id: integer; disposition: TCefWindowOpenDisposition);
       /// <summary>
+      /// Enable or disable CDP accessibility tree viewport collapse for this
+      /// browser. When enabled, off-screen landmarks and headings are serialized as
+      /// summaries and other off-screen nodes are pruned. Overrides the
+      /// TChromiumOptions.AxViewportCollapse value. If called on the UI
+      /// thread the change will be applied immediately. Otherwise, the change will
+      /// be applied asynchronously on the UI thread. WARNING: This collapses the
+      /// CDP accessibility tree and disables CDP dynamic tree updates (nodesUpdated
+      /// events). The DevTools Accessibility panel will show an incomplete tree.
+      /// Platform screen readers (NVDA, JAWS, VoiceOver) are unaffected — they use
+      /// a separate code path.
+      /// </summary>
+      procedure SetAxViewportCollapse(enabled: boolean);      {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
+      /// <summary>
       /// Issue a BeginFrame request to Chromium.  Only valid when
       /// TCefWindowInfo.external_begin_frame_enabled is set to true (1).
       /// </summary>
@@ -5643,6 +5656,7 @@ begin
       aSettings.background_color                := FOptions.BackgroundColor;
       aSettings.chrome_status_bubble            := FOptions.ChromeStatusBubble;
       aSettings.chrome_zoom_bubble              := FOptions.ChromeZoomBubble;
+      aSettings.ax_viewport_collapse            := FOptions.AxViewportCollapse;
     end;
 end;
 
@@ -10224,6 +10238,12 @@ procedure TChromiumCore.ExecuteChromeCommand(command_id: integer; disposition: T
 begin
   if Initialized then
     Browser.Host.ExecuteChromeCommand(command_id, disposition);
+end;
+
+procedure TChromiumCore.SetAxViewportCollapse(enabled: boolean);
+begin
+  if Initialized then
+    Browser.Host.SetAxViewportCollapse(enabled);
 end;
 
 procedure TChromiumCore.SendExternalBeginFrame;

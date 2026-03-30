@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
 <head>
-<meta name="GENERATOR" content="PasDoc 0.17.0.snapshot">
+<meta name="GENERATOR" content="PasDoc 1.0.0">
 </head><body>
 <ul>
 <li><object type="text/sitemap">
@@ -2536,6 +2536,10 @@
 <param name="Local" value="uCEFApplicationCore.html#CEF_API_VERSION_EXPERIMENTAL">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_EXPERIMENTAL">
+<param name="Local" value="uCEFApplicationCore.html#CEF_EXPERIMENTAL">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="CEF_API_HASH_PLATFORM_LINUX">
 <param name="Local" value="uCEFApplicationCore.html#CEF_API_HASH_PLATFORM_LINUX">
 </object>
@@ -3802,6 +3806,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetRuntimeStyle">
 <param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#GetRuntimeStyle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetAxViewportCollapse">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SetAxViewportCollapse">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="UnWrap">
@@ -9698,6 +9706,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#ExecuteChromeCommand">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SetAxViewportCollapse">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAxViewportCollapse">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="SendExternalBeginFrame">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendExternalBeginFrame">
 </object>
@@ -10793,6 +10805,10 @@
 <param name="Name" value="FChromeZoomBubble">
 <param name="Local" value="uCEFChromiumOptions.TChromiumOptions.html#FChromeZoomBubble">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="FAxViewportCollapse">
+<param name="Local" value="uCEFChromiumOptions.TChromiumOptions.html#FAxViewportCollapse">
+</object>
 </ul>
 <li><object type="text/sitemap">
 <param name="Name" value="Properties">
@@ -10858,6 +10874,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ChromeZoomBubble">
 <param name="Local" value="uCEFChromiumOptions.TChromiumOptions.html#ChromeZoomBubble">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AxViewportCollapse">
+<param name="Local" value="uCEFChromiumOptions.TChromiumOptions.html#AxViewportCollapse">
 </object>
 </ul>
 <li><object type="text/sitemap">
@@ -11778,6 +11798,50 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="uCEFComponent">
+<param name="Local" value="uCEFComponent.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Classes">
+<param name="Local" value="uCEFComponent.html#@Classes">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefComponentRef">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="GetId">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html#GetId">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetName">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html#GetName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetVersion">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html#GetVersion">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetState">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html#GetState">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="UnWrap">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html#UnWrap">
+</object>
+</ul>
+</ul>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="uCEFComponentIdList">
 <param name="Local" value="uCEFComponentIdList.html">
 </object>
@@ -11860,6 +11924,140 @@
 <li><object type="text/sitemap">
 <param name="Name" value="RemoveID">
 <param name="Local" value="uCEFComponentIdList.TCEFComponentIdList.html#RemoveID">
+</object>
+</ul>
+</ul>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="uCEFComponentUpdateCallback">
+<param name="Local" value="uCEFComponentUpdateCallback.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Classes">
+<param name="Local" value="uCEFComponentUpdateCallback.html#@Classes">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefComponentUpdateCallbackOwn">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackOwn.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackOwn.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="OnComplete">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackOwn.html#OnComplete">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackOwn.html#Create">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefCustomComponentUpdateCallback">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FEvents">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html#FEvents">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="OnComplete">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html#OnComplete">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html#Destroy">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefComponentUpdateCallbackRef">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackRef.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackRef.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="OnComplete">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackRef.html#OnComplete">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="UnWrap">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackRef.html#UnWrap">
+</object>
+</ul>
+</ul>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="uCEFComponentUpdater">
+<param name="Local" value="uCEFComponentUpdater.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Classes">
+<param name="Local" value="uCEFComponentUpdater.html#@Classes">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefComponentUpdaterRef">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="GetComponentCount">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#GetComponentCount">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetComponents">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#GetComponents">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetComponentById">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#GetComponentById">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Update">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#Update">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="UnWrap">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#UnWrap">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="New">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#New">
 </object>
 </ul>
 </ul>
@@ -22543,6 +22741,10 @@
 <param name="Name" value="GetRuntimeStyle">
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#GetRuntimeStyle">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetAxViewportCollapse">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SetAxViewportCollapse">
+</object>
 </ul>
 </ul>
 <li><object type="text/sitemap">
@@ -31280,6 +31482,118 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="uCEFLinuxOSRIMEHandler">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Classes">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.html#@Classes">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCEFLinuxOSRIMEHandler">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FPanel">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#FPanel">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FForm">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#FForm">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FHasFocus">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#FHasFocus">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Properties">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#@Properties">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Initialized">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Initialized">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="HasFocus">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#HasFocus">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Panel">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Panel">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="GetInitialized">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#GetInitialized">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetPanel">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#SetPanel">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Destroy">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CreateContext">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#CreateContext">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="DestroyContext">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#DestroyContext">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetClientWindow">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#SetClientWindow">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ResetClientWindow">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#ResetClientWindow">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ConnectSignals">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#ConnectSignals">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Focus">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Focus">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Blur">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Blur">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Reset">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Reset">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetCursorLocation">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#SetCursorLocation">
+</object>
+</ul>
+</ul>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="uCEFLinuxTypes">
 <param name="Local" value="uCEFLinuxTypes.html">
 </object>
@@ -35890,6 +36204,168 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="uCEFPreferenceObserver">
+<param name="Local" value="uCEFPreferenceObserver.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Classes">
+<param name="Local" value="uCEFPreferenceObserver.html#@Classes">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefPreferenceObserverOwn">
+<param name="Local" value="uCEFPreferenceObserver.TCefPreferenceObserverOwn.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFPreferenceObserver.TCefPreferenceObserverOwn.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreferenceChanged">
+<param name="Local" value="uCEFPreferenceObserver.TCefPreferenceObserverOwn.html#OnPreferenceChanged">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFPreferenceObserver.TCefPreferenceObserverOwn.html#RemoveReferences">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFPreferenceObserver.TCefPreferenceObserverOwn.html#Create">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCustomPreferenceObserver">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FEvents">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#FEvents">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreferenceChanged">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#OnPreferenceChanged">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#RemoveReferences">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#Destroy">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TPreferenceInfo">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FObserver">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#FObserver">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FRegistration">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#FRegistration">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FName">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#FName">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Properties">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#@Properties">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="PrefName">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#PrefName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Observer">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#Observer">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Registration">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#Registration">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#Destroy">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TPreferenceInfoList">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="SearchPreference">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html#SearchPreference">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html#Destroy">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="HasPreference">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html#HasPreference">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AddPreference">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html#AddPreference">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemovePreference">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html#RemovePreference">
+</object>
+</ul>
+</ul>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="uCEFPreferenceRegistrar">
 <param name="Local" value="uCEFPreferenceRegistrar.html">
 </object>
@@ -39264,6 +39740,80 @@
 <li><object type="text/sitemap">
 <param name="Name" value="Destroy">
 <param name="Local" value="uCEFSetCookieCallback.TCefCustomSetCookieCallback.html#Destroy">
+</object>
+</ul>
+</ul>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="uCEFSettingObserver">
+<param name="Local" value="uCEFSettingObserver.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Classes">
+<param name="Local" value="uCEFSettingObserver.html#@Classes">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefSettingObserverOwn">
+<param name="Local" value="uCEFSettingObserver.TCefSettingObserverOwn.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFSettingObserver.TCefSettingObserverOwn.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="OnSettingChanged">
+<param name="Local" value="uCEFSettingObserver.TCefSettingObserverOwn.html#OnSettingChanged">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFSettingObserver.TCefSettingObserverOwn.html#RemoveReferences">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFSettingObserver.TCefSettingObserverOwn.html#Create">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCustomSettingObserver">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FEvents">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#FEvents">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="OnSettingChanged">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#OnSettingChanged">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#RemoveReferences">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#Destroy">
 </object>
 </ul>
 </ul>
@@ -42912,6 +43462,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="chrome_zoom_bubble">
 <param name="Local" value="uCEFTypes.TCefBrowserSettings.html#chrome_zoom_bubble">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ax_viewport_collapse">
+<param name="Local" value="uCEFTypes.TCefBrowserSettings.html#ax_viewport_collapse">
 </object>
 </ul>
 </ul>
@@ -49297,6 +49851,10 @@
 <param name="Name" value="get_runtime_style">
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#get_runtime_style">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="set_ax_viewport_collapse">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#set_ax_viewport_collapse">
+</object>
 </ul>
 </ul>
 <li><object type="text/sitemap">
@@ -53024,6 +53582,50 @@
 <li><object type="text/sitemap">
 <param name="Name" value="UnWrap">
 <param name="Local" value="uCEFv8ArrayBufferReleaseCallback.TCefv8ArrayBufferReleaseCallbackRef.html#UnWrap">
+</object>
+</ul>
+</ul>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="uCEFv8BackingStore">
+<param name="Local" value="uCEFv8BackingStore.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Classes">
+<param name="Local" value="uCEFv8BackingStore.html#@Classes">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefv8BackingStoreRef">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="data">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html#data">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ByteLength">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html#ByteLength">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IsValid">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html#IsValid">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="UnWrap">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html#UnWrap">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="New">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html#New">
 </object>
 </ul>
 </ul>
@@ -58428,6 +59030,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SetAutoResizeEnabled">
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SetAutoResizeEnabled">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetAxViewportCollapse">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SetAxViewportCollapse">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetFocus">
@@ -71690,6 +72296,10 @@
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#set_auto_resize_enabled">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="set_ax_viewport_collapse">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#set_ax_viewport_collapse">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="set_focus">
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#set_focus">
 </object>
@@ -71998,6 +72608,10 @@
 <param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SetAutoResizeEnabled">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SetAxViewportCollapse">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SetAxViewportCollapse">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="SetFocus">
 <param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SetFocus">
 </object>
@@ -72267,6 +72881,10 @@
 <param name="Local" value="uCEFTypes.TCefBrowserSettings.html#@Fields">
 </object>
 <ul>
+<li><object type="text/sitemap">
+<param name="Name" value="ax_viewport_collapse">
+<param name="Local" value="uCEFTypes.TCefBrowserSettings.html#ax_viewport_collapse">
+</object>
 <li><object type="text/sitemap">
 <param name="Name" value="background_color">
 <param name="Local" value="uCEFTypes.TCefBrowserSettings.html#background_color">
@@ -74024,6 +74642,38 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="TCefComponentRef">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="UnWrap">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html#UnWrap">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetId">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html#GetId">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetName">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html#GetName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetState">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html#GetState">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetVersion">
+<param name="Local" value="uCEFComponent.TCefComponentRef.html#GetVersion">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="TCefComponentUpdateCallback">
 <param name="Local" value="uCEFTypes.TCefComponentUpdateCallback.html">
 </object>
@@ -74040,6 +74690,46 @@
 <li><object type="text/sitemap">
 <param name="Name" value="on_complete">
 <param name="Local" value="uCEFTypes.TCefComponentUpdateCallback.html#on_complete">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefComponentUpdateCallbackOwn">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackOwn.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackOwn.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackOwn.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnComplete">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackOwn.html#OnComplete">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefComponentUpdateCallbackRef">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackRef.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackRef.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="UnWrap">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackRef.html#UnWrap">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnComplete">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefComponentUpdateCallbackRef.html#OnComplete">
 </object>
 </ul>
 </ul>
@@ -74072,6 +74762,42 @@
 <li><object type="text/sitemap">
 <param name="Name" value="update">
 <param name="Local" value="uCEFTypes.TCefComponentUpdater.html#update">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefComponentUpdaterRef">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="New">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#New">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="UnWrap">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#UnWrap">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetComponentById">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#GetComponentById">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetComponentCount">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#GetComponentCount">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetComponents">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#GetComponents">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Update">
+<param name="Local" value="uCEFComponentUpdater.TCefComponentUpdaterRef.html#Update">
 </object>
 </ul>
 </ul>
@@ -74812,6 +75538,40 @@
 <li><object type="text/sitemap">
 <param name="Name" value="Destroy">
 <param name="Local" value="uCEFCompletionCallback.TCefCustomCompletionCallback.html#Destroy">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefCustomComponentUpdateCallback">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FEvents">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html#FEvents">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html#Destroy">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnComplete">
+<param name="Local" value="uCEFComponentUpdateCallback.TCefCustomComponentUpdateCallback.html#OnComplete">
 </object>
 </ul>
 </ul>
@@ -79926,6 +80686,106 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="TCEFLinuxOSRIMEHandler">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FForm">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#FForm">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FHasFocus">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#FHasFocus">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FPanel">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#FPanel">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Properties">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#@Properties">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="HasFocus">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#HasFocus">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Initialized">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Initialized">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Panel">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Panel">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Destroy">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ConnectSignals">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#ConnectSignals">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CreateContext">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#CreateContext">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetInitialized">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#GetInitialized">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Blur">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Blur">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="DestroyContext">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#DestroyContext">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Focus">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Focus">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Reset">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#Reset">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ResetClientWindow">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#ResetClientWindow">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetClientWindow">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#SetClientWindow">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetCursorLocation">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#SetCursorLocation">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetPanel">
+<param name="Local" value="uCEFLinuxOSRIMEHandler.TCEFLinuxOSRIMEHandler.html#SetPanel">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="TCefLinuxWindowProperties">
 <param name="Local" value="uCEFTypes.TCefLinuxWindowProperties.html">
 </object>
@@ -83506,6 +84366,30 @@
 <li><object type="text/sitemap">
 <param name="Name" value="on_preference_changed">
 <param name="Local" value="uCEFTypes.TCefPreferenceObserver.html#on_preference_changed">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefPreferenceObserverOwn">
+<param name="Local" value="uCEFPreferenceObserver.TCefPreferenceObserverOwn.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFPreferenceObserver.TCefPreferenceObserverOwn.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFPreferenceObserver.TCefPreferenceObserverOwn.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreferenceChanged">
+<param name="Local" value="uCEFPreferenceObserver.TCefPreferenceObserverOwn.html#OnPreferenceChanged">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFPreferenceObserver.TCefPreferenceObserverOwn.html#RemoveReferences">
 </object>
 </ul>
 </ul>
@@ -87154,6 +88038,30 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="TCefSettingObserverOwn">
+<param name="Local" value="uCEFSettingObserver.TCefSettingObserverOwn.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFSettingObserver.TCefSettingObserverOwn.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFSettingObserver.TCefSettingObserverOwn.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnSettingChanged">
+<param name="Local" value="uCEFSettingObserver.TCefSettingObserverOwn.html#OnSettingChanged">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFSettingObserver.TCefSettingObserverOwn.html#RemoveReferences">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="TCefSettings">
 <param name="Local" value="uCEFTypes.TCefSettings.html">
 </object>
@@ -90052,6 +90960,38 @@
 <li><object type="text/sitemap">
 <param name="Name" value="is_valid">
 <param name="Local" value="uCEFTypes.TCefv8BackingStore.html#is_valid">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefv8BackingStoreRef">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="New">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html#New">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="UnWrap">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html#UnWrap">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ByteLength">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html#ByteLength">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="data">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html#data">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IsValid">
+<param name="Local" value="uCEFv8BackingStore.TCefv8BackingStoreRef.html#IsValid">
 </object>
 </ul>
 </ul>
@@ -98416,6 +99356,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAccessibilityState">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SetAxViewportCollapse">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAxViewportCollapse">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="SetChromeColorScheme">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetChromeColorScheme">
 </object>
@@ -99392,6 +100336,10 @@
 </object>
 <ul>
 <li><object type="text/sitemap">
+<param name="Name" value="FAxViewportCollapse">
+<param name="Local" value="uCEFChromiumOptions.TChromiumOptions.html#FAxViewportCollapse">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FBackgroundColor">
 <param name="Local" value="uCEFChromiumOptions.TChromiumOptions.html#FBackgroundColor">
 </object>
@@ -99457,6 +100405,10 @@
 <param name="Local" value="uCEFChromiumOptions.TChromiumOptions.html#@Properties">
 </object>
 <ul>
+<li><object type="text/sitemap">
+<param name="Name" value="AxViewportCollapse">
+<param name="Local" value="uCEFChromiumOptions.TChromiumOptions.html#AxViewportCollapse">
+</object>
 <li><object type="text/sitemap">
 <param name="Name" value="BackgroundColor">
 <param name="Local" value="uCEFChromiumOptions.TChromiumOptions.html#BackgroundColor">
@@ -101526,6 +102478,44 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="TCustomPreferenceObserver">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FEvents">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#FEvents">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#Destroy">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreferenceChanged">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#OnPreferenceChanged">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFPreferenceObserver.TCustomPreferenceObserver.html#RemoveReferences">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="TCustomPrintHandler">
 <param name="Local" value="uCEFPrintHandler.TCustomPrintHandler.html">
 </object>
@@ -102040,6 +103030,44 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnWebSocketRequest">
 <param name="Local" value="uCEFServerHandler.TCustomServerHandler.html#OnWebSocketRequest">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCustomSettingObserver">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FEvents">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#FEvents">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#Destroy">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnSettingChanged">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#OnSettingChanged">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFSettingObserver.TCustomSettingObserver.html#RemoveReferences">
 </object>
 </ul>
 </ul>
@@ -103960,6 +104988,94 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SetScalePct">
 <param name="Local" value="uCEFPDFPrintOptions.TPDFPrintOptions.html#SetScalePct">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TPreferenceInfo">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FName">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#FName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FObserver">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#FObserver">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FRegistration">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#FRegistration">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Properties">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#@Properties">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Observer">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#Observer">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PrefName">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#PrefName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Registration">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#Registration">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfo.html#Destroy">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TPreferenceInfoList">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html#Destroy">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="AddPreference">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html#AddPreference">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="HasPreference">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html#HasPreference">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SearchPreference">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html#SearchPreference">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemovePreference">
+<param name="Local" value="uCEFPreferenceObserver.TPreferenceInfoList.html#RemovePreference">
 </object>
 </ul>
 </ul>

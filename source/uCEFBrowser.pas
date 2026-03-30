@@ -122,6 +122,7 @@ type
       procedure ExecuteChromeCommand(command_id: integer; disposition: TCefWindowOpenDisposition);
       function  IsRenderProcessUnresponsive : boolean;
       function  GetRuntimeStyle : TCefRuntimeStyle;
+      procedure SetAxViewportCollapse(enabled: boolean);    {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
 
     public
       class function UnWrap(data: Pointer): ICefBrowserHost;
@@ -373,6 +374,11 @@ end;
 function TCefBrowserHostRef.GetRuntimeStyle : TCefRuntimeStyle;
 begin
   Result := PCefBrowserHost(FData)^.get_runtime_style(PCefBrowserHost(FData));
+end;
+
+procedure TCefBrowserHostRef.SetAxViewportCollapse(enabled: boolean);
+begin
+  PCefBrowserHost(FData)^.set_ax_viewport_collapse(PCefBrowserHost(FData), ord(enabled));
 end;
 
 procedure TCefBrowserHostRef.DragTargetDragEnter(const dragData: ICefDragData; const event: PCefMouseEvent; allowedOps: TCefDragOperations);

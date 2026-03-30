@@ -254,7 +254,7 @@ p.nodescription {
   color: var(--pasdoc-muted);
   display: none;
 }
-p.inheritdescription { color: var(--pasdoc-muted); font-style: italic; }
+p.inheritdescription, p.description-inherited { color: var(--pasdoc-muted); font-style: italic; }
 dl.description dt { color: var(--pasdoc-muted); }
 dl.parameters dt { color: var(--pasdoc-accent); font-weight: 500; }
 
@@ -330,7 +330,7 @@ input#search_submit_button { }
   color: gray;
 }
 
-.visibility-toggles {
+.show-members-toggles {
   margin: 0.75em 0;
   padding: 0.4em 0.75em;
   background: var(--pasdoc-code-bg);
@@ -338,11 +338,11 @@ input#search_submit_button { }
   border-radius: 0.25rem;
   font-size: 0.875rem;
 }
-.visibility-toggles .visibility-toggles-label {
+.show-members-toggles .show-members-toggles-label {
   color: var(--pasdoc-muted);
   margin-right: 0.75em;
 }
-.visibility-toggles label { margin-right: 1em; user-select: none; cursor: pointer; }
+.show-members-toggles label { margin-right: 1em; user-select: none; cursor: pointer; }
 
 /* === Search form === */
 

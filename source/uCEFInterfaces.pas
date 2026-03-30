@@ -1437,6 +1437,19 @@ type
     /// </remarks>
     function GetRuntimeStyle : TCefRuntimeStyle;
     /// <summary>
+    /// Enable or disable CDP accessibility tree viewport collapse for this
+    /// browser. When enabled, off-screen landmarks and headings are serialized as
+    /// summaries and other off-screen nodes are pruned. Overrides the
+    /// TCefBrowserSettings.ax_viewport_collapse value. If called on the UI
+    /// thread the change will be applied immediately. Otherwise, the change will
+    /// be applied asynchronously on the UI thread. WARNING: This collapses the
+    /// CDP accessibility tree and disables CDP dynamic tree updates (nodesUpdated
+    /// events). The DevTools Accessibility panel will show an incomplete tree.
+    /// Platform screen readers (NVDA, JAWS, VoiceOver) are unaffected — they use
+    /// a separate code path.
+    /// </summary>
+    procedure SetAxViewportCollapse(enabled: boolean);    {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
+    /// <summary>
     /// Returns the hosted browser object.
     /// </summary>
     property Browser                    : ICefBrowser              read GetBrowser;
