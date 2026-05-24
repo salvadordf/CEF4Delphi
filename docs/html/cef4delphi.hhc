@@ -6590,8 +6590,8 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnRenderProcessTerminated">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FOnGetResourceRequestHandler_ReqHdlr">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler_ReqHdlr">
+<param name="Name" value="FOnGetResourceRequestHandler1">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler1">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FOnDocumentAvailableInMainFrame">
@@ -6722,8 +6722,8 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnRequestContextInitialized">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FOnGetResourceRequestHandler_ReqCtxHdlr">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler_ReqCtxHdlr">
+<param name="Name" value="FOnGetResourceRequestHandler2">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler2">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FOnSinks">
@@ -12212,6 +12212,10 @@
 <param name="Local" value="uCEFConstants.html#ERR_BLOCKED_IN_INCOGNITO_BY_ADMINISTRATOR">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="ERR_LOCAL_NETWORK_PERMISSION_MISSING">
+<param name="Local" value="uCEFConstants.html#ERR_LOCAL_NETWORK_PERMISSION_MISSING">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="ERR_CONNECTION_CLOSED">
 <param name="Local" value="uCEFConstants.html#ERR_CONNECTION_CLOSED">
 </object>
@@ -13248,6 +13252,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_VERTICAL_TABS_SEND_FEEDBACK">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_TOGGLE_VERTICAL_TABS_EXPAND_ON_HOVER">
+<param name="Local" value="uCEFConstants.html#IDC_TOGGLE_VERTICAL_TABS_EXPAND_ON_HOVER">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_COPY_URL">
 <param name="Local" value="uCEFConstants.html#IDC_COPY_URL">
 </object>
@@ -13466,10 +13474,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_ORGANIZE_TABS">
 <param name="Local" value="uCEFConstants.html#IDC_ORGANIZE_TABS">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="IDC_DECLUTTER_TABS">
-<param name="Local" value="uCEFConstants.html#IDC_DECLUTTER_TABS">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SEND_SHARED_TAB_GROUP_FEEDBACK">
@@ -13964,22 +13968,6 @@
 <param name="Local" value="uCEFConstants.html#IDC_TASK_MANAGER_MAIN_MENU">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="IDC_COMPARE_MENU">
-<param name="Local" value="uCEFConstants.html#IDC_COMPARE_MENU">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="IDC_SHOW_ALL_COMPARISON_TABLES">
-<param name="Local" value="uCEFConstants.html#IDC_SHOW_ALL_COMPARISON_TABLES">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="IDC_ADD_TO_COMPARISON_TABLE_MENU">
-<param name="Local" value="uCEFConstants.html#IDC_ADD_TO_COMPARISON_TABLE_MENU">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="IDC_CREATE_NEW_COMPARISON_TABLE_WITH_TAB">
-<param name="Local" value="uCEFConstants.html#IDC_CREATE_NEW_COMPARISON_TABLE_WITH_TAB">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="IDC_SHOW_HISTORY_SIDE_PANEL">
 <param name="Local" value="uCEFConstants.html#IDC_SHOW_HISTORY_SIDE_PANEL">
 </object>
@@ -14018,6 +14006,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_REPORT_UNSAFE_SITE">
 <param name="Local" value="uCEFConstants.html#IDC_REPORT_UNSAFE_SITE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_SHOW_READING_MODE_KEYBOARD">
+<param name="Local" value="uCEFConstants.html#IDC_SHOW_READING_MODE_KEYBOARD">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SPELLCHECK_SUGGESTION_0">
@@ -14796,6 +14788,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_PASSWORDS_USE_PASSKEY_FROM_ANOTHER_DEVICE">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_AT_MEMORY">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_AT_MEMORY">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_LIVE_CAPTION">
 <param name="Local" value="uCEFConstants.html#IDC_LIVE_CAPTION">
 </object>
@@ -14810,10 +14806,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SET_BROWSER_AS_DEFAULT">
 <param name="Local" value="uCEFConstants.html#IDC_SET_BROWSER_AS_DEFAULT">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="IDC_GLIC_STATUS_ICON_MENU_SHOW">
-<param name="Local" value="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_SHOW">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_GLIC_STATUS_ICON_MENU_CUSTOMIZE_KEYBOARD_SHORTCUT">
@@ -14832,16 +14824,24 @@
 <param name="Local" value="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_EXIT">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="IDC_GLIC_STATUS_ICON_MENU_CLOSE">
-<param name="Local" value="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_CLOSE">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="IDC_GLIC_STATUS_ICON_MENU_TOGGLE">
 <param name="Local" value="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_TOGGLE">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_GLIC_TOGGLE_PIN">
 <param name="Local" value="uCEFConstants.html#IDC_GLIC_TOGGLE_PIN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_TAB_SEARCH_TOGGLE_PIN">
+<param name="Local" value="uCEFConstants.html#IDC_TAB_SEARCH_TOGGLE_PIN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_PROJECTS_PANEL_TOGGLE_PIN">
+<param name="Local" value="uCEFConstants.html#IDC_PROJECTS_PANEL_TOGGLE_PIN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_EVERYTHING_MENU_TOGGLE_PIN">
+<param name="Local" value="uCEFConstants.html#IDC_EVERYTHING_MENU_TOGGLE_PIN">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SHOW_CONTEXTUAL_TASKS_SIDE_PANEL">
@@ -16068,6 +16068,10 @@
 <param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_LOOPBACK_NETWORK">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_PERMISSION_TYPE_SENSORS">
+<param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_SENSORS">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="CEF_API_HASH_PLATFORM">
 <param name="Local" value="uCEFConstants.html#CEF_API_HASH_PLATFORM">
 </object>
@@ -16390,6 +16394,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_RESULT_CODE_TERMINATED_BY_OTHER_PROCESS_ON_COMMIT_FAILURE">
 <param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_TERMINATED_BY_OTHER_PROCESS_ON_COMMIT_FAILURE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_RESULT_CODE_INVALID_ISOLATED_BROWSER_PROCESS">
+<param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_INVALID_ISOLATED_BROWSER_PROCESS">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_RESULT_CODE_CHROME_LAST">
@@ -96840,12 +96848,12 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceHandler">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FOnGetResourceRequestHandler_ReqCtxHdlr">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler_ReqCtxHdlr">
+<param name="Name" value="FOnGetResourceRequestHandler1">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler1">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FOnGetResourceRequestHandler_ReqHdlr">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler_ReqHdlr">
+<param name="Name" value="FOnGetResourceRequestHandler2">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler2">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FOnGetResourceResponseFilter">

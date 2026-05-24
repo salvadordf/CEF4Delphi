@@ -1285,6 +1285,10 @@
 <param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_PERMISSION_TYPE_SENSORS">
+<param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_SENSORS">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="CEF_PERMISSION_TYPE_STORAGE_ACCESS">
 <param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_STORAGE_ACCESS">
 </object>
@@ -1491,6 +1495,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_RESULT_CODE_INVALID_CMDLINE_URL">
 <param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_INVALID_CMDLINE_URL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_RESULT_CODE_INVALID_ISOLATED_BROWSER_PROCESS">
+<param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_INVALID_ISOLATED_BROWSER_PROCESS">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_RESULT_CODE_INVALID_SANDBOX_STATE">
@@ -3417,6 +3425,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_KEY_GENERATION_FAILED">
 <param name="Local" value="uCEFConstants.html#ERR_KEY_GENERATION_FAILED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_LOCAL_NETWORK_PERMISSION_MISSING">
+<param name="Local" value="uCEFConstants.html#ERR_LOCAL_NETWORK_PERMISSION_MISSING">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_MALFORMED_IDENTITY">
@@ -12109,10 +12121,6 @@
 <param name="Local" value="uCEFConstants.html#IDC_ADD_NEW_TAB_TO_GROUP">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="IDC_ADD_TO_COMPARISON_TABLE_MENU">
-<param name="Local" value="uCEFConstants.html#IDC_ADD_TO_COMPARISON_TABLE_MENU">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="IDC_ALL_WINDOWS_FRONT">
 <param name="Local" value="uCEFConstants.html#IDC_ALL_WINDOWS_FRONT">
 </object>
@@ -12289,10 +12297,6 @@
 <param name="Local" value="uCEFConstants.html#IDC_CLOSE_WINDOW">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="IDC_COMPARE_MENU">
-<param name="Local" value="uCEFConstants.html#IDC_COMPARE_MENU">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_ACCESSIBILITY_LABELS">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_ACCESSIBILITY_LABELS">
 </object>
@@ -12311,6 +12315,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_ARCHIVE_GLIC">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_ARCHIVE_GLIC">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_AT_MEMORY">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_AT_MEMORY">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_AUTOFILL_FALLBACK_PASSWORDS_IMPORT_PASSWORDS">
@@ -12785,10 +12793,6 @@
 <param name="Local" value="uCEFConstants.html#IDC_COPY_URL">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="IDC_CREATE_NEW_COMPARISON_TABLE_WITH_TAB">
-<param name="Local" value="uCEFConstants.html#IDC_CREATE_NEW_COMPARISON_TABLE_WITH_TAB">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="IDC_CREATE_NEW_TAB_GROUP">
 <param name="Local" value="uCEFConstants.html#IDC_CREATE_NEW_TAB_GROUP">
 </object>
@@ -12823,10 +12827,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_DEBUG_TOGGLE_TABLET_MODE">
 <param name="Local" value="uCEFConstants.html#IDC_DEBUG_TOGGLE_TABLET_MODE">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="IDC_DECLUTTER_TABS">
-<param name="Local" value="uCEFConstants.html#IDC_DECLUTTER_TABS">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_DEVELOPER_MENU">
@@ -12887,6 +12887,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_EMAIL_PAGE_LOCATION">
 <param name="Local" value="uCEFConstants.html#IDC_EMAIL_PAGE_LOCATION">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_EVERYTHING_MENU_TOGGLE_PIN">
+<param name="Local" value="uCEFConstants.html#IDC_EVERYTHING_MENU_TOGGLE_PIN">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_EXIT">
@@ -13017,10 +13021,6 @@
 <param name="Local" value="uCEFConstants.html#IDC_FULLSCREEN">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="IDC_GLIC_STATUS_ICON_MENU_CLOSE">
-<param name="Local" value="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_CLOSE">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="IDC_GLIC_STATUS_ICON_MENU_CUSTOMIZE_KEYBOARD_SHORTCUT">
 <param name="Local" value="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_CUSTOMIZE_KEYBOARD_SHORTCUT">
 </object>
@@ -13035,10 +13035,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_GLIC_STATUS_ICON_MENU_SETTINGS">
 <param name="Local" value="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_SETTINGS">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="IDC_GLIC_STATUS_ICON_MENU_SHOW">
-<param name="Local" value="uCEFConstants.html#IDC_GLIC_STATUS_ICON_MENU_SHOW">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_GLIC_STATUS_ICON_MENU_TOGGLE">
@@ -13329,6 +13325,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_PROFILING_ENABLED">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_PROJECTS_PANEL_TOGGLE_PIN">
+<param name="Local" value="uCEFConstants.html#IDC_PROJECTS_PANEL_TOGGLE_PIN">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_QRCODE_GENERATOR">
 <param name="Local" value="uCEFConstants.html#IDC_QRCODE_GENERATOR">
 </object>
@@ -13501,10 +13501,6 @@
 <param name="Local" value="uCEFConstants.html#IDC_SHOW_AI_MODE_OMNIBOX_BUTTON">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="IDC_SHOW_ALL_COMPARISON_TABLES">
-<param name="Local" value="uCEFConstants.html#IDC_SHOW_ALL_COMPARISON_TABLES">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="IDC_SHOW_APP_MENU">
 <param name="Local" value="uCEFConstants.html#IDC_SHOW_APP_MENU">
 </object>
@@ -13595,6 +13591,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SHOW_PAYMENT_METHODS">
 <param name="Local" value="uCEFConstants.html#IDC_SHOW_PAYMENT_METHODS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_SHOW_READING_MODE_KEYBOARD">
+<param name="Local" value="uCEFConstants.html#IDC_SHOW_READING_MODE_KEYBOARD">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SHOW_READING_MODE_SIDE_PANEL">
@@ -13717,6 +13717,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_TAB_SEARCH_CLOSE">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_TAB_SEARCH_TOGGLE_PIN">
+<param name="Local" value="uCEFConstants.html#IDC_TAB_SEARCH_TOGGLE_PIN">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_TAKE_SCREENSHOT">
 <param name="Local" value="uCEFConstants.html#IDC_TAKE_SCREENSHOT">
 </object>
@@ -13759,6 +13763,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_TOGGLE_VERTICAL_TABS">
 <param name="Local" value="uCEFConstants.html#IDC_TOGGLE_VERTICAL_TABS">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_TOGGLE_VERTICAL_TABS_EXPAND_ON_HOVER">
+<param name="Local" value="uCEFConstants.html#IDC_TOGGLE_VERTICAL_TABS_EXPAND_ON_HOVER">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_TRANSLATE_ORIGINAL_LANGUAGE_BASE">
@@ -41709,12 +41717,12 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceHandler">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FOnGetResourceRequestHandler_ReqCtxHdlr">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler_ReqCtxHdlr">
+<param name="Name" value="FOnGetResourceRequestHandler1">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler1">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="FOnGetResourceRequestHandler_ReqHdlr">
-<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler_ReqHdlr">
+<param name="Name" value="FOnGetResourceRequestHandler2">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnGetResourceRequestHandler2">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FOnGetResourceResponseFilter">

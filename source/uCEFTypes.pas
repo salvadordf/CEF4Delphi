@@ -2211,6 +2211,10 @@ type
     /// Creates a new document picture-in-picture window showing a child WebView.
     /// </summary>
     CEF_WOD_NEW_PICTURE_IN_PICTURE,
+    /// <summary>
+    /// Opens a link in a split view alongside the current tab.
+    /// </summary>
+    CEF_WOD_NEW_SPLIT_VIEW,
 
     CEF_WOD_NUM_VALUES
   );
@@ -2569,6 +2573,17 @@ type
     CEF_CHANNEL_LAYOUT_1_1,
     /// <summary>Front L, Front R, LFE, Back C</summary>
     CEF_CHANNEL_LAYOUT_3_1_BACK,
+    /// <summary>
+    /// Front L, Front R, Front C, LFE, Side L, Side R,
+    /// Top Front L, Top Front R, Top Back L, Top Back R
+    /// </summary>
+    CEF_CHANNEL_LAYOUT_5_1_4,
+    /// <summary>
+    /// Front L, Front R, Front C, LFE, Back L, Back R, Side L, Side R,
+    /// Top Front L, Top Front R, Top Back L, Top Back R
+    /// </summary>
+    CEF_CHANNEL_LAYOUT_7_1_4,
+
     CEF_CHANNEL_NUM_VALUES
   );
 
@@ -3438,7 +3453,7 @@ type
   /// </remarks>
   TCefChromePageActionIconType = (
     CEF_CPAIT_BOOKMARK_STAR,
-    CEF_CPAIT_CLICK_TO_CALL_DEPRECATED,
+    CEF_CPAIT_CLICK_TO_CALL,
     CEF_CPAIT_COOKIE_CONTROLS,
     CEF_CPAIT_FILE_SYSTEM_ACCESS,
     CEF_CPAIT_FIND,
@@ -3478,8 +3493,8 @@ type
     CEF_CPAIT_JS_OPTIMIZATIONS,        {* CEF_API_ADDED(14400) *}
     CEF_CPAIT_RECORD_REPLAY,           {* CEF_API_ADDED(14700) *}
     CEF_CPAIT_INDIGO,                  {* CEF_API_ADDED(14700) *}
-    CEF_CPAIT_FEDERATION_DEPRECATED,   {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
-    CEF_CPAIT_GLIC,                    {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
+    CEF_CPAIT_FEDERATION,              {* CEF_API_ADDED(14800) *}
+    CEF_CPAIT_GLIC,                    {* CEF_API_ADDED(14800) *}
     CEF_CPAIT_NUM_VALUES
   );
 
@@ -5638,7 +5653,7 @@ type
     /// Content settings used to indicate that a web app is allowed to prompt the
     /// user for the installation of sub apps.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_SUB_APP_INSTALLATION_PROMPTS,
+    CEF_CONTENT_SETTING_TYPE_SUB_APP_INSTALLATION_PROMPTS_DEPRECATED,
     /// <summary>
     /// Whether an application can enumerate audio output device.
     /// </summary>
