@@ -161,7 +161,7 @@ type
       property RotationCenter;
       property Scale;
       {$ENDIF}
-      {$IFDEF DELPHI18_UP}
+      {$IF DEFINED(DELPHI18_UP) and not DEFINED(VER260)}
       property TabStop;
       {$ENDIF}
       {$IFDEF DELPHI21_UP}
@@ -526,7 +526,7 @@ begin
       if (FBuffer <> nil) then FreeAndNil(FBuffer);
 
       FBuffer             := TBitmap.Create(aWidth, aHeight);
-      {$IFDEF DELPHI18_UP}
+      {$IF DEFINED(DELPHI18_UP) and not DEFINED(VER260)}
       FBuffer.BitmapScale := TempScale;
       FScanlineSize       := FBuffer.BytesPerLine;
       {$ELSE}
