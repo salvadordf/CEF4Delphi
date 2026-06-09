@@ -161,7 +161,7 @@ type
       property RotationCenter;
       property Scale;
       {$ENDIF}
-      {$IFDEF DELPHI18_UP}
+      {$IFDEF DELPHI20_UP}
       property TabStop;
       {$ENDIF}
       {$IFDEF DELPHI21_UP}
@@ -506,18 +506,18 @@ begin
 end;
 
 function TFMXBufferPanel.UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
-{$IFDEF DELPHI18_UP}
+{$IFDEF DELPHI20_UP}
 var
   TempScale : single;
 {$ENDIF}
 begin
   Result    := False;
-  {$IFDEF DELPHI18_UP}
+  {$IFDEF DELPHI20_UP}
   TempScale := ScreenScale;
   {$ENDIF}
 
   if ((FBuffer             =  nil)       or
-      {$IFDEF DELPHI18_UP}
+      {$IFDEF DELPHI20_UP}
       (FBuffer.BitmapScale <> TempScale) or
       {$ENDIF}
       (FBuffer.Width       <> aWidth)    or
@@ -526,7 +526,7 @@ begin
       if (FBuffer <> nil) then FreeAndNil(FBuffer);
 
       FBuffer             := TBitmap.Create(aWidth, aHeight);
-      {$IFDEF DELPHI18_UP}
+      {$IFDEF DELPHI20_UP}
       FBuffer.BitmapScale := TempScale;
       FScanlineSize       := FBuffer.BytesPerLine;
       {$ELSE}
