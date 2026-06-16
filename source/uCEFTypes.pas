@@ -3495,6 +3495,8 @@ type
     CEF_CPAIT_INDIGO,                  {* CEF_API_ADDED(14700) *}
     CEF_CPAIT_FEDERATION,              {* CEF_API_ADDED(14800) *}
     CEF_CPAIT_GLIC,                    {* CEF_API_ADDED(14800) *}
+    CEF_CPAIT_ANCHORED_CONTEXTUAL_CUE, {* CEF_API_ADDED(14900) *}
+    CEF_CPAIT_WEB_AUTHN_AMBIENT_SIGNIN,{* CEF_API_ADDED(14900) *}
     CEF_CPAIT_NUM_VALUES
   );
 
@@ -5585,13 +5587,13 @@ type
     /// Content Setting for temporary 3PC accesses granted by user behavior
     /// heuristics.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_TPCD_HEURISTICS_GRANTS,
+    CEF_CONTENT_SETTING_TYPE_TPCD_HEURISTICS_GRANTS_DEPRECATED,                  {* CEF_API_ADDED(14900) *}
     /// <summary>
     /// Content Setting for 3PC accesses granted by metadata delivered via the
     /// component updater service. This type will only be used when
     /// `net::features::kTpcdMetadataGrants` is enabled.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_TPCD_METADATA_GRANTS,
+    CEF_CONTENT_SETTING_TYPE_TPCD_METADATA_GRANTS_DEPRECATED,                    {* CEF_API_ADDED(14900) *}
     /// <summary>
     /// Content Setting for 3PC accesses granted via 3PC deprecation trial.
     /// </summary>
