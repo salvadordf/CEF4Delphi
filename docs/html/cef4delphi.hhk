@@ -1245,8 +1245,8 @@
 <param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_LOCAL_NETWORK">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="CEF_PERMISSION_TYPE_LOCAL_NETWORK_ACCESS">
-<param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_LOCAL_NETWORK_ACCESS">
+<param name="Name" value="CEF_PERMISSION_TYPE_LOCAL_NETWORK_ACCESS_DEPRECATED">
+<param name="Local" value="uCEFConstants.html#CEF_PERMISSION_TYPE_LOCAL_NETWORK_ACCESS_DEPRECATED">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_PERMISSION_TYPE_LOOPBACK_NETWORK">
@@ -3015,6 +3015,10 @@
 <param name="Local" value="uCEFConstants.html#ERR_CACHE_CHECKSUM_READ_FAILURE">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="ERR_CACHE_COMPRESSION_FAILURE">
+<param name="Local" value="uCEFConstants.html#ERR_CACHE_COMPRESSION_FAILURE">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="ERR_CACHE_CREATE_FAILURE">
 <param name="Local" value="uCEFConstants.html#ERR_CACHE_CREATE_FAILURE">
 </object>
@@ -3777,6 +3781,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_SSL_VERSION_OR_CIPHER_MISMATCH">
 <param name="Local" value="uCEFConstants.html#ERR_SSL_VERSION_OR_CIPHER_MISMATCH">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="ERR_STRICT_ECH_REQUIRED">
+<param name="Local" value="uCEFConstants.html#ERR_STRICT_ECH_REQUIRED">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ERR_TEMPORARILY_THROTTLED">
@@ -9421,20 +9429,8 @@
 <param name="Local" value="uCEFInterfaces.ICefTextfield.html#GetSelectedText">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="GetSelectionBackgroundColor">
-<param name="Local" value="uCEFInterfaces.ICefTextfield.html#GetSelectionBackgroundColor">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="GetSelectionTextColor">
-<param name="Local" value="uCEFInterfaces.ICefTextfield.html#GetSelectionTextColor">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="GetText">
 <param name="Local" value="uCEFInterfaces.ICefTextfield.html#GetText">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="GetTextColor">
-<param name="Local" value="uCEFInterfaces.ICefTextfield.html#GetTextColor">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="HasSelection">
@@ -9477,14 +9473,6 @@
 <param name="Local" value="uCEFInterfaces.ICefTextfield.html#SelectedText">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="SelectionBackgroundColor">
-<param name="Local" value="uCEFInterfaces.ICefTextfield.html#SelectionBackgroundColor">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="SelectionTextColor">
-<param name="Local" value="uCEFInterfaces.ICefTextfield.html#SelectionTextColor">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="SelectRange">
 <param name="Local" value="uCEFInterfaces.ICefTextfield.html#SelectRange-TCefRange-">
 </object>
@@ -9505,36 +9493,16 @@
 <param name="Local" value="uCEFInterfaces.ICefTextfield.html#SetPlaceholderText-ustring-">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="SetPlaceholderTextColor">
-<param name="Local" value="uCEFInterfaces.ICefTextfield.html#SetPlaceholderTextColor-TCefColor-">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="SetReadOnly">
 <param name="Local" value="uCEFInterfaces.ICefTextfield.html#SetReadOnly-boolean-">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="SetSelectionBackgroundColor">
-<param name="Local" value="uCEFInterfaces.ICefTextfield.html#SetSelectionBackgroundColor-TCefColor-">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="SetSelectionTextColor">
-<param name="Local" value="uCEFInterfaces.ICefTextfield.html#SetSelectionTextColor-TCefColor-">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetText">
 <param name="Local" value="uCEFInterfaces.ICefTextfield.html#SetText-ustring-">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="SetTextColor">
-<param name="Local" value="uCEFInterfaces.ICefTextfield.html#SetTextColor-TCefColor-">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="Text">
 <param name="Local" value="uCEFInterfaces.ICefTextfield.html#Text">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="TextColor">
-<param name="Local" value="uCEFInterfaces.ICefTextfield.html#TextColor">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ICefTextfieldDelegate">
@@ -12225,6 +12193,22 @@
 <param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_BAR_SHOW_READING_LIST">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_BOOKMARK_BAR_SUBMENU">
+<param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_BAR_SUBMENU">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_BOOKMARK_BAR_SUBMENU_ALWAYS_HIDE">
+<param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_BAR_SUBMENU_ALWAYS_HIDE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_BOOKMARK_BAR_SUBMENU_ALWAYS_SHOW">
+<param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_BAR_SUBMENU_ALWAYS_SHOW">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_BOOKMARK_BAR_SUBMENU_ONLY_ON_NTP">
+<param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_BAR_SUBMENU_ONLY_ON_NTP">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_BOOKMARK_BAR_TOGGLE_SHOW_TAB_GROUPS">
 <param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_BAR_TOGGLE_SHOW_TAB_GROUPS">
 </object>
@@ -12313,6 +12297,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_ADD_A_NOTE">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_ADD_LINK_TO_READING_LIST">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_ADD_LINK_TO_READING_LIST">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_ARCHIVE_GLIC">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_ARCHIVE_GLIC">
 </object>
@@ -12343,10 +12331,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_AUTOFILL_FEEDBACK">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_AUTOFILL_FEEDBACK">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="IDC_CONTENT_CONTEXT_CLOSE_GLIC">
-<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_CLOSE_GLIC">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_CONTROLS">
@@ -12405,6 +12389,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_DELETE">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_DICTATION">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_DICTATION">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_EMOJI">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_EMOJI">
 </object>
@@ -12419,6 +12407,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_GENERATE_QR_CODE">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_GENERATE_QR_CODE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_GLIC">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_GLIC">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_GLICSHAREIMAGE">
@@ -12455,6 +12447,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_LENS_REGION_SEARCH">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_LENS_REGION_SEARCH">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_LISTEN_TO_THIS_PAGE">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_LISTEN_TO_THIS_PAGE">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_LOAD_IMAGE">
@@ -12499,10 +12495,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_OPENLINKOFFTHERECORD">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_OPENLINKOFFTHERECORD">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="IDC_CONTENT_CONTEXT_OPENLINKPREVIEW">
-<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_OPENLINKPREVIEW">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_OPENLINKSPLITVIEW">
@@ -12697,6 +12689,30 @@
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_SELECTALL">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_DEVICE1">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_DEVICE1">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_DEVICE2">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_DEVICE2">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_DEVICE3">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_DEVICE3">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_DEVICE4">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_DEVICE4">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_DEVICE5">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_DEVICE5">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_MANAGE_DEVICES">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_MANAGE_DEVICES">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_SHARING_CLICK_TO_CALL_MULTIPLE_DEVICES">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_SHARING_CLICK_TO_CALL_MULTIPLE_DEVICES">
 </object>
@@ -12759,6 +12775,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_USE_PASSKEY_FROM_ANOTHER_DEVICE">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_USE_PASSKEY_FROM_ANOTHER_DEVICE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_VIDEO_FRAME">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_VIDEO_FRAME">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_VIEWFRAMEINFO">
@@ -13193,6 +13213,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_MOVE_TAB_TO_NEW_WINDOW">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_MOVE_WINDOW">
+<param name="Local" value="uCEFConstants.html#IDC_MOVE_WINDOW">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_MUTE_TARGET_SITE">
 <param name="Local" value="uCEFConstants.html#IDC_MUTE_TARGET_SITE">
 </object>
@@ -13233,12 +13257,36 @@
 <param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_ADD_IMAGE">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_OMNIBOX_CONTEXT_CANVAS">
+<param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_CANVAS">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_OMNIBOX_CONTEXT_CREATE_IMAGES">
 <param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_CREATE_IMAGES">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_OMNIBOX_CONTEXT_DEEP_RESEARCH">
 <param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_DEEP_RESEARCH">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_OMNIBOX_CONTEXT_SET_MODEL_AUTO">
+<param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_SET_MODEL_AUTO">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_OMNIBOX_CONTEXT_SET_MODEL_PRO_NO_GEN_UI">
+<param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_SET_MODEL_PRO_NO_GEN_UI">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_OMNIBOX_CONTEXT_SET_MODEL_REGULAR">
+<param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_SET_MODEL_REGULAR">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_OMNIBOX_CONTEXT_SET_MODEL_THINKING">
+<param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_SET_MODEL_THINKING">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_OMNIBOX_CONTEXT_SHARED_TABS_SUBMENU">
+<param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_SHARED_TABS_SUBMENU">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_OPEN_CURRENT_URL">
@@ -13641,12 +13689,20 @@
 <param name="Local" value="uCEFConstants.html#IDC_SHOW_SYNC_SETTINGS">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_SHOW_TABS_FROM_OTHER_DEVICES_SIDE_PANEL">
+<param name="Local" value="uCEFConstants.html#IDC_SHOW_TABS_FROM_OTHER_DEVICES_SIDE_PANEL">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_SHOW_TRANSLATE">
 <param name="Local" value="uCEFConstants.html#IDC_SHOW_TRANSLATE">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SHOW_TRAVEL">
 <param name="Local" value="uCEFConstants.html#IDC_SHOW_TRAVEL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_SIZE_WINDOW">
+<param name="Local" value="uCEFConstants.html#IDC_SIZE_WINDOW">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SPELLCHECK_ADD_TO_DICTIONARY">
@@ -33719,20 +33775,20 @@
 <param name="Local" value="uCEFTypes.TCefTextfield.html#get_selected_text">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="get_selection_background_color">
-<param name="Local" value="uCEFTypes.TCefTextfield.html#get_selection_background_color">
+<param name="Name" value="get_selection_background_color_removed">
+<param name="Local" value="uCEFTypes.TCefTextfield.html#get_selection_background_color_removed">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="get_selection_text_color">
-<param name="Local" value="uCEFTypes.TCefTextfield.html#get_selection_text_color">
+<param name="Name" value="get_selection_text_color_removed">
+<param name="Local" value="uCEFTypes.TCefTextfield.html#get_selection_text_color_removed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="get_text">
 <param name="Local" value="uCEFTypes.TCefTextfield.html#get_text">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="get_text_color">
-<param name="Local" value="uCEFTypes.TCefTextfield.html#get_text_color">
+<param name="Name" value="get_text_color_removed">
+<param name="Local" value="uCEFTypes.TCefTextfield.html#get_text_color_removed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="has_selection">
@@ -33779,28 +33835,28 @@
 <param name="Local" value="uCEFTypes.TCefTextfield.html#set_placeholder_text">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="set_placeholder_text_color">
-<param name="Local" value="uCEFTypes.TCefTextfield.html#set_placeholder_text_color">
+<param name="Name" value="set_placeholder_text_color_removed">
+<param name="Local" value="uCEFTypes.TCefTextfield.html#set_placeholder_text_color_removed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="set_read_only">
 <param name="Local" value="uCEFTypes.TCefTextfield.html#set_read_only">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="set_selection_background_color">
-<param name="Local" value="uCEFTypes.TCefTextfield.html#set_selection_background_color">
+<param name="Name" value="set_selection_background_color_removed">
+<param name="Local" value="uCEFTypes.TCefTextfield.html#set_selection_background_color_removed">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="set_selection_text_color">
-<param name="Local" value="uCEFTypes.TCefTextfield.html#set_selection_text_color">
+<param name="Name" value="set_selection_text_color_removed">
+<param name="Local" value="uCEFTypes.TCefTextfield.html#set_selection_text_color_removed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="set_text">
 <param name="Local" value="uCEFTypes.TCefTextfield.html#set_text">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="set_text_color">
-<param name="Local" value="uCEFTypes.TCefTextfield.html#set_text_color">
+<param name="Name" value="set_text_color_removed">
+<param name="Local" value="uCEFTypes.TCefTextfield.html#set_text_color_removed">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefTextFieldCommands">
@@ -33911,20 +33967,8 @@
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#GetSelectedText">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="GetSelectionBackgroundColor">
-<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#GetSelectionBackgroundColor">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="GetSelectionTextColor">
-<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#GetSelectionTextColor">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="GetText">
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#GetText">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="GetTextColor">
-<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#GetTextColor">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="HasSelection">
@@ -33975,14 +34019,6 @@
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SelectedText">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="SelectionBackgroundColor">
-<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SelectionBackgroundColor">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="SelectionTextColor">
-<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SelectionTextColor">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="SetAccessibleName">
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SetAccessibleName-ustring-">
 </object>
@@ -33999,10 +34035,6 @@
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SetPlaceholderText-ustring-">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="SetPlaceholderTextColor">
-<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SetPlaceholderTextColor-TCefColor-">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="SetReadOnly">
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SetReadOnly-boolean-">
 </object>
@@ -34011,28 +34043,12 @@
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SetSelectedRange-TCefRange-">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="SetSelectionBackgroundColor">
-<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SetSelectionBackgroundColor-TCefColor-">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="SetSelectionTextColor">
-<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SetSelectionTextColor-TCefColor-">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="SetText">
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SetText-ustring-">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="SetTextColor">
-<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SetTextColor-TCefColor-">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="Text">
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#Text">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="TextColor">
-<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#TextColor">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefTextfieldDelegate">
@@ -34135,20 +34151,8 @@
 <param name="Local" value="uCEFTextfield.TCefTextfieldRef.html#GetSelectedText">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="GetSelectionBackgroundColor">
-<param name="Local" value="uCEFTextfield.TCefTextfieldRef.html#GetSelectionBackgroundColor">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="GetSelectionTextColor">
-<param name="Local" value="uCEFTextfield.TCefTextfieldRef.html#GetSelectionTextColor">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="GetText">
 <param name="Local" value="uCEFTextfield.TCefTextfieldRef.html#GetText">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="GetTextColor">
-<param name="Local" value="uCEFTextfield.TCefTextfieldRef.html#GetTextColor">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="HasSelection">
@@ -34195,28 +34199,12 @@
 <param name="Local" value="uCEFTextfield.TCefTextfieldRef.html#SetPlaceholderText-ustring-">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="SetPlaceholderTextColor">
-<param name="Local" value="uCEFTextfield.TCefTextfieldRef.html#SetPlaceholderTextColor-TCefColor-">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="SetReadOnly">
 <param name="Local" value="uCEFTextfield.TCefTextfieldRef.html#SetReadOnly-boolean-">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="SetSelectionBackgroundColor">
-<param name="Local" value="uCEFTextfield.TCefTextfieldRef.html#SetSelectionBackgroundColor-TCefColor-">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="SetSelectionTextColor">
-<param name="Local" value="uCEFTextfield.TCefTextfieldRef.html#SetSelectionTextColor-TCefColor-">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="SetText">
 <param name="Local" value="uCEFTextfield.TCefTextfieldRef.html#SetText-ustring-">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="SetTextColor">
-<param name="Local" value="uCEFTextfield.TCefTextfieldRef.html#SetTextColor-TCefColor-">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="UnWrap">

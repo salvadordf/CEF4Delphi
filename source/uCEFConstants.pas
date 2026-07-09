@@ -309,6 +309,18 @@ const
   /// </remarks>
   ERR_LOCAL_NETWORK_PERMISSION_MISSING                        = -36;
   /// <summary>
+  /// The request was blocked because ECH is strictly required, but:
+  /// <code>
+  ///  - The client could not obtain a valid ECH configuration.
+  ///  - The server rejected the ECH, and the client failed to establish a new ECH
+  ///    connection after retrying with retry_configs.</code>
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_STRICT_ECH_REQUIRED                                     = -37;
+  /// <summary>
   /// A connection was closed (corresponding to a TCP FIN).
   /// </summary>
   /// <remarks>
@@ -1819,6 +1831,14 @@ const
   /// </remarks>
   ERR_CACHE_OPEN_OR_CREATE_FAILURE                            = -413;
   /// <summary>
+  /// Zstd compression of a cache entry body failed.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefErrorCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_errorcode_t)</see></para>
+  /// </remarks>
+  ERR_CACHE_COMPRESSION_FAILURE                               = -414;
+  /// <summary>
   /// The server's response was insecure (e.g. there was a cert error).
   /// </summary>
   /// <remarks>
@@ -2278,17 +2298,19 @@ const
   IDC_TOGGLE_MULTITASK_MENU = 34050;
   IDC_USE_SYSTEM_TITLE_BAR = 34051;
   IDC_RESTORE_WINDOW = 34052;
-  IDC_OPEN_IN_PWA_WINDOW = 34053;
-  IDC_MOVE_TAB_TO_NEW_WINDOW = 34054;
-  IDC_NEW_SPLIT_TAB = 34055;
-  IDC_TOGGLE_VERTICAL_TABS = 34056;
-  IDC_VERTICAL_TABS_SEND_FEEDBACK = 34057;
-  IDC_TOGGLE_VERTICAL_TABS_EXPAND_ON_HOVER = 34058;
-  IDC_COPY_URL = 34060;
-  IDC_OPEN_IN_CHROME = 34061;
-  IDC_WEB_APP_SETTINGS = 34062;
-  IDC_WEB_APP_MENU_APP_INFO = 34063;
-  IDC_WEB_APP_UPGRADE_DIALOG = 34064;
+  IDC_MOVE_WINDOW = 34053;
+  IDC_SIZE_WINDOW = 34054;
+  IDC_OPEN_IN_PWA_WINDOW = 34055;
+  IDC_MOVE_TAB_TO_NEW_WINDOW = 34056;
+  IDC_NEW_SPLIT_TAB = 34057;
+  IDC_TOGGLE_VERTICAL_TABS = 34058;
+  IDC_VERTICAL_TABS_SEND_FEEDBACK = 34059;
+  IDC_TOGGLE_VERTICAL_TABS_EXPAND_ON_HOVER = 34060;
+  IDC_COPY_URL = 34061;
+  IDC_OPEN_IN_CHROME = 34062;
+  IDC_WEB_APP_SETTINGS = 34063;
+  IDC_WEB_APP_MENU_APP_INFO = 34064;
+  IDC_WEB_APP_UPGRADE_DIALOG = 34065;
   IDC_VISIT_DESKTOP_OF_LRU_USER_2 = 34080;
   IDC_VISIT_DESKTOP_OF_LRU_USER_3 = 34081;
   IDC_VISIT_DESKTOP_OF_LRU_USER_4 = 34082;
@@ -2515,6 +2537,7 @@ const
   IDC_CONTENT_CONTEXT_OPENLINKINPROFILE = 50108;
   IDC_CONTENT_CONTEXT_OPENLINKBOOKMARKAPP = 50109;
   IDC_CONTENT_CONTEXT_OPENLINKSPLITVIEW = 50111;
+  IDC_CONTENT_CONTEXT_ADD_LINK_TO_READING_LIST = 50112;
   IDC_CONTENT_CONTEXT_SAVEIMAGEAS = 50120;
   IDC_CONTENT_CONTEXT_COPYIMAGELOCATION = 50121;
   IDC_CONTENT_CONTEXT_COPYIMAGE = 50122;
@@ -2592,10 +2615,11 @@ const
   IDC_CONTENT_CONTEXT_OPEN_WITH13 = 50212;
   IDC_CONTENT_CONTEXT_OPEN_WITH14 = 50213;
   IDC_CONTENT_CONTEXT_EMOJI = 50220;
+  IDC_CONTENT_CONTEXT_DICTATION = 50229;
   IDC_CONTEXT_COMPOSE = 50230;
-  IDC_CONTENT_CONTEXT_CLOSE_GLIC = 50231;
   IDC_CONTENT_CONTEXT_RELOAD_GLIC = 50232;
   IDC_CONTENT_CONTEXT_ARCHIVE_GLIC = 50233;
+  IDC_CONTENT_CONTEXT_GLIC = 50234;
   IDC_BOOKMARK_BAR_OPEN_ALL = 51000;
   IDC_BOOKMARK_BAR_OPEN_ALL_NEW_WINDOW = 51001;
   IDC_BOOKMARK_BAR_OPEN_ALL_INCOGNITO = 51002;
@@ -2620,6 +2644,10 @@ const
   IDC_BOOKMARK_BAR_TOGGLE_SHOW_TAB_GROUPS = 51021;
   IDC_BOOKMARK_BAR_MOVE = 51022;
   IDC_BOOKMARK_BAR_OPEN_SPLIT_VIEW = 51023;
+  IDC_BOOKMARK_BAR_SUBMENU = 51024;
+  IDC_BOOKMARK_BAR_SUBMENU_ALWAYS_HIDE = 51025;
+  IDC_BOOKMARK_BAR_SUBMENU_ALWAYS_SHOW = 51026;
+  IDC_BOOKMARK_BAR_SUBMENU_ONLY_ON_NTP = 51027;
   IDC_CONTENT_CONTEXT_SHARING_CLICK_TO_CALL_SINGLE_DEVICE = 51030;
   IDC_CONTENT_CONTEXT_SHARING_CLICK_TO_CALL_MULTIPLE_DEVICES = 51031;
   IDC_CONTENT_CONTEXT_SHARING_SHARED_CLIPBOARD_SINGLE_DEVICE = 51032;
@@ -2694,6 +2722,13 @@ const
   IDC_OMNIBOX_CONTEXT_ADD_FILE = 54011;
   IDC_OMNIBOX_CONTEXT_CREATE_IMAGES = 54012;
   IDC_OMNIBOX_CONTEXT_DEEP_RESEARCH = 54013;
+  IDC_OMNIBOX_CONTEXT_CANVAS = 54014;
+  IDC_OMNIBOX_CONTEXT_SET_MODEL_AUTO = 54015;
+  IDC_OMNIBOX_CONTEXT_SET_MODEL_THINKING = 54016;
+  IDC_OMNIBOX_CONTEXT_SET_MODEL_REGULAR = 54017;
+  IDC_OMNIBOX_CONTEXT_SET_MODEL_PRO_NO_GEN_UI = 54018;
+  IDC_OMNIBOX_CONTEXT_SHARED_TABS_SUBMENU = 54019;
+
 
 
   /// <summary>
@@ -4161,36 +4196,36 @@ const
   /// <para>TCefPermissionRequestTypes values.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_permission_request_types_t)</see></para>
   /// </remarks>
-  CEF_PERMISSION_TYPE_NONE                       = 0;
-  CEF_PERMISSION_TYPE_AR_SESSION                 = 1 shl 0;
-  CEF_PERMISSION_TYPE_CAMERA_PAN_TILT_ZOOM       = 1 shl 1;
-  CEF_PERMISSION_TYPE_CAMERA_STREAM              = 1 shl 2;
-  CEF_PERMISSION_TYPE_CAPTURED_SURFACE_CONTROL   = 1 shl 3;
-  CEF_PERMISSION_TYPE_CLIPBOARD                  = 1 shl 4;
-  CEF_PERMISSION_TYPE_TOP_LEVEL_STORAGE_ACCESS   = 1 shl 5;
-  CEF_PERMISSION_TYPE_DISK_QUOTA                 = 1 shl 6;
-  CEF_PERMISSION_TYPE_LOCAL_FONTS                = 1 shl 7;
-  CEF_PERMISSION_TYPE_GEOLOCATION                = 1 shl 8;
-  CEF_PERMISSION_TYPE_HAND_TRACKING              = 1 shl 9;
-  CEF_PERMISSION_TYPE_IDENTITY_PROVIDER          = 1 shl 10;
-  CEF_PERMISSION_TYPE_IDLE_DETECTION             = 1 shl 11;
-  CEF_PERMISSION_TYPE_MIC_STREAM                 = 1 shl 12;
-  CEF_PERMISSION_TYPE_MIDI_SYSEX                 = 1 shl 13;
-  CEF_PERMISSION_TYPE_MULTIPLE_DOWNLOADS         = 1 shl 14;
-  CEF_PERMISSION_TYPE_NOTIFICATIONS              = 1 shl 15;
-  CEF_PERMISSION_TYPE_KEYBOARD_LOCK              = 1 shl 16;
-  CEF_PERMISSION_TYPE_POINTER_LOCK               = 1 shl 17;
-  CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER = 1 shl 18;
-  CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER  = 1 shl 19;
-  CEF_PERMISSION_TYPE_STORAGE_ACCESS             = 1 shl 20;
-  CEF_PERMISSION_TYPE_VR_SESSION                 = 1 shl 21;
-  CEF_PERMISSION_TYPE_WEB_APP_INSTALLATION       = 1 shl 22;
-  CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT          = 1 shl 23;
-  CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS         = 1 shl 24;
-  CEF_PERMISSION_TYPE_LOCAL_NETWORK_ACCESS       = 1 shl 25;  {* CEF_API_ADDED(13600) *}
-  CEF_PERMISSION_TYPE_LOCAL_NETWORK              = 1 shl 26;  {* CEF_API_ADDED(14500) *}
-  CEF_PERMISSION_TYPE_LOOPBACK_NETWORK           = 1 shl 27;  {* CEF_API_ADDED(14500) *}
-  CEF_PERMISSION_TYPE_SENSORS                    = 1 shl 28;  {* CEF_API_ADDED(14700) *}
+  CEF_PERMISSION_TYPE_NONE                            = 0;
+  CEF_PERMISSION_TYPE_AR_SESSION                      = 1 shl 0;
+  CEF_PERMISSION_TYPE_CAMERA_PAN_TILT_ZOOM            = 1 shl 1;
+  CEF_PERMISSION_TYPE_CAMERA_STREAM                   = 1 shl 2;
+  CEF_PERMISSION_TYPE_CAPTURED_SURFACE_CONTROL        = 1 shl 3;
+  CEF_PERMISSION_TYPE_CLIPBOARD                       = 1 shl 4;
+  CEF_PERMISSION_TYPE_TOP_LEVEL_STORAGE_ACCESS        = 1 shl 5;
+  CEF_PERMISSION_TYPE_DISK_QUOTA                      = 1 shl 6;
+  CEF_PERMISSION_TYPE_LOCAL_FONTS                     = 1 shl 7;
+  CEF_PERMISSION_TYPE_GEOLOCATION                     = 1 shl 8;
+  CEF_PERMISSION_TYPE_HAND_TRACKING                   = 1 shl 9;
+  CEF_PERMISSION_TYPE_IDENTITY_PROVIDER               = 1 shl 10;
+  CEF_PERMISSION_TYPE_IDLE_DETECTION                  = 1 shl 11;
+  CEF_PERMISSION_TYPE_MIC_STREAM                      = 1 shl 12;
+  CEF_PERMISSION_TYPE_MIDI_SYSEX                      = 1 shl 13;
+  CEF_PERMISSION_TYPE_MULTIPLE_DOWNLOADS              = 1 shl 14;
+  CEF_PERMISSION_TYPE_NOTIFICATIONS                   = 1 shl 15;
+  CEF_PERMISSION_TYPE_KEYBOARD_LOCK                   = 1 shl 16;
+  CEF_PERMISSION_TYPE_POINTER_LOCK                    = 1 shl 17;
+  CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER      = 1 shl 18;
+  CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER       = 1 shl 19;
+  CEF_PERMISSION_TYPE_STORAGE_ACCESS                  = 1 shl 20;
+  CEF_PERMISSION_TYPE_VR_SESSION                      = 1 shl 21;
+  CEF_PERMISSION_TYPE_WEB_APP_INSTALLATION            = 1 shl 22;
+  CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT               = 1 shl 23;
+  CEF_PERMISSION_TYPE_FILE_SYSTEM_ACCESS              = 1 shl 24;
+  CEF_PERMISSION_TYPE_LOCAL_NETWORK_ACCESS_DEPRECATED = 1 shl 25;  {* CEF_API_ADDED(15000) *}
+  CEF_PERMISSION_TYPE_LOCAL_NETWORK                   = 1 shl 26;  {* CEF_API_ADDED(14500) *}
+  CEF_PERMISSION_TYPE_LOOPBACK_NETWORK                = 1 shl 27;  {* CEF_API_ADDED(14500) *}
+  CEF_PERMISSION_TYPE_SENSORS                         = 1 shl 28;  {* CEF_API_ADDED(14700) *}
 
 
   /// <summary>

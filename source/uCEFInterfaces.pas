@@ -10514,30 +10514,6 @@ type
     /// </summary>
     function  GetCursorPosition : NativeUInt;
     /// <summary>
-    /// Sets the text color.
-    /// </summary>
-    procedure SetTextColor(color: TCefColor);
-    /// <summary>
-    /// Returns the text color.
-    /// </summary>
-    function  GetTextColor : TCefColor;
-    /// <summary>
-    /// Sets the selection text color.
-    /// </summary>
-    procedure SetSelectionTextColor(color: TCefColor);
-    /// <summary>
-    /// Returns the selection text color.
-    /// </summary>
-    function  GetSelectionTextColor : TCefColor;
-    /// <summary>
-    /// Sets the selection background color.
-    /// </summary>
-    procedure SetSelectionBackgroundColor(color: TCefColor);
-    /// <summary>
-    /// Returns the selection background color.
-    /// </summary>
-    function  GetSelectionBackgroundColor : TCefColor;
-    /// <summary>
     /// Sets the font list. The format is "<FONT_FAMILY_LIST>,[STYLES] <SIZE>",
     /// where:
     /// - FONT_FAMILY_LIST is a comma-separated list of font family names,
@@ -10587,10 +10563,6 @@ type
     /// </summary>
     function  GetPlaceholderText : ustring;
     /// <summary>
-    /// Sets the placeholder text color.
-    /// </summary>
-    procedure SetPlaceholderTextColor(color: TCefColor);
-    /// <summary>
     /// Set the accessible name that will be exposed to assistive technology (AT).
     /// </summary>
     procedure SetAccessibleName(const name: ustring);
@@ -10610,18 +10582,6 @@ type
     /// Returns the currently selected text.
     /// </summary>
     property  SelectedText             : ustring       read GetSelectedText;
-    /// <summary>
-    /// Returns the text color.
-    /// </summary>
-    property  TextColor                : TCefColor     read GetTextColor                  write SetTextColor;
-    /// <summary>
-    /// Returns the selection text color.
-    /// </summary>
-    property  SelectionTextColor       : TCefColor     read GetSelectionTextColor         write SetSelectionTextColor;
-    /// <summary>
-    /// Returns the selection background color.
-    /// </summary>
-    property  SelectionBackgroundColor : TCefColor     read GetSelectionBackgroundColor   write SetSelectionBackgroundColor;
     /// <summary>
     /// Returns the placeholder text that will be displayed when the Textfield is
     /// NULL.

@@ -7323,7 +7323,15 @@ Ranges:
 <li>
 <span id="CEF_CPAIT_GLIC">CEF_CPAIT_GLIC</span>: * CEF_API_ADDED(14800) *</li>
 <li>
-<span id="CEF_CPAIT_NUM_VALUES">CEF_CPAIT_NUM_VALUES</span>: * CEF_API_ADDED(14800) *</li>
+<span id="CEF_CPAIT_ANCHORED_CONTEXTUAL_CUE">CEF_CPAIT_ANCHORED_CONTEXTUAL_CUE</span>: * CEF_API_ADDED(14800) *</li>
+<li>
+<span id="CEF_CPAIT_WEB_AUTHN_AMBIENT_SIGNIN">CEF_CPAIT_WEB_AUTHN_AMBIENT_SIGNIN</span>: * CEF_API_ADDED(14900) *</li>
+<li>
+<span id="CEF_CPAIT_AUTOFILL_PAYMENT">CEF_CPAIT_AUTOFILL_PAYMENT</span>: * CEF_API_ADDED(14900) *</li>
+<li>
+<span id="CEF_CPAIT_MULTISTEP_FILTER">CEF_CPAIT_MULTISTEP_FILTER</span>: * CEF_API_ADDED(15000) *</li>
+<li>
+<span id="CEF_CPAIT_NUM_VALUES">CEF_CPAIT_NUM_VALUES</span>: * CEF_API_ADDED(15000) *</li>
 </ul>
 </td></tr>
 </table>
@@ -7767,9 +7775,9 @@ Ranges:
 <li>
 <span id="CEF_CONTENT_SETTING_TYPE_COOKIE_CONTROLS_METADATA">CEF_CONTENT_SETTING_TYPE_COOKIE_CONTROLS_METADATA</span>:  Stores per origin metadata for cookie controls. </li>
 <li>
-<span id="CEF_CONTENT_SETTING_TYPE_TPCD_HEURISTICS_GRANTS">CEF_CONTENT_SETTING_TYPE_TPCD_HEURISTICS_GRANTS</span>:  Content Setting for temporary 3PC accesses granted by user behavior heuristics. </li>
+<span id="CEF_CONTENT_SETTING_TYPE_TPCD_HEURISTICS_GRANTS_DEPRECATED">CEF_CONTENT_SETTING_TYPE_TPCD_HEURISTICS_GRANTS_DEPRECATED</span>:  Content Setting for temporary 3PC accesses granted by user behavior heuristics. </li>
 <li>
-<span id="CEF_CONTENT_SETTING_TYPE_TPCD_METADATA_GRANTS">CEF_CONTENT_SETTING_TYPE_TPCD_METADATA_GRANTS</span>:  Content Setting for 3PC accesses granted by metadata delivered via the component updater service. This type will only be used when `net::features::kTpcdMetadataGrants` is enabled. </li>
+<span id="CEF_CONTENT_SETTING_TYPE_TPCD_METADATA_GRANTS_DEPRECATED">CEF_CONTENT_SETTING_TYPE_TPCD_METADATA_GRANTS_DEPRECATED</span>:  Content Setting for 3PC accesses granted by metadata delivered via the component updater service. This type will only be used when `net::features::kTpcdMetadataGrants` is enabled. </li>
 <li>
 <span id="CEF_CONTENT_SETTING_TYPE_TPCD_TRIAL_DEPRECATED">CEF_CONTENT_SETTING_TYPE_TPCD_TRIAL_DEPRECATED</span>:  Content Setting for 3PC accesses granted via 3PC deprecation trial. </li>
 <li>
@@ -7801,7 +7809,7 @@ Ranges:
 <li>
 <span id="CEF_CONTENT_SETTING_TYPE_AUTOMATIC_FULLSCREEN">CEF_CONTENT_SETTING_TYPE_AUTOMATIC_FULLSCREEN</span>:  Content setting used to indicate whether entering HTML Fullscreen automatically (i.e. without transient activation) should be enabled. </li>
 <li>
-<span id="CEF_CONTENT_SETTING_TYPE_SUB_APP_INSTALLATION_PROMPTS_DEPRECATED">CEF_CONTENT_SETTING_TYPE_SUB_APP_INSTALLATION_PROMPTS_DEPRECATED</span>:  Content settings used to indicate that a web app is allowed to prompt the user for the installation of sub apps. </li>
+<span id="CEF_CONTENT_SETTING_TYPE_SUB_APP_INSTALLATION_PROMPTS">CEF_CONTENT_SETTING_TYPE_SUB_APP_INSTALLATION_PROMPTS</span>:  Content settings used to indicate that a web app is allowed to prompt the user for the installation of sub apps. </li>
 <li>
 <span id="CEF_CONTENT_SETTING_TYPE_SPEAKER_SELECTION">CEF_CONTENT_SETTING_TYPE_SPEAKER_SELECTION</span>:  Whether an application can enumerate audio output device. </li>
 <li>
@@ -7875,7 +7883,9 @@ Ranges:
 <li>
 <span id="CEF_CONTENT_SETTING_TYPE_LOOPBACK_NETWORK">CEF_CONTENT_SETTING_TYPE_LOOPBACK_NETWORK</span>:  Content setting for whether the site is allowed to make loopback network requests. Split from LOCAL_NETWORK_ACCESS. </li>
 <li>
-<span id="CEF_CONTENT_SETTING_TYPE_NUM_VALUES">CEF_CONTENT_SETTING_TYPE_NUM_VALUES</span>: * CEF_API_ADDED(14500) *</li>
+<span id="CEF_CONTENT_SETTING_TYPE_SUB_APPS_WITHOUT_PROMPTS">CEF_CONTENT_SETTING_TYPE_SUB_APPS_WITHOUT_PROMPTS</span>:  Content setting for whether an IWA can add sub apps without prompting users. </li>
+<li>
+<span id="CEF_CONTENT_SETTING_TYPE_NUM_VALUES">CEF_CONTENT_SETTING_TYPE_NUM_VALUES</span>: * CEF_API_ADDED(15000) *</li>
 </ul>
 </td></tr>
 </table>

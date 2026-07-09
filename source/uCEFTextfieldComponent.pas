@@ -45,17 +45,11 @@ type
       function  GetSelectedText : ustring;
       function  GetSelectedRange : TCefRange;
       function  GetCursorPosition : NativeUInt;
-      function  GetTextColor : TCefColor;
-      function  GetSelectionTextColor : TCefColor;
-      function  GetSelectionBackgroundColor : TCefColor;
       function  GetPlaceholderText : ustring;
 
       procedure SetPasswordInput(password_input: boolean);
       procedure SetReadOnly(read_only: boolean);
       procedure SetText(const text_: ustring);
-      procedure SetTextColor(color: TCefColor);
-      procedure SetSelectionTextColor(color: TCefColor);
-      procedure SetSelectionBackgroundColor(color: TCefColor);
       procedure SetPlaceholderText(const text_: ustring);
       procedure SetSelectedRange(const range: TCefRange);
 
@@ -136,10 +130,6 @@ type
       /// </summary>
       procedure SetAccessibleName(const name_: ustring);
       /// <summary>
-      /// Sets the placeholder text color.
-      /// </summary>
-      procedure SetPlaceholderTextColor(color: TCefColor);
-      /// <summary>
       /// Returns true (1) if the text will be displayed as asterisks.
       /// </summary>
       property  PasswordInput            : boolean       read GetIsPasswordInput            write SetPasswordInput;
@@ -163,18 +153,6 @@ type
       /// Returns the current cursor position.
       /// </summary>
       property  CursorPosition           : NativeUInt    read GetCursorPosition;
-      /// <summary>
-      /// Returns the text color.
-      /// </summary>
-      property  TextColor                : TCefColor     read GetTextColor                  write SetTextColor;
-      /// <summary>
-      /// Returns the selection text color.
-      /// </summary>
-      property  SelectionTextColor       : TCefColor     read GetSelectionTextColor         write SetSelectionTextColor;
-      /// <summary>
-      /// Returns the selection background color.
-      /// </summary>
-      property  SelectionBackgroundColor : TCefColor     read GetSelectionBackgroundColor   write SetSelectionBackgroundColor;
       /// <summary>
       /// Returns the placeholder text that will be displayed when the Textfield is
       /// NULL.
@@ -349,30 +327,6 @@ begin
     Result := 0;
 end;
 
-function TCEFTextfieldComponent.GetTextColor : TCefColor;
-begin
-  if Initialized then
-    Result := FTextfield.GetTextColor
-   else
-    Result := 0;
-end;
-
-function TCEFTextfieldComponent.GetSelectionTextColor : TCefColor;
-begin
-  if Initialized then
-    Result := FTextfield.GetSelectionTextColor
-   else
-    Result := 0;
-end;
-
-function TCEFTextfieldComponent.GetSelectionBackgroundColor : TCefColor;
-begin
-  if Initialized then
-    Result := FTextfield.GetSelectionBackgroundColor
-   else
-    Result := 0;
-end;
-
 function TCEFTextfieldComponent.GetPlaceholderText : ustring;
 begin
   if Initialized then
@@ -397,24 +351,6 @@ procedure TCEFTextfieldComponent.SetText(const text_: ustring);
 begin
   if Initialized then
     FTextfield.SetText(text_);
-end;
-
-procedure TCEFTextfieldComponent.SetTextColor(color: TCefColor);
-begin
-  if Initialized then
-    FTextfield.SetTextColor(color);
-end;
-
-procedure TCEFTextfieldComponent.SetSelectionTextColor(color: TCefColor);
-begin
-  if Initialized then
-    FTextfield.SetSelectionTextColor(color);
-end;
-
-procedure TCEFTextfieldComponent.SetSelectionBackgroundColor(color: TCefColor);
-begin
-  if Initialized then
-    FTextfield.SetSelectionBackgroundColor(color);
 end;
 
 procedure TCEFTextfieldComponent.SetPlaceholderText(const text_: ustring);
@@ -492,12 +428,6 @@ procedure TCEFTextfieldComponent.SetAccessibleName(const name_: ustring);
 begin
   if Initialized then
     FTextfield.SetAccessibleName(name_);
-end;
-
-procedure TCEFTextfieldComponent.SetPlaceholderTextColor(color: TCefColor);
-begin
-  if Initialized then
-    FTextfield.SetPlaceholderTextColor(color);
 end;
 
 {$IFDEF FPC}

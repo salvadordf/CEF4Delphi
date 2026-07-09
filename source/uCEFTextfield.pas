@@ -94,30 +94,6 @@ type
       /// </summary>
       function  GetCursorPosition : NativeUInt;
       /// <summary>
-      /// Sets the text color.
-      /// </summary>
-      procedure SetTextColor(color: TCefColor);
-      /// <summary>
-      /// Returns the text color.
-      /// </summary>
-      function  GetTextColor : TCefColor;
-      /// <summary>
-      /// Sets the selection text color.
-      /// </summary>
-      procedure SetSelectionTextColor(color: TCefColor);
-      /// <summary>
-      /// Returns the selection text color.
-      /// </summary>
-      function  GetSelectionTextColor : TCefColor;
-      /// <summary>
-      /// Sets the selection background color.
-      /// </summary>
-      procedure SetSelectionBackgroundColor(color: TCefColor);
-      /// <summary>
-      /// Returns the selection background color.
-      /// </summary>
-      function  GetSelectionBackgroundColor : TCefColor;
-      /// <summary>
       /// Sets the font list. The format is "<FONT_FAMILY_LIST>,[STYLES] <SIZE>",
       /// where:
       /// - FONT_FAMILY_LIST is a comma-separated list of font family names,
@@ -166,10 +142,6 @@ type
       /// NULL.
       /// </summary>
       function  GetPlaceholderText : ustring;
-      /// <summary>
-      /// Sets the placeholder text color.
-      /// </summary>
-      procedure SetPlaceholderTextColor(color: TCefColor);
       /// <summary>
       /// Set the accessible name that will be exposed to assistive technology (AT).
       /// </summary>
@@ -277,36 +249,6 @@ begin
   Result := PCefTextfield(FData)^.get_cursor_position(PCefTextfield(FData));
 end;
 
-procedure TCefTextfieldRef.SetTextColor(color: TCefColor);
-begin
-  PCefTextfield(FData)^.set_text_color(PCefTextfield(FData), color);
-end;
-
-function TCefTextfieldRef.GetTextColor : TCefColor;
-begin
-  Result := PCefTextfield(FData)^.get_text_color(PCefTextfield(FData));
-end;
-
-procedure TCefTextfieldRef.SetSelectionTextColor(color: TCefColor);
-begin
-  PCefTextfield(FData)^.set_selection_text_color(PCefTextfield(FData), color);
-end;
-
-function TCefTextfieldRef.GetSelectionTextColor : TCefColor;
-begin
-  Result := PCefTextfield(FData)^.get_selection_text_color(PCefTextfield(FData));
-end;
-
-procedure TCefTextfieldRef.SetSelectionBackgroundColor(color: TCefColor);
-begin
-  PCefTextfield(FData)^.set_selection_background_color(PCefTextfield(FData), color);
-end;
-
-function TCefTextfieldRef.GetSelectionBackgroundColor : TCefColor;
-begin
-  Result := PCefTextfield(FData)^.get_selection_background_color(PCefTextfield(FData));
-end;
-
 procedure TCefTextfieldRef.SetFontList(const font_list: ustring);
 var
   TempFontList : TCefString;
@@ -351,11 +293,6 @@ end;
 function TCefTextfieldRef.GetPlaceholderText : ustring;
 begin
   Result := CefStringFreeAndGet(PCefTextfield(FData)^.get_placeholder_text(PCefTextfield(FData)));
-end;
-
-procedure TCefTextfieldRef.SetPlaceholderTextColor(color: TCefColor);
-begin
-  PCefTextfield(FData)^.set_placeholder_text_color(PCefTextfield(FData), color);
 end;
 
 procedure TCefTextfieldRef.SetAccessibleName(const name: ustring);
