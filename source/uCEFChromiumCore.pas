@@ -1616,6 +1616,12 @@ type
       /// </summary>
       procedure   SetAccessibilityState(accessibilityState: TCefState);
       /// <summary>
+      /// Enable notifications of auto resize via
+      /// ICefDisplayHandler.OnAutoResize. Notifications are disabled by
+      /// default. |min_size| and |max_size| define the range of allowed sizes.
+      /// </summary>
+      procedure   SetAutoResizeEnabled(enabled_: boolean; const min_size, max_size: PCefSize);
+      /// <summary>
       /// Call this function when the user drags the mouse into the web view (before
       /// calling DragTargetDragOver/DragTargetLeave/DragTargetDrop). |drag_data|
       /// should not contain file contents as this type of data is not allowed to be
@@ -2759,8 +2765,8 @@ type
       property OnConsoleMessage                    : TOnConsoleMessage                        read FOnConsoleMessage                   write FOnConsoleMessage;
       /// <summary>
       /// Called when auto-resize is enabled via
-      /// cef_browser_host_t::SetAutoResizeEnabled and the contents have auto-
-      /// resized. |new_size| will be the desired size in DIP coordinates. Return
+      /// ICefBrowserHost.SetAutoResizeEnabled and the contents have auto-resized.
+      /// |new_size| will be the desired size in DIP coordinates. Return
       /// true (1) if the resize was handled or false (0) for default handling.
       /// </summary>
       /// <remarks>
@@ -10319,6 +10325,12 @@ procedure TChromiumCore.SetAccessibilityState(accessibilityState: TCefState);
 begin
   if Initialized then
     Browser.Host.SetAccessibilityState(accessibilityState);
+end;
+
+procedure TChromiumCore.SetAutoResizeEnabled(enabled_: boolean; const min_size, max_size: PCefSize);
+begin
+  if Initialized then
+    Browser.Host.SetAutoResizeEnabled(enabled_, min_size, max_size);
 end;
 
 procedure TChromiumCore.SendProcessMessage(targetProcess: TCefProcessId; const ProcMessage: ICefProcessMessage; const aFrameName, aFrameIdentifier : ustring);

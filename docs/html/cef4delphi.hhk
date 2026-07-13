@@ -43593,6 +43593,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAudioMuted-boolean-">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SetAutoResizeEnabled">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAutoResizeEnabled-boolean-PCefSize-PCefSize-">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="SetAxViewportCollapse">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAxViewportCollapse-boolean-">
 </object>

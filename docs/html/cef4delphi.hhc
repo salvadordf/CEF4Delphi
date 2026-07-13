@@ -9762,6 +9762,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAccessibilityState">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SetAutoResizeEnabled">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAutoResizeEnabled">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="DragTargetDragEnter">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#DragTargetDragEnter">
 </object>
@@ -99242,6 +99246,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SetAccessibilityState">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAccessibilityState">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetAutoResizeEnabled">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SetAutoResizeEnabled">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetAxViewportCollapse">
