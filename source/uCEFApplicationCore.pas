@@ -3402,7 +3402,7 @@ begin
               FStatus       := asErrorInitializingLibrary;
               TempErrorCode := ExitCode;
 
-              if (TempErrorCode <> CEF_RESULT_CODE_NORMAL_EXIT) then
+              if not CefIsNormalExitCode(TempErrorCode) then
                 begin
                   FLastErrorMessage := 'InitializeLibrary failed.' + CRLF +
                                        ' ExitCode(' + {$IFDEF FPC}UTF8Decode({$ENDIF}inttostr(TempErrorCode){$IFDEF FPC}){$ENDIF} + ') : ' +

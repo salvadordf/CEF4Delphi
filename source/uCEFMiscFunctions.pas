@@ -844,6 +844,16 @@ function EditingCommandToString(aEditingCommand : TCefEditingCommand): ustring;
 /// </remarks>
 function CefResultCodeToString(aExitCode : TCefResultCode) : ustring;
 
+/// <summary>
+/// Returns True if the specified CEF result code is one of the documented
+/// NORMAL_EXIT_* values.
+/// </summary>
+/// <remarks>
+/// Recent CEF versions may return these result codes after cef_initialize()
+/// returns 0 to indicate expected early-exit conditions rather than failures.
+/// </remarks>
+function CefIsNormalExitCode(const ACode: TCefResultCode): Boolean;
+
 implementation
 
 uses
@@ -3659,6 +3669,20 @@ begin
     CEF_RESULT_CODE_SANDBOX_FATAL_BROKER_SHUTDOWN_HUNG                 : Result := 'Windows sandbox broker terminated in shutdown.';
     else                                                                 Result := 'Unknown error code.';
   end;
+end;
+
+function CefIsNormalExitCode(const ACode: TCefResultCode): Boolean;
+begin
+  // According to the CEF API contract, cef_initialize() may return 0 for
+  // expected early-exit conditions. NORMAL_EXIT_* result codes should not
+  // be treated as initialization failures.
+  Result := ACode in
+  [
+    CEF_RESULT_CODE_NORMAL_EXIT,
+    CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED,
+    CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS,
+    CEF_RESULT_CODE_NORMAL_EXIT_AUTO_DE_ELEVATED
+  ];
 end;
 
 end.
