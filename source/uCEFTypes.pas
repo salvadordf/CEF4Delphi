@@ -3523,21 +3523,23 @@ type
     CEF_CPAIT_LENS_OVERLAY,
     CEF_CPAIT_DISCOUNTS,
     CEF_CPAIT_OPTIMIZATION_GUIDE,
-    CEF_CPAIT_COLLABORATION_MESSAGING, {* CEF_API_ADDED(13304) *}
-    CEF_CPAIT_CHANGE_PASSWORD,         {* CEF_API_ADDED(13400) *}
-    CEF_CPAIT_LENS_OVERLAY_HOMEWORK,   {* CEF_API_ADDED(13800) *}
-    CEF_CPAIT_AI_MODE,                 {* CEF_API_ADDED(14000) *}
-    CEF_CPAIT_READING_MODE,            {* CEF_API_ADDED(14400) *}
-    CEF_CPAIT_CONTEXTUAL_SIDE_PANEL,   {* CEF_API_ADDED(14400) *}
-    CEF_CPAIT_JS_OPTIMIZATIONS,        {* CEF_API_ADDED(14400) *}
-    CEF_CPAIT_RECORD_REPLAY,           {* CEF_API_ADDED(14700) *}
-    CEF_CPAIT_INDIGO,                  {* CEF_API_ADDED(14700) *}
-    CEF_CPAIT_FEDERATION,              {* CEF_API_ADDED(14800) *}
-    CEF_CPAIT_GLIC,                    {* CEF_API_ADDED(14800) *}
-    CEF_CPAIT_ANCHORED_CONTEXTUAL_CUE, {* CEF_API_ADDED(14900) *}
-    CEF_CPAIT_WEB_AUTHN_AMBIENT_SIGNIN,{* CEF_API_ADDED(14900) *}
-    CEF_CPAIT_AUTOFILL_PAYMENT,        {* CEF_API_ADDED(15000) *}
-    CEF_CPAIT_MULTISTEP_FILTER,        {* CEF_API_ADDED(15000) *}
+    CEF_CPAIT_COLLABORATION_MESSAGING,             {* CEF_API_ADDED(13304) *}
+    CEF_CPAIT_CHANGE_PASSWORD,                     {* CEF_API_ADDED(13400) *}
+    CEF_CPAIT_LENS_OVERLAY_HOMEWORK,               {* CEF_API_ADDED(13800) *}
+    CEF_CPAIT_AI_MODE,                             {* CEF_API_ADDED(14000) *}
+    CEF_CPAIT_READING_MODE,                        {* CEF_API_ADDED(14400) *}
+    CEF_CPAIT_CONTEXTUAL_SIDE_PANEL,               {* CEF_API_ADDED(14400) *}
+    CEF_CPAIT_JS_OPTIMIZATIONS,                    {* CEF_API_ADDED(14400) *}
+    CEF_CPAIT_RECORD_REPLAY,                       {* CEF_API_ADDED(14700) *}
+    CEF_CPAIT_INDIGO,                              {* CEF_API_ADDED(14700) *}
+    CEF_CPAIT_FEDERATION,                          {* CEF_API_ADDED(14800) *}
+    CEF_CPAIT_GLIC,                                {* CEF_API_ADDED(14800) *}
+    CEF_CPAIT_ANCHORED_CONTEXTUAL_CUE,             {* CEF_API_ADDED(14900) *}
+    CEF_CPAIT_WEB_AUTHN_AMBIENT_SIGNIN,            {* CEF_API_ADDED(14900) *}
+    CEF_CPAIT_AUTOFILL_PAYMENT,                    {* CEF_API_ADDED(15000) *}
+    CEF_CPAIT_MULTISTEP_FILTER,                    {* CEF_API_ADDED(15000) *}
+    CEF_CPAIT_PAYMENTS_CHURNED_USERS,              {* CEF_API_ADDED(15200) *}
+    CEF_CPAIT_FAKE_PAGE_ACTION_FOR_DEBUG,          {* CEF_API_ADDED(15200) *}
     CEF_CPAIT_NUM_VALUES
   );
 
@@ -5848,7 +5850,14 @@ type
     /// users.
     /// </summary>
     CEF_CONTENT_SETTING_TYPE_SUB_APPS_WITHOUT_PROMPTS,                           {* CEF_API_ADDED(15000) *}
+    /// <summary>
+    /// Content setting for inline cue menus.
+    /// </summary>
     CEF_CONTENT_SETTING_TYPE_INLINE_CUE_MENU,                                    {* CEF_API_ADDED(15100) *}
+    /// <summary>
+    /// Stores allowlist decisions for Suspicious Site Warnings.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_SUSPICIOUS_SITE_WARNING_DATA,                       {* CEF_API_ADDED(15200) *}
     CEF_CONTENT_SETTING_TYPE_NUM_VALUES
   );
 
