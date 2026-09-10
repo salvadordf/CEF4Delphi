@@ -1830,7 +1830,7 @@ begin
 
       TempList := TStringList.Create;
       TempList.Add(TempDir + 'v8_context_snapshot.bin');
-      TempList.Add(TempDir + 'resources.pak');
+      TempList.Add(TempDir + LIBCEF_RESOURCES_PAK);
       TempList.Add(TempDir + 'chrome_100_percent.pak');
       TempList.Add(TempDir + 'chrome_200_percent.pak');
 

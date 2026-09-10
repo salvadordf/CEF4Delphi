@@ -54,9 +54,9 @@ const
   {$ENDIF}
 
   // for InitLibLocationFromArgs
-  LIBCEF_PAK         = 'cef.pak';
-  LIBCEF_LOCALE_DIR  = 'locales';
-  LIBCEF_LOCALE_ENUS = 'en-US.pak';
+  LIBCEF_RESOURCES_PAK = 'resources.pak';
+  LIBCEF_LOCALE_DIR    = 'locales';
+  LIBCEF_LOCALE_ENUS   = 'en-US.pak';
 
 type
   TCEFProxySettings = class;
@@ -2772,7 +2772,7 @@ begin
   {$IFNDEF MACOSX}
   if (Result = '') and (FrameworkDirPath <> '') then
     begin
-      if FileExists(IncludeTrailingPathDelimiter(FrameworkDirPath) + LIBCEF_PAK) then
+      if FileExists(IncludeTrailingPathDelimiter(FrameworkDirPath) + LIBCEF_RESOURCES_PAK) then
         Result := FrameworkDirPath;
     end;
   {$ENDIF}
