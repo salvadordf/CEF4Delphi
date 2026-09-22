@@ -82,65 +82,6 @@ procedure CefStringSet(const aDstStr, aSrcStr: TCefString); overload;
 procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 
 /// <summary>
-/// <para>Register a new V8 extension with the specified JavaScript extension code and
-/// handler. Functions implemented by the handler are prototyped using the
-/// keyword 'native'. The calling of a native function is restricted to the
-/// scope in which the prototype of the native function is defined. This
-/// function may only be called on the render process main thread.</para>
-///
-/// <para>Example JavaScript extension code: <code>
-///   // create the 'example' global object if it doesn't already exist.
-///   if (!example)
-///     example = {};
-///   // create the 'example.test' global object if it doesn't already exist.
-///   if (!example.test)
-///     example.test = {};
-///   (function() {
-///     // Define the function 'example.test.myfunction'.
-///     example.test.myfunction = function() {
-///       // Call CefV8Handler::Execute() with the function name 'MyFunction'
-///       // and no arguments.
-///       native function MyFunction();
-///       return MyFunction();
-///     };
-///     // Define the getter function for parameter 'example.test.myparam'.
-///     example.test.__defineGetter__('myparam', function() {
-///       // Call CefV8Handler::Execute() with the function name 'GetMyParam'
-///       // and no arguments.
-///       native function GetMyParam();
-///       return GetMyParam();
-///     });
-///     // Define the setter function for parameter 'example.test.myparam'.
-///     example.test.__defineSetter__('myparam', function(b) {
-///       // Call CefV8Handler::Execute() with the function name 'SetMyParam'
-///       // and a single argument.
-///       native function SetMyParam();
-///       if(b) SetMyParam(b);
-///     });
-///
-///     // Extension definitions can also contain normal JavaScript variables
-///     // and functions.
-///     var myint = 0;
-///     example.test.increment = function() {
-///       myint += 1;
-///       return myint;
-///     };
-///   })();
-/// </code></para>
-///
-/// <para>Example usage in the page: <code>
-///   // Call the function.
-///   example.test.myfunction();
-///   // Set the parameter.
-///   example.test.myparam = value;
-///   // Get the parameter.
-///   value = example.test.myparam;
-///   // Call another function.
-///   example.test.increment();
-/// </code></para>
-/// </summary>
-function CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
-/// <summary>
 /// Post a task for execution on the specified thread. Equivalent to using
 /// TCefTaskRunnerRef.GetForThread(threadId).PostTask(task).
 /// </summary>
@@ -1029,24 +970,6 @@ begin
     end
    else
     Result := nil;
-end;
-
-function CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
-var
-  TempName, TempCode : TCefString;
-begin
-  if (GlobalCEFApp <> nil) and
-     GlobalCEFApp.LibLoaded and
-     ((GlobalCEFApp.ProcessType = ptRenderer) or GlobalCEFApp.SingleProcess) and
-     (length(name) > 0) and
-     (length(code) > 0) then
-    begin
-      TempName := CefString(name);
-      TempCode := CefString(code);
-      Result   := cef_register_extension(@TempName, @TempCode, CefGetData(handler)) <> 0;
-    end
-   else
-    Result := False;
 end;
 
 function CefPostTask(aThreadId : TCefThreadId; const aTask : ICefTask) : boolean;

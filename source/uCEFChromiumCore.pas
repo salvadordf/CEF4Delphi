@@ -2846,6 +2846,8 @@ type
       /// attachment` response from the server). |url| is the target download URL
       /// and |request_function| is the target function (GET, POST, etc). Return
       /// true (1) to proceed with the download or false (0) to cancel the download.
+      /// This function is not called for downloads initiated by
+      /// TChormiumCore.StartDownload().
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF UI thread.</para>
@@ -2854,10 +2856,13 @@ type
       property OnCanDownload                       : TOnCanDownloadEvent                      read FOnCanDownload                      write FOnCanDownload;
       /// <summary>
       /// Called before a download begins. |suggested_name| is the suggested name
-      /// for the download file. Set aResult to true (1) and execute |callback| either
-      /// asynchronously or in this function to continue or cancel the download.
-      /// Set aResult to false (0) to proceed with default handling (cancel with Alloy
-      /// style, download shelf with Chrome style). Do not keep a reference to
+      /// for the download file. Return true (1) and execute |callback| either
+      /// asynchronously or in this function to continue the download. Return false
+      /// (0) to proceed with default handling (cancel with Alloy style, default
+      /// download handling with Chrome style). To cancel the download with either
+      /// style execute the callback passed to OnDownloadUpdated(). If this
+      /// function returns true (1) and |callback| is destroyed without being
+      /// executed, the download will be canceled. Do not keep a reference to
       /// |download_item| outside of this function.
       /// </summary>
       /// <remarks>
@@ -3755,7 +3760,9 @@ type
       /// ICefResourceRequestHandler object. This function will not be called if
       /// the client associated with |browser| returns a non-NULL value from
       /// ICefRequestHandler.GetResourceRequestHandler for the same request
-      /// (identified by ICefRequest.GetIdentifier).
+      /// (identified by ICefRequest.GetIdentifier). For worker requests without
+      /// an associated frame or process handler, an arbitrary non-NULL handler from
+      /// the contexts sharing the same storage will be used.
       /// </summary>
       /// <remarks>
       /// <para>This event will be called on the browser process CEF IO thread.</para>

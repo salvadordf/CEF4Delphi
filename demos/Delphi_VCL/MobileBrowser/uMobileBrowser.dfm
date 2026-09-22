@@ -259,7 +259,7 @@ object Form1: TForm1
             MaxValue = 10000000
             MinValue = 0
             TabOrder = 0
-            Value = 0
+            Value = 600
           end
         end
         object Panel7: TPanel
@@ -290,7 +290,7 @@ object Form1: TForm1
             MaxValue = 10000000
             MinValue = 0
             TabOrder = 0
-            Value = 0
+            Value = 800
           end
         end
         object OverrideDeviceMetricsBtn: TButton
@@ -455,8 +455,6 @@ object Form1: TForm1
           'https://ipleak.com/full-report/'
           'https://xsinator.com/testing.html'
           'https://abrahamjuliot.github.io/creepjs/')
-        ExplicitLeft = -3
-        ExplicitTop = 3
       end
     end
     object CEFWindowParent1: TCEFWindowParent

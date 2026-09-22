@@ -2808,14 +2808,19 @@ type
     /// attachment` response from the server). |url| is the target download URL
     /// and |request_function| is the target function (GET, POST, etc). Return
     /// true (1) to proceed with the download or false (0) to cancel the download.
+    /// This function is not called for downloads initiated by
+    /// ICefBrowserHost.StartDownload().
     /// </summary>
     function  CanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean;
     /// <summary>
     /// Called before a download begins. |suggested_name| is the suggested name
     /// for the download file. Return true (1) and execute |callback| either
-    /// asynchronously or in this function to continue or cancel the download.
-    /// Return false (0) to proceed with default handling (cancel with Alloy
-    /// style, download shelf with Chrome style). Do not keep a reference to
+    /// asynchronously or in this function to continue the download. Return false
+    /// (0) to proceed with default handling (cancel with Alloy style, default
+    /// download handling with Chrome style). To cancel the download with either
+    /// style execute the callback passed to OnDownloadUpdated(). If this
+    /// function returns true (1) and |callback| is destroyed without being
+    /// executed, the download will be canceled. Do not keep a reference to
     /// |download_item| outside of this function.
     /// </summary>
     function  OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback): boolean;
@@ -7755,7 +7760,8 @@ type
     procedure GetDisplayHandler(var aHandler : ICefDisplayHandler);
     /// <summary>
     /// Return the handler for download events. If no handler is returned
-    /// downloads will not be allowed.
+    /// downloads will be canceled with Alloy style and will proceed with default
+    /// handling with Chrome style.
     /// </summary>
     procedure GetDownloadHandler(var aHandler : ICefDownloadHandler);
     /// <summary>
@@ -8231,7 +8237,9 @@ type
     /// ICefResourceRequestHandler object. This function will not be called if
     /// the client associated with |browser| returns a non-NULL value from
     /// ICefRequestHandler.GetResourceRequestHandler for the same request
-    /// (identified by ICefRequest.GetIdentifier).
+    /// (identified by ICefRequest.GetIdentifier). For worker requests without
+    /// an associated frame or process handler, an arbitrary non-NULL handler from
+    /// the contexts sharing the same storage will be used.
     /// </summary>
     procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler : ICefResourceRequestHandler);
     /// <summary>

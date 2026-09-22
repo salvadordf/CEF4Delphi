@@ -3,7 +3,7 @@
 <head>
 <title>cef4delphi: uCEFChromiumCore: Class TChromiumCore</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 1.0.4">
+<meta name="generator" content="PasDoc 1.0.5.snapshot">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
@@ -12327,7 +12327,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Called before a download begins in response to a user-initiated action (e.g. alt + link click or link click that returns a `Content-Disposition: attachment` response from the server). |url| is the target download URL and |request_function| is the target function (GET, POST, etc). Return true (1) to proceed with the download or false (0) to cancel the download. </p>
+ Called before a download begins in response to a user-initiated action (e.g. alt + link click or link click that returns a `Content-Disposition: attachment` response from the server). |url| is the target download URL and |request_function| is the target function (GET, POST, etc). Return true (1) to proceed with the download or false (0) to cancel the download. This function is not called for downloads initiated by TChormiumCore.StartDownload(). </p>
 <p>
 
 
@@ -12343,7 +12343,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Called before a download begins. |suggested_name| is the suggested name for the download file. Set aResult to true (1) and execute |callback| either asynchronously or in this function to continue or cancel the download. Set aResult to false (0) to proceed with default handling (cancel with Alloy style, download shelf with Chrome style). Do not keep a reference to |download_item| outside of this function. </p>
+ Called before a download begins. |suggested_name| is the suggested name for the download file. Return true (1) and execute |callback| either asynchronously or in this function to continue the download. Return false (0) to proceed with default handling (cancel with Alloy style, default download handling with Chrome style). To cancel the download with either style execute the callback passed to OnDownloadUpdated(). If this function returns true (1) and |callback| is destroyed without being executed, the download will be canceled. Do not keep a reference to |download_item| outside of this function. </p>
 <p>
 
 
@@ -13365,7 +13365,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Called on the browser process IO thread before a resource request is initiated. The |browser| and |frame| values represent the source of the request, and may be NULL for requests originating from service workers or ICefUrlRequest. |request| represents the request contents and cannot be modified in this callback. |is_navigation| will be true (1) if the resource request is a navigation. |is_download| will be true (1) if the resource request is a download. |request_initiator| is the origin (scheme + domain) of the page that initiated the request. Set |disable_default_handling| to true (1) to disable default handling of the request, in which case it will need to be handled via ICefResourceRequestHandler.GetResourceHandler or it will be canceled. To allow the resource load to proceed with default handling return NULL. To specify a handler for the resource return a ICefResourceRequestHandler object. This function will not be called if the client associated with |browser| returns a non-NULL value from ICefRequestHandler.GetResourceRequestHandler for the same request (identified by ICefRequest.GetIdentifier). </p>
+ Called on the browser process IO thread before a resource request is initiated. The |browser| and |frame| values represent the source of the request, and may be NULL for requests originating from service workers or ICefUrlRequest. |request| represents the request contents and cannot be modified in this callback. |is_navigation| will be true (1) if the resource request is a navigation. |is_download| will be true (1) if the resource request is a download. |request_initiator| is the origin (scheme + domain) of the page that initiated the request. Set |disable_default_handling| to true (1) to disable default handling of the request, in which case it will need to be handled via ICefResourceRequestHandler.GetResourceHandler or it will be canceled. To allow the resource load to proceed with default handling return NULL. To specify a handler for the resource return a ICefResourceRequestHandler object. This function will not be called if the client associated with |browser| returns a non-NULL value from ICefRequestHandler.GetResourceRequestHandler for the same request (identified by ICefRequest.GetIdentifier). For worker requests without an associated frame or process handler, an arbitrary non-NULL handler from the contexts sharing the same storage will be used. </p>
 <p>
 
 
@@ -13962,6 +13962,6 @@ Custom</p>
 <p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_update_callback_t))</p>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.5.snapshot</a>. </em>
 </span>
 </body></html>

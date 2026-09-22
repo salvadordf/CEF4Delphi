@@ -10,10 +10,11 @@ object Form1: TForm1
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  LCLVersion = '4.8.0.0'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
-  Position = poScreenCenter
   object Splitter1: TSplitter
     Left = 739
     Height = 624
@@ -94,17 +95,17 @@ object Form1: TForm1
         Width = 294
         Align = alTop
         Caption = ' User agent '
-        ClientHeight = 54
+        ClientHeight = 55
         ClientWidth = 290
         ParentBackground = False
         TabOrder = 0
         object UserAgentCb: TComboBox
           Left = 0
-          Height = 22
+          Height = 21
           Top = 0
           Width = 290
           Align = alTop
-          ItemHeight = 14
+          ItemHeight = 13
           ItemIndex = 0
           Items.Strings = (
             'Mozilla/5.0 (Linux; Android 11; M2102K1G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Mobile Safari/537.36'
@@ -134,7 +135,7 @@ object Form1: TForm1
         object OverrideUserAgentBtn: TButton
           Left = 0
           Height = 25
-          Top = 29
+          Top = 30
           Width = 290
           Align = alBottom
           Caption = 'Override user agent'
@@ -144,8 +145,8 @@ object Form1: TForm1
       end
       object EmulateTouchChk: TCheckBox
         Left = 0
-        Height = 18
-        Top = 79
+        Height = 17
+        Top = 80
         Width = 294
         Align = alBottom
         Caption = 'Emulate Touch'
@@ -171,7 +172,7 @@ object Form1: TForm1
         Width = 294
         Align = alClient
         Caption = ' Emulate device metrics '
-        ClientHeight = 186
+        ClientHeight = 187
         ClientWidth = 290
         ParentBackground = False
         TabOrder = 0
@@ -204,6 +205,7 @@ object Form1: TForm1
             Align = alClient
             MaxValue = 10000000
             TabOrder = 0
+            Value = 600
           end
         end
         object Panel7: TPanel
@@ -235,12 +237,13 @@ object Form1: TForm1
             Align = alClient
             MaxValue = 10000000
             TabOrder = 0
+            Value = 800
           end
         end
         object OverrideDeviceMetricsBtn: TButton
           Left = 0
           Height = 25
-          Top = 161
+          Top = 162
           Width = 290
           Align = alBottom
           Caption = 'Override device metrics'
@@ -305,11 +308,11 @@ object Form1: TForm1
           end
           object OrientationCb: TComboBox
             Left = 75
-            Height = 22
+            Height = 21
             Top = 0
             Width = 215
             Align = alClient
-            ItemHeight = 14
+            ItemHeight = 13
             ItemIndex = 0
             Items.Strings = (
               'Portrait Primary'

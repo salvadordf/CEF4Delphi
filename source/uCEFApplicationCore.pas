@@ -4941,7 +4941,6 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_function{$IFDEF FPC}){$ENDIF}                          := GetProcAddress(FLibHandle, 'cef_v8_value_create_function');
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_promise{$IFDEF FPC}){$ENDIF}                           := GetProcAddress(FLibHandle, 'cef_v8_value_create_promise');
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8_stack_trace_get_current{$IFDEF FPC}){$ENDIF}                        := GetProcAddress(FLibHandle, 'cef_v8_stack_trace_get_current');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_register_extension{$IFDEF FPC}){$ENDIF}                                := GetProcAddress(FLibHandle, 'cef_register_extension');
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8_backing_store_create{$IFDEF FPC}){$ENDIF}                           := GetProcAddress(FLibHandle, 'cef_v8_backing_store_create');
 
   Result := assigned(cef_v8_context_get_current_context) and
@@ -4963,7 +4962,6 @@ begin
             assigned(cef_v8_value_create_function) and
             assigned(cef_v8_value_create_promise) and
             assigned(cef_v8_stack_trace_get_current) and
-            assigned(cef_register_extension) and
             assigned(cef_v8_backing_store_create);
 end;
 

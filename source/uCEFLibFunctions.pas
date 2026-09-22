@@ -211,7 +211,6 @@ var
   cef_v8_value_create_function                        : function(const name: PCefString; handler: PCefv8Handler): PCefv8Value; cdecl;
   cef_v8_value_create_promise                         : function : PCefv8Value; cdecl;
   cef_v8_stack_trace_get_current                      : function(frame_limit: Integer): PCefV8StackTrace; cdecl;
-  cef_register_extension                              : function(const extension_name, javascript_code: PCefString; handler: PCefv8Handler): Integer; cdecl;
   cef_v8_backing_store_create                         : function(byte_length: NativeUInt): PCefv8BackingStore; cdecl;
 
   // /include/capi/cef_values_capi.h
