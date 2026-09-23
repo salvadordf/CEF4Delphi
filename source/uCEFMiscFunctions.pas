@@ -1809,16 +1809,12 @@ begin
       TempList.Add(TempDir + 'vk_swiftshader.dll');
       TempList.Add(TempDir + 'vk_swiftshader_icd.json');
       TempList.Add(TempDir + 'vulkan-1.dll');
-      TempList.Add(TempDir + 'libEGL.dll');
-      TempList.Add(TempDir + 'libGLESv2.dll');
       {$IFDEF WIN64}
       TempList.Add(TempDir + 'dxcompiler.dll');
       TempList.Add(TempDir + 'dxil.dll');
       {$ENDIF}
       {$ENDIF}
       {$IFDEF LINUX}
-      TempList.Add(TempDir + 'libEGL.so');
-      TempList.Add(TempDir + 'libGLESv2.so');
       TempList.Add(TempDir + 'libvk_swiftshader.so');
       TempList.Add(TempDir + 'vk_swiftshader_icd.json');
       TempList.Add(TempDir + 'libvulkan.so.1');
