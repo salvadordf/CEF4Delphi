@@ -43,6 +43,7 @@ Delphinus-Support
 
 ## Related projects
 * [WebView4Delphi](https://github.com/salvadordf/WebView4Delphi)
+* [Python4Pascal](https://github.com/salvadordf/Python4Pascal)
 * [WebUI4Delphi](https://github.com/salvadordf/WebUI4Delphi)
 * [WebUI4CSharp](https://github.com/salvadordf/WebUI4CSharp)
 * [Tesseract4Delphi](https://github.com/salvadordf/Tesseract4Delphi)
