@@ -98,6 +98,8 @@ type
       FChromeAppIconId                   : integer;
       FDisableSignalHandlers             : boolean;
       FUseViewsDefaultPopup              : boolean;
+      FKeychainServiceName               : ustring;
+      FKeychainAccountName               : ustring;
 
       // Fields used to set command line switches
       FSingleProcess                     : boolean;
@@ -884,6 +886,20 @@ type
       /// implemented to provide parent window information for the new popup.
       /// </summary>
       property UseViewsDefaultPopup              : boolean                                  read FUseViewsDefaultPopup              write FUseViewsDefaultPopup;
+      /// <summary>
+      /// The macOS Keychain service name used by OSCrypt. If this value is empty
+      /// then the default Chromium/Chrome service name will be used. Changing this
+      /// value will create or access a different Keychain item and may make
+      /// previously encrypted data unreadable.
+      /// </summary>
+      property KeychainServiceName               : ustring                                  read FKeychainServiceName               write FKeychainServiceName;
+      /// <summary>
+      /// The macOS Keychain account name used by OSCrypt. If this value is empty
+      /// then the default Chromium/Chrome account name will be used. Changing this
+      /// value will create or access a different Keychain item and may make
+      /// previously encrypted data unreadable.
+      /// </summary>
+      property KeychainAccountName               : ustring                                  read FKeychainAccountName               write FKeychainAccountName;
       /// <summary>
       /// Runs the renderer and plugins in the same process as the browser.
       /// </summary>
@@ -2143,6 +2159,8 @@ begin
   FChromeAppIconId                   := 0;
   FDisableSignalHandlers             := False;
   FUseViewsDefaultPopup              := False;
+  FKeychainServiceName               := '';
+  FKeychainAccountName               := '';
 
   // Fields used to set command line switches
   FSingleProcess                     := False;
@@ -3361,6 +3379,8 @@ begin
   aSettings.chrome_app_icon_id                      := FChromeAppIconId;
   aSettings.disable_signal_handlers                 := ord(FDisableSignalHandlers);
   aSettings.use_views_default_popup                 := ord(FUseViewsDefaultPopup);
+  aSettings.keychain_service_name                   := CefString(FKeychainServiceName);
+  aSettings.keychain_account_name                   := CefString(FKeychainAccountName);
 end;
 
 function TCefApplicationCore.InitializeLibrary(const aApp : ICefApp) : boolean;

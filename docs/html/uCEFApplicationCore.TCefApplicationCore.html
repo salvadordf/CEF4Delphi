@@ -155,6 +155,14 @@ body { margin: 0.5em; }
 </tr>
 <tr class="list2 visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationCore.TCefApplicationCore.html#FKeychainServiceName">FKeychainServiceName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code><strong><a href="uCEFApplicationCore.TCefApplicationCore.html#FKeychainAccountName">FKeychainAccountName</a></strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code><strong><a href="uCEFApplicationCore.TCefApplicationCore.html#FSingleProcess">FSingleProcess</a></strong>: boolean;</code></td>
 </tr>
 <tr class="list visibility-protected">
@@ -1437,6 +1445,14 @@ body { margin: 0.5em; }
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>property <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#KeychainServiceName">KeychainServiceName</a></strong>               : <a href="uCEFTypes.html#ustring">ustring</a>                                  read <a href="uCEFApplicationCore.TCefApplicationCore.html#FKeychainServiceName">FKeychainServiceName</a>               write <a href="uCEFApplicationCore.TCefApplicationCore.html#FKeychainServiceName">FKeychainServiceName</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>property <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#KeychainAccountName">KeychainAccountName</a></strong>               : <a href="uCEFTypes.html#ustring">ustring</a>                                  read <a href="uCEFApplicationCore.TCefApplicationCore.html#FKeychainAccountName">FKeychainAccountName</a>               write <a href="uCEFApplicationCore.TCefApplicationCore.html#FKeychainAccountName">FKeychainAccountName</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>property <strong><a href="uCEFApplicationCore.TCefApplicationCore.html#SingleProcess">SingleProcess</a></strong>                     : Boolean                                  read <a href="uCEFApplicationCore.TCefApplicationCore.html#FSingleProcess">FSingleProcess</a>                     write <a href="uCEFApplicationCore.TCefApplicationCore.html#FSingleProcess">FSingleProcess</a>;</code></td>
 </tr>
 <tr class="list2 visibility-public">
@@ -2246,6 +2262,22 @@ Only used in macOS</p>
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="FUseViewsDefaultPopup"></span><code><strong>FUseViewsDefaultPopup</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="FKeychainServiceName"></span><code><strong>FKeychainServiceName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="FKeychainAccountName"></span><code><strong>FKeychainAccountName</strong>: <a href="uCEFTypes.html#ustring">ustring</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -5000,6 +5032,26 @@ ICefLoadHandler</p>
 <tr><td colspan="2">
 <p>
  If true use a Views (bare-bones) window instead of a Chrome UI window when creating default popups for Chrome style native-hosted (non-Views) browsers. This applies when ICefLifeSpanHandler.OnBeforePopup has not been implemented to provide parent window information for the new popup. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="KeychainServiceName"></span><code>property <strong>KeychainServiceName</strong>               : <a href="uCEFTypes.html#ustring">ustring</a>                                  read <a href="uCEFApplicationCore.TCefApplicationCore.html#FKeychainServiceName">FKeychainServiceName</a>               write <a href="uCEFApplicationCore.TCefApplicationCore.html#FKeychainServiceName">FKeychainServiceName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The macOS Keychain service name used by OSCrypt. If this value is empty then the default Chromium/Chrome service name will be used. Changing this value will create or access a different Keychain item and may make previously encrypted data unreadable. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="KeychainAccountName"></span><code>property <strong>KeychainAccountName</strong>               : <a href="uCEFTypes.html#ustring">ustring</a>                                  read <a href="uCEFApplicationCore.TCefApplicationCore.html#FKeychainAccountName">FKeychainAccountName</a>               write <a href="uCEFApplicationCore.TCefApplicationCore.html#FKeychainAccountName">FKeychainAccountName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ The macOS Keychain account name used by OSCrypt. If this value is empty then the default Chromium/Chrome account name will be used. Changing this value will create or access a different Keychain item and may make previously encrypted data unreadable. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">

@@ -1811,7 +1811,6 @@ begin
       TempList.Add(TempDir + 'vulkan-1.dll');
       {$IFDEF WIN64}
       TempList.Add(TempDir + 'dxcompiler.dll');
-      TempList.Add(TempDir + 'dxil.dll');
       {$ENDIF}
       {$ENDIF}
       {$IFDEF LINUX}
@@ -3567,6 +3566,8 @@ begin
     CEF_RESULT_CODE_NORMAL_EXIT_AUTO_DE_ELEVATED                       : Result := 'The browser process exited because it was re-launched without elevation.';
     CEF_RESULT_CODE_TERMINATED_BY_OTHER_PROCESS_ON_COMMIT_FAILURE      : Result := 'Upon encountering a commit failure in a process, PartitionAlloc terminated another process deemed less important.';
     CEF_RESULT_CODE_INVALID_ISOLATED_BROWSER_PROCESS                   : Result := 'The isolated browser process launched but it was not possible to wait on the exit of the process, so the browser must exit.';
+    CEF_RESULT_CODE_NORMAL_EXIT_RELAUNCH_REQUESTED                     : Result := 'A relaunch was requested during shutdown of an isolated browser process.';
+    CEF_RESULT_CODE_NORMAL_EXIT_RELAUNCH_BACKGROUND                    : Result := 'A relaunch in background mode was requested during shutdown of an isolated browser process.';
     CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY                            : Result := 'Windows sandbox could not set the integrity level.';
     CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN                            : Result := 'Windows sandbox could not lower the token.';
     CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES                          : Result := 'Windows sandbox failed to flush registry handles.';

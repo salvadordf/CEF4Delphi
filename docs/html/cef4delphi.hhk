@@ -1549,6 +1549,14 @@
 <param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_RESULT_CODE_NORMAL_EXIT_RELAUNCH_BACKGROUND">
+<param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_RELAUNCH_BACKGROUND">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_RESULT_CODE_NORMAL_EXIT_RELAUNCH_REQUESTED">
+<param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_RELAUNCH_REQUESTED">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="CEF_RESULT_CODE_NORMAL_EXIT_UPGRADE_RELAUNCHED">
 <param name="Local" value="uCEFConstants.html#CEF_RESULT_CODE_NORMAL_EXIT_UPGRADE_RELAUNCHED">
 </object>
@@ -12237,6 +12245,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_THIS_TAB">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_BROWSE_SKILLS">
+<param name="Local" value="uCEFConstants.html#IDC_BROWSE_SKILLS">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_CARET_BROWSING_TOGGLE">
 <param name="Local" value="uCEFConstants.html#IDC_CARET_BROWSING_TOGGLE">
 </object>
@@ -13013,6 +13025,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_MANAGE_PASSWORDS_FOR_PAGE">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_MANAGE_SKILLS">
+<param name="Local" value="uCEFConstants.html#IDC_MANAGE_SKILLS">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_MAXIMIZE_WINDOW">
 <param name="Local" value="uCEFConstants.html#IDC_MAXIMIZE_WINDOW">
 </object>
@@ -13155,6 +13171,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_CUSTOMIZE_KEYBOARD_SHORTCUT">
 <param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_CUSTOMIZE_KEYBOARD_SHORTCUT">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_EXIT">
+<param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_EXIT">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_SETTINGS">
@@ -13409,10 +13429,6 @@
 <param name="Local" value="uCEFConstants.html#IDC_SHARING_HUB_SCREENSHOT">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="IDC_SHOW_ADDRESSES">
-<param name="Local" value="uCEFConstants.html#IDC_SHOW_ADDRESSES">
-</object>
-<li><object type="text/sitemap">
 <param name="Name" value="IDC_SHOW_AI_MODE_OMNIBOX_BUTTON">
 <param name="Local" value="uCEFConstants.html#IDC_SHOW_AI_MODE_OMNIBOX_BUTTON">
 </object>
@@ -13545,8 +13561,16 @@
 <param name="Local" value="uCEFConstants.html#IDC_SHOW_TRAVEL">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_SHOW_TTC_MENU">
+<param name="Local" value="uCEFConstants.html#IDC_SHOW_TTC_MENU">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_SIZE_WINDOW">
 <param name="Local" value="uCEFConstants.html#IDC_SIZE_WINDOW">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_SKILLS_MENU">
+<param name="Local" value="uCEFConstants.html#IDC_SKILLS_MENU">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SPELLCHECK_ADD_TO_DICTIONARY">
@@ -17071,6 +17095,14 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FJavaScriptFlags">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FKeychainAccountName">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FKeychainAccountName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FKeychainServiceName">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FKeychainServiceName">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FKioskPrinting">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#FKioskPrinting">
 </object>
@@ -17561,6 +17593,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="JavaScriptFlags">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#JavaScriptFlags">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="KeychainAccountName">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#KeychainAccountName">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="KeychainServiceName">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#KeychainServiceName">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="KioskPrinting">
@@ -29549,12 +29589,28 @@
 <param name="Local" value="uCEFTypes.TCefPreferenceRegistrar.html#base">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="get_default_preference">
+<param name="Local" value="uCEFTypes.TCefPreferenceRegistrar.html#get_default_preference">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="set_default_preference">
+<param name="Local" value="uCEFTypes.TCefPreferenceRegistrar.html#set_default_preference">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="TCefPreferenceRegistrarRef">
 <param name="Local" value="uCEFPreferenceRegistrar.TCefPreferenceRegistrarRef.html">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="AddPreference">
 <param name="Local" value="uCEFPreferenceRegistrar.TCefPreferenceRegistrarRef.html#AddPreference-ustring-ICefValue-">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetDefaultPreference">
+<param name="Local" value="uCEFPreferenceRegistrar.TCefPreferenceRegistrarRef.html#GetDefaultPreference-ustring-">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetDefaultPreference">
+<param name="Local" value="uCEFPreferenceRegistrar.TCefPreferenceRegistrarRef.html#SetDefaultPreference-ustring-ICefValue-ustring-">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefPreferencesType">
@@ -32625,6 +32681,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="javascript_flags">
 <param name="Local" value="uCEFTypes.TCefSettings.html#javascript_flags">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="keychain_account_name">
+<param name="Local" value="uCEFTypes.TCefSettings.html#keychain_account_name">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="keychain_service_name">
+<param name="Local" value="uCEFTypes.TCefSettings.html#keychain_service_name">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="locale">

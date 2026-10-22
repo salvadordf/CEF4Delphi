@@ -2367,7 +2367,6 @@ const
   IDC_AUTOFILL_MANDATORY_REAUTH = 35036;
   IDC_SHOW_PASSWORD_MANAGER = 35041;
   IDC_SHOW_PAYMENT_METHODS = 35042;
-  IDC_SHOW_ADDRESSES = 35043;
   IDC_ORGANIZE_TABS = 35044;
   IDC_SEND_SHARED_TAB_GROUP_FEEDBACK = 35046;
   IDC_SHOW_IDENTITY_DOCS = 35047;
@@ -2482,6 +2481,7 @@ const
   IDC_SHOW_READING_MODE_KEYBOARD = 40303;
   IDC_SHOW_TABS_FROM_OTHER_DEVICES_SIDE_PANEL = 40304;
   IDC_CHROME_ENTERPRISE_RELEASE_NOTES = 40305;
+  IDC_SHOW_TTC_MENU = 40306;
   IDC_SPELLCHECK_SUGGESTION_0 = 41000;
   IDC_SPELLCHECK_LANGUAGES_FIRST = 41006;
   IDC_CHECK_SPELLING_WHILE_TYPING = 41107;
@@ -2657,9 +2657,12 @@ const
   IDC_OMNIBOX_CONTEXT_SET_MODEL_PRO_NO_GEN_UI = 54018;
   IDC_OMNIBOX_CONTEXT_SHARED_TABS_SUBMENU = 54019;
   IDC_OMNIBOX_CONTEXT_SMART_TAB_SHARING = 54020;
+  IDC_MANAGE_SKILLS = 54021;
+  IDC_BROWSE_SKILLS = 54022;
   IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_TOGGLE = 54030;
   IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_CUSTOMIZE_KEYBOARD_SHORTCUT = 54031;
   IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_SETTINGS = 54032;
+  IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_EXIT = 54033;
   IDC_EDIT_MENU = 57343;
   IDC_ZOOM_MENU = 57342;
   IDC_PASSWORDS_AND_AUTOFILL_MENU = 57341;
@@ -2674,6 +2677,7 @@ const
   IDC_SAVED_TAB_GROUPS_MENU = 57332;
   IDC_MORE_TOOLS_MENU = 57331;
   IDC_HELP_MENU = 57330;
+  IDC_SKILLS_MENU = 57310;
   IDC_SPELLCHECK_MENU = 57329;
   IDC_WRITING_DIRECTION_MENU = 57328;
   IDC_VIEW_MENU = 57327;
@@ -2693,6 +2697,7 @@ const
   IDC_CONTENT_CONTEXT_NO_SPELLING_SUGGESTIONS = 57313;
   IDC_RECENT_TABS_NO_DEVICE_TABS = 57312;
   IDC_WRITING_DIRECTION_DEFAULT = 57311;
+
 
 
   /// <summary>
@@ -4979,6 +4984,27 @@ const
   /// </remarks>
   CEF_RESULT_CODE_INVALID_ISOLATED_BROWSER_PROCESS = 40;   {* CEF_API_ADDED(14700) *}
   /// <summary>
+  /// A relaunch was requested during shutdown of an isolated browser process.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
+  /// </remarks>
+  CEF_RESULT_CODE_NORMAL_EXIT_RELAUNCH_REQUESTED = 41;     {* CEF_API_ADDED(15600) *}
+  /// <summary>
+  /// A relaunch in background mode was requested during shutdown of an
+  /// isolated browser process.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefResultCode value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_resultcode_t)</see></para>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
+  /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
+  /// </remarks>
+  CEF_RESULT_CODE_NORMAL_EXIT_RELAUNCH_BACKGROUND = 42;    {* CEF_API_ADDED(15600) *}
+  /// <summary>
   /// Last Chrome result code.
   /// </summary>
   /// <remarks>
@@ -4987,7 +5013,7 @@ const
   /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/chrome_result_codes.h">See chrome::ResultCode type.</see></para>
   /// <para>Use CefResultCodeToString in uCEFMiscFunctions to convert this value into a human readable message</para>
   /// </remarks>
-  CEF_RESULT_CODE_CHROME_LAST = 41;
+  CEF_RESULT_CODE_CHROME_LAST = 43;
   /// <summary>
   /// First Sandbox result code.
   /// </summary>

@@ -4322,6 +4322,20 @@ type
     /// implemented to provide parent window information for the new popup.
     /// </summary>
     use_views_default_popup                 : Integer;
+    /// <summary>
+    /// The macOS Keychain service name used by OSCrypt. If this value is empty
+    /// then the default Chromium/Chrome service name will be used. Changing this
+    /// value will create or access a different Keychain item and may make
+    /// previously encrypted data unreadable.
+    /// </summary>
+    keychain_service_name                   : TCefString;                               {* CEF_API_ADDED(15600) *}
+    /// <summary>
+    /// The macOS Keychain account name used by OSCrypt. If this value is empty
+    /// then the default Chromium/Chrome account name will be used. Changing this
+    /// value will create or access a different Keychain item and may make
+    /// previously encrypted data unreadable.
+    /// </summary>
+    keychain_account_name                   : TCefString;                               {* CEF_API_ADDED(15600) *}
   end;
 
   /// <summary>
@@ -5756,7 +5770,7 @@ type
     /// <remarks>
     /// <para><see href="https://github.com/cfredric/storage-access-headers">See also: https://github.com/cfredric/storage-access-headers.</see></para>
     /// </remarks>
-    CEF_CONTENT_SETTING_TYPE_STORAGE_ACCESS_HEADER_ORIGIN_TRIAL,
+    CEF_CONTENT_SETTING_TYPE_STORAGE_ACCESS_HEADER_ORIGIN_TRIAL_DEPRECATED,
     /// <summary>
     /// Whether or not sites can request Hand Tracking data within WebXR Sessions.
     /// </summary>
@@ -5770,7 +5784,7 @@ type
     /// Content settings for private network access in the context of the
     /// Direct Sockets API.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_DIRECT_SOCKETS_PRIVATE_NETWORK_ACCESS,
+    CEF_CONTENT_SETTING_TYPE_DIRECT_SOCKETS_PRIVATE_NETWORK_ACCESS_DEPRECATED,
     /// <summary>
     /// Content settings for legacy cookie scope.
     /// Checks whether cookies scope is handled according to origin-bound cookies
@@ -6479,8 +6493,10 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">CEF source file: /include/capi/cef_preference_capi.h (cef_preference_registrar_t)</see></para>
   /// </remarks>
   TCefPreferenceRegistrar = record
-    base              : TCefBaseScoped;
-    add_preference    : function(self: PCefPreferenceRegistrar; const name: PCefString; default_value: PCefValue): Integer; stdcall;
+    base                      : TCefBaseScoped;
+    add_preference            : function(self: PCefPreferenceRegistrar; const name: PCefString; default_value: PCefValue): Integer; stdcall;
+    set_default_preference    : function(self: PCefPreferenceRegistrar; const name: PCefString; value: PCefValue; error: PCefString): integer; stdcall;   {* CEF_API_ADDED(15600) *}
+    get_default_preference    : function(self: PCefPreferenceRegistrar; const name: PCefString): PCefValue; stdcall;                                      {* CEF_API_ADDED(15600) *}
   end;
 
   /// <summary>
