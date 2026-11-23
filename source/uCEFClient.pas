@@ -36,6 +36,7 @@ type
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); virtual;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); virtual;
       function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
+      procedure GetInputHandler(var aHandler : ICefInputHandler); virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -64,6 +65,7 @@ type
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); virtual;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); virtual;
       function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
+      procedure GetInputHandler(var aHandler : ICefInputHandler); virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -92,6 +94,7 @@ type
       FPrintHandler       : ICefPrintHandler;
       FFrameHandler       : ICefFrameHandler;
       FPermissionHandler  : ICefPermissionHandler;
+      FInputHandler       : ICefInputHandler;
 
       procedure GetAudioHandler(var aHandler : ICefAudioHandler); override;
       procedure GetCommandHandler(var aHandler : ICefCommandHandler); override;
@@ -112,6 +115,7 @@ type
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); override;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); override;
       function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; override;
+      procedure GetInputHandler(var aHandler : ICefInputHandler); override;
 
       procedure InitializeVars;
 
@@ -135,7 +139,7 @@ uses
   uCEFJsDialogHandler, uCEFLifeSpanHandler, uCEFRequestHandler,
   uCEFRenderHandler, uCEFDragHandler, uCEFFindHandler, uCEFFrame,
   uCEFAudioHandler, uCEFPrintHandler, uCEFFrameHandler, uCEFCommandHandler,
-  uCEFPermissionHandler;
+  uCEFPermissionHandler, uCEFInputHandler;
 
 
 // ******************************************************
@@ -243,6 +247,11 @@ end;
 function TCefClientRef.OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean;
 begin
   Result := False;
+end;
+
+procedure TCefClientRef.GetInputHandler(var aHandler : ICefInputHandler);
+begin
+  aHandler := nil;
 end;
 
 procedure TCefClientRef.RemoveReferences;
@@ -601,6 +610,24 @@ begin
   Result := Ord(TempResult);
 end;
 
+function cef_client_own_get_input_handler(self: PCefClient): PCefInputHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefInputHandler;
+begin
+  Result     := nil;
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TempHandler := nil;
+      TCefClientOwn(TempObject).GetInputHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
+end;
+
 constructor TCefClientOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefClient));
@@ -626,6 +653,7 @@ begin
       get_render_handler          := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_render_handler;
       get_request_handler         := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_request_handler;
       on_process_message_received := {$IFDEF FPC}@{$ENDIF}cef_client_own_on_process_message_received;
+      get_input_handler           := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_input_handler;
     end;
 end;
 
@@ -727,6 +755,11 @@ begin
   Result := False;
 end;
 
+procedure TCefClientOwn.GetInputHandler(var aHandler : ICefInputHandler);
+begin
+  aHandler := nil;
+end;
+
 procedure TCefClientOwn.RemoveReferences;
 begin
   //
@@ -772,6 +805,7 @@ begin
           if events.MustCreatePrintHandler       then FPrintHandler       := TCustomPrintHandler.Create(events);
           if events.MustCreateFrameHandler       then FFrameHandler       := TCustomFrameHandler.Create(events);
           if events.MustCreatePermissionHandler  then FPermissionHandler  := TCustomPermissionHandler.Create(events);
+          if events.MustCreateInputHandler       then FInputHandler       := TCustomInputHandler.Create(events);
         end;
     end;
 end;
@@ -805,6 +839,7 @@ begin
   if (FPrintHandler       <> nil) then FPrintHandler.RemoveReferences;
   if (FFrameHandler       <> nil) then FFrameHandler.RemoveReferences;
   if (FPermissionHandler  <> nil) then FPermissionHandler.RemoveReferences;
+  if (FInputHandler       <> nil) then FInputHandler.RemoveReferences;
 end;
 
 procedure TCustomClientHandler.InitializeVars;
@@ -827,6 +862,7 @@ begin
   FPrintHandler       := nil;
   FFrameHandler       := nil;
   FPermissionHandler  := nil;
+  FInputHandler       := nil;
   FEvents             := nil;
 end;
 
@@ -983,6 +1019,14 @@ begin
     Result := IChromiumEvents(FEvents).doOnProcessMessageReceived(browser, frame, sourceProcess, message_)
    else
     Result := inherited OnProcessMessageReceived(browser, frame, sourceProcess, message_);
+end;
+
+procedure TCustomClientHandler.GetInputHandler(var aHandler : ICefInputHandler);
+begin
+  if (FInputHandler <> nil) then
+    aHandler := FInputHandler
+   else
+    aHandler := nil;
 end;
 
 end.

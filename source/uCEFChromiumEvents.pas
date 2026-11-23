@@ -199,6 +199,12 @@ type
   // ICefComponentUpdateCallback
   TOnComponentUpdateCompletedEvent     = procedure(Sender: TObject; const component_id: ustring; error: TCefComponentUpdateError) of object;
 
+  // ICefInputHandler
+  TOnPreKeyboardEvent                  = procedure(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyboardInputEvent; const context: PCefInputEventContext; out isKeyboardShortcut: Boolean; var aResult: boolean) of object;
+  TOnKeyboardEvent                     = procedure(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyboardInputEvent; const context: PCefInputEventContext; var aResult: boolean) of object;
+  TOnPreMouseEvent                     = procedure(Sender: TObject; const browser: ICefBrowser; const event: PCefMouseInputEvent; var aResult: boolean) of object;
+  TOnPreGestureEvent                   = procedure(Sender: TObject; const browser: ICefBrowser; const event: PCefGestureInputEvent; var aResult: boolean) of object;
+
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;
   TOnPdfPrintFinishedEvent                 = procedure(Sender: TObject; aResultOK : boolean) of object;

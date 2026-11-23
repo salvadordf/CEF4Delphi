@@ -392,7 +392,7 @@ begin
   if not(Panel1.IsFocused) or (KeyChar = #0) then
     exit;
 
-  TempKeyEvent.kind                    := KEYEVENT_KEYUP;
+  TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
   TempKeyEvent.native_key_code         := KeyToMacOSKeyCode(Key);
   TempKeyEvent.modifiers               := getModifiers(Shift, TempKeyEvent.native_key_code);
   TempKeyEvent.windows_key_code        := 0;
@@ -413,7 +413,7 @@ var
 begin
   if not(Panel1.IsFocused) then exit;
 
-  TempKeyEvent.kind                    := KEYEVENT_KEYDOWN;
+  TempKeyEvent.kind                    := CEF_KEYEVENT_KEYDOWN;
   TempKeyEvent.native_key_code         := KeyToMacOSKeyCode(Key);
   TempKeyEvent.modifiers               := getModifiers(Shift, TempKeyEvent.native_key_code);
   TempKeyEvent.windows_key_code        := 0;
@@ -428,7 +428,7 @@ begin
                                          CEF_MACOS_ARROW_KEYS +
                                          CEF_MACOS_FUNCTION_KEYS) then
     begin
-      TempKeyEvent.kind := KEYEVENT_CHAR;
+      TempKeyEvent.kind := CEF_KEYEVENT_CHAR;
       chrmosr.SendKeyEvent(@TempKeyEvent);
     end;
 end;
@@ -1106,9 +1106,9 @@ end;
 function TFMXExternalPumpBrowserFrm.GetButton(Button: TMouseButton): TCefMouseButtonType;
 begin
   case Button of
-    TMouseButton.mbRight  : Result := MBT_RIGHT;
-    TMouseButton.mbMiddle : Result := MBT_MIDDLE;
-    else                    Result := MBT_LEFT;
+    TMouseButton.mbRight  : Result := CEF_MOUSE_BUTTON_RIGHT;
+    TMouseButton.mbMiddle : Result := CEF_MOUSE_BUTTON_MIDDLE;
+    else                    Result := CEF_MOUSE_BUTTON_LEFT;
   end;
 end;
 

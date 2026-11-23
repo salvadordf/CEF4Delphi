@@ -528,6 +528,22 @@ body { margin: 0.5em; }
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnPreKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-Boolean-">doOnPreKeyboardEvent</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>; out isKeyboardShortcut: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-">doOnKeyboardEvent</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>): Boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnPreMouseEvent-ICefBrowser-PCefMouseInputEvent-">doOnPreMouseEvent</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefMouseInputEvent">PCefMouseInputEvent</a>): Boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#doOnPreGestureEvent-ICefBrowser-PCefGestureInputEvent-">doOnPreGestureEvent</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefGestureInputEvent">PCefGestureInputEvent</a>): Boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.IChromiumEvents.html#doCookiesDeleted-integer-">doCookiesDeleted</a></strong>(numDeleted : integer);</code></td>
 </tr>
 <tr class="list visibility-public">
@@ -739,6 +755,10 @@ body { margin: 0.5em; }
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreatePermissionHandler">MustCreatePermissionHandler</a></strong>: boolean;</code></td>
 </tr>
 <tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#MustCreateInputHandler">MustCreateInputHandler</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFInterfaces.IChromiumEvents.html#GetComponentID">GetComponentID</a></strong>: integer;</code></td>
 </tr>
@@ -1793,6 +1813,40 @@ ICefComponentUpdateCallback</p>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="doOnPreKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-Boolean-"></span><code>function <strong>doOnPreKeyboardEvent</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>; out isKeyboardShortcut: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefInputHandler</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="doOnKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-"></span><code>function <strong>doOnKeyboardEvent</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="doOnPreMouseEvent-ICefBrowser-PCefMouseInputEvent-"></span><code>function <strong>doOnPreMouseEvent</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefMouseInputEvent">PCefMouseInputEvent</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="doOnPreGestureEvent-ICefBrowser-PCefGestureInputEvent-"></span><code>function <strong>doOnPreGestureEvent</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefGestureInputEvent">PCefGestureInputEvent</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="doCookiesDeleted-integer-"></span><code>procedure <strong>doCookiesDeleted</strong>(numDeleted : integer);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -2212,6 +2266,14 @@ Custom</p>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="MustCreatePermissionHandler"></span><code>function <strong>MustCreatePermissionHandler</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="MustCreateInputHandler"></span><code>function <strong>MustCreateInputHandler</strong>: boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>

@@ -131,6 +131,10 @@ body { margin: 0.5em; }
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetLinuxWindowProperties">FOnGetLinuxWindowProperties</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetLinuxWindowPropertiesEvent">TOnGetLinuxWindowPropertiesEvent</a>;</code></td>
 </tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code><strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnKeyboardEvent">FOnKeyboardEvent</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnKeyboardEvent">TOnKeyboardEvent</a>;</code></td>
+</tr>
 </table>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
@@ -328,101 +332,105 @@ body { margin: 0.5em; }
 </tr>
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doOnKeyboardEvent-ICefWindow-PCefKeyboardInputEvent-boolean-">doOnKeyboardEvent</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; var aResult: boolean);</code></td>
+</tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#doCreateCustomView">doCreateCustomView</a></strong>; override;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#CreateTopLevelWindow">CreateTopLevelWindow</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#Show">Show</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#ShowAsBrowserModalDialog-ICefBrowserView-">ShowAsBrowserModalDialog</a></strong>(const browser_view: <a href="uCEFInterfaces.ICefBrowserView.html">ICefBrowserView</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#Hide">Hide</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#CenterWindow-TCefSize-">CenterWindow</a></strong>(const size_: <a href="uCEFTypes.TCefSize.html">TCefSize</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#Close">Close</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#Activate">Activate</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#Deactivate">Deactivate</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#BringToTop">BringToTop</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#Maximize">Maximize</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#Minimize">Minimize</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#Restore">Restore</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#AddOverlayView-ICefView-TCefDockingMode-boolean-">AddOverlayView</a></strong>(const view: <a href="uCEFInterfaces.ICefView.html">ICefView</a>; docking_mode: <a href="uCEFTypes.html#TCefDockingMode">TCefDockingMode</a>; can_activate: boolean): <a href="uCEFInterfaces.ICefOverlayController.html">ICefOverlayController</a>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#ShowMenu-ICefMenuModel-TCefPoint-TCefMenuAnchorPosition-">ShowMenu</a></strong>(const menu_model: <a href="uCEFInterfaces.ICefMenuModel.html">ICefMenuModel</a>; const screen_point: <a href="uCEFTypes.TCefPoint.html">TCefPoint</a>; anchor_position : <a href="uCEFTypes.html#TCefMenuAnchorPosition">TCefMenuAnchorPosition</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#CancelMenu">CancelMenu</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#SetDraggableRegions-NativeUInt-PCefDraggableRegionArray-">SetDraggableRegions</a></strong>(regionsCount: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>; const regions: <a href="uCEFTypes.html#PCefDraggableRegionArray">PCefDraggableRegionArray</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#SendKeyPress-Integer-cardinal-">SendKeyPress</a></strong>(key_code: Integer; event_flags: cardinal);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#SendMouseMove-Integer-Integer-">SendMouseMove</a></strong>(screen_x, screen_y: Integer);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#SendMouseEvents-TCefMouseButtonType-boolean-boolean-">SendMouseEvents</a></strong>(button: <a href="uCEFTypes.html#TCefMouseButtonType">TCefMouseButtonType</a>; mouse_down, mouse_up: boolean);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#SetAccelerator-Integer-Integer-boolean-boolean-boolean-boolean-">SetAccelerator</a></strong>(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed, high_priority: boolean);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#RemoveAccelerator-Integer-">RemoveAccelerator</a></strong>(command_id: Integer);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#RemoveAllAccelerators">RemoveAllAccelerators</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#SetThemeColor-integer-TCefColor-">SetThemeColor</a></strong>(color_id: integer; color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#ThemeChanged">ThemeChanged</a></strong>;</code></td>
 </tr>
@@ -576,6 +584,10 @@ body { margin: 0.5em; }
 <tr class="list visibility-published">
 <td class="visibility"><span class="badge vis-published">Published</span></td>
 <td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnGetLinuxWindowProperties">OnGetLinuxWindowProperties</a></strong>   : <a href="uCEFViewsFrameworkEvents.html#TOnGetLinuxWindowPropertiesEvent">TOnGetLinuxWindowPropertiesEvent</a>   read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetLinuxWindowProperties">FOnGetLinuxWindowProperties</a>   write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetLinuxWindowProperties">FOnGetLinuxWindowProperties</a>;</code></td>
+</tr>
+<tr class="list2 visibility-published">
+<td class="visibility"><span class="badge vis-published">Published</span></td>
+<td class="itemcode"><code>property <strong><a href="uCEFWindowComponent.TCEFWindowComponent.html#OnKeyboardEvent">OnKeyboardEvent</a></strong>              : <a href="uCEFViewsFrameworkEvents.html#TOnKeyboardEvent">TOnKeyboardEvent</a>                   read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnKeyboardEvent">FOnKeyboardEvent</a>              write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnKeyboardEvent">FOnKeyboardEvent</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -778,6 +790,14 @@ ICefWindowDelegateEvents</p>
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="FOnGetLinuxWindowProperties"></span><code><strong>FOnGetLinuxWindowProperties</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnGetLinuxWindowPropertiesEvent">TOnGetLinuxWindowPropertiesEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="FOnKeyboardEvent"></span><code><strong>FOnKeyboardEvent</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnKeyboardEvent">TOnKeyboardEvent</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -1165,6 +1185,14 @@ ICefWindowDelegateEvents</p>
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="doOnGetLinuxWindowProperties-ICefWindow-TLinuxWindowProperties-boolean-"></span><code>procedure <strong>doOnGetLinuxWindowProperties</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var properties: <a href="uCEFTypes.TLinuxWindowProperties.html">TLinuxWindowProperties</a>; var aResult: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="doOnKeyboardEvent-ICefWindow-PCefKeyboardInputEvent-boolean-"></span><code>procedure <strong>doOnKeyboardEvent</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; var aResult: boolean);</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -1833,7 +1861,7 @@ ICefViewDelegateEvents</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Called after all other controls in the window have had a chance to handle the event. |event| contains information about the keyboard event. Return true (1) if the keyboard event was handled or false (0) otherwise. </p>
+ Called after all other controls in the window have had a chance to handle the event. |event| contains information about the keyboard event. Return true (1) if the keyboard event was handled or false (0) otherwise. On macOS, native Views text interpretation may deliver KEYEVENT_CHAR instead of a printable keydown, followed by KEYEVENT_KEYUP. Do not assume that every keyup has a corresponding keydown callback. DEPRECATED: Use OnKeyboardEvent with CefKeyboardInputEvent instead. </p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -1876,6 +1904,22 @@ ICefViewDelegateEvents</p>
 <tr><td colspan="2">
 <p>
  Return Linux-specific window properties for correctly handling by window managers. </p>
+</td></tr>
+</table>
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
+<td class="visibility"><span class="badge vis-published">Published</span></td>
+<td class="itemcode"><span id="OnKeyboardEvent"></span><code>property <strong>OnKeyboardEvent</strong>              : <a href="uCEFViewsFrameworkEvents.html#TOnKeyboardEvent">TOnKeyboardEvent</a>                   read <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnKeyboardEvent">FOnKeyboardEvent</a>              write <a href="uCEFWindowComponent.TCEFWindowComponent.html#FOnKeyboardEvent">FOnKeyboardEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Called after all other controls in the window have had a chance to handle the event. |event| contains the resolved platform-independent keyboard snapshot. Return true (1) to handle the event or false (0) to try OnKeyEvent before default handling.
+
+<p>On macOS, native Views text interpretation may consume a printable keydown and deliver CEF_KEY_EVENT_CHAR instead. CEF_KEY_EVENT_KEYUP can still follow, so do not assume that every keyup has a corresponding keydown callback. This applies to input routed through native Views controls; BrowserView input follows the browser keyboard event dispatch path.
+
+<p></p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.5.snapshot</a>. </em>

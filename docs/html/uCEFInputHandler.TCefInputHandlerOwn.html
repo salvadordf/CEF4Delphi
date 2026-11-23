@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFInputHandler: Class TCefInputHandlerOwn</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 1.0.5.snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+<style type="text/css">
+body { margin: 0.5em; }
+.badge { padding: 0.1em 0.5em; color: white; }
+</style></head>
+<body>
+<span id="TCefInputHandlerOwn"></span><h1 class="cio">Class TCefInputHandlerOwn</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFInputHandler.html">uCEFInputHandler</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefInputHandlerOwn = class(<a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a>, <a class="normal" href="uCEFInterfaces.ICefInputHandler.html">ICefInputHandler</a>)</code></p>
+<h2 class="description">Description</h2>
+<p class="nodescription">This item has no description.</p><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="uCEFBaseRefCounted.TCefBaseRefCountedOwn.html">TCefBaseRefCountedOwn</a></li>
+<li class="thisitem">TCefInputHandlerOwn</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInputHandler.TCefInputHandlerOwn.html#OnPreKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-Boolean-">OnPreKeyboardEvent</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>; out isKeyboardShortcut: Boolean): Boolean; virtual;</code></td>
+</tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInputHandler.TCefInputHandlerOwn.html#OnKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-">OnKeyboardEvent</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>): Boolean; virtual;</code></td>
+</tr>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInputHandler.TCefInputHandlerOwn.html#OnPreMouseEvent-ICefBrowser-PCefMouseInputEvent-">OnPreMouseEvent</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefMouseInputEvent">PCefMouseInputEvent</a>): Boolean; virtual;</code></td>
+</tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFInputHandler.TCefInputHandlerOwn.html#OnPreGestureEvent-ICefBrowser-PCefGestureInputEvent-">OnPreGestureEvent</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefGestureInputEvent">PCefGestureInputEvent</a>): Boolean; virtual;</code></td>
+</tr>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInputHandler.TCefInputHandlerOwn.html#RemoveReferences">RemoveReferences</a></strong>; virtual;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFInputHandler.TCefInputHandlerOwn.html#Create">Create</a></strong>; virtual;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="OnPreKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-Boolean-"></span><code>function <strong>OnPreKeyboardEvent</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>; out isKeyboardShortcut: Boolean): Boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefInputHandler.html#OnPreKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-Boolean-">ICefInputHandler.OnPreKeyboardEvent</a>.</p><p>
+
+
+<p>Called before keyboard input is offered to the renderer. Return true (1) to consume the event. To structureify it as an application shortcut for OnKeyboardEvent, set |isKeyboardShortcut| to true (1) and return false (0). Otherwise, return false (0) to try ICefKeyboardHandler.OnPreKeyEvent (if provided) before continuing normal processing. |isKeyboardShortcut| is initially false (0).
+
+<p>Returning true (1) for RAWKEYDOWN causes Chromium to suppress subsequent CHAR and KEYUP events until the next keydown. Suppressed events do not reach these callbacks, except that Escape KEYUP is still offered to OnPreKeyboardEvent.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="OnKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-"></span><code>function <strong>OnKeyboardEvent</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>): Boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefInputHandler.html#OnKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-">ICefInputHandler.OnKeyboardEvent</a>.</p><p>
+
+
+<p>Called for keyboard events left unhandled by the renderer. Return true (1) to consume the event or false (0) to try ICefKeyboardHandler.OnKeyEvent (if provided) before allowing normal platform fallback.
+
+<p>This is not an observer for every submitted event. Renderer-consumed editing commands and events marked internally to skip unhandled processing do not reach this callback. Do not assume a complete down/character/up callback sequence.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="OnPreMouseEvent-ICefBrowser-PCefMouseInputEvent-"></span><code>function <strong>OnPreMouseEvent</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefMouseInputEvent">PCefMouseInputEvent</a>): Boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefInputHandler.html#OnPreMouseEvent-ICefBrowser-PCefMouseInputEvent-">ICefInputHandler.OnPreMouseEvent</a>.</p><p>
+
+
+<p>Called before a mouse event is offered to the renderer. Return true (1) to consume the event or false (0) to continue normal processing. Wheel events are not delivered here. The snapshot uses the receiving widget's DIPs; it may differ from injected coordinates after frame or popup routing. No native event handle is available. If consuming a down event, also consume its corresponding up event to preserve a coherent event stream. Keep handling simple and defer complex work to avoid re-entrancy.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="OnPreGestureEvent-ICefBrowser-PCefGestureInputEvent-"></span><code>function <strong>OnPreGestureEvent</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefGestureInputEvent">PCefGestureInputEvent</a>): Boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefInputHandler.html#OnPreGestureEvent-ICefBrowser-PCefGestureInputEvent-">ICefInputHandler.OnPreGestureEvent</a>.</p><p>
+
+
+<p>Called before a gesture event is offered to the renderer. Return true (1) to consume the event or false (0) to continue normal processing. This is a handling opportunity, not notification of every submitted gesture. Chromium may filter gestures before this callback. No native event handle is available. Preserve coherent gesture sequences when consuming events and defer complex work to avoid re-entrancy.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="RemoveReferences"></span><code>procedure <strong>RemoveReferences</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefInputHandler.html#RemoveReferences">ICefInputHandler.RemoveReferences</a>.</p><p>
+ Custom procedure to clear all references. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.5.snapshot</a>. </em>
+</span>
+</body></html>

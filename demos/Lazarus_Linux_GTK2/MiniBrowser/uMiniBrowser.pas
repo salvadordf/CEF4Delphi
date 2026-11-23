@@ -708,7 +708,7 @@ begin
   Result := False;
 
   if (event <> nil) and
-     (event^.kind in [KEYEVENT_KEYDOWN, KEYEVENT_KEYUP]) and
+     (event^.kind in [CEF_KEYEVENT_KEYDOWN, CEF_KEYEVENT_KEYUP]) and
      (event^.windows_key_code = VKEY_F12) then
     isKeyboardShortcut := True;
 end;
@@ -721,10 +721,10 @@ begin
 
   if (event <> nil) and (event^.windows_key_code = VKEY_F12) then
     case event^.kind of
-      KEYEVENT_KEYDOWN :
+      CEF_KEYEVENT_KEYDOWN :
         Result := True;
 
-      KEYEVENT_KEYUP :
+      CEF_KEYEVENT_KEYUP :
         begin
           //  SendCompMessage(CEF_HIDEDEVTOOLS)
           SendCompMessage(CEF_SHOWDEVTOOLS);

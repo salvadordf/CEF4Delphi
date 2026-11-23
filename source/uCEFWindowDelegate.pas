@@ -45,6 +45,7 @@ type
       procedure OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
       procedure OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
       procedure OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
+      procedure OnKeyboardEvent(const window_: ICefWindow; const event: PCefKeyboardInputEvent; var aResult: boolean);
 
     public
       /// <summary>
@@ -183,7 +184,11 @@ type
       /// <summary>
       /// Called after all other controls in the window have had a chance to handle
       /// the event. |event| contains information about the keyboard event. Return
-      /// true (1) if the keyboard event was handled or false (0) otherwise.
+      /// true (1) if the keyboard event was handled or false (0) otherwise. On
+      /// macOS, native Views text interpretation may deliver KEYEVENT_CHAR instead
+      /// of a printable keydown, followed by KEYEVENT_KEYUP. Do not assume that
+      /// every keyup has a corresponding keydown callback. DEPRECATED: Use
+      /// OnKeyboardEvent with CefKeyboardInputEvent instead.
       /// </summary>
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); virtual;
       /// <summary>
@@ -223,6 +228,19 @@ type
       /// managers.
       /// </summary>
       procedure OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean); virtual;
+      /// <summary>
+      /// <para>Called after all other controls in the window have had a chance to handle
+      /// the event. |event| contains the resolved platform-independent keyboard
+      /// snapshot. Return true (1) to handle the event or false (0) to try
+      /// OnKeyEvent before default handling.</para>
+      ///
+      /// <para>On macOS, native Views text interpretation may consume a printable keydown
+      /// and deliver CEF_KEY_EVENT_CHAR instead. CEF_KEY_EVENT_KEYUP can still
+      /// follow, so do not assume that every keyup has a corresponding keydown
+      /// callback. This applies to input routed through native Views controls;
+      /// BrowserView input follows the browser keyboard event dispatch path.</para>
+      /// </summary>
+      procedure OnKeyboardEvent(const window_: ICefWindow; const event: PCefKeyboardInputEvent; var aResult: boolean); virtual;
       /// <summary>
       /// Links the methods in the internal CEF record data pointer with the methods in this class.
       /// </summary>
@@ -277,6 +295,7 @@ type
       procedure OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer); override;
       procedure OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle); override;
       procedure OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean); override;
+      procedure OnKeyboardEvent(const window_: ICefWindow; const event: PCefKeyboardInputEvent; var aResult: boolean); override;
 
     public
       /// <summary>
@@ -438,6 +457,11 @@ begin
       properties.wm_class_name  := CefString(@TempProperties.wm_class_name);
       properties.wm_role_name   := CefString(@TempProperties.wm_role_name);
     end;
+end;
+
+procedure TCefWindowDelegateRef.OnKeyboardEvent(const window_: ICefWindow; const event: PCefKeyboardInputEvent; var aResult: boolean);
+begin
+  aResult := (PCefWindowDelegate(FData)^.on_keyboard_event(PCefWindowDelegate(FData), CefGetData(window_), event) <> 0);
 end;
 
 class function TCefWindowDelegateRef.UnWrap(data: Pointer): ICefWindowDelegate;
@@ -940,6 +964,11 @@ begin
   aResult := False;
 end;
 
+procedure TCefWindowDelegateOwn.OnKeyboardEvent(const window_: ICefWindow; const event: PCefKeyboardInputEvent; var aResult: boolean);
+begin
+  aResult := False;
+end;
+
 // **************************************************************
 // ******************* TCustomWindowDelegate ********************
 // **************************************************************
@@ -1326,6 +1355,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnGetLinuxWindowProperties', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnKeyboardEvent(const window_: ICefWindow; const event: PCefKeyboardInputEvent; var aResult: boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnKeyboardEvent(window_, event, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnKeyboardEvent', e) then raise;
   end;
 end;
 

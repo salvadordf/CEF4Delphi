@@ -36,11 +36,15 @@ body { margin: 0.5em; }
 </tr>
 <tr class="list2 visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
-<td class="itemcode"><code><strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyEvent">FOnTextfieldKeyEvent</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEventEvent">TOnTextfieldKeyEventEvent</a>;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyEvent">FOnTextfieldKeyEvent</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEvent">TOnTextfieldKeyEvent</a>;</code></td>
 </tr>
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code><strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnAfterUserAction">FOnAfterUserAction</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnAfterUserActionEvent">TOnAfterUserActionEvent</a>;</code></td>
+</tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyboardEvent">FOnTextfieldKeyboardEvent</a></strong>: <a href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyboardEvent">TOnTextfieldKeyboardEvent</a>;</code></td>
 </tr>
 </table>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
@@ -127,53 +131,57 @@ body { margin: 0.5em; }
 </tr>
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#doOnKeyboardEvent-ICefTextfield-PCefKeyboardInputEvent-boolean-">doOnKeyboardEvent</a></strong>(const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; var aResult : boolean);</code></td>
+</tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#doCreateCustomView">doCreateCustomView</a></strong>; override;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#CreateTextField">CreateTextField</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#AppendText-ustring-">AppendText</a></strong>(const text_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#InsertOrReplaceText-ustring-">InsertOrReplaceText</a></strong>(const text_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SelectAll-boolean-">SelectAll</a></strong>(reversed: boolean);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#ClearSelection">ClearSelection</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SetFontList-ustring-">SetFontList</a></strong>(const font_list: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#ApplyTextColor-TCefColor-TCefRange-">ApplyTextColor</a></strong>(color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>; const range: <a href="uCEFTypes.TCefRange.html">TCefRange</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#ApplyTextStyle-TCefTextStyle-boolean-TCefRange-">ApplyTextStyle</a></strong>(style: <a href="uCEFTypes.html#TCefTextStyle">TCefTextStyle</a>; add: boolean; const range: <a href="uCEFTypes.TCefRange.html">TCefRange</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#IsCommandEnabled-TCefTextFieldCommands-">IsCommandEnabled</a></strong>(command_id: <a href="uCEFTypes.html#TCefTextFieldCommands">TCefTextFieldCommands</a>): boolean;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#ExecuteCommand-TCefTextFieldCommands-">ExecuteCommand</a></strong>(command_id: <a href="uCEFTypes.html#TCefTextFieldCommands">TCefTextFieldCommands</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#ClearEditHistory">ClearEditHistory</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#SetAccessibleName-ustring-">SetAccessibleName</a></strong>(const name_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
@@ -214,11 +222,15 @@ body { margin: 0.5em; }
 </tr>
 <tr class="list visibility-published">
 <td class="visibility"><span class="badge vis-published">Published</span></td>
-<td class="itemcode"><code>property <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#OnTextfieldKeyEvent">OnTextfieldKeyEvent</a></strong>      : <a href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEventEvent">TOnTextfieldKeyEventEvent</a>   read <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyEvent">FOnTextfieldKeyEvent</a>   write <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyEvent">FOnTextfieldKeyEvent</a>;</code></td>
+<td class="itemcode"><code>property <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#OnTextfieldKeyEvent">OnTextfieldKeyEvent</a></strong>      : <a href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEvent">TOnTextfieldKeyEvent</a>        read <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyEvent">FOnTextfieldKeyEvent</a>        write <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyEvent">FOnTextfieldKeyEvent</a>;</code></td>
 </tr>
 <tr class="list2 visibility-published">
 <td class="visibility"><span class="badge vis-published">Published</span></td>
-<td class="itemcode"><code>property <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#OnAfterUserAction">OnAfterUserAction</a></strong>        : <a href="uCEFViewsFrameworkEvents.html#TOnAfterUserActionEvent">TOnAfterUserActionEvent</a>     read <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnAfterUserAction">FOnAfterUserAction</a>     write <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnAfterUserAction">FOnAfterUserAction</a>;</code></td>
+<td class="itemcode"><code>property <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#OnAfterUserAction">OnAfterUserAction</a></strong>        : <a href="uCEFViewsFrameworkEvents.html#TOnAfterUserActionEvent">TOnAfterUserActionEvent</a>     read <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnAfterUserAction">FOnAfterUserAction</a>          write <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnAfterUserAction">FOnAfterUserAction</a>;</code></td>
+</tr>
+<tr class="list visibility-published">
+<td class="visibility"><span class="badge vis-published">Published</span></td>
+<td class="itemcode"><code>property <strong><a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#OnTextfieldKeyboardEvent">OnTextfieldKeyboardEvent</a></strong> : <a href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyboardEvent">TOnTextfieldKeyboardEvent</a>   read <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyboardEvent">FOnTextfieldKeyboardEvent</a>   write <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyboardEvent">FOnTextfieldKeyboardEvent</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -234,7 +246,7 @@ body { margin: 0.5em; }
 <table class="detail visibility-protected wide_list">
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
-<td class="itemcode"><span id="FOnTextfieldKeyEvent"></span><code><strong>FOnTextfieldKeyEvent</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEventEvent">TOnTextfieldKeyEventEvent</a>;</code></td>
+<td class="itemcode"><span id="FOnTextfieldKeyEvent"></span><code><strong>FOnTextfieldKeyEvent</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEvent">TOnTextfieldKeyEvent</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
@@ -245,6 +257,14 @@ ICefTextfieldDelegateEvents</p>
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="FOnAfterUserAction"></span><code><strong>FOnAfterUserAction</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnAfterUserActionEvent">TOnAfterUserActionEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="FOnTextfieldKeyboardEvent"></span><code><strong>FOnTextfieldKeyboardEvent</strong>: <a href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyboardEvent">TOnTextfieldKeyboardEvent</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -408,6 +428,14 @@ ICefTextfieldDelegateEvents</p>
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="doOnAfterUserAction-ICefTextfield-"></span><code>procedure <strong>doOnAfterUserAction</strong>(const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="doOnKeyboardEvent-ICefTextfield-PCefKeyboardInputEvent-boolean-"></span><code>procedure <strong>doOnKeyboardEvent</strong>(const textfield: <a href="uCEFInterfaces.ICefTextfield.html">ICefTextfield</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; var aResult : boolean);</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -648,21 +676,37 @@ ICefViewDelegateEvents</p>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="visibility"><span class="badge vis-published">Published</span></td>
-<td class="itemcode"><span id="OnTextfieldKeyEvent"></span><code>property <strong>OnTextfieldKeyEvent</strong>      : <a href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEventEvent">TOnTextfieldKeyEventEvent</a>   read <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyEvent">FOnTextfieldKeyEvent</a>   write <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyEvent">FOnTextfieldKeyEvent</a>;</code></td>
+<td class="itemcode"><span id="OnTextfieldKeyEvent"></span><code>property <strong>OnTextfieldKeyEvent</strong>      : <a href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEvent">TOnTextfieldKeyEvent</a>        read <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyEvent">FOnTextfieldKeyEvent</a>        write <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyEvent">FOnTextfieldKeyEvent</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
- Called when |textfield| recieves a keyboard event. |event| contains information about the keyboard event. Return true (1) if the keyboard event was handled or false (0) otherwise for default handling. </p>
+ Called when |textfield| receives a keyboard event. |event| contains information about the keyboard event. Return true (1) if the keyboard event was handled or false (0) otherwise for default handling. On macOS, native Views text interpretation may deliver KEYEVENT_CHAR instead of a printable keydown, followed by KEYEVENT_KEYUP. Do not assume that every keyup has a corresponding keydown callback. DEPRECATED: Use OnKeyboardEvent with CefKeyboardInputEvent instead. </p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="visibility"><span class="badge vis-published">Published</span></td>
-<td class="itemcode"><span id="OnAfterUserAction"></span><code>property <strong>OnAfterUserAction</strong>        : <a href="uCEFViewsFrameworkEvents.html#TOnAfterUserActionEvent">TOnAfterUserActionEvent</a>     read <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnAfterUserAction">FOnAfterUserAction</a>     write <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnAfterUserAction">FOnAfterUserAction</a>;</code></td>
+<td class="itemcode"><span id="OnAfterUserAction"></span><code>property <strong>OnAfterUserAction</strong>        : <a href="uCEFViewsFrameworkEvents.html#TOnAfterUserActionEvent">TOnAfterUserActionEvent</a>     read <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnAfterUserAction">FOnAfterUserAction</a>          write <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnAfterUserAction">FOnAfterUserAction</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
  Called after performing a user action that may change |textfield|. </p>
+</td></tr>
+</table>
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
+<td class="visibility"><span class="badge vis-published">Published</span></td>
+<td class="itemcode"><span id="OnTextfieldKeyboardEvent"></span><code>property <strong>OnTextfieldKeyboardEvent</strong> : <a href="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyboardEvent">TOnTextfieldKeyboardEvent</a>   read <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyboardEvent">FOnTextfieldKeyboardEvent</a>   write <a href="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyboardEvent">FOnTextfieldKeyboardEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Called when |textfield| receives a keyboard event. |event| contains the resolved platform-independent keyboard snapshot. Return true (1) to handle the event or false (0) to try OnKeyEvent before default handling.
+
+<p>On macOS, native Views text interpretation may consume a printable keydown and deliver CEF_KEY_EVENT_CHAR instead. CEF_KEY_EVENT_KEYUP can still follow, so do not assume that every keyup has a corresponding keydown callback.
+
+<p></p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.5.snapshot</a>. </em>

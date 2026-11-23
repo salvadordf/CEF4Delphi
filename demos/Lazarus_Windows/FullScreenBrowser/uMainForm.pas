@@ -176,7 +176,7 @@ begin
   Result := False;
 
   if (event <> nil) and
-     (event.kind in [KEYEVENT_KEYDOWN, KEYEVENT_KEYUP]) and
+     (event.kind in [CEF_KEYEVENT_KEYDOWN, CEF_KEYEVENT_KEYUP]) and
      (event.windows_key_code = VK_ESCAPE) then
     isKeyboardShortcut := True;
 end;

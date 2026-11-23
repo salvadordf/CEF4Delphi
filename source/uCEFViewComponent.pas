@@ -397,7 +397,12 @@ type
       /// </summary>
       property OnLayoutChanged                : TOnLayoutChangedEvent      read FOnLayoutChanged               write FOnLayoutChanged;
       /// <summary>
-      /// Called when |view| gains focus.
+      /// Called when |view| gains focus within its containing Window. Containers,
+      /// including ICefWindow, are not focusable by default; call
+      /// SetFocusable(true (1)) and request_focus() to focus them. This callback
+      /// does not report focus gained by child Views or activation of the native
+      /// Window. Use ICefWindowDelegate.OnWindowActivationChanged for native
+      /// Window activation.
       /// </summary>
       property OnFocus                        : TOnFocusEvent              read FOnFocus                       write FOnFocus;
       /// <summary>

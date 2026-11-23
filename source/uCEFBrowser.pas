@@ -122,7 +122,11 @@ type
       procedure ExecuteChromeCommand(command_id: integer; disposition: TCefWindowOpenDisposition);
       function  IsRenderProcessUnresponsive : boolean;
       function  GetRuntimeStyle : TCefRuntimeStyle;
-      procedure SetAxViewportCollapse(enabled: boolean);    {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
+      procedure SendKeyboardEvent(const event: PCefKeyboardInputEvent);  {* CEF_API_ADDED(15800) *}
+      procedure SendMouseEvent(const event: PCefMouseInputEvent);        {* CEF_API_ADDED(15800) *}
+      procedure SendGestureEvent(const event: PCefGestureInputEvent);    {* CEF_API_ADDED(15800) *}
+      procedure SendWheelEvent(const event: PCefWheelInputEvent);        {* CEF_API_ADDED(15800) *}
+      procedure SetAxViewportCollapse(enabled: boolean);                 {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
 
     public
       class function UnWrap(data: Pointer): ICefBrowserHost;
@@ -374,6 +378,26 @@ end;
 function TCefBrowserHostRef.GetRuntimeStyle : TCefRuntimeStyle;
 begin
   Result := PCefBrowserHost(FData)^.get_runtime_style(PCefBrowserHost(FData));
+end;
+
+procedure TCefBrowserHostRef.SendKeyboardEvent(const event: PCefKeyboardInputEvent);
+begin
+  PCefBrowserHost(FData)^.send_keyboard_event(PCefBrowserHost(FData), event);
+end;
+
+procedure TCefBrowserHostRef.SendMouseEvent(const event: PCefMouseInputEvent);
+begin
+  PCefBrowserHost(FData)^.send_mouse_event(PCefBrowserHost(FData), event);
+end;
+
+procedure TCefBrowserHostRef.SendGestureEvent(const event: PCefGestureInputEvent);
+begin
+  PCefBrowserHost(FData)^.send_gesture_event(PCefBrowserHost(FData), event);
+end;
+
+procedure TCefBrowserHostRef.SendWheelEvent(const event: PCefWheelInputEvent);
+begin
+  PCefBrowserHost(FData)^.send_wheel_event(PCefBrowserHost(FData), event);
 end;
 
 procedure TCefBrowserHostRef.SetAxViewportCollapse(enabled: boolean);

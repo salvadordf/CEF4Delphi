@@ -105,6 +105,10 @@ body { margin: 0.5em; }
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code><strong><a href="uCEFClient.TCustomClientHandler.html#FPermissionHandler">FPermissionHandler</a></strong>: <a href="uCEFInterfaces.ICefPermissionHandler.html">ICefPermissionHandler</a>;</code></td>
 </tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code><strong><a href="uCEFClient.TCustomClientHandler.html#FInputHandler">FInputHandler</a></strong>: <a href="uCEFInterfaces.ICefInputHandler.html">ICefInputHandler</a>;</code></td>
+</tr>
 </table>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
@@ -186,17 +190,21 @@ body { margin: 0.5em; }
 </tr>
 <tr class="list2 visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFClient.TCustomClientHandler.html#InitializeVars">InitializeVars</a></strong>;</code></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFClient.TCustomClientHandler.html#GetInputHandler-ICefInputHandler-">GetInputHandler</a></strong>(var aHandler : <a href="uCEFInterfaces.ICefInputHandler.html">ICefInputHandler</a>); override;</code></td>
 </tr>
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>constructor <strong><a href="uCEFClient.TCustomClientHandler.html#Create-IChromiumEvents-boolean-">Create</a></strong>(const events: <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>; aDevToolsClient : boolean = False); reintroduce; virtual;</code></td>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFClient.TCustomClientHandler.html#InitializeVars">InitializeVars</a></strong>;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>procedure <strong><a href="uCEFClient.TCustomClientHandler.html#BeforeDestruction">BeforeDestruction</a></strong>; override;</code></td>
+<td class="itemcode"><code>constructor <strong><a href="uCEFClient.TCustomClientHandler.html#Create-IChromiumEvents-boolean-">Create</a></strong>(const events: <a href="uCEFInterfaces.IChromiumEvents.html">IChromiumEvents</a>; aDevToolsClient : boolean = False); reintroduce; virtual;</code></td>
 </tr>
 <tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFClient.TCustomClientHandler.html#BeforeDestruction">BeforeDestruction</a></strong>; override;</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFClient.TCustomClientHandler.html#RemoveReferences">RemoveReferences</a></strong>; override;</code></td>
 </tr>
@@ -355,6 +363,14 @@ body { margin: 0.5em; }
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="FInputHandler"></span><code><strong>FInputHandler</strong>: <a href="uCEFInterfaces.ICefInputHandler.html">ICefInputHandler</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
 <h3 class="detail">Methods</h3>
 <table class="detail visibility-protected wide_list">
 <tr class="list visibility-protected">
@@ -363,7 +379,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefClient.html#GetAudioHandler-ICefAudioHandler-">ICefClient.GetAudioHandler</a>.</p><p>
- Return the handler for audio rendering events. </p>
+ Return the handler for audio capture events. Only supported with Alloy style browsers. If no handler is provided normal audio playback will be used. See ICefAudioHandler for audio capture behavior. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -483,7 +499,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefClient.html#GetKeyboardHandler-ICefKeyboardHandler-">ICefClient.GetKeyboardHandler</a>.</p><p>
- Return the handler for keyboard events. </p>
+ Return the handler for keyboard events. DEPRECATED: Implement GetInputHandler and use ICefInputHandler for keyboard callbacks instead. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -544,6 +560,16 @@ body { margin: 0.5em; }
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefClient.html#OnProcessMessageReceived-ICefBrowser-ICefFrame-TCefProcessId-ICefProcessMessage-">ICefClient.OnProcessMessageReceived</a>.</p><p>
  Called when a new message is received from a different process. Return true (1) if the message was handled or false (0) otherwise. It is safe to keep a reference to |message| outside of this callback. </p>
+</td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="GetInputHandler-ICefInputHandler-"></span><code>procedure <strong>GetInputHandler</strong>(var aHandler : <a href="uCEFInterfaces.ICefInputHandler.html">ICefInputHandler</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefClient.html#GetInputHandler-ICefInputHandler-">ICefClient.GetInputHandler</a>.</p><p>
+ Return the unified input handler. Its keyboard callbacks run before ICefKeyboardHandler callbacks, which are called when the unified callback is unhandled. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">

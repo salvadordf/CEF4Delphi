@@ -114,6 +114,10 @@ body { margin: 0.5em; }
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefClient.html#GetInputHandler-ICefInputHandler-">GetInputHandler</a></strong>(var aHandler : <a href="uCEFInterfaces.ICefInputHandler.html">ICefInputHandler</a>);</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFInterfaces.ICefClient.html#RemoveReferences">RemoveReferences</a></strong>;</code></td>
 </tr>
 </table>
@@ -126,7 +130,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p>
- Return the handler for audio rendering events. </p>
+ Return the handler for audio capture events. Only supported with Alloy style browsers. If no handler is provided normal audio playback will be used. See ICefAudioHandler for audio capture behavior. </p>
 <h6 class="description_section">Attributes</h6>
 <dl class="attributes">
   <dt>GUID['{1D502075-2FF0-4E13-A112-9E541CD811F4}']</dt>
@@ -251,7 +255,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p>
- Return the handler for keyboard events. </p>
+ Return the handler for keyboard events. DEPRECATED: Implement GetInputHandler and use ICefInputHandler for keyboard callbacks instead. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -312,6 +316,16 @@ body { margin: 0.5em; }
 <tr><td colspan="2">
 <p>
  Called when a new message is received from a different process. Return true (1) if the message was handled or false (0) otherwise. It is safe to keep a reference to |message| outside of this callback. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="GetInputHandler-ICefInputHandler-"></span><code>procedure <strong>GetInputHandler</strong>(var aHandler : <a href="uCEFInterfaces.ICefInputHandler.html">ICefInputHandler</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Return the unified input handler. Its keyboard callbacks run before ICefKeyboardHandler callbacks, which are called when the unified callback is unhandled. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">

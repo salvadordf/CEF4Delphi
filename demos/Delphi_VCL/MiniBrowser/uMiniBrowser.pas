@@ -1127,11 +1127,11 @@ begin
   if (event <> nil) then
     case event.windows_key_code of
       VK_F12 :  // Handle the shortcut for the DevTools in Chromium1KeyEvent
-        if (event.kind in [KEYEVENT_KEYDOWN, KEYEVENT_KEYUP]) then
+        if (event.kind in [CEF_KEYEVENT_KEYDOWN, CEF_KEYEVENT_KEYUP]) then
           isKeyboardShortcut := True;
 
       VK_U :  // Block the shortcut to view the HTML source code (Control+U).
-        if (event.kind in [KEYEVENT_RAWKEYDOWN, KEYEVENT_KEYUP]) then
+        if (event.kind in [CEF_KEYEVENT_RAWKEYDOWN, CEF_KEYEVENT_KEYUP]) then
           Result := (event.modifiers and EVENTFLAG_CONTROL_DOWN) <> 0;
     end;
 end;
@@ -1358,7 +1358,7 @@ begin
   for i := 1 to length(SIMULATED_KEY_PRESSES) do
     begin
       // WM_KEYDOWN
-      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+      TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
       TempKeyEvent.modifiers               := 0;
       TempKeyEvent.windows_key_code        := ord(SIMULATED_KEY_PRESSES[i]);
       TempKeyEvent.native_key_code         := 0;
@@ -1369,11 +1369,11 @@ begin
       Chromium1.SendKeyEvent(@TempKeyEvent);
 
       // WM_CHAR
-      TempKeyEvent.kind := KEYEVENT_CHAR;
+      TempKeyEvent.kind := CEF_KEYEVENT_CHAR;
       Chromium1.SendKeyEvent(@TempKeyEvent);
 
       // WM_KEYUP
-      TempKeyEvent.kind := KEYEVENT_KEYUP;
+      TempKeyEvent.kind := CEF_KEYEVENT_KEYUP;
       Chromium1.SendKeyEvent(@TempKeyEvent);
     end;
 end;

@@ -313,6 +313,22 @@ body { margin: 0.5em; }
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefBrowserHost.html#send_keyboard_event">send_keyboard_event</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserHost">PCefBrowserHost</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>);</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefBrowserHost.html#send_mouse_event">send_mouse_event</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserHost">PCefBrowserHost</a>; const event: <a href="uCEFTypes.html#PCefMouseInputEvent">PCefMouseInputEvent</a>);</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefBrowserHost.html#send_gesture_event">send_gesture_event</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserHost">PCefBrowserHost</a>; const event: <a href="uCEFTypes.html#PCefGestureInputEvent">PCefGestureInputEvent</a>);</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefBrowserHost.html#send_wheel_event">send_wheel_event</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserHost">PCefBrowserHost</a>; const event: <a href="uCEFTypes.html#PCefWheelInputEvent">PCefWheelInputEvent</a>);</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code><strong><a href="uCEFTypes.TCefBrowserHost.html#set_ax_viewport_collapse">set_ax_viewport_collapse</a></strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserHost">PCefBrowserHost</a>; enabled: integer); stdcall;</code></td>
 </tr>
 </table>
@@ -873,10 +889,50 @@ body { margin: 0.5em; }
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="set_ax_viewport_collapse"></span><code><strong>set_ax_viewport_collapse</strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserHost">PCefBrowserHost</a>; enabled: integer); stdcall;</code></td>
+<td class="itemcode"><span id="send_keyboard_event"></span><code><strong>send_keyboard_event</strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserHost">PCefBrowserHost</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>);</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="send_mouse_event"></span><code><strong>send_mouse_event</strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserHost">PCefBrowserHost</a>; const event: <a href="uCEFTypes.html#PCefMouseInputEvent">PCefMouseInputEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+* CEF_API_ADDED(15800) *</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="send_gesture_event"></span><code><strong>send_gesture_event</strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserHost">PCefBrowserHost</a>; const event: <a href="uCEFTypes.html#PCefGestureInputEvent">PCefGestureInputEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+* CEF_API_ADDED(15800) *</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="send_wheel_event"></span><code><strong>send_wheel_event</strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserHost">PCefBrowserHost</a>; const event: <a href="uCEFTypes.html#PCefWheelInputEvent">PCefWheelInputEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+* CEF_API_ADDED(15800) *</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="set_ax_viewport_collapse"></span><code><strong>set_ax_viewport_collapse</strong>: procedure(self: <a href="uCEFTypes.html#PCefBrowserHost">PCefBrowserHost</a>; enabled: integer); stdcall;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+* CEF_API_ADDED(15800) *</p>
+</td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.5.snapshot</a>. </em>
 </span>

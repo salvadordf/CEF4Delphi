@@ -66,7 +66,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefAudioHandler.html#OnGetAudioParameters-ICefBrowser-TCefAudioParameters-boolean-">ICefAudioHandler.OnGetAudioParameters</a>.</p><p>
- Called on the UI thread to allow configuration of audio stream parameters. Return true (1) to proceed with audio stream capture, or false (0) to cancel it. All members of |params| can optionally be configured here, but they are also pre-filled with some sensible defaults. </p>
+ Called on the UI thread to allow configuration of audio stream parameters. Return true (1) to proceed with audio stream capture and mute the browser's audio output, or false (0) to cancel capture and leave normal audio playback unchanged. All members of |params| can optionally be configured here, but they are also pre-filled with some sensible defaults. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">

@@ -392,6 +392,18 @@ body { margin: 0.5em; }
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnComponentUpdateCompletedEvent">TOnComponentUpdateCompletedEvent</a></strong> = procedure(Sender: TObject; const component_id: <a href="uCEFTypes.html#ustring">ustring</a>; error: <a href="uCEFTypes.html#TCefComponentUpdateError">TCefComponentUpdateError</a>) of object;</code></td>
 </tr>
 <tr class="list visibility-published">
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPreKeyboardEvent">TOnPreKeyboardEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>; out isKeyboardShortcut: Boolean; var aResult: boolean) of object;</code></td>
+</tr>
+<tr class="list2 visibility-published">
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnKeyboardEvent">TOnKeyboardEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>; var aResult: boolean) of object;</code></td>
+</tr>
+<tr class="list visibility-published">
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPreMouseEvent">TOnPreMouseEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefMouseInputEvent">PCefMouseInputEvent</a>; var aResult: boolean) of object;</code></td>
+</tr>
+<tr class="list2 visibility-published">
+<td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnPreGestureEvent">TOnPreGestureEvent</a></strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefGestureInputEvent">PCefGestureInputEvent</a>; var aResult: boolean) of object;</code></td>
+</tr>
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFChromiumEvents.html#TOnTextResultAvailableEvent">TOnTextResultAvailableEvent</a></strong> = procedure(Sender: TObject; const aText : <a href="uCEFTypes.html#ustring">ustring</a>) of object;</code></td>
 </tr>
 <tr class="list2 visibility-published">
@@ -1360,6 +1372,36 @@ ICefSettingObserver</p>
 <p>
 ICefComponentUpdateCallback</p>
 </td></tr>
+</table>
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
+<td class="itemcode"><span id="TOnPreKeyboardEvent"></span><code><strong>TOnPreKeyboardEvent</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>; out isKeyboardShortcut: Boolean; var aResult: boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ICefInputHandler</p>
+</td></tr>
+</table>
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
+<td class="itemcode"><span id="TOnKeyboardEvent"></span><code><strong>TOnKeyboardEvent</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>; var aResult: boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
+<td class="itemcode"><span id="TOnPreMouseEvent"></span><code><strong>TOnPreMouseEvent</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefMouseInputEvent">PCefMouseInputEvent</a>; var aResult: boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
+<td class="itemcode"><span id="TOnPreGestureEvent"></span><code><strong>TOnPreGestureEvent</strong> = procedure(Sender: TObject; const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefGestureInputEvent">PCefGestureInputEvent</a>; var aResult: boolean) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">

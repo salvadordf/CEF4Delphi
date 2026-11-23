@@ -885,6 +885,22 @@ body { margin: 0.5em; }
 </tr>
 <tr class="list2 visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnPreKeyboardEvent">FOnPreKeyboardEvent</a></strong>: <a href="uCEFChromiumEvents.html#TOnPreKeyboardEvent">TOnPreKeyboardEvent</a>;</code></td>
+</tr>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnKeyboardEvent">FOnKeyboardEvent</a></strong>: <a href="uCEFChromiumEvents.html#TOnKeyboardEvent">TOnKeyboardEvent</a>;</code></td>
+</tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnPreMouseEvent">FOnPreMouseEvent</a></strong>: <a href="uCEFChromiumEvents.html#TOnPreMouseEvent">TOnPreMouseEvent</a>;</code></td>
+</tr>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnPreGestureEvent">FOnPreGestureEvent</a></strong>: <a href="uCEFChromiumEvents.html#TOnPreGestureEvent">TOnPreGestureEvent</a>;</code></td>
+</tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code><strong><a href="uCEFChromiumCore.TChromiumCore.html#FOnTextResultAvailable">FOnTextResultAvailable</a></strong>: <a href="uCEFChromiumEvents.html#TOnTextResultAvailableEvent">TOnTextResultAvailableEvent</a>;</code></td>
 </tr>
 <tr class="list visibility-protected">
@@ -2068,6 +2084,22 @@ body { margin: 0.5em; }
 </tr>
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#doOnPreKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-Boolean-">doOnPreKeyboardEvent</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>; out isKeyboardShortcut: Boolean): Boolean;</code></td>
+</tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#doOnKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-">doOnKeyboardEvent</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>): Boolean;</code></td>
+</tr>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#doOnPreMouseEvent-ICefBrowser-PCefMouseInputEvent-">doOnPreMouseEvent</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefMouseInputEvent">PCefMouseInputEvent</a>): Boolean;</code></td>
+</tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#doOnPreGestureEvent-ICefBrowser-PCefGestureInputEvent-">doOnPreGestureEvent</a></strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefGestureInputEvent">PCefGestureInputEvent</a>): Boolean;</code></td>
+</tr>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetSettings-TCefBrowserSettings-">GetSettings</a></strong>(var aSettings : <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>);</code></td>
 </tr>
 <tr class="list2 visibility-protected">
@@ -2290,587 +2322,607 @@ body { margin: 0.5em; }
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreatePermissionHandler">MustCreatePermissionHandler</a></strong>: boolean; virtual;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#MustCreateInputHandler">MustCreateInputHandler</a></strong>: boolean; virtual;</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>constructor <strong><a href="uCEFChromiumCore.TChromiumCore.html#Create-TComponent-">Create</a></strong>(AOwner: TComponent); override;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>destructor <strong><a href="uCEFChromiumCore.TChromiumCore.html#Destroy">Destroy</a></strong>; override;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#AfterConstruction">AfterConstruction</a></strong>; override;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#BeforeDestruction">BeforeDestruction</a></strong>; override;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateClientHandler-boolean-">CreateClientHandler</a></strong>(aIsOSR : boolean = True) : boolean; overload;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateClientHandler-ICefClient-boolean-">CreateClientHandler</a></strong>(var aClient : <a href="uCEFInterfaces.ICefClient.html">ICefClient</a>; aIsOSR : boolean = True) : boolean; overload;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CloseBrowser-boolean-">CloseBrowser</a></strong>(aForceClose : boolean);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CloseAllBrowsers">CloseAllBrowsers</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#TryCloseBrowser">TryCloseBrowser</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#IsReadyToBeClosed">IsReadyToBeClosed</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#SelectBrowser-integer-">SelectBrowser</a></strong>(aID : integer) : boolean;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#IndexOfBrowserID-integer-">IndexOfBrowserID</a></strong>(aID : integer) : integer;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ShareRequestContext-ICefRequestContext-ICefRequestContextHandler-">ShareRequestContext</a></strong>(var aContext : <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a>; const aHandler : <a href="uCEFInterfaces.ICefRequestContextHandler.html">ICefRequestContextHandler</a> = nil) : boolean;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#InitializeDragAndDrop-HWND-">InitializeDragAndDrop</a></strong>(const aDropTargetWnd : HWND);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ShutdownDragAndDrop">ShutdownDragAndDrop</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetNewBrowserParent-HWND-">SetNewBrowserParent</a></strong>(aNewParentHwnd : HWND) : boolean;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateBrowser-TCefWindowHandle-TRect-ustring-ICefRequestContext-ICefDictionaryValue-boolean-">CreateBrowser</a></strong>(aParentHandle : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>; aParentRect : TRect; const aWindowName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aContext : <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a> = nil; const aExtraInfo : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a> = nil; aForceAsPopup : boolean = False) : boolean; overload; virtual;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateBrowser-ustring-TCEFBrowserViewComponent-ICefRequestContext-ICefDictionaryValue-">CreateBrowser</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>; const aBrowserViewComp : <a href="uCEFBrowserViewComponent.TCEFBrowserViewComponent.html">TCEFBrowserViewComponent</a>; const aContext : <a href="uCEFInterfaces.ICefRequestContext.html">ICefRequestContext</a> = nil; const aExtraInfo : <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a> = nil) : boolean; overload; virtual;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadURL-ustring-ustring-ustring-">LoadURL</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadURL-ustring-ICefFrame-">LoadURL</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadString-ustring-ustring-ustring-">LoadString</a></strong>(const aHTML : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadString-ustring-ICefFrame-">LoadString</a></strong>(const aHTML : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadResource-TCustomMemoryStream-ustring-ustring-ustring-ustring-">LoadResource</a></strong>(const aStream : TCustomMemoryStream; const aMimeType, aCharset : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadResource-TCustomMemoryStream-ustring-ustring-ICefFrame-">LoadResource</a></strong>(const aStream : TCustomMemoryStream; const aMimeType, aCharset : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#LoadRequest-ICefRequest-">LoadRequest</a></strong>(const aRequest: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GoBack">GoBack</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GoForward">GoForward</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#Reload">Reload</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ReloadIgnoreCache">ReloadIgnoreCache</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#StopLoad">StopLoad</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#StartDownload-ustring-">StartDownload</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DownloadImage-ustring-Boolean-cardinal-Boolean-">DownloadImage</a></strong>(const imageUrl: <a href="uCEFTypes.html#ustring">ustring</a>; isFavicon: Boolean; maxImageSize: cardinal; bypassCache: Boolean);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateMouseWheel-integer-integer-">SimulateMouseWheel</a></strong>(aDeltaX, aDeltaY : integer);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateKeyEvent-TSimulatedCefKeyEventType-integer-single-ustring-ustring-ustring-ustring-ustring-integer-integer-boolean-boolean-boolean-TCefKeyLocation-TCefEditingCommand-">SimulateKeyEvent</a></strong>(type_: <a href="uCEFTypes.html#TSimulatedCefKeyEventType">TSimulatedCefKeyEventType</a>; modifiers: integer = <a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE">CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE</a>; timestamp: single = 0; const text: <a href="uCEFTypes.html#ustring">ustring</a> = ''; const unmodifiedtext: <a href="uCEFTypes.html#ustring">ustring</a> = ''; const keyIdentifier: <a href="uCEFTypes.html#ustring">ustring</a> = ''; const code: <a href="uCEFTypes.html#ustring">ustring</a> = ''; const key: <a href="uCEFTypes.html#ustring">ustring</a> = ''; windowsVirtualKeyCode: integer = 0; nativeVirtualKeyCode: integer = 0; autoRepeat: boolean = False; isKeypad: boolean = False; isSystemKey: boolean = False; location: <a href="uCEFTypes.html#TCefKeyLocation">TCefKeyLocation</a> = <a href="uCEFTypes.html#CEF_KEYLOCATION_NONE">CEF_KEYLOCATION_NONE</a>; commands: <a href="uCEFTypes.html#TCefEditingCommand">TCefEditingCommand</a> = <a href="uCEFTypes.html#ecNone">ecNone</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateMouseEvent-TCefSimulatedMouseEventType-single-single-integer-single-TCefSimulatedMouseButton-integer-integer-single-single-single-single-integer-single-single-TCefSimulatedPointerType-">SimulateMouseEvent</a></strong>(type_: <a href="uCEFTypes.html#TCefSimulatedMouseEventType">TCefSimulatedMouseEventType</a>; x, y: single; modifiers: integer = <a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE">CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE</a>; timestamp: single = 0; button: <a href="uCEFTypes.html#TCefSimulatedMouseButton">TCefSimulatedMouseButton</a> = <a href="uCEFTypes.html#CEF_SIMULATEDMOUSEBUTTON_NONE">CEF_SIMULATEDMOUSEBUTTON_NONE</a>; buttons: integer = <a href="uCEFConstants.html#CEF_PRESSED_MOUSE_BUTTONS_NONE">CEF_PRESSED_MOUSE_BUTTONS_NONE</a>; clickCount: integer = 0; force: single = 0; tangentialPressure: single = 0; tiltX: single = 0; tiltY: single = 0; twist: integer = 0; deltaX: single = 0; deltaY: single = 0; pointerType: <a href="uCEFTypes.html#TCefSimulatedPointerType">TCefSimulatedPointerType</a> = <a href="uCEFTypes.html#CEF_SIMULATEDPOINTERTYPE_MOUSE">CEF_SIMULATEDPOINTERTYPE_MOUSE</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateTouchEvent-TCefSimulatedTouchEventType-TCefSimulatedTouchPointArray-integer-single-">SimulateTouchEvent</a></strong>(type_: <a href="uCEFTypes.html#TCefSimulatedTouchEventType">TCefSimulatedTouchEventType</a>; var touchPoints: <a href="uCEFTypes.html#TCefSimulatedTouchPointArray">TCefSimulatedTouchPointArray</a>; modifiers: integer = <a href="uCEFConstants.html#CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE">CEF_MOUSETOUCH_EVENT_MODIFIERS_NONE</a>; timestamp: single = 0);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SimulateEditingCommand-TCefEditingCommand-">SimulateEditingCommand</a></strong>(command : <a href="uCEFTypes.html#TCefEditingCommand">TCefEditingCommand</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClearCertificateExceptions-boolean-">ClearCertificateExceptions</a></strong>(aClearImmediately : boolean = True) : boolean;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClearHttpAuthCredentials-boolean-">ClearHttpAuthCredentials</a></strong>(aClearImmediately : boolean = True) : boolean;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CloseAllConnections-boolean-">CloseAllConnections</a></strong>(aCloseImmediately : boolean = True) : boolean;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClearHttpCache-boolean-">ClearHttpCache</a></strong>(aClearImmediately : boolean = True) : boolean;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#RetrieveHTML-ustring-ustring-">RetrieveHTML</a></strong>(const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#RetrieveHTML-ICefFrame-">RetrieveHTML</a></strong>(const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#RetrieveText-ustring-ustring-">RetrieveText</a></strong>(const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#RetrieveText-ICefFrame-">RetrieveText</a></strong>(const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetNavigationEntries-Boolean-">GetNavigationEntries</a></strong>(currentOnly: Boolean);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetFrameNames-TStrings-">GetFrameNames</a></strong>(var aFrameNames : TStrings) : boolean;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetFrameIdentifiers-TStrings-">GetFrameIdentifiers</a></strong>(var aFrameIdentifiers : TStrings) : boolean;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExecuteJavaScript-ustring-ustring-ustring-ustring-integer-">ExecuteJavaScript</a></strong>(const aCode, aScriptURL : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''; aStartLine : integer = 0); overload;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExecuteJavaScript-ustring-ustring-ICefFrame-integer-">ExecuteJavaScript</a></strong>(const aCode, aScriptURL : <a href="uCEFTypes.html#ustring">ustring</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>; aStartLine : integer = 0); overload;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#UpdatePreferences">UpdatePreferences</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SavePreferences-string-">SavePreferences</a></strong>(const aFileName : string);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResolveHost-ustring-">ResolveHost</a></strong>(const aURL : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#IsSameBrowser-ICefBrowser-">IsSameBrowser</a></strong>(const aBrowser : <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>) : boolean;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExecuteTaskOnCefThread-TCefThreadId-cardinal-Int64-">ExecuteTaskOnCefThread</a></strong>(aCefThreadId : <a href="uCEFTypes.html#TCefThreadId">TCefThreadId</a>; aTaskID : cardinal; aDelayMs : Int64 = 0) : boolean;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetUserAgentOverride-ustring-ustring-ustring-">SetUserAgentOverride</a></strong>(const aUserAgent : <a href="uCEFTypes.html#ustring">ustring</a>; const aAcceptLanguage : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aPlatform : <a href="uCEFTypes.html#ustring">ustring</a> = '');</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClearDataForOrigin-ustring-TCefClearDataStorageTypes-">ClearDataForOrigin</a></strong>(const aOrigin : <a href="uCEFTypes.html#ustring">ustring</a>; aStorageTypes : <a href="uCEFTypes.html#TCefClearDataStorageTypes">TCefClearDataStorageTypes</a> = <a href="uCEFTypes.html#cdstAll">cdstAll</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClearCache">ClearCache</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ToggleAudioMuted">ToggleAudioMuted</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddPreferenceObserver-ustring-">AddPreferenceObserver</a></strong>(const name_: <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#RemovePreferenceObserver-ustring-">RemovePreferenceObserver</a></strong>(const name_ : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#DeleteCookies-ustring-ustring-boolean-">DeleteCookies</a></strong>(const url : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const cookieName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; aDeleteImmediately : boolean = False) : boolean;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#VisitAllCookies-integer-">VisitAllCookies</a></strong>(aID : integer = 0) : boolean;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#VisitURLCookies-ustring-boolean-integer-">VisitURLCookies</a></strong>(const url : <a href="uCEFTypes.html#ustring">ustring</a>; includeHttpOnly : boolean = False; aID : integer = 0) : boolean;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetCookie-ustring-ustring-ustring-ustring-ustring-Boolean-Boolean-Boolean-TDateTime-TDateTime-TDateTime-TCefCookieSameSite-TCefCookiePriority-boolean-integer-">SetCookie</a></strong>(const url, name_, value, domain, path: <a href="uCEFTypes.html#ustring">ustring</a>; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime; same_site : <a href="uCEFTypes.html#TCefCookieSameSite">TCefCookieSameSite</a>; priority : <a href="uCEFTypes.html#TCefCookiePriority">TCefCookiePriority</a>; aSetImmediately : boolean = True; aID : integer = 0): Boolean;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#FlushCookieStore-boolean-">FlushCookieStore</a></strong>(aFlushImmediately : boolean = True) : boolean;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ShowDevTools-TPoint-PCefWindowInfo-">ShowDevTools</a></strong>(const inspectElementAt: TPoint; aWindowInfo: <a href="uCEFTypes.html#PCefWindowInfo">PCefWindowInfo</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CloseDevTools">CloseDevTools</a></strong>; overload;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CloseDevTools-TCefWindowHandle-">CloseDevTools</a></strong>(const aDevToolsWnd : <a href="uCEFTypes.html#TCefWindowHandle">TCefWindowHandle</a>); overload;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendDevToolsMessage-ustring-">SendDevToolsMessage</a></strong>(const message_: <a href="uCEFTypes.html#ustring">ustring</a>): boolean;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExecuteDevToolsMethod-integer-ustring-ICefDictionaryValue-">ExecuteDevToolsMethod</a></strong>(message_id: integer; const method: <a href="uCEFTypes.html#ustring">ustring</a>; const params: <a href="uCEFInterfaces.ICefDictionaryValue.html">ICefDictionaryValue</a>): Integer;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddDevToolsMessageObserver-ICefDevToolsMessageObserver-">AddDevToolsMessageObserver</a></strong>(const observer: <a href="uCEFInterfaces.ICefDevToolsMessageObserver.html">ICefDevToolsMessageObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddSettingObserver-ICefSettingObserver-">AddSettingObserver</a></strong>(const observer: <a href="uCEFInterfaces.ICefSettingObserver.html">ICefSettingObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#Find-ustring-Boolean-Boolean-Boolean-">Find</a></strong>(const aSearchText : <a href="uCEFTypes.html#ustring">ustring</a>; aForward, aMatchCase, aFindNext : Boolean);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#StopFinding-Boolean-">StopFinding</a></strong>(aClearSelection : Boolean);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#Print">Print</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#PrintToPDF-ustring-">PrintToPDF</a></strong>(const aFilePath : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardCopy">ClipboardCopy</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardPaste">ClipboardPaste</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardPasteAndMatchStyle">ClipboardPasteAndMatchStyle</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardCut">ClipboardCut</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardUndo">ClipboardUndo</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardRedo">ClipboardRedo</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ClipboardDel">ClipboardDel</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SelectAll">SelectAll</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IncZoomStep">IncZoomStep</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DecZoomStep">DecZoomStep</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IncZoomPct">IncZoomPct</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DecZoomPct">DecZoomPct</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResetZoomStep">ResetZoomStep</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResetZoomLevel">ResetZoomLevel</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResetZoomPct">ResetZoomPct</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ReadZoom">ReadZoom</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IncZoomCommand">IncZoomCommand</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DecZoomCommand">DecZoomCommand</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ResetZoomCommand">ResetZoomCommand</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#WasResized">WasResized</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#WasHidden-Boolean-">WasHidden</a></strong>(hidden: Boolean);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyScreenInfoChanged">NotifyScreenInfoChanged</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyMoveOrResizeStarted">NotifyMoveOrResizeStarted</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#Invalidate-TCefPaintElementType-">Invalidate</a></strong>(type_: <a href="uCEFTypes.html#TCefPaintElementType">TCefPaintElementType</a> = <a href="uCEFTypes.html#PET_VIEW">PET_VIEW</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExitFullscreen-boolean-">ExitFullscreen</a></strong>(will_cause_resize: boolean);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CanExecuteChromeCommand-integer-">CanExecuteChromeCommand</a></strong>(command_id: integer): boolean;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ExecuteChromeCommand-integer-TCefWindowOpenDisposition-">ExecuteChromeCommand</a></strong>(command_id: integer; disposition: <a href="uCEFTypes.html#TCefWindowOpenDisposition">TCefWindowOpenDisposition</a>);</code></td>
 </tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendKeyboardEvent-TCefKeyboardInputEvent-">SendKeyboardEvent</a></strong>(const event: <a href="uCEFTypes.TCefKeyboardInputEvent.html">TCefKeyboardInputEvent</a>);</code></td>
+</tr>
 <tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendMouseEvent-TCefMouseInputEvent-">SendMouseEvent</a></strong>(const event: <a href="uCEFTypes.TCefMouseInputEvent.html">TCefMouseInputEvent</a>);</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendGestureEvent-TCefGestureInputEvent-">SendGestureEvent</a></strong>(const event: <a href="uCEFTypes.TCefGestureInputEvent.html">TCefGestureInputEvent</a>);</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendWheelEvent-TCefWheelInputEvent-">SendWheelEvent</a></strong>(const event: <a href="uCEFTypes.TCefWheelInputEvent.html">TCefWheelInputEvent</a>);</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetAxViewportCollapse-boolean-">SetAxViewportCollapse</a></strong>(enabled: boolean);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendExternalBeginFrame">SendExternalBeginFrame</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendKeyEvent-PCefKeyEvent-">SendKeyEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefKeyEvent">PCefKeyEvent</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendMouseClickEvent-PCefMouseEvent-TCefMouseButtonType-Boolean-Integer-">SendMouseClickEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; type_: <a href="uCEFTypes.html#TCefMouseButtonType">TCefMouseButtonType</a>; mouseUp: Boolean; clickCount: Integer);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendMouseMoveEvent-PCefMouseEvent-Boolean-">SendMouseMoveEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; mouseLeave: Boolean);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendMouseWheelEvent-PCefMouseEvent-Integer-Integer-">SendMouseWheelEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; deltaX, deltaY: Integer);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendTouchEvent-PCefTouchEvent-">SendTouchEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefTouchEvent">PCefTouchEvent</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendCaptureLostEvent">SendCaptureLostEvent</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendProcessMessage-TCefProcessId-ICefProcessMessage-ustring-ustring-">SendProcessMessage</a></strong>(targetProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const ProcMessage: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''); overload;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SendProcessMessage-TCefProcessId-ICefProcessMessage-ICefFrame-">SendProcessMessage</a></strong>(targetProcess: <a href="uCEFTypes.html#TCefProcessId">TCefProcessId</a>; const ProcMessage: <a href="uCEFInterfaces.ICefProcessMessage.html">ICefProcessMessage</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>); overload;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateUrlRequest-ICefRequest-ICefUrlrequestClient-ustring-ustring-">CreateUrlRequest</a></strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const client: <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>; const aFrameName : <a href="uCEFTypes.html#ustring">ustring</a> = ''; const aFrameIdentifier : <a href="uCEFTypes.html#ustring">ustring</a> = ''): <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; overload;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateUrlRequest-ICefRequest-ICefUrlrequestClient-ICefFrame-">CreateUrlRequest</a></strong>(const request: <a href="uCEFInterfaces.ICefRequest.html">ICefRequest</a>; const client: <a href="uCEFInterfaces.ICefUrlrequestClient.html">ICefUrlrequestClient</a>; const aFrame : <a href="uCEFInterfaces.ICefFrame.html">ICefFrame</a>): <a href="uCEFInterfaces.ICefUrlRequest.html">ICefUrlRequest</a>; overload;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetFocus-Boolean-">SetFocus</a></strong>(focus: Boolean);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetAccessibilityState-TCefState-">SetAccessibilityState</a></strong>(accessibilityState: <a href="uCEFTypes.html#TCefState">TCefState</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetAutoResizeEnabled-boolean-PCefSize-PCefSize-">SetAutoResizeEnabled</a></strong>(enabled_: boolean; const min_size, max_size: <a href="uCEFTypes.html#PCefSize">PCefSize</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDragEnter-ICefDragData-PCefMouseEvent-TCefDragOperations-">DragTargetDragEnter</a></strong>(const dragData: <a href="uCEFInterfaces.ICefDragData.html">ICefDragData</a>; const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDragOver-PCefMouseEvent-TCefDragOperations-">DragTargetDragOver</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>; allowedOps: <a href="uCEFTypes.html#TCefDragOperations">TCefDragOperations</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDragLeave">DragTargetDragLeave</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragTargetDrop-PCefMouseEvent-">DragTargetDrop</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseEvent">PCefMouseEvent</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragSourceEndedAt-Integer-Integer-TCefDragOperation-">DragSourceEndedAt</a></strong>(x, y: Integer; op: <a href="uCEFTypes.html#TCefDragOperation">TCefDragOperation</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#DragSourceSystemDragEnded">DragSourceSystemDragEnded</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMESetComposition-ustring-TCefCompositionUnderlineDynArray-PCefRange-PCefRange-">IMESetComposition</a></strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; const underlines : <a href="uCEFTypes.html#TCefCompositionUnderlineDynArray">TCefCompositionUnderlineDynArray</a>; const replacement_range, selection_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMECommitText-ustring-PCefRange-integer-">IMECommitText</a></strong>(const text: <a href="uCEFTypes.html#ustring">ustring</a>; const replacement_range : <a href="uCEFTypes.html#PCefRange">PCefRange</a>; relative_cursor_pos : integer);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMEFinishComposingText-boolean-">IMEFinishComposingText</a></strong>(keep_selection : boolean);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#IMECancelComposition">IMECancelComposition</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#ReplaceMisspelling-ustring-">ReplaceMisspelling</a></strong>(const aWord : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddWordToDictionary-ustring-">AddWordToDictionary</a></strong>(const aWord : <a href="uCEFTypes.html#ustring">ustring</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#AddObserver-ICefMediaObserver-">AddObserver</a></strong>(const observer: <a href="uCEFInterfaces.ICefMediaObserver.html">ICefMediaObserver</a>): <a href="uCEFInterfaces.ICefRegistration.html">ICefRegistration</a>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetSource-ustring-">GetSource</a></strong>(const urn: <a href="uCEFTypes.html#ustring">ustring</a>): <a href="uCEFInterfaces.ICefMediaSource.html">ICefMediaSource</a>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyCurrentSinks">NotifyCurrentSinks</a></strong>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#NotifyCurrentRoutes">NotifyCurrentRoutes</a></strong>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#CreateRoute-ICefMediaSource-ICefMediaSink-">CreateRoute</a></strong>(const source: <a href="uCEFInterfaces.ICefMediaSource.html">ICefMediaSource</a>; const sink: <a href="uCEFInterfaces.ICefMediaSink.html">ICefMediaSink</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetDeviceInfo-ICefMediaSink-">GetDeviceInfo</a></strong>(const aMediaSink: <a href="uCEFInterfaces.ICefMediaSink.html">ICefMediaSink</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetWebsiteSetting-ustring-ustring-TCefContentSettingTypes-">GetWebsiteSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetWebsiteSetting-ustring-ustring-TCefContentSettingTypes-ICefValue-">SetWebsiteSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; const value: <a href="uCEFInterfaces.ICefValue.html">ICefValue</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetContentSetting-ustring-ustring-TCefContentSettingTypes-">GetContentSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>): <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetContentSetting-ustring-ustring-TCefContentSettingTypes-TCefContentSettingValues-">SetContentSetting</a></strong>(const requesting_url, top_level_url: <a href="uCEFTypes.html#ustring">ustring</a>; content_type: <a href="uCEFTypes.html#TCefContentSettingTypes">TCefContentSettingTypes</a>; value: <a href="uCEFTypes.html#TCefContentSettingValues">TCefContentSettingValues</a>);</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#SetChromeColorScheme-TCefColorVariant-TCefColor-">SetChromeColorScheme</a></strong>(variant: <a href="uCEFTypes.html#TCefColorVariant">TCefColorVariant</a>; user_color: <a href="uCEFTypes.html#TCefColor">TCefColor</a>);</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetComponentCount">GetComponentCount</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetComponents-TCefComponentArray-">GetComponents</a></strong>(var components_: <a href="uCEFInterfaces.html#TCefComponentArray">TCefComponentArray</a>): boolean;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="uCEFChromiumCore.TChromiumCore.html#GetComponentById-ustring-ICefComponent-">GetComponentById</a></strong>(const component_id: <a href="uCEFTypes.html#ustring">ustring</a>; var aResult: <a href="uCEFInterfaces.ICefComponent.html">ICefComponent</a>): boolean;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFChromiumCore.TChromiumCore.html#UpdateComponent-ustring-TCefComponentUpdatePriority-">UpdateComponent</a></strong>(const component_id: <a href="uCEFTypes.html#ustring">ustring</a>; priority: <a href="uCEFTypes.html#TCefComponentUpdatePriority">TCefComponentUpdatePriority</a>);</code></td>
 </tr>
@@ -3868,6 +3920,22 @@ body { margin: 0.5em; }
 <tr class="list2 visibility-published">
 <td class="visibility"><span class="badge vis-published">Published</span></td>
 <td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnComponentUpdateCompleted">OnComponentUpdateCompleted</a></strong>             : <a href="uCEFChromiumEvents.html#TOnComponentUpdateCompletedEvent">TOnComponentUpdateCompletedEvent</a>      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnComponentUpdateCompleted">FOnComponentUpdateCompleted</a>          write <a href="uCEFChromiumCore.TChromiumCore.html#FOnComponentUpdateCompleted">FOnComponentUpdateCompleted</a>;</code></td>
+</tr>
+<tr class="list visibility-published">
+<td class="visibility"><span class="badge vis-published">Published</span></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnPreKeyboardEvent">OnPreKeyboardEvent</a></strong>                     : <a href="uCEFChromiumEvents.html#TOnPreKeyboardEvent">TOnPreKeyboardEvent</a>                   read <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreKeyboardEvent">FOnPreKeyboardEvent</a>                  write <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreKeyboardEvent">FOnPreKeyboardEvent</a>;</code></td>
+</tr>
+<tr class="list2 visibility-published">
+<td class="visibility"><span class="badge vis-published">Published</span></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnKeyboardEvent">OnKeyboardEvent</a></strong>                        : <a href="uCEFChromiumEvents.html#TOnKeyboardEvent">TOnKeyboardEvent</a>                      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnKeyboardEvent">FOnKeyboardEvent</a>                     write <a href="uCEFChromiumCore.TChromiumCore.html#FOnKeyboardEvent">FOnKeyboardEvent</a>;</code></td>
+</tr>
+<tr class="list visibility-published">
+<td class="visibility"><span class="badge vis-published">Published</span></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnPreMouseEvent">OnPreMouseEvent</a></strong>                        : <a href="uCEFChromiumEvents.html#TOnPreMouseEvent">TOnPreMouseEvent</a>                      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreMouseEvent">FOnPreMouseEvent</a>                     write <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreMouseEvent">FOnPreMouseEvent</a>;</code></td>
+</tr>
+<tr class="list2 visibility-published">
+<td class="visibility"><span class="badge vis-published">Published</span></td>
+<td class="itemcode"><code>property <strong><a href="uCEFChromiumCore.TChromiumCore.html#OnPreGestureEvent">OnPreGestureEvent</a></strong>                      : <a href="uCEFChromiumEvents.html#TOnPreGestureEvent">TOnPreGestureEvent</a>                    read <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreGestureEvent">FOnPreGestureEvent</a>                   write <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreGestureEvent">FOnPreGestureEvent</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -5629,6 +5697,40 @@ ICefSettingObserver</p>
 <p>
 ICefComponentUpdateCallback</p>
 </td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="FOnPreKeyboardEvent"></span><code><strong>FOnPreKeyboardEvent</strong>: <a href="uCEFChromiumEvents.html#TOnPreKeyboardEvent">TOnPreKeyboardEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefInputHandler</p>
+</td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="FOnKeyboardEvent"></span><code><strong>FOnKeyboardEvent</strong>: <a href="uCEFChromiumEvents.html#TOnKeyboardEvent">TOnKeyboardEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="FOnPreMouseEvent"></span><code><strong>FOnPreMouseEvent</strong>: <a href="uCEFChromiumEvents.html#TOnPreMouseEvent">TOnPreMouseEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="FOnPreGestureEvent"></span><code><strong>FOnPreGestureEvent</strong>: <a href="uCEFChromiumEvents.html#TOnPreGestureEvent">TOnPreGestureEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
 <tr class="list visibility-protected">
@@ -8052,6 +8154,40 @@ ICefComponentUpdateCallback</p>
 <table class="detail visibility-protected wide_list">
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="doOnPreKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-Boolean-"></span><code>function <strong>doOnPreKeyboardEvent</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>; out isKeyboardShortcut: Boolean): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ICefInputHandler</p>
+</td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="doOnKeyboardEvent-ICefBrowser-PCefKeyboardInputEvent-PCefInputEventContext-"></span><code>function <strong>doOnKeyboardEvent</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; const context: <a href="uCEFTypes.html#PCefInputEventContext">PCefInputEventContext</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="doOnPreMouseEvent-ICefBrowser-PCefMouseInputEvent-"></span><code>function <strong>doOnPreMouseEvent</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefMouseInputEvent">PCefMouseInputEvent</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="doOnPreGestureEvent-ICefBrowser-PCefGestureInputEvent-"></span><code>function <strong>doOnPreGestureEvent</strong>(const browser: <a href="uCEFInterfaces.ICefBrowser.html">ICefBrowser</a>; const event: <a href="uCEFTypes.html#PCefGestureInputEvent">PCefGestureInputEvent</a>): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="GetSettings-TCefBrowserSettings-"></span><code>procedure <strong>GetSettings</strong>(var aSettings : <a href="uCEFTypes.TCefBrowserSettings.html">TCefBrowserSettings</a>);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -8497,6 +8633,14 @@ Custom</p>
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="MustCreatePermissionHandler"></span><code>function <strong>MustCreatePermissionHandler</strong>: boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="MustCreateInputHandler"></span><code>function <strong>MustCreateInputHandler</strong>: boolean; virtual;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
@@ -9898,6 +10042,80 @@ Custom</p>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SendKeyboardEvent-TCefKeyboardInputEvent-"></span><code>procedure <strong>SendKeyboardEvent</strong>(const event: <a href="uCEFTypes.TCefKeyboardInputEvent.html">TCefKeyboardInputEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Send a complete portable keyboard snapshot. Key identity and text are preserved without consulting the receiving keyboard layout. Zero timestamp uses the dispatch time. Invalid snapshots are ignored with a warning, including unsupported types/modifier bits, invalid nonzero DOM encodings, negative timestamps, unterminated text buffers, and is_system_key values other than zero or one. Supports off-screen and native browser views. May be called on any thread.
+
+<p>For windowed browsers, events are forwarded directly to the focused web- content renderer, bypassing the native browser view's key-event entry point. This does not dispatch input to other native controls or run native IME processing. Browser keyboard callbacks and unhandled-event fallback handling still apply, including Views accelerator handling.
+
+<p>Text in CEF_KEY_EVENT_RAWKEYDOWN is metadata and does not generate a CEF_KEY_EVENT_CHAR event. For ordinary portable typing, send separate RAWKEYDOWN, CHAR, and KEYUP events. Native key conversion alone does not perform text insertion or IME composition. For off-screen IME composition, use ImeSetComposition and related functions.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SendMouseEvent-TCefMouseInputEvent-"></span><code>procedure <strong>SendMouseEvent</strong>(const event: <a href="uCEFTypes.TCefMouseInputEvent.html">TCefMouseInputEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Send a portable mouse snapshot to web content. Supports off-screen and native browser views with Chromium input routing, including out-of-process frames. Events are injected directly into web content, bypassing native controls and OS event synthesis. Zero timestamp uses the dispatch time. Invalid snapshots are ignored with a warning. May be called on any thread. Coordinates are in DIPs; provide both widget and screen positions.
+
+<p>Down/up events must specify the changed button, click count, and the held- button modifiers appropriate for that event.
+
+<p>For windowed browsers, this bypasses the native browser view's mouse- event entry point. It does not deliver events to browser chrome or Views controls, or perform native focus/capture handling. The caller must manage browser focus and any required native input capture. Web-content processing and ICefInputHandler.OnPreMouseEvent still apply.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SendGestureEvent-TCefGestureInputEvent-"></span><code>procedure <strong>SendGestureEvent</strong>(const event: <a href="uCEFTypes.TCefGestureInputEvent.html">TCefGestureInputEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Send a portable gesture snapshot to web content. Supports off-screen and native browser views with Chromium input routing, including out-of-process frames. Events are injected directly into web content, bypassing native controls and OS event synthesis. Zero timestamp uses the dispatch time. Invalid snapshots are ignored with a warning. May be called on any thread. Coordinates are in DIPs; provide both widget and screen positions.
+
+<p>Send coherent begin/update/end sequences and populate only the fields that apply to the gesture type. Chromium may consume or filter gestures before the pre-handler, for example disabled pinch zoom.
+
+<p>For windowed browsers, this bypasses the native browser view's gesture- event entry point. It does not deliver events to browser chrome or Views controls, or perform native focus/capture handling. The caller must manage browser focus and any required native input capture. Web-content processing and ICefInputHandler.OnPreGestureEvent still apply.
+
+<p>This submits an already recognized gesture without running a native touch/trackpad recognizer or synthesizing the underlying DOM touch events. For raw touch delivery and Chromium gesture recognition, use SendTouchEvent instead.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SendWheelEvent-TCefWheelInputEvent-"></span><code>procedure <strong>SendWheelEvent</strong>(const event: <a href="uCEFTypes.TCefWheelInputEvent.html">TCefWheelInputEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Send a portable wheel snapshot to web content. Supports off-screen and native browser views with Chromium input routing, including out-of-process frames. Events are injected directly into web content, bypassing native controls and OS event synthesis. Zero timestamp uses the dispatch time. Invalid snapshots are ignored with a warning. May be called on any thread. Coordinates are in DIPs; provide both widget and screen positions.
+
+<p>For windowed browsers, this bypasses native OS wheel-event dispatch and translation. It does not deliver events to browser chrome or Views controls, or perform native focus/capture handling. The caller must manage browser focus and any required native input capture. DOM wheel listeners and Chromium's wheel acknowledgment, scrolling and gesture processing still apply. There is currently no ICefInputHandler callback for wheels.
+
+<p>Use this function for wheel/trackpad scrolling. SendGestureEvent submits already recognized gestures and does not replace DOM wheel delivery.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="SetAxViewportCollapse-boolean-"></span><code>procedure <strong>SetAxViewportCollapse</strong>(enabled: boolean);</code></td>
 </tr>
 <tr><td colspan="2">
@@ -9922,7 +10140,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Send a key event to the browser. </p>
+ Send a key event to the browser. DEPRECATED: Use SendKeyboardEvent with CefKeyboardInputEvent instead. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -9932,7 +10150,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Send a mouse click event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. </p>
+ Send a mouse click event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. DEPRECATED: Use SendMouseEvent with CefMouseInputEvent instead. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -9942,7 +10160,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Send a mouse move event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. </p>
+ Send a mouse move event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. DEPRECATED: Use SendMouseEvent with CefMouseInputEvent instead. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -9952,7 +10170,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Send a mouse wheel event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. The |deltaX| and |deltaY| values represent the movement delta in the X and Y directions respectively. In order to scroll inside select popups with window rendering disabled ICefRenderHandler.GetScreenPoint should be implemented properly. </p>
+ Send a mouse wheel event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. The |deltaX| and |deltaY| values represent the movement delta in the X and Y directions respectively. In order to scroll inside select popups with window rendering disabled ICefRenderHandler.GetScreenPoint should be implemented properly. DEPRECATED: Use SendWheelEvent with CefWheelInputEvent instead. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -9962,7 +10180,17 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Send a touch event to the browser for a windowless browser. </p>
+
+
+<p>Send a portable touch event to web content. Supports off-screen and native browser views with Chromium input routing, including out-of-process frames. May be called on any thread. Coordinates are in DIPs relative to the upper-left corner of the browser view.
+
+<p>Send coherent pressed/moved/released or cancelled sequences with a unique ID for each active contact. Delivers raw DOM touch events and lets Chromium recognize gestures. Web-content processing and cef_input_handler_t::OnPreGestureEvent apply to the generated gestures. Invalid event data is ignored with a warning. Invalid contact sequencing is silently ignored.
+
+<p>For windowed browsers, events enter the native browser view's touch- processing path, including gesture recognition and touch acknowledgments. This does not synthesize native OS touch events or require a physical touchscreen or &ndash;touch-events=enabled. The caller must manage browser focus.
+
+<p>To submit an already recognized gesture without raw touch delivery or touch recognition, use SendGestureEvent with CefGestureInputEvent instead.
+
+<p></p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -10154,9 +10382,9 @@ Custom</p>
 <p>
 
 
-<p>Begins a new composition or updates the existing composition. Blink has a special node (a composition node) that allows the input function to change text without affecting other DOM nodes. |text| is the optional text that will be inserted into the composition node. |underlines| is an optional set of ranges that will be underlined in the resulting text.
+<p>Begins a new composition or updates the existing composition. |text| is the optional composition text to insert. |underlines| is an optional set of styles for ranges relative to the beginning of the composition text. |replacement_range| is an optional range of the existing text that will be replaced. |selection_range| must be a valid range, relative to the beginning of the composition text, that will be selected after insertion or replacement. A collapsed range specifies the cursor position. Text offsets and ranges are measured in UTF-16 code units. An NULL |text| cancels the composition, if any, and can delete the current selection.
 
-<p>|replacement_range| is an optional range of the existing text that will be replaced. |selection_range| is an optional range of the resulting text that will be selected after insertion or replacement. The |replacement_range| value is only used on OS X.
+<p>IME functions should be called with an editable element focused. Calls with a non-editable target may dispatch DOM events without changing its text.
 
 <p>This function may be called multiple times as the composition changes. When the client is done making changes the composition should either be canceled or completed. To cancel the composition call ImeCancelComposition. To complete the composition call either ImeCommitText or ImeFinishComposingText. Completion is usually signaled when:
 
@@ -10182,7 +10410,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Completes the existing composition by optionally inserting the specified |text| into the composition node. |replacement_range| is an optional range of the existing text that will be replaced. |relative_cursor_pos| is where the cursor will be positioned relative to the current cursor position. See comments on ImeSetComposition for usage. The |replacement_range| and |relative_cursor_pos| values are only used on OS X. This function is only used when window rendering is disabled. </p>
+ Inserts |text| and completes the existing composition, if any. |replacement_range| is an optional range of the existing text that will be replaced, preserving the current selection. When |replacement_range| is not specified, |relative_cursor_pos| positions the cursor relative to the end of the inserted text. Text offsets and ranges are measured in UTF-16 code units. An NULL |text| can delete the current selection or composition text. To apply the current composition text without replacing it, call ImeFinishComposingText. See comments on ImeSetComposition for usage. This function is only used when window rendering is disabled. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -10192,7 +10420,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Completes the existing composition by applying the current composition node contents. If |keep_selection| is false (0) the current selection, if any, will be discarded. See comments on ImeSetComposition for usage. This function is only used when window rendering is disabled. </p>
+ Completes the existing composition by applying the current composition text. If |keep_selection| is false (0) the cursor moves to the end of the composition text. See comments on ImeSetComposition for usage. This function is only used when window rendering is disabled. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -10202,7 +10430,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Cancels the existing composition and discards the composition node contents without applying them. See comments on ImeSetComposition for usage. This function is only used when window rendering is disabled. </p>
+ Cancels the existing composition and discards the composition text without applying it. See comments on ImeSetComposition for usage. This function is only used when window rendering is disabled. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -11113,7 +11341,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Returns true if the browser's audio is muted. </p>
+ Set whether the browser's audio is muted. This property does not affect the muting of audio output caused by capture via TCefAudioHandler. Calling this function with false (0) will not restore normal audio playback while capture is active. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -12079,7 +12307,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Called before a keyboard event is sent to the renderer. |event| contains information about the keyboard event. |os_event| is the operating system event message, if any. Return true (1) if the event was handled or false (0) otherwise. If the event will be handled in on_key_event() as a keyboard shortcut set |is_keyboard_shortcut| to true (1) and return false (0). </p>
+ Called before a keyboard event is sent to the renderer. |event| contains information about the keyboard event. |os_event| is the operating system event message, if any. Return true (1) if the event was handled or false (0) otherwise. If the event will be handled in on_key_event() as a keyboard shortcut set |is_keyboard_shortcut| to true (1) and return false (0). DEPRECATED: Use ICefInputHandler.OnPreKeyboardEvent instead, which provides a platform-independent CefKeyboardInputEvent. </p>
 <p>
 
 
@@ -12095,7 +12323,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Called after the renderer and JavaScript in the page has had a chance to handle the event. |event| contains information about the keyboard event. |os_event| is the operating system event message, if any. Return true (1) if the keyboard event was handled or false (0) otherwise. </p>
+ Called after the renderer and JavaScript in the page has had a chance to handle the event. |event| contains information about the keyboard event. |os_event| is the operating system event message, if any. Return true (1) if the keyboard event was handled or false (0) otherwise. DEPRECATED: Use ICefInputHandler.OnKeyboardEvent instead, which provides a platform- independent CefKeyboardInputEvent. </p>
 <p>
 
 
@@ -13253,7 +13481,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Called when the IME composition range has changed. |selected_range| is the range of characters that have been selected. |character_bounds| is the bounds of each character in view coordinates. </p>
+ Called when the IME composition range has changed. |selected_range| is the range of the composition text in UTF-16 code units. |character_bounds| contains the bounds of each UTF-16 code unit in view coordinates. </p>
 <p>
 
 
@@ -13269,7 +13497,13 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Called when text selection has changed for the specified |browser|. |selected_text| is the currently selected text and |selected_range| is the character range. </p>
+
+
+<p>Called when text selection has changed for the specified |browser|. |selected_text| is the currently selected text and |selected_range| is the range in UTF-16 code units.
+
+<p>|selected_text| is NULL for editable password fields, including fields Chromium identifies as having previously contained password text. Password selection ranges are accurate for ASCII input. Non-ASCII input can produce ranges that differ from DOM selection offsets due to Chromium's password masking.
+
+<p></p>
 <p>
 
 
@@ -13301,7 +13535,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Called when an external drag event enters the browser window. |dragData| contains the drag event data and |mask| represents the type of drag operation. Return false (0) for default drag handling behavior or true (1) to cancel the drag event. </p>
+ Called when a drag event enters the browser's web view. Drag events may originate outside the browser or within the web view itself. |dragData| contains the drag event data and |mask| represents the allowed drag operations. Return false (0) for default drag handling behavior or true (1) to cancel the drag event, including dropping within the web view. Only used with Alloy style. </p>
 <p>
 
 
@@ -13445,7 +13679,7 @@ Custom</p>
 </tr>
 <tr><td colspan="2">
 <p>
- Called on the UI thread to allow configuration of audio stream parameters. Return true (1) to proceed with audio stream capture, or false (0) to cancel it. All members of |params| can optionally be configured here, but they are also pre-filled with some sensible defaults. </p>
+ Called on the UI thread to allow configuration of audio stream parameters. Return true (1) to proceed with audio stream capture and mute the browser's audio output, or false (0) to cancel capture and leave normal audio playback unchanged. All members of |params| can optionally be configured here, but they are also pre-filled with some sensible defaults. </p>
 <p>
 
 
@@ -13960,6 +14194,90 @@ Custom</p>
 <p>This event will be called on the browser process CEF UI thread.
 
 <p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_component_updater_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_component_updater_capi.h (cef_component_update_callback_t))</p>
+</td></tr>
+</table>
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
+<td class="visibility"><span class="badge vis-published">Published</span></td>
+<td class="itemcode"><span id="OnPreKeyboardEvent"></span><code>property <strong>OnPreKeyboardEvent</strong>                     : <a href="uCEFChromiumEvents.html#TOnPreKeyboardEvent">TOnPreKeyboardEvent</a>                   read <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreKeyboardEvent">FOnPreKeyboardEvent</a>                  write <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreKeyboardEvent">FOnPreKeyboardEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Called before keyboard input is offered to the renderer. Return true (1) to consume the event. To structureify it as an application shortcut for OnKeyboardEvent, set |isKeyboardShortcut| to true (1) and return false (0). Otherwise, return false (0) to try ICefKeyboardHandler.OnPreKeyEvent (if provided) before continuing normal processing. |isKeyboardShortcut| is initially false (0).
+
+<p>Returning true (1) for RAWKEYDOWN causes Chromium to suppress subsequent CHAR and KEYUP events until the next keydown. Suppressed events do not reach these callbacks, except that Escape KEYUP is still offered to OnPreKeyboardEvent.
+
+<p></p>
+<p>
+
+
+<p>This event will be called on the browser process CEF UI thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_input_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_input_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_input_handler_capi.h (cef_input_handler_t))</p>
+</td></tr>
+</table>
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
+<td class="visibility"><span class="badge vis-published">Published</span></td>
+<td class="itemcode"><span id="OnKeyboardEvent"></span><code>property <strong>OnKeyboardEvent</strong>                        : <a href="uCEFChromiumEvents.html#TOnKeyboardEvent">TOnKeyboardEvent</a>                      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnKeyboardEvent">FOnKeyboardEvent</a>                     write <a href="uCEFChromiumCore.TChromiumCore.html#FOnKeyboardEvent">FOnKeyboardEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Called for keyboard events left unhandled by the renderer. Return true (1) to consume the event or false (0) to try ICefKeyboardHandler.OnKeyEvent (if provided) before allowing normal platform fallback.
+
+<p>This is not an observer for every submitted event. Renderer-consumed editing commands and events marked internally to skip unhandled processing do not reach this callback. Do not assume a complete down/character/up callback sequence.
+
+<p></p>
+<p>
+
+
+<p>This event will be called on the browser process CEF UI thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_input_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_input_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_input_handler_capi.h (cef_input_handler_t))</p>
+</td></tr>
+</table>
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
+<td class="visibility"><span class="badge vis-published">Published</span></td>
+<td class="itemcode"><span id="OnPreMouseEvent"></span><code>property <strong>OnPreMouseEvent</strong>                        : <a href="uCEFChromiumEvents.html#TOnPreMouseEvent">TOnPreMouseEvent</a>                      read <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreMouseEvent">FOnPreMouseEvent</a>                     write <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreMouseEvent">FOnPreMouseEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Called before a mouse event is offered to the renderer. Return true (1) to consume the event or false (0) to continue normal processing. Wheel events are not delivered here. The snapshot uses the receiving widget's DIPs; it may differ from injected coordinates after frame or popup routing. No native event handle is available. If consuming a down event, also consume its corresponding up event to preserve a coherent event stream. Keep handling simple and defer complex work to avoid re-entrancy.
+
+<p></p>
+<p>
+
+
+<p>This event will be called on the browser process CEF UI thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_input_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_input_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_input_handler_capi.h (cef_input_handler_t))</p>
+</td></tr>
+</table>
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
+<td class="visibility"><span class="badge vis-published">Published</span></td>
+<td class="itemcode"><span id="OnPreGestureEvent"></span><code>property <strong>OnPreGestureEvent</strong>                      : <a href="uCEFChromiumEvents.html#TOnPreGestureEvent">TOnPreGestureEvent</a>                    read <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreGestureEvent">FOnPreGestureEvent</a>                   write <a href="uCEFChromiumCore.TChromiumCore.html#FOnPreGestureEvent">FOnPreGestureEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+
+
+<p>Called before a gesture event is offered to the renderer. Return true (1) to consume the event or false (0) to continue normal processing. This is a handling opportunity, not notification of every submitted gesture. Chromium may filter gestures before this callback. No native event handle is available. Preserve coherent gesture sequences when consuming events and defer complex work to avoid re-entrancy.
+
+<p></p>
+<p>
+
+
+<p>This event will be called on the browser process CEF UI thread.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_input_handler_capi.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_input_handler_capi.h</a>&quot;&gt;CEF source file: /include/capi/cef_input_handler_capi.h (cef_input_handler_t))</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.5.snapshot</a>. </em>

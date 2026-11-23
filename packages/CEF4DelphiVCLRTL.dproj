@@ -335,6 +335,7 @@
         <DCCReference Include="..\source\uCEFComponentUpdater.pas"/>
         <DCCReference Include="..\source\uCEFComponentUpdateCallback.pas"/>
         <DCCReference Include="..\source\uCEFComponent.pas"/>
+        <DCCReference Include="..\source\uCEFInputHandler.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

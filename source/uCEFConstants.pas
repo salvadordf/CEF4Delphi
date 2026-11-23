@@ -2319,11 +2319,16 @@ const
   IDC_VERTICAL_TABS_SEND_FEEDBACK = 34059;
   IDC_TOGGLE_VERTICAL_TABS_EXPAND_ON_HOVER = 34060;
   IDC_TOGGLE_VERTICAL_TABS_COLLAPSE = 34061;
+  IDC_TOGGLE_MULTISELECT = 34064;
+  IDC_OPEN_TAB_STRIP_CONTEXT_MENU = 34065;
+  IDC_REORDER_TAB_STRIP_ITEM_LEFT = 34066;
+  IDC_REORDER_TAB_STRIP_ITEM_RIGHT = 34067;
   IDC_COPY_URL = 34071;
   IDC_OPEN_IN_CHROME = 34072;
   IDC_WEB_APP_SETTINGS = 34073;
   IDC_WEB_APP_MENU_APP_INFO = 34074;
   IDC_WEB_APP_UPGRADE_DIALOG = 34075;
+  IDC_UNINSTALL_WEB_APP = 34076;
   IDC_VISIT_DESKTOP_OF_LRU_USER_2 = 34080;
   IDC_VISIT_DESKTOP_OF_LRU_USER_3 = 34081;
   IDC_VISIT_DESKTOP_OF_LRU_USER_4 = 34082;
@@ -2335,7 +2340,6 @@ const
   IDC_CLOSE_TAB_GROUP = 34104;
   IDC_GROUP_UNGROUPED_TABS = 34105;
   IDC_ADD_NEW_TAB_RECENT_GROUP = 34107;
-  IDC_UNFOCUS_TAB_GROUP = 34108;
   IDC_BOOKMARK_THIS_TAB = 35000;
   IDC_BOOKMARK_ALL_TABS = 35001;
   IDC_VIEW_SOURCE = 35002;
@@ -2430,6 +2434,7 @@ const
   IDC_DEV_TOOLS_INSPECT = 40023;
   IDC_UPGRADE_DIALOG = 40024;
   IDC_SHOW_HISTORY_CLUSTERS_SIDE_PANEL = 40025;
+  IDC_SCHEDULED_RESTART_DIALOG = 40026;
   IDC_PROFILING_ENABLED = 40028;
   IDC_EXTENSION_ERRORS = 40031;
   IDC_SHOW_AVATAR_MENU = 40134;
@@ -2454,7 +2459,7 @@ const
   IDC_EXTENSIONS_SUBMENU_VISIT_CHROME_WEB_STORE = 40269;
   IDC_READING_LIST_MENU_ADD_TAB = 40271;
   IDC_READING_LIST_MENU_SHOW_UI = 40272;
-  IDC_SHOW_READING_MODE_SIDE_PANEL = 40273;
+  IDC_SHOW_READING_MODE = 40273;
   IDC_SHOW_BOOKMARK_SIDE_PANEL = 40274;
   IDC_SHOW_CHROME_LABS = 40276;
   IDC_RECENT_TABS_LOGIN_FOR_DEVICE_TABS = 40277;
@@ -2570,6 +2575,8 @@ const
   IDC_CONTENT_CONTEXT_RELOAD_GLIC = 50232;
   IDC_CONTENT_CONTEXT_ARCHIVE_GLIC = 50233;
   IDC_CONTENT_CONTEXT_GLIC = 50234;
+  IDC_CONTENT_CONTEXT_GLIC_SMART_SUGGESTION = 50235;
+  IDC_CONTENT_CONTEXT_INDIGO = 50240;
   IDC_BOOKMARK_BAR_OPEN_ALL = 51000;
   IDC_BOOKMARK_BAR_OPEN_ALL_NEW_WINDOW = 51001;
   IDC_BOOKMARK_BAR_OPEN_ALL_INCOGNITO = 51002;
@@ -2602,6 +2609,7 @@ const
   IDC_CONTENT_CONTEXT_SHARING_SUBMENU = 51035;
   IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_DEVICE1 = 51040;
   IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_MANAGE_DEVICES = 51045;
+  IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_SIGN_IN = 51046;
   IDC_CONTENT_PASTE_FROM_CLIPBOARD = 51037;
   IDC_STATUS_TRAY_KEEP_CHROME_RUNNING_IN_BACKGROUND = 51100;
   IDC_STATUS_TRAY_KEEP_CHROME_RUNNING_IN_BACKGROUND_SETTING = 51101;
@@ -2657,12 +2665,15 @@ const
   IDC_OMNIBOX_CONTEXT_SET_MODEL_PRO_NO_GEN_UI = 54018;
   IDC_OMNIBOX_CONTEXT_SHARED_TABS_SUBMENU = 54019;
   IDC_OMNIBOX_CONTEXT_SMART_TAB_SHARING = 54020;
+  IDC_OMNIBOX_CONTEXT_SINGLE_TAB = 54023;
   IDC_MANAGE_SKILLS = 54021;
   IDC_BROWSE_SKILLS = 54022;
   IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_TOGGLE = 54030;
   IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_CUSTOMIZE_KEYBOARD_SHORTCUT = 54031;
   IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_SETTINGS = 54032;
   IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_EXIT = 54033;
+  IDC_CONTENT_CONTEXT_ASK_GOOGLE_ABOUT_THIS_PAGE = 54034;
+  IDC_ASK_GOOGLE_ABOUT_THIS_PAGE = 54035;
   IDC_EDIT_MENU = 57343;
   IDC_ZOOM_MENU = 57342;
   IDC_PASSWORDS_AND_AUTOFILL_MENU = 57341;
@@ -2677,7 +2688,9 @@ const
   IDC_SAVED_TAB_GROUPS_MENU = 57332;
   IDC_MORE_TOOLS_MENU = 57331;
   IDC_HELP_MENU = 57330;
-  IDC_SKILLS_MENU = 57310;
+  IDC_SKILLS_AND_EXTENSIONS_MENU = 57310;
+  IDC_CONTEXTUAL_TASKS_MENU = 57308;
+  IDC_OTHER_DEVICE_TABS_MENU = 57307;
   IDC_SPELLCHECK_MENU = 57329;
   IDC_WRITING_DIRECTION_MENU = 57328;
   IDC_VIEW_MENU = 57327;
@@ -2697,6 +2710,8 @@ const
   IDC_CONTENT_CONTEXT_NO_SPELLING_SUGGESTIONS = 57313;
   IDC_RECENT_TABS_NO_DEVICE_TABS = 57312;
   IDC_WRITING_DIRECTION_DEFAULT = 57311;
+  IDC_CONTENT_CONTEXT_CONTEXTUAL_TASKS_SUBMENU = 57309;
+
 
 
 
@@ -3324,137 +3339,285 @@ const
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_NONE                      = 0;
+  CEF_EVENTFLAG_NONE                  = EVENTFLAG_NONE;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_CAPS_LOCK_ON              = 1 shl 0;
+  CEF_EVENTFLAG_CAPS_LOCK_ON          = EVENTFLAG_CAPS_LOCK_ON;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_SHIFT_DOWN                = 1 shl 1;
+  CEF_EVENTFLAG_SHIFT_DOWN            = EVENTFLAG_SHIFT_DOWN;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_CONTROL_DOWN              = 1 shl 2;
+  CEF_EVENTFLAG_CONTROL_DOWN          = EVENTFLAG_CONTROL_DOWN;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_ALT_DOWN                  = 1 shl 3;
+  CEF_EVENTFLAG_ALT_DOWN              = EVENTFLAG_ALT_DOWN;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_LEFT_MOUSE_BUTTON         = 1 shl 4;
+  CEF_EVENTFLAG_LEFT_MOUSE_BUTTON     = EVENTFLAG_LEFT_MOUSE_BUTTON;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_MIDDLE_MOUSE_BUTTON       = 1 shl 5;
+  CEF_EVENTFLAG_MIDDLE_MOUSE_BUTTON   = EVENTFLAG_MIDDLE_MOUSE_BUTTON;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_RIGHT_MOUSE_BUTTON        = 1 shl 6;
+  CEF_EVENTFLAG_RIGHT_MOUSE_BUTTON    = EVENTFLAG_RIGHT_MOUSE_BUTTON;
   /// <summary>
   /// Supported event bit flag. Mac OS-X command key.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_COMMAND_DOWN              = 1 shl 7;
+  CEF_EVENTFLAG_COMMAND_DOWN          = EVENTFLAG_COMMAND_DOWN;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_NUM_LOCK_ON               = 1 shl 8;
+  CEF_EVENTFLAG_NUM_LOCK_ON           = EVENTFLAG_NUM_LOCK_ON;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_IS_KEY_PAD                = 1 shl 9;
+  CEF_EVENTFLAG_IS_KEY_PAD            = EVENTFLAG_IS_KEY_PAD;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_IS_LEFT                   = 1 shl 10;
+  CEF_EVENTFLAG_IS_LEFT               = EVENTFLAG_IS_LEFT;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_IS_RIGHT                  = 1 shl 11;
+  CEF_EVENTFLAG_IS_RIGHT              = EVENTFLAG_IS_RIGHT;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_ALTGR_DOWN                = 1 shl 12;
+  CEF_EVENTFLAG_ALTGR_DOWN            = EVENTFLAG_ALTGR_DOWN;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
   EVENTFLAG_IS_REPEAT                 = 1 shl 13;
+  CEF_EVENTFLAG_IS_REPEAT             = EVENTFLAG_IS_REPEAT;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_PRECISION_SCROLLING_DELTA = 1 shl 14;
+  EVENTFLAG_PRECISION_SCROLLING_DELTA     = 1 shl 14;
+  CEF_EVENTFLAG_PRECISION_SCROLLING_DELTA = EVENTFLAG_PRECISION_SCROLLING_DELTA;
   /// <summary>
   /// Supported event bit flag.
   /// </summary>
   /// <remarks>
   /// <para>TCefEventFlags value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_event_flags_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
   /// </remarks>
-  EVENTFLAG_SCROLL_BY_PAGE            = 1 shl 15;
+  EVENTFLAG_SCROLL_BY_PAGE                = 1 shl 15;
+  CEF_EVENTFLAG_SCROLL_BY_PAGE            = EVENTFLAG_SCROLL_BY_PAGE;
+  /// <summary>
+  /// Supported event bit flag.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefEventFlags value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
+  /// </remarks>
+  CEF_EVENTFLAG_BACK_MOUSE_BUTTON         = 1 shl 16;
+  /// <summary>
+  /// Supported event bit flag.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefEventFlags value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
+  /// </remarks>
+  CEF_EVENTFLAG_FORWARD_MOUSE_BUTTON      = 1 shl 17;
+  /// <summary>
+  /// Supported event bit flag.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefEventFlags value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
+  /// </remarks>
+  CEF_EVENTFLAG_TOUCH_ACCESSIBILITY       = 1 shl 18;
+  /// <summary>
+  /// Supported event bit flag.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefEventFlags value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
+  /// </remarks>
+  CEF_EVENTFLAG_FROM_TOUCH                = 1 shl 19;
+  /// <summary>
+  /// Supported event bit flag.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefEventFlags value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
+  /// </remarks>
+  CEF_EVENTFLAG_RELATIVE_MOTION           = 1 shl 20;
+  /// <summary>
+  /// Supported event bit flag.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefEventFlags value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
+  /// </remarks>
+  CEF_EVENTFLAG_FN_DOWN                   = 1 shl 21;
+  /// <summary>
+  /// Supported event bit flag.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefEventFlags value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
+  /// </remarks>
+  CEF_EVENTFLAG_SYMBOL_DOWN               = 1 shl 22;
+  /// <summary>
+  /// Supported event bit flag.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefEventFlags value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_event_flags_t)</see></para>
+  /// </remarks>
+  CEF_EVENTFLAG_SCROLL_LOCK_ON            = 1 shl 23;
+
+
+  /// <summary>
+  /// Scroll sequence phase.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefWheelEventPhase value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_wheel_event_phase_t)</see></para>
+  /// </remarks>
+  CEF_WHEEL_PHASE_NONE        = 0;
+  /// <summary>
+  /// Scroll sequence phase.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefWheelEventPhase value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_wheel_event_phase_t)</see></para>
+  /// </remarks>
+  CEF_WHEEL_PHASE_BEGAN       = 1 shl 0;
+  /// <summary>
+  /// Scroll sequence phase.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefWheelEventPhase value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_wheel_event_phase_t)</see></para>
+  /// </remarks>
+  CEF_WHEEL_PHASE_STATIONARY  = 1 shl 1;
+  /// <summary>
+  /// Scroll sequence phase.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefWheelEventPhase value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_wheel_event_phase_t)</see></para>
+  /// </remarks>
+  CEF_WHEEL_PHASE_CHANGED     = 1 shl 2;
+  /// <summary>
+  /// Scroll sequence phase.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefWheelEventPhase value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_wheel_event_phase_t)</see></para>
+  /// </remarks>
+  CEF_WHEEL_PHASE_ENDED       = 1 shl 3;
+  /// <summary>
+  /// Scroll sequence phase.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefWheelEventPhase value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_wheel_event_phase_t)</see></para>
+  /// </remarks>
+  CEF_WHEEL_PHASE_CANCELLED   = 1 shl 4;
+  /// <summary>
+  /// Scroll sequence phase.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefWheelEventPhase value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_wheel_event_phase_t)</see></para>
+  /// </remarks>
+  CEF_WHEEL_PHASE_MAY_BEGIN   = 1 shl 5;
+  /// <summary>
+  /// Scroll sequence phase.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefWheelEventPhase value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_wheel_event_phase_t)</see></para>
+  /// </remarks>
+  CEF_WHEEL_PHASE_BLOCKED     = 1 shl 6;
+
 
   /// <summary>
   /// "Verb" of a drag-and-drop operation as negotiated between the source and destination.
@@ -4539,6 +4702,39 @@ const
   /// </remarks>
   LOG_ITEMS_FLAG_TICK_COUNT = 1 shl 4;
 
+
+  /// <summary>
+  /// Use bitwise OR to combine a Unicode scalar with
+  /// CEF_DOM_KEY_UNICODE_FLAG, or a dead-key combining character with
+  /// CEF_DOM_KEY_DEAD_FLAG. Named values come from Chromium's table.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefDomKey value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h">CEF source file: /include/internal/cef_types_keyboard_codes.h (cef_log_items_t)</see></para>
+  /// </remarks>
+  CEF_DOM_KEY_NONE         = 0;
+
+  /// <summary>
+  /// Use bitwise OR to combine a Unicode scalar with
+  /// CEF_DOM_KEY_UNICODE_FLAG, or a dead-key combining character with
+  /// CEF_DOM_KEY_DEAD_FLAG. Named values come from Chromium's table.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefDomKey value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h">CEF source file: /include/internal/cef_types_keyboard_codes.h (cef_log_items_t)</see></para>
+  /// </remarks>
+  CEF_DOM_KEY_UNICODE_FLAG = 1 shl 22;
+
+  /// <summary>
+  /// Use bitwise OR to combine a Unicode scalar with
+  /// CEF_DOM_KEY_UNICODE_FLAG, or a dead-key combining character with
+  /// CEF_DOM_KEY_DEAD_FLAG. Named values come from Chromium's table.
+  /// </summary>
+  /// <remarks>
+  /// <para>TCefDomKey value.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h">CEF source file: /include/internal/cef_types_keyboard_codes.h (cef_log_items_t)</see></para>
+  /// </remarks>
+  CEF_DOM_KEY_DEAD_FLAG    = (1 shl 22) or (1 shl 21);
 
 
   /// <summary>

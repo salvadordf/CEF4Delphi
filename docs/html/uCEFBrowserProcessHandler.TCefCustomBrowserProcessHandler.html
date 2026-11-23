@@ -153,7 +153,13 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserProcessHandler.html#OnScheduleMessagePumpWork-Int64-">ICefBrowserProcessHandler.OnScheduleMessagePumpWork</a>.</p><p>
- Called from any thread when work has been scheduled for the browser process main (UI) thread. This callback is used in combination with TCefSettings.external_message_pump and GlobalCEFApp.DoMessageLoopWork in cases where the CEF message loop must be integrated into an existing application message loop (see additional comments and warnings on GlobalCEFApp.DoMessageLoopWork). This callback should schedule a GlobalCEFApp.DoMessageLoopWork call to happen on the main (UI) thread. |delay_ms| is the requested delay in milliseconds. If |delay_ms| is &lt;= 0 then the call should happen reasonably soon. If |delay_ms| is &gt; 0 then the call should be scheduled to happen after the specified delay and any currently pending scheduled call should be cancelled. </p>
+
+
+<p>Called from any thread when work has been scheduled for the browser process main (UI) thread. This callback is used in combination with TCefSettings.external_message_pump and GlobalCEFApp.DoMessageLoopWork in cases where the CEF message loop must be integrated into an existing application message loop (see additional comments and warnings on GlobalCEFApp.DoMessageLoopWork). This callback should schedule a GlobalCEFApp.DoMessageLoopWork call to happen on the main (UI) thread. |delay_ms| is the requested delay in milliseconds. If |delay_ms| is &lt;= 0 then the call should happen reasonably soon. If |delay_ms| is &gt; 0 then replace any pending scheduled call with a call after the specified delay or after the application's maximum pumping interval, whichever is shorter.
+
+<p>The application must also schedule GlobalCEFApp.DoMessageLoopWork calls when no callback is received. Scheduling callbacks do not provide a complete sequence of requests for processing all CEF work. A maximum pumping interval of approximately 33 milliseconds between calls (30 calls per second) is recommended. Marshal scheduling requests to the main application thread and avoid recursively calling GlobalCEFApp.DoMessageLoopWork; defer additional work until the active call returns.
+
+<p></p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">

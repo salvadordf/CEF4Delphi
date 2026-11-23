@@ -24,7 +24,7 @@ type
     protected
       procedure OnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
       procedure OnAfterUserAction(const textfield: ICefTextfield);
-
+      procedure OnKeyboardEvent(const textfield: ICefTextfield; const event: PCefKeyboardInputEvent; var aResult : boolean);
     public
       /// <summary>
       /// Returns a ICefTextfieldDelegate instance using a PCefTextfieldDelegate data pointer.
@@ -45,13 +45,28 @@ type
       /// <summary>
       /// Called when |textfield| receives a keyboard event. |event| contains
       /// information about the keyboard event. Return true (1) if the keyboard
-      /// event was handled or false (0) otherwise for default handling.
+      /// event was handled or false (0) otherwise for default handling. On macOS,
+      /// native Views text interpretation may deliver KEYEVENT_CHAR instead of a
+      /// printable keydown, followed by KEYEVENT_KEYUP. Do not assume that every
+      /// keyup has a corresponding keydown callback. DEPRECATED: Use
+      /// OnKeyboardEvent with CefKeyboardInputEvent instead.
       /// </summary>
       procedure OnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean); virtual;
       /// <summary>
       /// Called after performing a user action that may change |textfield|.
       /// </summary>
       procedure OnAfterUserAction(const textfield: ICefTextfield); virtual;
+      /// <summary>
+      /// <para>Called when |textfield| receives a keyboard event. |event| contains the
+      /// resolved platform-independent keyboard snapshot. Return true (1) to handle
+      /// the event or false (0) to try OnKeyEvent before default handling.</para>
+      ///
+      /// <para>On macOS, native Views text interpretation may consume a printable keydown
+      /// and deliver CEF_KEY_EVENT_CHAR instead. CEF_KEY_EVENT_KEYUP can still
+      /// follow, so do not assume that every keyup has a corresponding keydown
+      /// callback.</para>
+      /// </summary>
+      procedure OnKeyboardEvent(const textfield: ICefTextfield; const event: PCefKeyboardInputEvent; var aResult : boolean); virtual;
       /// <summary>
       /// Links the methods in the internal CEF record data pointer with the methods in this class.
       /// </summary>
@@ -85,6 +100,7 @@ type
       // ICefTextfieldDelegate
       procedure OnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean); override;
       procedure OnAfterUserAction(const textfield: ICefTextfield); override;
+      procedure OnKeyboardEvent(const textfield: ICefTextfield; const event: PCefKeyboardInputEvent; var aResult : boolean); override;
 
     public
       /// <summary>
@@ -116,6 +132,15 @@ procedure TCefTextfieldDelegateRef.OnAfterUserAction(const textfield: ICefTextfi
 begin
   PCefTextfieldDelegate(FData)^.on_after_user_action(PCefTextfieldDelegate(FData),
                                                      CefGetData(textfield));
+end;
+
+procedure TCefTextfieldDelegateRef.OnKeyboardEvent(const textfield : ICefTextfield;
+                                                   const event     : PCefKeyboardInputEvent;
+                                                   var   aResult   : boolean);
+begin
+  aResult := (PCefTextfieldDelegate(FData)^.on_keyboard_event(PCefTextfieldDelegate(FData),
+                                                              CefGetData(textfield),
+                                                              @event) <> 0);
 end;
 
 class function TCefTextfieldDelegateRef.UnWrap(data: Pointer): ICefTextfieldDelegate;
@@ -183,6 +208,10 @@ begin
   //
 end;
 
+procedure TCefTextfieldDelegateOwn.OnKeyboardEvent(const textfield: ICefTextfield; const event: PCefKeyboardInputEvent; var aResult : boolean);
+begin
+  //
+end;
 
 // **************************************************************
 // ***************** TCustomTextfieldDelegate *******************
@@ -343,6 +372,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomTextfieldDelegate.OnAfterUserAction', e) then raise;
+  end;
+end;
+
+procedure TCustomTextfieldDelegate.OnKeyboardEvent(const textfield: ICefTextfield; const event: PCefKeyboardInputEvent; var aResult : boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefTextfieldDelegateEvents(FEvents).doOnKeyboardEvent(textfield, event, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomTextfieldDelegate.OnKeyboardEvent', e) then raise;
   end;
 end;
 

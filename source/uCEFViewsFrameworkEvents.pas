@@ -34,8 +34,9 @@ type
   TOnThemeChangedEvent      = procedure(const Sender: TObject; const view: ICefView) of object;
 
   // ICefTextfieldDelegate
-  TOnTextfieldKeyEventEvent = procedure(const Sender: TObject; const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean) of object;
+  TOnTextfieldKeyEvent      = procedure(const Sender: TObject; const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean) of object;
   TOnAfterUserActionEvent   = procedure(const Sender: TObject; const textfield: ICefTextfield) of object;
+  TOnTextfieldKeyboardEvent = procedure(const Sender: TObject; const textfield: ICefTextfield; const event: PCefKeyboardInputEvent; var aResult : boolean) of object;
 
   // ICefPanelDelegate
 
@@ -82,6 +83,7 @@ type
   TOnThemeColorsChangedEvent         = procedure(const Sender: TObject; const window_: ICefWindow; chrome_theme: Integer) of object;
   TOnGetWindowRuntimeStyleEvent      = procedure(const Sender: TObject; var aResult : TCefRuntimeStyle) of object;
   TOnGetLinuxWindowPropertiesEvent   = procedure(const Sender: TObject; const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean) of object;
+  TOnKeyboardEvent                   = procedure(const Sender: TObject; const window_: ICefWindow; const event: PCefKeyboardInputEvent; var aResult: boolean) of object;
 
 implementation
 

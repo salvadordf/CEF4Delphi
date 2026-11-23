@@ -29,8 +29,9 @@ type
       FTextfield                  : ICefTextfield;
 
       // ICefTextfieldDelegateEvents
-      FOnTextfieldKeyEvent        : TOnTextfieldKeyEventEvent;
+      FOnTextfieldKeyEvent        : TOnTextfieldKeyEvent;
       FOnAfterUserAction          : TOnAfterUserActionEvent;
+      FOnTextfieldKeyboardEvent   : TOnTextfieldKeyboardEvent;
 
       procedure DestroyView; override;
       procedure Initialize; override;
@@ -56,6 +57,7 @@ type
       // ICefTextfieldDelegateEvents
       procedure doOnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
       procedure doOnAfterUserAction(const textfield: ICefTextfield);
+      procedure doOnKeyboardEvent(const textfield: ICefTextfield; const event: PCefKeyboardInputEvent; var aResult : boolean);
 
       // ICefViewDelegateEvents
       procedure doCreateCustomView; override;
@@ -165,15 +167,30 @@ type
 
     published
       /// <summary>
-      /// Called when |textfield| recieves a keyboard event. |event| contains
+      /// Called when |textfield| receives a keyboard event. |event| contains
       /// information about the keyboard event. Return true (1) if the keyboard
-      /// event was handled or false (0) otherwise for default handling.
+      /// event was handled or false (0) otherwise for default handling. On macOS,
+      /// native Views text interpretation may deliver KEYEVENT_CHAR instead of a
+      /// printable keydown, followed by KEYEVENT_KEYUP. Do not assume that every
+      /// keyup has a corresponding keydown callback. DEPRECATED: Use
+      /// OnKeyboardEvent with CefKeyboardInputEvent instead.
       /// </summary>
-      property  OnTextfieldKeyEvent      : TOnTextfieldKeyEventEvent   read FOnTextfieldKeyEvent   write FOnTextfieldKeyEvent;
+      property  OnTextfieldKeyEvent      : TOnTextfieldKeyEvent        read FOnTextfieldKeyEvent        write FOnTextfieldKeyEvent;
       /// <summary>
       /// Called after performing a user action that may change |textfield|.
       /// </summary>
-      property  OnAfterUserAction        : TOnAfterUserActionEvent     read FOnAfterUserAction     write FOnAfterUserAction;
+      property  OnAfterUserAction        : TOnAfterUserActionEvent     read FOnAfterUserAction          write FOnAfterUserAction;
+      /// <summary>
+      /// <para>Called when |textfield| receives a keyboard event. |event| contains the
+      /// resolved platform-independent keyboard snapshot. Return true (1) to handle
+      /// the event or false (0) to try OnKeyEvent before default handling.</para>
+      ///
+      /// <para>On macOS, native Views text interpretation may consume a printable keydown
+      /// and deliver CEF_KEY_EVENT_CHAR instead. CEF_KEY_EVENT_KEYUP can still
+      /// follow, so do not assume that every keyup has a corresponding keydown
+      /// callback.</para>
+      /// </summary>
+      property  OnTextfieldKeyboardEvent : TOnTextfieldKeyboardEvent   read FOnTextfieldKeyboardEvent   write FOnTextfieldKeyboardEvent;
   end;
 
 {$IFDEF FPC}
@@ -216,9 +233,10 @@ procedure TCEFTextfieldComponent.Initialize;
 begin
   inherited Initialize;
 
-  FTextfield           := nil;
-  FOnTextfieldKeyEvent := nil;
-  FOnAfterUserAction   := nil;
+  FTextfield                 := nil;
+  FOnTextfieldKeyEvent       := nil;
+  FOnAfterUserAction         := nil;
+  FOnTextfieldKeyboardEvent  := nil;
 end;
 
 procedure TCEFTextfieldComponent.DestroyView;
@@ -243,6 +261,14 @@ procedure TCEFTextfieldComponent.doOnAfterUserAction(const textfield: ICefTextfi
 begin
   if assigned(FOnAfterUserAction) then
     FOnAfterUserAction(self, textfield);
+end;
+
+procedure TCEFTextfieldComponent.doOnKeyboardEvent(const textfield : ICefTextfield;
+                                                   const event     : PCefKeyboardInputEvent;
+                                                   var   aResult   : boolean);
+begin
+  if assigned(FOnTextfieldKeyboardEvent) then
+    FOnTextfieldKeyboardEvent(self, textfield, event, aResult);
 end;
 
 procedure TCEFTextfieldComponent.doCreateCustomView;

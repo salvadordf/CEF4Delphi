@@ -23,7 +23,7 @@ body { margin: 0.5em; }
 <code>type TCefAudioHandler = record</code></p>
 <h2 class="description">Description</h2>
 <p>
- Implement this structure to handle audio events.
+ Implement this record to receive captured audio from Alloy style browsers. The browser's audio output is muted during capture. Clients that require audible playback must provide their own playback of the audio data received via OnAudioStreamPacket.
 
 <p>NOTE: This struct is allocated client-side. </p>
 <p>

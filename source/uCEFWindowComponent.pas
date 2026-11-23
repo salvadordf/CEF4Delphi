@@ -53,6 +53,7 @@ type
       FOnThemeColorsChanged         : TOnThemeColorsChangedEvent;
       FOnGetWindowRuntimeStyle      : TOnGetWindowRuntimeStyleEvent;
       FOnGetLinuxWindowProperties   : TOnGetLinuxWindowPropertiesEvent;
+      FOnKeyboardEvent              : TOnKeyboardEvent;
 
       procedure DestroyView; override;
       procedure Initialize; override;
@@ -106,6 +107,7 @@ type
       procedure doOnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
       procedure doOnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
       procedure doOnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
+      procedure doOnKeyboardEvent(const window_: ICefWindow; const event: PCefKeyboardInputEvent; var aResult: boolean);
 
       // ICefViewDelegateEvents
       procedure doCreateCustomView; override;
@@ -480,7 +482,11 @@ type
       /// <summary>
       /// Called after all other controls in the window have had a chance to handle
       /// the event. |event| contains information about the keyboard event. Return
-      /// true (1) if the keyboard event was handled or false (0) otherwise.
+      /// true (1) if the keyboard event was handled or false (0) otherwise. On
+      /// macOS, native Views text interpretation may deliver KEYEVENT_CHAR instead
+      /// of a printable keydown, followed by KEYEVENT_KEYUP. Do not assume that
+      /// every keyup has a corresponding keydown callback. DEPRECATED: Use
+      /// OnKeyboardEvent with CefKeyboardInputEvent instead.
       /// </summary>
       property OnKeyEvent                   : TOnWindowKeyEventEvent             read FOnKeyEvent                   write FOnKeyEvent;
       /// <summary>
@@ -520,6 +526,19 @@ type
       /// managers.
       /// </summary>
       property OnGetLinuxWindowProperties   : TOnGetLinuxWindowPropertiesEvent   read FOnGetLinuxWindowProperties   write FOnGetLinuxWindowProperties;
+      /// <summary>
+      /// <para>Called after all other controls in the window have had a chance to handle
+      /// the event. |event| contains the resolved platform-independent keyboard
+      /// snapshot. Return true (1) to handle the event or false (0) to try
+      /// OnKeyEvent before default handling.</para>
+      ///
+      /// <para>On macOS, native Views text interpretation may consume a printable keydown
+      /// and deliver CEF_KEY_EVENT_CHAR instead. CEF_KEY_EVENT_KEYUP can still
+      /// follow, so do not assume that every keyup has a corresponding keydown
+      /// callback. This applies to input routed through native Views controls;
+      /// BrowserView input follows the browser keyboard event dispatch path.</para>
+      /// </summary>
+      property OnKeyboardEvent              : TOnKeyboardEvent                   read FOnKeyboardEvent              write FOnKeyboardEvent;
   end;
 
 {$IFDEF FPC}
@@ -587,6 +606,7 @@ begin
   FOnThemeColorsChanged         := nil;
   FOnGetWindowRuntimeStyle      := nil;
   FOnGetLinuxWindowProperties   := nil;
+  FOnKeyboardEvent              := nil;
 end;
 
 procedure TCEFWindowComponent.CreateTopLevelWindow;
@@ -787,6 +807,14 @@ begin
 
   if assigned(FOnGetLinuxWindowProperties) then
     FOnGetLinuxWindowProperties(self, window_, properties, aResult);
+end;
+
+procedure TCEFWindowComponent.doOnKeyboardEvent(const window_: ICefWindow; const event: PCefKeyboardInputEvent; var aResult: boolean);
+begin
+  aResult := False;
+
+  if assigned(FOnKeyboardEvent) then
+    FOnKeyboardEvent(self, window_, event, aResult);
 end;
 
 procedure TCEFWindowComponent.Show;

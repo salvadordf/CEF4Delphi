@@ -312,6 +312,7 @@ type
       function  Load_cef_file_util_capi_h : boolean;
       function  Load_cef_i18n_util_capi_h : boolean;
       function  Load_cef_image_capi_h : boolean;
+      function  Load_cef_input_event_utils_capi_h : boolean;
       function  Load_cef_menu_model_capi_h : boolean;
       function  Load_cef_media_router_capi_h : boolean;
       function  Load_cef_origin_whitelist_capi_h : boolean;
@@ -456,7 +457,7 @@ type
       /// </summary>
       function    StartSubProcess : boolean;
       /// <summary>
-      /// Perform a single iteration of CEF message loop processing. This function is
+      /// <para>Perform a single iteration of CEF message loop processing. This function is
       /// provided for cases where the CEF message loop must be integrated into an
       /// existing application message loop. Use of this function is not recommended
       /// for most users; use either the RunMessageLoop function or
@@ -465,10 +466,21 @@ type
       /// usage. It is recommended to enable the TCefSettings.external_message_pump
       /// option when using this function so that
       /// ICefBrowserProcessHandler.OnScheduleMessagePumpWork callbacks can
-      /// facilitate the scheduling process. This function should only be called on
-      /// the main application thread and only if cef_initialize() is called with a
-      /// TCefSettings.multi_threaded_message_loop value of false (0). This function
-      /// will not block.
+      /// facilitate the scheduling process.</para>
+      ///
+      /// <para>This function must be called regularly, including when external_message_pump
+      /// is enabled and no on_schedule_message_pump_work() callback has been
+      /// received. Scheduling callbacks do not provide a complete sequence of
+      /// requests for processing all CEF work. A maximum interval of approximately 33
+      /// milliseconds between calls (30 calls per second) is recommended. Calling too
+      /// infrequently may starve CEF work; calling too frequently may increase CPU
+      /// usage.</para>
+      ///
+      /// <para>This function should only be called on the main application thread and only
+      /// if cef_initialize() is called with a
+      /// TCefSettings.multi_threaded_message_loop value of false (0). Avoid
+      /// recursively calling this function; defer additional work until the active
+      /// call returns. This function will not block.</para>
       /// </summary>
       procedure   DoMessageLoopWork;
       /// <summary>
@@ -648,9 +660,9 @@ type
       property MainBundlePath                    : ustring                                  read FMainBundlePath                    write FMainBundlePath;
       /// <summary>
       /// Set to true (1) to have the browser process message loop run in a separate
-      /// thread. If false (0) then the CefDoMessageLoopWork() function must be
-      /// called from your application message loop. This option is only supported
-      /// on Windows and Linux.
+      /// thread. If false (0) then use CefRunMessageLoop() or call
+      /// CefDoMessageLoopWork() regularly from your application message loop. This
+      /// option is only supported on Windows and Linux.
       /// </summary>
       property MultiThreadedMessageLoop          : boolean                                  read FMultiThreadedMessageLoop          write FMultiThreadedMessageLoop;
       /// <summary>
@@ -659,10 +671,12 @@ type
       /// callback. This option is recommended for use in combination with the
       /// CefDoMessageLoopWork() function in cases where the CEF message loop must
       /// be integrated into an existing application message loop (see additional
-      /// comments and warnings on CefDoMessageLoopWork). Enabling this option is
-      /// not recommended for most users; leave this option disabled and use either
-      /// the CefRunMessageLoop() function or multi_threaded_message_loop if
-      /// possible.
+      /// comments and warnings on CefDoMessageLoopWork). Scheduling callbacks
+      /// supplement regular CefDoMessageLoopWork() calls; the application must
+      /// continue to schedule calls even when no callback is received. Enabling
+      /// this option is not recommended for most users; leave this option disabled
+      /// and use either the CefRunMessageLoop() function or
+      /// multi_threaded_message_loop if possible.
       /// </summary>
       property ExternalMessagePump               : boolean                                  read FExternalMessagePump               write FExternalMessagePump;
       /// <summary>
@@ -1795,7 +1809,7 @@ type
       /// </remarks>
       property OnAlreadyRunningAppRelaunch       : TOnAlreadyRunningAppRelaunchEvent        read FOnAlreadyRunningAppRelaunch       write FOnAlreadyRunningAppRelaunch;
       /// <summary>
-      /// Called from any thread when work has been scheduled for the browser
+      /// <para>Called from any thread when work has been scheduled for the browser
       /// process main (UI) thread. This callback is used in combination with
       /// TCefSettings.external_message_pump and GlobalCEFApp.DoMessageLoopWork in
       /// cases where the CEF message loop must be integrated into an existing
@@ -1803,9 +1817,18 @@ type
       /// GlobalCEFApp.DoMessageLoopWork). This callback should schedule a
       /// GlobalCEFApp.DoMessageLoopWork call to happen on the main (UI) thread.
       /// |delay_ms| is the requested delay in milliseconds. If |delay_ms| is <= 0
-      /// then the call should happen reasonably soon. If |delay_ms| is > 0 then the
-      /// call should be scheduled to happen after the specified delay and any
-      /// currently pending scheduled call should be cancelled.
+      /// then the call should happen reasonably soon. If |delay_ms| is > 0 then
+      /// replace any pending scheduled call with a call after the specified delay
+      /// or after the application's maximum pumping interval, whichever is shorter.</para>
+      ///
+      /// <para>The application must also schedule GlobalCEFApp.DoMessageLoopWork calls when
+      /// no callback is received. Scheduling callbacks do not provide a complete
+      /// sequence of requests for processing all CEF work. A maximum pumping
+      /// interval of approximately 33 milliseconds between calls (30 calls per
+      /// second) is recommended. Marshal scheduling requests to the main
+      /// application thread and avoid recursively calling
+      /// GlobalCEFApp.DoMessageLoopWork; defer additional work until the active call
+      /// returns.</para>
       /// </summary>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_browser_process_handler_capi.h">CEF source file: /include/capi/cef_browser_process_handler_capi.h (cef_browser_process_handler_t)</see></para>
@@ -4494,6 +4517,7 @@ begin
      Load_cef_id_mappers_h and
      Load_cef_i18n_util_capi_h and
      Load_cef_image_capi_h and
+     Load_cef_input_event_utils_capi_h and
      Load_cef_label_button_capi_h and
      Load_cef_logging_internal_h and
      Load_cef_menu_button_capi_h and
@@ -4713,6 +4737,44 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_image_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_image_create');
 
   Result := assigned(cef_image_create);
+end;
+
+function TCefApplicationCore.Load_cef_input_event_utils_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_windows_key_code_from_dom_code_and_key{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_windows_key_code_from_dom_code_and_key');
+
+  {$IFDEF MSWINDOWS}
+  {$IFDEF FPC}Pointer({$ENDIF}cef_keyboard_input_event_from_windows_message{$IFDEF FPC}){$ENDIF}    := GetProcAddress(FLibHandle, 'cef_keyboard_input_event_from_windows_message');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_keyboard_input_event_from_windows_message_ex{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_keyboard_input_event_from_windows_message_ex');
+  {$ENDIF}
+
+  {$IFDEF MACOSX}
+  {$IFDEF FPC}Pointer({$ENDIF}cef_keyboard_input_event_from_mac_event{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_keyboard_input_event_from_mac_event');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_keyboard_input_event_from_mac_event_ex{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_keyboard_input_event_from_mac_event_ex');
+  {$ENDIF}
+
+  {$IFDEF LINUX}
+  {$IFDEF FPC}Pointer({$ENDIF}cef_non_printable_dom_key_from_xkeysym{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_non_printable_dom_key_from_xkeysym');
+  {$ENDIF}
+
+  Result := assigned(cef_windows_key_code_from_dom_code_and_key);
+
+  {$IFDEF MSWINDOWS}
+  Result := Result and
+            assigned(cef_keyboard_input_event_from_windows_message) and
+            assigned(cef_keyboard_input_event_from_windows_message_ex);
+  {$ENDIF}
+
+  {$IFDEF MACOSX}
+  Result := Result and
+            assigned(cef_keyboard_input_event_from_mac_event) and
+            assigned(cef_keyboard_input_event_from_mac_event_ex);
+  {$ENDIF}
+
+  {$IFDEF LINUX}
+  Result := Result and
+            assigned(cef_non_printable_dom_key_from_xkeysym);
+  {$ENDIF}
 end;
 
 function TCefApplicationCore.Load_cef_menu_model_capi_h : boolean;

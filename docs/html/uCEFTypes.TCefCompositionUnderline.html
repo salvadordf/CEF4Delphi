@@ -23,7 +23,7 @@ body { margin: 0.5em; }
 <code>type TCefCompositionUnderline = record</code></p>
 <h2 class="description">Description</h2>
 <p>
- Structure representing IME composition underline information. This is a thin wrapper around Blink's WebCompositionUnderline class and should be kept in sync with that. </p>
+ Structure representing IME composition underline information. </p>
 <p>
 
 
@@ -75,7 +75,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p>
- Underline character range. </p>
+ Range in UTF-16 code units relative to the beginning of the composition text. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -85,7 +85,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p>
- Text color. </p>
+ Underline color. Also used as the text color when composition text coloring is enabled. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">

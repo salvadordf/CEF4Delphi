@@ -310,7 +310,7 @@ begin
 
   if (Key = 0) and (KeyChar <> #0) then
     begin
-      TempKeyEvent.kind                    := KEYEVENT_CHAR;
+      TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
       TempKeyEvent.modifiers               := getModifiers(Shift);
       TempKeyEvent.windows_key_code        := ord(KeyChar);
       TempKeyEvent.native_key_code         := 0;
@@ -842,9 +842,9 @@ end;
 function TFMXExternalPumpBrowserFrm.GetButton(Button: TMouseButton): TCefMouseButtonType;
 begin
   case Button of
-    TMouseButton.mbRight  : Result := MBT_RIGHT;
-    TMouseButton.mbMiddle : Result := MBT_MIDDLE;
-    else                    Result := MBT_LEFT;
+    TMouseButton.mbRight  : Result := CEF_MOUSE_BUTTON_RIGHT;
+    TMouseButton.mbMiddle : Result := CEF_MOUSE_BUTTON_MIDDLE;
+    else                    Result := CEF_MOUSE_BUTTON_LEFT;
   end;
 end;
 
@@ -888,7 +888,7 @@ var
 begin
   if Panel1.IsFocused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
     begin
-      TempKeyEvent.kind                    := KEYEVENT_CHAR;
+      TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
       TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
       TempKeyEvent.native_key_code         := integer(aMessage.lParam);
@@ -907,7 +907,7 @@ var
 begin
   if Panel1.IsFocused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
     begin
-      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+      TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
       TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
       TempKeyEvent.native_key_code         := integer(aMessage.lParam);
@@ -926,7 +926,7 @@ var
 begin
   if Panel1.IsFocused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
     begin
-      TempKeyEvent.kind                    := KEYEVENT_KEYUP;
+      TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
       TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
       TempKeyEvent.native_key_code         := integer(aMessage.lParam);
@@ -945,7 +945,7 @@ var
 begin
   if Panel1.IsFocused then
     begin
-      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+      TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
       TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
       TempKeyEvent.native_key_code         := integer(aMessage.lParam);
@@ -966,7 +966,7 @@ begin
     begin
       if (aMessage.wParam = vkReturn) then
         begin
-          TempKeyEvent.kind                    := KEYEVENT_CHAR;
+          TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
           TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
           TempKeyEvent.native_key_code         := integer(aMessage.lParam);
@@ -978,7 +978,7 @@ begin
           chrmosr.SendKeyEvent(@TempKeyEvent);
         end;
 
-      TempKeyEvent.kind                    := KEYEVENT_KEYUP;
+      TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
       TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
       TempKeyEvent.native_key_code         := integer(aMessage.lParam);

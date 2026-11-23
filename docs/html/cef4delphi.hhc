@@ -1936,6 +1936,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#Load_cef_image_capi_h">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="Load_cef_input_event_utils_capi_h">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#Load_cef_input_event_utils_capi_h">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="Load_cef_menu_model_capi_h">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#Load_cef_menu_model_capi_h">
 </object>
@@ -3830,6 +3834,22 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetRuntimeStyle">
 <param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#GetRuntimeStyle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendKeyboardEvent">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SendKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendMouseEvent">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SendMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendGestureEvent">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SendGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendWheelEvent">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SendWheelEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetAxViewportCollapse">
@@ -6906,6 +6926,22 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnComponentUpdateCompleted">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FOnPreKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FOnKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FOnPreMouseEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnPreMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FOnPreGestureEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOnTextResultAvailable">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnTextResultAvailable">
 </object>
@@ -7994,6 +8030,22 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnComponentUpdateCompleted">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnComponentUpdateCompleted">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreMouseEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnPreMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreGestureEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnPreGestureEvent">
 </object>
 </ul>
 <li><object type="text/sitemap">
@@ -9090,6 +9142,22 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnComponentUpdateCompleted">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doOnPreKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnPreMouseEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnPreMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnPreGestureEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="GetSettings">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#GetSettings">
 </object>
@@ -9312,6 +9380,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="MustCreatePermissionHandler">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#MustCreatePermissionHandler">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="MustCreateInputHandler">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#MustCreateInputHandler">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="Create">
@@ -9728,6 +9800,22 @@
 <li><object type="text/sitemap">
 <param name="Name" value="ExecuteChromeCommand">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#ExecuteChromeCommand">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendMouseEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendGestureEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendWheelEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendWheelEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetAxViewportCollapse">
@@ -10564,6 +10652,22 @@
 <param name="Local" value="uCEFChromiumEvents.html#TOnComponentUpdateCompletedEvent">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="TOnPreKeyboardEvent">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TOnKeyboardEvent">
+<param name="Local" value="uCEFChromiumEvents.html#TOnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TOnPreMouseEvent">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPreMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TOnPreGestureEvent">
+<param name="Local" value="uCEFChromiumEvents.html#TOnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="TOnTextResultAvailableEvent">
 <param name="Local" value="uCEFChromiumEvents.html#TOnTextResultAvailableEvent">
 </object>
@@ -11176,6 +11280,10 @@
 <param name="Local" value="uCEFClient.TCefClientRef.html#OnProcessMessageReceived">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="GetInputHandler">
+<param name="Local" value="uCEFClient.TCefClientRef.html#GetInputHandler">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="RemoveReferences">
 <param name="Local" value="uCEFClient.TCefClientRef.html#RemoveReferences">
 </object>
@@ -11270,6 +11378,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnProcessMessageReceived">
 <param name="Local" value="uCEFClient.TCefClientOwn.html#OnProcessMessageReceived">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetInputHandler">
+<param name="Local" value="uCEFClient.TCefClientOwn.html#GetInputHandler">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="RemoveReferences">
@@ -11367,6 +11479,10 @@
 <param name="Name" value="FPermissionHandler">
 <param name="Local" value="uCEFClient.TCustomClientHandler.html#FPermissionHandler">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="FInputHandler">
+<param name="Local" value="uCEFClient.TCustomClientHandler.html#FInputHandler">
+</object>
 </ul>
 <li><object type="text/sitemap">
 <param name="Name" value="Methods">
@@ -11448,6 +11564,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnProcessMessageReceived">
 <param name="Local" value="uCEFClient.TCustomClientHandler.html#OnProcessMessageReceived">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetInputHandler">
+<param name="Local" value="uCEFClient.TCustomClientHandler.html#GetInputHandler">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="InitializeVars">
@@ -13316,6 +13436,22 @@
 <param name="Local" value="uCEFConstants.html#IDC_TOGGLE_VERTICAL_TABS_COLLAPSE">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_TOGGLE_MULTISELECT">
+<param name="Local" value="uCEFConstants.html#IDC_TOGGLE_MULTISELECT">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_OPEN_TAB_STRIP_CONTEXT_MENU">
+<param name="Local" value="uCEFConstants.html#IDC_OPEN_TAB_STRIP_CONTEXT_MENU">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_REORDER_TAB_STRIP_ITEM_LEFT">
+<param name="Local" value="uCEFConstants.html#IDC_REORDER_TAB_STRIP_ITEM_LEFT">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_REORDER_TAB_STRIP_ITEM_RIGHT">
+<param name="Local" value="uCEFConstants.html#IDC_REORDER_TAB_STRIP_ITEM_RIGHT">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_COPY_URL">
 <param name="Local" value="uCEFConstants.html#IDC_COPY_URL">
 </object>
@@ -13334,6 +13470,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_WEB_APP_UPGRADE_DIALOG">
 <param name="Local" value="uCEFConstants.html#IDC_WEB_APP_UPGRADE_DIALOG">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_UNINSTALL_WEB_APP">
+<param name="Local" value="uCEFConstants.html#IDC_UNINSTALL_WEB_APP">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_VISIT_DESKTOP_OF_LRU_USER_2">
@@ -13378,10 +13518,6 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_ADD_NEW_TAB_RECENT_GROUP">
 <param name="Local" value="uCEFConstants.html#IDC_ADD_NEW_TAB_RECENT_GROUP">
-</object>
-<li><object type="text/sitemap">
-<param name="Name" value="IDC_UNFOCUS_TAB_GROUP">
-<param name="Local" value="uCEFConstants.html#IDC_UNFOCUS_TAB_GROUP">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_BOOKMARK_THIS_TAB">
@@ -13760,6 +13896,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_SHOW_HISTORY_CLUSTERS_SIDE_PANEL">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_SCHEDULED_RESTART_DIALOG">
+<param name="Local" value="uCEFConstants.html#IDC_SCHEDULED_RESTART_DIALOG">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_PROFILING_ENABLED">
 <param name="Local" value="uCEFConstants.html#IDC_PROFILING_ENABLED">
 </object>
@@ -13856,8 +13996,8 @@
 <param name="Local" value="uCEFConstants.html#IDC_READING_LIST_MENU_SHOW_UI">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="IDC_SHOW_READING_MODE_SIDE_PANEL">
-<param name="Local" value="uCEFConstants.html#IDC_SHOW_READING_MODE_SIDE_PANEL">
+<param name="Name" value="IDC_SHOW_READING_MODE">
+<param name="Local" value="uCEFConstants.html#IDC_SHOW_READING_MODE">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SHOW_BOOKMARK_SIDE_PANEL">
@@ -14320,6 +14460,14 @@
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_GLIC">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_GLIC_SMART_SUGGESTION">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_GLIC_SMART_SUGGESTION">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_INDIGO">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_INDIGO">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_BOOKMARK_BAR_OPEN_ALL">
 <param name="Local" value="uCEFConstants.html#IDC_BOOKMARK_BAR_OPEN_ALL">
 </object>
@@ -14446,6 +14594,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_MANAGE_DEVICES">
 <param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_MANAGE_DEVICES">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_SIGN_IN">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_SEND_TAB_TO_SELF_SIGN_IN">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_CONTENT_PASTE_FROM_CLIPBOARD">
@@ -14668,6 +14820,10 @@
 <param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_SMART_TAB_SHARING">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="IDC_OMNIBOX_CONTEXT_SINGLE_TAB">
+<param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_CONTEXT_SINGLE_TAB">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="IDC_MANAGE_SKILLS">
 <param name="Local" value="uCEFConstants.html#IDC_MANAGE_SKILLS">
 </object>
@@ -14690,6 +14846,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_EXIT">
 <param name="Local" value="uCEFConstants.html#IDC_OMNIBOX_EVERYWHERE_STATUS_ICON_MENU_EXIT">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_ASK_GOOGLE_ABOUT_THIS_PAGE">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_ASK_GOOGLE_ABOUT_THIS_PAGE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_ASK_GOOGLE_ABOUT_THIS_PAGE">
+<param name="Local" value="uCEFConstants.html#IDC_ASK_GOOGLE_ABOUT_THIS_PAGE">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_EDIT_MENU">
@@ -14748,8 +14912,16 @@
 <param name="Local" value="uCEFConstants.html#IDC_HELP_MENU">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="IDC_SKILLS_MENU">
-<param name="Local" value="uCEFConstants.html#IDC_SKILLS_MENU">
+<param name="Name" value="IDC_SKILLS_AND_EXTENSIONS_MENU">
+<param name="Local" value="uCEFConstants.html#IDC_SKILLS_AND_EXTENSIONS_MENU">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTEXTUAL_TASKS_MENU">
+<param name="Local" value="uCEFConstants.html#IDC_CONTEXTUAL_TASKS_MENU">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_OTHER_DEVICE_TABS_MENU">
+<param name="Local" value="uCEFConstants.html#IDC_OTHER_DEVICE_TABS_MENU">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_SPELLCHECK_MENU">
@@ -14826,6 +14998,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="IDC_WRITING_DIRECTION_DEFAULT">
 <param name="Local" value="uCEFConstants.html#IDC_WRITING_DIRECTION_DEFAULT">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="IDC_CONTENT_CONTEXT_CONTEXTUAL_TASKS_SUBMENU">
+<param name="Local" value="uCEFConstants.html#IDC_CONTENT_CONTEXT_CONTEXTUAL_TASKS_SUBMENU">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CERT_STATUS_NONE">
@@ -15160,68 +15336,200 @@
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_NONE">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_NONE">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_NONE">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_CAPS_LOCK_ON">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_CAPS_LOCK_ON">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_CAPS_LOCK_ON">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_CAPS_LOCK_ON">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_SHIFT_DOWN">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_SHIFT_DOWN">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_SHIFT_DOWN">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_SHIFT_DOWN">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_CONTROL_DOWN">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_CONTROL_DOWN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_CONTROL_DOWN">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_CONTROL_DOWN">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_ALT_DOWN">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_ALT_DOWN">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_ALT_DOWN">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_ALT_DOWN">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_LEFT_MOUSE_BUTTON">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_LEFT_MOUSE_BUTTON">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_LEFT_MOUSE_BUTTON">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_LEFT_MOUSE_BUTTON">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_MIDDLE_MOUSE_BUTTON">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_MIDDLE_MOUSE_BUTTON">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_MIDDLE_MOUSE_BUTTON">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_MIDDLE_MOUSE_BUTTON">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_RIGHT_MOUSE_BUTTON">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_RIGHT_MOUSE_BUTTON">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_RIGHT_MOUSE_BUTTON">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_RIGHT_MOUSE_BUTTON">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_COMMAND_DOWN">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_COMMAND_DOWN">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_COMMAND_DOWN">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_COMMAND_DOWN">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_NUM_LOCK_ON">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_NUM_LOCK_ON">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_NUM_LOCK_ON">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_NUM_LOCK_ON">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_IS_KEY_PAD">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_IS_KEY_PAD">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_IS_KEY_PAD">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_IS_KEY_PAD">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_IS_LEFT">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_IS_LEFT">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_IS_LEFT">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_IS_LEFT">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_IS_RIGHT">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_IS_RIGHT">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_IS_RIGHT">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_IS_RIGHT">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_ALTGR_DOWN">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_ALTGR_DOWN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_ALTGR_DOWN">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_ALTGR_DOWN">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_IS_REPEAT">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_IS_REPEAT">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_IS_REPEAT">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_IS_REPEAT">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_PRECISION_SCROLLING_DELTA">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_PRECISION_SCROLLING_DELTA">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_PRECISION_SCROLLING_DELTA">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_PRECISION_SCROLLING_DELTA">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="EVENTFLAG_SCROLL_BY_PAGE">
 <param name="Local" value="uCEFConstants.html#EVENTFLAG_SCROLL_BY_PAGE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_SCROLL_BY_PAGE">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_SCROLL_BY_PAGE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_BACK_MOUSE_BUTTON">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_BACK_MOUSE_BUTTON">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_FORWARD_MOUSE_BUTTON">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_FORWARD_MOUSE_BUTTON">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_TOUCH_ACCESSIBILITY">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_TOUCH_ACCESSIBILITY">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_FROM_TOUCH">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_FROM_TOUCH">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_RELATIVE_MOTION">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_RELATIVE_MOTION">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_FN_DOWN">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_FN_DOWN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_SYMBOL_DOWN">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_SYMBOL_DOWN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_EVENTFLAG_SCROLL_LOCK_ON">
+<param name="Local" value="uCEFConstants.html#CEF_EVENTFLAG_SCROLL_LOCK_ON">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_WHEEL_PHASE_NONE">
+<param name="Local" value="uCEFConstants.html#CEF_WHEEL_PHASE_NONE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_WHEEL_PHASE_BEGAN">
+<param name="Local" value="uCEFConstants.html#CEF_WHEEL_PHASE_BEGAN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_WHEEL_PHASE_STATIONARY">
+<param name="Local" value="uCEFConstants.html#CEF_WHEEL_PHASE_STATIONARY">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_WHEEL_PHASE_CHANGED">
+<param name="Local" value="uCEFConstants.html#CEF_WHEEL_PHASE_CHANGED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_WHEEL_PHASE_ENDED">
+<param name="Local" value="uCEFConstants.html#CEF_WHEEL_PHASE_ENDED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_WHEEL_PHASE_CANCELLED">
+<param name="Local" value="uCEFConstants.html#CEF_WHEEL_PHASE_CANCELLED">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_WHEEL_PHASE_MAY_BEGIN">
+<param name="Local" value="uCEFConstants.html#CEF_WHEEL_PHASE_MAY_BEGIN">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_WHEEL_PHASE_BLOCKED">
+<param name="Local" value="uCEFConstants.html#CEF_WHEEL_PHASE_BLOCKED">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="DRAG_OPERATION_NONE">
@@ -16194,6 +16502,18 @@
 <li><object type="text/sitemap">
 <param name="Name" value="LOG_ITEMS_FLAG_TICK_COUNT">
 <param name="Local" value="uCEFConstants.html#LOG_ITEMS_FLAG_TICK_COUNT">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_DOM_KEY_NONE">
+<param name="Local" value="uCEFConstants.html#CEF_DOM_KEY_NONE">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_DOM_KEY_UNICODE_FLAG">
+<param name="Local" value="uCEFConstants.html#CEF_DOM_KEY_UNICODE_FLAG">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CEF_DOM_KEY_DEAD_FLAG">
+<param name="Local" value="uCEFConstants.html#CEF_DOM_KEY_DEAD_FLAG">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="CEF_RESULT_CODE_NORMAL_EXIT">
@@ -20736,6 +21056,104 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="uCEFInputHandler">
+<param name="Local" value="uCEFInputHandler.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Classes">
+<param name="Local" value="uCEFInputHandler.html#@Classes">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefInputHandlerOwn">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreKeyboardEvent">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#OnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreMouseEvent">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#OnPreMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreGestureEvent">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#OnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#RemoveReferences">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#Create">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCustomInputHandler">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FEvents">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#FEvents">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreKeyboardEvent">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#OnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreMouseEvent">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#OnPreMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreGestureEvent">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#OnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#RemoveReferences">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#Destroy">
+</object>
+</ul>
+</ul>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="uCEFInterfaces">
 <param name="Local" value="uCEFInterfaces.html">
 </object>
@@ -21648,6 +22066,22 @@
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnComponentUpdateCompleted">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doOnPreKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnPreMouseEvent">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnPreMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnPreGestureEvent">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="doCookiesDeleted">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doCookiesDeleted">
 </object>
@@ -21860,6 +22294,10 @@
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#MustCreatePermissionHandler">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="MustCreateInputHandler">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#MustCreateInputHandler">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="GetComponentID">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#GetComponentID">
 </object>
@@ -22050,6 +22488,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnAfterUserAction">
 <param name="Local" value="uCEFInterfaces.ICefTextfieldDelegateEvents.html#doOnAfterUserAction">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefTextfieldDelegateEvents.html#doOnKeyboardEvent">
 </object>
 </ul>
 </ul>
@@ -22248,6 +22690,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnGetLinuxWindowProperties">
 <param name="Local" value="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnGetLinuxWindowProperties">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnKeyboardEvent">
 </object>
 </ul>
 </ul>
@@ -22720,6 +23166,22 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetRuntimeStyle">
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#GetRuntimeStyle">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SendKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendMouseEvent">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SendMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendGestureEvent">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SendGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendWheelEvent">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SendWheelEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetAxViewportCollapse">
@@ -27102,6 +27564,38 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="ICefInputHandler">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html#OnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreMouseEvent">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html#OnPreMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreGestureEvent">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html#OnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html#RemoveReferences">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="ICefJsDialogHandler">
 <param name="Local" value="uCEFInterfaces.ICefJsDialogHandler.html">
 </object>
@@ -27462,6 +27956,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnProcessMessageReceived">
 <param name="Local" value="uCEFInterfaces.ICefClient.html#OnProcessMessageReceived">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetInputHandler">
+<param name="Local" value="uCEFInterfaces.ICefClient.html#GetInputHandler">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="RemoveReferences">
@@ -29657,6 +30155,10 @@
 <param name="Name" value="OnAfterUserAction">
 <param name="Local" value="uCEFInterfaces.ICefTextfieldDelegate.html#OnAfterUserAction">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefTextfieldDelegate.html#OnKeyboardEvent">
+</object>
 </ul>
 </ul>
 <li><object type="text/sitemap">
@@ -30380,6 +30882,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnGetLinuxWindowProperties">
 <param name="Local" value="uCEFInterfaces.ICefWindowDelegate.html#OnGetLinuxWindowProperties">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefWindowDelegate.html#OnKeyboardEvent">
 </object>
 </ul>
 </ul>
@@ -33232,6 +33738,10 @@
 <param name="Local" value="uCEFMiscFunctions.html#cef_string_copy">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="CefWindowsKeyCodeFromDomCodeAndKey">
+<param name="Local" value="uCEFMiscFunctions.html#CefWindowsKeyCodeFromDomCodeAndKey">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="WindowInfoAsChild">
 <param name="Local" value="uCEFMiscFunctions.html#WindowInfoAsChild">
 </object>
@@ -33242,6 +33752,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="WindowInfoAsWindowless">
 <param name="Local" value="uCEFMiscFunctions.html#WindowInfoAsWindowless">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CefKeyboardInputEventFromWindowsMessage">
+<param name="Local" value="uCEFMiscFunctions.html#CefKeyboardInputEventFromWindowsMessage">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="CefKeyboardInputEventFromWindowsMessageEx">
+<param name="Local" value="uCEFMiscFunctions.html#CefKeyboardInputEventFromWindowsMessageEx">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ProcessUnderWow64">
@@ -41311,6 +41829,10 @@
 <param name="Name" value="FOnAfterUserAction">
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnAfterUserAction">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="FOnTextfieldKeyboardEvent">
+<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyboardEvent">
+</object>
 </ul>
 <li><object type="text/sitemap">
 <param name="Name" value="Properties">
@@ -41356,6 +41878,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnAfterUserAction">
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#OnAfterUserAction">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnTextfieldKeyboardEvent">
+<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#OnTextfieldKeyboardEvent">
 </object>
 </ul>
 <li><object type="text/sitemap">
@@ -41442,6 +41968,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnAfterUserAction">
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#doOnAfterUserAction">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnKeyboardEvent">
+<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#doOnKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doCreateCustomView">
@@ -41538,6 +42068,10 @@
 <param name="Local" value="uCEFTextfieldDelegate.TCefTextfieldDelegateRef.html#OnAfterUserAction">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFTextfieldDelegate.TCefTextfieldDelegateRef.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="UnWrap">
 <param name="Local" value="uCEFTextfieldDelegate.TCefTextfieldDelegateRef.html#UnWrap">
 </object>
@@ -41560,6 +42094,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnAfterUserAction">
 <param name="Local" value="uCEFTextfieldDelegate.TCefTextfieldDelegateOwn.html#OnAfterUserAction">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFTextfieldDelegate.TCefTextfieldDelegateOwn.html#OnKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="InitializeCEFMethods">
@@ -41642,6 +42180,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnAfterUserAction">
 <param name="Local" value="uCEFTextfieldDelegate.TCustomTextfieldDelegate.html#OnAfterUserAction">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFTextfieldDelegate.TCustomTextfieldDelegate.html#OnKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="Create">
@@ -43190,6 +43732,402 @@
 <li><object type="text/sitemap">
 <param name="Name" value="focus_on_editable_field">
 <param name="Local" value="uCEFTypes.TCefKeyEvent.html#focus_on_editable_field">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefMouseInputEvent">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="size">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="type_">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#type_">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="modifiers">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#modifiers">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="timestamp">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#timestamp">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="x">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="y">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="screen_x">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#screen_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="screen_y">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#screen_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="button">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#button">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="click_count">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#click_count">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="pointer_type">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#pointer_type">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="pointer_id">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#pointer_id">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="pressure">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#pressure">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tilt_x">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#tilt_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tilt_y">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#tilt_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tangential_pressure">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#tangential_pressure">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="twist">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#twist">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="movement_x">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#movement_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="movement_y">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#movement_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="is_raw_movement_event">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#is_raw_movement_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="device_id">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#device_id">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="menu_source_type">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#menu_source_type">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefGestureInputEvent">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="size">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="type_">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#type_">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="modifiers">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#modifiers">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="timestamp">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#timestamp">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="x">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="y">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="screen_x">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#screen_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="screen_y">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#screen_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="source_device">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#source_device">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="primary_pointer_type">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#primary_pointer_type">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="primary_unique_touch_event_id">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#primary_unique_touch_event_id">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="unique_touch_event_id">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#unique_touch_event_id">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="is_source_touch_event_set_blocking">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#is_source_touch_event_set_blocking">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tap_count">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#tap_count">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="width">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#width">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="height">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#height">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_x">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#delta_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_y">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#delta_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_x_unconstrained">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#delta_x_unconstrained">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_y_unconstrained">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#delta_y_unconstrained">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_units">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#delta_units">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="inertial_phase">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#inertial_phase">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="pointer_count">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#pointer_count">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="scale">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#scale">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="velocity_x">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#velocity_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="velocity_y">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#velocity_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="target_viewport">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#target_viewport">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="prevent_boosting">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#prevent_boosting">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="needs_wheel_event">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#needs_wheel_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="zoom_disabled">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#zoom_disabled">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="synthetic">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#synthetic">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="cursor_control">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#cursor_control">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefKeyboardInputEvent">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="size">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="type_">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#type_">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="modifiers">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#modifiers">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="timestamp">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#timestamp">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="dom_code">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#dom_code">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="dom_key">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#dom_key">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="windows_key_code">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#windows_key_code">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="is_system_key">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#is_system_key">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="text">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#text">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="unmodified_text">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#unmodified_text">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefInputEventContext">
+<param name="Local" value="uCEFTypes.TCefInputEventContext.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefInputEventContext.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="size">
+<param name="Local" value="uCEFTypes.TCefInputEventContext.html#size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="focus_on_editable_field">
+<param name="Local" value="uCEFTypes.TCefInputEventContext.html#focus_on_editable_field">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="os_event">
+<param name="Local" value="uCEFTypes.TCefInputEventContext.html#os_event">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefWheelInputEvent">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="size">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="modifiers">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#modifiers">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="timestamp">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#timestamp">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="x">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="y">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="screen_x">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#screen_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="screen_y">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#screen_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_x">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#delta_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_y">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#delta_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="wheel_ticks_x">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#wheel_ticks_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="wheel_ticks_y">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#wheel_ticks_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_units">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#delta_units">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="phase">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#phase">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="momentum_phase">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#momentum_phase">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="rails_mode">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#rails_mode">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="acceleration_ratio_x">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#acceleration_ratio_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="acceleration_ratio_y">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#acceleration_ratio_y">
 </object>
 </ul>
 </ul>
@@ -45802,6 +46740,38 @@
 <li><object type="text/sitemap">
 <param name="Name" value="on_document_available_in_main_frame">
 <param name="Local" value="uCEFTypes.TCefRequestHandler.html#on_document_available_in_main_frame">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefInputHandler">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="base">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html#base">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="on_pre_keyboard_event">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html#on_pre_keyboard_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="on_keyboard_event">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html#on_keyboard_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="on_pre_mouse_event">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html#on_pre_mouse_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="on_pre_gesture_event">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html#on_pre_gesture_event">
 </object>
 </ul>
 </ul>
@@ -49475,6 +50445,10 @@
 <param name="Name" value="on_process_message_received">
 <param name="Local" value="uCEFTypes.TCefClient.html#on_process_message_received">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="get_input_handler">
+<param name="Local" value="uCEFTypes.TCefClient.html#get_input_handler">
+</object>
 </ul>
 </ul>
 <li><object type="text/sitemap">
@@ -49762,6 +50736,22 @@
 <li><object type="text/sitemap">
 <param name="Name" value="get_runtime_style">
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#get_runtime_style">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="send_keyboard_event">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#send_keyboard_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="send_mouse_event">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#send_mouse_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="send_gesture_event">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#send_gesture_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="send_wheel_event">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#send_wheel_event">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="set_ax_viewport_collapse">
@@ -50743,6 +51733,10 @@
 <param name="Name" value="on_after_user_action">
 <param name="Local" value="uCEFTypes.TCefTextfieldDelegate.html#on_after_user_action">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="on_keyboard_event">
+<param name="Local" value="uCEFTypes.TCefTextfieldDelegate.html#on_keyboard_event">
+</object>
 </ul>
 </ul>
 <li><object type="text/sitemap">
@@ -51430,6 +52424,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="get_linux_window_properties">
 <param name="Local" value="uCEFTypes.TCefWindowDelegate.html#get_linux_window_properties">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="on_keyboard_event">
+<param name="Local" value="uCEFTypes.TCefWindowDelegate.html#on_keyboard_event">
 </object>
 </ul>
 </ul>
@@ -52248,6 +53246,30 @@
 <param name="Local" value="uCEFTypes.html#PCefVersionInfoEx">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="PCefKeyboardInputEvent">
+<param name="Local" value="uCEFTypes.html#PCefKeyboardInputEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PCefMouseInputEvent">
+<param name="Local" value="uCEFTypes.html#PCefMouseInputEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PCefGestureInputEvent">
+<param name="Local" value="uCEFTypes.html#PCefGestureInputEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PCefInputEventContext">
+<param name="Local" value="uCEFTypes.html#PCefInputEventContext">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PCefWheelInputEvent">
+<param name="Local" value="uCEFTypes.html#PCefWheelInputEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="PCefInputHandler">
+<param name="Local" value="uCEFTypes.html#PCefInputHandler">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="NativeInt">
 <param name="Local" value="uCEFTypes.html#NativeInt">
 </object>
@@ -52472,12 +53494,36 @@
 <param name="Local" value="uCEFTypes.html#TCefResultCode">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="TCefDomKey">
+<param name="Local" value="uCEFTypes.html#TCefDomKey">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefWheelEventPhase">
+<param name="Local" value="uCEFTypes.html#TCefWheelEventPhase">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="TCefCustomByteArray">
 <param name="Local" value="uCEFTypes.html#TCefCustomByteArray">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefCustomInt64Array">
 <param name="Local" value="uCEFTypes.html#TCefCustomInt64Array">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefDomCode">
+<param name="Local" value="uCEFTypes.html#TCefDomCode">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefGestureInputEventType">
+<param name="Local" value="uCEFTypes.html#TCefGestureInputEventType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefGestureDevice">
+<param name="Local" value="uCEFTypes.html#TCefGestureDevice">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefGestureScrollUnits">
+<param name="Local" value="uCEFTypes.html#TCefGestureScrollUnits">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="LPMEMORYSTATUSEX">
@@ -52738,6 +53784,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="TCefMouseButtonType">
 <param name="Local" value="uCEFTypes.html#TCefMouseButtonType">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefMouseInputEventType">
+<param name="Local" value="uCEFTypes.html#TCefMouseInputEventType">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TCefReturnValue">
@@ -55450,12 +56500,16 @@
 <param name="Local" value="uCEFViewsFrameworkEvents.html#TOnThemeChangedEvent">
 </object>
 <li><object type="text/sitemap">
-<param name="Name" value="TOnTextfieldKeyEventEvent">
-<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEventEvent">
+<param name="Name" value="TOnTextfieldKeyEvent">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnAfterUserActionEvent">
 <param name="Local" value="uCEFViewsFrameworkEvents.html#TOnAfterUserActionEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TOnTextfieldKeyboardEvent">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnTextfieldKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="TOnBrowserCreatedEvent">
@@ -55600,6 +56654,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="TOnGetLinuxWindowPropertiesEvent">
 <param name="Local" value="uCEFViewsFrameworkEvents.html#TOnGetLinuxWindowPropertiesEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="TOnKeyboardEvent">
+<param name="Local" value="uCEFViewsFrameworkEvents.html#TOnKeyboardEvent">
 </object>
 </ul>
 </ul>
@@ -56121,6 +57179,10 @@
 <param name="Name" value="FOnGetLinuxWindowProperties">
 <param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#FOnGetLinuxWindowProperties">
 </object>
+<li><object type="text/sitemap">
+<param name="Name" value="FOnKeyboardEvent">
+<param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#FOnKeyboardEvent">
+</object>
 </ul>
 <li><object type="text/sitemap">
 <param name="Name" value="Properties">
@@ -56274,6 +57336,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnGetLinuxWindowProperties">
 <param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#OnGetLinuxWindowProperties">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#OnKeyboardEvent">
 </object>
 </ul>
 <li><object type="text/sitemap">
@@ -56472,6 +57538,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnGetLinuxWindowProperties">
 <param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#doOnGetLinuxWindowProperties">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnKeyboardEvent">
+<param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#doOnKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doCreateCustomView">
@@ -56700,6 +57770,10 @@
 <param name="Local" value="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnGetLinuxWindowProperties">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="UnWrap">
 <param name="Local" value="uCEFWindowDelegate.TCefWindowDelegateRef.html#UnWrap">
 </object>
@@ -56806,6 +57880,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnGetLinuxWindowProperties">
 <param name="Local" value="uCEFWindowDelegate.TCefWindowDelegateOwn.html#OnGetLinuxWindowProperties">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFWindowDelegate.TCefWindowDelegateOwn.html#OnKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="InitializeCEFMethods">
@@ -56972,6 +58050,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnGetLinuxWindowProperties">
 <param name="Local" value="uCEFWindowDelegate.TCustomWindowDelegate.html#OnGetLinuxWindowProperties">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFWindowDelegate.TCustomWindowDelegate.html#OnKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="Create">
@@ -58912,12 +59994,24 @@
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SendExternalBeginFrame">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SendGestureEvent">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SendGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SendKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="SendKeyEvent">
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SendKeyEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SendMouseClickEvent">
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SendMouseClickEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendMouseEvent">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SendMouseEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SendMouseMoveEvent">
@@ -58930,6 +60024,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SendTouchEvent">
 <param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SendTouchEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendWheelEvent">
+<param name="Local" value="uCEFInterfaces.ICefBrowserHost.html#SendWheelEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetAccessibilityState">
@@ -59330,6 +60428,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetFrameHandler">
 <param name="Local" value="uCEFInterfaces.ICefClient.html#GetFrameHandler">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetInputHandler">
+<param name="Local" value="uCEFInterfaces.ICefClient.html#GetInputHandler">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetJsdialogHandler">
@@ -61322,6 +62424,38 @@
 <li><object type="text/sitemap">
 <param name="Name" value="RemoveRepresentation">
 <param name="Local" value="uCEFInterfaces.ICefImage.html#RemoveRepresentation">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="ICefInputHandler">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreGestureEvent">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html#OnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html#OnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreMouseEvent">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html#OnPreMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFInterfaces.ICefInputHandler.html#RemoveReferences">
 </object>
 </ul>
 </ul>
@@ -64820,6 +65954,10 @@
 <param name="Local" value="uCEFInterfaces.ICefTextfieldDelegate.html#OnAfterUserAction">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefTextfieldDelegate.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnKeyEvent">
 <param name="Local" value="uCEFInterfaces.ICefTextfieldDelegate.html#OnKeyEvent">
 </object>
@@ -64838,6 +65976,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnAfterUserAction">
 <param name="Local" value="uCEFInterfaces.ICefTextfieldDelegateEvents.html#doOnAfterUserAction">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefTextfieldDelegateEvents.html#doOnKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnKeyEvent">
@@ -66490,6 +67632,10 @@
 <param name="Local" value="uCEFInterfaces.ICefWindowDelegate.html#OnIsWindowModalDialog">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefWindowDelegate.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnKeyEvent">
 <param name="Local" value="uCEFInterfaces.ICefWindowDelegate.html#OnKeyEvent">
 </object>
@@ -66592,6 +67738,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="doOnIsWindowModalDialog">
 <param name="Local" value="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnIsWindowModalDialog">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.ICefWindowDelegateEvents.html#doOnKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnKeyEvent">
@@ -67084,6 +68234,10 @@
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnJsdialog">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doOnKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="doOnKeyEvent">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnKeyEvent">
 </object>
@@ -67092,8 +68246,20 @@
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnOpenUrlFromTab">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doOnPreGestureEvent">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnPreKeyboardEvent">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="doOnPreKeyEvent">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnPreKeyEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnPreMouseEvent">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#doOnPreMouseEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnProcessMessageReceived">
@@ -67198,6 +68364,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="MustCreateFrameHandler">
 <param name="Local" value="uCEFInterfaces.IChromiumEvents.html#MustCreateFrameHandler">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="MustCreateInputHandler">
+<param name="Local" value="uCEFInterfaces.IChromiumEvents.html#MustCreateInputHandler">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="MustCreateJsDialogHandler">
@@ -70510,6 +71680,10 @@
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#Load_cef_image_capi_h">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="Load_cef_input_event_utils_capi_h">
+<param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#Load_cef_input_event_utils_capi_h">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="Load_cef_label_button_capi_h">
 <param name="Local" value="uCEFApplicationCore.TCefApplicationCore.html#Load_cef_label_button_capi_h">
 </object>
@@ -72160,12 +73334,24 @@
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#send_external_begin_frame">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="send_gesture_event">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#send_gesture_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="send_keyboard_event">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#send_keyboard_event">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="send_key_event">
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#send_key_event">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="send_mouse_click_event">
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#send_mouse_click_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="send_mouse_event">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#send_mouse_event">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="send_mouse_move_event">
@@ -72178,6 +73364,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="send_touch_event">
 <param name="Local" value="uCEFTypes.TCefBrowserHost.html#send_touch_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="send_wheel_event">
+<param name="Local" value="uCEFTypes.TCefBrowserHost.html#send_wheel_event">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="set_accessibility_state">
@@ -72472,12 +73662,24 @@
 <param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SendExternalBeginFrame">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SendGestureEvent">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SendGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendKeyboardEvent">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SendKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="SendKeyEvent">
 <param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SendKeyEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SendMouseClickEvent">
 <param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SendMouseClickEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendMouseEvent">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SendMouseEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SendMouseMoveEvent">
@@ -72490,6 +73692,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SendTouchEvent">
 <param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SendTouchEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendWheelEvent">
+<param name="Local" value="uCEFBrowser.TCefBrowserHostRef.html#SendWheelEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetAccessibilityState">
@@ -73856,6 +75062,10 @@
 <param name="Local" value="uCEFTypes.TCefClient.html#get_frame_handler">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="get_input_handler">
+<param name="Local" value="uCEFTypes.TCefClient.html#get_input_handler">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="get_jsdialog_handler">
 <param name="Local" value="uCEFTypes.TCefClient.html#get_jsdialog_handler">
 </object>
@@ -73952,6 +75162,10 @@
 <param name="Local" value="uCEFClient.TCefClientOwn.html#GetFrameHandler">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="GetInputHandler">
+<param name="Local" value="uCEFClient.TCefClientOwn.html#GetInputHandler">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="GetJsdialogHandler">
 <param name="Local" value="uCEFClient.TCefClientOwn.html#GetJsdialogHandler">
 </object>
@@ -74046,6 +75260,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetFrameHandler">
 <param name="Local" value="uCEFClient.TCefClientRef.html#GetFrameHandler">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetInputHandler">
+<param name="Local" value="uCEFClient.TCefClientRef.html#GetInputHandler">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetJsdialogHandler">
@@ -79622,6 +80840,146 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="TCefGestureInputEvent">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="cursor_control">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#cursor_control">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_units">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#delta_units">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_x">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#delta_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_x_unconstrained">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#delta_x_unconstrained">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_y">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#delta_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_y_unconstrained">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#delta_y_unconstrained">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="height">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#height">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="inertial_phase">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#inertial_phase">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="is_source_touch_event_set_blocking">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#is_source_touch_event_set_blocking">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="modifiers">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#modifiers">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="needs_wheel_event">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#needs_wheel_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="pointer_count">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#pointer_count">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="prevent_boosting">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#prevent_boosting">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="primary_pointer_type">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#primary_pointer_type">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="primary_unique_touch_event_id">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#primary_unique_touch_event_id">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="scale">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#scale">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="screen_x">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#screen_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="screen_y">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#screen_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="size">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="source_device">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#source_device">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="synthetic">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#synthetic">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tap_count">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#tap_count">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="target_viewport">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#target_viewport">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="timestamp">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#timestamp">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="type_">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#type_">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="unique_touch_event_id">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#unique_touch_event_id">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="velocity_x">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#velocity_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="velocity_y">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#velocity_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="width">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#width">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="x">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="y">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="zoom_disabled">
+<param name="Local" value="uCEFTypes.TCefGestureInputEvent.html#zoom_disabled">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="TCefImage">
 <param name="Local" value="uCEFTypes.TCefImage.html">
 </object>
@@ -79758,6 +81116,98 @@
 <li><object type="text/sitemap">
 <param name="Name" value="RemoveRepresentation">
 <param name="Local" value="uCEFImage.TCefImageRef.html#RemoveRepresentation">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefInputEventContext">
+<param name="Local" value="uCEFTypes.TCefInputEventContext.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefInputEventContext.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="focus_on_editable_field">
+<param name="Local" value="uCEFTypes.TCefInputEventContext.html#focus_on_editable_field">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="os_event">
+<param name="Local" value="uCEFTypes.TCefInputEventContext.html#os_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="size">
+<param name="Local" value="uCEFTypes.TCefInputEventContext.html#size">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefInputHandler">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="base">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html#base">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="on_keyboard_event">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html#on_keyboard_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="on_pre_gesture_event">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html#on_pre_gesture_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="on_pre_keyboard_event">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html#on_pre_keyboard_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="on_pre_mouse_event">
+<param name="Local" value="uCEFTypes.TCefInputHandler.html#on_pre_mouse_event">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefInputHandlerOwn">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreGestureEvent">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#OnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreKeyboardEvent">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#OnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreMouseEvent">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#OnPreMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFInputHandler.TCefInputHandlerOwn.html#RemoveReferences">
 </object>
 </ul>
 </ul>
@@ -80030,6 +81480,58 @@
 <li><object type="text/sitemap">
 <param name="Name" value="RemoveReferences">
 <param name="Local" value="uCEFKeyboardHandler.TCefKeyboardHandlerOwn.html#RemoveReferences">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefKeyboardInputEvent">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="dom_code">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#dom_code">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="dom_key">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#dom_key">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="is_system_key">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#is_system_key">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="modifiers">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#modifiers">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="size">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="text">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#text">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="timestamp">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#timestamp">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="type_">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#type_">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="unmodified_text">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#unmodified_text">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="windows_key_code">
+<param name="Local" value="uCEFTypes.TCefKeyboardInputEvent.html#windows_key_code">
 </object>
 </ul>
 </ul>
@@ -82520,6 +84022,106 @@
 <li><object type="text/sitemap">
 <param name="Name" value="y">
 <param name="Local" value="uCEFTypes.TCefMouseEvent.html#y">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCefMouseInputEvent">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="button">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#button">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="click_count">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#click_count">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="device_id">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#device_id">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="is_raw_movement_event">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#is_raw_movement_event">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="menu_source_type">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#menu_source_type">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="modifiers">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#modifiers">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="movement_x">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#movement_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="movement_y">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#movement_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="pointer_id">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#pointer_id">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="pointer_type">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#pointer_type">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="pressure">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#pressure">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="screen_x">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#screen_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="screen_y">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#screen_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="size">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tangential_pressure">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#tangential_pressure">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tilt_x">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#tilt_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="tilt_y">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#tilt_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="timestamp">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#timestamp">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="twist">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#twist">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="type_">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#type_">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="x">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="y">
+<param name="Local" value="uCEFTypes.TCefMouseInputEvent.html#y">
 </object>
 </ul>
 </ul>
@@ -89342,6 +90944,10 @@
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnAfterUserAction">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FOnTextfieldKeyboardEvent">
+<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOnTextfieldKeyEvent">
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#FOnTextfieldKeyEvent">
 </object>
@@ -89366,6 +90972,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnAfterUserAction">
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#OnAfterUserAction">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnTextfieldKeyboardEvent">
+<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#OnTextfieldKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnTextfieldKeyEvent">
@@ -89506,6 +91116,10 @@
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#doOnAfterUserAction">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doOnKeyboardEvent">
+<param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#doOnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="doOnKeyEvent">
 <param name="Local" value="uCEFTextfieldComponent.TCEFTextfieldComponent.html#doOnKeyEvent">
 </object>
@@ -89554,6 +91168,10 @@
 <param name="Local" value="uCEFTypes.TCefTextfieldDelegate.html#on_after_user_action">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="on_keyboard_event">
+<param name="Local" value="uCEFTypes.TCefTextfieldDelegate.html#on_keyboard_event">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="on_key_event">
 <param name="Local" value="uCEFTypes.TCefTextfieldDelegate.html#on_key_event">
 </object>
@@ -89582,6 +91200,10 @@
 <param name="Local" value="uCEFTextfieldDelegate.TCefTextfieldDelegateOwn.html#OnAfterUserAction">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFTextfieldDelegate.TCefTextfieldDelegateOwn.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnKeyEvent">
 <param name="Local" value="uCEFTextfieldDelegate.TCefTextfieldDelegateOwn.html#OnKeyEvent">
 </object>
@@ -89604,6 +91226,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnAfterUserAction">
 <param name="Local" value="uCEFTextfieldDelegate.TCefTextfieldDelegateRef.html#OnAfterUserAction">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFTextfieldDelegate.TCefTextfieldDelegateRef.html#OnKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnKeyEvent">
@@ -93420,6 +95046,86 @@
 </ul>
 </ul>
 <li><object type="text/sitemap">
+<param name="Name" value="TCefWheelInputEvent">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="acceleration_ratio_x">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#acceleration_ratio_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="acceleration_ratio_y">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#acceleration_ratio_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_units">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#delta_units">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_x">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#delta_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="delta_y">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#delta_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="modifiers">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#modifiers">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="momentum_phase">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#momentum_phase">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="phase">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#phase">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="rails_mode">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#rails_mode">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="screen_x">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#screen_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="screen_y">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#screen_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="size">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#size">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="timestamp">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#timestamp">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="wheel_ticks_x">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#wheel_ticks_x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="wheel_ticks_y">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#wheel_ticks_y">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="x">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#x">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="y">
+<param name="Local" value="uCEFTypes.TCefWheelInputEvent.html#y">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
 <param name="Name" value="TCEFWinControl">
 <param name="Local" value="uCEFWinControl.TCEFWinControl.html">
 </object>
@@ -93804,6 +95510,10 @@
 <param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#FOnIsWindowModalDialog">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FOnKeyboardEvent">
+<param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#FOnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOnKeyEvent">
 <param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#FOnKeyEvent">
 </object>
@@ -93944,6 +95654,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnIsWindowModalDialog">
 <param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#OnIsWindowModalDialog">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#OnKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnKeyEvent">
@@ -94240,6 +95954,10 @@
 <param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#doOnIsWindowModalDialog">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doOnKeyboardEvent">
+<param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#doOnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="doOnKeyEvent">
 <param name="Local" value="uCEFWindowComponent.TCEFWindowComponent.html#doOnKeyEvent">
 </object>
@@ -94372,6 +96090,10 @@
 <param name="Local" value="uCEFTypes.TCefWindowDelegate.html#on_accelerator">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="on_keyboard_event">
+<param name="Local" value="uCEFTypes.TCefWindowDelegate.html#on_keyboard_event">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="on_key_event">
 <param name="Local" value="uCEFTypes.TCefWindowDelegate.html#on_key_event">
 </object>
@@ -94484,6 +96206,10 @@
 <param name="Local" value="uCEFWindowDelegate.TCefWindowDelegateOwn.html#OnIsWindowModalDialog">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFWindowDelegate.TCefWindowDelegateOwn.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnKeyEvent">
 <param name="Local" value="uCEFWindowDelegate.TCefWindowDelegateOwn.html#OnKeyEvent">
 </object>
@@ -94590,6 +96316,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnIsWindowModalDialog">
 <param name="Local" value="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnIsWindowModalDialog">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFWindowDelegate.TCefWindowDelegateRef.html#OnKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnKeyEvent">
@@ -96784,6 +98514,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnJsdialog">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FOnKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOnKeyEvent">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnKeyEvent">
 </object>
@@ -96860,8 +98594,20 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnPrefsUpdated">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FOnPreGestureEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FOnPreKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FOnPreKeyEvent">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnPreKeyEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="FOnPreMouseEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#FOnPreMouseEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="FOnPrintDialog">
@@ -97794,6 +99540,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnJsdialog">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnKeyEvent">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnKeyEvent">
 </object>
@@ -97870,8 +99620,20 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnPrefsUpdated">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnPreGestureEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnPreKeyEvent">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnPreKeyEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreMouseEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#OnPreMouseEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnProcessMessageReceived">
@@ -98472,6 +100234,10 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnJsdialog">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doOnKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="doOnKeyEvent">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnKeyEvent">
 </object>
@@ -98480,8 +100246,20 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnOpenUrlFromTab">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="doOnPreGestureEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnPreKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="doOnPreKeyEvent">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnPreKeyEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="doOnPreMouseEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#doOnPreMouseEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="doOnProcessMessageReceived">
@@ -98806,6 +100584,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="MustCreateFrameHandler">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#MustCreateFrameHandler">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="MustCreateInputHandler">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#MustCreateInputHandler">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="MustCreateJsDialogHandler">
@@ -99196,12 +100978,24 @@
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendExternalBeginFrame">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="SendGestureEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendKeyboardEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="SendKeyEvent">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendKeyEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SendMouseClickEvent">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendMouseClickEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendMouseEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendMouseEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SendMouseMoveEvent">
@@ -99222,6 +101016,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="SendTouchEvent">
 <param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendTouchEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SendWheelEvent">
+<param name="Local" value="uCEFChromiumCore.TChromiumCore.html#SendWheelEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetAccessibilityState">
@@ -101220,6 +103018,10 @@
 <param name="Local" value="uCEFClient.TCustomClientHandler.html#FFrameHandler">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="FInputHandler">
+<param name="Local" value="uCEFClient.TCustomClientHandler.html#FInputHandler">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="FJsDialogHandler">
 <param name="Local" value="uCEFClient.TCustomClientHandler.html#FJsDialogHandler">
 </object>
@@ -101312,6 +103114,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetFrameHandler">
 <param name="Local" value="uCEFClient.TCustomClientHandler.html#GetFrameHandler">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetInputHandler">
+<param name="Local" value="uCEFClient.TCustomClientHandler.html#GetInputHandler">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GetJsdialogHandler">
@@ -101906,6 +103712,56 @@
 <li><object type="text/sitemap">
 <param name="Name" value="RemoveReferences">
 <param name="Local" value="uCEFFrameHandler.TCustomFrameHandler.html#RemoveReferences">
+</object>
+</ul>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="TCustomInputHandler">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Fields">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#@Fields">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="FEvents">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#FEvents">
+</object>
+</ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Methods">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#@Methods">
+</object>
+<ul>
+<li><object type="text/sitemap">
+<param name="Name" value="Create">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#Create">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="Destroy">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#Destroy">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreGestureEvent">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#OnPreGestureEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreKeyboardEvent">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#OnPreKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnPreMouseEvent">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#OnPreMouseEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="RemoveReferences">
+<param name="Local" value="uCEFInputHandler.TCustomInputHandler.html#RemoveReferences">
 </object>
 </ul>
 </ul>
@@ -103052,6 +104908,10 @@
 <param name="Local" value="uCEFTextfieldDelegate.TCustomTextfieldDelegate.html#OnGetPreferredSize">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFTextfieldDelegate.TCustomTextfieldDelegate.html#OnKeyboardEvent">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="OnKeyEvent">
 <param name="Local" value="uCEFTextfieldDelegate.TCustomTextfieldDelegate.html#OnKeyEvent">
 </object>
@@ -103254,6 +105114,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="OnIsWindowModalDialog">
 <param name="Local" value="uCEFWindowDelegate.TCustomWindowDelegate.html#OnIsWindowModalDialog">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OnKeyboardEvent">
+<param name="Local" value="uCEFWindowDelegate.TCustomWindowDelegate.html#OnKeyboardEvent">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OnKeyEvent">

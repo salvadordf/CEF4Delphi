@@ -98,8 +98,8 @@ uses
 procedure CreateGlobalCEFApp;
 begin
   GlobalCEFApp                  := TCefApplication.Create;
-  //GlobalCEFApp.cache            := 'cache';
-  //GlobalCEFApp.LogFile          := 'cef.log';
+  GlobalCEFApp.rootcache        := 'cache';
+  //GlobalCEFApp.LogFile          := 'debug.log';
   //GlobalCEFApp.LogSeverity      := LOGSEVERITY_VERBOSE;
 end;
 

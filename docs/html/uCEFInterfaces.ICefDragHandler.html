@@ -58,7 +58,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p>
- Called when an external drag event enters the browser window. |dragData| contains the drag event data and |mask| represents the type of drag operation. Return false (0) for default drag handling behavior or true (1) to cancel the drag event. </p>
+ Called when a drag event enters the browser's web view. Drag events may originate outside the browser or within the web view itself. |dragData| contains the drag event data and |mask| represents the allowed drag operations. Return false (0) for default drag handling behavior or true (1) to cancel the drag event, including dropping within the web view. Only used with Alloy style. </p>
 <h6 class="description_section">Attributes</h6>
 <dl class="attributes">
   <dt>GUID['{59A89579-5B18-489F-A25C-5CC25FF831FC}']</dt>

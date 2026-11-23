@@ -220,6 +220,9 @@ uCEFFrameHandler.TCefFrameHandlerOwn.html
 uCEFFrameHandler.TCustomFrameHandler.html
 uCEFImage.html
 uCEFImage.TCefImageRef.html
+uCEFInputHandler.html
+uCEFInputHandler.TCefInputHandlerOwn.html
+uCEFInputHandler.TCustomInputHandler.html
 uCEFInterfaces.html
 uCEFInterfaces.TCefMediaSinkInfo.html
 uCEFInterfaces.TCefMediaRouteInfo.html
@@ -328,6 +331,7 @@ uCEFInterfaces.ICefCookieAccessFilter.html
 uCEFInterfaces.ICefDisplayHandler.html
 uCEFInterfaces.ICefFocusHandler.html
 uCEFInterfaces.ICefKeyboardHandler.html
+uCEFInterfaces.ICefInputHandler.html
 uCEFInterfaces.ICefJsDialogHandler.html
 uCEFInterfaces.ICefAudioHandler.html
 uCEFInterfaces.ICefRunContextMenuCallback.html
@@ -719,6 +723,11 @@ uCEFTypes.TCefSettings.html
 uCEFTypes.TCefWindowInfo.html
 uCEFTypes.TCefDraggableRegion.html
 uCEFTypes.TCefKeyEvent.html
+uCEFTypes.TCefMouseInputEvent.html
+uCEFTypes.TCefGestureInputEvent.html
+uCEFTypes.TCefKeyboardInputEvent.html
+uCEFTypes.TCefInputEventContext.html
+uCEFTypes.TCefWheelInputEvent.html
 uCEFTypes.TCefPopupFeatures.html
 uCEFTypes.TCefBrowserSettings.html
 uCEFTypes.TCefScreenInfo.html
@@ -785,6 +794,7 @@ uCEFTypes.TCefMenuModelDelegate.html
 uCEFTypes.TCefProcessMessage.html
 uCEFTypes.TCefRenderProcessHandler.html
 uCEFTypes.TCefRequestHandler.html
+uCEFTypes.TCefInputHandler.html
 uCEFTypes.TCefMediaAccessCallback.html
 uCEFTypes.TCefPermissionPromptCallback.html
 uCEFTypes.TCefPermissionHandler.html

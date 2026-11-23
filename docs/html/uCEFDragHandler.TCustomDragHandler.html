@@ -75,7 +75,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefDragHandler.html#OnDragEnter-ICefBrowser-ICefDragData-TCefDragOperations-">ICefDragHandler.OnDragEnter</a>.</p><p>
- Called when an external drag event enters the browser window. |dragData| contains the drag event data and |mask| represents the type of drag operation. Return false (0) for default drag handling behavior or true (1) to cancel the drag event. </p>
+ Called when a drag event enters the browser's web view. Drag events may originate outside the browser or within the web view itself. |dragData| contains the drag event data and |mask| represents the allowed drag operations. Return false (0) for default drag handling behavior or true (1) to cancel the drag event, including dropping within the web view. Only used with Alloy style. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">

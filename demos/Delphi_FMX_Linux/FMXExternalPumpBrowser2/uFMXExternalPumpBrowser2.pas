@@ -142,14 +142,14 @@ begin
 
       if (Event^._type = GDK_KEY_PRESS) then
         begin
-          TempCefEvent.kind := KEYEVENT_RAWKEYDOWN;
+          TempCefEvent.kind := CEF_KEYEVENT_RAWKEYDOWN;
           FMXExternalPumpBrowserFrm.SendCEFKeyEvent(TempCefEvent);
-          TempCefEvent.kind := KEYEVENT_CHAR;
+          TempCefEvent.kind := CEF_KEYEVENT_CHAR;
           FMXExternalPumpBrowserFrm.SendCEFKeyEvent(TempCefEvent);
         end
        else
         begin
-          TempCefEvent.kind := KEYEVENT_KEYUP;
+          TempCefEvent.kind := CEF_KEYEVENT_KEYUP;
           FMXExternalPumpBrowserFrm.SendCEFKeyEvent(TempCefEvent);
         end;
 
@@ -924,9 +924,9 @@ end;
 function TFMXExternalPumpBrowserFrm.GetButton(Button: TMouseButton): TCefMouseButtonType;
 begin
   case Button of
-    TMouseButton.mbRight  : Result := MBT_RIGHT;
-    TMouseButton.mbMiddle : Result := MBT_MIDDLE;
-    else                    Result := MBT_LEFT;
+    TMouseButton.mbRight  : Result := CEF_MOUSE_BUTTON_RIGHT;
+    TMouseButton.mbMiddle : Result := CEF_MOUSE_BUTTON_MIDDLE;
+    else                    Result := CEF_MOUSE_BUTTON_LEFT;
   end;
 end;
 

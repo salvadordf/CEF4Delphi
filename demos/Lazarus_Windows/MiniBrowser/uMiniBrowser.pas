@@ -310,7 +310,7 @@ begin
   for i := 1 to length(SIMULATED_KEY_PRESSES) do
     begin
       // WM_KEYDOWN
-      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+      TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
       TempKeyEvent.modifiers               := 0;
       TempKeyEvent.windows_key_code        := ord(SIMULATED_KEY_PRESSES[i]);
       TempKeyEvent.native_key_code         := 0;
@@ -321,11 +321,11 @@ begin
       Chromium1.SendKeyEvent(@TempKeyEvent);
 
       // WM_CHAR
-      TempKeyEvent.kind := KEYEVENT_CHAR;
+      TempKeyEvent.kind := CEF_KEYEVENT_CHAR;
       Chromium1.SendKeyEvent(@TempKeyEvent);
 
       // WM_KEYUP
-      TempKeyEvent.kind := KEYEVENT_KEYUP;
+      TempKeyEvent.kind := CEF_KEYEVENT_KEYUP;
       Chromium1.SendKeyEvent(@TempKeyEvent);
     end;
 end;
@@ -932,7 +932,7 @@ begin
   Result := False;
 
   if (event <> nil) and
-     (event.kind in [KEYEVENT_KEYDOWN, KEYEVENT_KEYUP]) and
+     (event.kind in [CEF_KEYEVENT_KEYDOWN, CEF_KEYEVENT_KEYUP]) and
      (event.windows_key_code = VK_F12) then
     isKeyboardShortcut := True;
 end;

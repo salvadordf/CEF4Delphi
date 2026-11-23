@@ -73,7 +73,7 @@ uses
   uCEFWorkSchedulerThread, uCEFWriteHandler, uCEFX509Certificate, 
   uCEFX509CertPrincipal, uCEFXmlReader, uCEFZipReader, uCEFComponentUpdater, 
   uCEFComponentUpdateCallback, uCEFComponent, uCEFv8BackingStore, 
-  LazarusPackageIntf;
+  uCEFInputHandler, LazarusPackageIntf;
 
 implementation
 

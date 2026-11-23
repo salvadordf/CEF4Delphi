@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefGestureInputEvent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 1.0.5.snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+<style type="text/css">
+body { margin: 0.5em; }
+.badge { padding: 0.1em 0.5em; color: white; }
+</style></head>
+<body>
+<span id="TCefGestureInputEvent"></span><h1 class="cio">Record TCefGestureInputEvent</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefGestureInputEvent = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Portable gesture snapshot. Only the fields documented for |type| apply; initialize other subtype fields to zero. Positions are widget/screen DIPs. Exposed values retain their Blink representation and semantics. Event names in member descriptions refer to CEF_GESTURE_EVENT_* values. All floating-point members must be finite. Boolean members accept 0 or 1. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h</a>&quot;&gt;CEF source file: /include/internal/cef_types_input.h (cef_gesture_input_event_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#size">size</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#type_">type_</a></strong>: <a href="uCEFTypes.html#TCefGestureInputEventType">TCefGestureInputEventType</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#modifiers">modifiers</a></strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#timestamp">timestamp</a></strong>: int64;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#x">x</a></strong>: single;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#y">y</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#screen_x">screen_x</a></strong>: single;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#screen_y">screen_y</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#source_device">source_device</a></strong>: <a href="uCEFTypes.html#TCefGestureDevice">TCefGestureDevice</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#primary_pointer_type">primary_pointer_type</a></strong>: <a href="uCEFTypes.html#TCefPointerType">TCefPointerType</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#primary_unique_touch_event_id">primary_unique_touch_event_id</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#unique_touch_event_id">unique_touch_event_id</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#is_source_touch_event_set_blocking">is_source_touch_event_set_blocking</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#tap_count">tap_count</a></strong>: integer;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#width">width</a></strong>: single;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#height">height</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#delta_x">delta_x</a></strong>: single;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#delta_y">delta_y</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#delta_x_unconstrained">delta_x_unconstrained</a></strong>: single;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#delta_y_unconstrained">delta_y_unconstrained</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#delta_units">delta_units</a></strong>: <a href="uCEFTypes.html#TCefGestureScrollUnits">TCefGestureScrollUnits</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#inertial_phase">inertial_phase</a></strong>: integer;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#pointer_count">pointer_count</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#scale">scale</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#velocity_x">velocity_x</a></strong>: single;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#velocity_y">velocity_y</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#target_viewport">target_viewport</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#prevent_boosting">prevent_boosting</a></strong>: integer;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#needs_wheel_event">needs_wheel_event</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#zoom_disabled">zoom_disabled</a></strong>: integer;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#synthetic">synthetic</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefGestureInputEvent.html#cursor_control">cursor_control</a></strong>: integer;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="size"></span><code><strong>size</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Size of this structure. Initialize to sizeof(TCefGestureInputEvent). </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="type_"></span><code><strong>type_</strong>: <a href="uCEFTypes.html#TCefGestureInputEventType">TCefGestureInputEventType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Gesture event type. See the CEF_GESTURE_EVENT_* constants. Determines which subtype-specific members apply. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="modifiers"></span><code><strong>modifiers</strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Combination of TCefEventFlags CEF_EVENTFLAG_* values for keyboard modifiers, lock state, held mouse buttons, and event-source attributes. Precision-scrolling and scroll-by-page flags are not valid for gesture input; specify scrolling units with |delta_units|. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="timestamp"></span><code><strong>timestamp</strong>: int64;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Monotonic microseconds in this process. Zero means use the send time. Negative values are invalid. This is a process-local monotonic timestamp, not a wall-clock time. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="x"></span><code><strong>x</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Horizontal position in DIPs. When sending, relative to the left edge of the browser view; in callbacks, relative to the receiving widget after input routing. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="y"></span><code><strong>y</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Vertical position in DIPs. When sending, relative to the top edge of the browser view; in callbacks, relative to the receiving widget after input routing. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="screen_x"></span><code><strong>screen_x</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Horizontal screen position in DIPs, relative to the desktop origin. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="screen_y"></span><code><strong>screen_y</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Vertical screen position in DIPs, relative to the desktop origin. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="source_device"></span><code><strong>source_device</strong>: <a href="uCEFTypes.html#TCefGestureDevice">TCefGestureDevice</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Device or scrolling source that generated the gesture. Sending requires an initialized source, such as CEF_GESTURE_DEVICE_TOUCHPAD or CEF_GESTURE_DEVICE_TOUCHSCREEN. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="primary_pointer_type"></span><code><strong>primary_pointer_type</strong>: <a href="uCEFTypes.html#TCefPointerType">TCefPointerType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Device classification of the first touch point in the gesture sequence. Use CEF_POINTER_TYPE_UNKNOWN when the initiating pointer type is unavailable. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="primary_unique_touch_event_id"></span><code><strong>primary_unique_touch_event_id</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Correlation ID of the first touch event in the gesture sequence. Identifies the initiating touch event independently of |unique_touch_event_id|. Use zero when there is no associated touch event. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="unique_touch_event_id"></span><code><strong>unique_touch_event_id</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ For touchscreen gestures, correlation ID of the touch event that released this gesture from Chromium's touch-disposition filter. Zero is used when the gesture was not released through a touch event, including synthesized gestures, pinches, and gestures from other source devices. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="is_source_touch_event_set_blocking"></span><code><strong>is_source_touch_event_set_blocking</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to 1 if the source touch event was marked to block subsequent input, or 0 otherwise. Describes source touch dispatch policy independently of whether the gesture is consumed. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="tap_count"></span><code><strong>tap_count</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Tap count for TAP, TAP_UNCONFIRMED, and DOUBLE_TAP, or tap-down count for TAP_DOWN. Must be nonnegative. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="width"></span><code><strong>width</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Nonnegative horizontal extent of the contact area in DIPs. Applies to TAP, TAP_UNCONFIRMED, DOUBLE_TAP, TAP_DOWN, SHOW_PRESS, SHORT_PRESS, LONG_PRESS, and LONG_TAP. For TWO_FINGER_TAP, describes the first finger's contact area. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="height"></span><code><strong>height</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Nonnegative vertical extent of the contact area in DIPs. The event types and contact selection are the same as for |width|. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="delta_x"></span><code><strong>delta_x</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Horizontal scroll amount in |delta_units|. For SCROLL_BEGIN, the initial movement hint; for SCROLL_UPDATE, the scroll delta; for SCROLL_END, the latency-compensated delta not already sent as updates. Positive values scroll left. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="delta_y"></span><code><strong>delta_y</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Vertical scroll amount in |delta_units|, with the same subtype meanings as |delta_x|. Positive values scroll up. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="delta_x_unconstrained"></span><code><strong>delta_x_unconstrained</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Horizontal SCROLL_UPDATE delta before axis locking or snapping, in |delta_units| and with the same sign convention as |delta_x|. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="delta_y_unconstrained"></span><code><strong>delta_y_unconstrained</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Vertical SCROLL_UPDATE delta before axis locking or snapping, in |delta_units| and with the same sign convention as |delta_y|. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="delta_units"></span><code><strong>delta_units</strong>: <a href="uCEFTypes.html#TCefGestureScrollUnits">TCefGestureScrollUnits</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Granularity of scroll hints or deltas for SCROLL_BEGIN, SCROLL_UPDATE, and SCROLL_END, including unconstrained update deltas. Zero selects CEF_GESTURE_SCROLL_PRECISE_PIXEL. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="inertial_phase"></span><code><strong>inertial_phase</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Momentum phase for SCROLL_BEGIN, SCROLL_UPDATE, and SCROLL_END: 0 unknown, 1 non-momentum, 2 momentum. Touchscreen scrolling uses zero and represents flinging with FLING_START. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="pointer_count"></span><code><strong>pointer_count</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Number of pointers down at SCROLL_BEGIN. Must be nonnegative. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="scale"></span><code><strong>scale</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Relative scale factor for PINCH_UPDATE. Must be positive: 1 leaves the scale unchanged, values greater than 1 zoom in, and values less than 1 zoom out. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="velocity_x"></span><code><strong>velocity_x</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Initial horizontal fling velocity in pixels per second for FLING_START. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="velocity_y"></span><code><strong>velocity_y</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Initial vertical fling velocity in pixels per second for FLING_START. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="target_viewport"></span><code><strong>target_viewport</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to 1 to target the viewport, or 0 to use normal gesture targeting. Applies to SCROLL_BEGIN, FLING_START, and FLING_CANCEL. Scroll-begin and fling-start viewport targeting skip the normal hit test. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="prevent_boosting"></span><code><strong>prevent_boosting</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ For FLING_CANCEL, set to 1 to exclude this cancellation from fling boosting, or 0 for normal processing. Fling boosting combines successive flings into a continuation. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="needs_wheel_event"></span><code><strong>needs_wheel_event</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ For touchpad PINCH_BEGIN, PINCH_UPDATE, PINCH_END, and DOUBLE_TAP, set to 1 to offer the gesture as a wheel event first, or 0 to dispatch the gesture directly. Chromium may clear this flag and resubmit the gesture after the wheel acknowledgment. Set to zero for other devices and event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="zoom_disabled"></span><code><strong>zoom_disabled</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ For touchpad PINCH_UPDATE, set to 1 to prevent page-scale changes while preserving wheel handling requested by |needs_wheel_event|, or 0 for normal zooming. Set to zero for other devices and event types. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="synthetic"></span><code><strong>synthetic</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ For SCROLL_BEGIN, set to 1 when generated from a mouse wheel or scrollbar. For SCROLL_END, set to 1 when generated from a wheel event with a synthetic phase. Use zero otherwise. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="cursor_control"></span><code><strong>cursor_control</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ For SCROLL_BEGIN, set to 1 to use the entire scroll sequence for cursor control instead of scrolling, or 0 for normal scrolling. Set to zero for other event types. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.5.snapshot</a>. </em>
+</span>
+</body></html>

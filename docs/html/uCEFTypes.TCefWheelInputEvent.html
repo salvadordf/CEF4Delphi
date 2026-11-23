@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefWheelInputEvent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 1.0.5.snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+<style type="text/css">
+body { margin: 0.5em; }
+.badge { padding: 0.1em 0.5em; color: white; }
+</style></head>
+<body>
+<span id="TCefWheelInputEvent"></span><h1 class="cio">Record TCefWheelInputEvent</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefWheelInputEvent = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Portable wheel snapshot for mouse wheels and trackpad scrolling. Positions are in DIPs. Deltas and ticks are positive for scrolling up or left, opposite to DOM WheelEvent deltas. Initialize unused fields to zero. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h</a>&quot;&gt;CEF source file: /include/internal/cef_types_input.h (cef_wheel_input_event_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#size">size</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#modifiers">modifiers</a></strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#timestamp">timestamp</a></strong>: int64;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#x">x</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#y">y</a></strong>: single;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#screen_x">screen_x</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#screen_y">screen_y</a></strong>: single;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#delta_x">delta_x</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#delta_y">delta_y</a></strong>: single;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#wheel_ticks_x">wheel_ticks_x</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#wheel_ticks_y">wheel_ticks_y</a></strong>: single;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#delta_units">delta_units</a></strong>: <a href="uCEFTypes.html#TCefGestureScrollUnits">TCefGestureScrollUnits</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#phase">phase</a></strong>: <a href="uCEFTypes.html#TCefWheelEventPhase">TCefWheelEventPhase</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#momentum_phase">momentum_phase</a></strong>: <a href="uCEFTypes.html#TCefWheelEventPhase">TCefWheelEventPhase</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#rails_mode">rails_mode</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#acceleration_ratio_x">acceleration_ratio_x</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefWheelInputEvent.html#acceleration_ratio_y">acceleration_ratio_y</a></strong>: single;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="size"></span><code><strong>size</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Size of this structure. Initialize to sizeof(TCefWheelInputEvent). </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="modifiers"></span><code><strong>modifiers</strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Combination of TCefEventFlags CEF_EVENTFLAG_* keyboard modifiers, lock state, held mouse buttons and event-source attributes. Specify precision and page scrolling with |delta_units|, not modifier flags. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="timestamp"></span><code><strong>timestamp</strong>: int64;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Monotonic microseconds in this process. Zero uses the dispatch time. Negative values are invalid. This is not a wall-clock timestamp. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="x"></span><code><strong>x</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Horizontal position in DIPs relative to the left edge of the browser view. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="y"></span><code><strong>y</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Vertical position in DIPs relative to the top edge of the browser view. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="screen_x"></span><code><strong>screen_x</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Horizontal screen position in DIPs relative to the desktop origin. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="screen_y"></span><code><strong>screen_y</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Vertical screen position in DIPs relative to the desktop origin. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="delta_x"></span><code><strong>delta_x</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Horizontal scroll amount in |delta_units|. Preserve fractional values for high-resolution wheels and trackpads. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="delta_y"></span><code><strong>delta_y</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Vertical scroll amount in |delta_units|. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="wheel_ticks_x"></span><code><strong>wheel_ticks_x</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Horizontal wheel rotation in ticks, independent of |delta_x|. A typical wheel detent is one tick. Trackpads may report fractional ticks. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="wheel_ticks_y"></span><code><strong>wheel_ticks_y</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Vertical wheel rotation in ticks, independent of |delta_y|. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="delta_units"></span><code><strong>delta_units</strong>: <a href="uCEFTypes.html#TCefGestureScrollUnits">TCefGestureScrollUnits</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Scroll units, sharing the gesture granularity constants. Only CEF_GESTURE_SCROLL_PRECISE_PIXEL, CEF_GESTURE_SCROLL_PIXEL and CEF_GESTURE_SCROLL_PAGE are supported. Zero selects precise pixels. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="phase"></span><code><strong>phase</strong>: <a href="uCEFTypes.html#TCefWheelEventPhase">TCefWheelEventPhase</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Phase of direct scrolling. Use CEF_WHEEL_PHASE_NONE for a discrete mouse wheel or when phase information is unavailable. BLOCKED is not valid. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="momentum_phase"></span><code><strong>momentum_phase</strong>: <a href="uCEFTypes.html#TCefWheelEventPhase">TCefWheelEventPhase</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Phase of inertial scrolling after contact ends. BLOCKED indicates that momentum will not follow. Use NONE when unavailable. Send coherent begin/update/end transitions when providing phase information. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="rails_mode"></span><code><strong>rails_mode</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Axis constraint: 0 for free scrolling, 1 for horizontal, 2 for vertical. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="acceleration_ratio_x"></span><code><strong>acceleration_ratio_x</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Horizontal acceleration ratio applied by the input source. Positive values are preserved; zero means unspecified and uses a ratio of one. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="acceleration_ratio_y"></span><code><strong>acceleration_ratio_y</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Vertical acceleration ratio. Same semantics as |acceleration_ratio_x|. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.5.snapshot</a>. </em>
+</span>
+</body></html>

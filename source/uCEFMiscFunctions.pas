@@ -233,22 +233,88 @@ function cef_string_utf8_copy(const src: PAnsiChar; src_len: NativeUInt; output:
 function cef_string_utf16_copy(const src: PChar16; src_len: NativeUInt; output: PCefStringUtf16): Integer;
 function cef_string_copy(const src: PCefChar; src_len: NativeUInt; output: PCefString): Integer;
 
+/// <summary>
+/// Returns a Windows-equivalent key code from CEF DOM code/key values, or zero
+/// for invalid or unmappable input. Named keys preserve their logical meaning,
+/// including remapped modifiers. Printable US characters use their logical key
+/// identity; other characters and dead keys fall back to physical position.
+/// Printable keypad keys retain their keypad key codes. Shift, Control and Alt
+/// use non-located codes; their side remains represented by |dom_code|. This
+/// stateless helper neither detects a layout nor generates insertion text.
+/// </summary>
+function CefWindowsKeyCodeFromDomCodeAndKey(dom_code, dom_key: cardinal): integer;
+
 {$IFDEF MSWINDOWS}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
+/// <summary>
+/// Synchronously converts a Windows keyboard message on its receiving thread.
+/// |wparam| and |lparam| contain the SDK WPARAM/LPARAM values. Returns false
+/// (0) for unsupported messages or invalid input, leaving |event| unchanged. On
+/// success fills one event. Detects state, layout and timestamp on this thread;
+/// does not synthesize CHAR messages.
+/// </summary>
+function CefKeyboardInputEventFromWindowsMessage(message_: cardinal; wparam: uint64; lparam: int64; var event: TCefKeyboardInputEvent): boolean;
+/// <summary>
+/// Explicit-state variant for deterministic tests and replay. |keyboard_state|
+/// contains 256 Windows GetKeyboardState byte values (each integer is 0..255).
+/// |keyboard_layout| contains the SDK HKL handle value in this process; zero
+/// detects the receiving thread's layout. |timestamp| is monotonic microseconds
+/// in this process; zero detects time. The provided state is authoritative and
+/// does not change the application's key/lock state or active layout. Building
+/// a layout cache uses Chromium's native translation behavior and may consume
+/// pending dead-key state. An array of 256 zeros supplies no held keys or
+/// active locks; the array must have exactly 256 entries. Returns false (0) on
+/// failure, leaving |event| unchanged.
+/// </summary>
+function CefKeyboardInputEventFromWindowsMessageEx(message_: cardinal; wparam: uint64; lparam: int64; keyboard_stateCount: NativeUInt; keyboard_state: PInteger; keyboard_layout: uint64; timestamp: int64; var event: TCefKeyboardInputEvent): boolean;
 {$ENDIF}
 
 {$IFDEF MACOSX}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aHidden : boolean = False); deprecated;
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False); deprecated;
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False); deprecated;
+/// </summary>
+/// <para>Synchronously converts the borrowed NSEvent represented by |native_event| on
+/// the AppKit main thread. Supports keydown, keyup, and flags-changed events.
+/// For keydown/up, characters and charactersIgnoringModifiers must each contain
+/// at most three UTF-16 units, leaving room for termination in the four-unit
+/// buffers. Returns false (0) for unsupported input or calls from another
+/// thread, leaving |event| unchanged.</para>
+///
+/// <para>Conversion produces key events, not CHAR insertion events. Existing
+/// NSTextInputContext/IME handling still determines insertion. AppKit insertion
+/// commands such as Return may require a separate CHAR event even when no
+/// insertText: call occurs; see cefclient's shared macOS text-input client for
+/// an implementation of this handling.</para>
+/// </summary>
+function CefKeyboardInputEventFromMacEvent(native_event: TCefEventHandle; var event: TCefKeyboardInputEvent): boolean;
+/// </summary>
+/// Explicit-source variant for deterministic tests and replay. Must be called
+/// on the AppKit main thread, with the same supported event types, text limits,
+/// and separate insertion handling as CefKeyboardInputEventFromMacEvent.
+/// Returns false (0) on failure, leaving |event| unchanged. |input_source_id|
+/// is the macOS TIS input-source ID of an installed keyboard layout, or NULL to
+/// detect the current source. |keyboard_type| is the Carbon keyboard type used
+/// by UCKeyTranslate, or -1 to detect it. Does not activate the source. Event
+/// attributes, including text, modifiers and time, come from NSEvent.
+/// </summary>
+function CefKeyboardInputEventFromMacEventEx(native_event: TCefEventHandle; const input_source_id: PCefString; keyboard_type: integer; var event: TCefKeyboardInputEvent): boolean;
 {$ENDIF}
 
 {$IFDEF LINUX}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''); deprecated;
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''); deprecated;
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''); deprecated;
+/// </summary>
+/// Returns the named or dead CEF DOM key for an X11/XKB keysym, or
+/// CEF_DOM_KEY_NONE for a printable or unrecognized keysym. The numeric keysym
+/// must use the X11/XKB namespace (including GTK GDK keyvals). This stateless
+/// helper never accesses a display or keyboard layout. The source framework
+/// must supply printable Unicode text, including non-BMP characters.
+/// </summary>
+function CefNonPrintableDomKeyFromXKeysym(keysym: cardinal): cardinal;
 {$ENDIF}
 
 {$IFDEF ANDROID}
@@ -1245,6 +1311,14 @@ begin
     Result := 0;
 end;
 
+function CefWindowsKeyCodeFromDomCodeAndKey(dom_code, dom_key: cardinal): integer;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    Result := cef_windows_key_code_from_dom_code_and_key(dom_code, dom_key)
+   else
+    Result := 0;
+end;
+
 {$IFDEF MSWINDOWS}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aExStyle : DWORD);
 begin
@@ -1263,6 +1337,40 @@ procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCe
 begin
   TCEFWindowInfoWrapper.AsWindowless(aWindowInfo, aParent);
   aWindowInfo.window_name := CefString(aWindowName);
+end;
+
+function CefKeyboardInputEventFromWindowsMessage(    message_ : cardinal;
+                                                     wparam   : uint64;
+                                                     lparam   : int64;
+                                                 var event    :  TCefKeyboardInputEvent): boolean;
+begin
+  Result := (GlobalCEFApp <> nil) and
+            GlobalCEFApp.LibLoaded and
+            (cef_keyboard_input_event_from_windows_message(message_,
+                                                           wparam,
+                                                           lparam,
+                                                           @event) <> 0);
+end;
+
+function CefKeyboardInputEventFromWindowsMessageEx(    message_             : cardinal;
+                                                       wparam               : uint64;
+                                                       lparam               : int64;
+                                                       keyboard_stateCount  : NativeUInt;
+                                                       keyboard_state       : PInteger;
+                                                       keyboard_layout      : uint64;
+                                                       timestamp            : int64;
+                                                   var event                : TCefKeyboardInputEvent): boolean;
+begin
+  Result := (GlobalCEFApp <> nil) and
+            GlobalCEFApp.LibLoaded and
+            (cef_keyboard_input_event_from_windows_message_ex(message_,
+                                                              wparam,
+                                                              lparam,
+                                                              keyboard_stateCount,
+                                                              keyboard_state,
+                                                              keyboard_layout,
+                                                              timestamp,
+                                                              @event) <> 0);
 end;
 {$ENDIF}
 
@@ -1286,6 +1394,26 @@ begin
   TCEFWindowInfoWrapper.AsWindowless(aWindowInfo, aParent);
   aWindowInfo.window_name := CefString(aWindowName);
 end;
+
+function CefKeyboardInputEventFromMacEvent(native_event: TCefEventHandle; var event: TCefKeyboardInputEvent): boolean;
+begin
+  Result := (GlobalCEFApp <> nil) and
+            GlobalCEFApp.LibLoaded and
+            (cef_keyboard_input_event_from_mac_event(native_event, @event) <> 0);
+end;
+
+function CefKeyboardInputEventFromMacEventEx(      native_event    : TCefEventHandle;
+                                             const input_source_id : PCefString;
+                                                   keyboard_type   : integer;
+                                             var   event           : TCefKeyboardInputEvent): boolean;
+begin
+  Result := (GlobalCEFApp <> nil) and
+            GlobalCEFApp.LibLoaded and
+            (cef_keyboard_input_event_from_mac_event_ex(native_event,
+                                                        input_source_id,
+                                                        keyboard_type,
+                                                        @event) <> 0);
+end;
 {$ENDIF}
 
 {$IFDEF LINUX}
@@ -1307,6 +1435,14 @@ procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCe
 begin
   TCEFWindowInfoWrapper.AsWindowless(aWindowInfo, aParent);
   aWindowInfo.window_name := CefString(aWindowName);
+end;
+
+function CefNonPrintableDomKeyFromXKeysym(keysym: cardinal): cardinal;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    Result := cef_non_printable_dom_key_from_xkeysym(keysym)
+   else
+    Result := 0;
 end;
 {$ENDIF}
 
@@ -1450,10 +1586,10 @@ begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     begin
       case aEvent.kind of
-        KEYEVENT_RAWKEYDOWN : TempString := 'kind: KEYEVENT_RAWKEYDOWN';
-        KEYEVENT_KEYDOWN    : TempString := 'kind: KEYEVENT_KEYDOWN';
-        KEYEVENT_KEYUP      : TempString := 'kind: KEYEVENT_KEYUP';
-        KEYEVENT_CHAR       : TempString := 'kind: KEYEVENT_CHAR';
+        CEF_KEYEVENT_RAWKEYDOWN : TempString := 'kind: KEYEVENT_RAWKEYDOWN';
+        CEF_KEYEVENT_KEYDOWN    : TempString := 'kind: KEYEVENT_KEYDOWN';
+        CEF_KEYEVENT_KEYUP      : TempString := 'kind: KEYEVENT_KEYUP';
+        CEF_KEYEVENT_CHAR       : TempString := 'kind: KEYEVENT_CHAR';
       end;
 
       TempString := TempString + ', modifiers: $'              + inttohex(aEvent.modifiers, SizeOf(aEvent.modifiers) * 2);
@@ -2806,7 +2942,7 @@ var
   TempTranslatedChar : SHORT;
   TempShiftState     : byte;
 begin
-  if (aEvent.kind = KEYEVENT_CHAR) and CefIsKeyDown(VK_RMENU) then
+  if (aEvent.kind = CEF_KEYEVENT_CHAR) and CefIsKeyDown(VK_RMENU) then
     begin
       TempKBLayout       := GetKeyboardLayout(0);
       TempTranslatedChar := VkKeyScanEx(char(aWparam), TempKBLayout);

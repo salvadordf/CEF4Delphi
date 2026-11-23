@@ -1,7 +1,5 @@
 program SimpleBrowser;
 
-
-
 uses
   Forms, Interfaces,
   uCEFApplication,

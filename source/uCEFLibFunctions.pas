@@ -90,6 +90,20 @@ var
   // /include/capi/cef_image_capi.h
   cef_image_create : function : PCefImage; cdecl;
 
+  // /include/capi/cef_input_event_utils_capi.h
+  cef_windows_key_code_from_dom_code_and_key        : function(dom_code, dom_key: cardinal): integer; cdecl;
+  {$IFDEF MSWINDOWS}
+  cef_keyboard_input_event_from_windows_message     : function(message_: cardinal; wparam: uint64; lparam: int64; event: PCefKeyboardInputEvent): integer; cdecl;
+  cef_keyboard_input_event_from_windows_message_ex  : function(message_: cardinal; wparam: uint64; lparam: int64; keyboard_stateCount: NativeUInt; keyboard_state: PInteger; keyboard_layout: uint64; timestamp: int64; event: PCefKeyboardInputEvent): integer; cdecl;
+  {$ENDIF}
+  {$IFDEF MACOSX}
+  cef_keyboard_input_event_from_mac_event           : function(native_event: TCefEventHandle; event: PCefKeyboardInputEvent): integer; cdecl;
+  cef_keyboard_input_event_from_mac_event_ex        : function(native_event: TCefEventHandle; const input_source_id: PCefString; keyboard_type: integer; event: PCefKeyboardInputEvent): integer; cdecl;
+  {$ENDIF}
+  {$IFDEF LINUX}
+  cef_non_printable_dom_key_from_xkeysym            : function(keysym: cardinal): cardinal; cdecl;
+  {$ENDIF}
+
   // /include/capi/cef_media_router_capi.h
   cef_media_router_get_global : function(callback: PCefCompletionCallback) : PCefMediaRouter; cdecl;
 

@@ -492,6 +492,12 @@ type
     // ICefComponentUpdateCallback
     procedure doOnComponentUpdateCompleted(const component_id: ustring; error: TCefComponentUpdateError);
 
+    // ICefInputHandler
+    function doOnPreKeyboardEvent(const browser: ICefBrowser; const event: PCefKeyboardInputEvent; const context: PCefInputEventContext; out isKeyboardShortcut: Boolean): Boolean;
+    function doOnKeyboardEvent(const browser: ICefBrowser; const event: PCefKeyboardInputEvent; const context: PCefInputEventContext): Boolean;
+    function doOnPreMouseEvent(const browser: ICefBrowser; const event: PCefMouseInputEvent): Boolean;
+    function doOnPreGestureEvent(const browser: ICefBrowser; const event: PCefGestureInputEvent): Boolean;
+
     // Custom
     procedure doCookiesDeleted(numDeleted : integer);
     procedure doPdfPrintFinished(aResultOK : boolean);
@@ -546,6 +552,7 @@ type
     function  MustCreatePrintHandler : boolean;
     function  MustCreateFrameHandler : boolean;
     function  MustCreatePermissionHandler : boolean;
+    function  MustCreateInputHandler : boolean;
     function  GetComponentID : integer;
 
     property ComponentID : integer read GetComponentID;
@@ -618,6 +625,7 @@ type
     ['{682480E0-C786-4E65-B950-4FF2B13B97B9}']
     procedure doOnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
     procedure doOnAfterUserAction(const textfield: ICefTextfield);
+    procedure doOnKeyboardEvent(const textfield: ICefTextfield; const event: PCefKeyboardInputEvent; var aResult : boolean);
   end;
 
   /// <summary>
@@ -689,6 +697,7 @@ type
     procedure doOnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
     procedure doOnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
     procedure doOnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
+    procedure doOnKeyboardEvent(const window_: ICefWindow; const event: PCefKeyboardInputEvent; var aResult: boolean);
   end;
 
 
@@ -1176,17 +1185,20 @@ type
     /// </summary>
     procedure SendExternalBeginFrame;
     /// <summary>
-    /// Send a key event to the browser.
+    /// Send a key event to the browser. DEPRECATED: Use SendKeyboardEvent with
+    /// CefKeyboardInputEvent instead.
     /// </summary>
     procedure SendKeyEvent(const event: PCefKeyEvent);
     /// <summary>
     /// Send a mouse click event to the browser. The |x| and |y| coordinates are
-    /// relative to the upper-left corner of the view.
+    /// relative to the upper-left corner of the view. DEPRECATED: Use
+    /// SendMouseEvent with CefMouseInputEvent instead.
     /// </summary>
     procedure SendMouseClickEvent(const event: PCefMouseEvent; type_: TCefMouseButtonType; mouseUp: Boolean; clickCount: Integer);
     /// <summary>
     /// Send a mouse move event to the browser. The |x| and |y| coordinates are
-    /// relative to the upper-left corner of the view.
+    /// relative to the upper-left corner of the view. DEPRECATED: Use
+    /// SendMouseEvent with CefMouseInputEvent instead.
     /// </summary>
     procedure SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
     /// <summary>
@@ -1195,11 +1207,31 @@ type
     /// values represent the movement delta in the X and Y directions
     /// respectively. In order to scroll inside select popups with window
     /// rendering disabled ICefRenderHandler.GetScreenPoint should be
-    /// implemented properly.
+    /// implemented properly. DEPRECATED: Use SendWheelEvent with
+    /// CefWheelInputEvent instead.
     /// </summary>
     procedure SendMouseWheelEvent(const event: PCefMouseEvent; deltaX, deltaY: Integer);
     /// <summary>
-    /// Send a touch event to the browser for a windowless browser.
+    /// <para>Send a portable touch event to web content. Supports off-screen and native
+    /// browser views with Chromium input routing, including out-of-process
+    /// frames. May be called on any thread. Coordinates are in DIPs relative to
+    /// the upper-left corner of the browser view.</para>
+    ///
+    /// <para>Send coherent pressed/moved/released or cancelled sequences with a unique
+    /// ID for each active contact. Delivers raw DOM touch events and lets
+    /// Chromium recognize gestures. Web-content processing and
+    /// cef_input_handler_t::OnPreGestureEvent apply to the generated gestures.
+    /// Invalid event data is ignored with a warning. Invalid contact sequencing
+    /// is silently ignored.</para>
+    ///
+    /// <para>For windowed browsers, events enter the native browser view's touch-
+    /// processing path, including gesture recognition and touch acknowledgments.
+    /// This does not synthesize native OS touch events or require a physical
+    /// touchscreen or --touch-events=enabled. The caller must manage browser
+    /// focus.</para>
+    ///
+    /// <para>To submit an already recognized gesture without raw touch delivery or
+    /// touch recognition, use SendGestureEvent with CefGestureInputEvent instead.</para>
     /// </summary>
     procedure SendTouchEvent(const event: PCefTouchEvent);
     /// <summary>
@@ -1229,52 +1261,58 @@ type
     /// </summary>
     procedure SetWindowlessFrameRate(frameRate: Integer);
     /// <summary>
-    /// Begins a new composition or updates the existing composition. Blink has a
-    /// special node (a composition node) that allows the input function to change
-    /// text without affecting other DOM nodes. |text| is the optional text that
-    /// will be inserted into the composition node. |underlines| is an optional
-    /// set of ranges that will be underlined in the resulting text.
+    /// <para>Begins a new composition or updates the existing composition. |text| is
+    /// the optional composition text to insert. |underlines| is an optional set
+    /// of styles for ranges relative to the beginning of the composition text.
     /// |replacement_range| is an optional range of the existing text that will be
-    /// replaced. |selection_range| is an optional range of the resulting text
-    /// that will be selected after insertion or replacement. The
-    /// |replacement_range| value is only used on OS X.
+    /// replaced. |selection_range| must be a valid range, relative to the
+    /// beginning of the composition text, that will be selected after insertion
+    /// or replacement. A collapsed range specifies the cursor position. Text
+    /// offsets and ranges are measured in UTF-16 code units. An NULL |text|
+    /// cancels the composition, if any, and can delete the current selection.</para>
     ///
-    /// This function may be called multiple times as the composition changes.
+    /// <para>IME functions should be called with an editable element focused. Calls
+    /// with a non-editable target may dispatch DOM events without changing its
+    /// text.</para>
+    ///
+    /// <para>This function may be called multiple times as the composition changes.
     /// When the client is done making changes the composition should either be
     /// canceled or completed. To cancel the composition call
     /// ImeCancelComposition. To complete the composition call either
     /// ImeCommitText or ImeFinishComposingText. Completion is usually signaled
-    /// when:
-    ///
+    /// when:</para>
+    /// <code>
     /// 1. The client receives a WM_IME_COMPOSITION message with a GCS_RESULTSTR
     ///    flag (on Windows), or;
     /// 2. The client receives a "commit" signal of GtkIMContext (on Linux), or;
     /// 3. insertText of NSTextInput is called (on Mac).
-    ///
-    /// This function is only used when window rendering is disabled.
+    /// </code>
+    /// <para>This function is only used when window rendering is disabled.</para>
     /// </summary>
     procedure IMESetComposition(const text: ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : PCefRange);
     /// <summary>
-    /// Completes the existing composition by optionally inserting the specified
-    /// |text| into the composition node. |replacement_range| is an optional range
-    /// of the existing text that will be replaced. |relative_cursor_pos| is where
-    /// the cursor will be positioned relative to the current cursor position. See
-    /// comments on ImeSetComposition for usage. The |replacement_range| and
-    /// |relative_cursor_pos| values are only used on OS X. This function is only
-    /// used when window rendering is disabled.
+    /// Inserts |text| and completes the existing composition, if any.
+    /// |replacement_range| is an optional range of the existing text that will be
+    /// replaced, preserving the current selection. When |replacement_range| is
+    /// not specified, |relative_cursor_pos| positions the cursor relative to the
+    /// end of the inserted text. Text offsets and ranges are measured in UTF-16
+    /// code units. An NULL |text| can delete the current selection or composition
+    /// text. To apply the current composition text without replacing it, call
+    /// ImeFinishComposingText. See comments on ImeSetComposition for usage. This
+    /// function is only used when window rendering is disabled.
     /// </summary>
     procedure IMECommitText(const text: ustring; const replacement_range : PCefRange; relative_cursor_pos : integer);
     /// <summary>
     /// Completes the existing composition by applying the current composition
-    /// node contents. If |keep_selection| is false (0) the current selection, if
-    /// any, will be discarded. See comments on ImeSetComposition for usage. This
+    /// text. If |keep_selection| is false (0) the cursor moves to the end of the
+    /// composition text. See comments on ImeSetComposition for usage. This
     /// function is only used when window rendering is disabled.
     /// </summary>
     procedure IMEFinishComposingText(keep_selection : boolean);
     /// <summary>
-    /// Cancels the existing composition and discards the composition node
-    /// contents without applying them. See comments on ImeSetComposition for
-    /// usage. This function is only used when window rendering is disabled.
+    /// Cancels the existing composition and discards the composition text without
+    /// applying it. See comments on ImeSetComposition for usage. This function is
+    /// only used when window rendering is disabled.
     /// </summary>
     procedure IMECancelComposition;
     /// <summary>
@@ -1365,12 +1403,17 @@ type
     /// </summary>
     procedure SetAutoResizeEnabled(enabled: boolean; const min_size, max_size: PCefSize);
     /// <summary>
-    /// Set whether the browser's audio is muted.
+    /// Set whether the browser's audio is muted. This function does not affect
+    /// the muting of audio output caused by capture via TCefAudioHandler.
+    /// Calling this function with false (0) will not restore normal audio
+    /// playback while capture is active.
     /// </summary>
     procedure SetAudioMuted(mute: boolean);
     /// <summary>
-    /// Returns true (1) if the browser's audio is muted.  This function can only
-    /// be called on the UI thread.
+    /// Returns true (1) if the browser's audio is muted. This function can only
+    /// be called on the UI thread. The returned value does not reflect the muting
+    /// of audio output caused by capture via TCefAudioHandler and may be false
+    /// (0) while capture is active.
     /// </summary>
     function  IsAudioMuted : boolean;
     /// <summary>
@@ -1437,6 +1480,90 @@ type
     /// </remarks>
     function GetRuntimeStyle : TCefRuntimeStyle;
     /// <summary>
+    /// <para>Send a complete portable keyboard snapshot. Key identity and text are
+    /// preserved without consulting the receiving keyboard layout. Zero timestamp
+    /// uses the dispatch time. Invalid snapshots are ignored with a warning,
+    /// including unsupported types/modifier bits, invalid nonzero DOM encodings,
+    /// negative timestamps, unterminated text buffers, and is_system_key values
+    /// other than zero or one. Supports off-screen and native browser views. May
+    /// be called on any thread.</para>
+    ///
+    /// <para>For windowed browsers, events are forwarded directly to the focused web-
+    /// content renderer, bypassing the native browser view's key-event entry
+    /// point. This does not dispatch input to other native controls or run native
+    /// IME processing. Browser keyboard callbacks and unhandled-event fallback
+    /// handling still apply, including Views accelerator handling.</para>
+    ///
+    /// <para>Text in CEF_KEY_EVENT_RAWKEYDOWN is metadata and does not generate a
+    /// CEF_KEY_EVENT_CHAR event. For ordinary portable typing, send separate
+    /// RAWKEYDOWN, CHAR, and KEYUP events. Native key conversion alone does not
+    /// perform text insertion or IME composition. For off-screen IME composition,
+    /// use ImeSetComposition and related functions.</para>
+    /// </summary>
+    procedure SendKeyboardEvent(const event: PCefKeyboardInputEvent);           {* CEF_API_ADDED(15800) *}
+    /// <summary>
+    /// <para>Send a portable mouse snapshot to web content. Supports off-screen and
+    /// native browser views with Chromium input routing, including out-of-process
+    /// frames. Events are injected directly into web content, bypassing native
+    /// controls and OS event synthesis. Zero timestamp uses the dispatch time.
+    /// Invalid snapshots are ignored with a warning. May be called on any thread.
+    /// Coordinates are in DIPs; provide both widget and screen positions.</para>
+    ///
+    /// <para>Down/up events must specify the changed button, click count, and the held-
+    /// button modifiers appropriate for that event.</para>
+    ///
+    /// <para>For windowed browsers, this bypasses the native browser view's mouse-
+    /// event entry point. It does not deliver events to browser chrome or Views
+    /// controls, or perform native focus/capture handling. The caller must manage
+    /// browser focus and any required native input capture. Web-content
+    /// processing and ICefInputHandler.OnPreMouseEvent still apply.</para>
+    /// </summary>
+    procedure SendMouseEvent(const event: PCefMouseInputEvent);                 {* CEF_API_ADDED(15800) *}
+    /// <summary>
+    /// <para>Send a portable gesture snapshot to web content. Supports off-screen and
+    /// native browser views with Chromium input routing, including out-of-process
+    /// frames. Events are injected directly into web content, bypassing native
+    /// controls and OS event synthesis. Zero timestamp uses the dispatch time.
+    /// Invalid snapshots are ignored with a warning. May be called on any thread.
+    /// Coordinates are in DIPs; provide both widget and screen positions.</para>
+    ///
+    /// <para>Send coherent begin/update/end sequences and populate only the fields that
+    /// apply to the gesture type. Chromium may consume or filter gestures before
+    /// the pre-handler, for example disabled pinch zoom.</para>
+    ///
+    /// <para>For windowed browsers, this bypasses the native browser view's gesture-
+    /// event entry point. It does not deliver events to browser chrome or Views
+    /// controls, or perform native focus/capture handling. The caller must manage
+    /// browser focus and any required native input capture. Web-content
+    /// processing and ICefInputHandler.OnPreGestureEvent still apply.</para>
+    ///
+    /// <para>This submits an already recognized gesture without running a native
+    /// touch/trackpad recognizer or synthesizing the underlying DOM touch events.
+    /// For raw touch delivery and Chromium gesture recognition, use
+    /// SendTouchEvent instead.</para>
+    /// </summary>
+    procedure SendGestureEvent(const event: PCefGestureInputEvent);             {* CEF_API_ADDED(15800) *}
+    /// <summary>
+    /// <para>Send a portable wheel snapshot to web content. Supports off-screen and
+    /// native browser views with Chromium input routing, including out-of-process
+    /// frames. Events are injected directly into web content, bypassing native
+    /// controls and OS event synthesis. Zero timestamp uses the dispatch time.
+    /// Invalid snapshots are ignored with a warning. May be called on any thread.
+    /// Coordinates are in DIPs; provide both widget and screen positions.</para>
+    ///
+    /// <para>For windowed browsers, this bypasses native OS wheel-event dispatch and
+    /// translation. It does not deliver events to browser chrome or Views
+    /// controls, or perform native focus/capture handling. The caller must manage
+    /// browser focus and any required native input capture. DOM wheel listeners
+    /// and Chromium's wheel acknowledgment, scrolling and gesture processing
+    /// still apply. There is currently no ICefInputHandler callback for
+    /// wheels.</para>
+    ///
+    /// <para>Use this function for wheel/trackpad scrolling. SendGestureEvent submits
+    /// already recognized gestures and does not replace DOM wheel delivery.</para>
+    /// </summary>
+    procedure SendWheelEvent(const event: PCefWheelInputEvent);                 {* CEF_API_ADDED(15800) *}
+    /// <summary>
     /// Enable or disable CDP accessibility tree viewport collapse for this
     /// browser. When enabled, off-screen landmarks and headings are serialized as
     /// summaries and other off-screen nodes are pruned. Overrides the
@@ -1448,7 +1575,7 @@ type
     /// Platform screen readers (NVDA, JAWS, VoiceOver) are unaffected — they use
     /// a separate code path.
     /// </summary>
-    procedure SetAxViewportCollapse(enabled: boolean);    {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
+    procedure SetAxViewportCollapse(enabled: boolean);                          {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
     /// <summary>
     /// Returns the hosted browser object.
     /// </summary>
@@ -4966,7 +5093,7 @@ type
     /// </summary>
     procedure OnAlreadyRunningAppRelaunch(const commandLine: ICefCommandLine; const current_directory: ustring; var aResult: boolean);
     /// <summary>
-    /// Called from any thread when work has been scheduled for the browser
+    /// <para>Called from any thread when work has been scheduled for the browser
     /// process main (UI) thread. This callback is used in combination with
     /// TCefSettings.external_message_pump and GlobalCEFApp.DoMessageLoopWork in
     /// cases where the CEF message loop must be integrated into an existing
@@ -4974,9 +5101,18 @@ type
     /// GlobalCEFApp.DoMessageLoopWork). This callback should schedule a
     /// GlobalCEFApp.DoMessageLoopWork call to happen on the main (UI) thread.
     /// |delay_ms| is the requested delay in milliseconds. If |delay_ms| is <= 0
-    /// then the call should happen reasonably soon. If |delay_ms| is > 0 then the
-    /// call should be scheduled to happen after the specified delay and any
-    /// currently pending scheduled call should be cancelled.
+    /// then the call should happen reasonably soon. If |delay_ms| is > 0 then
+    /// replace any pending scheduled call with a call after the specified delay
+    /// or after the application's maximum pumping interval, whichever is shorter.</para>
+    ///
+    /// <para>The application must also schedule GlobalCEFApp.DoMessageLoopWork calls when
+    /// no callback is received. Scheduling callbacks do not provide a complete
+    /// sequence of requests for processing all CEF work. A maximum pumping
+    /// interval of approximately 33 milliseconds between calls (30 calls per
+    /// second) is recommended. Marshal scheduling requests to the main
+    /// application thread and avoid recursively calling
+    /// GlobalCEFApp.DoMessageLoopWork; defer additional work until the active call
+    /// returns.</para>
     /// </summary>
     procedure OnScheduleMessagePumpWork(const delayMs: Int64);
     /// <summary>
@@ -7288,16 +7424,80 @@ type
     /// event message, if any. Return true (1) if the event was handled or false
     /// (0) otherwise. If the event will be handled in on_key_event() as a
     /// keyboard shortcut set |is_keyboard_shortcut| to true (1) and return false
-    /// (0).
+    /// (0). DEPRECATED: Use ICefInputHandler.OnPreKeyboardEvent instead,
+    /// which provides a platform-independent CefKeyboardInputEvent.
     /// </summary>
     function OnPreKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut: Boolean): Boolean;
     /// <summary>
     /// Called after the renderer and JavaScript in the page has had a chance to
     /// handle the event. |event| contains information about the keyboard event.
     /// |os_event| is the operating system event message, if any. Return true (1)
-    /// if the keyboard event was handled or false (0) otherwise.
+    /// if the keyboard event was handled or false (0) otherwise. DEPRECATED: Use
+    /// ICefInputHandler.OnKeyboardEvent instead, which provides a platform-
+    /// independent CefKeyboardInputEvent.
     /// </summary>
     function OnKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle): Boolean;
+    /// <summary>
+    /// Custom procedure to clear all references.
+    /// </summary>
+    procedure RemoveReferences;
+  end;
+
+  /// <summary>
+  /// Handles portable input events on the UI thread. Keyboard callbacks run
+  /// before the corresponding ICefKeyboardHandler callbacks.
+  /// </summary>
+  /// <remarks>
+  /// <para><see cref="uCEFTypes|TCefInputHandler">Implements TCefInputHandler</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_input_handler_capi.h">CEF source file: /include/capi/cef_input_handler_capi.h (cef_input_handler_t)</see></para>
+  /// </remarks>
+  ICefInputHandler = interface(ICefBaseRefCounted)
+    ['{501082F9-ED4A-4BFB-80E2-A70AA15B12F4}']
+    /// <summary>
+    /// <para>Called before keyboard input is offered to the renderer. Return true (1)
+    /// to consume the event. To structureify it as an application shortcut for
+    /// OnKeyboardEvent, set |isKeyboardShortcut| to true (1) and return false
+    /// (0). Otherwise, return false (0) to try
+    /// ICefKeyboardHandler.OnPreKeyEvent (if provided) before continuing
+    /// normal processing. |isKeyboardShortcut| is initially false (0).</para>
+    ///
+    /// <para>Returning true (1) for RAWKEYDOWN causes Chromium to suppress subsequent
+    /// CHAR and KEYUP events until the next keydown. Suppressed events do not
+    /// reach these callbacks, except that Escape KEYUP is still offered to
+    /// OnPreKeyboardEvent.</para>
+    /// </summary>
+    function OnPreKeyboardEvent(const browser: ICefBrowser; const event: PCefKeyboardInputEvent; const context: PCefInputEventContext; out isKeyboardShortcut: Boolean): Boolean;
+    /// <summary>
+    /// <para>Called for keyboard events left unhandled by the renderer. Return true (1)
+    /// to consume the event or false (0) to try
+    /// ICefKeyboardHandler.OnKeyEvent (if provided) before allowing normal
+    /// platform fallback.</para>
+    ///
+    /// <para>This is not an observer for every submitted event. Renderer-consumed
+    /// editing commands and events marked internally to skip unhandled processing
+    /// do not reach this callback. Do not assume a complete down/character/up
+    /// callback sequence.</para>
+    /// </summary>
+    function OnKeyboardEvent(const browser: ICefBrowser; const event: PCefKeyboardInputEvent; const context: PCefInputEventContext): Boolean;
+    /// <summary>
+    /// <para>Called before a mouse event is offered to the renderer. Return true (1) to
+    /// consume the event or false (0) to continue normal processing. Wheel events
+    /// are not delivered here. The snapshot uses the receiving widget's DIPs; it
+    /// may differ from injected coordinates after frame or popup routing. No
+    /// native event handle is available. If consuming a down event, also consume
+    /// its corresponding up event to preserve a coherent event stream. Keep
+    /// handling simple and defer complex work to avoid re-entrancy.</para>
+    /// </summary>
+    function OnPreMouseEvent(const browser: ICefBrowser; const event: PCefMouseInputEvent): Boolean;
+    /// <summary>
+    /// <para>Called before a gesture event is offered to the renderer. Return true (1)
+    /// to consume the event or false (0) to continue normal processing. This is a
+    /// handling opportunity, not notification of every submitted gesture.
+    /// Chromium may filter gestures before this callback. No native event handle
+    /// is available. Preserve coherent gesture sequences when consuming events
+    /// and defer complex work to avoid re-entrancy.</para>
+    /// </summary>
+    function OnPreGestureEvent(const browser: ICefBrowser; const event: PCefGestureInputEvent): Boolean;
     /// <summary>
     /// Custom procedure to clear all references.
     /// </summary>
@@ -7358,7 +7558,10 @@ type
   end;
 
   /// <summary>
-  /// Implement this interface to handle audio events.
+  /// Implement this interface to receive captured audio from Alloy style
+  /// browsers. The browser's audio output is muted during capture. Clients that
+  /// require audible playback must provide their own playback of the audio data
+  /// received via OnAudioStreamPacket.
   /// </summary>
   /// <remarks>
   /// <para><see cref="uCEFTypes|TCefAudioHandler">Implements TCefAudioHandler</see></para>
@@ -7368,9 +7571,10 @@ type
     ['{8963271A-0B94-4279-82C8-FB2EA7B3CDEC}']
     /// <summary>
     /// Called on the UI thread to allow configuration of audio stream parameters.
-    /// Return true (1) to proceed with audio stream capture, or false (0) to
-    /// cancel it. All members of |params| can optionally be configured here, but
-    /// they are also pre-filled with some sensible defaults.
+    /// Return true (1) to proceed with audio stream capture and mute the
+    /// browser's audio output, or false (0) to cancel capture and leave normal
+    /// audio playback unchanged. All members of |params| can optionally be
+    /// configured here, but they are also pre-filled with some sensible defaults.
     /// </summary>
     procedure OnGetAudioParameters(const browser: ICefBrowser; var params: TCefAudioParameters; var aResult: boolean);
     /// <summary>
@@ -7703,14 +7907,20 @@ type
     procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: Double);
     /// <summary>
     /// Called when the IME composition range has changed. |selected_range| is the
-    /// range of characters that have been selected. |character_bounds| is the
-    /// bounds of each character in view coordinates.
+    /// range of the composition text in UTF-16 code units. |character_bounds|
+    /// contains the bounds of each UTF-16 code unit in view coordinates.
     /// </summary>
     procedure OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: NativeUInt; const character_bounds: PCefRect);
     /// <summary>
-    /// Called when text selection has changed for the specified |browser|.
+    /// <para>Called when text selection has changed for the specified |browser|.
     /// |selected_text| is the currently selected text and |selected_range| is the
-    /// character range.
+    /// range in UTF-16 code units.</para>
+    ///
+    /// <para>|selected_text| is NULL for editable password fields, including fields
+    /// Chromium identifies as having previously contained password text. Password
+    /// selection ranges are accurate for ASCII input. Non-ASCII input can produce
+    /// ranges that differ from DOM selection offsets due to Chromium's password
+    /// masking.</para>
     /// </summary>
     procedure OnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange);
     /// <summary>
@@ -7736,7 +7946,9 @@ type
   ICefClient = interface(ICefBaseRefCounted)
     ['{1D502075-2FF0-4E13-A112-9E541CD811F4}']
     /// <summary>
-    /// Return the handler for audio rendering events.
+    /// Return the handler for audio capture events. Only supported with Alloy
+    /// style browsers. If no handler is provided normal audio playback will be
+    /// used. See ICefAudioHandler for audio capture behavior.
     /// </summary>
     procedure GetAudioHandler(var aHandler : ICefAudioHandler);
     /// <summary>
@@ -7792,7 +8004,9 @@ type
     /// </summary>
     procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler);
     /// <summary>
-    /// Return the handler for keyboard events.
+    /// Return the handler for keyboard events. DEPRECATED: Implement
+    /// GetInputHandler and use ICefInputHandler for keyboard callbacks
+    /// instead.
     /// </summary>
     procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler);
     /// <summary>
@@ -7822,6 +8036,12 @@ type
     /// keep a reference to |message| outside of this callback.
     /// </summary>
     function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean;
+    /// <summary>
+    /// Return the unified input handler. Its keyboard callbacks run before
+    /// ICefKeyboardHandler callbacks, which are called when the unified
+    /// callback is unhandled.
+    /// </summary>
+    procedure GetInputHandler(var aHandler : ICefInputHandler);
     /// <summary>
     /// Custom procedure to clear all references.
     /// </summary>
@@ -8158,10 +8378,12 @@ type
   ICefDragHandler = interface(ICefBaseRefCounted)
     ['{59A89579-5B18-489F-A25C-5CC25FF831FC}']
     /// <summary>
-    /// Called when an external drag event enters the browser window. |dragData|
-    /// contains the drag event data and |mask| represents the type of drag
-    /// operation. Return false (0) for default drag handling behavior or true (1)
-    /// to cancel the drag event.
+    /// Called when a drag event enters the browser's web view. Drag events may
+    /// originate outside the browser or within the web view itself. |dragData|
+    /// contains the drag event data and |mask| represents the allowed drag
+    /// operations. Return false (0) for default drag handling behavior or true
+    /// (1) to cancel the drag event, including dropping within the web view. Only
+    /// used with Alloy style.
     /// </summary>
     function  OnDragEnter(const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations): Boolean;
     /// <summary>
@@ -10420,7 +10642,12 @@ type
     /// </summary>
     procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
     /// <summary>
-    /// Called when |view| gains focus.
+    /// Called when |view| gains focus within its containing Window. Containers,
+    /// including ICefWindow, are not focusable by default; call
+    /// SetFocusable(true (1)) and request_focus() to focus them. This callback
+    /// does not report focus gained by child Views or activation of the native
+    /// Window. Use ICefWindowDelegate.OnWindowActivationChanged for native
+    /// Window activation.
     /// </summary>
     procedure OnFocus(const view: ICefView);
     /// <summary>
@@ -10611,13 +10838,28 @@ type
     /// <summary>
     /// Called when |textfield| receives a keyboard event. |event| contains
     /// information about the keyboard event. Return true (1) if the keyboard
-    /// event was handled or false (0) otherwise for default handling.
+    /// event was handled or false (0) otherwise for default handling. On macOS,
+    /// native Views text interpretation may deliver KEYEVENT_CHAR instead of a
+    /// printable keydown, followed by KEYEVENT_KEYUP. Do not assume that every
+    /// keyup has a corresponding keydown callback. DEPRECATED: Use
+    /// OnKeyboardEvent with CefKeyboardInputEvent instead.
     /// </summary>
     procedure OnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
     /// <summary>
     /// Called after performing a user action that may change |textfield|.
     /// </summary>
     procedure OnAfterUserAction(const textfield: ICefTextfield);
+    /// <summary>
+    /// <para>Called when |textfield| receives a keyboard event. |event| contains the
+    /// resolved platform-independent keyboard snapshot. Return true (1) to handle
+    /// the event or false (0) to try OnKeyEvent before default handling.</para>
+    ///
+    /// <para>On macOS, native Views text interpretation may consume a printable keydown
+    /// and deliver CEF_KEY_EVENT_CHAR instead. CEF_KEY_EVENT_KEYUP can still
+    /// follow, so do not assume that every keyup has a corresponding keydown
+    /// callback.</para>
+    /// </summary>
+    procedure OnKeyboardEvent(const textfield: ICefTextfield; const event: PCefKeyboardInputEvent; var aResult : boolean);
   end;
 
   /// <summary>
@@ -11537,7 +11779,11 @@ type
     /// <summary>
     /// Called after all other controls in the window have had a chance to handle
     /// the event. |event| contains information about the keyboard event. Return
-    /// true (1) if the keyboard event was handled or false (0) otherwise.
+    /// true (1) if the keyboard event was handled or false (0) otherwise. On
+    /// macOS, native Views text interpretation may deliver KEYEVENT_CHAR instead
+    /// of a printable keydown, followed by KEYEVENT_KEYUP. Do not assume that
+    /// every keyup has a corresponding keydown callback. DEPRECATED: Use
+    /// OnKeyboardEvent with CefKeyboardInputEvent instead.
     /// </summary>
     procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
     /// <summary>
@@ -11577,6 +11823,19 @@ type
     /// managers.
     /// </summary>
     procedure OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
+    /// <summary>
+    /// <para>Called after all other controls in the window have had a chance to handle
+    /// the event. |event| contains the resolved platform-independent keyboard
+    /// snapshot. Return true (1) to handle the event or false (0) to try
+    /// OnKeyEvent before default handling.</para>
+    ///
+    /// <para>On macOS, native Views text interpretation may consume a printable keydown
+    /// and deliver CEF_KEY_EVENT_CHAR instead. CEF_KEY_EVENT_KEYUP can still
+    /// follow, so do not assume that every keyup has a corresponding keydown
+    /// callback. This applies to input routed through native Views controls;
+    /// BrowserView input follows the browser keyboard event dispatch path.</para>
+    /// </summary>
+    procedure OnKeyboardEvent(const window_: ICefWindow; const event: PCefKeyboardInputEvent; var aResult: boolean);
   end;
 
 implementation

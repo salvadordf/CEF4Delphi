@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefKeyboardInputEvent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 1.0.5.snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+<style type="text/css">
+body { margin: 0.5em; }
+.badge { padding: 0.1em 0.5em; color: white; }
+</style></head>
+<body>
+<span id="TCefKeyboardInputEvent"></span><h1 class="cio">Record TCefKeyboardInputEvent</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefKeyboardInputEvent = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Portable keyboard snapshot. Identity and text are resolved by the sender; sending does not look up the receiving keyboard layout. DOM code/key use Chromium's USB-based DomCode and encoded DomKey values, respectively. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h</a>&quot;&gt;CEF source file: /include/internal/cef_types_input.h (cef_keyboard_input_event_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyboardInputEvent.html#size">size</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyboardInputEvent.html#type_">type_</a></strong>: <a href="uCEFTypes.html#TCefKeyEventType">TCefKeyEventType</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyboardInputEvent.html#modifiers">modifiers</a></strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyboardInputEvent.html#timestamp">timestamp</a></strong>: int64;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyboardInputEvent.html#dom_code">dom_code</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyboardInputEvent.html#dom_key">dom_key</a></strong>: cardinal;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyboardInputEvent.html#windows_key_code">windows_key_code</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyboardInputEvent.html#is_system_key">is_system_key</a></strong>: integer;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyboardInputEvent.html#text">text</a></strong>: array[0..3] of WideChar;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefKeyboardInputEvent.html#unmodified_text">unmodified_text</a></strong>: array[0..3] of WideChar;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="size"></span><code><strong>size</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Size of this structure. Initialize to sizeof(TCefKeyboardInputEvent). </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="type_"></span><code><strong>type_</strong>: <a href="uCEFTypes.html#TCefKeyEventType">TCefKeyEventType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Keyboard event type. See the CEF_KEY_EVENT_* constants. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="modifiers"></span><code><strong>modifiers</strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Combination of TCefEventFlags CEF_EVENTFLAG_* values for Shift, Control, Alt, Command, AltGr, Caps Lock, Num Lock, keypad/left/right location, repeat, and held left/middle/right mouse buttons. CEF_EVENTFLAG_PRECISION_SCROLLING_DELTA and CEF_EVENTFLAG_SCROLL_BY_PAGE are not valid keyboard modifiers. Other flags outside this keyboard subset are also invalid when sending. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="timestamp"></span><code><strong>timestamp</strong>: int64;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Monotonic microseconds in this process. Zero means use the send time. Negative values are invalid. This is a process-local monotonic timestamp, not a wall-clock time. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="dom_code"></span><code><strong>dom_code</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Physical key identity in Chromium's USB-based DomCode encoding. Use CEF_DOM_CODE_* values, or zero if unknown. Identifies the key's physical position independently of the active keyboard layout. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="dom_key"></span><code><strong>dom_key</strong>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Logical key meaning in Chromium's encoded DomKey representation. Use CEF_DOM_KEY_* named values, or encoded Unicode/dead-key values as defined by cef_dom_key_t. Zero indicates no known logical key value. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="windows_key_code"></span><code><strong>windows_key_code</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Windows-equivalent virtual-key code used by Chromium on every platform, or zero if unknown. Modifier-key location is conveyed by |modifiers|. CefWindowsKeyCodeFromDomCodeAndKey can derive this value from portable key identity. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="is_system_key"></span><code><strong>is_system_key</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to 1 for Chromium's system-key classification, or 0 otherwise. Native Windows conversion preserves the distinction between ordinary and system key messages; other platforms normally use zero. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="text"></span><code><strong>text</strong>: array[0..3] of WideChar;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Text generated by this event. Blink-compatible UTF-16 buffers. Each buffer must contain a zero terminator within its four units, allowing at most three units of text. Preserve all four units, including any after the terminator. Windows CHAR messages may each contain one surrogate unit; conversion does not buffer across messages. Text in RAWKEYDOWN is metadata; character insertion requires a separate CHAR event. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="unmodified_text"></span><code><strong>unmodified_text</strong>: array[0..3] of WideChar;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Text with modifiers other than Shift removed, following Blink's native conversion semantics. Preserve this source buffer when replacing |text| with insertion text; do not copy modified insertion text into this field. Uses the same UTF-16 buffer format and termination requirements as |text|. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.5.snapshot</a>. </em>
+</span>
+</body></html>

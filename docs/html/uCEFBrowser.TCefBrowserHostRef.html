@@ -318,6 +318,22 @@ body { margin: 0.5em; }
 </tr>
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowser.TCefBrowserHostRef.html#SendKeyboardEvent-PCefKeyboardInputEvent-">SendKeyboardEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>);</code></td>
+</tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowser.TCefBrowserHostRef.html#SendMouseEvent-PCefMouseInputEvent-">SendMouseEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefMouseInputEvent">PCefMouseInputEvent</a>);</code></td>
+</tr>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowser.TCefBrowserHostRef.html#SendGestureEvent-PCefGestureInputEvent-">SendGestureEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefGestureInputEvent">PCefGestureInputEvent</a>);</code></td>
+</tr>
+<tr class="list2 visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFBrowser.TCefBrowserHostRef.html#SendWheelEvent-PCefWheelInputEvent-">SendWheelEvent</a></strong>(const event: <a href="uCEFTypes.html#PCefWheelInputEvent">PCefWheelInputEvent</a>);</code></td>
+</tr>
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFBrowser.TCefBrowserHostRef.html#SetAxViewportCollapse-boolean-">SetAxViewportCollapse</a></strong>(enabled: boolean);</code></td>
 </tr>
 <tr class="list2 visibility-public">
@@ -774,7 +790,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#SendKeyEvent-PCefKeyEvent-">ICefBrowserHost.SendKeyEvent</a>.</p><p>
- Send a key event to the browser. </p>
+ Send a key event to the browser. DEPRECATED: Use SendKeyboardEvent with CefKeyboardInputEvent instead. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -784,7 +800,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#SendMouseClickEvent-PCefMouseEvent-TCefMouseButtonType-Boolean-Integer-">ICefBrowserHost.SendMouseClickEvent</a>.</p><p>
- Send a mouse click event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. </p>
+ Send a mouse click event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. DEPRECATED: Use SendMouseEvent with CefMouseInputEvent instead. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -794,7 +810,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#SendMouseMoveEvent-PCefMouseEvent-Boolean-">ICefBrowserHost.SendMouseMoveEvent</a>.</p><p>
- Send a mouse move event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. </p>
+ Send a mouse move event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. DEPRECATED: Use SendMouseEvent with CefMouseInputEvent instead. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -804,7 +820,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#SendMouseWheelEvent-PCefMouseEvent-Integer-Integer-">ICefBrowserHost.SendMouseWheelEvent</a>.</p><p>
- Send a mouse wheel event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. The |deltaX| and |deltaY| values represent the movement delta in the X and Y directions respectively. In order to scroll inside select popups with window rendering disabled ICefRenderHandler.GetScreenPoint should be implemented properly. </p>
+ Send a mouse wheel event to the browser. The |x| and |y| coordinates are relative to the upper-left corner of the view. The |deltaX| and |deltaY| values represent the movement delta in the X and Y directions respectively. In order to scroll inside select popups with window rendering disabled ICefRenderHandler.GetScreenPoint should be implemented properly. DEPRECATED: Use SendWheelEvent with CefWheelInputEvent instead. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -814,7 +830,17 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#SendTouchEvent-PCefTouchEvent-">ICefBrowserHost.SendTouchEvent</a>.</p><p>
- Send a touch event to the browser for a windowless browser. </p>
+
+
+<p>Send a portable touch event to web content. Supports off-screen and native browser views with Chromium input routing, including out-of-process frames. May be called on any thread. Coordinates are in DIPs relative to the upper-left corner of the browser view.
+
+<p>Send coherent pressed/moved/released or cancelled sequences with a unique ID for each active contact. Delivers raw DOM touch events and lets Chromium recognize gestures. Web-content processing and cef_input_handler_t::OnPreGestureEvent apply to the generated gestures. Invalid event data is ignored with a warning. Invalid contact sequencing is silently ignored.
+
+<p>For windowed browsers, events enter the native browser view's touch- processing path, including gesture recognition and touch acknowledgments. This does not synthesize native OS touch events or require a physical touchscreen or &ndash;touch-events=enabled. The caller must manage browser focus.
+
+<p>To submit an already recognized gesture without raw touch delivery or touch recognition, use SendGestureEvent with CefGestureInputEvent instead.
+
+<p></p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -864,13 +890,27 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#IMESetComposition-ustring-TCefCompositionUnderlineDynArray-PCefRange-PCefRange-">ICefBrowserHost.IMESetComposition</a>.</p><p>
- Begins a new composition or updates the existing composition. Blink has a special node (a composition node) that allows the input function to change text without affecting other DOM nodes. |text| is the optional text that will be inserted into the composition node. |underlines| is an optional set of ranges that will be underlined in the resulting text. |replacement_range| is an optional range of the existing text that will be replaced. |selection_range| is an optional range of the resulting text that will be selected after insertion or replacement. The |replacement_range| value is only used on OS X.
+
+
+<p>Begins a new composition or updates the existing composition. |text| is the optional composition text to insert. |underlines| is an optional set of styles for ranges relative to the beginning of the composition text. |replacement_range| is an optional range of the existing text that will be replaced. |selection_range| must be a valid range, relative to the beginning of the composition text, that will be selected after insertion or replacement. A collapsed range specifies the cursor position. Text offsets and ranges are measured in UTF-16 code units. An NULL |text| cancels the composition, if any, and can delete the current selection.
+
+<p>IME functions should be called with an editable element focused. Calls with a non-editable target may dispatch DOM events without changing its text.
 
 <p>This function may be called multiple times as the composition changes. When the client is done making changes the composition should either be canceled or completed. To cancel the composition call ImeCancelComposition. To complete the composition call either ImeCommitText or ImeFinishComposingText. Completion is usually signaled when:
 
-<p>1. The client receives a WM_IME_COMPOSITION message with a GCS_RESULTSTR flag (on Windows), or; 2. The client receives a &quot;commit&quot; signal of GtkIMContext (on Linux), or; 3. insertText of NSTextInput is called (on Mac).
+<p></p>
 
-<p>This function is only used when window rendering is disabled. </p>
+<pre class="preformatted">
+1. The client receives a WM_IME_COMPOSITION message with a GCS_RESULTSTR
+   flag (on Windows), or;
+2. The client receives a &quot;commit&quot; signal of GtkIMContext (on Linux), or;
+3. insertText of NSTextInput is called (on Mac).</pre>
+
+<p>
+
+<p>This function is only used when window rendering is disabled.
+
+<p></p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -880,7 +920,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#IMECommitText-ustring-PCefRange-integer-">ICefBrowserHost.IMECommitText</a>.</p><p>
- Completes the existing composition by optionally inserting the specified |text| into the composition node. |replacement_range| is an optional range of the existing text that will be replaced. |relative_cursor_pos| is where the cursor will be positioned relative to the current cursor position. See comments on ImeSetComposition for usage. The |replacement_range| and |relative_cursor_pos| values are only used on OS X. This function is only used when window rendering is disabled. </p>
+ Inserts |text| and completes the existing composition, if any. |replacement_range| is an optional range of the existing text that will be replaced, preserving the current selection. When |replacement_range| is not specified, |relative_cursor_pos| positions the cursor relative to the end of the inserted text. Text offsets and ranges are measured in UTF-16 code units. An NULL |text| can delete the current selection or composition text. To apply the current composition text without replacing it, call ImeFinishComposingText. See comments on ImeSetComposition for usage. This function is only used when window rendering is disabled. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -890,7 +930,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#IMEFinishComposingText-boolean-">ICefBrowserHost.IMEFinishComposingText</a>.</p><p>
- Completes the existing composition by applying the current composition node contents. If |keep_selection| is false (0) the current selection, if any, will be discarded. See comments on ImeSetComposition for usage. This function is only used when window rendering is disabled. </p>
+ Completes the existing composition by applying the current composition text. If |keep_selection| is false (0) the cursor moves to the end of the composition text. See comments on ImeSetComposition for usage. This function is only used when window rendering is disabled. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -900,7 +940,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#IMECancelComposition">ICefBrowserHost.IMECancelComposition</a>.</p><p>
- Cancels the existing composition and discards the composition node contents without applying them. See comments on ImeSetComposition for usage. This function is only used when window rendering is disabled. </p>
+ Cancels the existing composition and discards the composition text without applying it. See comments on ImeSetComposition for usage. This function is only used when window rendering is disabled. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -1004,7 +1044,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#SetAudioMuted-boolean-">ICefBrowserHost.SetAudioMuted</a>.</p><p>
- Set whether the browser's audio is muted. </p>
+ Set whether the browser's audio is muted. This function does not affect the muting of audio output caused by capture via TCefAudioHandler. Calling this function with false (0) will not restore normal audio playback while capture is active. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -1014,7 +1054,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#IsAudioMuted">ICefBrowserHost.IsAudioMuted</a>.</p><p>
- Returns true (1) if the browser's audio is muted. This function can only be called on the UI thread. </p>
+ Returns true (1) if the browser's audio is muted. This function can only be called on the UI thread. The returned value does not reflect the muting of audio output caused by capture via TCefAudioHandler and may be false (0) while capture is active. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -1092,11 +1132,59 @@ body { margin: 0.5em; }
 <table class="detail visibility-protected wide_list">
 <tr class="list visibility-protected">
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="SendKeyboardEvent-PCefKeyboardInputEvent-"></span><code>procedure <strong>SendKeyboardEvent</strong>(const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#SendKeyboardEvent-PCefKeyboardInputEvent-">ICefBrowserHost.SendKeyboardEvent</a>.</p><p>
+
+
+<p>Send a complete portable keyboard snapshot. Key identity and text are preserved without consulting the receiving keyboard layout. Zero timestamp uses the dispatch time. Invalid snapshots are ignored with a warning, including unsupported types/modifier bits, invalid nonzero DOM encodings, negative timestamps, unterminated text buffers, and is_system_key values other than zero or one. Supports off-screen and native browser views. May be called on any thread.
+
+<p>For windowed browsers, events are forwarded directly to the focused web- content renderer, bypassing the native browser view's key-event entry point. This does not dispatch input to other native controls or run native IME processing. Browser keyboard callbacks and unhandled-event fallback handling still apply, including Views accelerator handling.
+
+<p>Text in CEF_KEY_EVENT_RAWKEYDOWN is metadata and does not generate a CEF_KEY_EVENT_CHAR event. For ordinary portable typing, send separate RAWKEYDOWN, CHAR, and KEYUP events. Native key conversion alone does not perform text insertion or IME composition. For off-screen IME composition, use ImeSetComposition and related functions.
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="SendMouseEvent-PCefMouseInputEvent-"></span><code>procedure <strong>SendMouseEvent</strong>(const event: <a href="uCEFTypes.html#PCefMouseInputEvent">PCefMouseInputEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+* CEF_API_ADDED(15800) *</p>
+</td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="SendGestureEvent-PCefGestureInputEvent-"></span><code>procedure <strong>SendGestureEvent</strong>(const event: <a href="uCEFTypes.html#PCefGestureInputEvent">PCefGestureInputEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+* CEF_API_ADDED(15800) *</p>
+</td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="SendWheelEvent-PCefWheelInputEvent-"></span><code>procedure <strong>SendWheelEvent</strong>(const event: <a href="uCEFTypes.html#PCefWheelInputEvent">PCefWheelInputEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+* CEF_API_ADDED(15800) *</p>
+</td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><span id="SetAxViewportCollapse-boolean-"></span><code>procedure <strong>SetAxViewportCollapse</strong>(enabled: boolean);</code></td>
 </tr>
 <tr><td colspan="2">
-<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFInterfaces.ICefBrowserHost.html#SetAxViewportCollapse-boolean-">ICefBrowserHost.SetAxViewportCollapse</a>.</p><p>
- Enable or disable CDP accessibility tree viewport collapse for this browser. When enabled, off-screen landmarks and headings are serialized as summaries and other off-screen nodes are pruned. Overrides the TCefBrowserSettings.ax_viewport_collapse value. If called on the UI thread the change will be applied immediately. Otherwise, the change will be applied asynchronously on the UI thread. WARNING: This collapses the CDP accessibility tree and disables CDP dynamic tree updates (nodesUpdated events). The DevTools Accessibility panel will show an incomplete tree. Platform screen readers (NVDA, JAWS, VoiceOver) are unaffected — they use a separate code path. </p>
+<p>
+* CEF_API_ADDED(15800) *</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">

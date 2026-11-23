@@ -151,7 +151,7 @@ begin
     WM_SYSCHAR :
       if Panel1.Focused then
         begin
-          TempKeyEvent.kind                    := KEYEVENT_CHAR;
+          TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
           TempKeyEvent.windows_key_code        := Msg.wParam;
           TempKeyEvent.native_key_code         := Msg.lParam;
@@ -167,7 +167,7 @@ begin
     WM_SYSKEYDOWN :
       if Panel1.Focused then
         begin
-          TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+          TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
           TempKeyEvent.windows_key_code        := Msg.wParam;
           TempKeyEvent.native_key_code         := Msg.lParam;
@@ -182,7 +182,7 @@ begin
     WM_SYSKEYUP :
       if Panel1.Focused then
         begin
-          TempKeyEvent.kind                    := KEYEVENT_KEYUP;
+          TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
           TempKeyEvent.windows_key_code        := Msg.wParam;
           TempKeyEvent.native_key_code         := Msg.lParam;
@@ -197,7 +197,7 @@ begin
     WM_KEYDOWN :
       if Panel1.Focused then
         begin
-          TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+          TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
           TempKeyEvent.windows_key_code        := Msg.wParam;
           TempKeyEvent.native_key_code         := Msg.lParam;
@@ -213,7 +213,7 @@ begin
     WM_KEYUP :
       if Panel1.Focused then
         begin
-          TempKeyEvent.kind                    := KEYEVENT_KEYUP;
+          TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
           TempKeyEvent.windows_key_code        := Msg.wParam;
           TempKeyEvent.native_key_code         := Msg.lParam;
@@ -229,7 +229,7 @@ begin
     WM_CHAR :
       if Panel1.Focused then
         begin
-          TempKeyEvent.kind                    := KEYEVENT_CHAR;
+          TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
           TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
           TempKeyEvent.windows_key_code        := Msg.wParam;
           TempKeyEvent.native_key_code         := Msg.lParam;
@@ -547,9 +547,9 @@ end;
 function TChildForm.GetButton(Button: TMouseButton): TCefMouseButtonType;
 begin
   case Button of
-    TMouseButton.mbRight  : Result := MBT_RIGHT;
-    TMouseButton.mbMiddle : Result := MBT_MIDDLE;
-    else                    Result := MBT_LEFT;
+    TMouseButton.mbRight  : Result := CEF_MOUSE_BUTTON_RIGHT;
+    TMouseButton.mbMiddle : Result := CEF_MOUSE_BUTTON_MIDDLE;
+    else                    Result := CEF_MOUSE_BUTTON_LEFT;
   end;
 end;
 

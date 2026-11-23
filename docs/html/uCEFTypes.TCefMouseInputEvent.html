@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>cef4delphi: uCEFTypes: Record TCefMouseInputEvent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 1.0.5.snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+<style type="text/css">
+body { margin: 0.5em; }
+.badge { padding: 0.1em 0.5em; color: white; }
+</style></head>
+<body>
+<span id="TCefMouseInputEvent"></span><h1 class="cio">Record TCefMouseInputEvent</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="uCEFTypes.html">uCEFTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCefMouseInputEvent = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+ Portable mouse snapshot. Positions are floating point DIPs relative to the target widget and screen, respectively. Values retain Blink semantics. Event names in member descriptions refer to CEF_MOUSE_EVENT_* values. </p>
+<p>
+
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h</a>&quot;&gt;CEF source file: /include/internal/cef_types_input.h (cef_mouse_input_event_t))</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#size">size</a></strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#type_">type_</a></strong>: <a href="uCEFTypes.html#TCefMouseInputEventType">TCefMouseInputEventType</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#modifiers">modifiers</a></strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#timestamp">timestamp</a></strong>: int64;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#x">x</a></strong>: single;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#y">y</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#screen_x">screen_x</a></strong>: single;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#screen_y">screen_y</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#button">button</a></strong>: <a href="uCEFTypes.html#TCefMouseButtonType">TCefMouseButtonType</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#click_count">click_count</a></strong>: integer;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#pointer_type">pointer_type</a></strong>: <a href="uCEFTypes.html#TCefPointerType">TCefPointerType</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#pointer_id">pointer_id</a></strong>: integer;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#pressure">pressure</a></strong>: single;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#tilt_x">tilt_x</a></strong>: double;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#tilt_y">tilt_y</a></strong>: double;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#tangential_pressure">tangential_pressure</a></strong>: single;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#twist">twist</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#movement_x">movement_x</a></strong>: integer;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#movement_y">movement_y</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#is_raw_movement_event">is_raw_movement_event</a></strong>: integer;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#device_id">device_id</a></strong>: integer;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.TCefMouseInputEvent.html#menu_source_type">menu_source_type</a></strong>: integer;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="size"></span><code><strong>size</strong>: <a href="uCEFTypes.html#NativeUInt">NativeUInt</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Size of this structure. Initialize to sizeof(TCefMouseInputEvent). </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="type_"></span><code><strong>type_</strong>: <a href="uCEFTypes.html#TCefMouseInputEventType">TCefMouseInputEventType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Mouse event type. See the CEF_MOUSE_EVENT_* constants. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="modifiers"></span><code><strong>modifiers</strong>: <a href="uCEFTypes.html#TCefEventFlags">TCefEventFlags</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Combination of TCefEventFlags CEF_EVENTFLAG_* values for keyboard modifiers, lock state, held mouse buttons, and event-source attributes. Held-button flags describe the state after a down/up transition; |button| identifies the button that changed. Precision-scrolling and scroll-by-page flags are not valid for mouse input. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="timestamp"></span><code><strong>timestamp</strong>: int64;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Monotonic microseconds in this process. Zero means use the send time. Negative values are invalid. This is a process-local monotonic timestamp, not a wall-clock time. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="x"></span><code><strong>x</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Horizontal position in DIPs. When sending, relative to the left edge of the browser view; in callbacks, relative to the receiving widget after input routing. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="y"></span><code><strong>y</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Vertical position in DIPs. When sending, relative to the top edge of the browser view; in callbacks, relative to the receiving widget after input routing. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="screen_x"></span><code><strong>screen_x</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Horizontal screen position in DIPs, relative to the desktop origin. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="screen_y"></span><code><strong>screen_y</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Vertical screen position in DIPs, relative to the desktop origin. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="button"></span><code><strong>button</strong>: <a href="uCEFTypes.html#TCefMouseButtonType">TCefMouseButtonType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Changed button for DOWN/UP events, or a held button for movement events. Use CEF_MOUSE_BUTTON_NONE when no button applies. If several buttons are held, this field identifies one of them; |modifiers| contains the complete held-button state. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="click_count"></span><code><strong>click_count</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Number of consecutive clicks associated with the event: 1 for a single click, 2 for a double click, and so on. Must be nonnegative. Use zero for events without a click count. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="pointer_type"></span><code><strong>pointer_type</strong>: <a href="uCEFTypes.html#TCefPointerType">TCefPointerType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Device classification of the pointer, such as CEF_POINTER_TYPE_MOUSE or CEF_POINTER_TYPE_PEN. Use CEF_POINTER_TYPE_UNKNOWN when unavailable. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="pointer_id"></span><code><strong>pointer_id</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Identifier of the pointer that produced the event. Preserve it for related events from the same pointer. Blink uses INT32_MAX for the ordinary mouse pointer. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="pressure"></span><code><strong>pressure</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Normalized contact pressure in [0,1], or NaN if unsupported by the device. Zero represents no pressure and one represents maximum pressure. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="tilt_x"></span><code><strong>tilt_x</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Stylus tilt from the surface normal in the X-Z plane, in degrees in [-90,90]. Positive values tilt to the right. Use zero when unsupported. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="tilt_y"></span><code><strong>tilt_y</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Stylus tilt from the surface normal in the Y-Z plane, in degrees in [-90,90]. Positive values tilt towards the user. Use zero when unsupported. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="tangential_pressure"></span><code><strong>tangential_pressure</strong>: single;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Normalized barrel pressure in [-1,1]. Zero is the neutral position and is also used when the device does not support this attribute. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="twist"></span><code><strong>twist</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Clockwise stylus rotation around its major axis, in degrees in [0,359]. Use zero when unsupported. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="movement_x"></span><code><strong>movement_x</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Horizontal movement reported by the input source, preserved without conversion. Raw OS movement uses device units when |is_raw_movement_event| is 1. With that flag set to 0, Blink may derive DOM movement from position changes instead. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="movement_y"></span><code><strong>movement_y</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Vertical movement reported by the input source. Units and interpretation follow |movement_x| and |is_raw_movement_event|. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="is_raw_movement_event"></span><code><strong>is_raw_movement_event</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Set to 1 when |movement_x| and |movement_y| contain raw, unadjusted OS movement, or 0 otherwise. Raw movement is independent of the DIP positions in this structure. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="device_id"></span><code><strong>device_id</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Identifier of the physical pen device on platforms that supply one. Use -1 when unavailable. This is separate from |pointer_id|, which identifies the pointer in the event stream. </p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="menu_source_type"></span><code><strong>menu_source_type</strong>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+ Source of a CONTEXT_MENU event, using Chromium MenuSourceType values: 0 none, 1 mouse, 2 keyboard, 3 touch, 4 touch edit menu, 5 long press, 6 long tap, 7 touch handle, 8 stylus, 9 adjust selection, 10 adjust selection reset. Use zero for other event types. </p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.5.snapshot</a>. </em>
+</span>
+</body></html>

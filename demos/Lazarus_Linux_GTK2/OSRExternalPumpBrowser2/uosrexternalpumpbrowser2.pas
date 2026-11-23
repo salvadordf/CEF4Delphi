@@ -198,14 +198,14 @@ begin
 
   if (Event^._type = GDK_KEY_PRESS) then
     begin
-      TempCefEvent.kind := KEYEVENT_RAWKEYDOWN;
+      TempCefEvent.kind := CEF_KEYEVENT_RAWKEYDOWN;
       Form1.SendCEFKeyEvent(TempCefEvent);
-      TempCefEvent.kind := KEYEVENT_CHAR;
+      TempCefEvent.kind := CEF_KEYEVENT_CHAR;
       Form1.SendCEFKeyEvent(TempCefEvent);
     end
    else
     begin
-      TempCefEvent.kind := KEYEVENT_KEYUP;
+      TempCefEvent.kind := CEF_KEYEVENT_KEYUP;
       Form1.SendCEFKeyEvent(TempCefEvent);
     end;
 
@@ -455,9 +455,9 @@ end;
 function TForm1.GetButton(Button: TMouseButton): TCefMouseButtonType;
 begin
   case Button of
-    TMouseButton.mbRight  : Result := MBT_RIGHT;
-    TMouseButton.mbMiddle : Result := MBT_MIDDLE;
-    else                    Result := MBT_LEFT;
+    TMouseButton.mbRight  : Result := CEF_MOUSE_BUTTON_RIGHT;
+    TMouseButton.mbMiddle : Result := CEF_MOUSE_BUTTON_MIDDLE;
+    else                    Result := CEF_MOUSE_BUTTON_LEFT;
   end;
 end;
 

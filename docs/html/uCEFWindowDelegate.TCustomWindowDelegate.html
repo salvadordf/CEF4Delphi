@@ -176,7 +176,11 @@ body { margin: 0.5em; }
 <td class="visibility"><span class="badge vis-protected">Protected</span></td>
 <td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCustomWindowDelegate.html#OnGetLinuxWindowProperties-ICefWindow-TLinuxWindowProperties-boolean-">OnGetLinuxWindowProperties</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; var properties: <a href="uCEFTypes.TLinuxWindowProperties.html">TLinuxWindowProperties</a>; var aResult: boolean); override;</code></td>
 </tr>
-<tr class="list visibility-public">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><code>procedure <strong><a href="uCEFWindowDelegate.TCustomWindowDelegate.html#OnKeyboardEvent-ICefWindow-PCefKeyboardInputEvent-boolean-">OnKeyboardEvent</a></strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; var aResult: boolean); override;</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>constructor <strong><a href="uCEFWindowDelegate.TCustomWindowDelegate.html#Create-ICefWindowDelegateEvents-">Create</a></strong>(const events: <a href="uCEFInterfaces.ICefWindowDelegateEvents.html">ICefWindowDelegateEvents</a>); reintroduce;</code></td>
 </tr>
@@ -279,7 +283,7 @@ ICefViewDelegate</p>
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFViewDelegate.TCefViewDelegateOwn.html#OnFocus-ICefView-">TCefViewDelegateOwn.OnFocus</a>.</p><p>
- Called when |view| gains focus. </p>
+ Called when |view| gains focus within its containing Window. Containers, including ICefWindow, are not focusable by default; call SetFocusable(true (1)) and request_focus() to focus them. This callback does not report focus gained by child Views or activation of the native Window. Use ICefWindowDelegate.OnWindowActivationChanged for native Window activation. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -524,7 +528,7 @@ ICefWindowDelegate</p>
 </tr>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFWindowDelegate.TCefWindowDelegateOwn.html#OnKeyEvent-ICefWindow-TCefKeyEvent-boolean-">TCefWindowDelegateOwn.OnKeyEvent</a>.</p><p>
- Called after all other controls in the window have had a chance to handle the event. |event| contains information about the keyboard event. Return true (1) if the keyboard event was handled or false (0) otherwise. </p>
+ Called after all other controls in the window have had a chance to handle the event. |event| contains information about the keyboard event. Return true (1) if the keyboard event was handled or false (0) otherwise. On macOS, native Views text interpretation may deliver KEYEVENT_CHAR instead of a printable keydown, followed by KEYEVENT_KEYUP. Do not assume that every keyup has a corresponding keydown callback. DEPRECATED: Use OnKeyboardEvent with CefKeyboardInputEvent instead. </p>
 </td></tr>
 </table>
 <table class="detail visibility-protected wide_list">
@@ -567,6 +571,22 @@ ICefWindowDelegate</p>
 <tr><td colspan="2">
 <p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFWindowDelegate.TCefWindowDelegateOwn.html#OnGetLinuxWindowProperties-ICefWindow-TLinuxWindowProperties-boolean-">TCefWindowDelegateOwn.OnGetLinuxWindowProperties</a>.</p><p>
  Return Linux-specific window properties for correctly handling by window managers. </p>
+</td></tr>
+</table>
+<table class="detail visibility-protected wide_list">
+<tr class="list visibility-protected">
+<td class="visibility"><span class="badge vis-protected">Protected</span></td>
+<td class="itemcode"><span id="OnKeyboardEvent-ICefWindow-PCefKeyboardInputEvent-boolean-"></span><code>procedure <strong>OnKeyboardEvent</strong>(const window_: <a href="uCEFInterfaces.ICefWindow.html">ICefWindow</a>; const event: <a href="uCEFTypes.html#PCefKeyboardInputEvent">PCefKeyboardInputEvent</a>; var aResult: boolean); override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="inheritdescription">This item has no description. Showing description inherited from <a class="normal" href="uCEFWindowDelegate.TCefWindowDelegateOwn.html#OnKeyboardEvent-ICefWindow-PCefKeyboardInputEvent-boolean-">TCefWindowDelegateOwn.OnKeyboardEvent</a>.</p><p>
+
+
+<p>Called after all other controls in the window have had a chance to handle the event. |event| contains the resolved platform-independent keyboard snapshot. Return true (1) to handle the event or false (0) to try OnKeyEvent before default handling.
+
+<p>On macOS, native Views text interpretation may consume a printable keydown and deliver CEF_KEY_EVENT_CHAR instead. CEF_KEY_EVENT_KEYUP can still follow, so do not assume that every keyup has a corresponding keydown callback. This applies to input routed through native Views controls; BrowserView input follows the browser keyboard event dispatch path.
+
+<p></p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">

@@ -205,7 +205,7 @@ var
 begin
   if (Key <> 0) and (chrmosr <> nil) then
     begin
-      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+      TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
       TempKeyEvent.modifiers               := getModifiers(Shift);
       TempKeyEvent.windows_key_code        := Key;
       TempKeyEvent.native_key_code         := 0;
@@ -224,7 +224,7 @@ procedure TForm1.OpenGLControl1KeyPress(Sender: TObject; var Key: char);
 var
   TempKeyEvent : TCefKeyEvent;
 begin
-  TempKeyEvent.kind                    := KEYEVENT_CHAR;
+  TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
   TempKeyEvent.modifiers               := GetCefKeyboardModifiers(WParam(Key), 0);
   TempKeyEvent.windows_key_code        := Integer(Key);
   TempKeyEvent.native_key_code         := 0;
@@ -243,7 +243,7 @@ var
 begin
   if (Key <> 0) and (chrmosr <> nil) then
     begin
-      TempKeyEvent.kind                    := KEYEVENT_KEYUP;
+      TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
       TempKeyEvent.modifiers               := getModifiers(Shift);
       TempKeyEvent.windows_key_code        := Key;
       TempKeyEvent.native_key_code         := 0;
@@ -721,9 +721,9 @@ end;
 function TForm1.GetButton(Button: TMouseButton): TCefMouseButtonType;
 begin
   case Button of
-    TMouseButton.mbRight  : Result := MBT_RIGHT;
-    TMouseButton.mbMiddle : Result := MBT_MIDDLE;
-    else                    Result := MBT_LEFT;
+    TMouseButton.mbRight  : Result := CEF_MOUSE_BUTTON_RIGHT;
+    TMouseButton.mbMiddle : Result := CEF_MOUSE_BUTTON_MIDDLE;
+    else                    Result := CEF_MOUSE_BUTTON_LEFT;
   end;
 end;
 
@@ -777,7 +777,7 @@ begin
 
   if OpenGLControl1.Focused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
     begin
-      TempKeyEvent.kind                    := KEYEVENT_CHAR;
+      TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
       TempKeyEvent.windows_key_code        := aMessage.wParam;
       TempKeyEvent.native_key_code         := aMessage.lParam;
@@ -799,7 +799,7 @@ begin
 
   if OpenGLControl1.Focused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
     begin
-      TempKeyEvent.kind                    := KEYEVENT_RAWKEYDOWN;
+      TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
       TempKeyEvent.windows_key_code        := aMessage.wParam;
       TempKeyEvent.native_key_code         := aMessage.lParam;
@@ -820,7 +820,7 @@ begin
 
   if OpenGLControl1.Focused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
     begin
-      TempKeyEvent.kind                    := KEYEVENT_KEYUP;
+      TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
       TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
       TempKeyEvent.windows_key_code        := aMessage.wParam;
       TempKeyEvent.native_key_code         := aMessage.lParam;

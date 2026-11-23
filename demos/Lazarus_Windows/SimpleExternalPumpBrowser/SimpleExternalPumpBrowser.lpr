@@ -1,7 +1,5 @@
 program SimpleExternalPumpBrowser;
 
-
-
 uses
   Forms, Interfaces,
   Windows,

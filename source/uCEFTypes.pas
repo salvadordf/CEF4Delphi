@@ -227,6 +227,12 @@ type
   PCefLinuxWindowProperties = ^TCefLinuxWindowProperties;
   PCefTaskInfo = ^TCefTaskInfo;
   PCefVersionInfoEx = ^TCefVersionInfoEx;
+  PCefKeyboardInputEvent = ^TCefKeyboardInputEvent;
+  PCefMouseInputEvent = ^TCefMouseInputEvent;
+  PCefGestureInputEvent = ^TCefGestureInputEvent;
+  PCefInputEventContext = ^TCefInputEventContext;
+  PCefWheelInputEvent = ^TCefWheelInputEvent;
+  PCefInputHandler = ^TCefInputHandler;
 
 {$IFDEF FPC}
   NativeInt   = PtrInt;
@@ -1088,6 +1094,27 @@ type
   /// </remarks>
   TCefResultCode                   = type Integer;
 
+  /// <summary>
+  /// Encoded logical keys. Use bitwise OR to combine a Unicode scalar with
+  /// CEF_DOM_KEY_UNICODE_FLAG, or a dead-key combining character with
+  /// CEF_DOM_KEY_DEAD_FLAG. Named values come from Chromium's table.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h">CEF source file: /include/internal/cef_types_keyboard_codes.h (cef_log_items_t)</see></para>
+  /// </remarks>
+  TCefDomKey                       = type Integer;
+
+  /// <summary>
+  /// Scroll sequence phases. Values are flags and may be combined when the
+  /// native input source reports simultaneous transitions.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_wheel_event_phase_t)</see></para>
+  /// </remarks>
+  TCefWheelEventPhase              = type Integer;
+
 
   /// <summary>
   /// Array of byte. Needed only for backwards compatibility with old Delphi versions.
@@ -1098,6 +1125,73 @@ type
   /// Custom array of int64.
   /// </summary>
   TCefCustomInt64Array = array of int64;
+
+  /// <summary>
+  /// Physical key identities in Chromium's USB-based DomCode encoding.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h">CEF source file: /include/internal/cef_types_keyboard_codes.h (cef_log_items_t)</see></para>
+  /// </remarks>
+  TCefDomCode = (
+    CEF_DOM_CODE_NONE = 0
+  );
+
+  /// <summary>
+  /// Gesture event types, including distinct show-press and short-press events.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_gesture_input_event_type_t)</see></para>
+  /// </remarks>
+  TCefGestureInputEventType = (
+    CEF_GESTURE_EVENT_SCROLL_BEGIN = 0,
+    CEF_GESTURE_EVENT_SCROLL_END,
+    CEF_GESTURE_EVENT_SCROLL_UPDATE,
+    CEF_GESTURE_EVENT_FLING_START,
+    CEF_GESTURE_EVENT_FLING_CANCEL,
+    CEF_GESTURE_EVENT_PINCH_BEGIN,
+    CEF_GESTURE_EVENT_PINCH_END,
+    CEF_GESTURE_EVENT_PINCH_UPDATE,
+    CEF_GESTURE_EVENT_BEGIN,
+    CEF_GESTURE_EVENT_TAP_DOWN,
+    CEF_GESTURE_EVENT_SHOW_PRESS,
+    CEF_GESTURE_EVENT_TAP,
+    CEF_GESTURE_EVENT_TAP_CANCEL,
+    CEF_GESTURE_EVENT_SHORT_PRESS,
+    CEF_GESTURE_EVENT_LONG_PRESS,
+    CEF_GESTURE_EVENT_LONG_TAP,
+    CEF_GESTURE_EVENT_TWO_FINGER_TAP,
+    CEF_GESTURE_EVENT_TAP_UNCONFIRMED,
+    CEF_GESTURE_EVENT_DOUBLE_TAP,
+    CEF_GESTURE_EVENT_END
+  );
+
+  /// <summary>
+  /// Source device for a gesture.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_gesture_device_t)</see></para>
+  /// </remarks>
+  TCefGestureDevice = (
+    CEF_GESTURE_DEVICE_UNINITIALIZED = 0,
+    CEF_GESTURE_DEVICE_TOUCHPAD,
+    CEF_GESTURE_DEVICE_TOUCHSCREEN,
+    CEF_GESTURE_DEVICE_SYNTHETIC_AUTOSCROLL,
+    CEF_GESTURE_DEVICE_SCROLLBAR
+  );
+
+  /// <summary>
+  /// Gesture scrolling units, matching Chromium ScrollGranularity.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_gesture_scroll_units_t)</see></para>
+  /// </remarks>
+  TCefGestureScrollUnits = (
+    CEF_GESTURE_SCROLL_PRECISE_PIXEL = 0,
+    CEF_GESTURE_SCROLL_PIXEL,
+    CEF_GESTURE_SCROLL_LINE,
+    CEF_GESTURE_SCROLL_PAGE,
+    CEF_GESTURE_SCROLL_DOCUMENT
+  );
 
   /// <summary>
   /// Structure representing all CEF version information.
@@ -2163,29 +2257,29 @@ type
   /// on the key, locale, and operating system.
   /// </summary>
   /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_key_event_type_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_key_event_type_t)</see></para>
   /// </remarks>
   TCefKeyEventType = (
     /// <summary>
     /// Notification that a key transitioned from "up" to "down".
     /// </summary>
-    KEYEVENT_RAWKEYDOWN = 0,
+    CEF_KEYEVENT_RAWKEYDOWN = 0,
     /// <summary>
     /// Notification that a key was pressed. This does not necessarily correspond
     /// to a character depending on the key and language. Use KEYEVENT_CHAR for
     /// character input.
     /// </summary>
-    KEYEVENT_KEYDOWN,
+    CEF_KEYEVENT_KEYDOWN,
     /// <summary>
     /// Notification that a key was released.
     /// </summary>
-    KEYEVENT_KEYUP,
+    CEF_KEYEVENT_KEYUP,
     /// <summary>
     /// Notification that a character was typed. Use this for text input. Key
     /// down events may generate 0, 1, or more than one character event depending
     /// on the key, locale, and operating system.
     /// </summary>
-    KEYEVENT_CHAR
+    CEF_KEYEVENT_CHAR
   );
 
   /// <summary>
@@ -2280,7 +2374,7 @@ type
   );
 
   /// <summary>
-  /// Touch points states types.
+  /// States of a touch contact.
   /// </summary>
   /// <remarks>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_touch_event_type_t)</see></para>
@@ -2296,7 +2390,7 @@ type
   /// The device type that caused the event.
   /// </summary>
   /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_pointer_type_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_pointer_type_t)</see></para>
   /// </remarks>
   TCefPointerType = (
     CEF_POINTER_TYPE_TOUCH = 0,
@@ -2889,12 +2983,31 @@ type
   /// Mouse button types.
   /// </summary>
   /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_mouse_button_type_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_mouse_button_type_t)</see></para>
   /// </remarks>
   TCefMouseButtonType = (
-    MBT_LEFT,
-    MBT_MIDDLE,
-    MBT_RIGHT
+    CEF_MOUSE_BUTTON_NONE = -1,
+    CEF_MOUSE_BUTTON_LEFT = 0,
+    CEF_MOUSE_BUTTON_MIDDLE,
+    CEF_MOUSE_BUTTON_RIGHT,
+    CEF_MOUSE_BUTTON_BACK,
+    CEF_MOUSE_BUTTON_FORWARD,
+    CEF_MOUSE_BUTTON_ERASER
+  );
+
+  /// <summary>
+  /// Mouse event types. Wheel input is a separate event family.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_mouse_input_event_type_t)</see></para>
+  /// </remarks>
+  TCefMouseInputEventType = (
+    CEF_MOUSE_EVENT_DOWN = 0,
+    CEF_MOUSE_EVENT_UP,
+    CEF_MOUSE_EVENT_MOVE,
+    CEF_MOUSE_EVENT_ENTER,
+    CEF_MOUSE_EVENT_LEAVE,
+    CEF_MOUSE_EVENT_CONTEXT_MENU
   );
 
   /// <summary>
@@ -2981,7 +3094,10 @@ type
     /// On Windows, the OS terminated the process due to code integrity failure.
     /// </summary>
     TS_INTEGRITY_FAILURE,
-
+    /// <summary>
+    /// The process was proactively terminated by the browser to reclaim memory.
+    /// </summary>
+    TS_EVICTED_FOR_MEMORY,
     TS_NUM_VALUES
   );
 
@@ -3541,6 +3657,7 @@ type
     CEF_CPAIT_PAYMENTS_CHURNED_USERS,              {* CEF_API_ADDED(15200) *}
     CEF_CPAIT_FAKE_PAGE_ACTION_FOR_DEBUG,          {* CEF_API_ADDED(15200) *}
     CEF_CPAIT_WALLET_REMINDER_NOTICE,              {* CEF_API_ADDED(15400) *}
+    CEF_CPAIT_GMAIL_OTP_OPT_IN,                    {* CEF_API_ADDED(15800) *}
     CEF_CPAIT_NUM_VALUES
   );
 
@@ -3648,7 +3765,11 @@ type
     /// <summary>
     /// Bad CRX data callback.
     /// </summary>
-    CEF_COMPONENT_UPDATE_ERROR_BAD_CRX_DATA_CALLBACK = 8
+    CEF_COMPONENT_UPDATE_ERROR_BAD_CRX_DATA_CALLBACK = 8,
+    /// <summary>
+    /// Component updates are disabled.
+    /// </summary>
+    CEF_COMPONENT_UPDATE_ERROR_UPDATE_DISABLED = 9           {* CEF_API_ADDED(15800) *}
   );
 
   /// <summary>
@@ -3891,9 +4012,7 @@ type
   end;
 
   /// <summary>
-  /// Structure representing IME composition underline information. This is a thin
-  /// wrapper around Blink's WebCompositionUnderline class and should be kept in
-  /// sync with that.
+  /// Structure representing IME composition underline information.
   /// </summary>
   /// <remarks>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_composition_underline_t)</see></para>
@@ -3904,11 +4023,13 @@ type
     /// </summary>
     size             : NativeUInt;
     /// <summary>
-    /// Underline character range.
+    /// Range in UTF-16 code units relative to the beginning of the composition
+    /// text.
     /// </summary>
     range            : TCefRange;
     /// <summary>
-    /// Text color.
+    /// Underline color. Also used as the text color when composition text
+    /// coloring is enabled.
     /// </summary>
     color            : TCefColor;
     /// <summary>
@@ -4087,21 +4208,23 @@ type
     main_bundle_path                         : TCefString;
     /// <summary>
     /// Set to true (1) to have the browser process message loop run in a separate
-    /// thread. If false (0) then the CefDoMessageLoopWork() function must be
-    /// called from your application message loop. This option is only supported
-    /// on Windows and Linux.
+    /// thread. If false (0) then use CefRunMessageLoop() or call
+    /// CefDoMessageLoopWork() regularly from your application message loop. This
+    /// option is only supported on Windows and Linux.
     /// </summary>
     multi_threaded_message_loop              : Integer;
     /// <summary>
     /// Set to true (1) to control browser process main (UI) thread message pump
-    /// scheduling via the ICefBrowserProcessHandler.OnScheduleMessagePumpWork()
+    /// scheduling via the CefBrowserProcessHandler::OnScheduleMessagePumpWork()
     /// callback. This option is recommended for use in combination with the
     /// CefDoMessageLoopWork() function in cases where the CEF message loop must
     /// be integrated into an existing application message loop (see additional
-    /// comments and warnings on CefDoMessageLoopWork). Enabling this option is
-    /// not recommended for most users; leave this option disabled and use either
-    /// the CefRunMessageLoop() function or multi_threaded_message_loop if
-    /// possible.
+    /// comments and warnings on CefDoMessageLoopWork). Scheduling callbacks
+    /// supplement regular CefDoMessageLoopWork() calls; the application must
+    /// continue to schedule calls even when no callback is received. Enabling
+    /// this option is not recommended for most users; leave this option disabled
+    /// and use either the CefRunMessageLoop() function or
+    /// multi_threaded_message_loop if possible.
     /// </summary>
     external_message_pump                    : Integer;
     /// <summary>
@@ -4562,6 +4685,9 @@ type
 
   /// <summary>
   /// Structure representing keyboard event information.
+  /// DEPRECATED: Use TCefKeyboardInputEvent with the unified browser and
+  /// Views keyboard callbacks instead. This structure remains supported by legacy
+  /// keyboard callbacks.
   /// </summary>
   /// <remarks>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_key_event_t)</see></para>
@@ -4612,6 +4738,540 @@ type
     /// </summary>
     focus_on_editable_field : Integer;
   end;
+
+
+  /// <summary>
+  /// Portable mouse snapshot. Positions are floating point DIPs relative to the
+  /// target widget and screen, respectively. Values retain Blink semantics.
+  /// Event names in member descriptions refer to CEF_MOUSE_EVENT_* values.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_mouse_input_event_t)</see></para>
+  /// </remarks>
+  TCefMouseInputEvent = record
+    /// <summary>
+    /// Size of this structure. Initialize to sizeof(TCefMouseInputEvent).
+    /// </summary>
+    size                    : NativeUInt;
+    /// <summary>
+    /// Mouse event type. See the CEF_MOUSE_EVENT_* constants.
+    /// </summary>
+    type_                   : TCefMouseInputEventType;
+    /// <summary>
+    /// Combination of TCefEventFlags CEF_EVENTFLAG_* values for keyboard
+    /// modifiers, lock state, held mouse buttons, and event-source attributes.
+    /// Held-button flags describe the state after a down/up transition; |button|
+    /// identifies the button that changed. Precision-scrolling and
+    /// scroll-by-page flags are not valid for mouse input.
+    /// </summary>
+    modifiers               : TCefEventFlags;
+    /// <summary>
+    /// Monotonic microseconds in this process. Zero means use the send time.
+    /// Negative values are invalid. This is a process-local monotonic timestamp,
+    /// not a wall-clock time.
+    /// </summary>
+    timestamp               : int64;
+    /// <summary>
+    /// Horizontal position in DIPs. When sending, relative to the left edge of
+    /// the browser view; in callbacks, relative to the receiving widget after
+    /// input routing.
+    /// </summary>
+    x                       : single;
+    /// <summary>
+    /// Vertical position in DIPs. When sending, relative to the top edge of the
+    /// browser view; in callbacks, relative to the receiving widget after input
+    /// routing.
+    /// </summary>
+    y                       : single;
+    /// <summary>
+    /// Horizontal screen position in DIPs, relative to the desktop origin.
+    /// </summary>
+    screen_x                : single;
+    /// <summary>
+    /// Vertical screen position in DIPs, relative to the desktop origin.
+    /// </summary>
+    screen_y                : single;
+    /// <summary>
+    /// Changed button for DOWN/UP events, or a held button for movement events.
+    /// Use CEF_MOUSE_BUTTON_NONE when no button applies. If several buttons are
+    /// held, this field identifies one of them; |modifiers| contains the
+    /// complete held-button state.
+    /// </summary>
+    button                  : TCefMouseButtonType;
+    /// <summary>
+    /// Number of consecutive clicks associated with the event: 1 for a single
+    /// click, 2 for a double click, and so on. Must be nonnegative. Use zero for
+    /// events without a click count.
+    /// </summary>
+    click_count             : integer;
+    /// <summary>
+    /// Device classification of the pointer, such as CEF_POINTER_TYPE_MOUSE or
+    /// CEF_POINTER_TYPE_PEN. Use CEF_POINTER_TYPE_UNKNOWN when unavailable.
+    /// </summary>
+    pointer_type            : TCefPointerType;
+    /// <summary>
+    /// Identifier of the pointer that produced the event. Preserve it for
+    /// related events from the same pointer. Blink uses INT32_MAX for the
+    /// ordinary mouse pointer.
+    /// </summary>
+    pointer_id              : integer;
+    /// <summary>
+    /// Normalized contact pressure in [0,1], or NaN if unsupported by the
+    /// device. Zero represents no pressure and one represents maximum pressure.
+    /// </summary>
+    pressure                : single;
+    /// <summary>
+    /// Stylus tilt from the surface normal in the X-Z plane, in degrees in
+    /// [-90,90]. Positive values tilt to the right. Use zero when unsupported.
+    /// </summary>
+    tilt_x                  : double;
+    /// <summary>
+    /// Stylus tilt from the surface normal in the Y-Z plane, in degrees in
+    /// [-90,90]. Positive values tilt towards the user. Use zero when
+    /// unsupported.
+    /// </summary>
+    tilt_y                  : double;
+    /// <summary>
+    /// Normalized barrel pressure in [-1,1]. Zero is the neutral position and is
+    /// also used when the device does not support this attribute.
+    /// </summary>
+    tangential_pressure     : single;
+    /// <summary>
+    /// Clockwise stylus rotation around its major axis, in degrees in [0,359].
+    /// Use zero when unsupported.
+    /// </summary>
+    twist                   : integer;
+    /// <summary>
+    /// Horizontal movement reported by the input source, preserved without
+    /// conversion. Raw OS movement uses device units when
+    /// |is_raw_movement_event| is 1. With that flag set to 0, Blink may derive
+    /// DOM movement from position changes instead.
+    /// </summary>
+    movement_x              : integer;
+    /// <summary>
+    /// Vertical movement reported by the input source. Units and interpretation
+    /// follow |movement_x| and |is_raw_movement_event|.
+    /// </summary>
+    movement_y              : integer;
+    /// <summary>
+    /// Set to 1 when |movement_x| and |movement_y| contain raw, unadjusted OS
+    /// movement, or 0 otherwise. Raw movement is independent of the DIP
+    /// positions in this structure.
+    /// </summary>
+    is_raw_movement_event   : integer;
+    /// <summary>
+    /// Identifier of the physical pen device on platforms that supply one. Use
+    /// -1 when unavailable. This is separate from |pointer_id|, which identifies
+    /// the pointer in the event stream.
+    /// </summary>
+    device_id               : integer;
+    /// <summary>
+    /// Source of a CONTEXT_MENU event, using Chromium MenuSourceType values: 0
+    /// none, 1 mouse, 2 keyboard, 3 touch, 4 touch edit menu, 5 long press, 6
+    /// long tap, 7 touch handle, 8 stylus, 9 adjust selection, 10 adjust
+    /// selection reset. Use zero for other event types.
+    /// </summary>
+    menu_source_type        : integer;
+  end;
+
+
+  /// <summary>
+  /// Portable gesture snapshot. Only the fields documented for |type| apply;
+  /// initialize other subtype fields to zero. Positions are widget/screen DIPs.
+  /// Exposed values retain their Blink representation and semantics.
+  /// Event names in member descriptions refer to CEF_GESTURE_EVENT_* values.
+  /// All floating-point members must be finite. Boolean members accept 0 or 1.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_gesture_input_event_t)</see></para>
+  /// </remarks>
+  TCefGestureInputEvent = record
+    /// <summary>
+    /// Size of this structure. Initialize to sizeof(TCefGestureInputEvent).
+    /// </summary>
+    size                                : NativeUInt;
+    /// <summary>
+    /// Gesture event type. See the CEF_GESTURE_EVENT_* constants. Determines
+    /// which subtype-specific members apply.
+    /// </summary>
+    type_                               : TCefGestureInputEventType;
+    /// <summary>
+    /// Combination of TCefEventFlags CEF_EVENTFLAG_* values for keyboard
+    /// modifiers, lock state, held mouse buttons, and event-source attributes.
+    /// Precision-scrolling and scroll-by-page flags are not valid for gesture
+    /// input; specify scrolling units with |delta_units|.
+    /// </summary>
+    modifiers                           : TCefEventFlags;
+    /// <summary>
+    /// Monotonic microseconds in this process. Zero means use the send time.
+    /// Negative values are invalid. This is a process-local monotonic timestamp,
+    /// not a wall-clock time.
+    /// </summary>
+    timestamp                           : int64;
+    /// <summary>
+    /// Horizontal position in DIPs. When sending, relative to the left edge of
+    /// the browser view; in callbacks, relative to the receiving widget after
+    /// input routing.
+    /// </summary>
+    x                                   : single;
+    /// <summary>
+    /// Vertical position in DIPs. When sending, relative to the top edge of the
+    /// browser view; in callbacks, relative to the receiving widget after input
+    /// routing.
+    /// </summary>
+    y                                   : single;
+    /// <summary>
+    /// Horizontal screen position in DIPs, relative to the desktop origin.
+    /// </summary>
+    screen_x                            : single;
+    /// <summary>
+    /// Vertical screen position in DIPs, relative to the desktop origin.
+    /// </summary>
+    screen_y                            : single;
+    /// <summary>
+    /// Device or scrolling source that generated the gesture. Sending requires
+    /// an initialized source, such as CEF_GESTURE_DEVICE_TOUCHPAD or
+    /// CEF_GESTURE_DEVICE_TOUCHSCREEN.
+    /// </summary>
+    source_device                       : TCefGestureDevice;
+    /// <summary>
+    /// Device classification of the first touch point in the gesture sequence.
+    /// Use CEF_POINTER_TYPE_UNKNOWN when the initiating pointer type is
+    /// unavailable.
+    /// </summary>
+    primary_pointer_type                : TCefPointerType;
+    /// <summary>
+    /// Correlation ID of the first touch event in the gesture sequence.
+    /// Identifies the initiating touch event independently of
+    /// |unique_touch_event_id|. Use zero when there is no associated touch
+    /// event.
+    /// </summary>
+    primary_unique_touch_event_id       : cardinal;
+    /// <summary>
+    /// For touchscreen gestures, correlation ID of the touch event that released
+    /// this gesture from Chromium's touch-disposition filter. Zero is used when
+    /// the gesture was not released through a touch event, including synthesized
+    /// gestures, pinches, and gestures from other source devices.
+    /// </summary>
+    unique_touch_event_id               : cardinal;
+    /// <summary>
+    /// Set to 1 if the source touch event was marked to block subsequent input,
+    /// or 0 otherwise. Describes source touch dispatch policy independently of
+    /// whether the gesture is consumed.
+    /// </summary>
+    is_source_touch_event_set_blocking  : integer;
+    /// <summary>
+    /// Tap count for TAP, TAP_UNCONFIRMED, and DOUBLE_TAP, or tap-down count for
+    /// TAP_DOWN. Must be nonnegative. Set to zero for other event types.
+    /// </summary>
+    tap_count                           : integer;
+    /// <summary>
+    /// Nonnegative horizontal extent of the contact area in DIPs. Applies to
+    /// TAP, TAP_UNCONFIRMED, DOUBLE_TAP, TAP_DOWN, SHOW_PRESS, SHORT_PRESS,
+    /// LONG_PRESS, and LONG_TAP. For TWO_FINGER_TAP, describes the first
+    /// finger's contact area. Set to zero for other event types.
+    /// </summary>
+    width                               : single;
+    /// <summary>
+    /// Nonnegative vertical extent of the contact area in DIPs. The event types
+    /// and contact selection are the same as for |width|.
+    /// </summary>
+    height                              : single;
+    /// <summary>
+    /// Horizontal scroll amount in |delta_units|. For SCROLL_BEGIN, the initial
+    /// movement hint; for SCROLL_UPDATE, the scroll delta; for SCROLL_END, the
+    /// latency-compensated delta not already sent as updates. Positive values
+    /// scroll left. Set to zero for other event types.
+    /// </summary>
+    delta_x                             : single;
+    /// <summary>
+    /// Vertical scroll amount in |delta_units|, with the same subtype meanings
+    /// as |delta_x|. Positive values scroll up. Set to zero for other event
+    /// types.
+    /// </summary>
+    delta_y                             : single;
+    /// <summary>
+    /// Horizontal SCROLL_UPDATE delta before axis locking or snapping, in
+    /// |delta_units| and with the same sign convention as |delta_x|. Set to zero
+    /// for other event types.
+    /// </summary>
+    delta_x_unconstrained               : single;
+    /// <summary>
+    /// Vertical SCROLL_UPDATE delta before axis locking or snapping, in
+    /// |delta_units| and with the same sign convention as |delta_y|. Set to zero
+    /// for other event types.
+    /// </summary>
+    delta_y_unconstrained               : single;
+    /// <summary>
+    /// Granularity of scroll hints or deltas for SCROLL_BEGIN, SCROLL_UPDATE,
+    /// and SCROLL_END, including unconstrained update deltas. Zero selects
+    /// CEF_GESTURE_SCROLL_PRECISE_PIXEL. Set to zero for other event types.
+    /// </summary>
+    delta_units                         : TCefGestureScrollUnits;
+    /// <summary>
+    /// Momentum phase for SCROLL_BEGIN, SCROLL_UPDATE, and SCROLL_END: 0
+    /// unknown, 1 non-momentum, 2 momentum. Touchscreen scrolling uses zero and
+    /// represents flinging with FLING_START. Set to zero for other event types.
+    /// </summary>
+    inertial_phase                      : integer;
+    /// <summary>
+    /// Number of pointers down at SCROLL_BEGIN. Must be nonnegative. Set to zero
+    /// for other event types.
+    /// </summary>
+    pointer_count                       : integer;
+    /// <summary>
+    /// Relative scale factor for PINCH_UPDATE. Must be positive: 1 leaves the
+    /// scale unchanged, values greater than 1 zoom in, and values less than 1
+    /// zoom out. Set to zero for other event types.
+    /// </summary>
+    scale                               : single;
+    /// <summary>
+    /// Initial horizontal fling velocity in pixels per second for FLING_START.
+    /// Set to zero for other event types.
+    /// </summary>
+    velocity_x                          : single;
+    /// <summary>
+    /// Initial vertical fling velocity in pixels per second for FLING_START. Set
+    /// to zero for other event types.
+    /// </summary>
+    velocity_y                          : single;
+    /// <summary>
+    /// Set to 1 to target the viewport, or 0 to use normal gesture targeting.
+    /// Applies to SCROLL_BEGIN, FLING_START, and FLING_CANCEL. Scroll-begin and
+    /// fling-start viewport targeting skip the normal hit test. Set to zero for
+    /// other event types.
+    /// </summary>
+    target_viewport                     : integer;
+    /// <summary>
+    /// For FLING_CANCEL, set to 1 to exclude this cancellation from fling
+    /// boosting, or 0 for normal processing. Fling boosting combines successive
+    /// flings into a continuation. Set to zero for other event types.
+    /// </summary>
+    prevent_boosting                    : integer;
+    /// <summary>
+    /// For touchpad PINCH_BEGIN, PINCH_UPDATE, PINCH_END, and DOUBLE_TAP, set to
+    /// 1 to offer the gesture as a wheel event first, or 0 to dispatch the
+    /// gesture directly. Chromium may clear this flag and resubmit the gesture
+    /// after the wheel acknowledgment. Set to zero for other devices and event
+    /// types.
+    /// </summary>
+    needs_wheel_event                   : integer;
+    /// <summary>
+    /// For touchpad PINCH_UPDATE, set to 1 to prevent page-scale changes while
+    /// preserving wheel handling requested by |needs_wheel_event|, or 0 for
+    /// normal zooming. Set to zero for other devices and event types.
+    /// </summary>
+    zoom_disabled                       : integer;
+    /// <summary>
+    /// For SCROLL_BEGIN, set to 1 when generated from a mouse wheel or
+    /// scrollbar. For SCROLL_END, set to 1 when generated from a wheel event
+    /// with a synthetic phase. Use zero otherwise.
+    /// </summary>
+    synthetic                           : integer;
+    /// <summary>
+    /// For SCROLL_BEGIN, set to 1 to use the entire scroll sequence for cursor
+    /// control instead of scrolling, or 0 for normal scrolling. Set to zero for
+    /// other event types.
+    /// </summary>
+    cursor_control                      : integer;
+  end;
+
+
+  /// <summary>
+  /// Portable keyboard snapshot. Identity and text are resolved by the sender;
+  /// sending does not look up the receiving keyboard layout. DOM code/key use
+  /// Chromium's USB-based DomCode and encoded DomKey values, respectively.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_keyboard_input_event_t)</see></para>
+  /// </remarks>
+  TCefKeyboardInputEvent = record
+    /// <summary>
+    /// Size of this structure. Initialize to sizeof(TCefKeyboardInputEvent).
+    /// </summary>
+    size                                : NativeUInt;
+    /// <summary>
+    /// Keyboard event type. See the CEF_KEY_EVENT_* constants.
+    /// </summary>
+    type_                               : TCefKeyEventType;
+    /// <summary>
+    /// Combination of TCefEventFlags CEF_EVENTFLAG_* values for Shift,
+    /// Control, Alt, Command, AltGr, Caps Lock, Num Lock, keypad/left/right
+    /// location, repeat, and held left/middle/right mouse buttons.
+    /// CEF_EVENTFLAG_PRECISION_SCROLLING_DELTA and CEF_EVENTFLAG_SCROLL_BY_PAGE
+    /// are not valid keyboard modifiers. Other flags outside this keyboard
+    /// subset are also invalid when sending.
+    /// </summary>
+    modifiers                           : TCefEventFlags;
+    /// <summary>
+    /// Monotonic microseconds in this process. Zero means use the send time.
+    /// Negative values are invalid. This is a process-local monotonic timestamp,
+    /// not a wall-clock time.
+    /// </summary>
+    timestamp                           : int64;
+    /// <summary>
+    /// Physical key identity in Chromium's USB-based DomCode encoding. Use
+    /// CEF_DOM_CODE_* values, or zero if unknown. Identifies the key's physical
+    /// position independently of the active keyboard layout.
+    /// </summary>
+    dom_code                            : cardinal;
+    /// <summary>
+    /// Logical key meaning in Chromium's encoded DomKey representation. Use
+    /// CEF_DOM_KEY_* named values, or encoded Unicode/dead-key values as defined
+    /// by cef_dom_key_t. Zero indicates no known logical key value.
+    /// </summary>
+    dom_key                             : cardinal;
+    /// <summary>
+    /// Windows-equivalent virtual-key code used by Chromium on every platform,
+    /// or zero if unknown. Modifier-key location is conveyed by |modifiers|.
+    /// CefWindowsKeyCodeFromDomCodeAndKey can derive this value from portable
+    /// key identity.
+    /// </summary>
+    windows_key_code                    : integer;
+    /// <summary>
+    /// Set to 1 for Chromium's system-key classification, or 0 otherwise. Native
+    /// Windows conversion preserves the distinction between ordinary and system
+    /// key messages; other platforms normally use zero.
+    /// </summary>
+    is_system_key                       : integer;
+    /// <summary>
+    /// Text generated by this event. Blink-compatible UTF-16 buffers. Each
+    /// buffer must contain a zero terminator within its four units, allowing at
+    /// most three units of text. Preserve all four units, including any after
+    /// the terminator. Windows CHAR messages may each contain one surrogate
+    /// unit; conversion does not buffer across messages. Text in RAWKEYDOWN is
+    /// metadata; character insertion requires a separate CHAR event.
+    /// </summary>
+    text                                : array[0..3] of WideChar;
+    /// <summary>
+    /// Text with modifiers other than Shift removed, following Blink's native
+    /// conversion semantics. Preserve this source buffer when replacing |text|
+    /// with insertion text; do not copy modified insertion text into this field.
+    /// Uses the same UTF-16 buffer format and termination requirements as
+    /// |text|.
+    /// </summary>
+    unmodified_text                     : array[0..3] of WideChar;
+  end;
+
+
+  /// <summary>
+  /// Callback-only input information supplied by CEF. The native handle may be
+  /// null or refer to a synthesized event for injected input. It is borrowed for
+  /// the duration of the callback and must not be retained.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_input_event_context_t)</see></para>
+  /// </remarks>
+  TCefInputEventContext = record
+    /// <summary>
+    /// Size of this structure. Initialize to sizeof(TCefInputEventContext).
+    /// </summary>
+    size                      : NativeUInt;
+    /// <summary>
+    ///
+    /// </summary>
+    focus_on_editable_field   : integer;
+    /// <summary>
+    /// The native handle may be null or refer to a synthesized event for
+    /// injected input. It is borrowed for the duration of the callback and
+    /// must not be retained.
+    /// </summary>
+    os_event                  : TCefEventHandle;
+  end;
+
+
+
+  /// <summary>
+  /// Portable wheel snapshot for mouse wheels and trackpad scrolling. Positions
+  /// are in DIPs. Deltas and ticks are positive for scrolling up or left,
+  /// opposite to DOM WheelEvent deltas. Initialize unused fields to zero.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_input.h">CEF source file: /include/internal/cef_types_input.h (cef_wheel_input_event_t)</see></para>
+  /// </remarks>
+  TCefWheelInputEvent = record
+    /// <summary>
+    /// Size of this structure. Initialize to sizeof(TCefWheelInputEvent).
+    /// </summary>
+    size                                : NativeUInt;
+    /// <summary>
+    /// Combination of TCefEventFlags CEF_EVENTFLAG_* keyboard modifiers, lock
+    /// state, held mouse buttons and event-source attributes. Specify precision
+    /// and page scrolling with |delta_units|, not modifier flags.
+    /// </summary>
+    modifiers                           : TCefEventFlags;
+    /// <summary>
+    /// Monotonic microseconds in this process. Zero uses the dispatch time.
+    /// Negative values are invalid. This is not a wall-clock timestamp.
+    /// </summary>
+    timestamp                           : int64;
+    /// <summary>
+    /// Horizontal position in DIPs relative to the left edge of the browser view.
+    /// </summary>
+    x                                   : single;
+    /// <summary>
+    /// Vertical position in DIPs relative to the top edge of the browser view.
+    /// </summary>
+    y                                   : single;
+    /// <summary>
+    /// Horizontal screen position in DIPs relative to the desktop origin.
+    /// </summary>
+    screen_x                            : single;
+    /// <summary>
+    /// Vertical screen position in DIPs relative to the desktop origin.
+    /// </summary>
+    screen_y                            : single;
+    /// <summary>
+    /// Horizontal scroll amount in |delta_units|. Preserve fractional values for
+    /// high-resolution wheels and trackpads.
+    /// </summary>
+    delta_x                             : single;
+    /// <summary>
+    /// Vertical scroll amount in |delta_units|.
+    /// </summary>
+    delta_y                             : single;
+    /// <summary>
+    /// Horizontal wheel rotation in ticks, independent of |delta_x|. A typical
+    /// wheel detent is one tick. Trackpads may report fractional ticks.
+    /// </summary>
+    wheel_ticks_x                       : single;
+    /// <summary>
+    /// Vertical wheel rotation in ticks, independent of |delta_y|.
+    /// </summary>
+    wheel_ticks_y                       : single;
+    /// <summary>
+    /// Scroll units, sharing the gesture granularity constants. Only
+    /// CEF_GESTURE_SCROLL_PRECISE_PIXEL, CEF_GESTURE_SCROLL_PIXEL and
+    /// CEF_GESTURE_SCROLL_PAGE are supported. Zero selects precise pixels.
+    /// </summary>
+    delta_units                         : TCefGestureScrollUnits;
+    /// <summary>
+    /// Phase of direct scrolling. Use CEF_WHEEL_PHASE_NONE for a discrete mouse
+    /// wheel or when phase information is unavailable. BLOCKED is not valid.
+    /// </summary>
+    phase                               : TCefWheelEventPhase;
+    /// <summary>
+    /// Phase of inertial scrolling after contact ends. BLOCKED indicates that
+    /// momentum will not follow. Use NONE when unavailable. Send coherent
+    /// begin/update/end transitions when providing phase information.
+    /// </summary>
+    momentum_phase                      : TCefWheelEventPhase;
+    /// <summary>
+    /// Axis constraint: 0 for free scrolling, 1 for horizontal, 2 for vertical.
+    /// </summary>
+    rails_mode                          : integer;
+    /// <summary>
+    /// Horizontal acceleration ratio applied by the input source. Positive
+    /// values are preserved; zero means unspecified and uses a ratio of one.
+    /// </summary>
+    acceleration_ratio_x                : single;
+    /// <summary>
+    /// Vertical acceleration ratio. Same semantics as |acceleration_ratio_x|.
+    /// </summary>
+    acceleration_ratio_y                : single;
+  end;
+
+
 
   /// <summary>
   /// Popup window features.
@@ -5077,6 +5737,9 @@ type
 
   /// <summary>
   /// Structure representing mouse event information.
+  /// Used by drag-and-drop and legacy input APIs. For input injection, use
+  /// TCefMouseInputEventType for mouse input or TCefWheelInputEvent for wheel
+  /// input instead.
   /// </summary>
   /// <remarks>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_mouse_event_t)</see></para>
@@ -5098,57 +5761,71 @@ type
   end;
 
   /// <summary>
-  /// Structure representing touch event information.
+  /// Portable event for one contact in a touch sequence. Positions and contact
+  /// radii are in DIPs. Initialize unused fields to zero. Use with
+  /// CefBrowserHost::SendTouchEvent for raw touch delivery and Chromium gesture
+  /// recognition.
   /// </summary>
   /// <remarks>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_touch_event_t)</see></para>
   /// </remarks>
   TCefTouchEvent = record
     /// <summary>
-    /// Id of a touch point. Must be unique per touch, can be any number except
-    /// -1. Note that a maximum of 16 concurrent touches will be tracked; touches
-    /// beyond that will be ignored.
+    /// Identifier of this contact. Must remain unchanged from PRESSED through
+    /// RELEASED or CANCELLED and be unique among active contacts in this browser.
+    /// Any value except -1 is allowed. May be reused after the contact ends.
+    /// Chromium may map this to a different DOM touch identifier. At most 16
+    /// concurrent contacts are tracked; additional contacts are ignored.
     /// </summary>
     id             : integer;
     /// <summary>
-    /// X coordinate relative to the left side of the view.
+    /// Horizontal position in DIPs relative to the left edge of the browser view.
+    /// Preserve fractional values when converting native coordinates.
     /// </summary>
     x              : single;
     /// <summary>
-    /// Y coordinate relative to the top side of the view.
+    /// Vertical position in DIPs relative to the top edge of the browser view.
     /// </summary>
     y              : single;
     /// <summary>
-    /// X radius in pixels. Set to 0 if not applicable.
+    /// Horizontal radius of the contact ellipse in DIPs, before applying
+    /// |rotation_angle|. Must be non-negative. Set both radii to zero when
+    /// contact geometry is unavailable; Chromium then uses a default contact
+    /// size.
     /// </summary>
     radius_x       : single;
     /// <summary>
-    /// Y radius in pixels. Set to 0 if not applicable.
+    /// Vertical radius of the contact ellipse in DIPs, before applying
+    /// |rotation_angle|. Same constraints and default behavior as |radius_x|.
     /// </summary>
     radius_y       : single;
     /// <summary>
-    /// Rotation angle in radians. Set to 0 if not applicable.
+    /// Clockwise rotation of the contact ellipse in degrees, in the range
+    /// [0, 180). Set to zero if rotation is unavailable. Chromium may swap the
+    /// radii and normalize the angle when producing DOM touch events.
     /// </summary>
     rotation_angle : single;
     /// <summary>
-    /// The normalized pressure of the pointer input in the range of [0,1].
-    /// Set to 0 if not applicable.
+    /// Normalized contact pressure in the range [0, 1]. Zero represents no
+    /// pressure and should also be used when pressure is unavailable.
     /// </summary>
     pressure       : single;
     /// <summary>
-    /// The state of the touch point. Touches begin with one CEF_TET_PRESSED event
-    /// followed by zero or more CEF_TET_MOVED events and finally one
-    /// CEF_TET_RELEASED or CEF_TET_CANCELLED event. Events not respecting this
-    /// order will be ignored.
+    /// State of this contact. Send one CEF_TET_PRESSED event, followed by zero or
+    /// more CEF_TET_MOVED events, then one CEF_TET_RELEASED or CEF_TET_CANCELLED
+    /// event. Duplicate presses and updates for inactive IDs are ignored. Moves
+    /// with unchanged positions are ignored even if other contact data changes.
     /// </summary>
     type_          : TCefTouchEeventType;
     /// <summary>
-    /// Bit flags describing any pressed modifier keys. See
-    /// TCefEventFlags for values.
+    /// Combination of TCefEventFlags values describing keyboard modifiers
+    /// when this event occurred.
     /// </summary>
     modifiers      : TCefEventFlags;
     /// <summary>
-    /// The device type that caused the event.
+    /// Contact tool type. Use CEF_POINTER_TYPE_TOUCH for a finger,
+    /// CEF_POINTER_TYPE_PEN or CEF_POINTER_TYPE_ERASER for a stylus, and
+    /// CEF_POINTER_TYPE_UNKNOWN when unavailable. Zero selects a finger.
     /// </summary>
     pointer_type   : TCefPointerType;
   end;
@@ -6416,7 +7093,10 @@ type
   end;
 
   /// <summary>
-  /// Implement this structure to handle audio events.
+  /// Implement this record to receive captured audio from Alloy style
+  /// browsers. The browser's audio output is muted during capture. Clients that
+  /// require audible playback must provide their own playback of the audio data
+  /// received via OnAudioStreamPacket.
   ///
   /// NOTE: This struct is allocated client-side.
   /// </summary>
@@ -6953,6 +7633,24 @@ type
     on_render_process_responsive        : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
     on_render_process_terminated        : procedure(self: PCefRequestHandler; browser: PCefBrowser; status: TCefTerminationStatus; error_code: integer; const error_string: PCefString); stdcall;
     on_document_available_in_main_frame : procedure(self: PCefRequestHandler; browser: PCefBrowser); stdcall;
+  end;
+
+  /// <summary>
+  /// Handles portable input events on the UI thread. Keyboard callbacks run
+  /// before the corresponding ICefKeyboardHandler callbacks.
+  ///
+  /// NOTE: This struct is allocated client-side.
+  /// </summary>
+  /// <remarks>
+  /// <para>Implemented by ICefInputHandler.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_input_handler_capi.h">CEF source file: /include/capi/cef_input_handler_capi.h (cef_input_handler_t)</see></para>
+  /// </remarks>
+  TCefInputHandler = record
+    base                                : TCefBaseRefCounted;
+    on_pre_keyboard_event               : function(self: PCefInputHandler; browser: PCefBrowser; const event: PCefKeyboardInputEvent; const context: PCefInputEventContext; is_keyboard_shortcut: PInteger): integer; stdcall;
+    on_keyboard_event                   : function(self: PCefInputHandler; browser: PCefBrowser; const event: PCefKeyboardInputEvent; const context: PCefInputEventContext): integer; stdcall;
+    on_pre_mouse_event                  : function(self: PCefInputHandler; browser: PCefBrowser; const event: PCefMouseInputEvent): integer; stdcall;
+    on_pre_gesture_event                : function(self: PCefInputHandler; browser: PCefBrowser; const event: PCefGestureInputEvent): integer; stdcall;
   end;
 
   /// <summary>
@@ -8719,6 +9417,7 @@ type
     get_render_handler          : function(self: PCefClient): PCefRenderHandler; stdcall;
     get_request_handler         : function(self: PCefClient): PCefRequestHandler; stdcall;
     on_process_message_received : function(self: PCefClient; browser: PCefBrowser; frame: PCefFrame; source_process: TCefProcessId; message_: PCefProcessMessage): Integer; stdcall;
+    get_input_handler           : function(self: PCefClient): PCefInputHandler; stdcall;
   end;
 
   /// <summary>
@@ -8803,7 +9502,11 @@ type
     execute_chrome_command            : procedure(self: PCefBrowserHost; command_id: integer; disposition: TCefWindowOpenDisposition); stdcall;
     is_render_process_unresponsive    : function(self: PCefBrowserHost): integer; stdcall;
     get_runtime_style                 : function(self: PCefBrowserHost): TCefRuntimeStyle; stdcall;
-    set_ax_viewport_collapse          : procedure(self: PCefBrowserHost; enabled: integer); stdcall;   {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
+    send_keyboard_event               : procedure(self: PCefBrowserHost; const event: PCefKeyboardInputEvent);     {* CEF_API_ADDED(15800) *}
+    send_mouse_event                  : procedure(self: PCefBrowserHost; const event: PCefMouseInputEvent);        {* CEF_API_ADDED(15800) *}
+    send_gesture_event                : procedure(self: PCefBrowserHost; const event: PCefGestureInputEvent);      {* CEF_API_ADDED(15800) *}
+    send_wheel_event                  : procedure(self: PCefBrowserHost; const event: PCefWheelInputEvent);        {* CEF_API_ADDED(15800) *}
+    set_ax_viewport_collapse          : procedure(self: PCefBrowserHost; enabled: integer); stdcall;               {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
   end;
 
   /// <summary>
@@ -9271,6 +9974,7 @@ type
     base                           : TCefViewDelegate;
     on_key_event                   : function(self: PCefTextfieldDelegate; textfield: PCefTextfield; const event: PCefKeyEvent): Integer; stdcall;
     on_after_user_action           : procedure(self: PCefTextfieldDelegate; textfield: PCefTextfield); stdcall;
+    on_keyboard_event              : function(self: PCefTextfieldDelegate; textfield: PCefTextfield; const event: PCefKeyboardInputEvent): integer; stdcall;
   end;
 
   /// <summary>
@@ -9586,6 +10290,7 @@ type
     on_theme_colors_changed          : procedure(self: PCefWindowDelegate; window: PCefWindow; chrome_theme: Integer); stdcall;
     get_window_runtime_style         : function(self: PCefWindowDelegate): TCefRuntimeStyle; stdcall;
     get_linux_window_properties      : function(self: PCefWindowDelegate; window: PCefWindow; properties: PCefLinuxWindowProperties): Integer; stdcall;
+    on_keyboard_event                : function(self: PCefWindowDelegate; window: PCefWindow; const event: PCefKeyboardInputEvent): Integer; stdcall;
   end;
 
 implementation

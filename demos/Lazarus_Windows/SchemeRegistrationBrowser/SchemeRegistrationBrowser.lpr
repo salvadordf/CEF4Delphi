@@ -1,7 +1,5 @@
 program SchemeRegistrationBrowser;
 
-
-
 uses
   Forms,
   Interfaces,
