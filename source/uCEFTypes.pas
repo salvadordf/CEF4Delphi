@@ -9504,11 +9504,11 @@ type
     execute_chrome_command            : procedure(self: PCefBrowserHost; command_id: integer; disposition: TCefWindowOpenDisposition); stdcall;
     is_render_process_unresponsive    : function(self: PCefBrowserHost): integer; stdcall;
     get_runtime_style                 : function(self: PCefBrowserHost): TCefRuntimeStyle; stdcall;
-    send_keyboard_event               : procedure(self: PCefBrowserHost; const event: PCefKeyboardInputEvent);     {* CEF_API_ADDED(15800) *}
-    send_mouse_event                  : procedure(self: PCefBrowserHost; const event: PCefMouseInputEvent);        {* CEF_API_ADDED(15800) *}
-    send_gesture_event                : procedure(self: PCefBrowserHost; const event: PCefGestureInputEvent);      {* CEF_API_ADDED(15800) *}
-    send_wheel_event                  : procedure(self: PCefBrowserHost; const event: PCefWheelInputEvent);        {* CEF_API_ADDED(15800) *}
-    set_ax_viewport_collapse          : procedure(self: PCefBrowserHost; enabled: integer); stdcall;               {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
+    send_keyboard_event               : procedure(self: PCefBrowserHost; const event: PCefKeyboardInputEvent); stdcall;     {* CEF_API_ADDED(15800) *}
+    send_mouse_event                  : procedure(self: PCefBrowserHost; const event: PCefMouseInputEvent); stdcall;        {* CEF_API_ADDED(15800) *}
+    send_gesture_event                : procedure(self: PCefBrowserHost; const event: PCefGestureInputEvent); stdcall;      {* CEF_API_ADDED(15800) *}
+    send_wheel_event                  : procedure(self: PCefBrowserHost; const event: PCefWheelInputEvent); stdcall;        {* CEF_API_ADDED(15800) *}
+    set_ax_viewport_collapse          : procedure(self: PCefBrowserHost; enabled: integer); stdcall;                        {* CEF_API_ADDED(CEF_EXPERIMENTAL) *}
   end;
 
   /// <summary>
