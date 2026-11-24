@@ -1973,13 +1973,13 @@ body { margin: 0.5em; }
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefWheelEventPhase">TCefWheelEventPhase</a></strong> = type Integer;</code></td>
 </tr>
 <tr class="list visibility-published">
-<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefCustomByteArray">TCefCustomByteArray</a></strong> = array of byte;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefDomCode">TCefDomCode</a></strong> = type Integer;</code></td>
 </tr>
 <tr class="list2 visibility-published">
-<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefCustomInt64Array">TCefCustomInt64Array</a></strong> = array of int64;</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefCustomByteArray">TCefCustomByteArray</a></strong> = array of byte;</code></td>
 </tr>
 <tr class="list visibility-published">
-<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefDomCode">TCefDomCode</a></strong> = (...);</code></td>
+<td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefCustomInt64Array">TCefCustomInt64Array</a></strong> = array of int64;</code></td>
 </tr>
 <tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="uCEFTypes.html#TCefGestureInputEventType">TCefGestureInputEventType</a></strong> = (...);</code></td>
@@ -4607,7 +4607,9 @@ Ranges:
 
 <p>See the uCEFConstants unit for all possible values.
 
-<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h</a>&quot;&gt;CEF source file: /include/internal/cef_types_keyboard_codes.h (cef_log_items_t))</p>
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h</a>&quot;&gt;CEF source file: /include/internal/cef_types_keyboard_codes.h (cef_dom_key_t))
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/internal/cef_dom_key_data.inc">https://bitbucket.org/chromiumembedded/cef/src/master/include/base/internal/cef_dom_key_data.inc</a>&quot;&gt;CEF source file: /include/base/internal/cef_dom_key_data.inc)</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4627,6 +4629,23 @@ Ranges:
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
+<td class="itemcode"><span id="TCefDomCode"></span><code><strong>TCefDomCode</strong> = type Integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+ Physical key identities in Chromium's USB-based DomCode encoding. </p>
+<p>
+
+
+<p>See the uCEFConstants unit for all possible CEF_DOM_CODE_* values.
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h</a>&quot;&gt;CEF source file: /include/internal/cef_types_keyboard_codes.h (cef_dom_code_t))
+
+<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/internal/cef_dom_code_data.inc">https://bitbucket.org/chromiumembedded/cef/src/master/include/base/internal/cef_dom_code_data.inc</a>&quot;&gt;CEF source file: /include/base/internal/cef_dom_code_data.inc)</p>
+</td></tr>
+</table>
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="TCefCustomByteArray"></span><code><strong>TCefCustomByteArray</strong> = array of byte;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -4641,24 +4660,6 @@ Ranges:
 <tr><td colspan="1">
 <p>
  Custom array of int64. </p>
-</td></tr>
-</table>
-<table class="detail visibility-published wide_list">
-<tr class="list visibility-published">
-<td class="itemcode"><span id="TCefDomCode"></span><code><strong>TCefDomCode</strong> = (...);</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
- Physical key identities in Chromium's USB-based DomCode encoding. </p>
-<p>
-
-
-<p>&lt;see href=&quot;<a href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h">https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h</a>&quot;&gt;CEF source file: /include/internal/cef_types_keyboard_codes.h (cef_log_items_t))</p>
-<h6 class="description_section">Values</h6>
-<ul>
-<li>
-<span id="CEF_DOM_CODE_NONE">CEF_DOM_CODE_NONE = 0</span></li>
-</ul>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">

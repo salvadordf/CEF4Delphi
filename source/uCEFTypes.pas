@@ -1100,8 +1100,9 @@ type
   /// CEF_DOM_KEY_DEAD_FLAG. Named values come from Chromium's table.
   /// </summary>
   /// <remarks>
-  /// <para>See the uCEFConstants unit for all possible values.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h">CEF source file: /include/internal/cef_types_keyboard_codes.h (cef_log_items_t)</see></para>
+  /// <para>See the uCEFConstants unit for all possible CEF_DOM_KEY_* values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h">CEF source file: /include/internal/cef_types_keyboard_codes.h (cef_dom_key_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/internal/cef_dom_key_data.inc">CEF source file: /include/base/internal/cef_dom_key_data.inc</see></para>
   /// </remarks>
   TCefDomKey                       = type Integer;
 
@@ -1115,6 +1116,15 @@ type
   /// </remarks>
   TCefWheelEventPhase              = type Integer;
 
+  /// <summary>
+  /// Physical key identities in Chromium's USB-based DomCode encoding.
+  /// </summary>
+  /// <remarks>
+  /// <para>See the uCEFConstants unit for all possible CEF_DOM_CODE_* values.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h">CEF source file: /include/internal/cef_types_keyboard_codes.h (cef_dom_code_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/internal/cef_dom_code_data.inc">CEF source file: /include/base/internal/cef_dom_code_data.inc</see></para>
+  /// </remarks>
+  TCefDomCode                      = type Integer;
 
   /// <summary>
   /// Array of byte. Needed only for backwards compatibility with old Delphi versions.
@@ -1126,15 +1136,7 @@ type
   /// </summary>
   TCefCustomInt64Array = array of int64;
 
-  /// <summary>
-  /// Physical key identities in Chromium's USB-based DomCode encoding.
-  /// </summary>
-  /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_keyboard_codes.h">CEF source file: /include/internal/cef_types_keyboard_codes.h (cef_log_items_t)</see></para>
-  /// </remarks>
-  TCefDomCode = (
-    CEF_DOM_CODE_NONE = 0
-  );
+
 
   /// <summary>
   /// Gesture event types, including distinct show-press and short-press events.
