@@ -233,7 +233,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p>
- Set to true (1) to control browser process main (UI) thread message pump scheduling via the CefBrowserProcessHandler::OnScheduleMessagePumpWork() callback. This option is recommended for use in combination with the CefDoMessageLoopWork() function in cases where the CEF message loop must be integrated into an existing application message loop (see additional comments and warnings on CefDoMessageLoopWork). Scheduling callbacks supplement regular CefDoMessageLoopWork() calls; the application must continue to schedule calls even when no callback is received. Enabling this option is not recommended for most users; leave this option disabled and use either the CefRunMessageLoop() function or multi_threaded_message_loop if possible. </p>
+ Set to true (1) to control browser process main (UI) thread message pump scheduling via the ICefBrowserProcessHandler.OnScheduleMessagePumpWork() callback. This option is recommended for use in combination with the CefDoMessageLoopWork() function in cases where the CEF message loop must be integrated into an existing application message loop (see additional comments and warnings on CefDoMessageLoopWork). Scheduling callbacks supplement regular CefDoMessageLoopWork() calls; the application must continue to schedule calls even when no callback is received. Enabling this option is not recommended for most users; leave this option disabled and use either the CefRunMessageLoop() function or multi_threaded_message_loop if possible. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -485,7 +485,7 @@ body { margin: 0.5em; }
 </tr>
 <tr><td colspan="2">
 <p>
- If true use a Views (bare-bones) window instead of a Chrome UI window when creating default popups for Chrome style native-hosted (non-Views) browsers. This applies when CefLifeSpanHandler::OnBeforePopup has not been implemented to provide parent window information for the new popup. </p>
+ If true use a Views (bare-bones) window instead of a Chrome UI window when creating default popups for Chrome style native-hosted (non-Views) browsers. This applies when ICefLifeSpanHandler.OnBeforePopup has not been implemented to provide parent window information for the new popup. </p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">

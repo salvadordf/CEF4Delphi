@@ -1637,7 +1637,7 @@ type
       /// <para>Send coherent pressed/moved/released or cancelled sequences with a unique
       /// ID for each active contact. Delivers raw DOM touch events and lets
       /// Chromium recognize gestures. Web-content processing and
-      /// cef_input_handler_t::OnPreGestureEvent apply to the generated gestures.
+      /// ICefInputHandler.OnPreGestureEvent apply to the generated gestures.
       /// Invalid event data is ignored with a warning. Invalid contact sequencing
       /// is silently ignored.</para>
       ///

@@ -4215,7 +4215,7 @@ type
     multi_threaded_message_loop              : Integer;
     /// <summary>
     /// Set to true (1) to control browser process main (UI) thread message pump
-    /// scheduling via the CefBrowserProcessHandler::OnScheduleMessagePumpWork()
+    /// scheduling via the ICefBrowserProcessHandler.OnScheduleMessagePumpWork()
     /// callback. This option is recommended for use in combination with the
     /// CefDoMessageLoopWork() function in cases where the CEF message loop must
     /// be integrated into an existing application message loop (see additional
@@ -4441,7 +4441,7 @@ type
     /// <summary>
     /// If true use a Views (bare-bones) window instead of a Chrome UI window when
     /// creating default popups for Chrome style native-hosted (non-Views)
-    /// browsers. This applies when CefLifeSpanHandler::OnBeforePopup has not been
+    /// browsers. This applies when ICefLifeSpanHandler.OnBeforePopup has not been
     /// implemented to provide parent window information for the new popup.
     /// </summary>
     use_views_default_popup                 : Integer;
@@ -5763,7 +5763,7 @@ type
   /// <summary>
   /// Portable event for one contact in a touch sequence. Positions and contact
   /// radii are in DIPs. Initialize unused fields to zero. Use with
-  /// CefBrowserHost::SendTouchEvent for raw touch delivery and Chromium gesture
+  /// ICefBrowserHost.SendTouchEvent for raw touch delivery and Chromium gesture
   /// recognition.
   /// </summary>
   /// <remarks>
@@ -7181,7 +7181,7 @@ type
 
   /// <summary>
   /// Implemented by the client to observe preference changes and registered via
-  /// cef_preference_manager_t::AddPreferenceObserver. The functions of this
+  /// ICefPreferenceManager.AddPreferenceObserver. The functions of this
   /// structure will be called on the browser process UI thread.
   ///
   /// NOTE: This struct is allocated client-side.
@@ -7906,7 +7906,7 @@ type
 
   /// <summary>
   /// Implemented by the client to observe content and website setting changes and
-  /// registered via cef_request_context_t::AddSettingObserver. The functions of
+  /// registered via ICefRequestContext.AddSettingObserver. The functions of
   /// this structure will be called on the browser process UI thread.
   ///
   /// NOTE: This struct is allocated client-side.
@@ -8999,7 +8999,7 @@ type
   /// thread before creating the ArrayBuffer on the V8 thread.
   ///
   /// The backing store is consumed when passed to
-  /// cef_v8_value_t::cef_v8_value_create_array_buffer_from_backing_store(), after
+  /// ICefv8Value::cef_v8_value_create_array_buffer_from_backing_store(), after
   /// which is_valid() returns false (0).
   ///
   /// NOTE: This struct is allocated DLL-side.
@@ -9164,8 +9164,8 @@ type
 
   /// <summary>
   /// Structure representing a snapshot of a component's state at the time of
-  /// retrieval. To get updated information, retrieve a new cef_component_t object
-  /// via cef_component_updater_t::GetComponentByID or GetComponents. The
+  /// retrieval. To get updated information, retrieve a new ICefComponent object
+  /// via ICefComponentUpdater.GetComponentByID or GetComponents. The
   /// functions of this structure may be called on any thread.
   /// </summary>
   /// <remarks>

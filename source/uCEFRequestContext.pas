@@ -82,7 +82,7 @@ type
       /// will be ignored for non-standard schemes. If |scheme_name| is a built-in
       /// scheme and no handler is returned by |factory| then the built-in scheme
       /// handler factory will be called. If |scheme_name| is a custom scheme then
-      /// you must also implement the cef_app_t::on_register_custom_schemes()
+      /// you must also implement the ICefApp.OnRegisterCustomSchemes()
       /// function in all processes. This function may be called multiple times to
       /// change or remove the factory that matches the specified |scheme_name| and
       /// optional |domain_name|. Returns false (0) if an error occurs. This
@@ -96,7 +96,7 @@ type
       function  ClearSchemeHandlerFactories: Boolean;
       /// <summary>
       /// Clears all certificate exceptions that were added as part of handling
-      /// cef_request_handler_t::on_certificate_error(). If you call this it is
+      /// ICefRequestHandler.OnCertificateError(). If you call this it is
       /// recommended that you also call close_all_connections() or you risk not
       /// being prompted again for server certificates if you reconnect quickly. If
       /// |callback| is non-NULL it will be executed on the UI thread after

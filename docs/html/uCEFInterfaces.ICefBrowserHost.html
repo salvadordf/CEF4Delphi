@@ -870,7 +870,7 @@ body { margin: 0.5em; }
 
 <p>Send a portable touch event to web content. Supports off-screen and native browser views with Chromium input routing, including out-of-process frames. May be called on any thread. Coordinates are in DIPs relative to the upper-left corner of the browser view.
 
-<p>Send coherent pressed/moved/released or cancelled sequences with a unique ID for each active contact. Delivers raw DOM touch events and lets Chromium recognize gestures. Web-content processing and cef_input_handler_t::OnPreGestureEvent apply to the generated gestures. Invalid event data is ignored with a warning. Invalid contact sequencing is silently ignored.
+<p>Send coherent pressed/moved/released or cancelled sequences with a unique ID for each active contact. Delivers raw DOM touch events and lets Chromium recognize gestures. Web-content processing and ICefInputHandler.OnPreGestureEvent apply to the generated gestures. Invalid event data is ignored with a warning. Invalid contact sequencing is silently ignored.
 
 <p>For windowed browsers, events enter the native browser view's touch- processing path, including gesture recognition and touch acknowledgments. This does not synthesize native OS touch events or require a physical touchscreen or &ndash;touch-events=enabled. The caller must manage browser focus.
 

@@ -240,7 +240,8 @@ contains
   uCEFv8BackingStore in '..\source\uCEFv8BackingStore.pas',
   uCEFComponentUpdater in '..\source\uCEFComponentUpdater.pas',
   uCEFComponentUpdateCallback in '..\source\uCEFComponentUpdateCallback.pas',
-  uCEFComponent in '..\source\uCEFComponent.pas';
+  uCEFComponent in '..\source\uCEFComponent.pas',
+  uCEFInputHandler in '..\source\uCEFInputHandler.pas';
 
 end.
 

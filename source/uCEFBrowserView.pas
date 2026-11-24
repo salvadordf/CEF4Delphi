@@ -74,7 +74,7 @@ type
       /// until this view is added to the views hierarchy. The optional |extra_info|
       /// parameter provides an opportunity to specify extra information specific to
       /// the created browser that will be passed to
-      /// cef_render_process_handler_t::on_browser_created() in the render process.
+      /// ICefRenderProcessHandler.OnBrowserCreated() in the render process.
       /// </summary>
       class function CreateBrowserView(const client: ICefClient; const url: ustring; const settings: TCefBrowserSettings; const extra_info: ICefDictionaryValue; const request_context: ICefRequestContext; const delegate: ICefBrowserViewDelegate): ICefBrowserView;
       /// <summary>

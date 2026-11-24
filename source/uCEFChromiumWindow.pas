@@ -164,7 +164,7 @@ type
       /// 9.  Application's OnBeforeClose() handler is called and the browser object is destroyed.
       /// 10. Application exits by calling cef_quit_message_loop() if no other browsers exist.
       /// </code>
-      /// <para>Example 2: Using ICefBrowserHost::CloseBrowser(false) and
+      /// <para>Example 2: Using ICefBrowserHost.CloseBrowser(false) and
       /// implementing the OnClose() callback. This is recommended for clients
       /// using non-standard close handling or windows that were not created on the
       /// browser process UI thread.</para>

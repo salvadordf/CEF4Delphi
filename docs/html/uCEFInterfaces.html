@@ -158,13 +158,13 @@ body { margin: 0.5em; }
 <p></p>
 
 <pre class="preformatted">
-- cef_frame_handler_t::OnFrameCreated =&gt; The initial main frame object has
+- ICefFrameHandler.OnFrameCreated =&gt; The initial main frame object has
   been created. Any commands will be queued until the frame is attached.
-- cef_frame_handler_t::OnMainFrameChanged =&gt; The initial main frame object
+- ICefFrameHandler.OnMainFrameChanged =&gt; The initial main frame object
   has been assigned to the browser.
-- cef_life_span_handler_t::OnAfterCreated =&gt; The browser is now valid and
+- ICefLifeSpanHandler.OnAfterCreated =&gt; The browser is now valid and
   can be used.
-- cef_frame_handler_t::OnFrameAttached =&gt; The initial main frame object is
+- ICefFrameHandler.OnFrameAttached =&gt; The initial main frame object is
   now connected to its peer in the renderer process. Commands can be routed.</pre>
 
 <p>
@@ -174,20 +174,20 @@ body { margin: 0.5em; }
 <p></p>
 
 <pre class="preformatted">
-- cef_frame_handler_t::OnFrameCreated =&gt; A new main frame or sub-frame
+- ICefFrameHandler.OnFrameCreated =&gt; A new main frame or sub-frame
   object has been created. Any commands will be queued until the frame is
   attached.
-- cef_frame_handler_t::OnFrameAttached =&gt; A new main frame or sub-frame
+- ICefFrameHandler.OnFrameAttached =&gt; A new main frame or sub-frame
   object is now connected to its peer in the renderer process. Commands can
   be routed.
-- cef_frame_handler_t::OnFrameDetached =&gt; An existing main frame or sub-
+- ICefFrameHandler.OnFrameDetached =&gt; An existing main frame or sub-
   frame object has lost its connection to the renderer process. If multiple
   objects are detached at the same time then notifications will be sent for
   any sub-frame objects before the main frame object. Commands can no longer
   be routed and will be discarded.
-- CefFremeHadler::OnFrameDestroyed =&gt; An existing main frame or sub-frame
+- ICefFrameHadler.OnFrameDestroyed =&gt; An existing main frame or sub-frame
   object has been destroyed.
-- cef_frame_handler_t::OnMainFrameChanged =&gt; A new main frame object has
+- ICefFrameHandler.OnMainFrameChanged =&gt; A new main frame object has
   been assigned to the browser. This will only occur with cross-origin
   navigation or re-navigation after renderer process termination (due to
   crashes, etc).</pre>
@@ -199,19 +199,19 @@ body { margin: 0.5em; }
 <p></p>
 
 <pre class="preformatted">
-- cef_frame_handler_t::OnFrameDetached =&gt; Any sub-frame objects have lost
+- ICefFrameHandler.OnFrameDetached =&gt; Any sub-frame objects have lost
   their connection to the renderer process. Commands can no longer be routed
   and will be discarded.
-- CefFreameHandler::OnFrameDestroyed =&gt; Any sub-frame objects have been
+- ICefFrameHandler.OnFrameDestroyed =&gt; Any sub-frame objects have been
   destroyed.
-- cef_life_span_handler_t::OnBeforeClose =&gt; The browser has been destroyed.
-- cef_frame_handler_t::OnFrameDetached =&gt; The main frame object have lost
+- ICefLifeSpanHandler.OnBeforeClose =&gt; The browser has been destroyed.
+- ICefFrameHandler.OnFrameDetached =&gt; The main frame object have lost
   its connection to the renderer process. Notifications will be sent for any
   sub-frame objects before the main frame object. Commands can no longer be
   routed and will be discarded.
-- CefFreameHandler::OnFrameDestroyed =&gt; The main frame object has been
+- ICefFrameHandler.OnFrameDestroyed =&gt; The main frame object has been
   destroyed.
-- cef_frame_handler_t::OnMainFrameChanged =&gt; The final main frame object has
+- ICefFrameHandler.OnMainFrameChanged =&gt; The final main frame object has
   been removed from the browser.</pre>
 
 <p>
@@ -220,7 +220,7 @@ body { margin: 0.5em; }
 
 <p>When the main frame navigates to a different origin the OnMainFrameChanged callback (2) will be executed with the old and new main frame objects.
 
-<p>Callbacks will not be executed for placeholders that may be created during pre-commit navigation for sub-frames that do not yet exist in the renderer process. Placeholders will have cef_frame_t::get_identifier() == -4.
+<p>Callbacks will not be executed for placeholders that may be created during pre-commit navigation for sub-frames that do not yet exist in the renderer process. Placeholders will have ICefFrame.GetIdentifier() == -4.
 
 <p>The functions of this structure will be called on the UI thread unless otherwise indicated.
 

@@ -67,7 +67,7 @@ type
       function KillTask(task_id: int64): boolean;
       /// <summary>
       /// Returns the task ID associated with the main task for |browser_id| (value
-      /// from cef_browser_t::GetIdentifier). Returns -1 if |browser_id| is invalid,
+      /// from ICefBrowser.GetIdentifier). Returns -1 if |browser_id| is invalid,
       /// does not currently have an associated task, or the function was called
       /// from the incorrect thread.
       /// </summary>

@@ -25,7 +25,7 @@ body { margin: 0.5em; }
 <p>
  Structure representing a V8 ArrayBuffer backing store. The backing store holds the memory that backs an ArrayBuffer. It must be created on a thread with a valid V8 isolate (renderer main thread or WebWorker thread). Once created, the data() pointer can be safely read/written from any thread. This allows expensive operations like memcpy to be performed on a background thread before creating the ArrayBuffer on the V8 thread.
 
-<p>The backing store is consumed when passed to cef_v8_value_t::cef_v8_value_create_array_buffer_from_backing_store(), after which is_valid() returns false (0).
+<p>The backing store is consumed when passed to ICefv8Value::cef_v8_value_create_array_buffer_from_backing_store(), after which is_valid() returns false (0).
 
 <p>NOTE: This struct is allocated DLL-side. </p>
 <p>

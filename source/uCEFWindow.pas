@@ -36,12 +36,12 @@ type
       /// <summary>
       /// Show the Window as a browser modal dialog relative to |browser_view|. A
       /// parent Window must be returned via
-      /// cef_window_delegate_t::get_parent_window() and |browser_view| must belong
+      /// ICefWindowDelegate.GetParentWindow() and |browser_view| must belong
       /// to that parent Window. While this Window is visible, |browser_view| will
       /// be disabled while other controls in the parent Window remain enabled.
       /// Navigating or destroying the |browser_view| will close this Window
       /// automatically. Alternately, use show() and return true (1) from
-      /// cef_window_delegate_t::is_window_modal_dialog() for a window modal dialog
+      /// ICefWindowDelegate.IsWindowModalDialog() for a window modal dialog
       /// where all controls in the parent Window are disabled.
       /// </summary>
       procedure ShowAsBrowserModalDialog(const browser_view: ICefBrowserView);
@@ -164,7 +164,7 @@ type
       ///      and positioned in the top-left corner.
       ///   2. Optionally change the overlay position and/or size by calling
       ///      CefOverlayController methods.
-      ///   3. Call CefOverlayController::SetVisible(true) to show the overlay.
+      ///   3. Call ICefOverlayController.SetVisible(true) to show the overlay.
       ///   4. The overlay will be automatically re-sized if |view|'s layout
       ///      changes. Optionally change the overlay position and/or size when
       ///      OnLayoutChanged is called on the Window's delegate to indicate a
@@ -174,7 +174,7 @@ type
       /// <code>
       ///   1. The overlay is initially hidden, sized to |view|'s preferred size,
       ///      and positioned based on |docking_mode|.
-      ///   2. Call CefOverlayController::SetVisible(true) to show the overlay.
+      ///   2. Call ICefOverlayController.SetVisible(true) to show the overlay.
       ///   3. The overlay will be automatically re-sized if |view|'s layout changes
       ///      and re-positioned as appropriate when the Window resizes.
       /// </code>
