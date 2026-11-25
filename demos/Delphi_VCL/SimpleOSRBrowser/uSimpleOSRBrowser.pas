@@ -111,6 +111,8 @@ type
     function  CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
     function  ArePointerEventsSupported : boolean;
     procedure SendMouseInput(const mouse : TCefMouseEvent; type_ : TCefMouseInputEventType; button : TCefMouseButtonType; click_count, X, Y: Integer);
+    procedure HandleKeyboardMsg(var Msg: tagMSG);
+    procedure HandleMouseWheelMsg(var Msg: tagMSG);
     {$IFDEF DELPHI14_UP}
     function  HandlePenEvent(const aID : uint32; aMsg : cardinal) : boolean;
     function  HandleTouchEvent(const aID : uint32; aMsg : cardinal) : boolean;
@@ -228,11 +230,68 @@ begin
     GlobalCEFApp.BackgroundColor := CefColorSetARGB($FF, $FF, $FF, $FF);
 end;
 
-procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
+procedure TForm1.HandleKeyboardMsg(var Msg: tagMSG);
 var
-  TempKeyEvent   : TCefKeyboardInputEvent;
+  TempKeyEvent : TCefKeyboardInputEvent;
+begin
+  FillChar(TempKeyEvent, SizeOf(TCefKeyboardInputEvent), 0);
+  TempKeyEvent.size := SizeOf(TCefKeyboardInputEvent);
+  if CefKeyboardInputEventFromWindowsMessage(Msg.message, Msg.wParam, Msg.lParam, TempKeyEvent) then
+    chrmosr.SendKeyboardEvent(TempKeyEvent);
+end;
+
+procedure TForm1.HandleMouseWheelMsg(var Msg: tagMSG);
+var
   TempMouseEvent : TCefMouseEvent;
-  TempPoint      : TPoint;
+  TempPoint, TempScreenPt : TPoint;
+  delta : integer;
+  horizontal : boolean;
+  screen : TCefPoint;
+  input : TCefWheelInputEvent;
+  scroll_amount : cardinal;
+  ticks : single;
+begin
+  delta := smallint(Msg.wParam shr 16);
+
+  if (Msg.message = WM_MOUSEHWHEEL) then
+    delta := delta * -1;
+
+  horizontal := (Msg.message = WM_MOUSEHWHEEL) or CefIsKeyDown(VK_SHIFT);
+
+  GetCursorPos(TempPoint);
+  TempPoint                := Panel1.ScreenToclient(TempPoint);
+  TempMouseEvent.x         := TempPoint.x;
+  TempMouseEvent.y         := TempPoint.y;
+  TempMouseEvent.modifiers := GetCefMouseModifiers(Msg.wParam);
+
+  TempScreenPt := Panel1.ClientToScreen(TempPoint);
+  screen.x     := TempScreenPt.X;
+  screen.y     := TempScreenPt.Y;
+
+  input := MakeOsrWheelInputEvent(TempMouseEvent, screen.x, screen.y);
+
+  DeviceToLogical(TempMouseEvent, Panel1.ScreenScale);
+
+  input.x := TempMouseEvent.x;
+  input.y := TempMouseEvent.y;
+
+  if horizontal then
+    begin
+      scroll_amount := 1;
+      SystemParametersInfo(SPI_GETWHEELSCROLLCHARS, 0, @scroll_amount, 0);
+    end
+   else
+    begin
+      scroll_amount := 3;
+      SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, @scroll_amount, 0);
+    end;
+
+  ticks := delta / WHEEL_DELTA;
+  SetOsrWindowsWheelDelta(input, ticks, horizontal, scroll_amount);
+  chrmosr.SendWheelEvent(input);
+end;
+
+procedure TForm1.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 begin
   case Msg.message of
     WM_SYSCHAR,
@@ -242,29 +301,12 @@ begin
     WM_KEYUP,
     WM_CHAR :
       if Panel1.Focused then
-        begin
-          FillChar(TempKeyEvent, SizeOf(TCefKeyboardInputEvent), 0);
-          TempKeyEvent.size := SizeOf(TCefKeyboardInputEvent);
-          if CefKeyboardInputEventFromWindowsMessage(Msg.message, Msg.wParam, Msg.lParam, TempKeyEvent) then
-            chrmosr.SendKeyboardEvent(TempKeyEvent);
-        end;
+        HandleKeyboardMsg(Msg);
 
-    WM_MOUSEWHEEL :
+    WM_MOUSEWHEEL,
+    WM_MOUSEHWHEEL :
       if Panel1.Focused then
-        begin
-          GetCursorPos(TempPoint);
-          TempPoint                := Panel1.ScreenToclient(TempPoint);
-          TempMouseEvent.x         := TempPoint.x;
-          TempMouseEvent.y         := TempPoint.y;
-          TempMouseEvent.modifiers := GetCefMouseModifiers(Msg.wParam);
-
-          DeviceToLogical(TempMouseEvent, Panel1.ScreenScale);
-
-          if CefIsKeyDown(VK_SHIFT) then
-            chrmosr.SendMouseWheelEvent(@TempMouseEvent, smallint(Msg.wParam shr 16), 0)
-           else
-            chrmosr.SendMouseWheelEvent(@TempMouseEvent, 0, smallint(Msg.wParam shr 16));
-        end;
+        HandleMouseWheelMsg(Msg);
   end;
 end;
 
