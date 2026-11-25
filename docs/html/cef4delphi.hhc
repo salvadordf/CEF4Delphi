@@ -35942,6 +35942,26 @@
 <param name="Local" value="uCEFMiscFunctions.html#cef_string_copy">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="OsrMouseButtonFlag">
+<param name="Local" value="uCEFMiscFunctions.html#OsrMouseButtonFlag">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="MakeOsrMouseInputEvent">
+<param name="Local" value="uCEFMiscFunctions.html#MakeOsrMouseInputEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="MakeOsrWheelInputEvent">
+<param name="Local" value="uCEFMiscFunctions.html#MakeOsrWheelInputEvent">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetOsrWindowsWheelDelta">
+<param name="Local" value="uCEFMiscFunctions.html#SetOsrWindowsWheelDelta">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GetOsrWindowsWheelDelta">
+<param name="Local" value="uCEFMiscFunctions.html#GetOsrWindowsWheelDelta">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="CefWindowsKeyCodeFromDomCodeAndKey">
 <param name="Local" value="uCEFMiscFunctions.html#CefWindowsKeyCodeFromDomCodeAndKey">
 </object>
@@ -35964,6 +35984,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="CefKeyboardInputEventFromWindowsMessageEx">
 <param name="Local" value="uCEFMiscFunctions.html#CefKeyboardInputEventFromWindowsMessageEx">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GET_X_LPARAM">
+<param name="Local" value="uCEFMiscFunctions.html#GET_X_LPARAM">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GET_Y_LPARAM">
+<param name="Local" value="uCEFMiscFunctions.html#GET_Y_LPARAM">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="ProcessUnderWow64">

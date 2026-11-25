@@ -6445,6 +6445,10 @@
 <param name="Local" value="uCEFMiscFunctions.html#GetModulePath">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="GetOsrWindowsWheelDelta">
+<param name="Local" value="uCEFMiscFunctions.html#GetOsrWindowsWheelDelta-single-cardinal-">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="GetRealWindowsVersion">
 <param name="Local" value="uCEFMiscFunctions.html#GetRealWindowsVersion-cardinal-cardinal-">
 </object>
@@ -6463,6 +6467,14 @@
 <li><object type="text/sitemap">
 <param name="Name" value="GetWindowsMajorMinorVersion">
 <param name="Local" value="uCEFMiscFunctions.html#GetWindowsMajorMinorVersion-DWORD-DWORD-">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GET_X_LPARAM">
+<param name="Local" value="uCEFMiscFunctions.html#GET_X_LPARAM-LPARAM-">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="GET_Y_LPARAM">
+<param name="Local" value="uCEFMiscFunctions.html#GET_Y_LPARAM-LPARAM-">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="GlobalCEFApp">
@@ -16497,6 +16509,14 @@
 <param name="Local" value="uCEFTypes.html#LPMEMORYSTATUSEX">
 </object>
 <li><object type="text/sitemap">
+<param name="Name" value="MakeOsrMouseInputEvent">
+<param name="Local" value="uCEFMiscFunctions.html#MakeOsrMouseInputEvent-TCefMouseEvent-TCefPoint-TCefMouseInputEventType-TCefMouseButtonType-integer-">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="MakeOsrWheelInputEvent">
+<param name="Local" value="uCEFMiscFunctions.html#MakeOsrWheelInputEvent-TCefMouseEvent-single-single-">
+</object>
+<li><object type="text/sitemap">
 <param name="Name" value="MENU_ID_ADD_TO_DICTIONARY">
 <param name="Local" value="uCEFConstants.html#MENU_ID_ADD_TO_DICTIONARY">
 </object>
@@ -16635,6 +16655,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="NTDLL">
 <param name="Local" value="uCEFMiscFunctions.html#NTDLL">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="OsrMouseButtonFlag">
+<param name="Local" value="uCEFMiscFunctions.html#OsrMouseButtonFlag-TCefMouseButtonType-">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="OutputDebugMessage">
@@ -17695,6 +17719,10 @@
 <li><object type="text/sitemap">
 <param name="Name" value="RunningWindows10OrNewer">
 <param name="Local" value="uCEFMiscFunctions.html#RunningWindows10OrNewer">
+</object>
+<li><object type="text/sitemap">
+<param name="Name" value="SetOsrWindowsWheelDelta">
+<param name="Local" value="uCEFMiscFunctions.html#SetOsrWindowsWheelDelta-TCefWheelInputEvent-single-boolean-cardinal-">
 </object>
 <li><object type="text/sitemap">
 <param name="Name" value="SetWindowLongPtr">

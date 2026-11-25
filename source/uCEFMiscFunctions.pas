@@ -233,6 +233,27 @@ function cef_string_utf8_copy(const src: PAnsiChar; src_len: NativeUInt; output:
 function cef_string_utf16_copy(const src: PChar16; src_len: NativeUInt; output: PCefStringUtf16): Integer;
 function cef_string_copy(const src: PCefChar; src_len: NativeUInt; output: PCefString): Integer;
 
+function OsrMouseButtonFlag(button: TCefMouseButtonType): cardinal;
+/// <summary>
+/// Keep existing popup-offset/DIP conversion in the platform views. Native
+/// frameworks differ in whether button-event modifiers describe the state
+/// before or after the transition; portable snapshots require the latter.
+/// </summary>
+function MakeOsrMouseInputEvent(const mouse: TCefMouseEvent; const screen: TCefPoint; type_: TCefMouseInputEventType; button: TCefMouseButtonType = CEF_MOUSE_BUTTON_NONE; click_count: integer = 0): TCefMouseInputEvent;
+function MakeOsrWheelInputEvent(const mouse: TCefMouseEvent; const screen_x, screen_y: single): TCefWheelInputEvent;
+/// <summary>
+/// Populate the unified wheel event using the same conversion as touch
+/// emulation.
+/// </summary>
+procedure SetOsrWindowsWheelDelta(var event: TCefWheelInputEvent; const ticks: single; horizontal: boolean; scroll_amount: cardinal);
+/// <summary>
+/// Match Windows wheel settings without rounding partial detents or pixel
+/// deltas. UINT_MAX is WHEEL_PAGESCROLL; zero disables scrolling on this axis.
+/// Return DIPs for line/character settings, or signed pages for page scrolling.
+/// The caller normalizes ticks so positive values mean up/left.
+/// </summary>
+function GetOsrWindowsWheelDelta(const ticks: single; scroll_amount: cardinal): single;
+
 /// <summary>
 /// Returns a Windows-equivalent key code from CEF DOM code/key values, or zero
 /// for invalid or unmappable input. Named keys preserve their logical meaning,
@@ -269,6 +290,14 @@ function CefKeyboardInputEventFromWindowsMessage(message_: cardinal; wparam: uin
 /// failure, leaving |event| unchanged.
 /// </summary>
 function CefKeyboardInputEventFromWindowsMessageEx(message_: cardinal; wparam: uint64; lparam: int64; keyboard_stateCount: NativeUInt; keyboard_state: PInteger; keyboard_layout: uint64; timestamp: int64; var event: TCefKeyboardInputEvent): boolean;
+/// <summary>
+/// Retrieves the signed x-coordinate from the specified LPARAM value.
+/// </summary>
+function GET_X_LPARAM(APosition: LPARAM): Integer;
+/// <summary>
+/// Retrieves the signed y-coordinate from the given LPARAM value.
+/// </summary>
+function GET_Y_LPARAM(APosition: LPARAM): Integer;
 {$ENDIF}
 
 {$IFDEF MACOSX}
@@ -1311,6 +1340,112 @@ begin
     Result := 0;
 end;
 
+function OsrMouseButtonFlag(button: TCefMouseButtonType): cardinal;
+begin
+  case button of
+    CEF_MOUSE_BUTTON_LEFT    : Result := CEF_EVENTFLAG_LEFT_MOUSE_BUTTON;
+    CEF_MOUSE_BUTTON_MIDDLE  : Result := CEF_EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+    CEF_MOUSE_BUTTON_RIGHT   : Result := CEF_EVENTFLAG_RIGHT_MOUSE_BUTTON;
+    CEF_MOUSE_BUTTON_BACK    : Result := CEF_EVENTFLAG_BACK_MOUSE_BUTTON;
+    CEF_MOUSE_BUTTON_FORWARD : Result := CEF_EVENTFLAG_FORWARD_MOUSE_BUTTON;
+    else                       Result := CEF_EVENTFLAG_NONE;
+  end;
+end;
+
+function MakeOsrMouseInputEvent(const mouse       : TCefMouseEvent;
+                                const screen      : TCefPoint;
+                                      type_       : TCefMouseInputEventType;
+                                      button      : TCefMouseButtonType;
+                                      click_count : integer): TCefMouseInputEvent;
+var
+  held : TCefMouseButtonType;
+begin
+  FillChar(Result, SizeOf(TCefMouseInputEvent), 0);
+  Result.size := SizeOf(TCefMouseInputEvent);
+
+  Result.type_        := type_;
+  Result.x            := mouse.x;
+  Result.y            := mouse.y;
+  Result.screen_x     := screen.x;
+  Result.screen_y     := screen.y;
+  Result.modifiers    := mouse.modifiers;
+  Result.pointer_type := CEF_POINTER_TYPE_MOUSE;
+  Result.button       := button;
+  Result.click_count  := click_count;
+
+  // Zero timestamp uses dispatch time, avoiding conversion between native
+  // event clocks and Chromium's monotonic clock.
+  case type_ of
+    CEF_MOUSE_EVENT_DOWN : Result.modifiers := Result.modifiers or OsrMouseButtonFlag(button);
+    CEF_MOUSE_EVENT_UP   : Result.modifiers := Result.modifiers and not(OsrMouseButtonFlag(button));
+    else
+      for held := CEF_MOUSE_BUTTON_LEFT to CEF_MOUSE_BUTTON_FORWARD do
+        if ((Result.modifiers and OsrMouseButtonFlag(held)) <> 0) then
+          begin
+            Result.button := held;
+            break;
+          end;
+  end;
+end;
+
+function MakeOsrWheelInputEvent(const mouse: TCefMouseEvent; const screen_x, screen_y: single): TCefWheelInputEvent;
+begin
+  FillChar(Result, SizeOf(TCefWheelInputEvent), 0);
+  Result.size := SizeOf(TCefWheelInputEvent);
+
+  Result.x         := mouse.x;
+  Result.y         := mouse.y;
+  Result.screen_x  := screen_x;
+  Result.screen_y  := screen_y;
+  Result.modifiers := mouse.modifiers and not(CEF_EVENTFLAG_PRECISION_SCROLLING_DELTA or CEF_EVENTFLAG_SCROLL_BY_PAGE);
+end;
+
+procedure SetOsrWindowsWheelDelta(var event: TCefWheelInputEvent; const ticks: single; horizontal: boolean; scroll_amount: cardinal);
+var
+  page  : boolean;
+  delta : single;
+begin
+  page := (scroll_amount = high(cardinal));
+
+  if page then
+    event.delta_units := CEF_GESTURE_SCROLL_PAGE
+   else
+    event.delta_units := CEF_GESTURE_SCROLL_PIXEL;
+
+  delta := GetOsrWindowsWheelDelta(ticks, scroll_amount);
+
+  if horizontal then
+    begin
+      event.wheel_ticks_x := ticks;
+      event.wheel_ticks_y := 0;
+      event.delta_x       := delta;
+      event.delta_y       := 0;
+    end
+   else
+    begin
+      event.wheel_ticks_x := 0;
+      event.wheel_ticks_y := ticks;
+      event.delta_x       := 0;
+      event.delta_y       := delta;
+    end;
+end;
+
+function GetOsrWindowsWheelDelta(const ticks: single; scroll_amount: cardinal): single;
+begin
+  if (scroll_amount = high(cardinal)) then
+    begin
+      if (ticks > 0) then
+        Result := 1
+       else
+        if (ticks < 0) then
+          Result := -1
+         else
+          Result := 0;
+    end
+   else
+    Result := ticks * scroll_amount * (100 / 3);
+end;
+
 function CefWindowsKeyCodeFromDomCodeAndKey(dom_code, dom_key: cardinal): integer;
 begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
@@ -1371,6 +1506,16 @@ begin
                                                               keyboard_layout,
                                                               timestamp,
                                                               @event) <> 0);
+end;
+
+function GET_X_LPARAM(APosition: LPARAM): Integer;
+begin
+  Result := SmallInt(LoWord(APosition));
+end;
+
+function GET_Y_LPARAM(APosition: LPARAM): Integer;
+begin
+  Result := SmallInt(HiWord(APosition));
 end;
 {$ENDIF}
 
