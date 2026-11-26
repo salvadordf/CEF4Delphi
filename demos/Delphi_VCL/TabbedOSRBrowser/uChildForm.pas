@@ -79,6 +79,9 @@ type
     procedure DoResize;
     procedure InitializeLastClick;
     function  CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
+    procedure SendMouseInput(const mouse : TCefMouseEvent; type_ : TCefMouseInputEventType; button : TCefMouseButtonType; click_count, X, Y: Integer);
+    procedure HandleKeyboardMsg(var Msg: tagMSG);
+    procedure HandleMouseWheelMsg(var Msg: tagMSG);
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -142,123 +145,21 @@ begin
 end;
 
 procedure TChildForm.HandleBrowserMessage(var Msg: tagMSG; var Handled: Boolean);
-var
-  TempKeyEvent   : TCefKeyEvent;
-  TempMouseEvent : TCefMouseEvent;
-  TempPoint      : TPoint;
 begin
   case Msg.message of
-    WM_SYSCHAR :
-      if Panel1.Focused then
-        begin
-          TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
-          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
-          TempKeyEvent.windows_key_code        := Msg.wParam;
-          TempKeyEvent.native_key_code         := Msg.lParam;
-          TempKeyEvent.is_system_key           := ord(True);
-          TempKeyEvent.character               := #0;
-          TempKeyEvent.unmodified_character    := #0;
-          TempKeyEvent.focus_on_editable_field := ord(False);
-
-          CefCheckAltGrPressed(Msg.wParam, TempKeyEvent);
-          Chromium1.SendKeyEvent(@TempKeyEvent);
-        end;
-
-    WM_SYSKEYDOWN :
-      if Panel1.Focused then
-        begin
-          TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
-          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
-          TempKeyEvent.windows_key_code        := Msg.wParam;
-          TempKeyEvent.native_key_code         := Msg.lParam;
-          TempKeyEvent.is_system_key           := ord(True);
-          TempKeyEvent.character               := #0;
-          TempKeyEvent.unmodified_character    := #0;
-          TempKeyEvent.focus_on_editable_field := ord(False);
-
-          Chromium1.SendKeyEvent(@TempKeyEvent);
-        end;
-
-    WM_SYSKEYUP :
-      if Panel1.Focused then
-        begin
-          TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
-          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
-          TempKeyEvent.windows_key_code        := Msg.wParam;
-          TempKeyEvent.native_key_code         := Msg.lParam;
-          TempKeyEvent.is_system_key           := ord(True);
-          TempKeyEvent.character               := #0;
-          TempKeyEvent.unmodified_character    := #0;
-          TempKeyEvent.focus_on_editable_field := ord(False);
-
-          Chromium1.SendKeyEvent(@TempKeyEvent);
-        end;
-
-    WM_KEYDOWN :
-      if Panel1.Focused then
-        begin
-          TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
-          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
-          TempKeyEvent.windows_key_code        := Msg.wParam;
-          TempKeyEvent.native_key_code         := Msg.lParam;
-          TempKeyEvent.is_system_key           := ord(False);
-          TempKeyEvent.character               := #0;
-          TempKeyEvent.unmodified_character    := #0;
-          TempKeyEvent.focus_on_editable_field := ord(False);
-
-          Chromium1.SendKeyEvent(@TempKeyEvent);
-          Handled := (Msg.wParam in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_TAB]);
-        end;
-
-    WM_KEYUP :
-      if Panel1.Focused then
-        begin
-          TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
-          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
-          TempKeyEvent.windows_key_code        := Msg.wParam;
-          TempKeyEvent.native_key_code         := Msg.lParam;
-          TempKeyEvent.is_system_key           := ord(False);
-          TempKeyEvent.character               := #0;
-          TempKeyEvent.unmodified_character    := #0;
-          TempKeyEvent.focus_on_editable_field := ord(False);
-
-          Chromium1.SendKeyEvent(@TempKeyEvent);
-          Handled := (Msg.wParam <> VK_MENU);
-        end;
-
+    WM_SYSCHAR,
+    WM_SYSKEYDOWN,
+    WM_SYSKEYUP,
+    WM_KEYDOWN,
+    WM_KEYUP,
     WM_CHAR :
       if Panel1.Focused then
-        begin
-          TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
-          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(Msg.wParam, Msg.lParam);
-          TempKeyEvent.windows_key_code        := Msg.wParam;
-          TempKeyEvent.native_key_code         := Msg.lParam;
-          TempKeyEvent.is_system_key           := ord(False);
-          TempKeyEvent.character               := #0;
-          TempKeyEvent.unmodified_character    := #0;
-          TempKeyEvent.focus_on_editable_field := ord(False);
+        HandleKeyboardMsg(Msg);
 
-          CefCheckAltGrPressed(Msg.wParam, TempKeyEvent);
-          Chromium1.SendKeyEvent(@TempKeyEvent);
-          Handled := True;
-        end;
-
-    WM_MOUSEWHEEL :
+    WM_MOUSEWHEEL,
+    WM_MOUSEHWHEEL :
       if Panel1.Focused then
-        begin
-          GetCursorPos(TempPoint);
-          TempPoint                := Panel1.ScreenToclient(TempPoint);
-          TempMouseEvent.x         := TempPoint.x;
-          TempMouseEvent.y         := TempPoint.y;
-          TempMouseEvent.modifiers := GetCefMouseModifiers(Msg.wParam);
-
-          DeviceToLogical(TempMouseEvent, Panel1.ScreenScale);
-
-          if CefIsKeyDown(VK_SHIFT) then
-            Chromium1.SendMouseWheelEvent(@TempMouseEvent, smallint(Msg.wParam shr 16), 0)
-           else
-            Chromium1.SendMouseWheelEvent(@TempMouseEvent, 0, smallint(Msg.wParam shr 16));
-        end;
+        HandleMouseWheelMsg(Msg);
   end;
 end;
 
@@ -824,6 +725,84 @@ end;
 procedure TChildForm.Panel1Exit(Sender: TObject);
 begin
   Chromium1.SetFocus(False);
+end;
+
+procedure TChildForm.SendMouseInput(const mouse       : TCefMouseEvent;
+                                          type_       : TCefMouseInputEventType;
+                                          button      : TCefMouseButtonType;
+                                          click_count : integer;
+                                          X, Y: Integer);
+var
+  screen : TCefPoint;
+  TempScreenPt, TempViewPt : TPoint;
+begin
+  TempViewPt.x := x;
+  TempViewPt.y := y;
+  TempScreenPt := Panel1.ClientToScreen(TempViewPt);
+  screen.x     := TempScreenPt.X;
+  screen.y     := TempScreenPt.Y;
+  Chromium1.SendMouseEvent(MakeOsrMouseInputEvent(mouse, screen, type_, button, click_count));
+end;
+
+procedure TChildForm.HandleKeyboardMsg(var Msg: tagMSG);
+var
+  TempKeyEvent : TCefKeyboardInputEvent;
+begin
+  FillChar(TempKeyEvent, SizeOf(TCefKeyboardInputEvent), 0);
+  TempKeyEvent.size := SizeOf(TCefKeyboardInputEvent);
+  if CefKeyboardInputEventFromWindowsMessage(Msg.message, Msg.wParam, Msg.lParam, TempKeyEvent) then
+    Chromium1.SendKeyboardEvent(TempKeyEvent);
+end;
+
+procedure TChildForm.HandleMouseWheelMsg(var Msg: tagMSG);
+var
+  TempMouseEvent : TCefMouseEvent;
+  TempPoint, TempScreenPt : TPoint;
+  delta : integer;
+  horizontal : boolean;
+  screen : TCefPoint;
+  input : TCefWheelInputEvent;
+  scroll_amount : cardinal;
+  ticks : single;
+begin
+  delta := smallint(Msg.wParam shr 16);
+
+  if (Msg.message = WM_MOUSEHWHEEL) then
+    delta := delta * -1;
+
+  horizontal := (Msg.message = WM_MOUSEHWHEEL) or CefIsKeyDown(VK_SHIFT);
+
+  GetCursorPos(TempPoint);
+  TempPoint                := Panel1.ScreenToclient(TempPoint);
+  TempMouseEvent.x         := TempPoint.x;
+  TempMouseEvent.y         := TempPoint.y;
+  TempMouseEvent.modifiers := GetCefMouseModifiers(Msg.wParam);
+
+  TempScreenPt := Panel1.ClientToScreen(TempPoint);
+  screen.x     := TempScreenPt.X;
+  screen.y     := TempScreenPt.Y;
+
+  input := MakeOsrWheelInputEvent(TempMouseEvent, screen.x, screen.y);
+
+  DeviceToLogical(TempMouseEvent, Panel1.ScreenScale);
+
+  input.x := TempMouseEvent.x;
+  input.y := TempMouseEvent.y;
+
+  if horizontal then
+    begin
+      scroll_amount := 1;
+      SystemParametersInfo(SPI_GETWHEELSCROLLCHARS, 0, @scroll_amount, 0);
+    end
+   else
+    begin
+      scroll_amount := 3;
+      SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, @scroll_amount, 0);
+    end;
+
+  ticks := delta / WHEEL_DELTA;
+  SetOsrWindowsWheelDelta(input, ticks, horizontal, scroll_amount);
+  Chromium1.SendWheelEvent(input);
 end;
 
 end.

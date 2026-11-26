@@ -234,7 +234,6 @@ object BrowserFrame: TBrowserFrame
     OnAfterCreated = chrmosrAfterCreated
     OnBeforeClose = chrmosrBeforeClose
     OnOpenUrlFromTab = chrmosrOpenUrlFromTab
-    OnRenderProcessTerminated = chrmosrRenderProcessTerminated
     OnGetViewRect = chrmosrGetViewRect
     OnGetScreenPoint = chrmosrGetScreenPoint
     OnGetScreenInfo = chrmosrGetScreenInfo

@@ -149,7 +149,7 @@ uses
   {$ELSE}
   Math,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFApplication, uCEFDisplay;
+  uCEFMiscFunctions, uCEFApplication;
 
 // Chromium renders the web contents asynchronously. It uses multiple processes
 // and threads which makes it complicated to keep the correct browser size.
