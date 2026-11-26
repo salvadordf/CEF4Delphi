@@ -737,7 +737,7 @@ begin
   TempEvent.y         := Y;
   TempEvent.modifiers := getModifiers(Shift);
   DeviceToLogical(TempEvent, Panel1.ScreenScale);
-  chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, FLastClickCount);
+  SendMouseInput(TempEvent, CEF_MOUSE_EVENT_DOWN, GetButton(Button), FLastClickCount, x, y);
 end;
 
 procedure TForm1.Panel1MouseLeave(Sender: TObject);
@@ -755,7 +755,7 @@ begin
   TempEvent.y         := TempPoint.y;
   TempEvent.modifiers := GetCefMouseModifiers;
   DeviceToLogical(TempEvent, Panel1.ScreenScale);
-  chrmosr.SendMouseMoveEvent(@TempEvent, True);
+  SendMouseInput(TempEvent, CEF_MOUSE_EVENT_LEAVE, CEF_MOUSE_BUTTON_NONE, 0, TempPoint.x, TempPoint.y);
 end;
 
 procedure TForm1.Panel1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
@@ -773,7 +773,7 @@ begin
   TempEvent.y         := y;
   TempEvent.modifiers := getModifiers(Shift);
   DeviceToLogical(TempEvent, Panel1.ScreenScale);
-  chrmosr.SendMouseMoveEvent(@TempEvent, False);
+  SendMouseInput(TempEvent, CEF_MOUSE_EVENT_MOVE, CEF_MOUSE_BUTTON_NONE, 0, x, y);
 end;
 
 procedure TForm1.Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -788,7 +788,7 @@ begin
   TempEvent.y         := Y;
   TempEvent.modifiers := getModifiers(Shift);
   DeviceToLogical(TempEvent, Panel1.ScreenScale);
-  chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, FLastClickCount);
+  SendMouseInput(TempEvent, CEF_MOUSE_EVENT_UP, GetButton(Button), FLastClickCount, x, y);
 end;
 
 procedure TForm1.Panel1PointerDown(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean);

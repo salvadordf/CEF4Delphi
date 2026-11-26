@@ -602,7 +602,7 @@ begin
       TempEvent.y         := Y;
       TempEvent.modifiers := getModifiers(Shift);
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      Chromium1.SendMouseClickEvent(@TempEvent, GetButton(Button), False, FLastClickCount);
+      SendMouseInput(TempEvent, CEF_MOUSE_EVENT_DOWN, GetButton(Button), FLastClickCount, x, y);
     end;
 end;
 
@@ -623,7 +623,7 @@ begin
       TempEvent.y         := TempPoint.y;
       TempEvent.modifiers := GetCefMouseModifiers;
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      Chromium1.SendMouseMoveEvent(@TempEvent, True);
+      SendMouseInput(TempEvent, CEF_MOUSE_EVENT_LEAVE, CEF_MOUSE_BUTTON_NONE, 0, TempPoint.x, TempPoint.y);
     end;
 end;
 
@@ -640,7 +640,7 @@ begin
       TempEvent.y         := Y;
       TempEvent.modifiers := getModifiers(Shift);
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      Chromium1.SendMouseMoveEvent(@TempEvent, False);
+      SendMouseInput(TempEvent, CEF_MOUSE_EVENT_MOVE, CEF_MOUSE_BUTTON_NONE, 0, x, y);
     end;
 end;
 
@@ -654,7 +654,7 @@ begin
       TempEvent.y         := Y;
       TempEvent.modifiers := getModifiers(Shift);
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      Chromium1.SendMouseClickEvent(@TempEvent, GetButton(Button), True, FLastClickCount);
+      SendMouseInput(TempEvent, CEF_MOUSE_EVENT_UP, GetButton(Button), FLastClickCount, x, y);
     end;
 end;
 
