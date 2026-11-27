@@ -31,15 +31,10 @@ type
       procedure   ShowBrowser;
       procedure   HideBrowser;
       procedure   SendCaptureLostEvent;
-      {$IFDEF MSWINDOWS}
-      procedure   HandleSYSCHAR(const aMessage : TMsg);
-      procedure   HandleSYSKEYDOWN(const aMessage : TMsg);
-      procedure   HandleSYSKEYUP(const aMessage : TMsg);
-      procedure   HandleKEYDOWN(const aMessage : TMsg);
-      procedure   HandleKEYUP(const aMessage : TMsg);
+      procedure   HandleKeyboardMsg(const aMessage : TMsg);
+      procedure   HandleMouseWheelMsg(const aMessage : TMsg);
       function    HandlePOINTER(const aMessage : TMsg) : boolean;
       function    PostFormMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
-      {$ENDIF}
 
       property    TabID      : cardinal     read FTabID;
       property    ParentForm : TCustomForm  read GetParentForm;
@@ -142,40 +137,19 @@ end;
 
 procedure TBrowserTab.BrowserFrame_OnBrowserNeedsResize(Sender: TObject);
 begin
-  {$IFDEF MSWINDOWS}
   PostFormMessage(CEF_PENDINGRESIZE, TabID);
-  {$ENDIF}
 end;
 
-{$IFDEF MSWINDOWS}
-procedure TBrowserTab.HandleSYSCHAR(const aMessage : TMsg);
+procedure TBrowserTab.HandleKeyboardMsg(const aMessage : TMsg);
 begin
   if (FBrowserFrame <> nil) then
-    FBrowserFrame.HandleSYSCHAR(aMessage);
+    FBrowserFrame.HandleKeyboardMsg(aMessage);
 end;
 
-procedure TBrowserTab.HandleSYSKEYDOWN(const aMessage : TMsg);
+procedure TBrowserTab.HandleMouseWheelMsg(const aMessage : TMsg);
 begin
   if (FBrowserFrame <> nil) then
-    FBrowserFrame.HandleSYSKEYDOWN(aMessage);
-end;
-
-procedure TBrowserTab.HandleSYSKEYUP(const aMessage : TMsg);
-begin
-  if (FBrowserFrame <> nil) then
-    FBrowserFrame.HandleSYSKEYUP(aMessage);
-end;
-
-procedure TBrowserTab.HandleKEYDOWN(const aMessage : TMsg);
-begin
-  if (FBrowserFrame <> nil) then
-    FBrowserFrame.HandleKEYDOWN(aMessage);
-end;
-
-procedure TBrowserTab.HandleKEYUP(const aMessage : TMsg);
-begin
-  if (FBrowserFrame <> nil) then
-    FBrowserFrame.HandleKEYUP(aMessage);
+    FBrowserFrame.HandleMouseWheelMsg(aMessage);
 end;
 
 function TBrowserTab.HandlePOINTER(const aMessage : TMsg) : boolean;
@@ -193,6 +167,5 @@ begin
               (TempForm is TMainForm) and
               TMainForm(TempForm).PostCustomMessage(aMsg, aWParam, aLParam);
 end;
-{$ENDIF}
 
 end.

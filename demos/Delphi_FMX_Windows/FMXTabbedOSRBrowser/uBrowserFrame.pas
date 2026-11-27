@@ -93,13 +93,12 @@ type
       function  GetMousePosition(var aPoint : TPointF) : boolean;
       procedure InitializeLastClick;
       function  CancelPreviousClick(const x, y : single; var aCurrentTime : integer) : boolean;
-      {$IFDEF MSWINDOWS}
+      procedure SendMouseInput(const mouse : TCefMouseEvent; type_ : TCefMouseInputEventType; button : TCefMouseButtonType; click_count: integer; X, Y: single);
       function  PostFormMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
       function  ArePointerEventsSupported : boolean;
       function  HandlePenEvent(const aID : uint32; aMsg : cardinal) : boolean;
       function  HandleTouchEvent(const aID : uint32; aMsg : cardinal) : boolean; overload;
       function  HandlePointerEvent(const aMessage : TMsg) : boolean;
-      {$ENDIF}
 
     public
       constructor Create(AOwner : TComponent); override;
@@ -109,14 +108,9 @@ type
       procedure   SendCaptureLostEvent;
       procedure   ShowBrowser;
       procedure   HideBrowser;
-      {$IFDEF MSWINDOWS}
-      procedure   HandleSYSCHAR(const aMessage : TMsg);
-      procedure   HandleSYSKEYDOWN(const aMessage : TMsg);
-      procedure   HandleSYSKEYUP(const aMessage : TMsg);
-      procedure   HandleKEYDOWN(const aMessage : TMsg);
-      procedure   HandleKEYUP(const aMessage : TMsg);
+      procedure   HandleKeyboardMsg(const aMessage : TMsg);
+      procedure   HandleMouseWheelMsg(const aMessage : TMsg);
       function    HandlePOINTER(const aMessage : TMsg) : boolean;
-      {$ENDIF}
 
       procedure   CreateBrowser;
       procedure   CloseBrowser;
@@ -137,7 +131,7 @@ implementation
 {$R *.fmx}
 
 uses
-  FMX.Platform, {$IFDEF MSWINDOWS}FMX.Platform.Win,{$ENDIF} System.Math,
+  FMX.Platform, FMX.Platform.Win, System.Math,
   uCEFMiscFunctions, uCEFApplication, uBrowserTab, uMainForm;
 
 procedure TBrowserFrame.BackBtnClick(Sender: TObject);
@@ -267,22 +261,16 @@ end;
 procedure TBrowserFrame.FMXBufferPanel1KeyDown(Sender: TObject; var Key: Word;
   var KeyChar: Char; Shift: TShiftState);
 var
-  TempKeyEvent : TCefKeyEvent;
+  TempMessage : TMsg;
 begin
   if not(FMXBufferPanel1.IsFocused) then exit;
 
   if (Key = 0) and (KeyChar <> #0) then
     begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
-      TempKeyEvent.modifiers               := getModifiers(Shift);
-      TempKeyEvent.windows_key_code        := ord(KeyChar);
-      TempKeyEvent.native_key_code         := 0;
-      TempKeyEvent.is_system_key           := ord(False);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      FMXChromium1.SendKeyEvent(@TempKeyEvent);
+      TempMessage.message := WM_CHAR;
+      TempMessage.wParam  := ord(KeyChar);
+      TempMessage.lParam  := 0;
+      HandleKeyboardMsg(TempMessage);
     end
    else
     if (Key <> 0) and (KeyChar = #0) and
@@ -315,7 +303,7 @@ begin
       TempEvent.x         := round(X);
       TempEvent.y         := round(Y);
       TempEvent.modifiers := getModifiers(Shift);
-      FMXChromium1.SendMouseClickEvent(@TempEvent, GetButton(Button), False, FLastClickCount);
+      SendMouseInput(TempEvent, CEF_MOUSE_EVENT_DOWN, GetButton(Button), FLastClickCount, x, y);
     end;
 end;
 
@@ -337,7 +325,7 @@ begin
       TempEvent.x         := TempPoint.x;
       TempEvent.y         := TempPoint.y;
       TempEvent.modifiers := GetCefMouseModifiers;
-      FMXChromium1.SendMouseMoveEvent(@TempEvent, True);
+      SendMouseInput(TempEvent, CEF_MOUSE_EVENT_LEAVE, CEF_MOUSE_BUTTON_NONE, 0, TempPoint.x, TempPoint.y);
     end;
 end;
 
@@ -354,7 +342,7 @@ begin
       TempEvent.x         := round(X);
       TempEvent.y         := round(Y);
       TempEvent.modifiers := getModifiers(Shift);
-      FMXChromium1.SendMouseMoveEvent(@TempEvent, False);
+      SendMouseInput(TempEvent, CEF_MOUSE_EVENT_MOVE, CEF_MOUSE_BUTTON_NONE, 0, x, y);
     end;
 end;
 
@@ -368,28 +356,57 @@ begin
       TempEvent.x         := round(X);
       TempEvent.y         := round(Y);
       TempEvent.modifiers := getModifiers(Shift);
-      FMXChromium1.SendMouseClickEvent(@TempEvent, GetButton(Button), True, FLastClickCount);
+      SendMouseInput(TempEvent, CEF_MOUSE_EVENT_UP, GetButton(Button), FLastClickCount, x, y);
     end;
 end;
 
 procedure TBrowserFrame.FMXBufferPanel1MouseWheel(Sender: TObject;
   Shift: TShiftState; WheelDelta: Integer; var Handled: Boolean);
 var
-  TempEvent  : TCefMouseEvent;
-  TempPoint  : TPoint;
-  TempPointF : TPointF;
+  TempMouseEvent : TCefMouseEvent;
+  TempPoint, TempScreenPt : TPointF;
+  horizontal : boolean;
+  screen : TCefPoint;
+  input : TCefWheelInputEvent;
+  scroll_amount : cardinal;
+  ticks : single;
 begin
-  if FMXBufferPanel1.IsFocused and GetMousePosition(TempPointF) then
-    begin
-      TempPoint.x := round(TempPointF.x);
-      TempPoint.y := round(TempPointF.y);
-      TempPoint   := FMXBufferPanel1.ScreenToClient(TempPoint);
+  if not(FMXBufferPanel1.IsFocused) or
+     not(GetMousePosition(TempPoint)) then
+    exit;
 
-      TempEvent.x         := TempPoint.x;
-      TempEvent.y         := TempPoint.y;
-      TempEvent.modifiers := getModifiers(Shift);
-      FMXChromium1.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
+  horizontal := (ssShift in Shift);
+
+  TempPoint                := FMXBufferPanel1.ScreenToclient(TempPoint);
+  TempMouseEvent.x         := round(TempPoint.x);
+  TempMouseEvent.y         := round(TempPoint.y);
+  TempMouseEvent.modifiers := getModifiers(Shift);
+
+  TempScreenPt := FMXBufferPanel1.ClientToScreen(TempPoint);
+  screen.x     := round(TempScreenPt.X);
+  screen.y     := round(TempScreenPt.Y);
+
+  input := MakeOsrWheelInputEvent(TempMouseEvent, screen.x, screen.y);
+
+  DeviceToLogical(TempMouseEvent, FMXBufferPanel1.ScreenScale);
+
+  input.x := TempMouseEvent.x;
+  input.y := TempMouseEvent.y;
+
+  if horizontal then
+    begin
+      scroll_amount := 1;
+      SystemParametersInfo(SPI_GETWHEELSCROLLCHARS, 0, @scroll_amount, 0);
+    end
+   else
+    begin
+      scroll_amount := 3;
+      SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, @scroll_amount, 0);
     end;
+
+  ticks := WheelDelta / WHEEL_DELTA;
+  SetOsrWindowsWheelDelta(input, ticks, horizontal, scroll_amount);
+  FMXChromium1.SendWheelEvent(input);
 end;
 
 procedure TBrowserFrame.FMXBufferPanel1Resize(Sender: TObject);
@@ -821,19 +838,30 @@ end;
 
 function TBrowserFrame.CancelPreviousClick(const x, y : single; var aCurrentTime : integer) : boolean;
 begin
-  {$IFDEF MSWINDOWS}
   aCurrentTime := GetMessageTime;
 
   Result := (abs(FLastClickPoint.x - x) > (GetSystemMetrics(SM_CXDOUBLECLK) div 2)) or
             (abs(FLastClickPoint.y - y) > (GetSystemMetrics(SM_CYDOUBLECLK) div 2)) or
             (cardinal(aCurrentTime - FLastClickTime) > GetDoubleClickTime);
-  {$ELSE}
-  aCurrentTime := 0;
-  Result       := False;
-  {$ENDIF}
 end;
 
-{$IFDEF MSWINDOWS}
+procedure TBrowserFrame.SendMouseInput(const mouse       : TCefMouseEvent;
+                                             type_       : TCefMouseInputEventType;
+                                             button      : TCefMouseButtonType;
+                                             click_count : integer;
+                                             X, Y        : single);
+var
+  screen : TCefPoint;
+  TempScreenPt, TempViewPt : TPointF;
+begin
+  TempViewPt.x := x;
+  TempViewPt.y := y;
+  TempScreenPt := FMXBufferPanel1.ClientToScreen(TempViewPt);
+  screen.x     := round(TempScreenPt.X);
+  screen.y     := round(TempScreenPt.Y);
+  FMXChromium1.SendMouseEvent(MakeOsrMouseInputEvent(mouse, screen, type_, button, click_count));
+end;
+
 function TBrowserFrame.PostFormMessage(aMsg : cardinal; aWParam : WPARAM; aLParam : LPARAM) : boolean;
 var
   TempTab : TTabItem;
@@ -987,113 +1015,6 @@ begin
   FMXChromium1.SendTouchEvent(@TempTouchEvent);
 end;
 
-procedure TBrowserFrame.HandleSYSCHAR(const aMessage : TMsg);
-var
-  TempKeyEvent : TCefKeyEvent;
-begin
-  if FMXBufferPanel1.IsFocused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
-    begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
-      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
-      TempKeyEvent.is_system_key           := ord(True);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      FMXChromium1.SendKeyEvent(@TempKeyEvent);
-    end;
-end;
-
-procedure TBrowserFrame.HandleSYSKEYDOWN(const aMessage : TMsg);
-var
-  TempKeyEvent : TCefKeyEvent;
-begin
-  if FMXBufferPanel1.IsFocused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
-    begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
-      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
-      TempKeyEvent.is_system_key           := ord(True);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      FMXChromium1.SendKeyEvent(@TempKeyEvent);
-    end;
-end;
-
-procedure TBrowserFrame.HandleSYSKEYUP(const aMessage : TMsg);
-var
-  TempKeyEvent : TCefKeyEvent;
-begin
-  if FMXBufferPanel1.IsFocused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
-    begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
-      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
-      TempKeyEvent.is_system_key           := ord(True);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      FMXChromium1.SendKeyEvent(@TempKeyEvent);
-    end;
-end;
-
-
-procedure TBrowserFrame.HandleKEYDOWN(const aMessage : TMsg);
-var
-  TempKeyEvent : TCefKeyEvent;
-begin
-  if FMXBufferPanel1.IsFocused then
-    begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
-      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
-      TempKeyEvent.is_system_key           := ord(False);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-      FMXChromium1.SendKeyEvent(@TempKeyEvent);
-    end;
-end;
-
-procedure TBrowserFrame.HandleKEYUP(const aMessage : TMsg);
-var
-  TempKeyEvent : TCefKeyEvent;
-begin
-  if FMXBufferPanel1.IsFocused then
-    begin
-      if (aMessage.wParam = vkReturn) then
-        begin
-          TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
-          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-          TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
-          TempKeyEvent.native_key_code         := integer(aMessage.lParam);
-          TempKeyEvent.is_system_key           := ord(False);
-          TempKeyEvent.character               := #0;
-          TempKeyEvent.unmodified_character    := #0;
-          TempKeyEvent.focus_on_editable_field := ord(False);
-
-          FMXChromium1.SendKeyEvent(@TempKeyEvent);
-        end;
-      TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := integer(aMessage.wParam);
-      TempKeyEvent.native_key_code         := integer(aMessage.lParam);
-      TempKeyEvent.is_system_key           := ord(False);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-      FMXChromium1.SendKeyEvent(@TempKeyEvent);
-    end;
-end;
-
 function TBrowserFrame.HandlePOINTER(const aMessage : TMsg) : boolean;
 begin
   Result := FMXBufferPanel1.IsFocused and
@@ -1101,7 +1022,69 @@ begin
             ArePointerEventsSupported and
             HandlePointerEvent(aMessage);
 end;
-{$ENDIF}
 
+procedure TBrowserFrame.HandleKeyboardMsg(const aMessage : TMsg);
+var
+  TempKeyEvent : TCefKeyboardInputEvent;
+begin
+  if FMXBufferPanel1.IsFocused then
+    begin
+      FillChar(TempKeyEvent, SizeOf(TCefKeyboardInputEvent), 0);
+      TempKeyEvent.size := SizeOf(TCefKeyboardInputEvent);
+      if CefKeyboardInputEventFromWindowsMessage(aMessage.message, aMessage.wParam, aMessage.lParam, TempKeyEvent) then
+        FMXChromium1.SendKeyboardEvent(TempKeyEvent);
+    end;
+end;
+
+procedure TBrowserFrame.HandleMouseWheelMsg(const aMessage : TMsg);
+var
+  TempMouseEvent : TCefMouseEvent;
+  TempPoint, TempScreenPt : TPoint;
+  delta : integer;
+  horizontal : boolean;
+  screen : TCefPoint;
+  input : TCefWheelInputEvent;
+  scroll_amount : cardinal;
+  ticks : single;
+begin
+  delta := smallint(aMessage.wParam shr 16);
+
+  if (aMessage.message = WM_MOUSEHWHEEL) then
+    delta := delta * -1;
+
+  horizontal := (aMessage.message = WM_MOUSEHWHEEL) or CefIsKeyDown(VK_SHIFT);
+
+  GetCursorPos(TempPoint);
+  TempPoint                := FMXBufferPanel1.ScreenToclient(TempPoint);
+  TempMouseEvent.x         := TempPoint.x;
+  TempMouseEvent.y         := TempPoint.y;
+  TempMouseEvent.modifiers := GetCefMouseModifiers(aMessage.wParam);
+
+  TempScreenPt := FMXBufferPanel1.ClientToScreen(TempPoint);
+  screen.x     := TempScreenPt.X;
+  screen.y     := TempScreenPt.Y;
+
+  input := MakeOsrWheelInputEvent(TempMouseEvent, screen.x, screen.y);
+
+  DeviceToLogical(TempMouseEvent, FMXBufferPanel1.ScreenScale);
+
+  input.x := TempMouseEvent.x;
+  input.y := TempMouseEvent.y;
+
+  if horizontal then
+    begin
+      scroll_amount := 1;
+      SystemParametersInfo(SPI_GETWHEELSCROLLCHARS, 0, @scroll_amount, 0);
+    end
+   else
+    begin
+      scroll_amount := 3;
+      SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, @scroll_amount, 0);
+    end;
+
+  ticks := delta / WHEEL_DELTA;
+  SetOsrWindowsWheelDelta(input, ticks, horizontal, scroll_amount);
+  FMXChromium1.SendWheelEvent(input);
+end;
 
 end.

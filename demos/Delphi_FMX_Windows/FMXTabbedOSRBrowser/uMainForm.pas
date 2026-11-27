@@ -72,15 +72,10 @@ type
     procedure NotifyMoveOrResizeStarted;
     function  GetMousePosition(var aPoint : TPointF) : boolean;
     procedure SetBounds(ALeft: Integer; ATop: Integer; AWidth: Integer; AHeight: Integer); override;
-    {$IFDEF MSWINDOWS}
-    procedure HandleSYSCHAR(const aMessage : TMsg);
-    procedure HandleSYSKEYDOWN(const aMessage : TMsg);
-    procedure HandleSYSKEYUP(const aMessage : TMsg);
-    procedure HandleKEYDOWN(const aMessage : TMsg);
-    procedure HandleKEYUP(const aMessage : TMsg);
+    procedure HandleKeyboardMsg(const aMessage : TMsg);
+    procedure HandleMouseWheelMsg(const aMessage : TMsg);
     function  HandlePOINTER(const aMessage : TMsg) : boolean;
     function  PostCustomMessage(aMsg : cardinal; aWParam : WPARAM = 0; aLParam : LPARAM = 0) : boolean;
-    {$ENDIF}
   end;
 
 var
@@ -131,10 +126,8 @@ uses
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin
-  {$IFDEF MSWINDOWS}
   if (MainForm <> nil) then
     MainForm.PostCustomMessage(CEF_INITIALIZED);
-  {$ENDIF}
 end;
 
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS : int64);
@@ -153,8 +146,8 @@ begin
   GlobalCEFApp.OnScheduleMessagePumpWork  := GlobalCEFApp_OnScheduleMessagePumpWork;
   GlobalCEFApp.OnContextInitialized       := GlobalCEFApp_OnContextInitialized;
   {$IFDEF DEBUG}
-  //GlobalCEFApp.LogFile                    := 'debug.log';
-  //GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
+  GlobalCEFApp.LogFile                    := 'debug.log';
+  GlobalCEFApp.LogSeverity                := LOGSEVERITY_INFO;
   {$ENDIF}
 
   // TFMXWorkScheduler will call cef_do_message_loop_work when
@@ -413,35 +406,16 @@ begin
     BrowserTabCtrl.TabPosition := TTabPosition.PlatformDefault;
 end;
 
-{$IFDEF MSWINDOWS}
-procedure TMainForm.HandleSYSCHAR(const aMessage : TMsg);
+procedure TMainForm.HandleKeyboardMsg(const aMessage : TMsg);
 begin
   if (BrowserTabCtrl.ActiveTab <> nil) then
-    TBrowserTab(BrowserTabCtrl.ActiveTab).HandleSYSCHAR(aMessage);
+    TBrowserTab(BrowserTabCtrl.ActiveTab).HandleKeyboardMsg(aMessage);
 end;
 
-procedure TMainForm.HandleSYSKEYDOWN(const aMessage : TMsg);
+procedure TMainForm.HandleMouseWheelMsg(const aMessage : TMsg);
 begin
   if (BrowserTabCtrl.ActiveTab <> nil) then
-    TBrowserTab(BrowserTabCtrl.ActiveTab).HandleSYSKEYDOWN(aMessage);
-end;
-
-procedure TMainForm.HandleSYSKEYUP(const aMessage : TMsg);
-begin
-  if (BrowserTabCtrl.ActiveTab <> nil) then
-    TBrowserTab(BrowserTabCtrl.ActiveTab).HandleSYSKEYUP(aMessage);
-end;
-
-procedure TMainForm.HandleKEYDOWN(const aMessage : TMsg);
-begin
-  if (BrowserTabCtrl.ActiveTab <> nil) then
-    TBrowserTab(BrowserTabCtrl.ActiveTab).HandleKEYDOWN(aMessage);
-end;
-
-procedure TMainForm.HandleKEYUP(const aMessage : TMsg);
-begin
-  if (BrowserTabCtrl.ActiveTab <> nil) then
-    TBrowserTab(BrowserTabCtrl.ActiveTab).HandleKEYUP(aMessage);
+    TBrowserTab(BrowserTabCtrl.ActiveTab).HandleMouseWheelMsg(aMessage);
 end;
 
 function TMainForm.HandlePOINTER(const aMessage : TMsg) : boolean;
@@ -457,6 +431,5 @@ begin
   TempHWND := FmxHandleToHWND(Handle);
   Result   := (TempHWND <> 0) and WinApi.Windows.PostMessage(TempHWND, aMsg, aWParam, aLParam);
 end;
-{$ENDIF}
 
 end.

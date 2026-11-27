@@ -138,35 +138,15 @@ begin
            (Application.MainForm is TMainForm) then
           TMainForm(Application.MainForm).SendCaptureLostEvent;
 
-      WM_SYSCHAR :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TMainForm) then
-          TMainForm(Application.MainForm).HandleSYSCHAR(TempMsg);
-
-      WM_SYSKEYDOWN :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TMainForm) then
-          TMainForm(Application.MainForm).HandleSYSKEYDOWN(TempMsg);
-
-      WM_SYSKEYUP :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TMainForm) then
-          TMainForm(Application.MainForm).HandleSYSKEYUP(TempMsg);
-
-      WM_KEYDOWN :
-        if not(Application.Terminated) and
-           (Application.MainForm <> nil) and
-           (Application.MainForm is TMainForm) then
-          TMainForm(Application.MainForm).HandleKEYDOWN(TempMsg);
-
+      WM_SYSCHAR,
+      WM_SYSKEYDOWN,
+      WM_SYSKEYUP,
+      WM_KEYDOWN,
       WM_KEYUP :
         if not(Application.Terminated) and
            (Application.MainForm <> nil) and
            (Application.MainForm is TMainForm) then
-          TMainForm(Application.MainForm).HandleKEYUP(TempMsg);
+          TMainForm(Application.MainForm).HandleKeyboardMsg(TempMsg);
 
       WM_POINTERDOWN,
       WM_POINTERUPDATE,
