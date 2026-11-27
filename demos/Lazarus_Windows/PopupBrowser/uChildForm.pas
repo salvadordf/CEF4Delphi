@@ -82,7 +82,9 @@ type
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     procedure DoResize;
     procedure InitializeLastClick;
-    function  CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
+    function  CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;     
+    procedure SendMouseInput(const mouse : TCefMouseEvent; type_ : TCefMouseInputEventType; button : TCefMouseButtonType; click_count, X, Y: Integer);
+    procedure HandleKeyboardMsg(var aMessage: TMessage);
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -154,31 +156,6 @@ procedure TChildForm.chrmosrBeforeClose(Sender: TObject; const browser: ICefBrow
 begin
   FCanClose      := True;
   Timer1.Enabled := True; // Workaround for an access violation in CallDefaultWindowProc (win32callback.inc)
-end;
-
-procedure TChildForm.Panel1UTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
-var
-  TempKeyEvent : TCefKeyEvent;
-  TempString   : UnicodeString;
-begin
-  if Panel1.Focused then
-    begin
-      TempString := UTF8Decode(UTF8Key);
-
-      if (length(TempString) > 0) then
-        begin
-          TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
-          TempKeyEvent.modifiers               := GetCefKeyboardModifiers(WParam(TempString[1]), 0);
-          TempKeyEvent.windows_key_code        := ord(TempString[1]);
-          TempKeyEvent.native_key_code         := 0;
-          TempKeyEvent.is_system_key           := ord(False);
-          TempKeyEvent.character               := #0;
-          TempKeyEvent.unmodified_character    := #0;
-          TempKeyEvent.focus_on_editable_field := ord(False);
-
-          chrmosr.SendKeyEvent(@TempKeyEvent);
-        end;
-    end;
 end;
 
 procedure TChildForm.chrmosrCursorChange(      Sender           : TObject;
@@ -462,67 +439,21 @@ begin
 end;
 
 procedure TChildForm.WMSysChar(var aMessage: TMessage);
-var
-  TempKeyEvent : TCefKeyEvent;
 begin
   inherited;
-
-  if Panel1.Focused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
-    begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := aMessage.wParam;
-      TempKeyEvent.native_key_code         := aMessage.lParam;
-      TempKeyEvent.is_system_key           := ord(True);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      CefCheckAltGrPressed(aMessage.wParam, TempKeyEvent);
-      chrmosr.SendKeyEvent(@TempKeyEvent);
-    end;
+  HandleKeyboardMsg(aMessage);
 end;
 
 procedure TChildForm.WMSysKeyDown(var aMessage: TMessage);
-var
-  TempKeyEvent : TCefKeyEvent;
 begin
   inherited;
-
-  if Panel1.Focused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
-    begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := aMessage.wParam;
-      TempKeyEvent.native_key_code         := aMessage.lParam;
-      TempKeyEvent.is_system_key           := ord(True);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      chrmosr.SendKeyEvent(@TempKeyEvent);
-    end;
+  HandleKeyboardMsg(aMessage);
 end;
 
 procedure TChildForm.WMSysKeyUp(var aMessage: TMessage);
-var
-  TempKeyEvent : TCefKeyEvent;
 begin
   inherited;
-
-  if Panel1.Focused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
-    begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := aMessage.wParam;
-      TempKeyEvent.native_key_code         := aMessage.lParam;
-      TempKeyEvent.is_system_key           := ord(True);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      chrmosr.SendKeyEvent(@TempKeyEvent);
-    end;
+  HandleKeyboardMsg(aMessage);
 end;
 
 procedure TChildForm.WMDpiChanged(var Message: TMessage);
@@ -609,7 +540,7 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
+  if (GlobalCEFApp <> nil) then
     begin
       Panel1.SetFocus;
 
@@ -629,7 +560,7 @@ begin
       TempEvent.y         := Y;
       TempEvent.modifiers := getModifiers(Shift);
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, FLastClickCount);
+      SendMouseInput(TempEvent, CEF_MOUSE_EVENT_DOWN, GetButton(Button), FLastClickCount, x, y);
     end;
 end;
 
@@ -639,7 +570,7 @@ var
   TempPoint : TPoint;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
+  if (GlobalCEFApp <> nil) then
     begin
       GetCursorPos(TempPoint);
       TempPoint := Panel1.ScreenToclient(TempPoint);
@@ -650,7 +581,7 @@ begin
       TempEvent.y         := TempPoint.y;
       TempEvent.modifiers := GetCefMouseModifiers;
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      chrmosr.SendMouseMoveEvent(@TempEvent, True);
+      SendMouseInput(TempEvent, CEF_MOUSE_EVENT_LEAVE, CEF_MOUSE_BUTTON_NONE, 0, TempPoint.x, TempPoint.y);
     end;
 end;
 
@@ -659,7 +590,7 @@ var
   TempEvent : TCefMouseEvent;
   TempTime  : integer;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
+  if (GlobalCEFApp <> nil) then
     begin
       if CancelPreviousClick(x, y, TempTime) then InitializeLastClick;
 
@@ -667,7 +598,7 @@ begin
       TempEvent.y         := y;
       TempEvent.modifiers := getModifiers(Shift);
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      chrmosr.SendMouseMoveEvent(@TempEvent, False);
+      SendMouseInput(TempEvent, CEF_MOUSE_EVENT_MOVE, CEF_MOUSE_BUTTON_NONE, 0, x, y);
     end;
 end;
 
@@ -675,13 +606,13 @@ procedure TChildForm.Panel1MouseUp(Sender: TObject; Button: TMouseButton; Shift:
 var
   TempEvent : TCefMouseEvent;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
+  if (GlobalCEFApp <> nil) then
     begin
       TempEvent.x         := X;
       TempEvent.y         := Y;
       TempEvent.modifiers := getModifiers(Shift);
       DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-      chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, FLastClickCount);
+      SendMouseInput(TempEvent, CEF_MOUSE_EVENT_UP, GetButton(Button), FLastClickCount, x, y);
     end;
 end;
 
@@ -738,6 +669,36 @@ begin
             (cardinal(aCurrentTime - FLastClickTime) > GetDoubleClickTime);
 end;
 
+procedure TChildForm.SendMouseInput(const mouse       : TCefMouseEvent;
+                                          type_       : TCefMouseInputEventType;
+                                          button      : TCefMouseButtonType;
+                                          click_count : integer;
+                                          X, Y: Integer);
+var
+  screen : TCefPoint;
+  TempScreenPt, TempViewPt : TPoint;
+begin
+  TempViewPt.x := x;
+  TempViewPt.y := y;
+  TempScreenPt := Panel1.ClientToScreen(TempViewPt);
+  screen.x     := TempScreenPt.X;
+  screen.y     := TempScreenPt.Y;
+  chrmosr.SendMouseEvent(MakeOsrMouseInputEvent(mouse, screen, type_, button, click_count));
+end;
+
+procedure TChildForm.HandleKeyboardMsg(var aMessage : TMessage);
+var
+  TempKeyEvent : TCefKeyboardInputEvent;
+begin
+  if Panel1.Focused then
+    begin
+      FillChar(TempKeyEvent, SizeOf(TCefKeyboardInputEvent), 0);
+      TempKeyEvent.size := SizeOf(TCefKeyboardInputEvent);
+      if CefKeyboardInputEventFromWindowsMessage(aMessage.msg, aMessage.wParam, aMessage.lParam, TempKeyEvent) then
+        chrmosr.SendKeyboardEvent(TempKeyEvent);
+    end;
+end;
+
 procedure TChildForm.Panel1Enter(Sender: TObject);
 begin
   chrmosr.SetFocus(True);
@@ -786,20 +747,18 @@ end;
 
 procedure TChildForm.Panel1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
-  TempKeyEvent : TCefKeyEvent;
+  TempMessage : TMessage;
+  TempLParam  : LPARAM;
 begin
-  if (Key <> 0) and (chrmosr <> nil) then
+  if (Key <> 0) then
     begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
-      TempKeyEvent.modifiers               := getModifiers(Shift);
-      TempKeyEvent.windows_key_code        := Key;
-      TempKeyEvent.native_key_code         := 0;
-      TempKeyEvent.is_system_key           := ord(False);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
+      TempLParam := 0;
+      if (ssRight in Shift) then TempLParam := TempLParam or (1 shl 24);
 
-      chrmosr.SendKeyEvent(@TempKeyEvent);
+      TempMessage.msg     := WM_KEYDOWN;
+      TempMessage.wParam  := ord(Key);
+      TempMessage.lParam  := TempLParam;
+      HandleKeyboardMsg(TempMessage);
 
       if (Key in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_TAB]) then Key := 0;
     end;
@@ -807,40 +766,85 @@ end;
 
 procedure TChildForm.Panel1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
-  TempKeyEvent : TCefKeyEvent;
+  TempMessage : TMessage;
+  TempLParam  : LPARAM;
 begin
-  if (Key <> 0) and (chrmosr <> nil) then
+  if (Key <> 0) then
     begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
-      TempKeyEvent.modifiers               := getModifiers(Shift);
-      TempKeyEvent.windows_key_code        := Key;
-      TempKeyEvent.native_key_code         := 0;
-      TempKeyEvent.is_system_key           := ord(False);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
+      TempLParam := (1 shl 30) or (1 shl 31);
+      if (ssRight in Shift) then TempLParam := TempLParam or (1 shl 24);
 
-      chrmosr.SendKeyEvent(@TempKeyEvent);
+      TempMessage.msg     := WM_KEYUP;
+      TempMessage.wParam  := ord(Key);
+      TempMessage.lParam  := TempLParam;
+      HandleKeyboardMsg(TempMessage);
+    end;
+end;
+
+procedure TChildForm.Panel1UTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+var
+  TempString  : UnicodeString;
+  TempMessage : TMessage;
+begin
+  TempString := UTF8Decode(UTF8Key);
+
+  if (length(TempString) > 0) then
+    begin
+      TempMessage.msg     := WM_CHAR;
+      TempMessage.wParam  := WParam(TempString[1]);
+      TempMessage.lParam  := 0;
+      HandleKeyboardMsg(TempMessage);
     end;
 end;
 
 procedure TChildForm.Panel1MouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+const
+  SPI_GETWHEELSCROLLCHARS = $006C;
+  SPI_GETWHEELSCROLLLINES = $0068;
 var
-  TempEvent  : TCefMouseEvent;
+  TempMouseEvent : TCefMouseEvent;
+  TempPoint, TempScreenPt : TPoint;
+  horizontal : boolean;
+  screen : TCefPoint;
+  input : TCefWheelInputEvent;
+  scroll_amount : cardinal;
+  ticks : single;
 begin
-  if (GlobalCEFApp <> nil) and (chrmosr <> nil) then
-    begin
-      TempEvent.x         := MousePos.x;
-      TempEvent.y         := MousePos.y;
-      TempEvent.modifiers := getModifiers(Shift);
-      DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
+  if not(Panel1.Focused) then exit;
 
-      if CefIsKeyDown(VK_SHIFT) then
-        chrmosr.SendMouseWheelEvent(@TempEvent, WheelDelta, 0)
-       else
-        chrmosr.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
+  horizontal := (ssShift in Shift);
+
+  TempPoint                := Panel1.ScreenToclient(MousePos);
+  TempMouseEvent.x         := TempPoint.x;
+  TempMouseEvent.y         := TempPoint.y;
+  TempMouseEvent.modifiers := getModifiers(Shift);
+
+  TempScreenPt := Panel1.ClientToScreen(TempPoint);
+  screen.x     := TempScreenPt.X;
+  screen.y     := TempScreenPt.Y;
+
+  input := MakeOsrWheelInputEvent(TempMouseEvent, screen.x, screen.y);
+
+  DeviceToLogical(TempMouseEvent, Panel1.ScreenScale);
+
+  input.x := TempMouseEvent.x;
+  input.y := TempMouseEvent.y;
+
+  if horizontal then
+    begin
+      scroll_amount := 1;
+      SystemParametersInfo(SPI_GETWHEELSCROLLCHARS, 0, @scroll_amount, 0);
+    end
+   else
+    begin
+      scroll_amount := 3;
+      SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, @scroll_amount, 0);
     end;
+
+  ticks := WheelDelta / WHEEL_DELTA;
+  SetOsrWindowsWheelDelta(input, ticks, horizontal, scroll_amount);
+  chrmosr.SendWheelEvent(input);
 end;
 
 procedure TChildForm.chrmosrTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);

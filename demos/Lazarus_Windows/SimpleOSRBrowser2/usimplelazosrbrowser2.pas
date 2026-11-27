@@ -86,7 +86,9 @@ type
     function  getModifiers(Shift: TShiftState): TCefEventFlags;
     function  GetButton(Button: TMouseButton): TCefMouseButtonType;
     procedure InitializeLastClick;
-    function  CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;
+    function  CancelPreviousClick(x, y : integer; var aCurrentTime : integer) : boolean;     
+    procedure SendMouseInput(const mouse : TCefMouseEvent; type_ : TCefMouseInputEventType; button : TCefMouseButtonType; click_count, X, Y: Integer);
+    procedure HandleKeyboardMsg(var aMessage: TMessage);
 
     procedure WMMove(var aMessage : TWMMove); message WM_MOVE;
     procedure WMMoving(var aMessage : TMessage); message WM_MOVING;
@@ -201,20 +203,18 @@ end;
 procedure TForm1.OpenGLControl1KeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
-  TempKeyEvent : TCefKeyEvent;
+  TempMessage : TMessage;
+  TempLParam  : LPARAM;
 begin
-  if (Key <> 0) and (chrmosr <> nil) then
+  if (Key <> 0) then
     begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
-      TempKeyEvent.modifiers               := getModifiers(Shift);
-      TempKeyEvent.windows_key_code        := Key;
-      TempKeyEvent.native_key_code         := 0;
-      TempKeyEvent.is_system_key           := ord(False);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
+      TempLParam := 0;
+      if (ssRight in Shift) then TempLParam := TempLParam or (1 shl 24);
 
-      chrmosr.SendKeyEvent(@TempKeyEvent);
+      TempMessage.msg     := WM_KEYDOWN;
+      TempMessage.wParam  := ord(Key);
+      TempMessage.lParam  := TempLParam;
+      HandleKeyboardMsg(TempMessage);
 
       if (Key in [VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, VK_TAB]) then Key := 0;
     end;
@@ -222,37 +222,29 @@ end;
 
 procedure TForm1.OpenGLControl1KeyPress(Sender: TObject; var Key: char);
 var
-  TempKeyEvent : TCefKeyEvent;
+  TempMessage : TMessage;
 begin
-  TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
-  TempKeyEvent.modifiers               := GetCefKeyboardModifiers(WParam(Key), 0);
-  TempKeyEvent.windows_key_code        := Integer(Key);
-  TempKeyEvent.native_key_code         := 0;
-  TempKeyEvent.is_system_key           := ord(False);
-  TempKeyEvent.character               := #0;
-  TempKeyEvent.unmodified_character    := #0;
-  TempKeyEvent.focus_on_editable_field := ord(False);
-
-  chrmosr.SendKeyEvent(@TempKeyEvent);
+  TempMessage.msg     := WM_CHAR;
+  TempMessage.wParam  := WParam(Key);
+  TempMessage.lParam  := 0;
+  HandleKeyboardMsg(TempMessage);
 end;
 
 procedure TForm1.OpenGLControl1KeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
-  TempKeyEvent : TCefKeyEvent;
+  TempMessage : TMessage;
+  TempLParam  : LPARAM;
 begin
-  if (Key <> 0) and (chrmosr <> nil) then
+  if (Key <> 0) then
     begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
-      TempKeyEvent.modifiers               := getModifiers(Shift);
-      TempKeyEvent.windows_key_code        := Key;
-      TempKeyEvent.native_key_code         := 0;
-      TempKeyEvent.is_system_key           := ord(False);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
+      TempLParam := (1 shl 30) or (1 shl 31);
+      if (ssRight in Shift) then TempLParam := TempLParam or (1 shl 24);
 
-      chrmosr.SendKeyEvent(@TempKeyEvent);
+      TempMessage.msg     := WM_KEYUP;
+      TempMessage.wParam  := ord(Key);
+      TempMessage.lParam  := TempLParam;
+      HandleKeyboardMsg(TempMessage);
     end;
 end;
 
@@ -280,7 +272,7 @@ begin
   TempEvent.y         := Y;
   TempEvent.modifiers := getModifiers(Shift);
   DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-  chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), False, FLastClickCount);
+  SendMouseInput(TempEvent, CEF_MOUSE_EVENT_DOWN, GetButton(Button), FLastClickCount, x, y);
 end;
 
 procedure TForm1.OpenGLControl1MouseLeave(Sender: TObject);
@@ -298,7 +290,7 @@ begin
   TempEvent.y         := TempPoint.y;
   TempEvent.modifiers := GetCefMouseModifiers;
   DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-  chrmosr.SendMouseMoveEvent(@TempEvent, True);
+  SendMouseInput(TempEvent, CEF_MOUSE_EVENT_LEAVE, CEF_MOUSE_BUTTON_NONE, 0, TempPoint.x, TempPoint.y);
 end;
 
 procedure TForm1.OpenGLControl1MouseMove(Sender: TObject; Shift: TShiftState;
@@ -313,7 +305,7 @@ begin
   TempEvent.y         := y;
   TempEvent.modifiers := getModifiers(Shift);
   DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-  chrmosr.SendMouseMoveEvent(@TempEvent, False);
+  SendMouseInput(TempEvent, CEF_MOUSE_EVENT_MOVE, CEF_MOUSE_BUTTON_NONE, 0, x, y);
 end;
 
 procedure TForm1.OpenGLControl1MouseUp(Sender: TObject; Button: TMouseButton;
@@ -325,23 +317,57 @@ begin
   TempEvent.y         := Y;
   TempEvent.modifiers := getModifiers(Shift);
   DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
-  chrmosr.SendMouseClickEvent(@TempEvent, GetButton(Button), True, FLastClickCount);
+  SendMouseInput(TempEvent, CEF_MOUSE_EVENT_UP, GetButton(Button), FLastClickCount, x, y);
 end;
 
 procedure TForm1.OpenGLControl1MouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+const
+  SPI_GETWHEELSCROLLCHARS = $006C;
+  SPI_GETWHEELSCROLLLINES = $0068;
 var
-  TempEvent  : TCefMouseEvent;
+  TempMouseEvent : TCefMouseEvent;
+  TempPoint, TempScreenPt : TPoint;
+  horizontal : boolean;
+  screen : TCefPoint;
+  input : TCefWheelInputEvent;
+  scroll_amount : cardinal;
+  ticks : single;
 begin
-  TempEvent.x         := MousePos.x;
-  TempEvent.y         := MousePos.y;
-  TempEvent.modifiers := getModifiers(Shift);
-  DeviceToLogical(TempEvent, GlobalCEFApp.DeviceScaleFactor);
+  if not(OpenGLControl1.Focused) then exit;
 
-  if CefIsKeyDown(VK_SHIFT) then
-    chrmosr.SendMouseWheelEvent(@TempEvent, WheelDelta, 0)
+  horizontal := (ssShift in Shift);
+
+  TempPoint                := OpenGLControl1.ScreenToclient(MousePos);
+  TempMouseEvent.x         := TempPoint.x;
+  TempMouseEvent.y         := TempPoint.y;
+  TempMouseEvent.modifiers := getModifiers(Shift);
+
+  TempScreenPt := OpenGLControl1.ClientToScreen(TempPoint);
+  screen.x     := TempScreenPt.X;
+  screen.y     := TempScreenPt.Y;
+
+  input := MakeOsrWheelInputEvent(TempMouseEvent, screen.x, screen.y);
+
+  DeviceToLogical(TempMouseEvent, GlobalCEFApp.DeviceScaleFactor);
+
+  input.x := TempMouseEvent.x;
+  input.y := TempMouseEvent.y;
+
+  if horizontal then
+    begin
+      scroll_amount := 1;
+      SystemParametersInfo(SPI_GETWHEELSCROLLCHARS, 0, @scroll_amount, 0);
+    end
    else
-    chrmosr.SendMouseWheelEvent(@TempEvent, 0, WheelDelta);
+    begin
+      scroll_amount := 3;
+      SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, @scroll_amount, 0);
+    end;
+
+  ticks := WheelDelta / WHEEL_DELTA;
+  SetOsrWindowsWheelDelta(input, ticks, horizontal, scroll_amount);
+  chrmosr.SendWheelEvent(input);
 end;
 
 procedure TForm1.VerifyOpenGLErrors;
@@ -770,67 +796,21 @@ begin
 end;
 
 procedure TForm1.WMSysChar(var aMessage: TMessage);
-var
-  TempKeyEvent : TCefKeyEvent;
 begin
   inherited;
-
-  if OpenGLControl1.Focused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
-    begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_CHAR;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := aMessage.wParam;
-      TempKeyEvent.native_key_code         := aMessage.lParam;
-      TempKeyEvent.is_system_key           := ord(True);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      CefCheckAltGrPressed(aMessage.wParam, TempKeyEvent);
-      chrmosr.SendKeyEvent(@TempKeyEvent);
-    end;
+  HandleKeyboardMsg(aMessage);
 end;
 
 procedure TForm1.WMSysKeyDown(var aMessage: TMessage);
-var
-  TempKeyEvent : TCefKeyEvent;
 begin
   inherited;
-
-  if OpenGLControl1.Focused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
-    begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_RAWKEYDOWN;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := aMessage.wParam;
-      TempKeyEvent.native_key_code         := aMessage.lParam;
-      TempKeyEvent.is_system_key           := ord(True);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      chrmosr.SendKeyEvent(@TempKeyEvent);
-    end;
+  HandleKeyboardMsg(aMessage);
 end;
 
 procedure TForm1.WMSysKeyUp(var aMessage: TMessage);
-var
-  TempKeyEvent : TCefKeyEvent;
 begin
   inherited;
-
-  if OpenGLControl1.Focused and (aMessage.wParam in [VK_BACK..VK_HELP]) then
-    begin
-      TempKeyEvent.kind                    := CEF_KEYEVENT_KEYUP;
-      TempKeyEvent.modifiers               := GetCefKeyboardModifiers(aMessage.wParam, aMessage.lParam);
-      TempKeyEvent.windows_key_code        := aMessage.wParam;
-      TempKeyEvent.native_key_code         := aMessage.lParam;
-      TempKeyEvent.is_system_key           := ord(True);
-      TempKeyEvent.character               := #0;
-      TempKeyEvent.unmodified_character    := #0;
-      TempKeyEvent.focus_on_editable_field := ord(False);
-
-      chrmosr.SendKeyEvent(@TempKeyEvent);
-    end;
+  HandleKeyboardMsg(aMessage);
 end;
 
 procedure TForm1.WMDpiChanged(var Message: TMessage);
@@ -941,6 +921,36 @@ begin
   Result := (abs(FLastClickPoint.x - x) > (GetSystemMetrics(SM_CXDOUBLECLK) div 2)) or
             (abs(FLastClickPoint.y - y) > (GetSystemMetrics(SM_CYDOUBLECLK) div 2)) or
             (cardinal(aCurrentTime - FLastClickTime) > GetDoubleClickTime);
+end;
+
+procedure TForm1.SendMouseInput(const mouse       : TCefMouseEvent;
+                                      type_       : TCefMouseInputEventType;
+                                      button      : TCefMouseButtonType;
+                                      click_count : integer;
+                                      X, Y: Integer);
+var
+  screen : TCefPoint;
+  TempScreenPt, TempViewPt : TPoint;
+begin
+  TempViewPt.x := x;
+  TempViewPt.y := y;
+  TempScreenPt := OpenGLControl1.ClientToScreen(TempViewPt);
+  screen.x     := TempScreenPt.X;
+  screen.y     := TempScreenPt.Y;
+  chrmosr.SendMouseEvent(MakeOsrMouseInputEvent(mouse, screen, type_, button, click_count));
+end;
+
+procedure TForm1.HandleKeyboardMsg(var aMessage : TMessage);
+var
+  TempKeyEvent : TCefKeyboardInputEvent;
+begin
+  if OpenGLControl1.Focused then
+    begin
+      FillChar(TempKeyEvent, SizeOf(TCefKeyboardInputEvent), 0);
+      TempKeyEvent.size := SizeOf(TCefKeyboardInputEvent);
+      if CefKeyboardInputEventFromWindowsMessage(aMessage.msg, aMessage.wParam, aMessage.lParam, TempKeyEvent) then
+        chrmosr.SendKeyboardEvent(TempKeyEvent);
+    end;
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);

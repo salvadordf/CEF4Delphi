@@ -13,6 +13,7 @@ object ChildForm: TChildForm
   Font.Name = 'Tahoma'
   Position = poScreenCenter
   ShowInTaskBar = stAlways
+  LCLVersion = '4.8.0.0'
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
